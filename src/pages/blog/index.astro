@@ -1,0 +1,75 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const articles = [
+  {
+    date: "Jun 28, 2026",
+    title: "Why AI-native DevRel?",
+    href: "/articles/why-ai-native-devrel/",
+    summary: "Capability is not the same as trust. Developer education has to carry the proof."
+  },
+  {
+    date: "Planned",
+    title: "How I review agent output",
+    href: "/proof/",
+    summary: "A practical note on commands, screenshots, caveats, and closeout evidence."
+  }
+];
+---
+
+<BaseLayout title="Blog | brainwav">
+  <section class="blog-index section-shell" aria-labelledby="blog-title">
+    <header>
+      <h1 id="blog-title">Blog</h1>
+      <div class="draft-links">
+        <p class="eyebrow">In my drafts</p>
+        <a href="/proof/"><span aria-hidden="true">#</span>How to present proof surfaces</a>
+        <a href="/now/"><span aria-hidden="true">#</span>The Army-to-AI DevRel bridge</a>
+        <a href="/work/ai-native-devrel/"><span aria-hidden="true">#</span>What makes AI work trustworthy?</a>
+      </div>
+    </header>
+
+    <article class="latest-article">
+      <p class="eyebrow">Latest article</p>
+      <h2>Why AI-native DevRel?</h2>
+      <p class="article-date">Jun 28, 2026</p>
+      <p>
+        AI tooling is capable now. The harder problem is helping developers
+        understand when to trust it, how to inspect it, and how to carry the
+        receipt forward.
+      </p>
+      <a class="small-button small-button--light" href="/articles/why-ai-native-devrel/">
+        <span>Keep reading</span>
+        <span aria-hidden="true">-&gt;</span>
+      </a>
+    </article>
+
+    <section class="article-list" aria-labelledby="article-list-title">
+      <h2 id="article-list-title">Browse all articles</h2>
+      {articles.map((article) => (
+        <article>
+          <p>{article.date}</p>
+          <h3>{article.title}</h3>
+          <span>{article.summary}</span>
+          <a href={article.href}>Read</a>
+        </article>
+      ))}
+    </section>
+
+    <aside class="blog-about-card">
+      <img src="/jamie-profile.png" alt="Jamie Scott Craik" />
+      <h2>About Jamie</h2>
+      <p>
+        I am building public proof surfaces for AI-native DevRel: articles,
+        demos, validation notes, and developer-facing examples.
+      </p>
+      <p>
+        The work sits between field notes and finished case studies: small
+        receipts, careful caveats, and examples that make the trust boundary
+        visible.
+      </p>
+      <p class="eyebrow">Contact me</p>
+      <a href="mailto:jscraik@brainwav.io">jscraik@brainwav.io</a>
+    </aside>
+  </section>
+</BaseLayout>

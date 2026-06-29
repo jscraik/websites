@@ -1,6 +1,57 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import StartLinks from "../components/StartLinks.astro";
+
+const featuredCards = [
+  {
+    title: "Why AI-Native DevRel?",
+    eyebrow: "From the position piece",
+    quote: "The capability exists. The trust problem is what is left to solve.",
+    href: "/work/ai-native-devrel/",
+    cta: "Read case study",
+    previewTitle: "Article plus public proof log",
+    previewMeta: "Editorial article / trust loop / reader path",
+    visual: "article"
+  },
+  {
+    title: "jscraik.com",
+    eyebrow: "From the site build",
+    quote: "A public proof surface should make the claim, receipt, and boundary visible.",
+    href: "/work/brainwav-io/",
+    cta: "Read case study",
+    previewTitle: "Prototype proof surface",
+    previewMeta: "Personal site / portfolio / public notes",
+    visual: "site"
+  },
+  {
+    title: "CLI proof series",
+    eyebrow: "From the planned lane",
+    quote: "Small developer tools become credible when the tutorial, command, and receipt travel together.",
+    href: "/work/cli-proof-series/",
+    cta: "Read case study",
+    previewTitle: "rsearch and wsearch",
+    previewMeta: "CLI notes / tutorial / command examples",
+    visual: "terminal"
+  },
+  {
+    title: "Agent Skills",
+    eyebrow: "From the workflow",
+    quote: "Reusable instructions are useful when they make judgment easier to repeat.",
+    href: "/proof/",
+    cta: "Browse proof",
+    previewTitle: "Skill-backed workflows",
+    previewMeta: "Design taste / validation / repeatable practice",
+    visual: "skills"
+  }
+];
+
+const workCards = [
+  { title: "AI DevRel", tags: ["Article", "Trust", "Evaluation"], tone: "paper" },
+  { title: "Proof Log", tags: ["Build", "Evidence"], tone: "dark" },
+  { title: "Codex Flow", tags: ["Workflow", "Validation"], tone: "blue" },
+  { title: "CLI Tools", tags: ["Docs", "Tutorial"], tone: "peach" },
+  { title: "Agent Skills", tags: ["Reusable", "Practice"], tone: "green" }
+];
 ---
 
 <BaseLayout title="Jamie Scott Craik | AI-native DevRel">
@@ -13,10 +64,11 @@ import StartLinks from "../components/StartLinks.astro";
           <span>Craik</span>
         </h1>
         <div>
-          <p class="home-hero__dek text-3xl u-text-balance">AI-native DevRel, built around visible proof.</p>
+          <p class="home-hero__dek text-3xl u-text-balance">I build trust surfaces for AI-native developer tools.</p>
           <p class="home-hero__body">
-            I am building and explaining agent skills, Codex workflows, evals, and developer
-            education for people moving from "AI can do this" to "I know how to trust this."
+            jscraik.com is the public record of that work: articles, proof notes, demos,
+            and the validation habits that help people move from "AI can do this" to
+            "I know how to trust this."
           </p>
           <div class="profile-row cc-home-hero" aria-label="Jamie Scott Craik">
             <div class="pfp-img-wrap">
@@ -35,24 +87,77 @@ import StartLinks from "../components/StartLinks.astro";
 
   <section class="featured-band section-shell" aria-labelledby="featured-title">
     <div class="section-label">
-      <span>Featured Proof</span>
-      <span>Current Public Work</span>
+      <span>Featured work</span>
+      <span>Curated projects</span>
     </div>
-    <article class="feature-split">
-      <div>
-        <h2 id="featured-title">Why AI-Native DevRel?</h2>
-        <p class="eyebrow">From the first article</p>
-        <p>
-          The capability exists. The trust problem is what is left to solve.
-        </p>
-        <a class="small-button" href="/articles/why-ai-native-devrel/">Read article -&gt;</a>
-      </div>
-      <div class="feature-split__surface">
-        <p>
-          A public position piece for Jamie's transition into AI-native Developer Relations,
-          framed around evaluation, trust, teaching, and visible proof.
-        </p>
-      </div>
+    <div class="feature-stack">
+      {featuredCards.map((card, index) => (
+        <article class="feature-split">
+          <div>
+            <h2 id={index === 0 ? "featured-title" : undefined}>{card.title}</h2>
+            <div>
+              <p class="eyebrow">{card.eyebrow}</p>
+              <p class="feature-quote">"{card.quote}"</p>
+            </div>
+            <a class="small-button" href={card.href}>
+              <span>{card.cta}</span>
+              <span aria-hidden="true">-&gt;</span>
+            </a>
+          </div>
+          <div class={"feature-split__surface feature-split__surface--" + card.visual}>
+            <div class="work-preview" aria-label={card.previewTitle}>
+              <div class={"work-preview__image work-preview__image--" + card.visual}>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <p class="eyebrow">From the work</p>
+              <h3>{card.previewTitle}</h3>
+              <p>{card.previewMeta}</p>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="work-carousel section-shell" aria-labelledby="work-carousel-title">
+    <h2 id="work-carousel-title">All work <sup>05</sup></h2>
+    <div class="work-row" aria-label="Curated proof cards">
+      {workCards.map((item) => (
+        <article class="work-mini-card">
+          <div class={"work-thumbnail work-thumbnail--" + item.tone} aria-hidden="true">
+            <span></span>
+            <span></span>
+          </div>
+          <h3>{item.title}</h3>
+          <div class="tag-row">
+            {item.tags.map((tag) => <span>{tag}</span>)}
+          </div>
+        </article>
+      ))}
+    </div>
+    <div class="carousel-controls" aria-hidden="true">
+      <span>&lt;- Back</span>
+      <span></span>
+      <span>Next -&gt;</span>
+    </div>
+  </section>
+
+  <section class="blog-preview section-shell" aria-labelledby="blog-preview-title">
+    <h2 id="blog-preview-title">Blog</h2>
+    <article>
+      <h3>Why AI-native DevRel?</h3>
+      <p class="article-date">Jun 28, 2026</p>
+      <p>
+        AI tooling is genuinely capable now. The harder question is how developers
+        learn to trust the work, inspect the output, and carry the receipt forward.
+      </p>
+      <a class="small-button small-button--light" href="/blog/">
+        <span>Keep reading</span>
+        <span aria-hidden="true">-&gt;</span>
+      </a>
     </article>
   </section>
 </BaseLayout>

@@ -4,27 +4,35 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 const proofItems = [
   {
     title: "Why AI-Native DevRel?",
-    status: "Article draft",
+    status: "Article",
     href: "/articles/why-ai-native-devrel/",
-    detail: "A public positioning article about the trust gap in AI-native developer tools."
+    claim: "AI-native DevRel is a trust, evaluation, and education problem.",
+    evidence: "Article page and local build receipt",
+    caveat: "Does not prove deployed reach or external review yet."
   },
   {
-    title: "brainwav.io prototype",
-    status: "Site build",
+    title: "jscraik.com prototype",
+    status: "Build",
     href: "/",
-    detail: "A public home for articles, proof notes, and career-direction artifacts."
+    claim: "The site can act as Jamie's public proof surface.",
+    evidence: "Astro repo and prototype pages",
+    caveat: "Needs deployed URL and visual QA before public promotion."
   },
   {
     title: "CLI proof series",
-    status: "Planned lane",
+    status: "Planned",
     href: "/now/",
-    detail: "rsearch and wsearch are intended as small tools to tighten, document, and publish."
+    claim: "Small CLIs can become developer-facing proof units.",
+    evidence: "Candidate rsearch and wsearch lanes",
+    caveat: "Needs current repo validation before it counts as proof."
   },
   {
     title: "Agent skills notes",
-    status: "Planned lane",
+    status: "Planned",
     href: "/now/",
-    detail: "Short notes explaining skills, validation, and trust boundaries for developers."
+    claim: "Skills can teach repeatable AI workflow practice.",
+    evidence: "Installed project skills and future notes",
+    caveat: "Needs public-safe examples and review boundaries."
   }
 ];
 ---
@@ -32,20 +40,35 @@ const proofItems = [
 <BaseLayout title="Proof Index | brainwav">
   <section class="proof-index section-shell" aria-labelledby="proof-title">
     <header>
-      <p class="eyebrow">Proof Index</p>
+      <p class="eyebrow">Proof surface</p>
       <h1 id="proof-title">All work</h1>
       <p>
-        A deliberately small index of public proof surfaces. Items stay labelled by
-        their real state: article, build, planned lane, or published proof.
+        A deliberately small index of public artifacts. Each item keeps the claim,
+        evidence, caveat, and next state visible.
       </p>
     </header>
+
+    <div class="section-label proof-label">
+      <span>Featured proof</span>
+      <span>Curated proof</span>
+    </div>
 
     <div class="proof-row">
       {proofItems.map((item) => (
         <a class="proof-card" href={item.href}>
           <span>{item.status}</span>
           <h2>{item.title}</h2>
-          <p>{item.detail}</p>
+          <p>{item.claim}</p>
+          <dl>
+            <div>
+              <dt>Evidence</dt>
+              <dd>{item.evidence}</dd>
+            </div>
+            <div>
+              <dt>Caveat</dt>
+              <dd>{item.caveat}</dd>
+            </div>
+          </dl>
         </a>
       ))}
     </div>
