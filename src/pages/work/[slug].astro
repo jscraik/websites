@@ -1,68 +1,12 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { caseStudies, proofWorkCards } from "../../data/work";
 
 export function getStaticPaths() {
-  const studies = [
-    {
-      slug: "ai-native-devrel",
-      title: "AI-native DevRel",
-      subtitle: "Building trust surfaces for agentic developer tools",
-      date: "Jun 28, 2026",
-      overview: "This case study frames the first public article and proof log as one artifact: a position, a receipt, and a boundary.",
-      organization: "jscraik.com is Jamie's personal proof surface for AI-native DevRel writing, demos, CLI work, and validation notes.",
-      work: "I am shaping the reader journey, writing the anchor article, and making evidence visible through proof cards, caveats, and command receipts.",
-      tags: ["Article", "Proof log", "DevRel", "Trust"],
-      frames: [
-        ["Article", "Position piece", "Why AI-native DevRel?"],
-        ["Receipt", "Command evidence", "Build output and screenshots"],
-        ["Boundary", "Caveat", "What the proof does not prove"],
-        ["Reader path", "Trust loop", "Claim -> evidence -> next action"]
-      ]
-    },
-    {
-      slug: "brainwav-io",
-      title: "jscraik.com",
-      subtitle: "A personal site for proof-led AI work",
-      date: "Current",
-      overview: "The site turns private learning and local build evidence into a public reader journey without exposing private machinery.",
-      organization: "The site exists to make Jamie's AI-native DevRel direction legible to developers, reviewers, and community contacts.",
-      work: "I am building the Astro site, matching a high-taste editorial reference, and keeping proof boundaries visible while the work matures.",
-      tags: ["Astro", "Portfolio", "Proof", "Writing"],
-      frames: [
-        ["Home", "Editorial entry", "Name, statement, profile chip"],
-        ["About", "Personal archive", "Army standards to AI work"],
-        ["Work", "Case study cards", "Proof-led public artifacts"],
-        ["Footer", "Signature", "Small links and social proof"]
-      ]
-    },
-    {
-      slug: "cli-proof-series",
-      title: "CLI proof series",
-      subtitle: "Turning small tools into developer-facing artifacts",
-      date: "Planned",
-      overview: "rsearch and wsearch can become portfolio units when each tool has docs, command examples, validation receipts, and a useful tutorial.",
-      organization: "The audience is developers evaluating whether agent-safe CLI workflows are understandable and inspectable.",
-      work: "The next step is to validate current repo behavior, tighten docs, and publish one tutorial with exact command evidence.",
-      tags: ["CLI", "Docs", "Validation", "Tutorial"],
-      frames: [
-        ["CLI", "Command", "rsearch query"],
-        ["Docs", "Guide", "Install and first useful run"],
-        ["Validation", "Receipt", "Expected output and caveats"],
-        ["Tutorial", "Reader path", "From problem to repeatable use"]
-      ]
-    }
-  ];
-  return studies.map((study) => ({ params: { slug: study.slug }, props: { study } }));
+  return caseStudies.map((study) => ({ params: { slug: study.slug }, props: { study } }));
 }
 
 const { study } = Astro.props;
-
-const workCards = [
-  { title: "AI DevRel", tags: ["Article", "Trust"], tone: "paper" },
-  { title: "jscraik.com", tags: ["Site", "Proof"], tone: "dark" },
-  { title: "CLI Tools", tags: ["Docs", "Tutorial"], tone: "peach" },
-  { title: "Agent Skills", tags: ["Workflow", "Taste"], tone: "green" }
-];
 ---
 
 <BaseLayout title={`${study.title} | brainwav case study`}>
@@ -121,7 +65,7 @@ const workCards = [
     <section class="work-carousel case-all-work" aria-labelledby="case-all-work-title">
       <h2 id="case-all-work-title">All work <sup>04</sup></h2>
       <div class="work-row" aria-label="More work">
-        {workCards.map((item) => (
+        {proofWorkCards.map((item) => (
           <article class="work-mini-card">
             <div class={"work-thumbnail work-thumbnail--" + item.tone} aria-hidden="true">
               <span></span>

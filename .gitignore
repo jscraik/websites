@@ -5,5 +5,6 @@ dist/
 !.codex/skills/
 !.codex/skills/**
 .gemini/
+.codex/config.toml
 .DS_Store
 npm-debug.log*

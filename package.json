@@ -5,14 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
+    "check": "astro check",
     "build": "astro build",
     "preview": "astro preview",
     "test:e2e": "playwright test"
   },
   "dependencies": {
     "astro": "^5.15.3"
-  },
-  "devDependencies": {
-    "playwright": "^1.61.1"
   }
 }

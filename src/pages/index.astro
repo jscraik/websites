@@ -1,38 +1,10 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import StartLinks from "../components/StartLinks.astro";
+import { featuredCaseStudies, proofWorkCards } from "../data/work";
 
 const featuredCards = [
-  {
-    title: "Why AI-Native DevRel?",
-    eyebrow: "From the position piece",
-    quote: "The capability exists. The trust problem is what is left to solve.",
-    href: "/work/ai-native-devrel/",
-    cta: "Read case study",
-    previewTitle: "Article plus public proof log",
-    previewMeta: "Editorial article / trust loop / reader path",
-    visual: "article"
-  },
-  {
-    title: "jscraik.com",
-    eyebrow: "From the site build",
-    quote: "A public proof surface should make the claim, receipt, and boundary visible.",
-    href: "/work/brainwav-io/",
-    cta: "Read case study",
-    previewTitle: "Prototype proof surface",
-    previewMeta: "Personal site / portfolio / public notes",
-    visual: "site"
-  },
-  {
-    title: "CLI proof series",
-    eyebrow: "From the planned lane",
-    quote: "Small developer tools become credible when the tutorial, command, and receipt travel together.",
-    href: "/work/cli-proof-series/",
-    cta: "Read case study",
-    previewTitle: "rsearch and wsearch",
-    previewMeta: "CLI notes / tutorial / command examples",
-    visual: "terminal"
-  },
+  ...featuredCaseStudies,
   {
     title: "Agent Skills",
     eyebrow: "From the workflow",
@@ -45,13 +17,7 @@ const featuredCards = [
   }
 ];
 
-const workCards = [
-  { title: "AI DevRel", tags: ["Article", "Trust", "Evaluation"], tone: "paper" },
-  { title: "Proof Log", tags: ["Build", "Evidence"], tone: "dark" },
-  { title: "Codex Flow", tags: ["Workflow", "Validation"], tone: "blue" },
-  { title: "CLI Tools", tags: ["Docs", "Tutorial"], tone: "peach" },
-  { title: "Agent Skills", tags: ["Reusable", "Practice"], tone: "green" }
-];
+const workCount = String(proofWorkCards.length).padStart(2, "0");
 ---
 
 <BaseLayout title="Jamie Scott Craik | AI-native DevRel">
@@ -66,9 +32,8 @@ const workCards = [
         <div>
           <p class="home-hero__dek text-3xl u-text-balance">I build trust surfaces for AI-native developer tools.</p>
           <p class="home-hero__body">
-            jscraik.com is the public record of that work: articles, proof notes, demos,
-            and the validation habits that help people move from "AI can do this" to
-            "I know how to trust this."
+            One of my deepest joys comes from equipping technical people with
+            the proof, language, and workflow habits they need to trust AI work.
           </p>
           <div class="profile-row cc-home-hero" aria-label="Jamie Scott Craik">
             <div class="pfp-img-wrap">
@@ -85,7 +50,7 @@ const workCards = [
     </div>
   </header>
 
-  <section class="featured-band section-shell" aria-labelledby="featured-title">
+  <section id="featured-work" class="featured-band section-shell" aria-labelledby="featured-title">
     <div class="section-label">
       <span>Featured work</span>
       <span>Curated projects</span>
@@ -122,11 +87,12 @@ const workCards = [
     </div>
   </section>
 
-  <section class="work-carousel section-shell" aria-labelledby="work-carousel-title">
-    <h2 id="work-carousel-title">All work <sup>05</sup></h2>
+  <section id="work" class="work-carousel section-shell" aria-labelledby="work-carousel-title">
+    <h2 id="work-carousel-title">All work <sup>{workCount}</sup></h2>
     <div class="work-row" aria-label="Curated proof cards">
-      {workCards.map((item) => (
+      {proofWorkCards.map((item, index) => (
         <article class="work-mini-card">
+          <p class="work-card-count">{String(index + 1).padStart(2, "0")} / {workCount}</p>
           <div class={"work-thumbnail work-thumbnail--" + item.tone} aria-hidden="true">
             <span></span>
             <span></span>
@@ -146,7 +112,15 @@ const workCards = [
   </section>
 
   <section class="blog-preview section-shell" aria-labelledby="blog-preview-title">
-    <h2 id="blog-preview-title">Blog</h2>
+    <div class="blog-preview__aside">
+      <h2 id="blog-preview-title">Blog</h2>
+      <div class="blog-preview__drafts" aria-label="In my drafts">
+        <p class="eyebrow">In my drafts</p>
+        <a href="/proof/">How I review agent output</a>
+        <a href="/proof/">How to present proof surfaces</a>
+        <a href="/now/">The Army-to-AI DevRel bridge</a>
+      </div>
+    </div>
     <article>
       <h3>Why AI-native DevRel?</h3>
       <p class="article-date">Jun 28, 2026</p>

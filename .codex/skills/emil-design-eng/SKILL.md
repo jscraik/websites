@@ -132,14 +132,14 @@ Is the element entering or exiting?
 | Modals, drawers          | 200-500ms     |
 | Marketing/explanatory    | Can be longer |
 
-**Rule: UI animations should stay under 300ms.** A 180ms dropdown feels more responsive than a 400ms one. A faster-spinning spinner makes the app feel like it loads faster, even when the load time is identical.
+**Rule: Most UI animations should stay under 300ms.** Modals and drawers may run longer when the interaction warrants it. A 180ms dropdown feels more responsive than a slower, heavier interaction. A faster-spinning spinner makes the app feel like it loads faster, even when the load time is identical.
 
 ### Perceived performance
 
 Speed in animation is not just about feeling snappy — it directly affects how users perceive your app's performance:
 
 - A **fast-spinning spinner** makes loading feel faster (same load time, different perception)
-- A **180ms select** animation feels more responsive than a **400ms** one
+- A **180ms select** animation feels more responsive than a slow one
 - **Instant tooltips** after the first one is open (skip delay + skip animation) make the whole toolbar feel faster
 
 The perception of speed matters as much as actual speed. Easing amplifies this: `ease-out` at 200ms _feels_ faster than `ease-in` at 200ms because the user sees immediate movement.
@@ -278,7 +278,7 @@ CSS transitions can be interrupted and retargeted mid-animation. Keyframes resta
 ```css
 /* Interruptible - good for UI */
 .toast {
-  transition: transform 400ms ease;
+  transition: transform 200ms ease-out;
 }
 
 /* Not interruptible - avoid for dynamic UI */
@@ -329,7 +329,7 @@ The modern CSS way to animate element entry without JavaScript:
 .toast {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 400ms ease, transform 400ms ease;
+  transition: opacity 200ms ease-out, transform 200ms ease-out;
 
   @starting-style {
     opacity: 0;

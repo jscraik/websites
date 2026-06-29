@@ -135,8 +135,8 @@ Interpretation:
 - If the user says "creative social app", increase visual variance and image creativity without sacrificing readability.
 - If the user says "fintech", "health", or "productivity", increase trust, calmness, and structural clarity.
 - Do not be lazy with screen count.
-- If more screens would make the flow better, generate more screens.
-- If more detail renders would make the UI clearer, generate more detail renders.
+- If more screens would make the flow better, add only the screens needed for the requested flow; ask for confirmation before expanding beyond that inferred flow.
+- If more detail renders would make the UI clearer, generate one extra detail pass per screen, then ask for confirmation before adding more.
 - Default toward richer art direction than standard AI mobile output.
 - Use creative assets, texture, and imagery deliberately, not randomly.
 - Always keep the color palette clean, controlled, and intentional.
@@ -230,8 +230,9 @@ than:
 - one compressed board with tiny unreadable text
 
 If a detail is unclear:
-- generate an extra detail image
-- or regenerate that screen cleanly
+- generate one extra detail image
+- or regenerate that screen cleanly once
+- then stop and ask for confirmation before generating more views for that screen
 
 Never reduce screen count just for convenience if it weakens the app concept.
 
@@ -1261,7 +1262,7 @@ Prefer:
 
 ## 34. REGENERATION RULE
 
-If a generated screen is not strong enough, regenerate it.
+If a generated screen is not strong enough, regenerate it once.
 
 Regenerate when:
 - text is too small
@@ -1284,8 +1285,8 @@ Regenerate when:
 - the screen set loses consistency
 - the device mockup framing feels uneven or sloppy
 
-Do not settle for the first mediocre render.
-Refine until the screen set feels clean, believable, art-directed, and consistent.
+Do not settle for the first mediocre render. Use one regeneration or one extra detail pass per screen, then ask for confirmation before additional views or rerenders.
+Refine within that budget until the screen set feels clean, believable, art-directed, and consistent.
 
 ---
 
@@ -1300,7 +1301,7 @@ Before finalizing, verify internally:
 5. Is the type readable?
 6. Are there enough screens for the requested flow?
 7. Were too few screens generated out of laziness?
-8. If a detail was unclear, was a new detail render created?
+8. If a detail was unclear, was the screen's one allowed detail render created?
 9. Is the app free of obvious mobile AI tells?
 10. Is the layout free of box-in-box clutter?
 11. Are image moments purposeful and consistent?
@@ -1338,8 +1339,8 @@ When the user asks for a mobile app image concept:
 8. choose a clean palette logic
 9. lock an internal design bible for consistency
 10. generate the required screen images
-11. generate more screens if needed for a believable flow
-12. generate extra detail renders if needed
+11. generate more screens only when needed for the inferred flow; ask before expanding beyond it
+12. generate one extra detail render per screen if needed
 13. keep the first screen especially clean
 14. avoid website-like layouts
 15. avoid nested-card clutter

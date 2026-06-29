@@ -54,7 +54,7 @@ For each color provide: **Descriptive Name** + **Hex Code** + **Functional Role*
 
 ### 4. Define the Hero Section
 The Hero is the first impression and must be creative, striking, and never generic:
-- **Inline Image Typography:** Embed small, contextual photos or visuals directly between words or letters in the headline. Images sit inline at type-height, rounded, acting as visual punctuation. This is the signature creative technique
+- **Inline Image Typography:** Embed small, contextual photos or visuals directly between words or letters in the headline. Keep the heading readable as plain text, and treat the images as decorative punctuation (`aria-hidden` / empty alt) so assistive tech reads the title cleanly. Images sit inline at type-height, rounded, acting as visual punctuation. This is the signature creative technique
 - **No Overlapping:** Text must never overlap images or other text. Every element occupies its own clean spatial zone
 - **No Filler Text:** "Scroll to explore", "Swipe down", scroll arrow icons, bouncing chevrons are BANNED. The content should pull users in naturally
 - **Asymmetric Structure:** Centered Hero layouts BANNED when variance exceeds 4

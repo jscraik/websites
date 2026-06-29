@@ -412,6 +412,8 @@ If the request is ambiguous about section count, **default high**:
 - "product page" -> default to 6 sections -> 6 images
 - "portfolio" -> default to 6 sections -> 6 images
 
+If a section needs more detail after its primary image, generate at most 2 extra renders for that section. Ask for confirmation before generating any additional images beyond that budget.
+
 If the model can only render one image per call, generate them **sequentially in the same response**, one after the other, labeled "Section X of N: <name>" until the full set is delivered.
 
 ### Format
@@ -928,6 +930,7 @@ When the user asks for a frontend design:
 13. keep spacing generous, even, and clean
 14. remove AI slop (including marquee / fake KPI clichés unless requested)
 15. run §17 CLARITY CHECK
+16. if clarity is still insufficient, use at most 2 extra renders per section, then ask for confirmation before generating more
 16. **generate every per-section horizontal image, labeled "Section X of N: <name>"**, until the full set is delivered. Do not stop early. Do not summarize. Do not return only one image.
 
 Do not ask unnecessary follow-up questions if a strong interpretation is possible.

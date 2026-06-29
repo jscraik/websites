@@ -103,7 +103,7 @@ Interpretation:
 - Keep sections breathable.
 - Prefer readability over squeezing too much into one image.
 - In Codex, bias strongly toward larger, more analyzable section images.
-- If more images would improve extraction quality, generate more images.
+- If more images would improve extraction quality, generate at most two extra renders per section, then ask for confirmation before adding more.
 - Do not be lazy with image count.
 - Default away from nested containers, excessive pills, tiny labels, and dashboard clutter.
 
@@ -148,7 +148,7 @@ If more images would improve:
 - responsive understanding
 - section clarity
 
-then generate more images.
+then generate at most two extra renders per section, then ask for confirmation before adding more.
 
 Strong rule:
 - it is better to generate too many clear images than too few compressed images
@@ -192,7 +192,7 @@ Do not default to:
 - one long compressed board with tiny unreadable text
 - one image containing many sections if that reduces extraction quality
 
-If necessary, generate more images rather than shrinking everything.
+If necessary, generate up to two extra images per section rather than shrinking everything; after that, ask for confirmation before adding more renders.
 
 Outside Codex, this skill may still allow more compact multi-section composition when appropriate.
 Inside Codex, prioritize section clarity and extraction accuracy.
@@ -232,7 +232,7 @@ Fresh section-specific generation is strongly preferred over cropping.
 
 ## 6. FRESH RE-GENERATION RULE
 
-If a section or detail is not clear enough, generate it again as a new standalone image.
+If a section or detail is not clear enough, regenerate it once as a new standalone image. After one regeneration for that section, ask for confirmation before adding further extraction renders.
 
 This standalone regeneration should:
 - preserve the same visual language as the original overall design
@@ -258,7 +258,7 @@ It is a cleaner, more analyzable section-specific render of the same design syst
 
 ## 7. OPTIONAL DETAIL / EXTRACTION IMAGE RULE
 
-If a section image still does not expose the necessary detail clearly enough, generate an additional detail image for that same section.
+If a section image still does not expose the necessary detail clearly enough, generate one additional detail image for that same section. After one detail image and one regeneration, ask for confirmation before adding further extraction renders.
 
 Examples of useful secondary images:
 - a closer hero render to read headline, subheadline, CTA, and typography
@@ -282,7 +282,7 @@ Use them when needed for:
 - better typography observation
 - more precise implementation
 
-Do not hesitate to create a second or third extraction-oriented image for a section if the first image is too broad.
+Do not create more than one additional extraction-oriented image for a section without explicit confirmation.
 
 ---
 
@@ -305,7 +305,7 @@ For every generated section image, inspect cleanly:
 - what structural rhythm is visible
 - what details are still unclear
 
-If something is unclear, generate another image before coding.
+If something is unclear, use the section's one regeneration or one detail-image budget before coding. If that budget is already used, ask for confirmation before generating more.
 
 The analysis should feel:
 - calm
@@ -651,8 +651,8 @@ If the user asks for:
 
 General preference:
 - one section = one primary image
-- one complex section = one primary image + one or more optional detail images
-- one unclear section = regenerate it again as a fresh clean standalone image
+- one complex section = one primary image + one optional detail image before confirmation
+- one unclear section = regenerate it once as a fresh clean standalone image before confirmation
 
 This section-first generation rule exists to prevent:
 - tiny unreadable text
@@ -886,8 +886,8 @@ Resolve ambiguity by following this order:
 2. preserve layout and spacing logic
 3. preserve component family
 4. preserve mood and polish level
-5. generate an extra detail image if needed
-6. regenerate the section as a fresh standalone image if needed
+5. generate one extra detail image if needed
+6. regenerate the section once as a fresh standalone image if needed
 7. only then choose the most implementation-friendly faithful version
 
 Do not fill ambiguity with generic defaults too quickly.
@@ -1087,9 +1087,9 @@ Before finalizing, verify internally:
 1. Has the design been generated first?
 2. Have all generated images been deeply analyzed?
 3. Is the text readable enough?
-4. If not, were extra detail images created?
+4. If not, was the section's one allowed extra detail image created?
 5. Were enough images generated, or was the image count too lazy?
-6. Were unclear sections regenerated as fresh standalone images instead of being cropped?
+6. Were unclear sections regenerated once as fresh standalone images instead of being cropped?
 7. Is the hierarchy obvious?
 8. Is the hero clean enough?
 9. Is typography analyzed properly?
@@ -1117,8 +1117,8 @@ When the user asks for a website design in an image-to-code workflow:
 2. infer number of sections
 3. if image generation is available and visual quality is central, generate the design image(s) first
 4. inside Codex, prefer one large image per section
-5. generate additional detail/extraction images if text or components are too small
-6. generate more images whenever that improves readability or extraction quality
+5. generate one additional detail/extraction image per section if text or components are too small
+6. generate at most two extra renders per section, then ask for confirmation before adding more
 7. do not be lazy with image count
 8. do not crop old images for section extraction
 9. regenerate sections as fresh standalone images when needed
@@ -1166,10 +1166,10 @@ User:
 Interpretation:
 - generate 8 separate section images in Codex
 - one per section
-- generate extra detail images where necessary
+- generate one extra detail image per section where necessary
 - deeply analyze all 8 sections
 - extract text, typography, spacing, buttons, colors, cards, structure
-- if one section is still unclear, regenerate that section again cleanly instead of cropping
+- if one section is still unclear, regenerate that section once cleanly instead of cropping
 - keep sections open and not overboxed
 - then implement the full site from those references
 
@@ -1206,9 +1206,9 @@ For visual website work, the skill must first generate the image(s) itself, then
 
 Inside Codex, if the user wants multiple sections, prefer separate large section images instead of one compressed multi-section board, so text, spacing, typography, buttons, and colors can be extracted properly.
 
-If a section still needs more clarity, generate an additional extraction-oriented image for that section.
+If a section still needs more clarity, generate one additional extraction-oriented image for that section.
 
-If more images would improve quality, generate more images.
+If more images would improve quality, generate at most two extra renders per section, then ask for confirmation before adding more.
 Do not be lazy with image count.
 
 Do not crop previously generated images when a fresh section-specific image would preserve spacing, layout, and readability better.

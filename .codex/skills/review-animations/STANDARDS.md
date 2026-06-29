@@ -46,7 +46,7 @@ Find curves at [easing.dev](https://easing.dev/) or [easings.co](https://easings
 | Modals, drawers | 200–500ms |
 | Marketing / explanatory | Can be longer |
 
-**Rule: UI animations stay under 300ms.** A 180ms dropdown feels more responsive than a 400ms one. Faster spinners make load feel faster (same actual time). Instant tooltips after the first (skip delay + animation) make a toolbar feel faster.
+**Rule: Most UI animations stay under 300ms.** Modals and drawers may run longer when the interaction warrants it. A 180ms dropdown feels more responsive than a slower, heavier interaction. Faster spinners make load feel faster (same actual time). Instant tooltips after the first (skip delay + animation) make a toolbar feel faster.
 
 ## Physicality
 
@@ -81,7 +81,7 @@ CSS **transitions** can be interrupted and retargeted mid-animation; **keyframes
 
 ```css
 /* Interruptible — good for dynamic UI */
-.toast { transition: transform 400ms ease; }
+.toast { transition: transform 200ms ease-out; }
 
 /* Not interruptible — avoid for dynamic UI */
 @keyframes slideIn { from { transform: translateY(100%); } to { transform: translateY(0); } }
@@ -92,7 +92,7 @@ Use `@starting-style` for entry without JS:
 ```css
 .toast {
   opacity: 1; transform: translateY(0);
-  transition: opacity 400ms ease, transform 400ms ease;
+  transition: opacity 200ms ease-out, transform 200ms ease-out;
   @starting-style { opacity: 0; transform: translateY(100%); }
 }
 ```
