@@ -1,0 +1,137 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import StartLinks from "../components/StartLinks.astro";
+import { featuredCaseStudies, proofWorkCards } from "../data/work";
+
+const featuredCards = [
+  ...featuredCaseStudies,
+  {
+    title: "Agent Skills",
+    eyebrow: "From the workflow",
+    quote: "Reusable instructions are useful when they make judgment easier to repeat.",
+    href: "/proof/",
+    cta: "Browse proof",
+    previewTitle: "Skill-backed workflows",
+    previewMeta: "Design taste / validation / repeatable practice",
+    visual: "skills"
+  }
+];
+
+const workCount = String(proofWorkCards.length).padStart(2, "0");
+---
+
+<BaseLayout title="Jamie Scott Craik | AI-native DevRel">
+  <header class="header-inner section-shell" aria-labelledby="home-title">
+    <div class="home-hero">
+      <div class="home-hero__intro v-stack cc-lg">
+        <h1 id="home-title" class="h1-name">
+          <span>Jamie</span>
+          <span>Scott</span>
+          <span>Craik</span>
+        </h1>
+        <div>
+          <p class="home-hero__dek text-3xl u-text-balance">I build trust surfaces for AI-native developer tools.</p>
+          <p class="home-hero__body">
+            One of my deepest joys comes from equipping technical people with
+            the proof, language, and workflow habits they need to trust AI work.
+          </p>
+          <div class="profile-row cc-home-hero" aria-label="Jamie Scott Craik">
+            <div class="pfp-img-wrap">
+              <img src="/jamie-profile.png" alt="Jamie Scott Craik" class="u-img-cover" />
+            </div>
+            <div class="profile-row-meta">
+              <div class="input-label">AI-native DevRel</div>
+              <div class="input-label">Former Army Warrant Officer</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <StartLinks />
+    </div>
+  </header>
+
+  <section id="featured-work" class="featured-band section-shell" aria-labelledby="featured-title">
+    <div class="section-label">
+      <span>Featured work</span>
+      <span>Curated projects</span>
+    </div>
+    <div class="feature-stack">
+      {featuredCards.map((card, index) => (
+        <article class="feature-split">
+          <div>
+            <h2 id={index === 0 ? "featured-title" : undefined}>{card.title}</h2>
+            <div>
+              <p class="eyebrow">{card.eyebrow}</p>
+              <p class="feature-quote">"{card.quote}"</p>
+            </div>
+            <a class="small-button" href={card.href}>
+              <span>{card.cta}</span>
+              <span aria-hidden="true">-&gt;</span>
+            </a>
+          </div>
+          <div class={"feature-split__surface feature-split__surface--" + card.visual}>
+            <div class="work-preview" aria-label={card.previewTitle}>
+              <div class={"work-preview__image work-preview__image--" + card.visual}>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <p class="eyebrow">From the work</p>
+              <h3>{card.previewTitle}</h3>
+              <p>{card.previewMeta}</p>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section id="work" class="work-carousel section-shell" aria-labelledby="work-carousel-title">
+    <h2 id="work-carousel-title">All work <sup>{workCount}</sup></h2>
+    <div class="work-row" aria-label="Curated proof cards">
+      {proofWorkCards.map((item, index) => (
+        <article class="work-mini-card">
+          <p class="work-card-count">{String(index + 1).padStart(2, "0")} / {workCount}</p>
+          <div class={"work-thumbnail work-thumbnail--" + item.tone} aria-hidden="true">
+            <span></span>
+            <span></span>
+          </div>
+          <h3>{item.title}</h3>
+          <div class="tag-row">
+            {item.tags.map((tag) => <span>{tag}</span>)}
+          </div>
+        </article>
+      ))}
+    </div>
+    <div class="carousel-controls" aria-hidden="true">
+      <span>&lt;- Back</span>
+      <span></span>
+      <span>Next -&gt;</span>
+    </div>
+  </section>
+
+  <section class="blog-preview section-shell" aria-labelledby="blog-preview-title">
+    <div class="blog-preview__aside">
+      <h2 id="blog-preview-title">Blog</h2>
+      <div class="blog-preview__drafts" aria-label="In my drafts">
+        <p class="eyebrow">In my drafts</p>
+        <a href="/proof/">How I review agent output</a>
+        <a href="/proof/">How to present proof surfaces</a>
+        <a href="/now/">The Army-to-AI DevRel bridge</a>
+      </div>
+    </div>
+    <article>
+      <h3>Why AI-native DevRel?</h3>
+      <p class="article-date">Jun 28, 2026</p>
+      <p>
+        AI tooling is genuinely capable now. The harder question is how developers
+        learn to trust the work, inspect the output, and carry the receipt forward.
+      </p>
+      <a class="small-button small-button--light" href="/blog/">
+        <span>Keep reading</span>
+        <span aria-hidden="true">-&gt;</span>
+      </a>
+    </article>
+  </section>
+</BaseLayout>

@@ -1,0 +1,22 @@
+---
+interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+---
+
+<a class:list={["brand-mark", compact && "brand-mark--compact"]} href="/" aria-label="brainwav home">
+  <svg aria-hidden="true" viewBox="0 0 96 42" focusable="false">
+    <path
+      d="M15 5v30m0-15c5.8-10.2 24.2-10.2 30 0 5.8 10.2 24.2 10.2 30 0"
+      fill="none"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="4"
+    />
+    <circle cx="83" cy="20" r="4" fill="var(--orange)" />
+  </svg>
+  <span>br<span>AI</span>nwav</span>
+</a>

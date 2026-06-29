@@ -1,0 +1,41 @@
+---
+const links = [
+  {
+    href: "/now/",
+    label: "Learn fun facts about me",
+    icon: "book"
+  },
+  {
+    href: "/now/#current-focus",
+    label: "Browse my work history",
+    icon: "document"
+  },
+  {
+    href: "/#featured-work",
+    label: "Read a featured case study",
+    icon: "target"
+  },
+  {
+    href: "/blog/",
+    label: "Read a recent blog",
+    icon: "send"
+  }
+];
+---
+
+<aside class="start-links" aria-labelledby="start-links-title">
+  <p id="start-links-title" class="input-label u-mb-lg">Where you can start</p>
+  <ul class="icon-link-list">
+    {
+      links.map((link) => (
+        <li class="icon-link-item">
+          <a href={link.href} class="icon-link">
+            <span class={"icon-box start-links__icon start-links__icon--" + link.icon} aria-hidden="true"></span>
+            <span>{link.label}</span>
+            <span aria-hidden="true">-&gt;</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</aside>

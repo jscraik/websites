@@ -1,0 +1,116 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const proofItems = [
+  {
+    title: "Why AI-Native DevRel?",
+    status: "Article",
+    href: "/articles/why-ai-native-devrel/",
+    claim: "AI-native DevRel is a trust, evaluation, and education problem.",
+    evidence: "Article page and local build receipt",
+    caveat: "Does not prove deployed reach or external review yet.",
+    nextState: "Add public examples and deployment evidence."
+  },
+  {
+    title: "brainwav.io prototype",
+    status: "Build",
+    href: "/",
+    claim: "The site can act as Jamie's public proof surface.",
+    evidence: "Astro repo and prototype pages",
+    caveat: "Needs deployed URL and visual QA before public promotion.",
+    nextState: "Publish the domain route and complete visual QA."
+  },
+  {
+    title: "CLI proof series",
+    status: "Planned",
+    href: "/now/",
+    claim: "Small CLIs can become developer-facing proof units.",
+    evidence: "Candidate rsearch and wsearch lanes",
+    caveat: "Needs current repo validation before it counts as proof.",
+    nextState: "Validate one tool and write the first tutorial."
+  },
+  {
+    title: "Agent skills notes",
+    status: "Planned",
+    href: "/now/",
+    claim: "Skills can teach repeatable AI workflow practice.",
+    evidence: "Installed project skills and future notes",
+    caveat: "Needs public-safe examples and review boundaries.",
+    nextState: "Extract public-safe examples from the workflow."
+  }
+];
+
+const liveProofItems = proofItems.filter((item) => item.status !== "Planned");
+const plannedProofItems = proofItems.filter((item) => item.status === "Planned");
+---
+
+<BaseLayout title="Proof Index | brainwav">
+  <section class="proof-index section-shell" aria-labelledby="proof-title">
+    <header>
+      <p class="eyebrow">Proof surface</p>
+      <h1 id="proof-title">All work</h1>
+      <p>
+        A deliberately small index of public artifacts. Each item keeps the claim,
+        evidence, and caveat visible.
+      </p>
+    </header>
+
+    <div class="section-label proof-label">
+      <span>Featured proof</span>
+      <span>Curated proof</span>
+    </div>
+
+    <div class="proof-row">
+      {liveProofItems.map((item) => (
+        <a class="proof-card" href={item.href}>
+          <span>{item.status}</span>
+          <h2>{item.title}</h2>
+          <p>{item.claim}</p>
+          <dl>
+            <div>
+              <dt>Evidence</dt>
+              <dd>{item.evidence}</dd>
+            </div>
+            <div>
+              <dt>Caveat</dt>
+              <dd>{item.caveat}</dd>
+            </div>
+            <div>
+              <dt>Next state</dt>
+              <dd>{item.nextState}</dd>
+            </div>
+          </dl>
+        </a>
+      ))}
+    </div>
+
+    <div class="section-label proof-label">
+      <span>Planned lanes</span>
+      <span>Not proof yet</span>
+    </div>
+
+    <div class="proof-row">
+      {plannedProofItems.map((item) => (
+        <div class="proof-card proof-card--planned">
+          <span>{item.status}</span>
+          <h2>{item.title}</h2>
+          <p>{item.claim}</p>
+          <dl>
+            <div>
+              <dt>Evidence</dt>
+              <dd>{item.evidence}</dd>
+            </div>
+            <div>
+              <dt>Caveat</dt>
+              <dd>{item.caveat}</dd>
+            </div>
+            <div>
+              <dt>Next state</dt>
+              <dd>{item.nextState}</dd>
+            </div>
+          </dl>
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
