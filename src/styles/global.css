@@ -1916,9 +1916,10 @@ main { min-height: 70vh; }
 
   .proof-card { flex-basis: min(84vw, 315px); }
 
-  .footer-inner {
+  .footer-inner,
+  .site-footer__inner {
     grid-template-columns: 1fr;
-    justify-items: center;
+    justify-items: start;
     gap: 24px;
   }
 
