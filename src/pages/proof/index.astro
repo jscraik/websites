@@ -39,6 +39,9 @@ const proofItems = [
     nextState: "Extract public-safe examples from the workflow."
   }
 ];
+
+const liveProofItems = proofItems.filter((item) => item.status !== "Planned");
+const plannedProofItems = proofItems.filter((item) => item.status === "Planned");
 ---
 
 <BaseLayout title="Proof Index | brainwav">
@@ -58,7 +61,7 @@ const proofItems = [
     </div>
 
     <div class="proof-row">
-      {proofItems.map((item) => (
+      {liveProofItems.map((item) => (
         <a class="proof-card" href={item.href}>
           <span>{item.status}</span>
           <h2>{item.title}</h2>
@@ -78,6 +81,35 @@ const proofItems = [
             </div>
           </dl>
         </a>
+      ))}
+    </div>
+
+    <div class="section-label proof-label">
+      <span>Planned lanes</span>
+      <span>Not proof yet</span>
+    </div>
+
+    <div class="proof-row">
+      {plannedProofItems.map((item) => (
+        <div class="proof-card proof-card--planned">
+          <span>{item.status}</span>
+          <h2>{item.title}</h2>
+          <p>{item.claim}</p>
+          <dl>
+            <div>
+              <dt>Evidence</dt>
+              <dd>{item.evidence}</dd>
+            </div>
+            <div>
+              <dt>Caveat</dt>
+              <dd>{item.caveat}</dd>
+            </div>
+            <div>
+              <dt>Next state</dt>
+              <dd>{item.nextState}</dd>
+            </div>
+          </dl>
+        </div>
       ))}
     </div>
   </section>

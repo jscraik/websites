@@ -7,6 +7,7 @@ export function getStaticPaths() {
 }
 
 const { study } = Astro.props;
+const workCount = String(proofWorkCards.length).padStart(2, "0");
 ---
 
 <BaseLayout title={`${study.title} | brainwav case study`}>
@@ -63,7 +64,7 @@ const { study } = Astro.props;
     </section>
 
     <section class="work-carousel case-all-work" aria-labelledby="case-all-work-title">
-      <h2 id="case-all-work-title">All work <sup>04</sup></h2>
+      <h2 id="case-all-work-title">All work <sup>{workCount}</sup></h2>
       <div class="work-row" aria-label="More work">
         {proofWorkCards.map((item) => (
           <article class="work-mini-card">

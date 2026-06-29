@@ -229,7 +229,7 @@ Use it for:
 The contact page should be direct and human:
 
 - what Jamie is interested in
-- email
+- approved public contact address
 - public links
 - profile image
 
@@ -306,10 +306,10 @@ Do not publish:
 - raw military reports
 - private testimonials without explicit approval
 - medical, legal, finance, family, or care-record detail
-- raw email or private message content
+- raw email content, private inbox detail, or private message text
 - unsupported affiliation claims
 
-Service-related context may appear only at a high level when Jamie approves the target output. Do not add medical, legal, compensation, support, or diagnosis detail.
+A public-facing contact method may be listed only when approved for the target surface. Service-related context may appear only at a high level when Jamie approves the target output. Do not add medical, legal, compensation, support, diagnosis, private inbox, or raw message detail.
 
 ## Proof Content Contract
 

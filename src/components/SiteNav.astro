@@ -8,6 +8,10 @@ const navItems = [
 
 const normalizePath = (path: string) => (path === "/" ? path : path.replace(/\/$/, ""));
 const currentPath = normalizePath(Astro.url.pathname);
+const currentFor = (href: string): "page" | undefined => {
+  if (href.includes("#")) return undefined;
+  return currentPath === normalizePath(href) ? "page" : undefined;
+};
 ---
 
 <header class="site-header header">
@@ -25,7 +29,7 @@ const currentPath = normalizePath(Astro.url.pathname);
             </div>
             {navItems.map((item) => (
               <div class="nav-flip">
-                <a href={item.href} class="nav-link" aria-current={currentPath === normalizePath(item.href.split("#")[0] || "/") ? "page" : undefined}>{item.label}</a>
+                <a href={item.href} class="nav-link" aria-current={currentFor(item.href)}>{item.label}</a>
               </div>
             ))}
             <div class="nav-bg" aria-hidden="true"></div>

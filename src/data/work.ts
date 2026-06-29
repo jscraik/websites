@@ -5,6 +5,7 @@ export const caseStudies = [
     shortTitle: "AI DevRel",
     subtitle: "Building trust surfaces for agentic developer tools",
     date: "Jun 28, 2026",
+    isFeatured: true,
     overview: "This case study frames the first public article and proof log as one artifact: a position, a receipt, and a boundary.",
     organization: "brainwav.io is Jamie's public proof surface for AI-native DevRel writing, demos, CLI work, and validation notes.",
     work: "I am shaping the reader journey, writing the anchor article, and making evidence visible through proof cards, caveats, and command receipts.",
@@ -32,6 +33,7 @@ export const caseStudies = [
     shortTitle: "Proof Log",
     subtitle: "A personal site for proof-led AI work",
     date: "Current",
+    isFeatured: true,
     overview: "The site turns private learning and local build evidence into a public reader journey without exposing private machinery.",
     organization: "The site exists to make Jamie's AI-native DevRel direction legible to developers, reviewers, and community contacts.",
     work: "I am building the Astro site, matching a high-taste editorial reference, and keeping proof boundaries visible while the work matures.",
@@ -59,6 +61,7 @@ export const caseStudies = [
     shortTitle: "CLI Tools",
     subtitle: "Turning small tools into developer-facing artifacts",
     date: "Planned",
+    isFeatured: false,
     overview: "rsearch and wsearch can become portfolio units when each tool has docs, command examples, validation receipts, and a useful tutorial.",
     organization: "The audience is developers evaluating whether agent-safe CLI workflows are understandable and inspectable.",
     work: "The next step is to validate current repo behavior, tighten docs, and publish one tutorial with exact command evidence.",
@@ -82,7 +85,7 @@ export const caseStudies = [
   }
 ];
 
-export const featuredCaseStudies = caseStudies.map((study) => ({
+export const featuredCaseStudies = caseStudies.filter((study) => study.isFeatured).map((study) => ({
   title: study.title,
   href: study.route,
   ...study.featured
@@ -97,4 +100,4 @@ export const proofWorkCards = [
   { title: "Agent Skills", tags: ["Reusable", "Practice"], tone: "green" }
 ];
 
-export const featuredCaseStudy = caseStudies[0];
+export const featuredCaseStudy = caseStudies.find((study) => study.isFeatured);

@@ -305,7 +305,7 @@ For every generated section image, inspect cleanly:
 - what structural rhythm is visible
 - what details are still unclear
 
-If something is unclear, use the section's one regeneration or one detail-image budget before coding. If that budget is already used, ask for confirmation before generating more.
+If something is unclear, use the section's one detail-image budget and one regeneration budget before coding. If both budgets are already used, ask for confirmation before generating more.
 
 The analysis should feel:
 - calm
