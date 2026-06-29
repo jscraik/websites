@@ -40,7 +40,7 @@ The Hero must breathe. It must NOT be a narrow, 6-line text wall.
 - **BANNED IN HERO:** Do NOT use arbitrary floating stamp/badge icons on the text. Do NOT use pill-tags under the hero. Do NOT place raw data/stats in the hero.
 
 ## 4. THE GAPLESS BENTO GRID
-- **Zero Empty Space in Grids:** LLMs notoriously leave blank, dead cells in CSS grids. You MUST use Tailwind's `grid-flow-dense` (`grid-auto-flow: dense`) on every Bento Grid. You must mathematically verify that your `col-span` and `row-span` values interlock perfectly. No grid shall have a missing corner or empty void.
+- **Zero Empty Space in Grids:** Avoid blank cells by placing spans explicitly. Use `grid-flow-dense` only when the visual order can still match the DOM order. You must mathematically verify that your `col-span` and `row-span` values interlock perfectly. No grid shall have a missing corner or empty void.
 - **Card Restraint:** Do not use too many cards. 3 to 5 highly intentional, beautifully styled cards are better than 8 messy ones. Fill them with a mix of large imagery, dense typography, or CSS effects.
 
 ## 5. ADVANCED GSAP MOTION & HOVER PHYSICS
