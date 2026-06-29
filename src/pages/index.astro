@@ -1,0 +1,58 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import StartLinks from "../components/StartLinks.astro";
+---
+
+<BaseLayout title="Jamie Scott Craik | AI-native DevRel">
+  <header class="header-inner section-shell" aria-labelledby="home-title">
+    <div class="home-hero">
+      <div class="home-hero__intro v-stack cc-lg">
+        <h1 id="home-title" class="h1-name">
+          <span>Jamie</span>
+          <span>Scott</span>
+          <span>Craik</span>
+        </h1>
+        <div>
+          <p class="home-hero__dek text-3xl u-text-balance">AI-native DevRel, built around visible proof.</p>
+          <p class="home-hero__body">
+            I am building and explaining agent skills, Codex workflows, evals, and developer
+            education for people moving from "AI can do this" to "I know how to trust this."
+          </p>
+          <div class="profile-row cc-home-hero" aria-label="Jamie Scott Craik">
+            <div class="pfp-img-wrap">
+              <img src="/jamie-profile.png" alt="Jamie Scott Craik" class="u-img-cover" />
+            </div>
+            <div class="profile-row-meta">
+              <div class="input-label">AI-native DevRel</div>
+              <div class="input-label">Former Army Warrant Officer</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <StartLinks />
+    </div>
+  </header>
+
+  <section class="featured-band section-shell" aria-labelledby="featured-title">
+    <div class="section-label">
+      <span>Featured Proof</span>
+      <span>Current Public Work</span>
+    </div>
+    <article class="feature-split">
+      <div>
+        <h2 id="featured-title">Why AI-Native DevRel?</h2>
+        <p class="eyebrow">From the first article</p>
+        <p>
+          The capability exists. The trust problem is what is left to solve.
+        </p>
+        <a class="small-button" href="/articles/why-ai-native-devrel/">Read article -&gt;</a>
+      </div>
+      <div class="feature-split__surface">
+        <p>
+          A public position piece for Jamie's transition into AI-native Developer Relations,
+          framed around evaluation, trust, teaching, and visible proof.
+        </p>
+      </div>
+    </article>
+  </section>
+</BaseLayout>

@@ -1,0 +1,53 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const proofItems = [
+  {
+    title: "Why AI-Native DevRel?",
+    status: "Article draft",
+    href: "/articles/why-ai-native-devrel/",
+    detail: "A public positioning article about the trust gap in AI-native developer tools."
+  },
+  {
+    title: "brainwav.io prototype",
+    status: "Site build",
+    href: "/",
+    detail: "A public home for articles, proof notes, and career-direction artifacts."
+  },
+  {
+    title: "CLI proof series",
+    status: "Planned lane",
+    href: "/now/",
+    detail: "rsearch and wsearch are intended as small tools to tighten, document, and publish."
+  },
+  {
+    title: "Agent skills notes",
+    status: "Planned lane",
+    href: "/now/",
+    detail: "Short notes explaining skills, validation, and trust boundaries for developers."
+  }
+];
+---
+
+<BaseLayout title="Proof Index | brainwav">
+  <section class="proof-index section-shell" aria-labelledby="proof-title">
+    <header>
+      <p class="eyebrow">Proof Index</p>
+      <h1 id="proof-title">All work</h1>
+      <p>
+        A deliberately small index of public proof surfaces. Items stay labelled by
+        their real state: article, build, planned lane, or published proof.
+      </p>
+    </header>
+
+    <div class="proof-row">
+      {proofItems.map((item) => (
+        <a class="proof-card" href={item.href}>
+          <span>{item.status}</span>
+          <h2>{item.title}</h2>
+          <p>{item.detail}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

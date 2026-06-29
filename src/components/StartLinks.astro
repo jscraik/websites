@@ -1,0 +1,41 @@
+---
+const links = [
+  {
+    href: "/articles/why-ai-native-devrel/",
+    label: "Read Why AI-Native DevRel",
+    icon: "book"
+  },
+  {
+    href: "/proof/",
+    label: "Browse the proof index",
+    icon: "document"
+  },
+  {
+    href: "/now/",
+    label: "See current focus",
+    icon: "target"
+  },
+  {
+    href: "/contact/",
+    label: "Get in touch",
+    icon: "send"
+  }
+];
+---
+
+<aside class="start-links" aria-labelledby="start-links-title">
+  <p id="start-links-title" class="input-label u-mb-lg">Where you can start</p>
+  <ul class="icon-link-list">
+    {
+      links.map((link) => (
+        <li class="icon-link-item">
+          <a href={link.href} class="icon-link">
+            <span class={"icon-box start-links__icon start-links__icon--" + link.icon} aria-hidden="true"></span>
+            <span>{link.label}</span>
+            <span aria-hidden="true">-&gt;</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</aside>

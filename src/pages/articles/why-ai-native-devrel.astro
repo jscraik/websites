@@ -1,0 +1,93 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Why AI-Native DevRel | brainwav"
+  description="Jamie Scott Craik on AI-native DevRel, trust, evaluation, and visible proof."
+>
+  <article class="article-layout section-shell">
+    <header class="article-layout__mast">
+      <p class="eyebrow">Article</p>
+      <h1>Why AI-Native DevRel?</h1>
+      <p class="article-date">June 28, 2026</p>
+      <div class="draft-list" aria-label="Article sections">
+        <p>In This Thread</p>
+        <a href="#capable-trusted">The gap between capable and trusted</a>
+        <a href="#why-here">Why I am here for this</a>
+        <a href="#requires">What AI-native DevRel requires</a>
+      </div>
+    </header>
+
+    <div class="article-body">
+      <p class="lede">
+        How many developers actually trust the AI tools they are using? Not find them
+        useful. Trust them. Know what they will do, know when they fail, and know how
+        to verify the output.
+      </p>
+
+      <section id="capable-trusted">
+        <h2>The gap between capable and trusted</h2>
+        <p>
+          AI tooling is genuinely good now. The capability curve has been steep and it
+          is still climbing. But capability and trust are not the same thing, and the
+          distance between them is exactly where developers get stuck.
+        </p>
+        <p>
+          I see it in how people interact with agents. They treat the output as a
+          starting point to manually verify, which is reasonable, but they do not always
+          know how to structure that verification. They build workflows and hope the
+          state holds across sessions. They deploy and discover edge cases they had no
+          framework for catching.
+        </p>
+        <p>
+          The tool did not fail. The scaffolding around it did.
+        </p>
+      </section>
+
+      <section id="why-here">
+        <h2>Why I am here for this</h2>
+        <p>
+          I spent ten years as a British Army Warrant Officer. Standards, instruction,
+          operational delivery, logistics, and people leadership were the work. The job
+          involved taking complex processes and making them executable under pressure.
+        </p>
+        <p>
+          A service-related accident in 2023 interrupted the immediate route forward.
+          It did not interrupt the underlying skills: teaching, structure, systematic
+          thinking, and evaluation under pressure.
+        </p>
+        <p>
+          During recovery I went deep on AI systems, not casually, but methodically. I
+          wanted to understand how they worked and, more specifically, how they failed.
+          I spent time in Codex workflows long enough to build a strong opinion: the
+          claim that an agent completed a task and the verifiable evidence that it did
+          are two very different things.
+        </p>
+      </section>
+
+      <section id="requires">
+        <h2>What AI-native DevRel requires</h2>
+        <p>
+          The developer audience for AI tools is changing. The early adopters who
+          wanted "write code faster" are already there. The wave coming next wants to
+          understand how to design systems, how to direct agents safely, how to evaluate
+          output rigorously, and how to explain AI behaviour to people who need to trust
+          it without understanding every technical detail.
+        </p>
+        <p>
+          That requires more than documentation. It requires someone who has built in
+          this space, hit the real failure modes, and can explain what they found in
+          terms that transfer.
+        </p>
+        <p>
+          brainwav.io is the public record of that work. Articles, technical write-ups,
+          demos, and the reasoning behind design decisions. The transition from Army
+          Warrant Officer to AI-native DevRel is not the story. How you close the gap
+          between "this tool is capable" and "I can trust this tool in production" is
+          the story.
+        </p>
+      </section>
+    </div>
+  </article>
+</BaseLayout>
