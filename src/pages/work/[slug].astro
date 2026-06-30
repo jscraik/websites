@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import CarouselControls from "../../components/CarouselControls.astro";
 import { caseStudies, proofWorkCards } from "../../data/work";
 
 export function getStaticPaths() {
@@ -99,19 +100,7 @@ const workCount = String(proofWorkCards.length).padStart(2, "0");
           </article>
         ))}
       </div>
-      <div class="carousel-controls" data-work-carousel hidden>
-        <button class="carousel-button" type="button" data-work-prev aria-label="Previous work cards">
-          <span aria-hidden="true">&lt;-</span>
-          <span>Back</span>
-        </button>
-        <div class="carousel-progress" aria-hidden="true">
-          <span data-work-progress></span>
-        </div>
-        <button class="carousel-button" type="button" data-work-next aria-label="Next work cards">
-          <span>Next</span>
-          <span aria-hidden="true">-&gt;</span>
-        </button>
-      </div>
+      <CarouselControls />
     </section>
   </article>
 </BaseLayout>

@@ -18,7 +18,7 @@ export default defineConfig({
     trace: "on-first-retry",
     screenshot: "only-on-failure"
   },
-  webServer: {
+  webServer: process.env.PLAYWRIGHT_BASE_URL ? undefined : {
     command: `ASTRO_TELEMETRY_DISABLED=1 npm run build && ASTRO_TELEMETRY_DISABLED=1 npm run preview -- --host 127.0.0.1 --port ${port}`,
     url: baseURL,
     reuseExistingServer: !process.env.CI,

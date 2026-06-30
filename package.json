@@ -12,6 +12,7 @@
     "test:visual": "mkdir -p .playwright-tmp && TMPDIR=$PWD/.playwright-tmp PWTEST_CACHE_DIR=.playwright-cache playwright test tests/visual",
     "test:visual:update": "mkdir -p .playwright-tmp && TMPDIR=$PWD/.playwright-tmp PWTEST_CACHE_DIR=.playwright-cache playwright test tests/visual --update-snapshots",
     "test:a11y": "mkdir -p .playwright-tmp && TMPDIR=$PWD/.playwright-tmp PWTEST_CACHE_DIR=.playwright-cache playwright test tests/a11y",
+    "test:policy-style": "grep -q '^test-results/$' .gitignore && grep -q '^playwright-report/$' .gitignore && grep -q '^\\.playwright-cache/$' .gitignore && grep -q '^\\.playwright-tmp/$' .gitignore || (echo 'Error: Required Playwright artifact paths missing from .gitignore' && exit 1)",
     "screenshots:site": "mkdir -p .playwright-tmp && TMPDIR=$PWD/.playwright-tmp PWTEST_CACHE_DIR=.playwright-cache playwright test tests/screenshots",
     "playwright:install": "playwright install chromium",
     "lhci": "lhci autorun"

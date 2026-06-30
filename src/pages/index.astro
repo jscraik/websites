@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import StartLinks from "../components/StartLinks.astro";
+import CarouselControls from "../components/CarouselControls.astro";
 import { featuredCaseStudies, proofWorkCards } from "../data/work";
 
 const featuredCards = [
@@ -106,19 +107,7 @@ const featuredCount = String(featuredCards.length).padStart(2, "0");
         </article>
       ))}
     </div>
-    <div class="carousel-controls" data-work-carousel hidden>
-      <button class="carousel-button" type="button" data-work-prev aria-label="Previous work cards">
-        <span aria-hidden="true">&lt;-</span>
-        <span>Back</span>
-      </button>
-      <div class="carousel-progress" aria-hidden="true">
-        <span data-work-progress></span>
-      </div>
-      <button class="carousel-button" type="button" data-work-next aria-label="Next work cards">
-        <span>Next</span>
-        <span aria-hidden="true">-&gt;</span>
-      </button>
-    </div>
+    <CarouselControls />
   </section>
 
   <section class="blog-preview section-shell" aria-labelledby="blog-preview-title">
