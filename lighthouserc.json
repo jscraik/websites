@@ -7,7 +7,9 @@
         "http://127.0.0.1:4321/",
         "http://127.0.0.1:4321/now/",
         "http://127.0.0.1:4321/blog/",
-        "http://127.0.0.1:4321/proof/"
+        "http://127.0.0.1:4321/proof/",
+        "http://127.0.0.1:4321/articles/why-ai-native-devrel/",
+        "http://127.0.0.1:4321/work/ai-native-devrel/"
       ],
       "numberOfRuns": 1,
       "settings": {
