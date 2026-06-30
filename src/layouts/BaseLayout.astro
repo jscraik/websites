@@ -85,6 +85,7 @@ const {
 
         workRow.addEventListener("scroll", updateControls, { passive: true });
         window.addEventListener("resize", updateControls);
+        window.addEventListener("load", updateControls);
         updateControls();
       });
     </script>

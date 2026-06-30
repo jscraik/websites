@@ -15,15 +15,17 @@ const articles = [
   <header class="blog-index section-shell" aria-labelledby="blog-title">
     <div class="blog-title-block">
       <h1 id="blog-title">Blog</h1>
-      <div class="draft-links" aria-label="In my drafts">
+      <div class="draft-links">
         <p class="eyebrow">In my drafts</p>
         <span><i aria-hidden="true"></i>How I review agent output</span>
         <span><i aria-hidden="true"></i>How to present proof surfaces</span>
         <span><i aria-hidden="true"></i>The Army-to-AI DevRel bridge</span>
       </div>
     </div>
+  </header>
 
-    <article class="latest-article">
+  <section class="latest-article section-shell">
+    <article>
       <div>
         <p class="eyebrow">Latest article</p>
         <h2>Why AI-native DevRel?</h2>
@@ -43,7 +45,7 @@ const articles = [
         </a>
       </div>
     </article>
-  </header>
+  </section>
 
   <div class="page-main">
     <section class="article-list" aria-labelledby="article-list-title">

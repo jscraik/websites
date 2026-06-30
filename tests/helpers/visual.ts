@@ -13,7 +13,7 @@ export const stableScreenshotStyle = `
 `;
 
 export async function preparePage(page: Page, path: string) {
-  await page.goto(path, { waitUntil: "networkidle" });
+  await page.goto(path);
   await page.addStyleTag({ content: stableScreenshotStyle });
 }
 

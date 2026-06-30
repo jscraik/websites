@@ -8,7 +8,6 @@ test.describe("accessibility smoke", () => {
       await preparePage(page, route.path);
 
       const { violations } = await new AxeBuilder({ page })
-        .disableRules(["color-contrast"])
         .analyze();
 
       expect(violations).toEqual([]);

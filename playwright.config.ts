@@ -31,7 +31,7 @@ export default defineConfig({
     },
     {
       name: "chromium-mobile",
-      use: { ...devices["iPhone 15"], viewport: { width: 393, height: 852 } }
+      use: { ...devices["Pixel 5"], viewport: { width: 393, height: 852 } }
     }
   ]
 });

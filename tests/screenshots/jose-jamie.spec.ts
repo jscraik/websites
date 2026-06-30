@@ -5,7 +5,7 @@ import pixelmatch from "pixelmatch";
 import { PNG } from "pngjs";
 import { stableScreenshotStyle } from "../helpers/visual";
 
-const referenceBaseURL = process.env.REFERENCE_BASE_URL ?? "https://www.joseocando.com";
+const referenceBaseURL = process.env.REFERENCE_BASE_URL;
 const candidateBaseURL = process.env.CANDIDATE_BASE_URL ?? process.env.PLAYWRIGHT_BASE_URL ?? "http://127.0.0.1:4321";
 const outputRoot = process.env.SCREENSHOT_OUTPUT_DIR ?? "artifacts/screenshots";
 
@@ -24,6 +24,8 @@ const captures = [
 
 test.describe("Jose and Jamie screenshot contact sheet", () => {
   test("capture paired reference and prototype frames", async ({ page }) => {
+    test.skip(!referenceBaseURL, "REFERENCE_BASE_URL environment variable must be set");
+
     const rows: string[] = [];
 
     for (const viewport of viewports) {
@@ -31,7 +33,7 @@ test.describe("Jose and Jamie screenshot contact sheet", () => {
 
       for (const capture of captures) {
         const pairName = `${capture.name}-${viewport.name}`;
-        const reference = await captureFrame(page, referenceBaseURL, capture, `jose/${pairName}.png`);
+        const reference = await captureFrame(page, referenceBaseURL!, capture, `jose/${pairName}.png`);
         const candidate = await captureFrame(page, candidateBaseURL, capture, `jamie/${pairName}.png`);
         const diff = await writeDiff(reference.filePath, candidate.filePath, `diff/${pairName}.png`);
 
@@ -53,7 +55,7 @@ async function captureFrame(
   const filePath = path.join(outputRoot, relativePath);
 
   await mkdir(path.dirname(filePath), { recursive: true });
-  await page.goto(url, { waitUntil: "networkidle" });
+  await page.goto(url);
   await page.addStyleTag({ content: stableScreenshotStyle });
 
   if ("scrollY" in capture) {
