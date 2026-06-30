@@ -13,7 +13,10 @@ export const stableScreenshotStyle = `
 `;
 
 export async function preparePage(page: Page, path: string) {
-  await page.goto(path);
+  const response = await page.goto(path);
+  if (!response || !response.ok()) {
+    throw new Error(`Failed to load ${path}: ${response?.status() ?? "no response"}`);
+  }
   await page.addStyleTag({ content: stableScreenshotStyle });
 }
 
