@@ -3,7 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const articles = [
   {
-    date: "Jun 28, 2026",
+    date: "June 2026",
     title: "Why AI-native DevRel?",
     href: "/articles/why-ai-native-devrel/",
     summary: "Capability is not the same as trust. Developer education has to carry the proof."
@@ -12,33 +12,40 @@ const articles = [
 ---
 
 <BaseLayout title="Blog | brainwav">
-  <section class="blog-index section-shell" aria-labelledby="blog-title">
-    <header>
+  <header class="blog-index section-shell" aria-labelledby="blog-title">
+    <div class="blog-title-block">
       <h1 id="blog-title">Blog</h1>
-      <div class="draft-links">
+      <div class="draft-links" aria-label="In my drafts">
         <p class="eyebrow">In my drafts</p>
-        <a href="/proof/"><span aria-hidden="true">#</span>How I review agent output</a>
-        <a href="/proof/"><span aria-hidden="true">#</span>How to present proof surfaces</a>
-        <a href="/now/"><span aria-hidden="true">#</span>The Army-to-AI DevRel bridge</a>
-        <a href="/work/ai-native-devrel/"><span aria-hidden="true">#</span>What makes AI work trustworthy?</a>
+        <span><i aria-hidden="true"></i>How I review agent output</span>
+        <span><i aria-hidden="true"></i>How to present proof surfaces</span>
+        <span><i aria-hidden="true"></i>The Army-to-AI DevRel bridge</span>
       </div>
-    </header>
+    </div>
 
     <article class="latest-article">
-      <p class="eyebrow">Latest article</p>
-      <h2>Why AI-native DevRel?</h2>
-      <p class="article-date">Jun 28, 2026</p>
-      <p>
-        AI tooling is capable now. The harder problem is helping developers
-        understand when to trust it, how to inspect it, and how to carry the
-        receipt forward.
-      </p>
-      <a class="small-button small-button--light" href="/articles/why-ai-native-devrel/">
-        <span>Keep reading</span>
-        <span aria-hidden="true">-&gt;</span>
-      </a>
+      <div>
+        <p class="eyebrow">Latest article</p>
+        <h2>Why AI-native DevRel?</h2>
+        <p class="article-date">June 2026</p>
+      </div>
+      <div>
+        <p>
+          AI tooling is capable now. The harder problem is helping developers
+          understand when to trust it, how to inspect it, and how to carry the
+          receipt forward.
+        </p>
+      </div>
+      <div>
+        <a class="small-button small-button--light" href="/articles/why-ai-native-devrel/">
+          <span>Keep reading</span>
+          <span aria-hidden="true">-&gt;</span>
+        </a>
+      </div>
     </article>
+  </header>
 
+  <div class="page-main">
     <section class="article-list" aria-labelledby="article-list-title">
       <h2 id="article-list-title">Browse all articles</h2>
       {articles.map((article) => (
@@ -51,20 +58,22 @@ const articles = [
       ))}
     </section>
 
-    <aside class="blog-about-card">
+    <section class="blog-about-card" aria-labelledby="blog-about-title">
       <img src="/jamie-profile.png" alt="Jamie Scott Craik" />
-      <h2>About Jamie</h2>
-      <p>
-        I am building public proof surfaces for AI-native DevRel: articles,
-        demos, validation notes, and developer-facing examples.
-      </p>
-      <p>
-        The work sits between field notes and finished case studies: small
-        receipts, careful caveats, and examples that make the trust boundary
-        visible.
-      </p>
-      <p class="eyebrow">Contact me</p>
-      <a href="mailto:jscraik@brainwav.io">jscraik@brainwav.io</a>
-    </aside>
-  </section>
+      <div>
+        <h2 id="blog-about-title">About Jamie</h2>
+        <p>
+          I am building public proof surfaces for AI-native DevRel: articles,
+          demos, validation notes, and developer-facing examples.
+        </p>
+        <p>
+          The work sits between field notes and finished case studies: small
+          receipts, careful caveats, and examples that make the trust boundary
+          visible.
+        </p>
+        <p class="eyebrow">Contact me</p>
+        <a href="mailto:jscraik@brainwav.io">jscraik@brainwav.io</a>
+      </div>
+    </section>
+  </div>
 </BaseLayout>

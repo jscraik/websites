@@ -8,13 +8,25 @@
     "check": "astro check",
     "build": "astro build",
     "preview": "astro preview",
-    "test:e2e": "playwright test"
+    "test:e2e": "mkdir -p .playwright-tmp && TMPDIR=$PWD/.playwright-tmp PWTEST_CACHE_DIR=.playwright-cache playwright test tests/e2e",
+    "test:visual": "mkdir -p .playwright-tmp && TMPDIR=$PWD/.playwright-tmp PWTEST_CACHE_DIR=.playwright-cache playwright test tests/visual",
+    "test:visual:update": "mkdir -p .playwright-tmp && TMPDIR=$PWD/.playwright-tmp PWTEST_CACHE_DIR=.playwright-cache playwright test tests/visual --update-snapshots",
+    "test:a11y": "mkdir -p .playwright-tmp && TMPDIR=$PWD/.playwright-tmp PWTEST_CACHE_DIR=.playwright-cache playwright test tests/a11y",
+    "screenshots:site": "mkdir -p .playwright-tmp && TMPDIR=$PWD/.playwright-tmp PWTEST_CACHE_DIR=.playwright-cache playwright test tests/screenshots",
+    "playwright:install": "playwright install chromium",
+    "lhci": "lhci autorun"
   },
   "dependencies": {
     "astro": "^7.0.3"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
+    "@axe-core/playwright": "^4.12.1",
+    "@lhci/cli": "^0.15.1",
+    "@playwright/test": "^1.61.1",
+    "pixelmatch": "^7.2.0",
+    "playwright": "^1.61.1",
+    "pngjs": "^7.0.0",
     "typescript": "^5.9.3"
   }
 }

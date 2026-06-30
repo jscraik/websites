@@ -8,3 +8,10 @@ dist/
 .codex/config.toml
 .DS_Store
 npm-debug.log*
+.npm-cache/
+test-results/
+playwright-report/
+artifacts/screenshots/
+.lighthouseci/
+.playwright-cache/
+.playwright-tmp/

@@ -18,6 +18,7 @@ const featuredCards = [
 ];
 
 const workCount = String(proofWorkCards.length).padStart(2, "0");
+const featuredCount = String(featuredCards.length).padStart(2, "0");
 ---
 
 <BaseLayout title="Jamie Scott Craik | AI-native DevRel">
@@ -30,7 +31,6 @@ const workCount = String(proofWorkCards.length).padStart(2, "0");
           <span>Craik</span>
         </h1>
         <div>
-          <p class="home-hero__dek text-3xl u-text-balance">I build trust surfaces for AI-native developer tools.</p>
           <p class="home-hero__body">
             One of my deepest joys comes from equipping technical people with
             the proof, language, and workflow habits they need to trust AI work.
@@ -53,33 +53,35 @@ const workCount = String(proofWorkCards.length).padStart(2, "0");
   <section id="featured-work" class="featured-band section-shell" aria-labelledby="featured-title">
     <div class="section-label">
       <span>Featured work</span>
-      <span>Curated projects</span>
+      <span>{featuredCount}</span>
     </div>
-    <div class="feature-stack">
+    <div class="featured-list">
       {featuredCards.map((card, index) => (
-        <article class="feature-split">
-          <div>
-            <h2 id={index === 0 ? "featured-title" : undefined}>{card.title}</h2>
-            <div>
-              <p class="eyebrow">{card.eyebrow}</p>
-              <p class="feature-quote">"{card.quote}"</p>
-            </div>
-            <a class="small-button" href={card.href}>
-              <span>{card.cta}</span>
-              <span aria-hidden="true">-&gt;</span>
-            </a>
-          </div>
-          <div class={"feature-split__surface feature-split__surface--" + card.visual}>
-            <div class="work-preview" aria-label={card.previewTitle}>
-              <div class={"work-preview__image work-preview__image--" + card.visual}>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
+        <article class="feature-block">
+          <div class="feature-block-inner">
+            <div class="feature-block__content">
+              <h2 id={index === 0 ? "featured-title" : undefined}>{card.title}</h2>
+              <div class="feature-block__copy">
+                <p class="eyebrow">{card.eyebrow}</p>
+                <p class="feature-quote">"{card.quote}"</p>
               </div>
-              <p class="eyebrow">From the work</p>
-              <h3>{card.previewTitle}</h3>
-              <p>{card.previewMeta}</p>
+              <a class="small-button" href={card.href}>
+                <span>{card.cta}</span>
+                <span aria-hidden="true">-&gt;</span>
+              </a>
+            </div>
+            <div class={"feature-block-img feature-block-img--" + card.visual} aria-label={card.previewTitle}>
+              <div class="work-preview">
+                <div class={"work-preview__image work-preview__image--" + card.visual}>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <p class="eyebrow">From the work</p>
+                <h3>{card.previewTitle}</h3>
+                <p>{card.previewMeta}</p>
+              </div>
             </div>
           </div>
         </article>
@@ -89,7 +91,7 @@ const workCount = String(proofWorkCards.length).padStart(2, "0");
 
   <section id="work" class="work-carousel section-shell" aria-labelledby="work-carousel-title">
     <h2 id="work-carousel-title">All work <sup>{workCount}</sup></h2>
-    <div class="work-row" aria-label="Curated proof cards">
+    <div class="work-row" aria-label="Curated proof cards" data-work-row>
       {proofWorkCards.map((item, index) => (
         <article class="work-mini-card">
           <p class="work-card-count">{String(index + 1).padStart(2, "0")} / {workCount}</p>
@@ -104,16 +106,27 @@ const workCount = String(proofWorkCards.length).padStart(2, "0");
         </article>
       ))}
     </div>
-    <div class="carousel-controls" aria-hidden="true">
-      <span>&lt;- Back</span>
-      <span></span>
-      <span>Next -&gt;</span>
+    <div class="carousel-controls" data-work-carousel hidden>
+      <button class="carousel-button" type="button" data-work-prev aria-label="Previous work cards">
+        <span aria-hidden="true">&lt;-</span>
+        <span>Back</span>
+      </button>
+      <div class="carousel-progress" aria-hidden="true">
+        <span data-work-progress></span>
+      </div>
+      <button class="carousel-button" type="button" data-work-next aria-label="Next work cards">
+        <span>Next</span>
+        <span aria-hidden="true">-&gt;</span>
+      </button>
     </div>
   </section>
 
   <section class="blog-preview section-shell" aria-labelledby="blog-preview-title">
-    <div class="blog-preview__aside">
+    <div class="blog-title-block">
       <h2 id="blog-preview-title">Blog</h2>
+      <div class="blog-preview__image">
+        <img src="/jamie-profile.png" alt="Jamie Scott Craik" class="u-img-cover" />
+      </div>
       <div class="blog-preview__drafts" aria-label="In my drafts">
         <p class="eyebrow">In my drafts</p>
         <a href="/proof/">How I review agent output</a>
@@ -123,7 +136,7 @@ const workCount = String(proofWorkCards.length).padStart(2, "0");
     </div>
     <article>
       <h3>Why AI-native DevRel?</h3>
-      <p class="article-date">Jun 28, 2026</p>
+      <p class="article-date">June 2026</p>
       <p>
         AI tooling is genuinely capable now. The harder question is how developers
         learn to trust the work, inspect the output, and carry the receipt forward.
@@ -134,4 +147,5 @@ const workCount = String(proofWorkCards.length).padStart(2, "0");
       </a>
     </article>
   </section>
+
 </BaseLayout>

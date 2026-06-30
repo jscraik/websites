@@ -1,22 +1,57 @@
 ---
 interface Props {
   compact?: boolean;
+  variant?: "primary" | "tiny" | "badge";
+  className?: string;
+  ariaCurrent?: "page";
+  label?: string;
 }
 
-const { compact = false } = Astro.props;
+const {
+  compact = false,
+  variant = "primary",
+  className = "",
+  ariaCurrent,
+  label = "Jamie Scott Craik home"
+} = Astro.props;
+
+const isTiny = variant === "tiny";
+const viewBox = isTiny ? "0 0 96 44" : "0 0 112 56";
 ---
 
-<a class:list={["brand-mark", compact && "brand-mark--compact"]} href="/" aria-label="brainwav home">
-  <svg aria-hidden="true" viewBox="0 0 96 42" focusable="false">
-    <path
-      d="M15 5v30m0-15c5.8-10.2 24.2-10.2 30 0 5.8 10.2 24.2 10.2 30 0"
-      fill="none"
-      stroke="currentColor"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="4"
-    />
-    <circle cx="83" cy="20" r="4" fill="var(--orange)" />
-  </svg>
-  <span>br<span>AI</span>nwav</span>
+<a
+  class:list={["brand-mark", `brand-mark--${variant}`, compact && "brand-mark--compact", className]}
+  href="/"
+  aria-label={label}
+  aria-current={ariaCurrent}
+>
+  <span class="brand-mark__icon-shell" aria-hidden="true">
+    <svg class="brand-mark__svg" viewBox={viewBox} focusable="false">
+      {isTiny ? (
+        <>
+          <text class="brand-mark__letters" x="8" y="35">JSC</text>
+          <path
+            class="brand-mark__line"
+            d="M8 10h54c10 0 16 6 16 16"
+          />
+          <circle class="brand-mark__dot" cx="86" cy="31" r="3.1" />
+        </>
+      ) : (
+        <>
+          <text class="brand-mark__letters" x="8" y="45">JSC</text>
+          <path
+            class="brand-mark__line"
+            d="M8 11h64c13 0 22 8 22 23"
+          />
+          <circle class="brand-mark__dot" cx="103" cy="38" r="4.2" />
+        </>
+      )}
+    </svg>
+  </span>
+  {variant === "badge" && (
+    <span class="brand-mark__copy">
+      <span>Visible proof</span>
+      <span>AI-native DevRel</span>
+    </span>
+  )}
 </a>

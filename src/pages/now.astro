@@ -83,7 +83,7 @@ const history = [
 
 const webLinks = [
   ["GitHub", "github.com/jscraik", "https://github.com/jscraik"],
-  ["LinkedIn", "Jamie Scott Craik", "https://www.linkedin.com/in/jamie-scott-craik/"],
+  ["LinkedIn", "Jamie Scott Craik", "https://www.linkedin.com/in/jscraik/"],
   ["X", "@jscraik", "https://x.com/jscraik"],
   ["Email", "jscraik@brainwav.io", "mailto:jscraik@brainwav.io"]
 ];
@@ -91,41 +91,43 @@ const webLinks = [
 
 <BaseLayout title="About | brainwav">
   <section class="about-page section-shell" aria-labelledby="about-title">
-    <div class="about-intro">
-      <p class="eyebrow">About</p>
-      <h1 id="about-title">About</h1>
-      <div class="about-copy">
-        <p>
-          I am building toward AI-native Developer Relations: public writing,
-          proof surfaces, developer tools, and education that make agentic work
-          easier to trust.
-        </p>
-        <p>
-          Before this, I spent ten years as a British Army Warrant Officer.
-          Standards, instruction, operational delivery, and people leadership
-          still shape how I think about software.
-        </p>
-        <p>
-          brainwav.io is the public record of that transition: the articles,
-          receipts, experiments, and caveats that show the work while it is
-          being built.
-        </p>
+    <header class="about-intro">
+      <div class="about-copy-block">
+        <p class="eyebrow">About</p>
+        <h1 id="about-title">About</h1>
+        <div class="about-copy">
+          <p>
+            I am building toward AI-native Developer Relations: public writing,
+            proof surfaces, developer tools, and education that make agentic work
+            easier to trust.
+          </p>
+          <p>
+            Before this, I spent ten years as a British Army Warrant Officer.
+            Standards, instruction, operational delivery, and people leadership
+            still shape how I think about software.
+          </p>
+          <p>
+            brainwav.io is the public record of that transition: the articles,
+            receipts, experiments, and caveats that show the work while it is
+            being built.
+          </p>
+        </div>
       </div>
-    </div>
-
-    <div class="about-jump">
-      <p class="eyebrow">Get to know me</p>
-      <nav aria-label="About page sections">
-        {quickLinks.map((item) => (
-          <a href={item.href}>
-            <span aria-hidden="true">#</span>
-            <span>{item.label}</span>
-          </a>
-        ))}
-      </nav>
-    </div>
-
-    <img class="about-portrait" src="/jamie-profile.png" alt="Jamie Scott Craik" />
+      <aside class="about-sidebar">
+        <div class="about-jump">
+          <p class="eyebrow">Get to know me</p>
+          <nav aria-label="About page sections">
+            {quickLinks.map((item) => (
+              <a href={item.href}>
+                <span aria-hidden="true">#</span>
+                <span>{item.label}</span>
+              </a>
+            ))}
+          </nav>
+        </div>
+        <img class="about-portrait" src="/jamie-profile.png" alt="Jamie Scott Craik" />
+      </aside>
+    </header>
 
     <section id="fun-facts" class="about-band" aria-labelledby="fun-facts-title">
       <p class="eyebrow">Things about me</p>
