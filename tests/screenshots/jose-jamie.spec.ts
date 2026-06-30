@@ -62,10 +62,11 @@ async function captureFrame(
 
   if ("selector" in capture) {
     const target = page.locator(capture.selector).first();
-    if (await target.count()) {
-      await target.screenshot({ path: filePath, animations: "disabled" });
-      return { filePath, relativePath };
+    if ((await target.count()) === 0) {
+      throw new Error(`Selector "${capture.selector}" not found at ${baseURL}${capture.path}`);
     }
+    await target.screenshot({ path: filePath, animations: "disabled" });
+    return { filePath, relativePath };
   }
 
   await page.screenshot({ path: filePath, animations: "disabled" });
