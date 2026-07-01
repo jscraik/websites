@@ -87,7 +87,7 @@ const workCount = String(proofWorkCards.length).padStart(2, "0");
       <h2 id="case-all-work-title">All work <sup>{workCount}</sup></h2>
       <div class="work-row" aria-label="More work" data-work-row>
         {proofWorkCards.map((item, index) => (
-          <article class="work-mini-card">
+          <a class="work-mini-card" href={item.href}>
             <p class="work-card-count">{String(index + 1).padStart(2, "0")} / {workCount}</p>
             <div class={"work-thumbnail work-thumbnail--" + item.tone} aria-hidden="true">
               <span></span>
@@ -97,7 +97,7 @@ const workCount = String(proofWorkCards.length).padStart(2, "0");
             <div class="tag-row">
               {item.tags.map((tag) => <span>{tag}</span>)}
             </div>
-          </article>
+          </a>
         ))}
       </div>
       <CarouselControls />

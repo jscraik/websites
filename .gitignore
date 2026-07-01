@@ -1,6 +1,11 @@
 node_modules/
 dist/
 .astro/
+.npm-cache/
+.playwright-cache/
+.playwright-tmp/
+playwright-report/
+test-results/
 .codex/*
 !.codex/skills/
 !.codex/skills/**

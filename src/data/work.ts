@@ -98,9 +98,10 @@ export const proofWorkCards = [
   ...caseStudies.map((study) => ({
     title: study.shortTitle,
     tags: study.tags.slice(0, 3),
-    tone: study.tone
+    tone: study.tone,
+    href: study.route
   })),
-  { title: "Agent Skills", tags: ["Reusable", "Practice"], tone: "green" }
+  { title: "Agent Skills", tags: ["Reusable", "Practice"], tone: "green", href: "/proof/" }
 ];
 
 export const featuredCaseStudy = caseStudies.find((study) => study.isFeatured);
