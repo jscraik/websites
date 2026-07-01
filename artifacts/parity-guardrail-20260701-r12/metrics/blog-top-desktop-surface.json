@@ -1,0 +1,64 @@
+{
+  "reference": {
+    "nav": {
+      "x": 272.796875,
+      "y": 32,
+      "width": 894.390625,
+      "height": 44.796875
+    },
+    "sampleColor": [
+      0,
+      0,
+      0
+    ],
+    "h1": {
+      "x": 272.8125,
+      "y": 220.796875,
+      "width": 191.90625,
+      "height": 91.203125
+    },
+    "lead": {
+      "x": 732,
+      "y": 260.796875,
+      "width": 435.1875,
+      "height": 56,
+      "fontSize": 20,
+      "fontWeight": 600,
+      "lineHeight": 28
+    },
+    "aside": null,
+    "portrait": null,
+    "cards": []
+  },
+  "candidate": {
+    "nav": {
+      "x": 273,
+      "y": 32,
+      "width": 894,
+      "height": 44.796875
+    },
+    "sampleColor": [
+      0,
+      0,
+      0
+    ],
+    "h1": {
+      "x": 273,
+      "y": 276.796875,
+      "width": 435,
+      "height": 97.75
+    },
+    "lead": {
+      "x": 732,
+      "y": 308.296875,
+      "width": 435,
+      "height": 28,
+      "fontSize": 20,
+      "fontWeight": 600,
+      "lineHeight": 28
+    },
+    "aside": null,
+    "portrait": null,
+    "cards": []
+  }
+}
