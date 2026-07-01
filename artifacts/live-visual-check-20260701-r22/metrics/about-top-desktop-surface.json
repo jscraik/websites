@@ -1,0 +1,74 @@
+{
+  "reference": {
+    "nav": {
+      "x": 272.796875,
+      "y": 32,
+      "width": 894.390625,
+      "height": 44.796875
+    },
+    "sampleColor": [
+      0,
+      0,
+      0
+    ],
+    "h1": {
+      "x": 272.8125,
+      "y": 276.796875,
+      "width": 549.984375,
+      "height": 28
+    },
+    "lead": null,
+    "aside": {
+      "x": 961.59375,
+      "y": 276.796875,
+      "width": 205.59375,
+      "height": 784.90625
+    },
+    "portrait": {
+      "x": 961.59375,
+      "y": 787.578125,
+      "width": 205.59375,
+      "height": 274.125
+    },
+    "cards": [],
+    "blocks": [],
+    "topContaminationCount": 0,
+    "bottomContaminationCount": 0
+  },
+  "candidate": {
+    "nav": {
+      "x": 273,
+      "y": 32,
+      "width": 894,
+      "height": 44.796875
+    },
+    "sampleColor": [
+      0,
+      0,
+      0
+    ],
+    "h1": {
+      "x": 273,
+      "y": 276.796875,
+      "width": 550,
+      "height": 28
+    },
+    "lead": null,
+    "aside": {
+      "x": 962,
+      "y": 276.796875,
+      "width": 206,
+      "height": 652.546875
+    },
+    "portrait": {
+      "x": 962,
+      "y": 562.296875,
+      "width": 206,
+      "height": 271.046875
+    },
+    "cards": [],
+    "blocks": [],
+    "topContaminationCount": 0,
+    "bottomContaminationCount": 0
+  }
+}

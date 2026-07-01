@@ -1,0 +1,156 @@
+{
+  "reference": {
+    "nav": {
+      "x": 30.546875,
+      "y": 19.09375,
+      "width": 331.90625,
+      "height": 40.09375
+    },
+    "navPaddingLeft": 15.2803,
+    "navPaddingRight": 15.2803,
+    "items": [
+      {
+        "text": "",
+        "aria": "Home",
+        "rect": {
+          "x": 45.8125,
+          "y": 23.859375,
+          "width": 30.546875,
+          "height": 30.546875
+        },
+        "fontSize": 15.2803,
+        "fontWeight": 500,
+        "letterSpacing": 0
+      },
+      {
+        "text": "Work",
+        "aria": null,
+        "rect": {
+          "x": 87.734375,
+          "y": 19.09375,
+          "width": 50.03125,
+          "height": 40.09375
+        },
+        "fontSize": 9.55021,
+        "fontWeight": 600,
+        "letterSpacing": 0.573013
+      },
+      {
+        "text": "About",
+        "aria": null,
+        "rect": {
+          "x": 149.140625,
+          "y": 19.09375,
+          "width": 56.328125,
+          "height": 40.09375
+        },
+        "fontSize": 9.55021,
+        "fontWeight": 600,
+        "letterSpacing": 0.573013
+      },
+      {
+        "text": "Blog",
+        "aria": null,
+        "rect": {
+          "x": 216.84375,
+          "y": 19.09375,
+          "width": 50.03125,
+          "height": 40.09375
+        },
+        "fontSize": 9.55021,
+        "fontWeight": 600,
+        "letterSpacing": 0.573013
+      },
+      {
+        "text": "Contact",
+        "aria": null,
+        "rect": {
+          "x": 278.25,
+          "y": 19.09375,
+          "width": 68.9375,
+          "height": 40.09375
+        },
+        "fontSize": 9.55021,
+        "fontWeight": 600,
+        "letterSpacing": 0.573013
+      }
+    ]
+  },
+  "candidate": {
+    "nav": {
+      "x": 31,
+      "y": 19,
+      "width": 331,
+      "height": 40
+    },
+    "navPaddingLeft": 44,
+    "navPaddingRight": 44,
+    "items": [
+      {
+        "text": "",
+        "aria": "Home",
+        "rect": {
+          "x": 76,
+          "y": 30,
+          "width": 18,
+          "height": 18
+        },
+        "fontSize": 17,
+        "fontWeight": 400,
+        "letterSpacing": 0
+      },
+      {
+        "text": "Work",
+        "aria": null,
+        "rect": {
+          "x": 119.75,
+          "y": 32,
+          "width": 24,
+          "height": 14
+        },
+        "fontSize": 10,
+        "fontWeight": 700,
+        "letterSpacing": 0
+      },
+      {
+        "text": "About",
+        "aria": null,
+        "rect": {
+          "x": 169.5,
+          "y": 32,
+          "width": 30,
+          "height": 14
+        },
+        "fontSize": 10,
+        "fontWeight": 700,
+        "letterSpacing": 0
+      },
+      {
+        "text": "Blog",
+        "aria": null,
+        "rect": {
+          "x": 225.25,
+          "y": 32,
+          "width": 24,
+          "height": 14
+        },
+        "fontSize": 10,
+        "fontWeight": 700,
+        "letterSpacing": 0
+      },
+      {
+        "text": "Contact",
+        "aria": null,
+        "rect": {
+          "x": 275,
+          "y": 32,
+          "width": 42,
+          "height": 14
+        },
+        "fontSize": 10,
+        "fontWeight": 700,
+        "letterSpacing": 0
+      }
+    ]
+  }
+}

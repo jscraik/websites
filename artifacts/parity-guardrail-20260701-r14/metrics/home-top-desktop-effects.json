@@ -1,0 +1,14 @@
+{
+  "reference": {
+    "linkTransitionMs": 200,
+    "linkTransitionTiming": "ease, ease",
+    "buttonTransitionMs": 200,
+    "buttonTransitionTiming": "ease"
+  },
+  "candidate": {
+    "linkTransitionMs": 200,
+    "linkTransitionTiming": "ease",
+    "buttonTransitionMs": 200,
+    "buttonTransitionTiming": "ease"
+  }
+}
