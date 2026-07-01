@@ -33,5 +33,61 @@ const {
       <slot />
     </main>
     <SiteFooter />
+    <script>
+      const workCarousels = document.querySelectorAll("[data-work-carousel]");
+
+      workCarousels.forEach((workCarousel) => {
+        const section = workCarousel.closest(".work-carousel");
+        const workRow = section?.querySelector("[data-work-row]");
+
+        if (!(workRow instanceof HTMLElement) || !(workCarousel instanceof HTMLElement)) {
+          return;
+        }
+
+        const previousButton = workCarousel.querySelector("[data-work-prev]");
+        const nextButton = workCarousel.querySelector("[data-work-next]");
+        const progress = workCarousel.querySelector("[data-work-progress]");
+
+        const updateControls = () => {
+          const maxScroll = workRow.scrollWidth - workRow.clientWidth;
+          if (maxScroll <= 24) {
+            workCarousel.hidden = true;
+            return;
+          }
+
+          workCarousel.hidden = false;
+
+          const ratio = maxScroll > 0 ? workRow.scrollLeft / maxScroll : 0;
+          if (progress instanceof HTMLElement) {
+            progress.style.transform = `scaleX(${Math.max(0.18, Math.min(1, ratio || 0.18))})`;
+          }
+          if (previousButton instanceof HTMLButtonElement) {
+            previousButton.disabled = workRow.scrollLeft <= 4;
+          }
+          if (nextButton instanceof HTMLButtonElement) {
+            nextButton.disabled = workRow.scrollLeft >= maxScroll - 4;
+          }
+        };
+
+        const scrollCards = (direction: number) => {
+          workRow.scrollBy({
+            left: direction * Math.max(288, workRow.clientWidth * 0.72),
+            behavior: "smooth"
+          });
+        };
+
+        if (previousButton instanceof HTMLButtonElement) {
+          previousButton.addEventListener("click", () => scrollCards(-1));
+        }
+        if (nextButton instanceof HTMLButtonElement) {
+          nextButton.addEventListener("click", () => scrollCards(1));
+        }
+
+        workRow.addEventListener("scroll", updateControls, { passive: true });
+        window.addEventListener("resize", updateControls);
+        window.addEventListener("load", updateControls);
+        updateControls();
+      });
+    </script>
   </body>
 </html>

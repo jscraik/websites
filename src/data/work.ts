@@ -4,11 +4,12 @@ export const caseStudies = [
     title: "AI-native DevRel",
     shortTitle: "AI DevRel",
     subtitle: "Building trust surfaces for agentic developer tools",
-    date: "Jun 28, 2026",
+    date: "June 2026",
     isFeatured: true,
     overview: "This case study frames the first public article and proof log as one artifact: a position, a receipt, and a boundary.",
     organization: "brainwav.io is Jamie's public proof surface for AI-native DevRel writing, demos, CLI work, and validation notes.",
     work: "I am shaping the reader journey, writing the anchor article, and making evidence visible through proof cards, caveats, and command receipts.",
+    role: "AI-native DevRel builder",
     tags: ["Article", "Proof log", "DevRel", "Trust"],
     tone: "paper",
     route: "/work/ai-native-devrel/",
@@ -37,6 +38,7 @@ export const caseStudies = [
     overview: "The site turns private learning and local build evidence into a public reader journey without exposing private machinery.",
     organization: "The site exists to make Jamie's AI-native DevRel direction legible to developers, reviewers, and community contacts.",
     work: "I am building the Astro site, matching a high-taste editorial reference, and keeping proof boundaries visible while the work matures.",
+    role: "Designer and developer",
     tags: ["Astro", "Portfolio", "Proof", "Writing"],
     tone: "dark",
     route: "/work/brainwav-io/",
@@ -65,6 +67,7 @@ export const caseStudies = [
     overview: "rsearch and wsearch can become portfolio units when each tool has docs, command examples, validation receipts, and a useful tutorial.",
     organization: "The audience is developers evaluating whether agent-safe CLI workflows are understandable and inspectable.",
     work: "The next step is to validate current repo behavior, tighten docs, and publish one tutorial with exact command evidence.",
+    role: "Technical writer and toolmaker",
     tags: ["CLI", "Docs", "Validation", "Tutorial"],
     tone: "peach",
     route: "/work/cli-proof-series/",
@@ -95,9 +98,10 @@ export const proofWorkCards = [
   ...caseStudies.map((study) => ({
     title: study.shortTitle,
     tags: study.tags.slice(0, 3),
-    tone: study.tone
+    tone: study.tone,
+    href: study.route
   })),
-  { title: "Agent Skills", tags: ["Reusable", "Practice"], tone: "green" }
+  { title: "Agent Skills", tags: ["Reusable", "Practice"], tone: "green", href: "/proof/" }
 ];
 
 export const featuredCaseStudy = caseStudies.find((study) => study.isFeatured);
