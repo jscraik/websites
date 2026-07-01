@@ -2565,12 +2565,12 @@ main { min-height: 70vh; }
 :root {
   --shell: min(820px, calc(100% - 48px));
   --shell-wide: min(1088px, calc(100% - 48px));
-  --body-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --body-sans: ui-sans-serif, system-ui, -apple-system, blinkmacsystemfont, "Segoe UI", sans-serif;
 }
 
 body {
   color: rgba(0, 11, 0, 0.62);
-  text-rendering: geometricPrecision;
+  text-rendering: geometricprecision;
 }
 
 .section-shell,
