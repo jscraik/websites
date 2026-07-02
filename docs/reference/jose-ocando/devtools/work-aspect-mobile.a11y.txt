@@ -1,0 +1,279 @@
+uid=51_0 RootWebArea "Aspect | Case Study by Jose Ocando" url="https://www.joseocando.com/work/aspect"
+  uid=52_0 ignored
+    uid=52_1 ignored
+      uid=52_2 generic
+        uid=52_3 ignored
+          uid=52_4 generic
+          uid=52_5 ignored
+        uid=51_1 banner
+          uid=51_2 banner
+            uid=52_6 generic
+              uid=52_7 ignored
+                uid=52_8 generic
+                  uid=51_3 navigation
+                    uid=52_9 generic
+                      uid=52_10 generic
+                      uid=52_11 generic
+                        uid=51_4 link "Home" url="https://www.joseocando.com/"
+                          uid=52_12 image
+                      uid=52_13 generic
+                        uid=51_5 link "WORK" url="https://www.joseocando.com/#work"
+                          uid=51_6 StaticText "WORK"
+                            uid=52_14 InlineTextBox "WORK"
+                      uid=52_15 generic
+                        uid=51_7 link "ABOUT" url="https://www.joseocando.com/about"
+                          uid=51_8 StaticText "ABOUT"
+                            uid=52_14 InlineTextBox "ABOUT"
+                      uid=52_16 generic
+                        uid=51_9 link "BLOG" url="https://www.joseocando.com/blog"
+                          uid=51_10 StaticText "BLOG"
+                            uid=52_14 InlineTextBox "BLOG"
+                      uid=52_17 generic
+                        uid=51_11 link "CONTACT" url="mailto:a.jose.ocando@gmail.com"
+                          uid=51_12 StaticText "CONTACT"
+                            uid=52_14 InlineTextBox "CONTACT"
+          uid=52_18 ignored
+            uid=52_19 generic
+              uid=52_20 ignored
+                uid=52_21 ignored
+                  uid=52_22 ignored
+                    uid=52_23 ignored
+                      uid=52_24 ignored
+                        uid=52_25 ignored
+                          uid=52_26 image
+                        uid=52_27 generic
+                          uid=51_13 StaticText "WORK"
+                            uid=52_14 InlineTextBox "WORK"
+                        uid=52_28 generic
+                          uid=51_14 StaticText "•"
+                            uid=52_14 InlineTextBox "•"
+                        uid=52_29 generic
+                          uid=51_15 StaticText "JUN 16, 2026"
+                            uid=52_14 InlineTextBox "JUN 16, 2026"
+                      uid=51_16 heading "Aspect" level="1"
+                        uid=52_30 StaticText "Aspect"
+                          uid=52_14 InlineTextBox "Aspect"
+                    uid=52_31 ignored
+                      uid=52_32 paragraph
+                        uid=51_17 StaticText "A revitalized brand for a new industry defining tool"
+                          uid=52_14 InlineTextBox "A revitalized brand for a "
+                          uid=52_14 InlineTextBox "new industry defining tool"
+        uid=51_18 main
+          uid=52_33 ignored
+            uid=52_34 figure
+              uid=52_35 ignored
+                uid=52_36 image url="https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66ddead1a528a79d9b275fe4_feature-work-img_aspect.jpg"
+          uid=52_37 generic
+            uid=52_38 generic
+            uid=52_39 generic
+              uid=52_40 ignored
+                uid=52_41 ignored
+                  uid=52_42 ignored
+                    uid=51_19 heading "Project overview" level="2"
+                      uid=52_43 StaticText "Project overview"
+                        uid=52_14 InlineTextBox "Project overview"
+              uid=52_44 ignored
+                uid=52_45 ignored
+                  uid=52_46 ignored
+                    uid=52_47 ignored
+                      uid=51_20 heading "About the organization" level="2"
+                        uid=52_48 StaticText "About the organization"
+                          uid=52_14 InlineTextBox "About the organization"
+                      uid=52_49 paragraph
+                        uid=51_21 StaticText "Since 1973, Aspect has been the industry leader in "Workforce Engagement Management." In 2024, they launched an innovative tool called WorkforceOS that takes everything they've learned from their deep experience and combines it with the latest improvements in product design."
+                          uid=52_14 InlineTextBox "Since 1973, Aspect has been the "
+                          uid=52_14 InlineTextBox "industry leader in "Workforce "
+                          uid=52_14 InlineTextBox "Engagement Management." In 2024, "
+                          uid=52_14 InlineTextBox "they launched an innovative tool "
+                          uid=52_14 InlineTextBox "called WorkforceOS that takes "
+                          uid=52_14 InlineTextBox "everything they've learned from their "
+                          uid=52_14 InlineTextBox "deep experience and combines it with "
+                          uid=52_14 InlineTextBox "the latest improvements in product "
+                          uid=52_14 InlineTextBox "design."
+                      uid=52_50 paragraph
+                        uid=51_22 StaticText "‍"
+                          uid=52_14 InlineTextBox "‍"
+                      uid=51_23 heading "What I did" level="2"
+                        uid=52_51 StaticText "What I did"
+                          uid=52_14 InlineTextBox "What I did"
+                      uid=52_52 paragraph
+                        uid=51_24 StaticText "Before I joined, the Aspect brand team created a beautiful new brand for Aspect. The brand is an artful mixture of retro inspired elements and modern design choices. Capped with a beautiful color palette of pinks, purples, and neutrals my work involved extending the brand, designing the marketing site, and developing it in Webflow."
+                          uid=52_14 InlineTextBox "Before I joined, the Aspect brand team "
+                          uid=52_14 InlineTextBox "created a beautiful new brand for "
+                          uid=52_14 InlineTextBox "Aspect. The brand is an artful mixture "
+                          uid=52_14 InlineTextBox "of retro inspired elements and modern "
+                          uid=52_14 InlineTextBox "design choices. Capped with a "
+                          uid=52_14 InlineTextBox "beautiful color palette of pinks, "
+                          uid=52_14 InlineTextBox "purples, and neutrals my work "
+                          uid=52_14 InlineTextBox "involved extending the brand, "
+                          uid=52_14 InlineTextBox "designing the marketing site, and "
+                          uid=52_14 InlineTextBox "developing it in Webflow."
+                uid=52_53 ignored
+                  uid=52_54 ignored
+                    uid=52_55 ignored
+                      uid=52_56 ignored
+                        uid=52_57 paragraph
+                          uid=51_25 StaticText "MY ROLE"
+                            uid=52_14 InlineTextBox "MY ROLE"
+                        uid=52_58 paragraph
+                          uid=51_26 StaticText "Lead Brand Designer"
+                            uid=52_14 InlineTextBox "Lead Brand Designer"
+                      uid=52_59 ignored
+                        uid=52_60 paragraph
+                          uid=51_27 StaticText "DONE WITH"
+                            uid=52_14 InlineTextBox "DONE WITH"
+                        uid=52_61 paragraph
+                          uid=51_28 StaticText "Aspect"
+                            uid=52_14 InlineTextBox "Aspect"
+                      uid=52_62 ignored
+                        uid=52_63 list
+                          uid=52_64 listitem level="1"
+                            uid=52_65 generic
+                              uid=51_29 StaticText "Web Design"
+                                uid=52_14 InlineTextBox "Web Design"
+                          uid=52_66 listitem level="1"
+                            uid=52_67 generic
+                              uid=51_30 StaticText "Development"
+                                uid=52_14 InlineTextBox "Development"
+                          uid=52_68 listitem level="1"
+                            uid=52_69 generic
+                              uid=51_31 StaticText "Brand Extension"
+                                uid=52_14 InlineTextBox "Brand Extension"
+                    uid=52_70 ignored
+                      uid=51_32 link "VISIT THE WEBSITE" url="http://aspect.com/"
+                        uid=52_71 generic
+                        uid=52_72 generic
+                          uid=51_33 StaticText "VISIT THE WEBSITE"
+                            uid=52_14 InlineTextBox "VISIT THE WEBSITE"
+                        uid=52_73 generic
+                          uid=52_74 ignored
+                            uid=52_75 image
+          uid=52_76 generic
+            uid=52_77 generic
+              uid=52_78 ignored
+                uid=52_79 ignored
+                  uid=52_80 ignored
+                    uid=52_81 list
+                      uid=52_82 listitem level="1"
+                        uid=52_83 generic
+                      uid=52_84 listitem level="1"
+                        uid=52_85 generic
+                      uid=52_86 listitem level="1"
+                        uid=52_87 generic
+                      uid=52_88 listitem level="1"
+                        uid=52_89 generic
+                      uid=52_90 listitem level="1"
+                        uid=52_91 generic
+                      uid=52_92 listitem level="1"
+                        uid=52_93 generic
+                      uid=52_94 listitem level="1"
+                        uid=52_95 generic
+          uid=52_96 generic
+            uid=52_97 generic
+              uid=52_98 ignored
+                uid=52_99 ignored
+                  uid=51_34 heading "All work" level="2"
+                    uid=52_100 StaticText "All work"
+                      uid=52_14 InlineTextBox "All work"
+                  uid=52_101 generic
+                    uid=51_35 StaticText "17"
+                      uid=52_14 InlineTextBox "17"
+                uid=52_102 generic
+                  uid=51_36 list live="polite" relevant="additions text"
+                    uid=52_103 listitem "14 / 16" level="1"
+                      uid=51_37 link "aro" url="https://www.joseocando.com/work/aro"
+                        uid=52_104 ignored
+                    uid=52_105 listitem "15 / 16" level="1"
+                      uid=51_38 link "New Story" url="https://www.joseocando.com/work/new-story"
+                        uid=52_106 ignored
+                    uid=52_107 listitem "16 / 16" level="1"
+                      uid=51_39 link "Overflow" url="https://www.joseocando.com/work/overflow"
+                        uid=52_108 ignored
+                    uid=52_109 listitem "1 / 16" level="1"
+                      uid=51_40 link "Intellicheck" url="https://www.joseocando.com/work/intellicheck"
+                        uid=52_110 ignored
+                    uid=52_111 listitem "2 / 16" level="1"
+                      uid=51_41 link "MASTRY" url="https://www.joseocando.com/work/mastry"
+                        uid=52_112 ignored
+                    uid=52_113 listitem "3 / 16" level="1"
+                      uid=51_42 link "Aggregate Singularity" url="https://www.joseocando.com/work/aggregate-singularity"
+                        uid=52_114 ignored
+                    uid=52_115 listitem "4 / 16" level="1"
+                      uid=51_43 link "TED" url="https://www.joseocando.com/work/ted"
+                        uid=52_116 ignored
+                    uid=52_117 listitem "5 / 16" level="1"
+                      uid=51_44 link "allwhere" url="https://www.joseocando.com/work/allwhere"
+                        uid=52_118 ignored
+                    uid=52_119 listitem "6 / 16" level="1"
+                      uid=51_45 link "Good Paper" url="https://www.joseocando.com/work/good-paper"
+                        uid=52_120 ignored
+                    uid=52_121 listitem "7 / 16" level="1"
+                      uid=51_46 link "Whiteboard" url="https://www.joseocando.com/work/whiteboard"
+                        uid=52_122 ignored
+                    uid=52_123 listitem "8 / 16" level="1"
+                      uid=51_47 link "Happy Valley Farms" url="https://www.joseocando.com/work/happy-valley-farms"
+                        uid=52_124 ignored
+                    uid=52_125 listitem "9 / 16" level="1"
+                      uid=51_48 link "Support Ninja" url="https://www.joseocando.com/work/support-ninja"
+                        uid=52_126 ignored
+                    uid=52_127 listitem "10 / 16" level="1"
+                      uid=51_49 link "Climate Neutral" url="https://www.joseocando.com/work/climate-neutral"
+                        uid=52_128 ignored
+                    uid=52_129 listitem "11 / 16" level="1"
+                      uid=51_50 link "Greenhouse" url="https://www.joseocando.com/work/greenhouse"
+                        uid=52_130 ignored
+                    uid=52_131 listitem "12 / 16" level="1"
+                      uid=51_51 link "Steam Logistics" url="https://www.joseocando.com/work/steam-logistics"
+                        uid=52_132 ignored
+                    uid=52_133 listitem "13 / 16" level="1"
+                      uid=51_52 link "Webflow" url="https://www.joseocando.com/work/webflow"
+                        uid=52_134 ignored
+                  uid=51_53 generic atomic live="assertive" relevant="additions text"
+                uid=52_135 ignored
+                  uid=51_54 button "Previous slide"
+                    uid=52_136 ignored
+                      uid=52_137 image
+                    uid=52_138 generic
+                      uid=52_139 StaticText "BACK"
+                        uid=52_14 InlineTextBox "BACK"
+                  uid=52_140 generic
+                    uid=52_141 generic
+                  uid=51_55 button "Next slide"
+                    uid=52_142 generic
+                      uid=52_143 StaticText "NEXT"
+                        uid=52_14 InlineTextBox "NEXT"
+                    uid=52_144 ignored
+                      uid=52_145 image
+        uid=51_56 contentinfo
+          uid=52_146 generic
+            uid=52_147 ignored
+              uid=52_148 ignored
+                uid=52_149 ignored
+                  uid=51_57 link "Jose Ocando BRAND DESIGNER WEBFLOW DEVELOPER" url="https://www.joseocando.com/"
+                    uid=52_150 generic
+                      uid=51_58 image "Jose Ocando" url="https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6624741c5ec7146127cb1873_Jose%20Portrait%20SM.webp"
+                    uid=52_151 ignored
+                      uid=52_152 generic
+                        uid=51_59 StaticText "BRAND DESIGNER"
+                          uid=52_14 InlineTextBox "BRAND DESIGNER"
+                      uid=52_153 generic
+                        uid=51_60 StaticText "WEBFLOW DEVELOPER"
+                          uid=52_14 InlineTextBox "WEBFLOW DEVELOPER"
+                  uid=52_154 ignored
+                    uid=51_61 link "WORK" url="https://www.joseocando.com/#work"
+                      uid=51_62 StaticText "WORK"
+                        uid=52_14 InlineTextBox "WORK"
+                    uid=51_63 link "ABOUT" url="https://www.joseocando.com/about"
+                      uid=51_64 StaticText "ABOUT"
+                        uid=52_14 InlineTextBox "ABOUT"
+                    uid=51_65 link "BLOG" url="https://www.joseocando.com/blog"
+                      uid=51_66 StaticText "BLOG"
+                        uid=52_14 InlineTextBox "BLOG"
+                    uid=51_67 link "CONTACT" url="mailto:a.jose.ocando@gmail.com"
+                      uid=51_68 StaticText "CONTACT"
+                        uid=52_14 InlineTextBox "CONTACT"
+                  uid=52_155 ignored
+                    uid=51_69 link "X (Formerly Twitter)" url="https://x.com/jaocando"
+                      uid=52_156 image
+                    uid=51_70 link "LinkedIn" url="https://www.linkedin.com/in/jocando/"
+                      uid=52_157 image

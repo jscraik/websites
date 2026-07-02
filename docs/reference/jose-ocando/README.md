@@ -1,0 +1,661 @@
+# Jose Ocando Design Reference Capture
+
+This reference was generated from https://www.joseocando.com/ on 2026-07-02T12:45:11.620Z. It is a local design-analysis artifact for mapping Jamie's prototype against Jose Ocando's live portfolio without repeating the discovery step.
+
+## Capture Scope
+
+- Rendered artifacts indexed: 90
+- Browser-computed captures live under `devtools/`; full-page screenshots live under `screenshots/`
+
+- Pages captured: 15
+- Stylesheets captured: 7
+- Same-origin and CDN assets indexed: 552
+- Raw source files live under this directory: `pages/` and `css/`; asset URLs are indexed in `design-reference.json`
+
+## Pages
+
+- `https://www.joseocando.com/` -> `index.html` (Jose Ocando)
+- `https://www.joseocando.com/about` -> `about.html` (About Jose Ocando)
+- `https://www.joseocando.com/blog` -> `blog.html` (Blog | Jose Ocando)
+- `https://www.joseocando.com/blog/24-things-that-make-a-great-marketing-website` -> `blog/24-things-that-make-a-great-marketing-website.html` (Jose Ocando | 24 things that make a great marketing website)
+- `https://www.joseocando.com/work/webflow` -> `work/webflow.html` (Webflow | Case Study by Jose Ocando)
+- `https://www.joseocando.com/work/aro` -> `work/aro.html` (aro | Case Study by Jose Ocando)
+- `https://www.joseocando.com/work/new-story` -> `work/new-story.html` (New Story | Case Study by Jose Ocando)
+- `https://www.joseocando.com/work/overflow` -> `work/overflow.html` (Overflow | Case Study by Jose Ocando)
+- `https://www.joseocando.com/work/aspect` -> `work/aspect.html` (Aspect | Case Study by Jose Ocando)
+- `https://www.joseocando.com/work/intellicheck` -> `work/intellicheck.html` (Intellicheck | Case Study by Jose Ocando)
+- `https://www.joseocando.com/work/mastry` -> `work/mastry.html` (MASTRY | Case Study by Jose Ocando)
+- `https://www.joseocando.com/work/aggregate-singularity` -> `work/aggregate-singularity.html` (Aggregate Singularity | Case Study by Jose Ocando)
+- `https://www.joseocando.com/work/ted` -> `work/ted.html` (TED | Case Study by Jose Ocando)
+- `https://www.joseocando.com/work/allwhere` -> `work/allwhere.html` (allwhere | Case Study by Jose Ocando)
+- `https://www.joseocando.com/work/good-paper` -> `work/good-paper.html` (Good Paper | Case Study by Jose Ocando)
+
+## Rendered Browser Artifacts
+
+- `about` desktop: `devtools/about-desktop.a11y.txt`, `devtools/about-desktop.computed.json`, `screenshots/about-desktop.png`
+- `about` mobile: `devtools/about-mobile.a11y.txt`, `devtools/about-mobile.computed.json`, `screenshots/about-mobile.png`
+- `blog-24-things-that-make-a-great-marketing-website` desktop: `devtools/blog-24-things-that-make-a-great-marketing-website-desktop.a11y.txt`, `devtools/blog-24-things-that-make-a-great-marketing-website-desktop.computed.json`, `screenshots/blog-24-things-that-make-a-great-marketing-website-desktop.png`
+- `blog-24-things-that-make-a-great-marketing-website` mobile: `devtools/blog-24-things-that-make-a-great-marketing-website-mobile.a11y.txt`, `devtools/blog-24-things-that-make-a-great-marketing-website-mobile.computed.json`, `screenshots/blog-24-things-that-make-a-great-marketing-website-mobile.png`
+- `blog` desktop: `devtools/blog-desktop.a11y.txt`, `devtools/blog-desktop.computed.json`, `screenshots/blog-desktop.png`
+- `blog` mobile: `devtools/blog-mobile.a11y.txt`, `devtools/blog-mobile.computed.json`, `screenshots/blog-mobile.png`
+- `home` desktop: `devtools/home-desktop.a11y.txt`, `devtools/home-desktop.computed.json`, `screenshots/home-desktop.png`
+- `home` mobile: `devtools/home-mobile.a11y.txt`, `devtools/home-mobile.computed.json`, `screenshots/home-mobile.png`
+- `work-aggregate-singularity` desktop: `devtools/work-aggregate-singularity-desktop.a11y.txt`, `devtools/work-aggregate-singularity-desktop.computed.json`, `screenshots/work-aggregate-singularity-desktop.png`
+- `work-aggregate-singularity` mobile: `devtools/work-aggregate-singularity-mobile.a11y.txt`, `devtools/work-aggregate-singularity-mobile.computed.json`, `screenshots/work-aggregate-singularity-mobile.png`
+- `work-allwhere` desktop: `devtools/work-allwhere-desktop.a11y.txt`, `devtools/work-allwhere-desktop.computed.json`, `screenshots/work-allwhere-desktop.png`
+- `work-allwhere` mobile: `devtools/work-allwhere-mobile.a11y.txt`, `devtools/work-allwhere-mobile.computed.json`, `screenshots/work-allwhere-mobile.png`
+- `work-aro` desktop: `devtools/work-aro-desktop.a11y.txt`, `devtools/work-aro-desktop.computed.json`, `screenshots/work-aro-desktop.png`
+- `work-aro` mobile: `devtools/work-aro-mobile.a11y.txt`, `devtools/work-aro-mobile.computed.json`, `screenshots/work-aro-mobile.png`
+- `work-aspect` desktop: `devtools/work-aspect-desktop.a11y.txt`, `devtools/work-aspect-desktop.computed.json`, `screenshots/work-aspect-desktop.png`
+- `work-aspect` mobile: `devtools/work-aspect-mobile.a11y.txt`, `devtools/work-aspect-mobile.computed.json`, `screenshots/work-aspect-mobile.png`
+- `work-good-paper` desktop: `devtools/work-good-paper-desktop.a11y.txt`, `devtools/work-good-paper-desktop.computed.json`, `screenshots/work-good-paper-desktop.png`
+- `work-good-paper` mobile: `devtools/work-good-paper-mobile.a11y.txt`, `devtools/work-good-paper-mobile.computed.json`, `screenshots/work-good-paper-mobile.png`
+- `work-intellicheck` desktop: `devtools/work-intellicheck-desktop.a11y.txt`, `devtools/work-intellicheck-desktop.computed.json`, `screenshots/work-intellicheck-desktop.png`
+- `work-intellicheck` mobile: `devtools/work-intellicheck-mobile.a11y.txt`, `devtools/work-intellicheck-mobile.computed.json`, `screenshots/work-intellicheck-mobile.png`
+- `work-mastry` desktop: `devtools/work-mastry-desktop.a11y.txt`, `devtools/work-mastry-desktop.computed.json`, `screenshots/work-mastry-desktop.png`
+- `work-mastry` mobile: `devtools/work-mastry-mobile.a11y.txt`, `devtools/work-mastry-mobile.computed.json`, `screenshots/work-mastry-mobile.png`
+- `work-new-story` desktop: `devtools/work-new-story-desktop.a11y.txt`, `devtools/work-new-story-desktop.computed.json`, `screenshots/work-new-story-desktop.png`
+- `work-new-story` mobile: `devtools/work-new-story-mobile.a11y.txt`, `devtools/work-new-story-mobile.computed.json`, `screenshots/work-new-story-mobile.png`
+- `work-overflow` desktop: `devtools/work-overflow-desktop.a11y.txt`, `devtools/work-overflow-desktop.computed.json`, `screenshots/work-overflow-desktop.png`
+- `work-overflow` mobile: `devtools/work-overflow-mobile.a11y.txt`, `devtools/work-overflow-mobile.computed.json`, `screenshots/work-overflow-mobile.png`
+- `work-ted` desktop: `devtools/work-ted-desktop.a11y.txt`, `devtools/work-ted-desktop.computed.json`, `screenshots/work-ted-desktop.png`
+- `work-ted` mobile: `devtools/work-ted-mobile.a11y.txt`, `devtools/work-ted-mobile.computed.json`, `screenshots/work-ted-mobile.png`
+- `work-webflow` desktop: `devtools/work-webflow-desktop.a11y.txt`, `devtools/work-webflow-desktop.computed.json`, `screenshots/work-webflow-desktop.png`
+- `work-webflow` mobile: `devtools/work-webflow-mobile.a11y.txt`, `devtools/work-webflow-mobile.computed.json`, `screenshots/work-webflow-mobile.png`
+
+## Design Tokens
+
+### Color
+
+- `currentColor`
+- `rgba(0, 0, 0, 0.03)`
+- `rgba(0, 0, 0, 0.1)`
+- `rgba(0, 0, 0, 0.17)`
+- `rgba(0, 0, 0, 0.19)`
+- `rgba(0, 0, 0, 0.01)`
+- `rgba(0, 0, 0, 0.05)`
+- `rgba(0, 0, 0, 0.06)`
+- `rgba(0, 0, 0, 0.08)`
+- `#0000`
+- `#000`
+- `#ff0`
+- `#333`
+- `#fff`
+- `#3898ec`
+- `white`
+- `#0000001a`
+- `#aaadb0`
+- `#e2e2e2`
+- `#ddd`
+- `#ffdede`
+- `#ccc`
+- `#999`
+- `#eee`
+- `#f3f3f3`
+- `#fafafa`
+- `#ea384c`
+- `#758696`
+- `#75869600`
+- `#5d6c7b`
+- `#fff0`
+- `#3336`
+- `#2226`
+- `#222`
+- `#fff6`
+- `#0082f3`
+- `transparent`
+- `#000000e6`
+- `#0006`
+- `#2895f7`
+- `#c8c8c8`
+- `Black`
+- `#000b00`
+- `#e8e8e3`
+- `#000b0024`
+- `#3d403c`
+- `#fbfaf5`
+- `#fbfaf529`
+- `#b8bab4`
+- `#4f564d`
+- `#9b9e97`
+- `#d5d6d0`
+- `#ffffff26`
+- `#000b0033`
+- `black`
+- `#007aff`
+- `rgba(0,0,0,.15)`
+- `rgba(0,0,0,.5)`
+- `rgba(0,0,0,0)`
+- `rgba(0,0,0,.25)`
+- `rgba(0,0,0,.1)`
+
+### Typography
+
+Font families:
+- `sans-serif`
+- `monospace`
+- `webflow-icons`
+- `webflow-icons!important`
+- `Arial,sans-serif`
+- `unset`
+- `serif`
+- `Helvetica Neue,Helvetica,Ubuntu,Segoe UI,Verdana,sans-serif`
+- `Stringer`
+- `Geist`
+- `Geist Mono`
+- `var(--text-body--font)`
+- `var(--text-7xl--font)`
+- `var(--text-6xl--font)`
+- `var(--text-4xl--font)`
+- `var(--text-3xl--font)`
+- `var(--text-2xl--font)`
+- `var(--text-5xl--font)`
+- `var(--component-button--font)`
+- `var(--component-label--font)`
+- `var(--text-eyebrow--font)`
+- `var(--text-lg--font)`
+- `var(--text-xl--font)`
+- `swiper-icons`
+- `var(--text-sm--font)`
+- `var(--text-xs--font)`
+- `var(--text-family--body)`
+
+Font sizes:
+- `calc(0.625rem + 0.41666666666666663vw)`
+- `calc(0.625rem + 0.41666666666666674vw)`
+- `calc(0.8126951092611863rem + 0.20811654526534862vw)`
+- `calc(0.7494769874476988rem + 0.8368200836820083vw)`
+- `2em`
+- `80%`
+- `75%`
+- `1em`
+- `14px`
+- `unset`
+- `12px!important`
+- `38px`
+- `32px`
+- `24px`
+- `18px`
+- `12px`
+- `10px`
+- `15px`
+- `inherit`
+- `40px`
+- `17px`
+- `0`
+- `.75rem`
+- `1rem`
+- `.625rem`
+- `var(--text-body--font-size-lg)`
+- `min(var(--text-7xl--font-size-lg),8vw)`
+- `var(--text-6xl--font-size-lg)`
+- `var(--text-5xl--font-size-lg)`
+- `var(--text-4xl--font-size-lg)`
+- `var(--text-3xl--font-size-lg)`
+- `var(--text-2xl--font-size-lg)`
+- `var(--component-button--font-size)`
+- `var(--component-label--font-size)`
+- `var(--text-eyebrow--font-size-lg)`
+- `var(--text-lg--font-size-lg)`
+- `var(--text-xl--font-size-lg)`
+- `var(--text-body--font-size-md)`
+- `var(--text-7xl--font-size-md)`
+- `var(--text-6xl--font-size-md)`
+- `var(--text-5xl--font-size-md)`
+- `var(--text-4xl--font-size-md)`
+- `var(--text-3xl--font-size-md)`
+- `var(--text-2xl--font-size-md)`
+- `var(--text-eyebrow--font-size-md)`
+- `var(--text-sm--font-size-md)`
+- `var(--text-lg--font-size-md)`
+- `var(--text-xl--font-size-md)`
+- `var(--text-xs--font-size-md)`
+- `var(--text-body--font-size-sm)`
+- `var(--text-7xl--font-size-sm)`
+- `var(--text-6xl--font-size-sm)`
+- `var(--text-5xl--font-size-sm)`
+- `var(--text-4xl--font-size-sm)`
+- `var(--text-3xl--font-size-sm)`
+- `var(--text-2xl--font-size-sm)`
+- `1.8rem`
+- `var(--text-eyebrow--font-size-sm)`
+- `var(--text-sm--font-size-sm)`
+- `var(--text-lg--font-size-sm)`
+- `var(--text-xl--font-size-sm)`
+- `var(--text-xs--font-size-sm)`
+- `1.375rem`
+- `var(--text-6xl--font-size-xs\<deleted\|variable-e22d1f36-3986-5c82-76bb-4401cc9cb73b\>)`
+- `var(--text-5xl--font-size-xs\<deleted\|variable-0f1f8e18-6290-2dbc-b31f-4f0fedaea625\>)`
+- `var(--text-lg--font-size-xs\<deleted\|variable-dab72a89-1875-a2f7-1d85-bd05f81dd817\>)`
+- `var(--swiper-navigation-size)`
+- `var(--text-sm--font-size-lg)`
+- `var(--text-xs--font-size-lg)`
+- `1.5rem`
+
+### Spacing And Layout
+
+Spacing, sizing, and line-height values:
+- `992px)`
+- `1920px)`
+- `1440px)`
+- `479px)`
+- `var(--spacing-layout--section-padding-lg)`
+- `991px)`
+- `var(--spacing-layout--section-padding-sm)`
+- `767px)`
+- `0`
+- `2px solid currentColor`
+- `0px`
+- `1.5rem`
+- `0%`
+- `100%`
+- `calc(100% - 3rem)`
+- `1px dotted`
+- `.67em 0`
+- `-.5em`
+- `-.25em`
+- `normal`
+- `auto`
+- `1`
+- `before`
+- `20px`
+- `inherit`
+- `9px 15px`
+- `unset`
+- `auto!important`
+- `0!important`
+- `6px!important`
+- `14px!important`
+- `auto 12px 12px auto!important`
+- `10px`
+- `44px`
+- `36px`
+- `30px`
+- `24px`
+- `18px`
+- `5px solid #e2e2e2`
+- `0 0 10px`
+- `10px 20px`
+- `22px`
+- `5px`
+- `40px`
+- `0 0 15px`
+- `38px`
+- `8px 12px`
+- `1.42857`
+- `3px 0 0 -20px`
+- `.1px`
+- `8px 9px 8px 11px`
+- `3px`
+- `2px 0`
+- `0 12px`
+- `8px`
+- `940px`
+- `-10px`
+- `1px`
+- `8.33333%`
+- `16.6667%`
+- `25%`
+- `33.3333%`
+- `41.6667%`
+- `50%`
+- `58.3333%`
+- `66.6667%`
+- `75%`
+- `83.3333%`
+- `91.6667%`
+- `728px`
+- `none`
+- `400px`
+- `28px`
+- `12px`
+- `6px`
+- `4px`
+- `-4px`
+- `-9px`
+- `-5px`
+- `-8px`
+- `61px`
+- `33px`
+- `76px`
+- `500px`
+- `-100%`
+- `1em`
+- `300px`
+- `auto 0 0`
+- `.2em .5em`
+- `0 3px .5em`
+- `80px`
+- `focus,.w-slider-arrow-right:focus`
+- `-1px`
+- `auto 20px auto auto`
+- `1.2`
+- `100vh`
+- `100vw`
+- `86vh`
+- `.5em 1em`
+- `4em`
+- `2.6em`
+- `0 1vh`
+- `10vh`
+- `2vh 1vh`
+- `-20px`
+- `768px)`
+- `96vh`
+- `2vh`
+- `84vh`
+- `96vw`
+- `82.3vw`
+- `60%`
+- `15px`
+- `200px`
+- `9px 30px`
+- `16px`
+- `1.7em`
+- `var(--spacing-gap--rg)`
+- `.95em`
+- `1.2em`
+- `1.6em`
+- `1.5em`
+- `94vw`
+- `1.4em`
+- `.75rem`
+- `1rem`
+- `var(--text-body--line-height)`
+- `var(--text-7xl--bottom-margin)`
+- `var(--text-7xl--line-height)`
+- `var(--text-6xl--bottom-margin)`
+- `var(--text-6xl--line-height)`
+- `var(--text-5xl--bottom-margin)`
+- `var(--text-5xl--line-height)`
+- `var(--text-4xl--bottom-margin)`
+- `var(--text-4xl--line-height)`
+- `var(--text-3xl--bottom-margin)`
+- `var(--text-3xl--line-height)`
+- `var(--text-2xl--bottom-margin)`
+- `var(--text-2xl--line-height)`
+- `var(--text-body--bottom-margin)`
+- `2px`
+- `2.2em`
+- `var(--spacing-layout--container-desktop)`
+- `var(--spacing-layout--container-max)`
+- `calc(var(--grid-gap-split) - var(--spacing-layout--row-col-gap))`
+- `calc(0px - var(--spacing-layout--row-col-gap))`
+- `var(--grid-gap-split)`
+- `var(--spacing-layout--row-col-gap)`
+- `.25rem`
+- `.25em`
+- `var(--component-button--horizontal-padding)`
+- `var(--spacing-gap--sm)`
+- `var(--component-button--line-height)`
+- `var(--component-button--vertical-padding)var(--component-button--horizontal-padding)`
+- `var(--component-button--vertical-padding)`
+- `var(--component-label--line-height)`
+- `0% auto auto 0%`
+- `var(--text-eyebrow--bottom-margin)`
+- `var(--text-eyebrow--line-height)`
+- `var(--spacing-gap--2xs)`
+
+Layout declarations:
+- `flex-direction: row-reverse`
+- `flex-wrap: nowrap`
+- `display:flex`
+- `flex-grow:1`
+- `justify-content:space-between`
+- `display:grid`
+- `grid-template-rows:auto auto`
+- `grid-template-columns:1fr 1fr`
+- `flex-wrap:wrap`
+- `justify-content:flex-end`
+- `align-items:center`
+- `justify-content:space-around`
+- `align-items:flex-end`
+- `justify-content:center`
+- `flex-basis:50%`
+- `flex-basis:58.33%`
+- `flex-basis:16.67%`
+- `flex-basis:41.67%`
+- `flex-basis:75%`
+- `flex-basis:100%`
+- `flex-basis:91.67%`
+- `flex-basis:25%`
+- `flex-basis:66.67%`
+- `flex-basis:33.33%`
+- `flex-basis:83.33%`
+- `flex-basis:8.33%`
+- `flex-direction:column`
+- `flex-flow:column`
+- `justify-content:flex-start`
+- `align-items:flex-start`
+- `flex-flow:wrap`
+- `flex-flow:row`
+- `align-items:stretch`
+- `grid-template-columns:3fr 4fr`
+- `grid-template-columns:1fr`
+- `grid-template-columns:minmax(0,1fr) minmax(0,1fr)`
+- `flex-shrink:0`
+- `grid-template-rows:auto`
+- `grid-template-columns:3fr 1fr 4fr`
+- `grid-template-columns:minmax(0,1fr) minmax(0,2fr) minmax(0,3fr) minmax(0,2fr)`
+
+Breakpoints:
+- `@media (min-width:992px)`
+- `@media screen and (max-width:1920px)`
+- `@media screen and (max-width:1440px)`
+- `@media screen and (max-width:479px)`
+- `@media only screen and (max-width: 991px)`
+- `@media only screen and (max-width: 767px)`
+- `@media only screen and (min-width: 992px)`
+- `@media screen and (max-width:991px)`
+- `@media screen and (max-width:767px)`
+- `@media (min-width:768px)`
+
+### Effects
+
+Radii:
+- `0`
+- `unset`
+- `3px!important`
+- `3px`
+- `100%`
+- `50%`
+- `var(--border-radius--rg)`
+- `.5rem`
+- `var(--border-radius--sm)`
+- `var(--border-radius--xs)`
+- `4rem`
+- `.3125rem`
+- `var(--border-radius--xl)`
+- `var(--border-radius--lg)`
+- `2.5rem`
+- `4px`
+- `var(--swiper-pagination-bullet-border-radius,50%)`
+- `var(--swiper-scrollbar-border-radius,10px)`
+
+Shadows:
+- `-5px 5px 3px rgba(0, 0, 0, 0.03), -3px 3px 3px rgba(0, 0, 0, 0.1), -1px 1px 2px rgba(0, 0, 0, 0.17), 0px 0px 1px rgba(0, 0, 0, 0.19)`
+- `-31px 46px 22px rgba(0, 0, 0, 0.01), -17px 26px 19px rgba(0, 0, 0, 0.03), -8px 11px 14px rgba(0, 0, 0, 0.05), -2px 3px 8px rgba(0, 0, 0, 0.06)`
+- `-96px 127px 64px rgba(0, 0, 0, 0.01), -54px 71px 54px rgba(0, 0, 0, 0.05), -24px 32px 40px rgba(0, 0, 0, 0.08), -6px 8px 22px rgba(0, 0, 0, 0.1)`
+- `unset`
+- `0 0 0 1px #0000001a,0 1px 3px #0000001a`
+- `0 0 3px #3336`
+- `0 0 0 2px #fff`
+- `none`
+- `inset 0 0 0 100px #ffffff26`
+
+Transitions:
+- `width .6s cubic-bezier(0.22, 1, 0.36, 1)`
+- `unset`
+- `background-color .1s,color .1s`
+- `all .3s`
+- `box-shadow,background-color,border-color`
+- `.3s,.2s,.3s`
+- `ease,ease,cubic-bezier(.165,.84,.44,1)`
+- `color .2s`
+- `opacity`
+- `.3s`
+- `ease`
+- `transform .4s cubic-bezier(.19,1,.22,1),box-shadow .3s`
+- `opacity .2s`
+- `background-color,color`
+- `.2s,.2s`
+- `ease,ease`
+- `color .2s,background-color .2s,border-color .2s`
+- `border-color,background-color`
+- `transform`
+- `var(--swiper-wrapper-transition-timing-function,initial)`
+- `transform,height`
+- `.3s opacity`
+- `.2s transform,.2s top`
+- `.2s transform,.2s left`
+- `.2s transform,.2s right`
+- `ease-out`
+- `transform,opacity,height`
+
+Animations:
+- `.8s linear infinite spin`
+- `swiper-preloader-spin 1s infinite linear`
+
+Easing:
+- `cubic-bezier(0.22, 1, 0.36, 1)`
+- `linear`
+- `ease`
+- `cubic-bezier(.165,.84,.44,1)`
+- `cubic-bezier(.19,1,.22,1)`
+
+### Iconography And Assets
+
+Inline SVG summary:
+- SVG instances: `325`
+- View boxes: `0 0 16 16`, `0 0 17 16`, `0 0 12 17`, `0 0 16 15`, `0 0 16 17`
+- Stroke widths: `1.5`, `1.12019`
+- Fill values: `none`, `currentColor`
+
+- image: `https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6625c4498b5d1ce61996e827_favicon-sm.jpg`
+- image: `https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6625c44c05c513450c1fb053_favicon-lg.jpg`
+- image: `https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6624741c5ec7146127cb1873_Jose%20Portrait%20SM.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e03007e492b45b6d4e66_feature-work-img_webflow.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66761d21ad45e26b948f8a02_feature-work-img__aro.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6677734068e94b4fef0d7cee_feature-work-img__new-story.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e8c2bdcfc17b69bdb3c0_feature-work-img_overflow.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66ddeb8aea85e404ce8e1ebc_Card%20Thumbnail__Aspect.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66247cbe1d6e7ff1b1c138b2_Card%20Thumbnail__Intellicheck.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66d60292e349cf24283475fc_Card%20Thumbnail__MASTRY.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66247d5b399a5db3348cf9d6_Card%20Thumbnail__ASI.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66247e1fb61c522c4f84a8a0_Card%20Thumbnail__TED%20Fellows.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66247da9ebbe7bffdc00abe3_Card%20Thumbnail__allwhere.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66247f2d8f7618ae291b86c6_Card%20Thumbnail__Good%20Paper.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/667628d0418642de486d7a4a_Card%20Thumbnail__Whiteboard.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66247eafda3e213aefc7b974_Card%20Thumbnail__Happy%20Valley%20Farms.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66247edab61c522c4f852ed5_Card%20Thumbnail__Support%20Ninja.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66247fc7b0415e4558781214_Card%20Thumbnail__Climate%20Neutral.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66247ff5ba2e8daa3781a02d_Card%20Thumbnail__Greenhouse.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66248031b0415e455878587c_Card%20Thumbnail__Steam%20Logistics.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e09e85bc392c63abeaa3_Card%20Thumbnail__Webflow.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66247e551eb981dcb4950b12_Card%20Thumbnail__Aro.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66247e8697efdf96f97c862b_Card%20Thumbnail__New%20Story.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66d60f619a661cf2a1134b60_Card%20Thumbnail__Overflow.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66ddeb8aea85e404ce8e1ebc_Card%20Thumbnail__Aspect-p-500.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66247cbe1d6e7ff1b1c138b2_Card%20Thumbnail__Intellicheck-p-500.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66d60292e349cf24283475fc_Card%20Thumbnail__MASTRY-p-500.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66247d5b399a5db3348cf9d6_Card%20Thumbnail__ASI-p-500.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66247e1fb61c522c4f84a8a0_Card%20Thumbnail__TED%20Fellows-p-500.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66247da9ebbe7bffdc00abe3_Card%20Thumbnail__allwhere-p-500.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66247f2d8f7618ae291b86c6_Card%20Thumbnail__Good%20Paper-p-500.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/667628d0418642de486d7a4a_Card%20Thumbnail__Whiteboard-p-500.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66247eafda3e213aefc7b974_Card%20Thumbnail__Happy%20Valley%20Farms-p-500.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66247edab61c522c4f852ed5_Card%20Thumbnail__Support%20Ninja-p-500.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66247fc7b0415e4558781214_Card%20Thumbnail__Climate%20Neutral-p-500.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66247ff5ba2e8daa3781a02d_Card%20Thumbnail__Greenhouse-p-500.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66248031b0415e455878587c_Card%20Thumbnail__Steam%20Logistics-p-500.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e09e85bc392c63abeaa3_Card%20Thumbnail__Webflow-p-500.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66247e551eb981dcb4950b12_Card%20Thumbnail__Aro-p-500.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66247e8697efdf96f97c862b_Card%20Thumbnail__New%20Story-p-500.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66d60f619a661cf2a1134b60_Card%20Thumbnail__Overflow-p-500.jpg`
+- image: `https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6677760d2a6f276c22d1aaa5_OG%20Image.webp`
+- image: `https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/66253ed840f55447fc000aec_Jose%20Portrait.webp`
+- image: `https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6674d2db8a17bd3ba898216b_about-img__covenant-water.webp`
+- image: `https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6674d2dbdebd24a47d2a6335_about-img__dune.webp`
+- image: `https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/66d60d8d44b7f7b57f134125_Savenger%27s%20Reign.webp`
+- image: `https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6674d2db1d2969cf1d4d9d9d_about-img__pottery.webp`
+- image: `https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/66253ed840f55447fc000aec_Jose%20Portrait-p-500.webp`
+- image: `https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/66253ed840f55447fc000aec_Jose%20Portrait-p-800.webp`
+- image: `https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6674d2dbdebd24a47d2a6335_about-img__dune-p-500.webp`
+- image: `https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/66d60d8d44b7f7b57f134125_Savenger%27s%20Reign-p-500.webp`
+- image: `https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/66d60d8d44b7f7b57f134125_Savenger%27s%20Reign-p-800.webp`
+- image: `https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/66d60d8d44b7f7b57f134125_Savenger%27s%20Reign-p-1080.webp`
+- image: `https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6674d2db1d2969cf1d4d9d9d_about-img__pottery-p-500.webp`
+- image: `https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6674d2db1d2969cf1d4d9d9d_about-img__pottery-p-800.webp`
+- image: `https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6674d2db1d2969cf1d4d9d9d_about-img__pottery-p-1080.webp`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e384caea4f343f28b874_cs-img__webflow__01.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e385008be48aa73b31e4_cs-img__webflow__02.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e38407e492b45b6e3dbe_cs-img__webflow__03.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e3846ac2b8cfa465eb4a_cs-img__webflow__04.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e3842323dd73f212436a_cs-img__webflow__06.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e38434085f2b4435807c_cs-img__webflow__07.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e384977675c5e4380b93_cs-img__webflow__08.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e3858797fda19be642bb_cs-img__webflow__09.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e384c1fa15d5ad08dab4_cs-img__webflow__10.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e3e5731e5f9767b4f477_cs-img__webflow__05.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e384caea4f343f28b874_cs-img__webflow__01-p-500.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e384caea4f343f28b874_cs-img__webflow__01-p-800.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e384caea4f343f28b874_cs-img__webflow__01-p-1080.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e384caea4f343f28b874_cs-img__webflow__01-p-1600.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e384caea4f343f28b874_cs-img__webflow__01-p-2000.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e384caea4f343f28b874_cs-img__webflow__01-p-2600.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e385008be48aa73b31e4_cs-img__webflow__02-p-500.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e385008be48aa73b31e4_cs-img__webflow__02-p-800.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e385008be48aa73b31e4_cs-img__webflow__02-p-1080.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e385008be48aa73b31e4_cs-img__webflow__02-p-1600.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e385008be48aa73b31e4_cs-img__webflow__02-p-2000.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e385008be48aa73b31e4_cs-img__webflow__02-p-2600.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e38407e492b45b6e3dbe_cs-img__webflow__03-p-500.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e38407e492b45b6e3dbe_cs-img__webflow__03-p-800.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e38407e492b45b6e3dbe_cs-img__webflow__03-p-1080.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e38407e492b45b6e3dbe_cs-img__webflow__03-p-1600.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e38407e492b45b6e3dbe_cs-img__webflow__03-p-2000.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e38407e492b45b6e3dbe_cs-img__webflow__03-p-2600.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e3846ac2b8cfa465eb4a_cs-img__webflow__04-p-500.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e3846ac2b8cfa465eb4a_cs-img__webflow__04-p-800.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e3846ac2b8cfa465eb4a_cs-img__webflow__04-p-1080.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e3846ac2b8cfa465eb4a_cs-img__webflow__04-p-1600.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e3846ac2b8cfa465eb4a_cs-img__webflow__04-p-2000.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e3846ac2b8cfa465eb4a_cs-img__webflow__04-p-2600.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e3842323dd73f212436a_cs-img__webflow__06-p-500.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e3842323dd73f212436a_cs-img__webflow__06-p-800.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e3842323dd73f212436a_cs-img__webflow__06-p-1080.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e3842323dd73f212436a_cs-img__webflow__06-p-1600.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e3842323dd73f212436a_cs-img__webflow__06-p-2000.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e3842323dd73f212436a_cs-img__webflow__06-p-2600.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e38434085f2b4435807c_cs-img__webflow__07-p-500.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e38434085f2b4435807c_cs-img__webflow__07-p-800.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e38434085f2b4435807c_cs-img__webflow__07-p-1080.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e38434085f2b4435807c_cs-img__webflow__07-p-1600.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e38434085f2b4435807c_cs-img__webflow__07-p-2000.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e38434085f2b4435807c_cs-img__webflow__07-p-2600.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e384977675c5e4380b93_cs-img__webflow__08-p-500.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e384977675c5e4380b93_cs-img__webflow__08-p-800.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e384977675c5e4380b93_cs-img__webflow__08-p-1080.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e384977675c5e4380b93_cs-img__webflow__08-p-1600.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e384977675c5e4380b93_cs-img__webflow__08-p-2000.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e384977675c5e4380b93_cs-img__webflow__08-p-2600.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e3858797fda19be642bb_cs-img__webflow__09-p-500.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e3858797fda19be642bb_cs-img__webflow__09-p-800.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e3858797fda19be642bb_cs-img__webflow__09-p-1080.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e3858797fda19be642bb_cs-img__webflow__09-p-1600.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e3858797fda19be642bb_cs-img__webflow__09-p-2000.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e3858797fda19be642bb_cs-img__webflow__09-p-2600.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e384c1fa15d5ad08dab4_cs-img__webflow__10-p-500.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e384c1fa15d5ad08dab4_cs-img__webflow__10-p-800.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e384c1fa15d5ad08dab4_cs-img__webflow__10-p-1080.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e384c1fa15d5ad08dab4_cs-img__webflow__10-p-1600.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e384c1fa15d5ad08dab4_cs-img__webflow__10-p-2000.jpg`
+- image: `https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e384c1fa15d5ad08dab4_cs-img__webflow__10-p-2600.jpg`
+
+## Mapping Notes For Jamie's Prototype
+
+- Use `design-reference.json` for machine-readable tokens, raw source paths, and rendered artifact indexes.
+- Use `devtools/*.computed.json` for rendered spacing, typography, color, icon, motion, asset, and section-flow evidence.
+- Use `screenshots/*.png` for visual parity and page pacing checks at desktop and mobile viewports.
+- Treat this as the source capture, not the implementation target. Preserve Jamie's content and brand direction while matching Jose's structural proportions, type rhythm, navigation behavior, and section flow.
+- Use the existing `test:jose-parity` guardrail after applying changes; this capture complements that guardrail by storing source evidence for repeated design decisions.

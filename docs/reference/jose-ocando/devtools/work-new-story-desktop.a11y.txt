@@ -1,0 +1,368 @@
+uid=41_0 RootWebArea "New Story | Case Study by Jose Ocando" url="https://www.joseocando.com/work/new-story"
+  uid=42_0 ignored
+    uid=42_1 ignored
+      uid=42_2 generic
+        uid=42_3 ignored
+          uid=42_4 generic
+          uid=42_5 ignored
+        uid=41_1 banner
+          uid=41_2 banner
+            uid=42_6 generic
+              uid=42_7 ignored
+                uid=42_8 generic
+                  uid=41_3 navigation
+                    uid=42_9 generic
+                      uid=42_10 generic
+                      uid=42_11 generic
+                        uid=41_4 link "Home" url="https://www.joseocando.com/"
+                          uid=42_12 image
+                      uid=42_13 generic
+                        uid=41_5 link "WORK" url="https://www.joseocando.com/#work"
+                          uid=41_6 StaticText "WORK"
+                            uid=42_14 InlineTextBox "WORK"
+                      uid=42_15 generic
+                        uid=41_7 link "ABOUT" url="https://www.joseocando.com/about"
+                          uid=41_8 StaticText "ABOUT"
+                            uid=42_14 InlineTextBox "ABOUT"
+                      uid=42_16 generic
+                        uid=41_9 link "BLOG" url="https://www.joseocando.com/blog"
+                          uid=41_10 StaticText "BLOG"
+                            uid=42_14 InlineTextBox "BLOG"
+                      uid=42_17 generic
+                        uid=41_11 link "CONTACT" url="mailto:a.jose.ocando@gmail.com"
+                          uid=41_12 StaticText "CONTACT"
+                            uid=42_14 InlineTextBox "CONTACT"
+          uid=42_18 ignored
+            uid=42_19 generic
+              uid=42_20 ignored
+                uid=42_21 ignored
+                  uid=42_22 ignored
+                    uid=42_23 ignored
+                      uid=42_24 ignored
+                        uid=42_25 ignored
+                          uid=42_26 image
+                        uid=42_27 generic
+                          uid=41_13 StaticText "WORK"
+                            uid=42_14 InlineTextBox "WORK"
+                        uid=42_28 generic
+                          uid=41_14 StaticText "•"
+                            uid=42_14 InlineTextBox "•"
+                        uid=42_29 generic
+                          uid=41_15 StaticText "JUN 16, 2026"
+                            uid=42_14 InlineTextBox "JUN 16, 2026"
+                      uid=41_16 heading "New Story" level="1"
+                        uid=42_30 StaticText "New Story"
+                          uid=42_14 InlineTextBox "New Story"
+                    uid=42_31 ignored
+                      uid=42_32 paragraph
+                        uid=41_17 StaticText "Bridging the gap between an abstract theory of change and real world impact."
+                          uid=42_14 InlineTextBox "Bridging the gap between an abstract "
+                          uid=42_14 InlineTextBox "theory of change and real world impact."
+        uid=41_18 main
+          uid=42_33 ignored
+            uid=42_34 figure
+              uid=42_35 ignored
+                uid=42_36 image url="https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6677734068e94b4fef0d7cee_feature-work-img__new-story.webp"
+          uid=42_37 generic
+            uid=42_38 generic
+            uid=42_39 generic
+              uid=42_40 ignored
+                uid=42_41 ignored
+                  uid=42_42 ignored
+                    uid=41_19 heading "Project overview" level="2"
+                      uid=42_43 StaticText "Project overview"
+                        uid=42_14 InlineTextBox "Project overview"
+              uid=42_44 ignored
+                uid=42_45 ignored
+                uid=42_46 ignored
+                  uid=42_47 ignored
+                    uid=42_48 ignored
+                      uid=41_20 heading "About the client" level="2"
+                        uid=42_49 StaticText "About the client"
+                          uid=42_14 InlineTextBox "About the client"
+                      uid=42_50 paragraph
+                        uid=41_21 StaticText "New Story is an innovative non-profit that seeks to end global homelessness. They beagan by building the first ever 3d-printed home community and are evolving to engage local housing markets in order to create pathways to homeownership."
+                          uid=42_14 InlineTextBox "New Story is an innovative non-profit that seeks to end "
+                          uid=42_14 InlineTextBox "global homelessness. They beagan by building the first ever "
+                          uid=42_14 InlineTextBox "3d-printed home community and are evolving to engage local "
+                          uid=42_14 InlineTextBox "housing markets in order to create pathways to "
+                          uid=42_14 InlineTextBox "homeownership."
+                      uid=41_22 heading "What we did" level="2"
+                        uid=42_51 StaticText "What we did"
+                          uid=42_14 InlineTextBox "What we did"
+                      uid=42_52 paragraph
+                        uid=41_23 StaticText "This was one of my favorite projects of 2023 at Whiteboard. New Story was evolving from their original strategy when they realized that the current one wasn't large enough. They had been able to house tens of thousands of families. But, experts anticipate the homeless population to grow into the billions by 2030."
+                          uid=42_14 InlineTextBox "This was one of my favorite projects of 2023 at Whiteboard. "
+                          uid=42_14 InlineTextBox "New Story was evolving from their original strategy when "
+                          uid=42_14 InlineTextBox "they realized that the current one wasn't large enough. They "
+                          uid=42_14 InlineTextBox "had been able to house tens of thousands of families. But, "
+                          uid=42_14 InlineTextBox "experts anticipate the homeless population to grow into the "
+                          uid=42_14 InlineTextBox "billions by 2030."
+                      uid=42_53 paragraph
+                        uid=41_24 StaticText "So, they zoomed out and began working on strategies for changing local housing markets to be more favorable for low-income households. The challenge—supporting a family with a new home makes a great story and an incredible visual. But, the more abstract strategy of impacting housing markets needed to feel just as powerful."
+                          uid=42_14 InlineTextBox "So, they zoomed out and began working on strategies for "
+                          uid=42_14 InlineTextBox "changing local housing markets to be more favorable for low-"
+                          uid=42_14 InlineTextBox "income households. The challenge—supporting a family with "
+                          uid=42_14 InlineTextBox "a new home makes a great story and an incredible visual. But, "
+                          uid=42_14 InlineTextBox "the more abstract strategy of impacting housing markets "
+                          uid=42_14 InlineTextBox "needed to feel just as powerful."
+                      uid=42_54 paragraph
+                        uid=41_25 StaticText "I developed a visual language that combines community stories with the abstract nature of market forces to help visualize the incredible potential of New Story's work."
+                          uid=42_14 InlineTextBox "I developed a visual language that combines community "
+                          uid=42_14 InlineTextBox "stories with the abstract nature of market forces to help "
+                          uid=42_14 InlineTextBox "visualize the incredible potential of New Story's work."
+                uid=42_55 ignored
+                uid=42_56 ignored
+                  uid=42_57 ignored
+                    uid=42_58 ignored
+                      uid=42_59 ignored
+                        uid=42_60 paragraph
+                          uid=41_26 StaticText "MY ROLE"
+                            uid=42_14 InlineTextBox "MY ROLE"
+                        uid=42_61 paragraph
+                          uid=41_27 StaticText "Lead Designer & Developer"
+                            uid=42_14 InlineTextBox "Lead Designer & Developer"
+                      uid=42_62 ignored
+                        uid=42_63 paragraph
+                          uid=41_28 StaticText "DONE WITH"
+                            uid=42_14 InlineTextBox "DONE WITH"
+                        uid=42_64 paragraph
+                          uid=41_29 StaticText "Whiteboard"
+                            uid=42_14 InlineTextBox "Whiteboard"
+                      uid=42_65 ignored
+                        uid=42_66 list
+                          uid=42_67 listitem level="1"
+                            uid=42_68 generic
+                              uid=41_30 StaticText "Creative Direction"
+                                uid=42_14 InlineTextBox "Creative Direction"
+                          uid=42_69 listitem level="1"
+                            uid=42_70 generic
+                              uid=41_31 StaticText "Brand Extension"
+                                uid=42_14 InlineTextBox "Brand Extension"
+                          uid=42_71 listitem level="1"
+                            uid=42_72 generic
+                              uid=41_32 StaticText "Web Design"
+                                uid=42_14 InlineTextBox "Web Design"
+                          uid=42_73 listitem level="1"
+                            uid=42_74 generic
+                              uid=41_33 StaticText "Development"
+                                uid=42_14 InlineTextBox "Development"
+                          uid=42_75 listitem level="1"
+                            uid=42_76 generic
+                              uid=41_34 StaticText "Animation"
+                                uid=42_14 InlineTextBox "Animation"
+                    uid=42_77 ignored
+                      uid=41_35 link "VISIT THE WEBSITE" url="https://www.newstoryhomes.org/"
+                        uid=42_78 generic
+                        uid=42_79 generic
+                          uid=41_36 StaticText "VISIT THE WEBSITE"
+                            uid=42_14 InlineTextBox "VISIT THE WEBSITE"
+                        uid=42_80 generic
+                          uid=42_81 ignored
+                            uid=42_82 image
+                uid=42_83 ignored
+          uid=42_84 generic
+            uid=42_85 generic
+              uid=42_86 ignored
+                uid=42_87 ignored
+                  uid=42_88 ignored
+                    uid=42_89 list
+                      uid=42_90 listitem level="1"
+                        uid=42_91 generic
+                      uid=42_92 listitem level="1"
+                        uid=42_93 generic
+                      uid=42_94 listitem level="1"
+                        uid=42_95 generic
+                      uid=42_96 listitem level="1"
+                        uid=42_97 generic
+                      uid=42_98 listitem level="1"
+                        uid=42_99 generic
+          uid=42_100 generic
+            uid=42_101 generic
+              uid=42_102 ignored
+                uid=42_103 ignored
+                  uid=41_37 heading "All work" level="2"
+                    uid=42_104 StaticText "All work"
+                      uid=42_14 InlineTextBox "All work"
+                  uid=42_105 generic
+                    uid=41_38 StaticText "17"
+                      uid=42_14 InlineTextBox "17"
+                uid=42_106 generic
+                  uid=41_39 list live="polite" relevant="additions text"
+                    uid=42_107 listitem "12 / 16" level="1"
+                      uid=41_40 link "Greenhouse" url="https://www.joseocando.com/work/greenhouse"
+                        uid=42_108 ignored
+                        uid=42_109 generic
+                          uid=42_110 ignored
+                            uid=42_111 ignored
+                              uid=42_112 ignored
+                                uid=42_113 image
+                    uid=42_114 listitem "13 / 16" level="1"
+                      uid=41_41 link "Steam Logistics" url="https://www.joseocando.com/work/steam-logistics"
+                        uid=42_115 ignored
+                        uid=42_116 generic
+                          uid=42_117 ignored
+                            uid=42_118 ignored
+                              uid=42_119 ignored
+                                uid=42_120 image
+                    uid=42_121 listitem "14 / 16" level="1"
+                      uid=41_42 link "Webflow" url="https://www.joseocando.com/work/webflow"
+                        uid=42_122 ignored
+                        uid=42_123 generic
+                          uid=42_124 ignored
+                            uid=42_125 ignored
+                              uid=42_126 ignored
+                                uid=42_127 image
+                    uid=42_128 listitem "15 / 16" level="1"
+                      uid=41_43 link "aro" url="https://www.joseocando.com/work/aro"
+                        uid=42_129 ignored
+                        uid=42_130 generic
+                          uid=42_131 ignored
+                            uid=42_132 ignored
+                              uid=42_133 ignored
+                                uid=42_134 image
+                    uid=42_135 listitem "16 / 16" level="1"
+                      uid=41_44 link "Overflow" url="https://www.joseocando.com/work/overflow"
+                        uid=42_136 ignored
+                        uid=42_137 generic
+                          uid=42_138 ignored
+                            uid=42_139 ignored
+                              uid=42_140 ignored
+                                uid=42_141 image
+                    uid=42_142 listitem "1 / 16" level="1"
+                      uid=41_45 link "Aspect" url="https://www.joseocando.com/work/aspect"
+                        uid=42_143 ignored
+                        uid=42_144 generic
+                          uid=42_145 ignored
+                            uid=42_146 ignored
+                              uid=42_147 ignored
+                                uid=42_148 image
+                    uid=42_149 listitem "2 / 16" level="1"
+                      uid=41_46 link "Intellicheck" url="https://www.joseocando.com/work/intellicheck"
+                        uid=42_150 ignored
+                        uid=42_151 generic
+                          uid=42_152 ignored
+                            uid=42_153 ignored
+                              uid=42_154 ignored
+                                uid=42_155 image
+                    uid=42_156 listitem "3 / 16" level="1"
+                      uid=41_47 link "MASTRY" url="https://www.joseocando.com/work/mastry"
+                        uid=42_157 ignored
+                        uid=42_158 generic
+                          uid=42_159 ignored
+                            uid=42_160 ignored
+                              uid=42_161 ignored
+                                uid=42_162 image
+                    uid=42_163 listitem "4 / 16" level="1"
+                      uid=41_48 link "Aggregate Singularity" url="https://www.joseocando.com/work/aggregate-singularity"
+                        uid=42_164 ignored
+                        uid=42_165 generic
+                          uid=42_166 ignored
+                            uid=42_167 ignored
+                              uid=42_168 ignored
+                                uid=42_169 image
+                    uid=42_170 listitem "5 / 16" level="1"
+                      uid=41_49 link "TED" url="https://www.joseocando.com/work/ted"
+                        uid=42_171 ignored
+                        uid=42_172 generic
+                          uid=42_173 ignored
+                            uid=42_174 ignored
+                              uid=42_175 ignored
+                                uid=42_176 image
+                    uid=42_177 listitem "6 / 16" level="1"
+                      uid=41_50 link "allwhere" url="https://www.joseocando.com/work/allwhere"
+                        uid=42_178 ignored
+                        uid=42_179 generic
+                          uid=42_180 ignored
+                            uid=42_181 ignored
+                              uid=42_182 ignored
+                                uid=42_183 image
+                    uid=42_184 listitem "7 / 16" level="1"
+                      uid=41_51 link "Good Paper" url="https://www.joseocando.com/work/good-paper"
+                        uid=42_185 ignored
+                        uid=42_186 generic
+                          uid=42_187 ignored
+                            uid=42_188 ignored
+                              uid=42_189 ignored
+                                uid=42_190 image
+                    uid=42_191 listitem "8 / 16" level="1"
+                      uid=41_52 link "Whiteboard" url="https://www.joseocando.com/work/whiteboard"
+                        uid=42_192 ignored
+                        uid=42_193 generic
+                          uid=42_194 ignored
+                            uid=42_195 ignored
+                              uid=42_196 ignored
+                                uid=42_197 image
+                    uid=42_198 listitem "9 / 16" level="1"
+                      uid=41_53 link "Happy Valley Farms" url="https://www.joseocando.com/work/happy-valley-farms"
+                        uid=42_199 ignored
+                        uid=42_200 generic
+                          uid=42_201 ignored
+                            uid=42_202 ignored
+                              uid=42_203 ignored
+                                uid=42_204 image
+                    uid=42_205 listitem "10 / 16" level="1"
+                      uid=41_54 link "Support Ninja" url="https://www.joseocando.com/work/support-ninja"
+                        uid=42_206 ignored
+                        uid=42_207 generic
+                          uid=42_208 ignored
+                            uid=42_209 ignored
+                              uid=42_210 ignored
+                                uid=42_211 image
+                    uid=42_212 listitem "11 / 16" level="1"
+                      uid=41_55 link "Climate Neutral" url="https://www.joseocando.com/work/climate-neutral"
+                        uid=42_213 ignored
+                        uid=42_214 generic
+                          uid=42_215 ignored
+                            uid=42_216 ignored
+                              uid=42_217 ignored
+                                uid=42_218 image
+                  uid=41_56 generic atomic live="assertive" relevant="additions text"
+                uid=42_219 ignored
+                  uid=41_57 button "Previous slide"
+                    uid=42_220 ignored
+                      uid=42_221 image
+                    uid=42_222 generic
+                      uid=42_223 StaticText "BACK"
+                        uid=42_14 InlineTextBox "BACK"
+                  uid=42_224 generic
+                    uid=42_225 generic
+                  uid=41_58 button "Next slide"
+                    uid=42_226 generic
+                      uid=42_227 StaticText "NEXT"
+                        uid=42_14 InlineTextBox "NEXT"
+                    uid=42_228 ignored
+                      uid=42_229 image
+        uid=41_59 contentinfo
+          uid=42_230 generic
+            uid=42_231 ignored
+              uid=42_232 ignored
+                uid=42_233 ignored
+                  uid=41_60 link "Jose Ocando BRAND DESIGNER WEBFLOW DEVELOPER" url="https://www.joseocando.com/"
+                    uid=42_234 generic
+                      uid=41_61 image "Jose Ocando" url="https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6624741c5ec7146127cb1873_Jose%20Portrait%20SM.webp"
+                    uid=42_235 ignored
+                      uid=42_236 generic
+                        uid=41_62 StaticText "BRAND DESIGNER"
+                          uid=42_14 InlineTextBox "BRAND DESIGNER"
+                      uid=42_237 generic
+                        uid=41_63 StaticText "WEBFLOW DEVELOPER"
+                          uid=42_14 InlineTextBox "WEBFLOW DEVELOPER"
+                  uid=42_238 ignored
+                    uid=41_64 link "WORK" url="https://www.joseocando.com/#work"
+                      uid=41_65 StaticText "WORK"
+                        uid=42_14 InlineTextBox "WORK"
+                    uid=41_66 link "ABOUT" url="https://www.joseocando.com/about"
+                      uid=41_67 StaticText "ABOUT"
+                        uid=42_14 InlineTextBox "ABOUT"
+                    uid=41_68 link "BLOG" url="https://www.joseocando.com/blog"
+                      uid=41_69 StaticText "BLOG"
+                        uid=42_14 InlineTextBox "BLOG"
+                    uid=41_70 link "CONTACT" url="mailto:a.jose.ocando@gmail.com"
+                      uid=41_71 StaticText "CONTACT"
+                        uid=42_14 InlineTextBox "CONTACT"
+                  uid=42_239 ignored
+                    uid=41_72 link "X (Formerly Twitter)" url="https://x.com/jaocando"
+                      uid=42_240 image
+                    uid=41_73 link "LinkedIn" url="https://www.linkedin.com/in/jocando/"
+                      uid=42_241 image

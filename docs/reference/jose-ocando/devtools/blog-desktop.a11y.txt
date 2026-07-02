@@ -1,0 +1,241 @@
+uid=25_0 RootWebArea "Blog | Jose Ocando" url="https://www.joseocando.com/blog"
+  uid=26_0 ignored
+    uid=26_1 ignored
+      uid=26_2 generic
+        uid=26_3 ignored
+          uid=26_4 generic
+          uid=26_5 ignored
+        uid=25_1 banner
+          uid=25_2 banner
+            uid=26_6 generic
+              uid=26_7 ignored
+                uid=26_8 generic
+                  uid=25_3 navigation
+                    uid=26_9 generic
+                      uid=26_10 generic
+                      uid=26_11 generic
+                        uid=25_4 link "Home" url="https://www.joseocando.com/"
+                          uid=26_12 image
+                      uid=26_13 generic
+                        uid=25_5 link "WORK" url="https://www.joseocando.com/#work"
+                          uid=25_6 StaticText "WORK"
+                            uid=26_14 InlineTextBox "WORK"
+                      uid=26_15 generic
+                        uid=25_7 link "ABOUT" url="https://www.joseocando.com/about"
+                          uid=25_8 StaticText "ABOUT"
+                            uid=26_14 InlineTextBox "ABOUT"
+                      uid=26_16 generic
+                        uid=25_9 link "BLOG" url="https://www.joseocando.com/blog"
+                          uid=25_10 StaticText "BLOG"
+                            uid=26_14 InlineTextBox "BLOG"
+                      uid=26_17 generic
+                        uid=25_11 link "CONTACT" url="mailto:a.jose.ocando@gmail.com"
+                          uid=25_12 StaticText "CONTACT"
+                            uid=26_14 InlineTextBox "CONTACT"
+          uid=26_18 ignored
+            uid=26_19 generic
+              uid=26_20 ignored
+                uid=26_21 ignored
+                  uid=26_22 ignored
+                    uid=26_23 ignored
+                      uid=26_24 ignored
+                        uid=25_13 heading "Blog" level="2"
+                          uid=26_25 StaticText "Blog"
+                            uid=26_14 InlineTextBox "Blog"
+                    uid=26_26 ignored
+                      uid=26_27 ignored
+                        uid=26_28 generic
+                          uid=25_14 StaticText "IN MY DRAFTS"
+                            uid=26_14 InlineTextBox "IN MY DRAFTS"
+                        uid=26_29 list
+                          uid=26_30 listitem level="1"
+                            uid=26_31 ignored
+                              uid=26_32 image
+                              uid=26_33 generic
+                                uid=25_15 StaticText "How to present website designs"
+                                  uid=26_14 InlineTextBox "How to present website designs"
+                          uid=26_34 listitem level="1"
+                            uid=26_35 ignored
+                              uid=26_36 image
+                              uid=26_37 generic
+                                uid=25_16 StaticText "My favorite type foundries"
+                                  uid=26_14 InlineTextBox "My favorite type foundries"
+                          uid=26_38 listitem level="1"
+                            uid=26_39 ignored
+                              uid=26_40 image
+                              uid=26_41 generic
+                                uid=25_17 StaticText "The “Twice Baked Potato” theory"
+                                  uid=26_14 InlineTextBox "The “Twice Baked Potato” theory"
+                uid=26_42 ignored
+                uid=26_43 ignored
+                  uid=26_44 ignored
+                    uid=26_45 list
+                      uid=26_46 listitem level="1"
+                        uid=26_47 ignored
+                          uid=26_48 ignored
+                            uid=26_49 generic
+                              uid=26_50 generic
+                                uid=25_18 StaticText "LATEST ARTICLE"
+                                  uid=26_14 InlineTextBox "LATEST ARTICLE"
+                            uid=25_19 heading "My approach to creative direction for the web" level="3"
+                              uid=26_51 StaticText "My approach to creative direction for the web"
+                                uid=26_14 InlineTextBox "My approach to creative "
+                                uid=26_14 InlineTextBox "direction for the web"
+                            uid=26_52 generic
+                              uid=25_20 StaticText "SEP 16, 2024"
+                                uid=26_14 InlineTextBox "SEP 16, 2024"
+                          uid=26_53 ignored
+                            uid=26_54 ignored
+                              uid=26_55 paragraph
+                                uid=25_21 StaticText "One of the hardest moments in web design is at the beginning, when you're front-loaded with making all the design decisions that make up a site's visual language."
+                                  uid=26_14 InlineTextBox "One of the hardest moments in web design is at "
+                                  uid=26_14 InlineTextBox "the beginning, when you're front-loaded with "
+                                  uid=26_14 InlineTextBox "making all the design decisions that make up a "
+                                  uid=26_14 InlineTextBox "site's visual language."
+                              uid=26_56 paragraph
+                                uid=25_22 StaticText "You can make designing a website much easier if you prepare ahead of time. Start making design decisions well before you put pixels to paper."
+                                  uid=26_14 InlineTextBox "You can make designing a website much easier if "
+                                  uid=26_14 InlineTextBox "you prepare ahead of time. Start making design "
+                                  uid=26_14 InlineTextBox "decisions well before you put pixels to paper."
+                          uid=26_57 generic
+                            uid=25_23 link "KEEP READING" url="https://www.joseocando.com/blog/my-approach-to-creative-direction-for-the-web"
+                              uid=26_58 generic
+                              uid=26_59 generic
+                                uid=25_24 StaticText "KEEP READING"
+                                  uid=26_14 InlineTextBox "KEEP READING"
+                              uid=26_60 generic
+                                uid=26_61 ignored
+                                  uid=26_62 image
+        uid=25_25 main
+          uid=26_63 generic
+            uid=26_64 generic
+              uid=26_65 ignored
+                uid=26_66 ignored
+                  uid=26_67 ignored
+                    uid=26_68 ignored
+                      uid=25_26 heading "Browse all articles" level="2"
+                        uid=26_69 StaticText "Browse all articles"
+                          uid=26_14 InlineTextBox "Browse all articles"
+                    uid=26_70 ignored
+                      uid=26_71 list
+                        uid=26_72 listitem level="1"
+                          uid=26_73 ignored
+                            uid=26_74 ignored
+                              uid=26_75 generic
+                                uid=25_27 StaticText "SEP 16, 2024"
+                                  uid=26_14 InlineTextBox "SEP 16, 2024"
+                              uid=25_28 heading "My approach to creative direction for the web" level="3"
+                                uid=26_76 StaticText "My approach to creative direction for the web"
+                                  uid=26_14 InlineTextBox "My approach to creative "
+                                  uid=26_14 InlineTextBox "direction for the web"
+                            uid=26_77 ignored
+                              uid=26_78 paragraph
+                                uid=25_29 StaticText "Good creative direction helps you to (1) align with the client and (2) make it easier to make design decisions."
+                                  uid=26_14 InlineTextBox "Good creative direction helps you to (1) "
+                                  uid=26_14 InlineTextBox "align with the client and (2) make it easier "
+                                  uid=26_14 InlineTextBox "align with the client and (2) make it easie"
+                                  uid=26_14 InlineTextBox "…"
+                                  uid=26_14 InlineTextBox "to make design decisions."
+                            uid=26_79 generic
+                              uid=26_80 generic
+                                uid=25_30 StaticText "READ"
+                                  uid=26_14 InlineTextBox "READ"
+                          uid=25_31 link "Read article" url="https://www.joseocando.com/blog/my-approach-to-creative-direction-for-the-web"
+                            uid=26_81 generic
+                              uid=25_32 StaticText "Read article"
+                                uid=26_14 InlineTextBox "Read article"
+                        uid=26_82 listitem level="1"
+                          uid=26_83 ignored
+                            uid=26_84 ignored
+                              uid=26_85 generic
+                                uid=25_33 StaticText "JUN 25, 2024"
+                                  uid=26_14 InlineTextBox "JUN 25, 2024"
+                              uid=25_34 heading "24 things that make a great marketing website" level="3"
+                                uid=26_86 StaticText "24 things that make a great marketing website"
+                                  uid=26_14 InlineTextBox "24 things that make a "
+                                  uid=26_14 InlineTextBox "great marketing website"
+                            uid=26_87 ignored
+                              uid=26_88 paragraph
+                                uid=25_35 StaticText "I started making websites in 2013. With each project I made mistakes and tried to learn from them. Let me share some of those learnings with you."
+                                  uid=26_14 InlineTextBox "I started making websites in 2013. With "
+                                  uid=26_14 InlineTextBox "each project I made mistakes and tried to "
+                                  uid=26_14 InlineTextBox "…"
+                                  uid=26_14 InlineTextBox "learn from them. Let me share some of "
+                                  uid=26_14 InlineTextBox "those learnings with you."
+                            uid=26_89 generic
+                              uid=26_90 generic
+                                uid=25_36 StaticText "READ"
+                                  uid=26_14 InlineTextBox "READ"
+                          uid=25_37 link "Read article" url="https://www.joseocando.com/blog/24-things-that-make-a-great-marketing-website"
+                            uid=26_91 generic
+                              uid=25_38 StaticText "Read article"
+                                uid=26_14 InlineTextBox "Read article"
+          uid=26_92 generic
+            uid=26_93 generic
+              uid=26_94 ignored
+                uid=26_95 ignored
+                  uid=26_96 generic
+                    uid=25_39 image "Portrait of Jose Ocando" url="https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/66253ed840f55447fc000aec_Jose%20Portrait.webp"
+                uid=26_97 ignored
+                uid=26_98 ignored
+                  uid=26_99 ignored
+                    uid=26_100 ignored
+                      uid=26_101 ignored
+                        uid=25_40 heading "About Jose" level="2"
+                          uid=26_102 StaticText "About Jose"
+                            uid=26_14 InlineTextBox "About Jose"
+                      uid=26_103 ignored
+                        uid=26_104 ignored
+                          uid=26_105 paragraph
+                            uid=25_41 StaticText "I'm a self-taught designer. Around 2013 I started learning design by watching tutorials on YouTube, lynda.com, and later on Skillshare."
+                              uid=26_14 InlineTextBox "I'm a self-taught designer. Around 2013 "
+                              uid=26_14 InlineTextBox "I started learning design by watching tutorials "
+                              uid=26_14 InlineTextBox "on YouTube, lynda.com, and later on Skillshare."
+                          uid=26_106 paragraph
+                            uid=25_42 StaticText "Having been educated online, I enjoy giving back by sharing thoughts about the principles I've learned and the systems I've developed."
+                              uid=26_14 InlineTextBox "Having been educated online, I enjoy giving back "
+                              uid=26_14 InlineTextBox "by sharing thoughts about the principles I've "
+                              uid=26_14 InlineTextBox "learned and the systems I've developed."
+                          uid=26_107 paragraph
+                            uid=25_43 StaticText "Thank you for reading."
+                              uid=26_14 InlineTextBox "Thank you for reading."
+                      uid=26_108 ignored
+                        uid=26_109 paragraph
+                          uid=25_44 StaticText "CONTACT ME"
+                            uid=26_14 InlineTextBox "CONTACT ME"
+                        uid=26_110 paragraph
+                          uid=25_45 StaticText "a.jose.ocando@gmail.com"
+                            uid=26_14 InlineTextBox "a.jose.ocando@gmail.com"
+        uid=25_46 contentinfo
+          uid=26_111 generic
+            uid=26_112 ignored
+              uid=26_113 ignored
+                uid=26_114 ignored
+                  uid=25_47 link "Jose Ocando BRAND DESIGNER WEBFLOW DEVELOPER" url="https://www.joseocando.com/"
+                    uid=26_115 generic
+                      uid=25_48 image "Jose Ocando" url="https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6624741c5ec7146127cb1873_Jose%20Portrait%20SM.webp"
+                    uid=26_116 ignored
+                      uid=26_117 generic
+                        uid=25_49 StaticText "BRAND DESIGNER"
+                          uid=26_14 InlineTextBox "BRAND DESIGNER"
+                      uid=26_118 generic
+                        uid=25_50 StaticText "WEBFLOW DEVELOPER"
+                          uid=26_14 InlineTextBox "WEBFLOW DEVELOPER"
+                  uid=26_119 ignored
+                    uid=25_51 link "WORK" url="https://www.joseocando.com/#work"
+                      uid=25_52 StaticText "WORK"
+                        uid=26_14 InlineTextBox "WORK"
+                    uid=25_53 link "ABOUT" url="https://www.joseocando.com/about"
+                      uid=25_54 StaticText "ABOUT"
+                        uid=26_14 InlineTextBox "ABOUT"
+                    uid=25_55 link "BLOG" url="https://www.joseocando.com/blog"
+                      uid=25_56 StaticText "BLOG"
+                        uid=26_14 InlineTextBox "BLOG"
+                    uid=25_57 link "CONTACT" url="mailto:a.jose.ocando@gmail.com"
+                      uid=25_58 StaticText "CONTACT"
+                        uid=26_14 InlineTextBox "CONTACT"
+                  uid=26_120 ignored
+                    uid=25_59 link "X (Formerly Twitter)" url="https://x.com/jaocando"
+                      uid=26_121 image
+                    uid=25_60 link "LinkedIn" url="https://www.linkedin.com/in/jocando/"
+                      uid=26_122 image

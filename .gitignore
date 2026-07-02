@@ -17,6 +17,7 @@ npm-debug.log*
 test-results/
 playwright-report/
 artifacts/screenshots/
+artifacts/screenshots-cdp/
 .lighthouseci/
 .playwright-cache/
 .playwright-tmp/

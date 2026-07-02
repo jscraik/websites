@@ -1,0 +1,351 @@
+uid=33_0 RootWebArea "Webflow | Case Study by Jose Ocando" url="https://www.joseocando.com/work/webflow"
+  uid=34_0 ignored
+    uid=34_1 ignored
+      uid=34_2 generic
+        uid=34_3 ignored
+          uid=34_4 generic
+          uid=34_5 ignored
+        uid=33_1 banner
+          uid=33_2 banner
+            uid=34_6 generic
+              uid=34_7 ignored
+                uid=34_8 generic
+                  uid=33_3 navigation
+                    uid=34_9 generic
+                      uid=34_10 generic
+                      uid=34_11 generic
+                        uid=33_4 link "Home" url="https://www.joseocando.com/"
+                          uid=34_12 image
+                      uid=34_13 generic
+                        uid=33_5 link "WORK" url="https://www.joseocando.com/#work"
+                          uid=33_6 StaticText "WORK"
+                            uid=34_14 InlineTextBox "WORK"
+                      uid=34_15 generic
+                        uid=33_7 link "ABOUT" url="https://www.joseocando.com/about"
+                          uid=33_8 StaticText "ABOUT"
+                            uid=34_14 InlineTextBox "ABOUT"
+                      uid=34_16 generic
+                        uid=33_9 link "BLOG" url="https://www.joseocando.com/blog"
+                          uid=33_10 StaticText "BLOG"
+                            uid=34_14 InlineTextBox "BLOG"
+                      uid=34_17 generic
+                        uid=33_11 link "CONTACT" url="mailto:a.jose.ocando@gmail.com"
+                          uid=33_12 StaticText "CONTACT"
+                            uid=34_14 InlineTextBox "CONTACT"
+          uid=34_18 ignored
+            uid=34_19 generic
+              uid=34_20 ignored
+                uid=34_21 ignored
+                  uid=34_22 ignored
+                    uid=34_23 ignored
+                      uid=34_24 ignored
+                        uid=34_25 ignored
+                          uid=34_26 image
+                        uid=34_27 generic
+                          uid=33_13 StaticText "WORK"
+                            uid=34_14 InlineTextBox "WORK"
+                        uid=34_28 generic
+                          uid=33_14 StaticText "•"
+                            uid=34_14 InlineTextBox "•"
+                        uid=34_29 generic
+                          uid=33_15 StaticText "JUN 16, 2026"
+                            uid=34_14 InlineTextBox "JUN 16, 2026"
+                      uid=33_16 heading "Webflow" level="1"
+                        uid=34_30 StaticText "Webflow"
+                          uid=34_14 InlineTextBox "Webflow"
+                    uid=34_31 ignored
+                      uid=34_32 paragraph
+                        uid=33_17 StaticText "Building for the builders"
+                          uid=34_14 InlineTextBox "Building for the builders"
+        uid=33_18 main
+          uid=34_33 ignored
+            uid=34_34 figure
+              uid=34_35 ignored
+                uid=34_36 image url="https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e03007e492b45b6d4e66_feature-work-img_webflow.jpg"
+          uid=34_37 generic
+            uid=34_38 generic
+            uid=34_39 generic
+              uid=34_40 ignored
+                uid=34_41 ignored
+                  uid=34_42 ignored
+                    uid=33_19 heading "Project overview" level="2"
+                      uid=34_43 StaticText "Project overview"
+                        uid=34_14 InlineTextBox "Project overview"
+              uid=34_44 ignored
+                uid=34_45 ignored
+                uid=34_46 ignored
+                  uid=34_47 ignored
+                    uid=34_48 ignored
+                      uid=33_20 heading "About the organization" level="2"
+                        uid=34_49 StaticText "About the organization"
+                          uid=34_14 InlineTextBox "About the organization"
+                      uid=34_50 paragraph
+                        uid=33_21 StaticText "Webflow started out as a visual website builder that gave "super development powers to everyone." I discovered Webflow in 2017 and have been using it ever since. This portfolio is built in Webflow. Since 2024, Webflow has been evolving into an agentic marketing platform that empowers a whole marketing team to own their site."
+                          uid=34_14 InlineTextBox "Webflow started out as a visual website builder that gave "
+                          uid=34_14 InlineTextBox ""super development powers to everyone." I discovered "
+                          uid=34_14 InlineTextBox "Webflow in 2017 and have been using it ever since. This "
+                          uid=34_14 InlineTextBox "portfolio is built in Webflow. Since 2024, Webflow has been "
+                          uid=34_14 InlineTextBox "evolving into an agentic marketing platform that empowers a "
+                          uid=34_14 InlineTextBox "whole marketing team to own their site."
+                      uid=34_51 paragraph
+                        uid=33_22 StaticText "‍"
+                          uid=34_14 InlineTextBox "‍"
+                      uid=33_23 heading "What I did" level="2"
+                        uid=34_52 StaticText "What I did"
+                          uid=34_14 InlineTextBox "What I did"
+                      uid=34_53 paragraph
+                        uid=33_24 StaticText "I work as a Staff Brand Designer within the Brand Studio. I co-own the marketing website and collaborate with other designers on campaigns, both digital and out of home. On the website I've led go-to-market projects for new features, built a large best practices hub, crafted the story board for a product animation video, created self-serve templates for cross-functional partners, and helped lead the evolution of the Webflow brand."
+                          uid=34_14 InlineTextBox "I work as a Staff Brand Designer within the Brand Studio. "
+                          uid=34_14 InlineTextBox "I co-own the marketing website and collaborate with other "
+                          uid=34_14 InlineTextBox "designers on campaigns, both digital and out of home. On the "
+                          uid=34_14 InlineTextBox "website I've led go-to-market projects for new features, built "
+                          uid=34_14 InlineTextBox "a large best practices hub, crafted the story board for a "
+                          uid=34_14 InlineTextBox "product animation video, created self-serve templates for "
+                          uid=34_14 InlineTextBox "cross-functional partners, and helped lead the evolution of "
+                          uid=34_14 InlineTextBox "the Webflow brand."
+                uid=34_54 ignored
+                uid=34_55 ignored
+                  uid=34_56 ignored
+                    uid=34_57 ignored
+                      uid=34_58 ignored
+                        uid=34_59 paragraph
+                          uid=33_25 StaticText "MY ROLE"
+                            uid=34_14 InlineTextBox "MY ROLE"
+                        uid=34_60 paragraph
+                          uid=33_26 StaticText "Staff Brand Designer"
+                            uid=34_14 InlineTextBox "Staff Brand Designer"
+                      uid=34_61 ignored
+                        uid=34_62 list
+                          uid=34_63 listitem level="1"
+                            uid=34_64 generic
+                              uid=33_27 StaticText "Art Direction"
+                                uid=34_14 InlineTextBox "Art Direction"
+                          uid=34_65 listitem level="1"
+                            uid=34_66 generic
+                              uid=33_28 StaticText "Development"
+                                uid=34_14 InlineTextBox "Development"
+                          uid=34_67 listitem level="1"
+                            uid=34_68 generic
+                              uid=33_29 StaticText "Web Design"
+                                uid=34_14 InlineTextBox "Web Design"
+                          uid=34_69 listitem level="1"
+                            uid=34_70 generic
+                              uid=33_30 StaticText "Illustration"
+                                uid=34_14 InlineTextBox "Illustration"
+                    uid=34_71 ignored
+                uid=34_72 ignored
+          uid=34_73 generic
+            uid=34_74 generic
+              uid=34_75 ignored
+                uid=34_76 ignored
+                  uid=34_77 ignored
+                    uid=34_78 list
+                      uid=34_79 listitem level="1"
+                        uid=34_80 generic
+                      uid=34_81 listitem level="1"
+                        uid=34_82 generic
+                      uid=34_83 listitem level="1"
+                        uid=34_84 generic
+                      uid=34_85 listitem level="1"
+                        uid=34_86 generic
+                      uid=34_87 listitem level="1"
+                        uid=34_88 generic
+                      uid=34_89 listitem level="1"
+                        uid=34_90 generic
+                      uid=34_91 listitem level="1"
+                        uid=34_92 generic
+                      uid=34_93 listitem level="1"
+                        uid=34_94 generic
+                      uid=34_95 listitem level="1"
+                        uid=34_96 generic
+                      uid=34_97 listitem level="1"
+                        uid=34_98 generic
+          uid=34_99 generic
+            uid=34_100 generic
+              uid=34_101 ignored
+                uid=34_102 ignored
+                  uid=33_31 heading "All work" level="2"
+                    uid=34_103 StaticText "All work"
+                      uid=34_14 InlineTextBox "All work"
+                  uid=34_104 generic
+                    uid=33_32 StaticText "17"
+                      uid=34_14 InlineTextBox "17"
+                uid=34_105 generic
+                  uid=33_33 list live="polite" relevant="additions text"
+                    uid=34_106 listitem "12 / 16" level="1"
+                      uid=33_34 link "Greenhouse" url="https://www.joseocando.com/work/greenhouse"
+                        uid=34_107 ignored
+                        uid=34_108 generic
+                          uid=34_109 ignored
+                            uid=34_110 ignored
+                              uid=34_111 ignored
+                                uid=34_112 image
+                    uid=34_113 listitem "13 / 16" level="1"
+                      uid=33_35 link "Steam Logistics" url="https://www.joseocando.com/work/steam-logistics"
+                        uid=34_114 ignored
+                        uid=34_115 generic
+                          uid=34_116 ignored
+                            uid=34_117 ignored
+                              uid=34_118 ignored
+                                uid=34_119 image
+                    uid=34_120 listitem "14 / 16" level="1"
+                      uid=33_36 link "aro" url="https://www.joseocando.com/work/aro"
+                        uid=34_121 ignored
+                        uid=34_122 generic
+                          uid=34_123 ignored
+                            uid=34_124 ignored
+                              uid=34_125 ignored
+                                uid=34_126 image
+                    uid=34_127 listitem "15 / 16" level="1"
+                      uid=33_37 link "New Story" url="https://www.joseocando.com/work/new-story"
+                        uid=34_128 ignored
+                        uid=34_129 generic
+                          uid=34_130 ignored
+                            uid=34_131 ignored
+                              uid=34_132 ignored
+                                uid=34_133 image
+                    uid=34_134 listitem "16 / 16" level="1"
+                      uid=33_38 link "Overflow" url="https://www.joseocando.com/work/overflow"
+                        uid=34_135 ignored
+                        uid=34_136 generic
+                          uid=34_137 ignored
+                            uid=34_138 ignored
+                              uid=34_139 ignored
+                                uid=34_140 image
+                    uid=34_141 listitem "1 / 16" level="1"
+                      uid=33_39 link "Aspect" url="https://www.joseocando.com/work/aspect"
+                        uid=34_142 ignored
+                        uid=34_143 generic
+                          uid=34_144 ignored
+                            uid=34_145 ignored
+                              uid=34_146 ignored
+                                uid=34_147 image
+                    uid=34_148 listitem "2 / 16" level="1"
+                      uid=33_40 link "Intellicheck" url="https://www.joseocando.com/work/intellicheck"
+                        uid=34_149 ignored
+                        uid=34_150 generic
+                          uid=34_151 ignored
+                            uid=34_152 ignored
+                              uid=34_153 ignored
+                                uid=34_154 image
+                    uid=34_155 listitem "3 / 16" level="1"
+                      uid=33_41 link "MASTRY" url="https://www.joseocando.com/work/mastry"
+                        uid=34_156 ignored
+                        uid=34_157 generic
+                          uid=34_158 ignored
+                            uid=34_159 ignored
+                              uid=34_160 ignored
+                                uid=34_161 image
+                    uid=34_162 listitem "4 / 16" level="1"
+                      uid=33_42 link "Aggregate Singularity" url="https://www.joseocando.com/work/aggregate-singularity"
+                        uid=34_163 ignored
+                        uid=34_164 generic
+                          uid=34_165 ignored
+                            uid=34_166 ignored
+                              uid=34_167 ignored
+                                uid=34_168 image
+                    uid=34_169 listitem "5 / 16" level="1"
+                      uid=33_43 link "TED" url="https://www.joseocando.com/work/ted"
+                        uid=34_170 ignored
+                        uid=34_171 generic
+                          uid=34_172 ignored
+                            uid=34_173 ignored
+                              uid=34_174 ignored
+                                uid=34_175 image
+                    uid=34_176 listitem "6 / 16" level="1"
+                      uid=33_44 link "allwhere" url="https://www.joseocando.com/work/allwhere"
+                        uid=34_177 ignored
+                        uid=34_178 generic
+                          uid=34_179 ignored
+                            uid=34_180 ignored
+                              uid=34_181 ignored
+                                uid=34_182 image
+                    uid=34_183 listitem "7 / 16" level="1"
+                      uid=33_45 link "Good Paper" url="https://www.joseocando.com/work/good-paper"
+                        uid=34_184 ignored
+                        uid=34_185 generic
+                          uid=34_186 ignored
+                            uid=34_187 ignored
+                              uid=34_188 ignored
+                                uid=34_189 image
+                    uid=34_190 listitem "8 / 16" level="1"
+                      uid=33_46 link "Whiteboard" url="https://www.joseocando.com/work/whiteboard"
+                        uid=34_191 ignored
+                        uid=34_192 generic
+                          uid=34_193 ignored
+                            uid=34_194 ignored
+                              uid=34_195 ignored
+                                uid=34_196 image
+                    uid=34_197 listitem "9 / 16" level="1"
+                      uid=33_47 link "Happy Valley Farms" url="https://www.joseocando.com/work/happy-valley-farms"
+                        uid=34_198 ignored
+                        uid=34_199 generic
+                          uid=34_200 ignored
+                            uid=34_201 ignored
+                              uid=34_202 ignored
+                                uid=34_203 image
+                    uid=34_204 listitem "10 / 16" level="1"
+                      uid=33_48 link "Support Ninja" url="https://www.joseocando.com/work/support-ninja"
+                        uid=34_205 ignored
+                        uid=34_206 generic
+                          uid=34_207 ignored
+                            uid=34_208 ignored
+                              uid=34_209 ignored
+                                uid=34_210 image
+                    uid=34_211 listitem "11 / 16" level="1"
+                      uid=33_49 link "Climate Neutral" url="https://www.joseocando.com/work/climate-neutral"
+                        uid=34_212 ignored
+                        uid=34_213 generic
+                          uid=34_214 ignored
+                            uid=34_215 ignored
+                              uid=34_216 ignored
+                                uid=34_217 image
+                  uid=33_50 generic atomic live="assertive" relevant="additions text"
+                uid=34_218 ignored
+                  uid=33_51 button "Previous slide"
+                    uid=34_219 ignored
+                      uid=34_220 image
+                    uid=34_221 generic
+                      uid=34_222 StaticText "BACK"
+                        uid=34_14 InlineTextBox "BACK"
+                  uid=34_223 generic
+                    uid=34_224 generic
+                  uid=33_52 button "Next slide"
+                    uid=34_225 generic
+                      uid=34_226 StaticText "NEXT"
+                        uid=34_14 InlineTextBox "NEXT"
+                    uid=34_227 ignored
+                      uid=34_228 image
+        uid=33_53 contentinfo
+          uid=34_229 generic
+            uid=34_230 ignored
+              uid=34_231 ignored
+                uid=34_232 ignored
+                  uid=33_54 link "Jose Ocando BRAND DESIGNER WEBFLOW DEVELOPER" url="https://www.joseocando.com/"
+                    uid=34_233 generic
+                      uid=33_55 image "Jose Ocando" url="https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6624741c5ec7146127cb1873_Jose%20Portrait%20SM.webp"
+                    uid=34_234 ignored
+                      uid=34_235 generic
+                        uid=33_56 StaticText "BRAND DESIGNER"
+                          uid=34_14 InlineTextBox "BRAND DESIGNER"
+                      uid=34_236 generic
+                        uid=33_57 StaticText "WEBFLOW DEVELOPER"
+                          uid=34_14 InlineTextBox "WEBFLOW DEVELOPER"
+                  uid=34_237 ignored
+                    uid=33_58 link "WORK" url="https://www.joseocando.com/#work"
+                      uid=33_59 StaticText "WORK"
+                        uid=34_14 InlineTextBox "WORK"
+                    uid=33_60 link "ABOUT" url="https://www.joseocando.com/about"
+                      uid=33_61 StaticText "ABOUT"
+                        uid=34_14 InlineTextBox "ABOUT"
+                    uid=33_62 link "BLOG" url="https://www.joseocando.com/blog"
+                      uid=33_63 StaticText "BLOG"
+                        uid=34_14 InlineTextBox "BLOG"
+                    uid=33_64 link "CONTACT" url="mailto:a.jose.ocando@gmail.com"
+                      uid=33_65 StaticText "CONTACT"
+                        uid=34_14 InlineTextBox "CONTACT"
+                  uid=34_238 ignored
+                    uid=33_66 link "X (Formerly Twitter)" url="https://x.com/jaocando"
+                      uid=34_239 image
+                    uid=33_67 link "LinkedIn" url="https://www.linkedin.com/in/jocando/"
+                      uid=34_240 image

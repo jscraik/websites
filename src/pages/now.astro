@@ -2,10 +2,10 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const quickLinks = [
-  { label: "Fun facts", href: "#fun-facts" },
-  { label: "Current focus", href: "#current-focus" },
-  { label: "Skills", href: "#skills" },
-  { label: "On the web", href: "#on-the-web" }
+  { label: "Fun Facts", href: "#fun-facts", icon: "person" },
+  { label: "Skills", href: "#skills", icon: "wand" },
+  { label: "Work History", href: "#current-focus", icon: "file" },
+  { label: "On the web", href: "#on-the-web", icon: "globe" }
 ];
 
 const funFacts = [
@@ -14,45 +14,53 @@ const funFacts = [
     title: "British Army",
     detail: "Ten years of standards, instruction, logistics, and people leadership still shape how I work.",
     artifact: "Field note",
-    meta: "10 years"
+    meta: "10 years",
+    visual: "army"
   },
   {
     kicker: "Current rabbit hole",
     title: "AI workflows",
     detail: "I spend a lot of time testing where agents help, where they drift, and how humans keep hold of the work.",
     artifact: "Notebook",
-    meta: "Current"
+    meta: "Current",
+    visual: "agents"
   },
   {
     kicker: "Small tools",
     title: "CLI projects",
     detail: "I like tiny developer tools that are easy to explain, easy to run, and honest about their limits.",
     artifact: "Terminal",
-    meta: "Small tools"
+    meta: "Small tools",
+    visual: "terminal"
   },
   {
     kicker: "Taste",
     title: "Receipts over hype",
     detail: "The work I trust most shows its reasoning, its evidence, and the boundary of what it can claim.",
     artifact: "Note",
-    meta: "Taste"
+    meta: "Taste",
+    visual: "receipt"
   }
 ];
 
 const skills = [
   {
+    icon: "spark",
     title: "AI-native DevRel",
     detail: "Explaining agent workflows, trust surfaces, evals, and developer education without hiding the verification burden."
   },
   {
+    icon: "proof",
     title: "Proof-led writing",
     detail: "Turning drafts, commands, screenshots, caveats, and validation receipts into public-safe articles and notes."
   },
   {
+    icon: "tool",
     title: "Developer workflow design",
     detail: "Designing small tools, docs, and examples that help developers move from curiosity to repeatable use."
   },
   {
+    icon: "standard",
     title: "Instruction and standards",
     detail: "Using a military instruction background to make complex technical work executable and inspectable."
   }
@@ -82,10 +90,10 @@ const history = [
 ];
 
 const webLinks = [
-  ["GitHub", "github.com/jscraik", "https://github.com/jscraik"],
-  ["LinkedIn", "Jamie Scott Craik", "https://www.linkedin.com/in/jscraik/"],
-  ["X", "@jscraik", "https://x.com/jscraik"],
-  ["Email", "jscraik@brainwav.io", "mailto:jscraik@brainwav.io"]
+  ["Now", "GitHub", "Public code and proof notes", "github.com/jscraik", "https://github.com/jscraik"],
+  ["Now", "LinkedIn", "Professional profile", "linkedin.com/in/jscraik", "https://linkedin.com/in/jscraik"],
+  ["Now", "X", "Short-form build notes", "@jscraik", "https://x.com/jscraik"],
+  ["Open", "Email", "Direct contact", "jscraik@brainwav.io", "mailto:jscraik@brainwav.io"]
 ];
 ---
 
@@ -93,7 +101,6 @@ const webLinks = [
   <section class="about-page section-shell" aria-labelledby="about-title">
     <header class="about-intro">
       <div class="about-copy-block">
-        <p class="eyebrow">About</p>
         <h1 id="about-title">About</h1>
         <div class="about-copy">
           <p>
@@ -119,7 +126,7 @@ const webLinks = [
           <nav aria-label="About page sections">
             {quickLinks.map((item) => (
               <a href={item.href}>
-                <span aria-hidden="true">#</span>
+                <span class={`jump-icon jump-icon--${item.icon}`} aria-hidden="true"></span>
                 <span>{item.label}</span>
               </a>
             ))}
@@ -135,7 +142,7 @@ const webLinks = [
       <div class="about-card-grid">
         {funFacts.map((fact) => (
           <article class="about-fact-card">
-            <div class="about-object" aria-hidden="true">
+            <div class={`about-object about-object--${fact.visual}`} aria-hidden="true">
               <span>{fact.artifact}</span>
               <i></i>
               <i></i>
@@ -157,6 +164,7 @@ const webLinks = [
       <div class="about-skill-list">
         {skills.map((skill) => (
           <article>
+            <span class={`skill-icon skill-icon--${skill.icon}`} aria-hidden="true"></span>
             <h3>{skill.title}</h3>
             <p>{skill.detail}</p>
           </article>
@@ -186,9 +194,17 @@ const webLinks = [
         <h2 id="web-title">On the web</h2>
       </div>
       <div class="web-table">
-        {webLinks.map(([label, value, href]) => (
+        <div class="web-table-header" aria-hidden="true">
+          <span>Date</span>
+          <span>Venue</span>
+          <span>Occasion</span>
+          <span>Subject</span>
+        </div>
+        {webLinks.map(([date, venue, occasion, value, href]) => (
           <a href={href}>
-            <span>{label}</span>
+            <span>{date}</span>
+            <span>{venue}</span>
+            <span>{occasion}</span>
             <span>{value}</span>
           </a>
         ))}

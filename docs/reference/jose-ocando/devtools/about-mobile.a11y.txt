@@ -1,0 +1,665 @@
+uid=23_0 RootWebArea "About Jose Ocando" url="https://www.joseocando.com/about"
+  uid=24_0 ignored
+    uid=24_1 ignored
+      uid=24_2 generic
+        uid=24_3 ignored
+          uid=24_4 generic
+          uid=24_5 ignored
+        uid=23_1 banner
+          uid=23_2 banner
+            uid=24_6 generic
+              uid=24_7 ignored
+                uid=24_8 generic
+                  uid=23_3 navigation
+                    uid=24_9 generic
+                      uid=24_10 generic
+                      uid=24_11 generic
+                        uid=23_4 link "Home" url="https://www.joseocando.com/"
+                          uid=24_12 image
+                      uid=24_13 generic
+                        uid=23_5 link "WORK" url="https://www.joseocando.com/#work"
+                          uid=23_6 StaticText "WORK"
+                            uid=24_14 InlineTextBox "WORK"
+                      uid=24_15 generic
+                        uid=23_7 link "ABOUT" url="https://www.joseocando.com/about"
+                          uid=23_8 StaticText "ABOUT"
+                            uid=24_14 InlineTextBox "ABOUT"
+                      uid=24_16 generic
+                        uid=23_9 link "BLOG" url="https://www.joseocando.com/blog"
+                          uid=23_10 StaticText "BLOG"
+                            uid=24_14 InlineTextBox "BLOG"
+                      uid=24_17 generic
+                        uid=23_11 link "CONTACT" url="mailto:a.jose.ocando@gmail.com"
+                          uid=23_12 StaticText "CONTACT"
+                            uid=24_14 InlineTextBox "CONTACT"
+          uid=24_18 ignored
+            uid=24_19 generic
+              uid=24_20 ignored
+                uid=24_21 ignored
+                  uid=24_22 ignored
+                    uid=23_13 heading "About" level="1"
+                      uid=24_23 StaticText "About"
+                        uid=24_14 InlineTextBox "About"
+                    uid=24_24 ignored
+                      uid=24_25 paragraph
+                        uid=23_14 StaticText "Welcome. I'm Jose, a brand designer and Webflow developer. I started my career in design over 14 years ago, learning on the job at a small real estate firm."
+                          uid=24_14 InlineTextBox "Welcome. I'm Jose, a brand "
+                          uid=24_14 InlineTextBox "designer and Webflow "
+                          uid=24_14 InlineTextBox "developer. I started my career "
+                          uid=24_14 InlineTextBox "in design over 14 years ago, "
+                          uid=24_14 InlineTextBox "learning on the job at a small "
+                          uid=24_14 InlineTextBox "real estate firm."
+                      uid=24_26 paragraph
+                        uid=23_15 StaticText "In 2018 I started my own independent studio. For two years I served clients and ran a small business."
+                          uid=24_14 InlineTextBox "In 2018 I started my own "
+                          uid=24_14 InlineTextBox "independent studio. For two "
+                          uid=24_14 InlineTextBox "years I served clients and ran a "
+                          uid=24_14 InlineTextBox "small business."
+                      uid=24_27 paragraph
+                        uid=23_16 StaticText "In 2020, three months before the pandemic, I joined Whiteboard as a part of the web studio where I designed and developed over a hundred websites and grew to become a creative director."
+                          uid=24_14 InlineTextBox "In 2020, three months before "
+                          uid=24_14 InlineTextBox "the pandemic, I joined "
+                          uid=24_14 InlineTextBox "Whiteboard as a part of the "
+                          uid=24_14 InlineTextBox "web studio where I designed "
+                          uid=24_14 InlineTextBox "and developed over a hundred "
+                          uid=24_14 InlineTextBox "websites and grew to become a "
+                          uid=24_14 InlineTextBox "creative director."
+                      uid=24_28 paragraph
+                        uid=23_17 StaticText "In 2024 I became an in-house brand designer, first at Aspect and now at Webflow."
+                          uid=24_14 InlineTextBox "In 2024 I became an in-house "
+                          uid=24_14 InlineTextBox "brand designer, first at Aspect "
+                          uid=24_14 InlineTextBox "and now at Webflow."
+                      uid=24_29 paragraph
+                        uid=23_18 StaticText "I'm so grateful to be working in this field, doing something that brings me so much joy. Thanks for visiting."
+                          uid=24_14 InlineTextBox "I'm so grateful to be working in "
+                          uid=24_14 InlineTextBox "this field, doing something that "
+                          uid=24_14 InlineTextBox "brings me so much joy. Thanks "
+                          uid=24_14 InlineTextBox "for visiting."
+                uid=24_30 ignored
+                uid=24_31 ignored
+                  uid=24_32 ignored
+                    uid=24_33 ignored
+                      uid=24_34 paragraph
+                        uid=23_19 StaticText "Get to know me"
+                          uid=24_14 InlineTextBox "Get to know me"
+                      uid=24_35 list
+                        uid=24_36 listitem level="1"
+                          uid=23_20 link "Fun Facts" url="https://www.joseocando.com/about#fun-facts"
+                            uid=24_37 ignored
+                              uid=24_38 image
+                            uid=24_39 generic
+                              uid=23_21 StaticText "Fun Facts"
+                                uid=24_14 InlineTextBox "Fun Facts"
+                        uid=24_40 listitem level="1"
+                          uid=23_22 link "Skills" url="https://www.joseocando.com/about#skills"
+                            uid=24_41 ignored
+                              uid=24_42 image
+                            uid=24_43 generic
+                              uid=23_23 StaticText "Skills"
+                                uid=24_14 InlineTextBox "Skills"
+                        uid=24_44 listitem level="1"
+                          uid=23_24 link "Work History" url="https://www.joseocando.com/about#work-history"
+                            uid=24_45 ignored
+                              uid=24_46 image
+                            uid=24_47 generic
+                              uid=23_25 StaticText "Work History"
+                                uid=24_14 InlineTextBox "Work History"
+                        uid=24_48 listitem level="1"
+                          uid=23_26 link "Recognition" url="https://www.joseocando.com/about#recognition"
+                            uid=24_49 ignored
+                              uid=24_50 image
+                            uid=24_51 generic
+                              uid=23_27 StaticText "Recognition"
+                                uid=24_14 InlineTextBox "Recognition"
+                    uid=24_52 generic
+                      uid=23_28 image "Portrait of Jose Ocando" url="https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/66253ed840f55447fc000aec_Jose%20Portrait-p-800.webp"
+        uid=23_29 main
+          uid=24_53 generic
+            uid=24_54 generic
+              uid=24_55 ignored
+                uid=24_56 ignored
+                  uid=24_57 ignored
+                    uid=24_58 ignored
+                      uid=23_30 heading "Fun Facts" level="2"
+                        uid=24_59 StaticText "Fun Facts"
+                          uid=24_14 InlineTextBox "Fun Facts"
+                      uid=24_60 generic
+                        uid=23_31 StaticText "UPDATED 2 SEP 2024"
+                          uid=24_14 InlineTextBox "UPDATED 2 SEP 2024"
+                    uid=24_61 ignored
+                      uid=24_62 ignored
+                        uid=24_63 generic
+                          uid=24_64 generic
+                            uid=23_32 image "Book cover of "The Covenant of Water"" url="https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6674d2db8a17bd3ba898216b_about-img__covenant-water.webp"
+                          uid=24_65 generic
+                            uid=23_33 StaticText "FAVORITE BOOK"
+                              uid=24_14 InlineTextBox "FAVORITE BOOK"
+                        uid=24_66 ignored
+                          uid=23_34 heading "A Covenant of Water" level="3"
+                            uid=24_67 StaticText "A Covenant of Water"
+                              uid=24_14 InlineTextBox "A Covenant of Water"
+                          uid=24_68 paragraph
+                            uid=23_35 StaticText "Abraham Verghese"
+                              uid=24_14 InlineTextBox "Abraham Verghese"
+                      uid=24_69 ignored
+                        uid=24_70 generic
+                          uid=24_71 generic
+                            uid=23_36 image "Podcast cover artwork for Dune showing Paul Atreides." url="https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6674d2dbdebd24a47d2a6335_about-img__dune.webp"
+                          uid=24_72 generic
+                            uid=23_37 StaticText "FAVORITE PODCAST"
+                              uid=24_14 InlineTextBox "FAVORITE PODCAST"
+                        uid=24_73 ignored
+                          uid=23_38 heading "Dune" level="3"
+                            uid=24_74 StaticText "Dune"
+                              uid=24_14 InlineTextBox "Dune"
+                          uid=24_75 paragraph
+                            uid=23_39 StaticText "Song Exploder • Episode 222"
+                              uid=24_14 InlineTextBox "Song Exploder • Episode 222"
+                      uid=24_76 ignored
+                        uid=24_77 generic
+                          uid=23_40 image "A still from the show Savengers Reign" url="https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/66d60d8d44b7f7b57f134125_Savenger%27s%20Reign-p-800.webp"
+                          uid=24_78 generic
+                            uid=23_41 StaticText "FAVORITE SHOW"
+                              uid=24_14 InlineTextBox "FAVORITE SHOW"
+                        uid=24_79 ignored
+                          uid=23_42 heading "Scavengers Reign" level="3"
+                            uid=24_80 StaticText "Scavengers Reign"
+                              uid=24_14 InlineTextBox "Scavengers Reign"
+                          uid=24_81 paragraph
+                            uid=23_43 StaticText "Netflix"
+                              uid=24_14 InlineTextBox "Netflix"
+                      uid=24_82 ignored
+                        uid=24_83 generic
+                          uid=23_44 image "Phone photo of a thrown pot." url="https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6674d2db1d2969cf1d4d9d9d_about-img__pottery-p-800.webp"
+                          uid=24_84 generic
+                            uid=23_45 StaticText "ACTIVE HOBBY"
+                              uid=24_14 InlineTextBox "ACTIVE HOBBY"
+                        uid=24_85 ignored
+                          uid=23_46 heading "Ceramics" level="3"
+                            uid=24_86 StaticText "Ceramics"
+                              uid=24_14 InlineTextBox "Ceramics"
+                          uid=24_87 paragraph
+                            uid=23_47 StaticText "6-week course"
+                              uid=24_14 InlineTextBox "6-week course"
+          uid=24_88 generic
+            uid=24_89 generic
+              uid=24_90 ignored
+                uid=24_91 ignored
+                  uid=24_92 ignored
+                    uid=23_48 heading "Skills" level="2"
+                      uid=24_93 StaticText "Skills"
+                        uid=24_14 InlineTextBox "Skills"
+                    uid=24_94 ignored
+                      uid=24_95 ignored
+                        uid=24_96 ignored
+                          uid=24_97 image
+                        uid=24_98 ignored
+                          uid=23_49 heading "Website and Visual Design" level="3"
+                            uid=24_99 StaticText "Website and Visual Design"
+                              uid=24_14 InlineTextBox "Website and Visual Design"
+                          uid=24_100 ignored
+                            uid=24_101 paragraph
+                              uid=23_50 StaticText "I’m a skilled, award-winning visual designer. In my career I’ve likely designed more than 150 websites (I’ve lost count!). The foundational principles I use in website design I carry into multiple deliverable types like deck templates, emails, social ads, video graphics, print design and more."
+                                uid=24_14 InlineTextBox "I’m a skilled, award-winning visual "
+                                uid=24_14 InlineTextBox "designer. In my career I’ve likely "
+                                uid=24_14 InlineTextBox "designed more than 150 websites "
+                                uid=24_14 InlineTextBox "(I’ve lost count!). The foundational "
+                                uid=24_14 InlineTextBox "principles I use in website design I "
+                                uid=24_14 InlineTextBox "carry into multiple deliverable types "
+                                uid=24_14 InlineTextBox "like deck templates, emails, social "
+                                uid=24_14 InlineTextBox "ads, video graphics, print design and "
+                                uid=24_14 InlineTextBox "more."
+                      uid=24_102 ignored
+                        uid=24_103 ignored
+                          uid=24_104 image
+                        uid=24_105 ignored
+                          uid=23_51 heading "Branding" level="3"
+                            uid=24_106 StaticText "Branding"
+                              uid=24_14 InlineTextBox "Branding"
+                          uid=24_107 ignored
+                            uid=24_108 paragraph
+                              uid=23_52 StaticText "I started my career with logo design. I’ve designed hundreds. Brands are much more than logos of course. And I love extending a brand’s visual system with all the visual tools it needs to be flexible."
+                                uid=24_14 InlineTextBox "I started my career with logo design. "
+                                uid=24_14 InlineTextBox "I’ve designed hundreds. Brands are "
+                                uid=24_14 InlineTextBox "much more than logos of course. And "
+                                uid=24_14 InlineTextBox "I love extending a brand’s visual "
+                                uid=24_14 InlineTextBox "system with all the visual tools it "
+                                uid=24_14 InlineTextBox "needs to be flexible."
+                      uid=24_109 ignored
+                        uid=24_110 ignored
+                          uid=24_111 image
+                        uid=24_112 ignored
+                          uid=23_53 heading "Illustration" level="3"
+                            uid=24_113 StaticText "Illustration"
+                              uid=24_14 InlineTextBox "Illustration"
+                          uid=24_114 ignored
+                            uid=24_115 paragraph
+                              uid=23_54 StaticText "I use strong illustration skills to support my overall design work. I can design icon libraries, spot illustrations, and patterns. I’m learning to illustrate people, but I’m still quite limited at that."
+                                uid=24_14 InlineTextBox "I use strong illustration skills to "
+                                uid=24_14 InlineTextBox "support my overall design work. I can "
+                                uid=24_14 InlineTextBox "design icon libraries, spot "
+                                uid=24_14 InlineTextBox "illustrations, and patterns. I’m "
+                                uid=24_14 InlineTextBox "learning to illustrate people, but I’m "
+                                uid=24_14 InlineTextBox "still quite limited at that."
+                      uid=24_116 ignored
+                        uid=24_117 ignored
+                          uid=24_118 image
+                        uid=24_119 ignored
+                          uid=23_55 heading "Webflow Development" level="3"
+                            uid=24_120 StaticText "Webflow Development"
+                              uid=24_14 InlineTextBox "Webflow Development"
+                          uid=24_121 ignored
+                            uid=24_122 paragraph
+                              uid=23_56 StaticText "I’m an expert Webflow developer. I consider performance, accessibility, animation, responsiveness, and ease-of-use in each build."
+                                uid=24_14 InlineTextBox "I’m an expert Webflow developer. I "
+                                uid=24_14 InlineTextBox "consider performance, accessibility, "
+                                uid=24_14 InlineTextBox "animation, responsiveness, and ease-"
+                                uid=24_14 InlineTextBox "of-use in each build."
+                    uid=24_123 ignored
+                      uid=24_124 ignored
+                        uid=23_57 heading "All Capabilities" level="2"
+                          uid=24_125 StaticText "All Capabilities"
+                            uid=24_14 InlineTextBox "All Capabilities"
+                        uid=24_126 ignored
+                          uid=24_127 list
+                            uid=24_128 listitem level="1"
+                              uid=24_129 generic
+                                uid=23_58 StaticText "Animation"
+                                  uid=24_14 InlineTextBox "Animation"
+                            uid=24_130 listitem level="1"
+                              uid=24_131 generic
+                                uid=23_59 StaticText "Art Direction"
+                                  uid=24_14 InlineTextBox "Art Direction"
+                            uid=24_132 listitem level="1"
+                              uid=24_133 generic
+                                uid=23_60 StaticText "Brand Extension"
+                                  uid=24_14 InlineTextBox "Brand Extension"
+                            uid=24_134 listitem level="1"
+                              uid=24_135 generic
+                                uid=23_61 StaticText "Creative Direction"
+                                  uid=24_14 InlineTextBox "Creative Direction"
+                            uid=24_136 listitem level="1"
+                              uid=24_137 generic
+                                uid=23_62 StaticText "Development"
+                                  uid=24_14 InlineTextBox "Development"
+                            uid=24_138 listitem level="1"
+                              uid=24_139 generic
+                                uid=23_63 StaticText "Identity Design"
+                                  uid=24_14 InlineTextBox "Identity Design"
+                            uid=24_140 listitem level="1"
+                              uid=24_141 generic
+                                uid=23_64 StaticText "Illustration"
+                                  uid=24_14 InlineTextBox "Illustration"
+                            uid=24_142 listitem level="1"
+                              uid=24_143 generic
+                                uid=23_65 StaticText "Web Design"
+                                  uid=24_14 InlineTextBox "Web Design"
+          uid=24_144 generic
+            uid=24_145 generic
+              uid=24_146 ignored
+                uid=24_147 ignored
+                  uid=24_148 ignored
+                    uid=23_66 heading "Work history" level="2"
+                      uid=24_149 StaticText "Work history"
+                        uid=24_14 InlineTextBox "Work history"
+                    uid=24_150 list
+                      uid=24_151 listitem level="1"
+                        uid=24_152 ignored
+                          uid=24_153 ignored
+                            uid=23_67 heading "Webflow" level="2"
+                              uid=24_154 StaticText "Webflow"
+                                uid=24_14 InlineTextBox "Webflow"
+                          uid=24_155 ignored
+                            uid=24_156 generic
+                              uid=23_68 StaticText "Current"
+                                uid=24_14 InlineTextBox "Current"
+                            uid=24_157 generic
+                              uid=23_69 StaticText "MAY 2025 - PRESENT"
+                                uid=24_14 InlineTextBox "MAY 2025 - PRESENT"
+                        uid=24_158 ignored
+                          uid=24_159 ignored
+                            uid=24_160 generic
+                              uid=23_70 StaticText "Staff Brand Designer, Web"
+                                uid=24_14 InlineTextBox "Staff Brand Designer, Web"
+                          uid=24_161 ignored
+                            uid=24_162 ignored
+                              uid=24_163 paragraph
+                                uid=23_71 StaticText "I sit on the brand team at Webflow contributing both to the flagship site and to other brand implementations."
+                                  uid=24_14 InlineTextBox "I sit on the brand team at Webflow "
+                                  uid=24_14 InlineTextBox "contributing both to the flagship site "
+                                  uid=24_14 InlineTextBox "and to other brand implementations."
+                      uid=24_164 listitem level="1"
+                        uid=24_165 ignored
+                          uid=24_166 ignored
+                            uid=23_72 heading "Aspect" level="2"
+                              uid=24_167 StaticText "Aspect"
+                                uid=24_14 InlineTextBox "Aspect"
+                          uid=24_168 ignored
+                            uid=24_169 generic
+                              uid=23_73 StaticText "JULY 2024 - MAY 2025"
+                                uid=24_14 InlineTextBox "JULY 2024 - MAY 2025"
+                        uid=24_170 ignored
+                          uid=24_171 ignored
+                            uid=24_172 generic
+                              uid=23_74 StaticText "Lead Brand Designer, Interactive"
+                                uid=24_14 InlineTextBox "Lead Brand Designer, Interactive"
+                          uid=24_173 ignored
+                            uid=24_174 ignored
+                              uid=24_175 paragraph
+                                uid=23_75 StaticText "At Aspect I had a dual role. I served as a lead designer, helping to maintain and extend the brand."
+                                  uid=24_14 InlineTextBox "At Aspect I had a dual role. I served "
+                                  uid=24_14 InlineTextBox "as a lead designer, helping to "
+                                  uid=24_14 InlineTextBox "maintain and extend the brand."
+                              uid=24_176 paragraph
+                                uid=23_76 StaticText "I also served as our in-house Webflow developer, helping to scale the Aspect website."
+                                  uid=24_14 InlineTextBox "I also served as our in-house "
+                                  uid=24_14 InlineTextBox "Webflow developer, helping "
+                                  uid=24_14 InlineTextBox "to scale the Aspect website."
+                      uid=24_177 listitem level="1"
+                        uid=24_178 ignored
+                          uid=24_179 ignored
+                            uid=23_77 heading "Whiteboard" level="2"
+                              uid=24_180 StaticText "Whiteboard"
+                                uid=24_14 InlineTextBox "Whiteboard"
+                          uid=24_181 ignored
+                            uid=24_182 generic
+                              uid=23_78 StaticText "JAN 2020 - JUL 2024"
+                                uid=24_14 InlineTextBox "JAN 2020 - JUL 2024"
+                        uid=24_183 ignored
+                          uid=24_184 ignored
+                            uid=24_185 generic
+                              uid=23_79 StaticText "Creative Director"
+                                uid=24_14 InlineTextBox "Creative Director"
+                            uid=24_186 generic
+                              uid=23_80 StaticText "Interactive Designer"
+                                uid=24_14 InlineTextBox "Interactive Designer"
+                            uid=24_187 generic
+                              uid=23_81 StaticText "Lead Webflow Developer"
+                                uid=24_14 InlineTextBox "Lead Webflow Developer"
+                          uid=24_188 ignored
+                            uid=24_189 ignored
+                              uid=24_190 paragraph
+                                uid=23_82 StaticText "As the creative director of the web studio I lead design projects, facilitated design collaboration, and presented our work to clients."
+                                  uid=24_14 InlineTextBox "As the creative director of the "
+                                  uid=24_14 InlineTextBox "web studio I lead design projects, "
+                                  uid=24_14 InlineTextBox "facilitated design collaboration, "
+                                  uid=24_14 InlineTextBox "and presented our work to clients."
+                              uid=24_191 paragraph
+                                uid=23_83 StaticText "I was the first Webflow developer to work with Whiteboard. Now they're a fairly recognizable name in the no-code community. During my tenure, my design and dev work on Aro won a Site of the Day and a developer award on AWWWARDS. And my work on the Whiteboard site generated a Webby nomination."
+                                  uid=24_14 InlineTextBox "I was the first Webflow developer to work "
+                                  uid=24_14 InlineTextBox "with Whiteboard. Now they're a fairly "
+                                  uid=24_14 InlineTextBox "recognizable name in the no-code "
+                                  uid=24_14 InlineTextBox "community. During my tenure, my design "
+                                  uid=24_14 InlineTextBox "and dev work on Aro won a Site of the Day "
+                                  uid=24_14 InlineTextBox "and a developer award on AWWWARDS. "
+                                  uid=24_14 InlineTextBox "And my work on the Whiteboard site "
+                                  uid=24_14 InlineTextBox "generated a Webby nomination."
+                      uid=24_192 listitem level="1"
+                        uid=24_193 ignored
+                          uid=24_194 ignored
+                            uid=23_84 heading "Serve" level="2"
+                              uid=24_195 StaticText "Serve"
+                                uid=24_14 InlineTextBox "Serve"
+                          uid=24_196 ignored
+                            uid=24_197 generic
+                              uid=23_85 StaticText "JAN 2018 - JAN 2020"
+                                uid=24_14 InlineTextBox "JAN 2018 - JAN 2020"
+                        uid=24_198 ignored
+                          uid=24_199 ignored
+                            uid=24_200 generic
+                              uid=23_86 StaticText "Founder"
+                                uid=24_14 InlineTextBox "Founder"
+                          uid=24_201 ignored
+                            uid=24_202 ignored
+                              uid=24_203 paragraph
+                                uid=23_87 StaticText "Serve was a one-person design studio I created. I focused on branding, website design, and Webflow development. As a solopreneur, I did everything from the company taxes to lead generation, sales calls and meetings, project management, strategy, client communication, warranty work, and everything in between."
+                                  uid=24_14 InlineTextBox "Serve was a one-person design studio I "
+                                  uid=24_14 InlineTextBox "created. I focused on branding, website "
+                                  uid=24_14 InlineTextBox "design, and Webflow development. As a "
+                                  uid=24_14 InlineTextBox "solopreneur, I did everything from the "
+                                  uid=24_14 InlineTextBox "company taxes to lead generation, sales "
+                                  uid=24_14 InlineTextBox "calls and meetings, project management, "
+                                  uid=24_14 InlineTextBox "strategy, client communication, warranty "
+                                  uid=24_14 InlineTextBox "work, and everything in between."
+                      uid=24_204 listitem level="1"
+                        uid=24_205 ignored
+                          uid=24_206 ignored
+                            uid=23_88 heading "The Lea Team" level="2"
+                              uid=24_207 StaticText "The Lea Team"
+                                uid=24_14 InlineTextBox "The Lea Team"
+                          uid=24_208 ignored
+                            uid=24_209 generic
+                              uid=23_89 StaticText "AUG 2013 - JAN 2018"
+                                uid=24_14 InlineTextBox "AUG 2013 - JAN 2018"
+                        uid=24_210 ignored
+                          uid=24_211 ignored
+                            uid=24_212 generic
+                              uid=23_90 StaticText "Director of Marketing"
+                                uid=24_14 InlineTextBox "Director of Marketing"
+                          uid=24_213 ignored
+                            uid=24_214 ignored
+                              uid=24_215 paragraph
+                                uid=23_91 StaticText "My role was to help market and sell real estate listings, grow the local brand awareness for our team, and market and sell new construction communities. I learned graphic design on the job, seeing in realtime what helped our business efforts and what was ineffective."
+                                  uid=24_14 InlineTextBox "My role was to help market and sell real "
+                                  uid=24_14 InlineTextBox "estate listings, grow the local brand "
+                                  uid=24_14 InlineTextBox "awareness for our team, and market and "
+                                  uid=24_14 InlineTextBox "sell new construction communities. I "
+                                  uid=24_14 InlineTextBox "learned graphic design on the job, seeing in "
+                                  uid=24_14 InlineTextBox "realtime what helped our business efforts "
+                                  uid=24_14 InlineTextBox "and what was ineffective."
+          uid=24_216 generic
+            uid=24_217 generic
+              uid=24_218 ignored
+                uid=24_219 ignored
+                  uid=24_220 ignored
+                    uid=23_92 heading "On the web" level="2"
+                      uid=24_221 StaticText "On the web"
+                        uid=24_14 InlineTextBox "On the web"
+                    uid=24_222 list
+                      uid=24_223 listitem level="1"
+                        uid=24_224 ignored
+                          uid=24_225 generic
+                            uid=23_93 StaticText "JUN 2025"
+                              uid=24_14 InlineTextBox "JUN 2025"
+                        uid=24_226 ignored
+                          uid=23_94 link "FINAL FINAL" url="https://copyoffinalfinal.substack.com/p/jose-ocando-the-failed-copywriter?triedRedirect=true"
+                            uid=23_95 StaticText "FINAL FINAL"
+                              uid=24_14 InlineTextBox "FINAL FINAL"
+                        uid=24_227 ignored
+                          uid=24_228 generic
+                            uid=23_96 StaticText "PODCAST GUEST"
+                              uid=24_14 InlineTextBox "PODCAST GUEST"
+                        uid=24_229 ignored
+                          uid=24_230 generic
+                            uid=23_97 StaticText "SCALING GROWTH THROUGH WEBSITE EXPERIMENTATION"
+                              uid=24_14 InlineTextBox "SCALING GROWTH THROUGH "
+                              uid=24_14 InlineTextBox "WEBSITE EXPERIMENTATION"
+                      uid=24_231 listitem level="1"
+                        uid=24_232 ignored
+                          uid=24_233 generic
+                            uid=23_98 StaticText "MAR 2025"
+                              uid=24_14 InlineTextBox "MAR 2025"
+                        uid=24_234 ignored
+                          uid=23_99 link "WEBFLOW" url="https://webflow.com/resources/webinars/website-experimentation"
+                            uid=23_100 StaticText "WEBFLOW"
+                              uid=24_14 InlineTextBox "WEBFLOW"
+                        uid=24_235 ignored
+                          uid=24_236 generic
+                            uid=23_101 StaticText "WEBINAR PANELIST"
+                              uid=24_14 InlineTextBox "WEBINAR PANELIST"
+                        uid=24_237 ignored
+                          uid=24_238 generic
+                            uid=23_102 StaticText "SCALING GROWTH THROUGH WEBSITE EXPERIMENTATION"
+                              uid=24_14 InlineTextBox "SCALING GROWTH THROUGH "
+                              uid=24_14 InlineTextBox "WEBSITE EXPERIMENTATION"
+                      uid=24_239 listitem level="1"
+                        uid=24_240 ignored
+                          uid=24_241 generic
+                            uid=23_103 StaticText "SEP 2024"
+                              uid=24_14 InlineTextBox "SEP 2024"
+                        uid=24_242 ignored
+                          uid=23_104 link "LAND-BOOK" url="https://land-book.com/websites/65648-aspect-trusted-leaders-in-workforce-engagement-management-solutions"
+                            uid=23_105 StaticText "LAND-BOOK"
+                              uid=24_14 InlineTextBox "LAND-BOOK"
+                        uid=24_243 ignored
+                          uid=24_244 generic
+                            uid=23_106 StaticText "FEATURE"
+                              uid=24_14 InlineTextBox "FEATURE"
+                        uid=24_245 ignored
+                          uid=24_246 generic
+                            uid=23_107 StaticText "ASPECT"
+                              uid=24_14 InlineTextBox "ASPECT"
+                      uid=24_247 listitem level="1"
+                        uid=24_248 ignored
+                          uid=24_249 generic
+                            uid=23_108 StaticText "JULY 2024"
+                              uid=24_14 InlineTextBox "JULY 2024"
+                        uid=24_250 ignored
+                          uid=24_251 generic
+                            uid=23_109 StaticText "SITEINSPIRE, LAND-BOOK, LAPA NINJA"
+                              uid=24_14 InlineTextBox "SITEINSPIRE, LAND-BOOK, "
+                              uid=24_14 InlineTextBox "LAPA NINJA"
+                        uid=24_252 ignored
+                          uid=24_253 generic
+                            uid=23_110 StaticText "FEATURE"
+                              uid=24_14 InlineTextBox "FEATURE"
+                        uid=24_254 ignored
+                          uid=24_255 generic
+                            uid=23_111 StaticText "JOSEOCANDO.COM"
+                              uid=24_14 InlineTextBox "JOSEOCANDO.COM"
+                      uid=24_256 listitem level="1"
+                        uid=24_257 ignored
+                          uid=24_258 generic
+                            uid=23_112 StaticText "DEC 2023"
+                              uid=24_14 InlineTextBox "DEC 2023"
+                        uid=24_259 ignored
+                          uid=23_113 link "AWWWARDS" url="https://www.awwwards.com/sites/pursell-farms"
+                            uid=23_114 StaticText "AWWWARDS"
+                              uid=24_14 InlineTextBox "AWWWARDS"
+                        uid=24_260 ignored
+                          uid=24_261 generic
+                            uid=23_115 StaticText "HONORABLE MENTION"
+                              uid=24_14 InlineTextBox "HONORABLE MENTION"
+                        uid=24_262 ignored
+                          uid=24_263 generic
+                            uid=23_116 StaticText "PURSELL FARMS"
+                              uid=24_14 InlineTextBox "PURSELL FARMS"
+                      uid=24_264 listitem level="1"
+                        uid=24_265 ignored
+                          uid=24_266 generic
+                            uid=23_117 StaticText "NOV 2023"
+                              uid=24_14 InlineTextBox "NOV 2023"
+                        uid=24_267 ignored
+                          uid=23_118 link "AWWWARDS" url="https://www.awwwards.com/sites/new-story"
+                            uid=23_119 StaticText "AWWWARDS"
+                              uid=24_14 InlineTextBox "AWWWARDS"
+                        uid=24_268 ignored
+                          uid=24_269 generic
+                            uid=23_120 StaticText "HONORABLE MENTION"
+                              uid=24_14 InlineTextBox "HONORABLE MENTION"
+                        uid=24_270 ignored
+                          uid=24_271 generic
+                            uid=23_121 StaticText "NEW STORY"
+                              uid=24_14 InlineTextBox "NEW STORY"
+                      uid=24_272 listitem level="1"
+                        uid=24_273 ignored
+                          uid=24_274 generic
+                            uid=23_122 StaticText "NOV 2022"
+                              uid=24_14 InlineTextBox "NOV 2022"
+                        uid=24_275 ignored
+                          uid=23_123 link "WEBFLOW" url="https://webflow.com/webflowconf/2022/awards/ted-conferences"
+                            uid=23_124 StaticText "WEBFLOW"
+                              uid=24_14 InlineTextBox "WEBFLOW"
+                        uid=24_276 ignored
+                          uid=24_277 generic
+                            uid=23_125 StaticText "MEETING THE MOMENT AWARD"
+                              uid=24_14 InlineTextBox "MEETING THE MOMENT AWARD"
+                        uid=24_278 ignored
+                          uid=24_279 generic
+                            uid=23_126 StaticText "TED CONFERENCES"
+                              uid=24_14 InlineTextBox "TED CONFERENCES"
+                      uid=24_280 listitem level="1"
+                        uid=24_281 ignored
+                          uid=24_282 generic
+                            uid=23_127 StaticText "APR 2022"
+                              uid=24_14 InlineTextBox "APR 2022"
+                        uid=24_283 ignored
+                          uid=24_284 generic
+                            uid=23_128 StaticText "WEBBY NOMINEE"
+                              uid=24_14 InlineTextBox "WEBBY NOMINEE"
+                        uid=24_285 ignored
+                          uid=24_286 generic
+                            uid=23_129 StaticText "BEST VISUAL DESIGN - AESTHETIC"
+                              uid=24_14 InlineTextBox "BEST VISUAL DESIGN - "
+                              uid=24_14 InlineTextBox "AESTHETIC"
+                        uid=24_287 ignored
+                          uid=24_288 generic
+                            uid=23_130 StaticText "WHITEBOARD.IS"
+                              uid=24_14 InlineTextBox "WHITEBOARD.IS"
+                      uid=24_289 listitem level="1"
+                        uid=24_290 ignored
+                          uid=24_291 generic
+                            uid=23_131 StaticText "JUN 2020"
+                              uid=24_14 InlineTextBox "JUN 2020"
+                        uid=24_292 ignored
+                          uid=23_132 link "AWWWARDS" url="https://www.awwwards.com/sites/aro"
+                            uid=23_133 StaticText "AWWWARDS"
+                              uid=24_14 InlineTextBox "AWWWARDS"
+                        uid=24_293 ignored
+                          uid=24_294 generic
+                            uid=23_134 StaticText "SITE OF THE DAY"
+                              uid=24_14 InlineTextBox "SITE OF THE DAY"
+                        uid=24_295 ignored
+                          uid=24_296 generic
+                            uid=23_135 StaticText "ARO"
+                              uid=24_14 InlineTextBox "ARO"
+                      uid=24_297 listitem level="1"
+                        uid=24_298 ignored
+                          uid=24_299 generic
+                            uid=23_136 StaticText "JUN 2020"
+                              uid=24_14 InlineTextBox "JUN 2020"
+                        uid=24_300 ignored
+                          uid=23_137 link "AWWWARDS" url="https://www.awwwards.com/sites/aro"
+                            uid=23_138 StaticText "AWWWARDS"
+                              uid=24_14 InlineTextBox "AWWWARDS"
+                        uid=24_301 ignored
+                          uid=24_302 generic
+                            uid=23_139 StaticText "DEVELOPER AWARD"
+                              uid=24_14 InlineTextBox "DEVELOPER AWARD"
+                        uid=24_303 ignored
+                          uid=24_304 generic
+                            uid=23_140 StaticText "ARO"
+                              uid=24_14 InlineTextBox "ARO"
+        uid=23_141 contentinfo
+          uid=24_305 generic
+            uid=24_306 ignored
+              uid=24_307 ignored
+                uid=24_308 ignored
+                  uid=23_142 link "Jose Ocando BRAND DESIGNER WEBFLOW DEVELOPER" url="https://www.joseocando.com/"
+                    uid=24_309 generic
+                      uid=23_143 image "Jose Ocando" url="https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6624741c5ec7146127cb1873_Jose%20Portrait%20SM.webp"
+                    uid=24_310 ignored
+                      uid=24_311 generic
+                        uid=23_144 StaticText "BRAND DESIGNER"
+                          uid=24_14 InlineTextBox "BRAND DESIGNER"
+                      uid=24_312 generic
+                        uid=23_145 StaticText "WEBFLOW DEVELOPER"
+                          uid=24_14 InlineTextBox "WEBFLOW DEVELOPER"
+                  uid=24_313 ignored
+                    uid=23_146 link "WORK" url="https://www.joseocando.com/#work"
+                      uid=23_147 StaticText "WORK"
+                        uid=24_14 InlineTextBox "WORK"
+                    uid=23_148 link "ABOUT" url="https://www.joseocando.com/about"
+                      uid=23_149 StaticText "ABOUT"
+                        uid=24_14 InlineTextBox "ABOUT"
+                    uid=23_150 link "BLOG" url="https://www.joseocando.com/blog"
+                      uid=23_151 StaticText "BLOG"
+                        uid=24_14 InlineTextBox "BLOG"
+                    uid=23_152 link "CONTACT" url="mailto:a.jose.ocando@gmail.com"
+                      uid=23_153 StaticText "CONTACT"
+                        uid=24_14 InlineTextBox "CONTACT"
+                  uid=24_314 ignored
+                    uid=23_154 link "X (Formerly Twitter)" url="https://x.com/jaocando"
+                      uid=24_315 image
+                    uid=23_155 link "LinkedIn" url="https://www.linkedin.com/in/jocando/"
+                      uid=24_316 image

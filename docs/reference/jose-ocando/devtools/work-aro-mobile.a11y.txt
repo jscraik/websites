@@ -1,0 +1,281 @@
+uid=39_0 RootWebArea "aro | Case Study by Jose Ocando" url="https://www.joseocando.com/work/aro"
+  uid=40_0 ignored
+    uid=40_1 ignored
+      uid=40_2 generic
+        uid=40_3 ignored
+          uid=40_4 generic
+          uid=40_5 ignored
+        uid=39_1 banner
+          uid=39_2 banner
+            uid=40_6 generic
+              uid=40_7 ignored
+                uid=40_8 generic
+                  uid=39_3 navigation
+                    uid=40_9 generic
+                      uid=40_10 generic
+                      uid=40_11 generic
+                        uid=39_4 link "Home" url="https://www.joseocando.com/"
+                          uid=40_12 image
+                      uid=40_13 generic
+                        uid=39_5 link "WORK" url="https://www.joseocando.com/#work"
+                          uid=39_6 StaticText "WORK"
+                            uid=40_14 InlineTextBox "WORK"
+                      uid=40_15 generic
+                        uid=39_7 link "ABOUT" url="https://www.joseocando.com/about"
+                          uid=39_8 StaticText "ABOUT"
+                            uid=40_14 InlineTextBox "ABOUT"
+                      uid=40_16 generic
+                        uid=39_9 link "BLOG" url="https://www.joseocando.com/blog"
+                          uid=39_10 StaticText "BLOG"
+                            uid=40_14 InlineTextBox "BLOG"
+                      uid=40_17 generic
+                        uid=39_11 link "CONTACT" url="mailto:a.jose.ocando@gmail.com"
+                          uid=39_12 StaticText "CONTACT"
+                            uid=40_14 InlineTextBox "CONTACT"
+          uid=40_18 ignored
+            uid=40_19 generic
+              uid=40_20 ignored
+                uid=40_21 ignored
+                  uid=40_22 ignored
+                    uid=40_23 ignored
+                      uid=40_24 ignored
+                        uid=40_25 ignored
+                          uid=40_26 image
+                        uid=40_27 generic
+                          uid=39_13 StaticText "WORK"
+                            uid=40_14 InlineTextBox "WORK"
+                        uid=40_28 generic
+                          uid=39_14 StaticText "•"
+                            uid=40_14 InlineTextBox "•"
+                        uid=40_29 generic
+                          uid=39_15 StaticText "JUN 16, 2026"
+                            uid=40_14 InlineTextBox "JUN 16, 2026"
+                      uid=39_16 heading "aro" level="1"
+                        uid=40_30 StaticText "aro"
+                          uid=40_14 InlineTextBox "aro"
+                    uid=40_31 ignored
+                      uid=40_32 paragraph
+                        uid=39_17 StaticText "A digital flagship for a bluetooth enabled box that helps us have a better relationship with our phones."
+                          uid=40_14 InlineTextBox "A digital flagship for a bluetooth "
+                          uid=40_14 InlineTextBox "enabled box that helps us have a "
+                          uid=40_14 InlineTextBox "better relationship with our phones."
+        uid=39_18 main
+          uid=40_33 ignored
+            uid=40_34 figure
+              uid=40_35 ignored
+                uid=40_36 image url="https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66761d21ad45e26b948f8a02_feature-work-img__aro.webp"
+          uid=40_37 generic
+            uid=40_38 generic
+            uid=40_39 generic
+              uid=40_40 ignored
+                uid=40_41 ignored
+                  uid=40_42 ignored
+                    uid=39_19 heading "Project overview" level="2"
+                      uid=40_43 StaticText "Project overview"
+                        uid=40_14 InlineTextBox "Project overview"
+              uid=40_44 ignored
+                uid=40_45 ignored
+                  uid=40_46 ignored
+                    uid=40_47 ignored
+                      uid=39_20 heading "About the client" level="2"
+                        uid=40_48 StaticText "About the client"
+                          uid=40_14 InlineTextBox "About the client"
+                      uid=40_49 paragraph
+                        uid=39_21 StaticText "aro is a lifestyle support brand aimed at helping people have a better relationship with their phones. They offer a bluetooth enabled box that stores your phone for you, freeing you to devote your focus on what is important to you."
+                          uid=40_14 InlineTextBox "aro is a lifestyle support brand aimed "
+                          uid=40_14 InlineTextBox "at helping people have a better "
+                          uid=40_14 InlineTextBox "relationship with their phones. They "
+                          uid=40_14 InlineTextBox "offer a bluetooth enabled box that "
+                          uid=40_14 InlineTextBox "stores your phone for you, freeing you "
+                          uid=40_14 InlineTextBox "to devote your focus on what is "
+                          uid=40_14 InlineTextBox "important to you."
+                      uid=39_22 heading "What we did" level="2"
+                        uid=40_50 StaticText "What we did"
+                          uid=40_14 InlineTextBox "What we did"
+                      uid=40_51 paragraph
+                        uid=39_23 StaticText "As a brand-new product, aro came to Whiteboard for everything from naming, to identity design, a marketing website, and the design and development of their companion app. I helped with each of these steps (with the exception of naming). My key roles were in the identity and web design. My work won an "
+                          uid=40_14 InlineTextBox "As a brand-new product, aro came to "
+                          uid=40_14 InlineTextBox "Whiteboard for everything from "
+                          uid=40_14 InlineTextBox "naming, to identity design, a "
+                          uid=40_14 InlineTextBox "marketing website, and the design and "
+                          uid=40_14 InlineTextBox "development of their companion app. I "
+                          uid=40_14 InlineTextBox "helped with each of these steps (with "
+                          uid=40_14 InlineTextBox "the exception of naming). My key roles "
+                          uid=40_14 InlineTextBox "were in the identity and web design. "
+                          uid=40_14 InlineTextBox "My work won an "
+                        uid=39_24 link "Awwwards SOTD" url="https://www.awwwards.com/sites/aro"
+                          uid=39_25 StaticText "Awwwards SOTD"
+                            uid=40_14 InlineTextBox "Awwwards SOTD"
+                        uid=39_26 StaticText ", Dev Award, and CSSDA Site of the day."
+                          uid=40_14 InlineTextBox ", "
+                          uid=40_14 InlineTextBox "Dev Award, and CSSDA Site of the "
+                          uid=40_14 InlineTextBox "day."
+                uid=40_52 ignored
+                  uid=40_53 ignored
+                    uid=40_54 ignored
+                      uid=40_55 ignored
+                        uid=40_56 paragraph
+                          uid=39_27 StaticText "MY ROLE"
+                            uid=40_14 InlineTextBox "MY ROLE"
+                        uid=40_57 paragraph
+                          uid=39_28 StaticText "Lead Designer & Developer"
+                            uid=40_14 InlineTextBox "Lead Designer & Developer"
+                      uid=40_58 ignored
+                        uid=40_59 paragraph
+                          uid=39_29 StaticText "DONE WITH"
+                            uid=40_14 InlineTextBox "DONE WITH"
+                        uid=40_60 paragraph
+                          uid=39_30 StaticText "Whiteboard"
+                            uid=40_14 InlineTextBox "Whiteboard"
+                      uid=40_61 ignored
+                        uid=40_62 list
+                          uid=40_63 listitem level="1"
+                            uid=40_64 generic
+                              uid=39_31 StaticText "Identity Design"
+                                uid=40_14 InlineTextBox "Identity Design"
+                          uid=40_65 listitem level="1"
+                            uid=40_66 generic
+                              uid=39_32 StaticText "Creative Direction"
+                                uid=40_14 InlineTextBox "Creative Direction"
+                          uid=40_67 listitem level="1"
+                            uid=40_68 generic
+                              uid=39_33 StaticText "Web Design"
+                                uid=40_14 InlineTextBox "Web Design"
+                          uid=40_69 listitem level="1"
+                            uid=40_70 generic
+                              uid=39_34 StaticText "Development"
+                                uid=40_14 InlineTextBox "Development"
+                          uid=40_71 listitem level="1"
+                            uid=40_72 generic
+                              uid=39_35 StaticText "Packaging Design"
+                                uid=40_14 InlineTextBox "Packaging Design"
+                    uid=40_73 ignored
+          uid=40_74 generic
+            uid=40_75 generic
+              uid=40_76 ignored
+                uid=40_77 ignored
+                  uid=40_78 ignored
+                    uid=40_79 list
+                      uid=40_80 listitem level="1"
+                        uid=40_81 generic
+                      uid=40_82 listitem level="1"
+                        uid=40_83 generic
+                      uid=40_84 listitem level="1"
+                        uid=40_85 generic
+                      uid=40_86 listitem level="1"
+                        uid=40_87 generic
+                      uid=40_88 listitem level="1"
+                        uid=40_89 generic
+                      uid=40_90 listitem level="1"
+                        uid=40_91 generic
+                      uid=40_92 listitem level="1"
+                        uid=40_93 generic
+          uid=40_94 generic
+            uid=40_95 generic
+              uid=40_96 ignored
+                uid=40_97 ignored
+                  uid=39_36 heading "All work" level="2"
+                    uid=40_98 StaticText "All work"
+                      uid=40_14 InlineTextBox "All work"
+                  uid=40_99 generic
+                    uid=39_37 StaticText "17"
+                      uid=40_14 InlineTextBox "17"
+                uid=40_100 generic
+                  uid=39_38 list live="polite" relevant="additions text"
+                    uid=40_101 listitem "14 / 16" level="1"
+                      uid=39_39 link "Webflow" url="https://www.joseocando.com/work/webflow"
+                        uid=40_102 ignored
+                    uid=40_103 listitem "15 / 16" level="1"
+                      uid=39_40 link "New Story" url="https://www.joseocando.com/work/new-story"
+                        uid=40_104 ignored
+                    uid=40_105 listitem "16 / 16" level="1"
+                      uid=39_41 link "Overflow" url="https://www.joseocando.com/work/overflow"
+                        uid=40_106 ignored
+                    uid=40_107 listitem "1 / 16" level="1"
+                      uid=39_42 link "Aspect" url="https://www.joseocando.com/work/aspect"
+                        uid=40_108 ignored
+                    uid=40_109 listitem "2 / 16" level="1"
+                      uid=39_43 link "Intellicheck" url="https://www.joseocando.com/work/intellicheck"
+                        uid=40_110 ignored
+                    uid=40_111 listitem "3 / 16" level="1"
+                      uid=39_44 link "MASTRY" url="https://www.joseocando.com/work/mastry"
+                        uid=40_112 ignored
+                    uid=40_113 listitem "4 / 16" level="1"
+                      uid=39_45 link "Aggregate Singularity" url="https://www.joseocando.com/work/aggregate-singularity"
+                        uid=40_114 ignored
+                    uid=40_115 listitem "5 / 16" level="1"
+                      uid=39_46 link "TED" url="https://www.joseocando.com/work/ted"
+                        uid=40_116 ignored
+                    uid=40_117 listitem "6 / 16" level="1"
+                      uid=39_47 link "allwhere" url="https://www.joseocando.com/work/allwhere"
+                        uid=40_118 ignored
+                    uid=40_119 listitem "7 / 16" level="1"
+                      uid=39_48 link "Good Paper" url="https://www.joseocando.com/work/good-paper"
+                        uid=40_120 ignored
+                    uid=40_121 listitem "8 / 16" level="1"
+                      uid=39_49 link "Whiteboard" url="https://www.joseocando.com/work/whiteboard"
+                        uid=40_122 ignored
+                    uid=40_123 listitem "9 / 16" level="1"
+                      uid=39_50 link "Happy Valley Farms" url="https://www.joseocando.com/work/happy-valley-farms"
+                        uid=40_124 ignored
+                    uid=40_125 listitem "10 / 16" level="1"
+                      uid=39_51 link "Support Ninja" url="https://www.joseocando.com/work/support-ninja"
+                        uid=40_126 ignored
+                    uid=40_127 listitem "11 / 16" level="1"
+                      uid=39_52 link "Climate Neutral" url="https://www.joseocando.com/work/climate-neutral"
+                        uid=40_128 ignored
+                    uid=40_129 listitem "12 / 16" level="1"
+                      uid=39_53 link "Greenhouse" url="https://www.joseocando.com/work/greenhouse"
+                        uid=40_130 ignored
+                    uid=40_131 listitem "13 / 16" level="1"
+                      uid=39_54 link "Steam Logistics" url="https://www.joseocando.com/work/steam-logistics"
+                        uid=40_132 ignored
+                  uid=39_55 generic atomic live="assertive" relevant="additions text"
+                uid=40_133 ignored
+                  uid=39_56 button "Previous slide"
+                    uid=40_134 ignored
+                      uid=40_135 image
+                    uid=40_136 generic
+                      uid=40_137 StaticText "BACK"
+                        uid=40_14 InlineTextBox "BACK"
+                  uid=40_138 generic
+                    uid=40_139 generic
+                  uid=39_57 button "Next slide"
+                    uid=40_140 generic
+                      uid=40_141 StaticText "NEXT"
+                        uid=40_14 InlineTextBox "NEXT"
+                    uid=40_142 ignored
+                      uid=40_143 image
+        uid=39_58 contentinfo
+          uid=40_144 generic
+            uid=40_145 ignored
+              uid=40_146 ignored
+                uid=40_147 ignored
+                  uid=39_59 link "Jose Ocando BRAND DESIGNER WEBFLOW DEVELOPER" url="https://www.joseocando.com/"
+                    uid=40_148 generic
+                      uid=39_60 image "Jose Ocando" url="https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6624741c5ec7146127cb1873_Jose%20Portrait%20SM.webp"
+                    uid=40_149 ignored
+                      uid=40_150 generic
+                        uid=39_61 StaticText "BRAND DESIGNER"
+                          uid=40_14 InlineTextBox "BRAND DESIGNER"
+                      uid=40_151 generic
+                        uid=39_62 StaticText "WEBFLOW DEVELOPER"
+                          uid=40_14 InlineTextBox "WEBFLOW DEVELOPER"
+                  uid=40_152 ignored
+                    uid=39_63 link "WORK" url="https://www.joseocando.com/#work"
+                      uid=39_64 StaticText "WORK"
+                        uid=40_14 InlineTextBox "WORK"
+                    uid=39_65 link "ABOUT" url="https://www.joseocando.com/about"
+                      uid=39_66 StaticText "ABOUT"
+                        uid=40_14 InlineTextBox "ABOUT"
+                    uid=39_67 link "BLOG" url="https://www.joseocando.com/blog"
+                      uid=39_68 StaticText "BLOG"
+                        uid=40_14 InlineTextBox "BLOG"
+                    uid=39_69 link "CONTACT" url="mailto:a.jose.ocando@gmail.com"
+                      uid=39_70 StaticText "CONTACT"
+                        uid=40_14 InlineTextBox "CONTACT"
+                  uid=40_153 ignored
+                    uid=39_71 link "X (Formerly Twitter)" url="https://x.com/jaocando"
+                      uid=40_154 image
+                    uid=39_72 link "LinkedIn" url="https://www.linkedin.com/in/jocando/"
+                      uid=40_155 image

@@ -1,0 +1,355 @@
+uid=45_0 RootWebArea "Overflow | Case Study by Jose Ocando" url="https://www.joseocando.com/work/overflow"
+  uid=46_0 ignored
+    uid=46_1 ignored
+      uid=46_2 generic
+        uid=46_3 ignored
+          uid=46_4 generic
+          uid=46_5 ignored
+        uid=45_1 banner
+          uid=45_2 banner
+            uid=46_6 generic
+              uid=46_7 ignored
+                uid=46_8 generic
+                  uid=45_3 navigation
+                    uid=46_9 generic
+                      uid=46_10 generic
+                      uid=46_11 generic
+                        uid=45_4 link "Home" url="https://www.joseocando.com/"
+                          uid=46_12 image
+                      uid=46_13 generic
+                        uid=45_5 link "WORK" url="https://www.joseocando.com/#work"
+                          uid=45_6 StaticText "WORK"
+                            uid=46_14 InlineTextBox "WORK"
+                      uid=46_15 generic
+                        uid=45_7 link "ABOUT" url="https://www.joseocando.com/about"
+                          uid=45_8 StaticText "ABOUT"
+                            uid=46_14 InlineTextBox "ABOUT"
+                      uid=46_16 generic
+                        uid=45_9 link "BLOG" url="https://www.joseocando.com/blog"
+                          uid=45_10 StaticText "BLOG"
+                            uid=46_14 InlineTextBox "BLOG"
+                      uid=46_17 generic
+                        uid=45_11 link "CONTACT" url="mailto:a.jose.ocando@gmail.com"
+                          uid=45_12 StaticText "CONTACT"
+                            uid=46_14 InlineTextBox "CONTACT"
+          uid=46_18 ignored
+            uid=46_19 generic
+              uid=46_20 ignored
+                uid=46_21 ignored
+                  uid=46_22 ignored
+                    uid=46_23 ignored
+                      uid=46_24 ignored
+                        uid=46_25 ignored
+                          uid=46_26 image
+                        uid=46_27 generic
+                          uid=45_13 StaticText "WORK"
+                            uid=46_14 InlineTextBox "WORK"
+                        uid=46_28 generic
+                          uid=45_14 StaticText "•"
+                            uid=46_14 InlineTextBox "•"
+                        uid=46_29 generic
+                          uid=45_15 StaticText "JUN 16, 2026"
+                            uid=46_14 InlineTextBox "JUN 16, 2026"
+                      uid=45_16 heading "Overflow" level="1"
+                        uid=46_30 StaticText "Overflow"
+                          uid=46_14 InlineTextBox "Overflow"
+                    uid=46_31 ignored
+                      uid=46_32 paragraph
+                        uid=45_17 StaticText "An innovating giving platform for churches and non-profits."
+                          uid=46_14 InlineTextBox "An innovating giving platform "
+                          uid=46_14 InlineTextBox "for churches and non-profits."
+        uid=45_18 main
+          uid=46_33 ignored
+            uid=46_34 figure
+              uid=46_35 ignored
+                uid=46_36 image url="https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e8c2bdcfc17b69bdb3c0_feature-work-img_overflow.jpg"
+          uid=46_37 generic
+            uid=46_38 generic
+            uid=46_39 generic
+              uid=46_40 ignored
+                uid=46_41 ignored
+                  uid=46_42 ignored
+                    uid=45_19 heading "Project overview" level="2"
+                      uid=46_43 StaticText "Project overview"
+                        uid=46_14 InlineTextBox "Project overview"
+              uid=46_44 ignored
+                uid=46_45 ignored
+                uid=46_46 ignored
+                  uid=46_47 ignored
+                    uid=46_48 ignored
+                      uid=45_20 heading "The Client" level="2"
+                        uid=46_49 StaticText "The Client"
+                          uid=46_14 InlineTextBox "The Client"
+                      uid=46_50 paragraph
+                        uid=45_21 StaticText "Overflow is an innovative giving platform that allows users to give not just cash donations, but other less common assets like stock and crypto. After a successful funding round, they wanted a new website to speak more clearly to their distinctives like Overflow Tap, a tap-to-pay method that has proven successful with their customers."
+                          uid=46_14 InlineTextBox "Overflow is an innovative giving platform that allows users to "
+                          uid=46_14 InlineTextBox "give not just cash donations, but other less common assets "
+                          uid=46_14 InlineTextBox "like stock and crypto. After a successful funding round, they "
+                          uid=46_14 InlineTextBox "wanted a new website to speak more clearly to their "
+                          uid=46_14 InlineTextBox "distinctives like Overflow Tap, a tap-to-pay method that has "
+                          uid=46_14 InlineTextBox "proven successful with their customers."
+                      uid=45_22 heading "The Work" level="2"
+                        uid=46_51 StaticText "The Work"
+                          uid=46_14 InlineTextBox "The Work"
+                      uid=46_52 paragraph
+                        uid=45_23 StaticText "Overflow began their work with Whiteboard with the branding studio, refining their identity and expanding their brand. Equipped with a gorgeous color palette and a new 3d visual language, I designed a new website that shows off their compelling visual identity."
+                          uid=46_14 InlineTextBox "Overflow began their work with Whiteboard with the "
+                          uid=46_14 InlineTextBox "branding studio, refining their identity and expanding their "
+                          uid=46_14 InlineTextBox "brand. Equipped with a gorgeous color palette and a new 3d "
+                          uid=46_14 InlineTextBox "visual language, I designed a new website that shows off "
+                          uid=46_14 InlineTextBox "their compelling visual identity."
+                uid=46_53 ignored
+                uid=46_54 ignored
+                  uid=46_55 ignored
+                    uid=46_56 ignored
+                      uid=46_57 ignored
+                        uid=46_58 paragraph
+                          uid=45_24 StaticText "MY ROLE"
+                            uid=46_14 InlineTextBox "MY ROLE"
+                        uid=46_59 paragraph
+                          uid=45_25 StaticText "Lead Designer & Developer"
+                            uid=46_14 InlineTextBox "Lead Designer & Developer"
+                      uid=46_60 ignored
+                        uid=46_61 paragraph
+                          uid=45_26 StaticText "DONE WITH"
+                            uid=46_14 InlineTextBox "DONE WITH"
+                        uid=46_62 paragraph
+                          uid=45_27 StaticText "Whiteboard"
+                            uid=46_14 InlineTextBox "Whiteboard"
+                      uid=46_63 ignored
+                        uid=46_64 list
+                          uid=46_65 listitem level="1"
+                            uid=46_66 generic
+                              uid=45_28 StaticText "Creative Direction"
+                                uid=46_14 InlineTextBox "Creative Direction"
+                          uid=46_67 listitem level="1"
+                            uid=46_68 generic
+                              uid=45_29 StaticText "Web Design"
+                                uid=46_14 InlineTextBox "Web Design"
+                          uid=46_69 listitem level="1"
+                            uid=46_70 generic
+                              uid=45_30 StaticText "Development"
+                                uid=46_14 InlineTextBox "Development"
+                          uid=46_71 listitem level="1"
+                            uid=46_72 generic
+                              uid=45_31 StaticText "3D"
+                                uid=46_14 InlineTextBox "3D"
+                    uid=46_73 ignored
+                      uid=45_32 link "VISIT THE WEBSITE" url="https://www.overflow.co/"
+                        uid=46_74 generic
+                        uid=46_75 generic
+                          uid=45_33 StaticText "VISIT THE WEBSITE"
+                            uid=46_14 InlineTextBox "VISIT THE WEBSITE"
+                        uid=46_76 generic
+                          uid=46_77 ignored
+                            uid=46_78 image
+                uid=46_79 ignored
+          uid=46_80 generic
+            uid=46_81 generic
+              uid=46_82 ignored
+                uid=46_83 ignored
+                  uid=46_84 ignored
+                    uid=46_85 list
+                      uid=46_86 listitem level="1"
+                        uid=46_87 generic
+                      uid=46_88 listitem level="1"
+                        uid=46_89 generic
+                      uid=46_90 listitem level="1"
+                        uid=46_91 generic
+                      uid=46_92 listitem level="1"
+                        uid=46_93 generic
+                      uid=46_94 listitem level="1"
+                        uid=46_95 generic
+                      uid=46_96 listitem level="1"
+                        uid=46_97 generic
+                      uid=46_98 listitem level="1"
+                        uid=46_99 generic
+          uid=46_100 generic
+            uid=46_101 generic
+              uid=46_102 ignored
+                uid=46_103 ignored
+                  uid=45_34 heading "All work" level="2"
+                    uid=46_104 StaticText "All work"
+                      uid=46_14 InlineTextBox "All work"
+                  uid=46_105 generic
+                    uid=45_35 StaticText "17"
+                      uid=46_14 InlineTextBox "17"
+                uid=46_106 generic
+                  uid=45_36 list live="polite" relevant="additions text"
+                    uid=46_107 listitem "12 / 16" level="1"
+                      uid=45_37 link "Greenhouse" url="https://www.joseocando.com/work/greenhouse"
+                        uid=46_108 ignored
+                        uid=46_109 generic
+                          uid=46_110 ignored
+                            uid=46_111 ignored
+                              uid=46_112 ignored
+                                uid=46_113 image
+                    uid=46_114 listitem "13 / 16" level="1"
+                      uid=45_38 link "Steam Logistics" url="https://www.joseocando.com/work/steam-logistics"
+                        uid=46_115 ignored
+                        uid=46_116 generic
+                          uid=46_117 ignored
+                            uid=46_118 ignored
+                              uid=46_119 ignored
+                                uid=46_120 image
+                    uid=46_121 listitem "14 / 16" level="1"
+                      uid=45_39 link "Webflow" url="https://www.joseocando.com/work/webflow"
+                        uid=46_122 ignored
+                        uid=46_123 generic
+                          uid=46_124 ignored
+                            uid=46_125 ignored
+                              uid=46_126 ignored
+                                uid=46_127 image
+                    uid=46_128 listitem "15 / 16" level="1"
+                      uid=45_40 link "aro" url="https://www.joseocando.com/work/aro"
+                        uid=46_129 ignored
+                        uid=46_130 generic
+                          uid=46_131 ignored
+                            uid=46_132 ignored
+                              uid=46_133 ignored
+                                uid=46_134 image
+                    uid=46_135 listitem "16 / 16" level="1"
+                      uid=45_41 link "New Story" url="https://www.joseocando.com/work/new-story"
+                        uid=46_136 ignored
+                        uid=46_137 generic
+                          uid=46_138 ignored
+                            uid=46_139 ignored
+                              uid=46_140 ignored
+                                uid=46_141 image
+                    uid=46_142 listitem "1 / 16" level="1"
+                      uid=45_42 link "Aspect" url="https://www.joseocando.com/work/aspect"
+                        uid=46_143 ignored
+                        uid=46_144 generic
+                          uid=46_145 ignored
+                            uid=46_146 ignored
+                              uid=46_147 ignored
+                                uid=46_148 image
+                    uid=46_149 listitem "2 / 16" level="1"
+                      uid=45_43 link "Intellicheck" url="https://www.joseocando.com/work/intellicheck"
+                        uid=46_150 ignored
+                        uid=46_151 generic
+                          uid=46_152 ignored
+                            uid=46_153 ignored
+                              uid=46_154 ignored
+                                uid=46_155 image
+                    uid=46_156 listitem "3 / 16" level="1"
+                      uid=45_44 link "MASTRY" url="https://www.joseocando.com/work/mastry"
+                        uid=46_157 ignored
+                        uid=46_158 generic
+                          uid=46_159 ignored
+                            uid=46_160 ignored
+                              uid=46_161 ignored
+                                uid=46_162 image
+                    uid=46_163 listitem "4 / 16" level="1"
+                      uid=45_45 link "Aggregate Singularity" url="https://www.joseocando.com/work/aggregate-singularity"
+                        uid=46_164 ignored
+                        uid=46_165 generic
+                          uid=46_166 ignored
+                            uid=46_167 ignored
+                              uid=46_168 ignored
+                                uid=46_169 image
+                    uid=46_170 listitem "5 / 16" level="1"
+                      uid=45_46 link "TED" url="https://www.joseocando.com/work/ted"
+                        uid=46_171 ignored
+                        uid=46_172 generic
+                          uid=46_173 ignored
+                            uid=46_174 ignored
+                              uid=46_175 ignored
+                                uid=46_176 image
+                    uid=46_177 listitem "6 / 16" level="1"
+                      uid=45_47 link "allwhere" url="https://www.joseocando.com/work/allwhere"
+                        uid=46_178 ignored
+                        uid=46_179 generic
+                          uid=46_180 ignored
+                            uid=46_181 ignored
+                              uid=46_182 ignored
+                                uid=46_183 image
+                    uid=46_184 listitem "7 / 16" level="1"
+                      uid=45_48 link "Good Paper" url="https://www.joseocando.com/work/good-paper"
+                        uid=46_185 ignored
+                        uid=46_186 generic
+                          uid=46_187 ignored
+                            uid=46_188 ignored
+                              uid=46_189 ignored
+                                uid=46_190 image
+                    uid=46_191 listitem "8 / 16" level="1"
+                      uid=45_49 link "Whiteboard" url="https://www.joseocando.com/work/whiteboard"
+                        uid=46_192 ignored
+                        uid=46_193 generic
+                          uid=46_194 ignored
+                            uid=46_195 ignored
+                              uid=46_196 ignored
+                                uid=46_197 image
+                    uid=46_198 listitem "9 / 16" level="1"
+                      uid=45_50 link "Happy Valley Farms" url="https://www.joseocando.com/work/happy-valley-farms"
+                        uid=46_199 ignored
+                        uid=46_200 generic
+                          uid=46_201 ignored
+                            uid=46_202 ignored
+                              uid=46_203 ignored
+                                uid=46_204 image
+                    uid=46_205 listitem "10 / 16" level="1"
+                      uid=45_51 link "Support Ninja" url="https://www.joseocando.com/work/support-ninja"
+                        uid=46_206 ignored
+                        uid=46_207 generic
+                          uid=46_208 ignored
+                            uid=46_209 ignored
+                              uid=46_210 ignored
+                                uid=46_211 image
+                    uid=46_212 listitem "11 / 16" level="1"
+                      uid=45_52 link "Climate Neutral" url="https://www.joseocando.com/work/climate-neutral"
+                        uid=46_213 ignored
+                        uid=46_214 generic
+                          uid=46_215 ignored
+                            uid=46_216 ignored
+                              uid=46_217 ignored
+                                uid=46_218 image
+                  uid=45_53 generic atomic live="assertive" relevant="additions text"
+                uid=46_219 ignored
+                  uid=45_54 button "Previous slide"
+                    uid=46_220 ignored
+                      uid=46_221 image
+                    uid=46_222 generic
+                      uid=46_223 StaticText "BACK"
+                        uid=46_14 InlineTextBox "BACK"
+                  uid=46_224 generic
+                    uid=46_225 generic
+                  uid=45_55 button "Next slide"
+                    uid=46_226 generic
+                      uid=46_227 StaticText "NEXT"
+                        uid=46_14 InlineTextBox "NEXT"
+                    uid=46_228 ignored
+                      uid=46_229 image
+        uid=45_56 contentinfo
+          uid=46_230 generic
+            uid=46_231 ignored
+              uid=46_232 ignored
+                uid=46_233 ignored
+                  uid=45_57 link "Jose Ocando BRAND DESIGNER WEBFLOW DEVELOPER" url="https://www.joseocando.com/"
+                    uid=46_234 generic
+                      uid=45_58 image "Jose Ocando" url="https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6624741c5ec7146127cb1873_Jose%20Portrait%20SM.webp"
+                    uid=46_235 ignored
+                      uid=46_236 generic
+                        uid=45_59 StaticText "BRAND DESIGNER"
+                          uid=46_14 InlineTextBox "BRAND DESIGNER"
+                      uid=46_237 generic
+                        uid=45_60 StaticText "WEBFLOW DEVELOPER"
+                          uid=46_14 InlineTextBox "WEBFLOW DEVELOPER"
+                  uid=46_238 ignored
+                    uid=45_61 link "WORK" url="https://www.joseocando.com/#work"
+                      uid=45_62 StaticText "WORK"
+                        uid=46_14 InlineTextBox "WORK"
+                    uid=45_63 link "ABOUT" url="https://www.joseocando.com/about"
+                      uid=45_64 StaticText "ABOUT"
+                        uid=46_14 InlineTextBox "ABOUT"
+                    uid=45_65 link "BLOG" url="https://www.joseocando.com/blog"
+                      uid=45_66 StaticText "BLOG"
+                        uid=46_14 InlineTextBox "BLOG"
+                    uid=45_67 link "CONTACT" url="mailto:a.jose.ocando@gmail.com"
+                      uid=45_68 StaticText "CONTACT"
+                        uid=46_14 InlineTextBox "CONTACT"
+                  uid=46_239 ignored
+                    uid=45_69 link "X (Formerly Twitter)" url="https://x.com/jaocando"
+                      uid=46_240 image
+                    uid=45_70 link "LinkedIn" url="https://www.linkedin.com/in/jocando/"
+                      uid=46_241 image
