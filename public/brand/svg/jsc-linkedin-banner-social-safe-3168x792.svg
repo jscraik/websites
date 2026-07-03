@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3168" height="792" viewBox="0 0 3168 792" role="img" aria-label="LinkedIn 2x social-safe banner">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1">
+      <stop offset="0" stop-color="#0B1B2B"/>
+      <stop offset="1" stop-color="#0F2A44"/>
+    </linearGradient>
+    <pattern id="grid" width="36" height="36" patternUnits="userSpaceOnUse">
+      <path d="M36 0H0V36" fill="none" stroke="#FFFFFF" stroke-opacity="0.045" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="100%" height="100%" fill="url(#g)"/>
+  <rect width="100%" height="100%" fill="url(#grid)"/>
+
+  <!-- Reserved avatar/crop danger zone: intentionally kept visually quiet -->
+  <rect x="0" y="380" width="887" height="411" fill="#000000" opacity="0.03"/>
+
+  <g transform="translate(982, 142)">
+
+  <g transform="scale(1.36)">
+    <path d="M0 18 H392
+             C438 18 470 48 470 94
+             V128"
+          fill="none"
+          stroke="#FFFFFF"
+          stroke-width="18"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+    <text x="34" y="184"
+          font-family="Georgia, 'Times New Roman', serif"
+          font-size="155"
+          letter-spacing="-10"
+          fill="#FFFFFF">JSC</text>
+    <circle cx="502" cy="168" r="24" fill="#6B7F6B"/>
+  </g>
+  </g>
+
+  <line x1="1774" y1="158" x2="1774" y2="554" stroke="#FFFFFF" stroke-opacity="0.62" stroke-width="2"/>
+
+  <g transform="translate(1900, 221)" font-family="'Space Grotesk', 'Inter', Arial, sans-serif">
+    <text x="0" y="0" font-size="48" letter-spacing="10" font-weight="700" fill="#FFFFFF">VISIBLE PROOF</text>
+    <line x1="0" y1="83" x2="42" y2="83" stroke="#6B7F6B" stroke-width="4"/>
+    <text x="0" y="162" font-size="48" letter-spacing="8" font-weight="700" fill="#FFFFFF">AI-NATIVE DEVREL</text>
+    <text x="0" y="273" font-size="34" fill="#6B7F6B">Accountable systems for AI-native work.</text>
+  </g>
+
+  <g transform="translate(982, 601)" font-family="'Space Grotesk', 'Inter', Arial, sans-serif">
+    <text x="0" y="0" font-size="41" letter-spacing="14" font-weight="700" fill="#5EA8D8">JAMIE SCOTT CRAIK</text>
+    <text x="-50" y="75" font-size="26" letter-spacing="5" font-weight="700" fill="#FFFFFF">
+      FORMER ARMY LEADER  •  AI-NATIVE BUILDER  •  DEVELOPER ADVOCATE
+    </text>
+  </g>
+</svg>
