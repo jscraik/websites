@@ -1,0 +1,280 @@
+uid=67_0 RootWebArea "TED | Case Study by Jose Ocando" url="https://www.joseocando.com/work/ted"
+  uid=68_0 ignored
+    uid=68_1 ignored
+      uid=68_2 generic
+        uid=68_3 ignored
+          uid=68_4 generic
+          uid=68_5 ignored
+        uid=67_1 banner
+          uid=67_2 banner
+            uid=68_6 generic
+              uid=68_7 ignored
+                uid=68_8 generic
+                  uid=67_3 navigation
+                    uid=68_9 generic
+                      uid=68_10 generic
+                      uid=68_11 generic
+                        uid=67_4 link "Home" url="https://www.joseocando.com/"
+                          uid=68_12 image
+                      uid=68_13 generic
+                        uid=67_5 link "WORK" url="https://www.joseocando.com/#work"
+                          uid=67_6 StaticText "WORK"
+                            uid=68_14 InlineTextBox "WORK"
+                      uid=68_15 generic
+                        uid=67_7 link "ABOUT" url="https://www.joseocando.com/about"
+                          uid=67_8 StaticText "ABOUT"
+                            uid=68_14 InlineTextBox "ABOUT"
+                      uid=68_16 generic
+                        uid=67_9 link "BLOG" url="https://www.joseocando.com/blog"
+                          uid=67_10 StaticText "BLOG"
+                            uid=68_14 InlineTextBox "BLOG"
+                      uid=68_17 generic
+                        uid=67_11 link "CONTACT" url="mailto:a.jose.ocando@gmail.com"
+                          uid=67_12 StaticText "CONTACT"
+                            uid=68_14 InlineTextBox "CONTACT"
+          uid=68_18 ignored
+            uid=68_19 generic
+              uid=68_20 ignored
+                uid=68_21 ignored
+                  uid=68_22 ignored
+                    uid=68_23 ignored
+                      uid=68_24 ignored
+                        uid=68_25 ignored
+                          uid=68_26 image
+                        uid=68_27 generic
+                          uid=67_13 StaticText "WORK"
+                            uid=68_14 InlineTextBox "WORK"
+                        uid=68_28 generic
+                          uid=67_14 StaticText "•"
+                            uid=68_14 InlineTextBox "•"
+                        uid=68_29 generic
+                          uid=67_15 StaticText "JUN 16, 2026"
+                            uid=68_14 InlineTextBox "JUN 16, 2026"
+                      uid=67_16 heading "TED" level="1"
+                        uid=68_30 StaticText "TED"
+                          uid=68_14 InlineTextBox "TED"
+                    uid=68_31 ignored
+                      uid=68_32 paragraph
+                        uid=67_17 StaticText "A place to highlight the world's most daring changemakers."
+                          uid=68_14 InlineTextBox "A place to highlight the world's "
+                          uid=68_14 InlineTextBox "most daring changemakers."
+        uid=67_18 main
+          uid=68_33 ignored
+            uid=68_34 figure
+              uid=68_35 ignored
+                uid=68_36 image url="https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66761bee594a6bc8fe99ed18_feature-work-img__ted.webp"
+          uid=68_37 generic
+            uid=68_38 generic
+            uid=68_39 generic
+              uid=68_40 ignored
+                uid=68_41 ignored
+                  uid=68_42 ignored
+                    uid=67_19 heading "Project overview" level="2"
+                      uid=68_43 StaticText "Project overview"
+                        uid=68_14 InlineTextBox "Project overview"
+              uid=68_44 ignored
+                uid=68_45 ignored
+                  uid=68_46 ignored
+                    uid=68_47 ignored
+                      uid=67_20 heading "About the client" level="2"
+                        uid=68_48 StaticText "About the client"
+                          uid=68_14 InlineTextBox "About the client"
+                      uid=68_49 paragraph
+                        uid=67_21 StaticText "TED is a household name, famous for their "TED Talks". They represent the engagement of ideas through global collaboration."
+                          uid=68_14 InlineTextBox "TED is a household name, famous for "
+                          uid=68_14 InlineTextBox "their "TED Talks". They represent the "
+                          uid=68_14 InlineTextBox "engagement of ideas through global "
+                          uid=68_14 InlineTextBox "collaboration."
+                      uid=67_22 heading "What we did" level="2"
+                        uid=68_50 StaticText "What we did"
+                          uid=68_14 InlineTextBox "What we did"
+                      uid=68_51 paragraph
+                        uid=67_23 StaticText "Since partnering in 2022, Whiteboard has become a trusted partner for the TED team. We've worked on several intiatives, like the Audacious Project and TED Countdown. We designed and developed a new home for their conferences. But, most recently we created a new home for the TED Fellows initative."
+                          uid=68_14 InlineTextBox "Since partnering in 2022, Whiteboard "
+                          uid=68_14 InlineTextBox "has become a trusted partner for the "
+                          uid=68_14 InlineTextBox "TED team. We've worked on several "
+                          uid=68_14 InlineTextBox "intiatives, like the Audacious Project "
+                          uid=68_14 InlineTextBox "and TED Countdown. We designed "
+                          uid=68_14 InlineTextBox "and developed a new home for their "
+                          uid=68_14 InlineTextBox "conferences. But, most recently we "
+                          uid=68_14 InlineTextBox "created a new home for the "
+                          uid=68_14 InlineTextBox "TED Fellows initative."
+                      uid=68_52 paragraph
+                        uid=67_24 StaticText "Their brand guide included blended "blobs" that highlighted the idea of fellows impacting each other in their respective fields. I expanded on that idea and created a visual lanaguage that centers of the individual changemakers and their collaboration with each other."
+                          uid=68_14 InlineTextBox "Their brand guide included blended "
+                          uid=68_14 InlineTextBox ""blobs" that highlighted the idea of "
+                          uid=68_14 InlineTextBox "fellows impacting each other in their "
+                          uid=68_14 InlineTextBox "respective fields. I expanded on that "
+                          uid=68_14 InlineTextBox "idea and created a visual lanaguage "
+                          uid=68_14 InlineTextBox "that centers of the individual "
+                          uid=68_14 InlineTextBox "changemakers and their collaboration "
+                          uid=68_14 InlineTextBox "with each other."
+                uid=68_53 ignored
+                  uid=68_54 ignored
+                    uid=68_55 ignored
+                      uid=68_56 ignored
+                        uid=68_57 paragraph
+                          uid=67_25 StaticText "MY ROLE"
+                            uid=68_14 InlineTextBox "MY ROLE"
+                        uid=68_58 paragraph
+                          uid=67_26 StaticText "Lead Designer & Developer"
+                            uid=68_14 InlineTextBox "Lead Designer & Developer"
+                      uid=68_59 ignored
+                        uid=68_60 paragraph
+                          uid=67_27 StaticText "DONE WITH"
+                            uid=68_14 InlineTextBox "DONE WITH"
+                        uid=68_61 paragraph
+                          uid=67_28 StaticText "Whiteboard"
+                            uid=68_14 InlineTextBox "Whiteboard"
+                      uid=68_62 ignored
+                        uid=68_63 list
+                          uid=68_64 listitem level="1"
+                            uid=68_65 generic
+                              uid=67_29 StaticText "Creative Direction"
+                                uid=68_14 InlineTextBox "Creative Direction"
+                          uid=68_66 listitem level="1"
+                            uid=68_67 generic
+                              uid=67_30 StaticText "Web Design"
+                                uid=68_14 InlineTextBox "Web Design"
+                          uid=68_68 listitem level="1"
+                            uid=68_69 generic
+                              uid=67_31 StaticText "Development"
+                                uid=68_14 InlineTextBox "Development"
+                          uid=68_70 listitem level="1"
+                            uid=68_71 generic
+                              uid=67_32 StaticText "Brand Extension"
+                                uid=68_14 InlineTextBox "Brand Extension"
+                    uid=68_72 ignored
+                      uid=67_33 link "VISIT THE WEBSITE" url="https://fellows.ted.com/"
+                        uid=68_73 generic
+                        uid=68_74 generic
+                          uid=67_34 StaticText "VISIT THE WEBSITE"
+                            uid=68_14 InlineTextBox "VISIT THE WEBSITE"
+                        uid=68_75 generic
+                          uid=68_76 ignored
+                            uid=68_77 image
+          uid=68_78 generic
+            uid=68_79 generic
+              uid=68_80 ignored
+                uid=68_81 ignored
+                  uid=68_82 ignored
+                    uid=68_83 list
+                      uid=68_84 listitem level="1"
+                        uid=68_85 generic
+                      uid=68_86 listitem level="1"
+                        uid=68_87 generic
+                      uid=68_88 listitem level="1"
+                        uid=68_89 generic
+                      uid=68_90 listitem level="1"
+                        uid=68_91 generic
+                      uid=68_92 listitem level="1"
+                        uid=68_93 generic
+          uid=68_94 generic
+            uid=68_95 generic
+              uid=68_96 ignored
+                uid=68_97 ignored
+                  uid=67_35 heading "All work" level="2"
+                    uid=68_98 StaticText "All work"
+                      uid=68_14 InlineTextBox "All work"
+                  uid=68_99 generic
+                    uid=67_36 StaticText "17"
+                      uid=68_14 InlineTextBox "17"
+                uid=68_100 generic
+                  uid=67_37 list live="polite" relevant="additions text"
+                    uid=68_101 listitem "14 / 16" level="1"
+                      uid=67_38 link "aro" url="https://www.joseocando.com/work/aro"
+                        uid=68_102 ignored
+                    uid=68_103 listitem "15 / 16" level="1"
+                      uid=67_39 link "New Story" url="https://www.joseocando.com/work/new-story"
+                        uid=68_104 ignored
+                    uid=68_105 listitem "16 / 16" level="1"
+                      uid=67_40 link "Overflow" url="https://www.joseocando.com/work/overflow"
+                        uid=68_106 ignored
+                    uid=68_107 listitem "1 / 16" level="1"
+                      uid=67_41 link "Aspect" url="https://www.joseocando.com/work/aspect"
+                        uid=68_108 ignored
+                    uid=68_109 listitem "2 / 16" level="1"
+                      uid=67_42 link "Intellicheck" url="https://www.joseocando.com/work/intellicheck"
+                        uid=68_110 ignored
+                    uid=68_111 listitem "3 / 16" level="1"
+                      uid=67_43 link "MASTRY" url="https://www.joseocando.com/work/mastry"
+                        uid=68_112 ignored
+                    uid=68_113 listitem "4 / 16" level="1"
+                      uid=67_44 link "Aggregate Singularity" url="https://www.joseocando.com/work/aggregate-singularity"
+                        uid=68_114 ignored
+                    uid=68_115 listitem "5 / 16" level="1"
+                      uid=67_45 link "allwhere" url="https://www.joseocando.com/work/allwhere"
+                        uid=68_116 ignored
+                    uid=68_117 listitem "6 / 16" level="1"
+                      uid=67_46 link "Good Paper" url="https://www.joseocando.com/work/good-paper"
+                        uid=68_118 ignored
+                    uid=68_119 listitem "7 / 16" level="1"
+                      uid=67_47 link "Whiteboard" url="https://www.joseocando.com/work/whiteboard"
+                        uid=68_120 ignored
+                    uid=68_121 listitem "8 / 16" level="1"
+                      uid=67_48 link "Happy Valley Farms" url="https://www.joseocando.com/work/happy-valley-farms"
+                        uid=68_122 ignored
+                    uid=68_123 listitem "9 / 16" level="1"
+                      uid=67_49 link "Support Ninja" url="https://www.joseocando.com/work/support-ninja"
+                        uid=68_124 ignored
+                    uid=68_125 listitem "10 / 16" level="1"
+                      uid=67_50 link "Climate Neutral" url="https://www.joseocando.com/work/climate-neutral"
+                        uid=68_126 ignored
+                    uid=68_127 listitem "11 / 16" level="1"
+                      uid=67_51 link "Greenhouse" url="https://www.joseocando.com/work/greenhouse"
+                        uid=68_128 ignored
+                    uid=68_129 listitem "12 / 16" level="1"
+                      uid=67_52 link "Steam Logistics" url="https://www.joseocando.com/work/steam-logistics"
+                        uid=68_130 ignored
+                    uid=68_131 listitem "13 / 16" level="1"
+                      uid=67_53 link "Webflow" url="https://www.joseocando.com/work/webflow"
+                        uid=68_132 ignored
+                  uid=67_54 generic atomic live="assertive" relevant="additions text"
+                uid=68_133 ignored
+                  uid=67_55 button "Previous slide"
+                    uid=68_134 ignored
+                      uid=68_135 image
+                    uid=68_136 generic
+                      uid=68_137 StaticText "BACK"
+                        uid=68_14 InlineTextBox "BACK"
+                  uid=68_138 generic
+                    uid=68_139 generic
+                  uid=67_56 button "Next slide"
+                    uid=68_140 generic
+                      uid=68_141 StaticText "NEXT"
+                        uid=68_14 InlineTextBox "NEXT"
+                    uid=68_142 ignored
+                      uid=68_143 image
+        uid=67_57 contentinfo
+          uid=68_144 generic
+            uid=68_145 ignored
+              uid=68_146 ignored
+                uid=68_147 ignored
+                  uid=67_58 link "Jose Ocando BRAND DESIGNER WEBFLOW DEVELOPER" url="https://www.joseocando.com/"
+                    uid=68_148 generic
+                      uid=67_59 image "Jose Ocando" url="https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6624741c5ec7146127cb1873_Jose%20Portrait%20SM.webp"
+                    uid=68_149 ignored
+                      uid=68_150 generic
+                        uid=67_60 StaticText "BRAND DESIGNER"
+                          uid=68_14 InlineTextBox "BRAND DESIGNER"
+                      uid=68_151 generic
+                        uid=67_61 StaticText "WEBFLOW DEVELOPER"
+                          uid=68_14 InlineTextBox "WEBFLOW DEVELOPER"
+                  uid=68_152 ignored
+                    uid=67_62 link "WORK" url="https://www.joseocando.com/#work"
+                      uid=67_63 StaticText "WORK"
+                        uid=68_14 InlineTextBox "WORK"
+                    uid=67_64 link "ABOUT" url="https://www.joseocando.com/about"
+                      uid=67_65 StaticText "ABOUT"
+                        uid=68_14 InlineTextBox "ABOUT"
+                    uid=67_66 link "BLOG" url="https://www.joseocando.com/blog"
+                      uid=67_67 StaticText "BLOG"
+                        uid=68_14 InlineTextBox "BLOG"
+                    uid=67_68 link "CONTACT" url="mailto:a.jose.ocando@gmail.com"
+                      uid=67_69 StaticText "CONTACT"
+                        uid=68_14 InlineTextBox "CONTACT"
+                  uid=68_153 ignored
+                    uid=67_70 link "X (Formerly Twitter)" url="https://x.com/jaocando"
+                      uid=68_154 image
+                    uid=67_71 link "LinkedIn" url="https://www.linkedin.com/in/jocando/"
+                      uid=68_155 image

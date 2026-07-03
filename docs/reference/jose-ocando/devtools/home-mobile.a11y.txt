@@ -1,0 +1,397 @@
+uid=19_0 RootWebArea "Jose Ocando" url="https://www.joseocando.com/"
+  uid=20_0 ignored
+    uid=20_1 ignored
+      uid=20_2 generic
+        uid=20_3 ignored
+          uid=20_4 generic
+          uid=20_5 ignored
+        uid=19_1 banner
+          uid=19_2 banner
+            uid=20_6 generic
+              uid=20_7 ignored
+                uid=20_8 generic
+                  uid=19_3 navigation
+                    uid=20_9 generic
+                      uid=20_10 generic
+                      uid=20_11 generic
+                        uid=19_4 link "Home" url="https://www.joseocando.com/"
+                          uid=20_12 image
+                      uid=20_13 generic
+                        uid=19_5 link "WORK" url="https://www.joseocando.com/#work"
+                          uid=19_6 StaticText "WORK"
+                            uid=20_14 InlineTextBox "WORK"
+                      uid=20_15 generic
+                        uid=19_7 link "ABOUT" url="https://www.joseocando.com/about"
+                          uid=19_8 StaticText "ABOUT"
+                            uid=20_14 InlineTextBox "ABOUT"
+                      uid=20_16 generic
+                        uid=19_9 link "BLOG" url="https://www.joseocando.com/blog"
+                          uid=19_10 StaticText "BLOG"
+                            uid=20_14 InlineTextBox "BLOG"
+                      uid=20_17 generic
+                        uid=19_11 link "CONTACT" url="mailto:a.jose.ocando@gmail.com"
+                          uid=19_12 StaticText "CONTACT"
+                            uid=20_14 InlineTextBox "CONTACT"
+          uid=20_18 ignored
+            uid=20_19 generic
+              uid=20_20 ignored
+                uid=20_21 ignored
+                  uid=20_22 ignored
+                    uid=20_23 ignored
+                      uid=19_13 heading "Jose Ocando" level="1"
+                        uid=20_24 StaticText "Jose Ocando"
+                          uid=20_14 InlineTextBox "Jose "
+                          uid=20_14 InlineTextBox "Ocando"
+                      uid=20_25 ignored
+                        uid=20_26 paragraph
+                          uid=19_14 StaticText "One of my deepest joys comes from equipping creative people with the visual tools they need to further their work."
+                            uid=20_14 InlineTextBox "One of my deepest joys comes "
+                            uid=20_14 InlineTextBox "from equipping creative people "
+                            uid=20_14 InlineTextBox "with the visual tools they "
+                            uid=20_14 InlineTextBox "need to further their work."
+                        uid=20_27 generic
+                          uid=20_28 generic
+                            uid=19_15 image "Jose Ocando" url="https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6624741c5ec7146127cb1873_Jose%20Portrait%20SM.webp"
+                          uid=20_29 ignored
+                            uid=20_30 generic
+                              uid=19_16 StaticText "BRAND DESIGNER"
+                                uid=20_14 InlineTextBox "BRAND DESIGNER"
+                            uid=20_31 generic
+                              uid=19_17 StaticText "WEBFLOW DEVELOPER"
+                                uid=20_14 InlineTextBox "WEBFLOW DEVELOPER"
+                uid=20_32 ignored
+                uid=20_33 ignored
+                  uid=20_34 ignored
+                    uid=20_35 generic
+                      uid=19_18 StaticText "WHERE YOU CAN START"
+                        uid=20_14 InlineTextBox "WHERE YOU CAN START"
+                    uid=20_36 list
+                      uid=20_37 listitem level="1"
+                        uid=19_19 link "Learn fun facts about me" url="https://www.joseocando.com/about#fun-facts"
+                          uid=20_38 ignored
+                            uid=20_39 image
+                          uid=20_40 generic
+                            uid=19_20 StaticText "Learn fun facts about me"
+                              uid=20_14 InlineTextBox "Learn fun facts about me"
+                      uid=20_41 listitem level="1"
+                        uid=19_21 link "Browse my work history" url="https://www.joseocando.com/about#work-history"
+                          uid=20_42 ignored
+                            uid=20_43 image
+                          uid=20_44 generic
+                            uid=19_22 StaticText "Browse my work history"
+                              uid=20_14 InlineTextBox "Browse my work history"
+                      uid=20_45 listitem level="1"
+                        uid=19_23 link "Read a featured case study" url="https://www.joseocando.com/#featured-work"
+                          uid=20_46 ignored
+                            uid=20_47 image
+                          uid=20_48 generic
+                            uid=19_24 StaticText "Read a featured case study"
+                              uid=20_14 InlineTextBox "Read a featured case study"
+                      uid=20_49 listitem level="1"
+                        uid=20_50 ignored
+                          uid=20_51 list
+                            uid=20_52 listitem level="2"
+                              uid=19_25 link "Read a recent blog" url="https://www.joseocando.com/blog/24-things-that-make-a-great-marketing-website"
+                                uid=20_53 ignored
+                                  uid=20_54 image
+                                uid=20_55 generic
+                                  uid=19_26 StaticText "Read a recent blog"
+                                    uid=20_14 InlineTextBox "Read a recent blog"
+        uid=19_27 main
+          uid=20_56 generic
+            uid=20_57 generic
+              uid=20_58 ignored
+                uid=20_59 generic
+                  uid=19_28 StaticText "FEATURED WORK"
+                    uid=20_14 InlineTextBox "FEATURED WORK"
+                uid=20_60 separator orientation="horizontal"
+                uid=20_61 generic
+                  uid=19_29 StaticText "CURATED PROJECTS"
+                    uid=20_14 InlineTextBox "CURATED PROJECTS"
+              uid=20_62 ignored
+                uid=20_63 list
+                  uid=20_64 listitem level="1"
+                    uid=20_65 ignored
+                      uid=20_66 ignored
+                        uid=20_67 ignored
+                          uid=19_30 heading "Webflow" level="2"
+                            uid=20_68 StaticText "Webflow"
+                              uid=20_14 InlineTextBox "Webflow"
+                        uid=20_69 ignored
+                          uid=20_70 generic
+                            uid=19_31 StaticText "FROM THE CASE STUDY"
+                              uid=20_14 InlineTextBox "FROM THE CASE STUDY"
+                          uid=20_71 paragraph
+                            uid=19_32 StaticText ""Webflow changed my life, empowering me to become a developer. Now I'm helping to evolve the Webflow brand.""
+                              uid=20_14 InlineTextBox ""Webflow changed my life, "
+                              uid=20_14 InlineTextBox "empowering me to become a "
+                              uid=20_14 InlineTextBox "developer. Now I'm helping to evolve "
+                              uid=20_14 InlineTextBox "the Webflow brand.""
+                        uid=20_72 ignored
+                          uid=19_33 link "READ CASE STUDY" url="https://www.joseocando.com/work/webflow"
+                            uid=20_73 generic
+                            uid=20_74 generic
+                              uid=19_34 StaticText "READ CASE STUDY"
+                                uid=20_14 InlineTextBox "READ CASE STUDY"
+                            uid=20_75 generic
+                              uid=20_76 ignored
+                                uid=20_77 image
+                      uid=20_78 generic
+                        uid=20_79 ignored
+                        uid=20_80 ignored
+                          uid=20_81 image url="https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e03007e492b45b6d4e66_feature-work-img_webflow.jpg"
+                  uid=20_82 listitem level="1"
+                    uid=20_83 ignored
+                      uid=20_84 ignored
+                        uid=20_85 ignored
+                          uid=19_35 heading "aro" level="2"
+                            uid=20_86 StaticText "aro"
+                              uid=20_14 InlineTextBox "aro"
+                        uid=20_87 ignored
+                          uid=20_88 generic
+                            uid=19_36 StaticText "FROM THE CASE STUDY"
+                              uid=20_14 InlineTextBox "FROM THE CASE STUDY"
+                          uid=20_89 paragraph
+                            uid=19_37 StaticText ""My work on aro won an Awwwards SOTD, Dev Award, and CSSDA Site of the day.""
+                              uid=20_14 InlineTextBox ""My work on aro won an Awwwards "
+                              uid=20_14 InlineTextBox "SOTD, Dev Award, and CSSDA Site "
+                              uid=20_14 InlineTextBox "of the day.""
+                        uid=20_90 ignored
+                          uid=19_38 link "READ CASE STUDY" url="https://www.joseocando.com/work/aro"
+                            uid=20_91 generic
+                            uid=20_92 generic
+                              uid=19_39 StaticText "READ CASE STUDY"
+                                uid=20_14 InlineTextBox "READ CASE STUDY"
+                            uid=20_93 generic
+                              uid=20_94 ignored
+                                uid=20_95 image
+                      uid=20_96 generic
+                        uid=20_97 ignored
+                        uid=20_98 ignored
+                          uid=20_99 image url="https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66761d21ad45e26b948f8a02_feature-work-img__aro.webp"
+                  uid=20_100 listitem level="1"
+                    uid=20_101 ignored
+                      uid=20_102 ignored
+                        uid=20_103 ignored
+                          uid=19_40 heading "New Story" level="2"
+                            uid=20_104 StaticText "New Story"
+                              uid=20_14 InlineTextBox "New Story"
+                        uid=20_105 ignored
+                          uid=20_106 generic
+                            uid=19_41 StaticText "FROM THE CASE STUDY"
+                              uid=20_14 InlineTextBox "FROM THE CASE STUDY"
+                          uid=20_107 paragraph
+                            uid=19_42 StaticText ""I developed a visual language that combines community stories with the abstract nature of market forces.""
+                              uid=20_14 InlineTextBox ""I developed a visual language that "
+                              uid=20_14 InlineTextBox "combines community stories with "
+                              uid=20_14 InlineTextBox "the abstract nature of market "
+                              uid=20_14 InlineTextBox "forces.""
+                        uid=20_108 ignored
+                          uid=19_43 link "READ CASE STUDY" url="https://www.joseocando.com/work/new-story"
+                            uid=20_109 generic
+                            uid=20_110 generic
+                              uid=19_44 StaticText "READ CASE STUDY"
+                                uid=20_14 InlineTextBox "READ CASE STUDY"
+                            uid=20_111 generic
+                              uid=20_112 ignored
+                                uid=20_113 image
+                      uid=20_114 generic
+                        uid=20_115 ignored
+                        uid=20_116 ignored
+                          uid=20_117 image url="https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6677734068e94b4fef0d7cee_feature-work-img__new-story.webp"
+                  uid=20_118 listitem level="1"
+                    uid=20_119 ignored
+                      uid=20_120 ignored
+                        uid=20_121 ignored
+                          uid=19_45 heading "Overflow" level="2"
+                            uid=20_122 StaticText "Overflow"
+                              uid=20_14 InlineTextBox "Overflow"
+                        uid=20_123 ignored
+                          uid=20_124 generic
+                            uid=19_46 StaticText "FROM THE CASE STUDY"
+                              uid=20_14 InlineTextBox "FROM THE CASE STUDY"
+                          uid=20_125 paragraph
+                            uid=19_47 StaticText ""Equipped with a gorgeous color palette and a new 3d visual language, I designed a new site that shows off Overflow's compelling visual identity.""
+                              uid=20_14 InlineTextBox ""Equipped with a gorgeous color "
+                              uid=20_14 InlineTextBox "palette and a new 3d visual "
+                              uid=20_14 InlineTextBox "language, I designed a new site that "
+                              uid=20_14 InlineTextBox "shows off Overflow's compelling "
+                              uid=20_14 InlineTextBox "visual identity.""
+                        uid=20_126 ignored
+                          uid=19_48 link "READ CASE STUDY" url="https://www.joseocando.com/work/overflow"
+                            uid=20_127 generic
+                            uid=20_128 generic
+                              uid=19_49 StaticText "READ CASE STUDY"
+                                uid=20_14 InlineTextBox "READ CASE STUDY"
+                            uid=20_129 generic
+                              uid=20_130 ignored
+                                uid=20_131 image
+                      uid=20_132 generic
+                        uid=20_133 ignored
+                        uid=20_134 ignored
+                          uid=20_135 image url="https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/6a31e8c2bdcfc17b69bdb3c0_feature-work-img_overflow.jpg"
+          uid=20_136 generic
+            uid=20_137 generic
+              uid=20_138 ignored
+                uid=20_139 ignored
+                  uid=19_50 heading "All work" level="2"
+                    uid=20_140 StaticText "All work"
+                      uid=20_14 InlineTextBox "All work"
+                  uid=20_141 generic
+                    uid=19_51 StaticText "17"
+                      uid=20_14 InlineTextBox "17"
+                uid=20_142 generic
+                  uid=19_52 list live="polite" relevant="additions text"
+                    uid=20_143 listitem "15 / 17" level="1"
+                      uid=19_53 link "aro" url="https://www.joseocando.com/work/aro"
+                        uid=20_144 ignored
+                    uid=20_145 listitem "16 / 17" level="1"
+                      uid=19_54 link "New Story" url="https://www.joseocando.com/work/new-story"
+                        uid=20_146 ignored
+                    uid=20_147 listitem "17 / 17" level="1"
+                      uid=19_55 link "Overflow" url="https://www.joseocando.com/work/overflow"
+                        uid=20_148 ignored
+                    uid=20_149 listitem "1 / 17" level="1"
+                      uid=19_56 link "Aspect" url="https://www.joseocando.com/work/aspect"
+                        uid=20_150 ignored
+                    uid=20_151 listitem "2 / 17" level="1"
+                      uid=19_57 link "Intellicheck" url="https://www.joseocando.com/work/intellicheck"
+                        uid=20_152 ignored
+                    uid=20_153 listitem "3 / 17" level="1"
+                      uid=19_58 link "MASTRY" url="https://www.joseocando.com/work/mastry"
+                        uid=20_154 ignored
+                    uid=20_155 listitem "4 / 17" level="1"
+                      uid=19_59 link "Aggregate Singularity" url="https://www.joseocando.com/work/aggregate-singularity"
+                        uid=20_156 ignored
+                    uid=20_157 listitem "5 / 17" level="1"
+                      uid=19_60 link "TED" url="https://www.joseocando.com/work/ted"
+                        uid=20_158 ignored
+                    uid=20_159 listitem "6 / 17" level="1"
+                      uid=19_61 link "allwhere" url="https://www.joseocando.com/work/allwhere"
+                        uid=20_160 ignored
+                    uid=20_161 listitem "7 / 17" level="1"
+                      uid=19_62 link "Good Paper" url="https://www.joseocando.com/work/good-paper"
+                        uid=20_162 ignored
+                    uid=20_163 listitem "8 / 17" level="1"
+                      uid=19_63 link "Whiteboard" url="https://www.joseocando.com/work/whiteboard"
+                        uid=20_164 ignored
+                    uid=20_165 listitem "9 / 17" level="1"
+                      uid=19_64 link "Happy Valley Farms" url="https://www.joseocando.com/work/happy-valley-farms"
+                        uid=20_166 ignored
+                    uid=20_167 listitem "10 / 17" level="1"
+                      uid=19_65 link "Support Ninja" url="https://www.joseocando.com/work/support-ninja"
+                        uid=20_168 ignored
+                    uid=20_169 listitem "11 / 17" level="1"
+                      uid=19_66 link "Climate Neutral" url="https://www.joseocando.com/work/climate-neutral"
+                        uid=20_170 ignored
+                    uid=20_171 listitem "12 / 17" level="1"
+                      uid=19_67 link "Greenhouse" url="https://www.joseocando.com/work/greenhouse"
+                        uid=20_172 ignored
+                    uid=20_173 listitem "13 / 17" level="1"
+                      uid=19_68 link "Steam Logistics" url="https://www.joseocando.com/work/steam-logistics"
+                        uid=20_174 ignored
+                    uid=20_175 listitem "14 / 17" level="1"
+                      uid=19_69 link "Webflow" url="https://www.joseocando.com/work/webflow"
+                        uid=20_176 ignored
+                  uid=19_70 generic atomic live="assertive" relevant="additions text"
+                uid=20_177 ignored
+                  uid=19_71 button "Previous slide"
+                    uid=20_178 ignored
+                      uid=20_179 image
+                    uid=20_180 generic
+                      uid=20_181 StaticText "BACK"
+                        uid=20_14 InlineTextBox "BACK"
+                  uid=20_182 generic
+                    uid=20_183 generic
+                  uid=19_72 button "Next slide"
+                    uid=20_184 generic
+                      uid=20_185 StaticText "NEXT"
+                        uid=20_14 InlineTextBox "NEXT"
+                    uid=20_186 ignored
+                      uid=20_187 image
+          uid=20_188 generic
+            uid=20_189 generic
+              uid=20_190 ignored
+                uid=20_191 ignored
+                  uid=20_192 ignored
+                    uid=20_193 ignored
+                      uid=20_194 ignored
+                        uid=19_73 heading "Blog" level="2"
+                          uid=20_195 StaticText "Blog"
+                            uid=20_14 InlineTextBox "Blog"
+                        uid=20_196 ignored
+                          uid=20_197 image
+                uid=20_198 ignored
+                uid=20_199 ignored
+                  uid=20_200 ignored
+                    uid=20_201 list
+                      uid=20_202 listitem level="1"
+                        uid=20_203 ignored
+                          uid=20_204 ignored
+                            uid=19_74 heading "24 things that make a great marketing website" level="3"
+                              uid=20_205 StaticText "24 things that make a great marketing website"
+                                uid=20_14 InlineTextBox "24 things that make a "
+                                uid=20_14 InlineTextBox "great marketing website"
+                            uid=20_206 generic
+                              uid=19_75 StaticText "JUN 25, 2024"
+                                uid=20_14 InlineTextBox "JUN 25, 2024"
+                          uid=20_207 ignored
+                            uid=20_208 ignored
+                              uid=20_209 paragraph
+                                uid=19_76 StaticText "I started making websites in 2013. I’ve learned a lot. Most of those learnings came from doing the wrong thing. It’s the curse of any creative that as soon as a project is done, you realize all the ways you could have done things better."
+                                  uid=20_14 InlineTextBox "I started making websites in 2013. I’ve "
+                                  uid=20_14 InlineTextBox "learned a lot. Most of those learnings "
+                                  uid=20_14 InlineTextBox "came from doing the wrong thing. It’s "
+                                  uid=20_14 InlineTextBox "the curse of any creative that as soon "
+                                  uid=20_14 InlineTextBox "as a project is done, you realize all the "
+                                  uid=20_14 InlineTextBox "ways you could have done things "
+                                  uid=20_14 InlineTextBox "better."
+                              uid=20_210 paragraph
+                                uid=19_77 StaticText "I’ve (mostly) learned to be ok with that, to come to expect it, and to carry those learnings with me into the next project. Let me share some of those learnings with you."
+                                  uid=20_14 InlineTextBox "I’ve (mostly) learned to be ok with "
+                                  uid=20_14 InlineTextBox "that, to come to expect it, and to carry "
+                                  uid=20_14 InlineTextBox "those learnings with me into the next "
+                                  uid=20_14 InlineTextBox "project. Let me share some of those "
+                                  uid=20_14 InlineTextBox "learnings with you."
+                          uid=20_211 generic
+                            uid=19_78 link "KEEP READING" url="https://www.joseocando.com/blog/24-things-that-make-a-great-marketing-website"
+                              uid=20_212 generic
+                              uid=20_213 generic
+                                uid=19_79 StaticText "KEEP READING"
+                                  uid=20_14 InlineTextBox "KEEP READING"
+                              uid=20_214 generic
+                                uid=20_215 ignored
+                                  uid=20_216 image
+        uid=19_80 contentinfo
+          uid=20_217 generic
+            uid=20_218 ignored
+              uid=20_219 ignored
+                uid=20_220 ignored
+                  uid=19_81 link "Jose Ocando BRAND DESIGNER WEBFLOW DEVELOPER" url="https://www.joseocando.com/"
+                    uid=20_221 generic
+                      uid=19_82 image "Jose Ocando" url="https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6624741c5ec7146127cb1873_Jose%20Portrait%20SM.webp"
+                    uid=20_222 ignored
+                      uid=20_223 generic
+                        uid=19_83 StaticText "BRAND DESIGNER"
+                          uid=20_14 InlineTextBox "BRAND DESIGNER"
+                      uid=20_224 generic
+                        uid=19_84 StaticText "WEBFLOW DEVELOPER"
+                          uid=20_14 InlineTextBox "WEBFLOW DEVELOPER"
+                  uid=20_225 ignored
+                    uid=19_85 link "WORK" url="https://www.joseocando.com/#work"
+                      uid=19_86 StaticText "WORK"
+                        uid=20_14 InlineTextBox "WORK"
+                    uid=19_87 link "ABOUT" url="https://www.joseocando.com/about"
+                      uid=19_88 StaticText "ABOUT"
+                        uid=20_14 InlineTextBox "ABOUT"
+                    uid=19_89 link "BLOG" url="https://www.joseocando.com/blog"
+                      uid=19_90 StaticText "BLOG"
+                        uid=20_14 InlineTextBox "BLOG"
+                    uid=19_91 link "CONTACT" url="mailto:a.jose.ocando@gmail.com"
+                      uid=19_92 StaticText "CONTACT"
+                        uid=20_14 InlineTextBox "CONTACT"
+                  uid=20_226 ignored
+                    uid=19_93 link "X (Formerly Twitter)" url="https://x.com/jaocando"
+                      uid=20_227 image
+                    uid=19_94 link "LinkedIn" url="https://www.linkedin.com/in/jocando/"
+                      uid=20_228 image

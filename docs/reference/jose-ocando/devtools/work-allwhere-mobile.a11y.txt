@@ -1,0 +1,273 @@
+uid=71_0 RootWebArea "allwhere | Case Study by Jose Ocando" url="https://www.joseocando.com/work/allwhere"
+  uid=72_0 ignored
+    uid=72_1 ignored
+      uid=72_2 generic
+        uid=72_3 ignored
+          uid=72_4 generic
+          uid=72_5 ignored
+        uid=71_1 banner
+          uid=71_2 banner
+            uid=72_6 generic
+              uid=72_7 ignored
+                uid=72_8 generic
+                  uid=71_3 navigation
+                    uid=72_9 generic
+                      uid=72_10 generic
+                      uid=72_11 generic
+                        uid=71_4 link "Home" url="https://www.joseocando.com/"
+                          uid=72_12 image
+                      uid=72_13 generic
+                        uid=71_5 link "WORK" url="https://www.joseocando.com/#work"
+                          uid=71_6 StaticText "WORK"
+                            uid=72_14 InlineTextBox "WORK"
+                      uid=72_15 generic
+                        uid=71_7 link "ABOUT" url="https://www.joseocando.com/about"
+                          uid=71_8 StaticText "ABOUT"
+                            uid=72_14 InlineTextBox "ABOUT"
+                      uid=72_16 generic
+                        uid=71_9 link "BLOG" url="https://www.joseocando.com/blog"
+                          uid=71_10 StaticText "BLOG"
+                            uid=72_14 InlineTextBox "BLOG"
+                      uid=72_17 generic
+                        uid=71_11 link "CONTACT" url="mailto:a.jose.ocando@gmail.com"
+                          uid=71_12 StaticText "CONTACT"
+                            uid=72_14 InlineTextBox "CONTACT"
+          uid=72_18 ignored
+            uid=72_19 generic
+              uid=72_20 ignored
+                uid=72_21 ignored
+                  uid=72_22 ignored
+                    uid=72_23 ignored
+                      uid=72_24 ignored
+                        uid=72_25 ignored
+                          uid=72_26 image
+                        uid=72_27 generic
+                          uid=71_13 StaticText "WORK"
+                            uid=72_14 InlineTextBox "WORK"
+                        uid=72_28 generic
+                          uid=71_14 StaticText "•"
+                            uid=72_14 InlineTextBox "•"
+                        uid=72_29 generic
+                          uid=71_15 StaticText "JUN 16, 2026"
+                            uid=72_14 InlineTextBox "JUN 16, 2026"
+                      uid=71_16 heading "allwhere" level="1"
+                        uid=72_30 StaticText "allwhere"
+                          uid=72_14 InlineTextBox "allwhere"
+                    uid=72_31 ignored
+                      uid=72_32 paragraph
+                        uid=71_17 StaticText "An illustration focused visual language for a company that helps serve remote employees."
+                          uid=72_14 InlineTextBox "An illustration focused visual "
+                          uid=72_14 InlineTextBox "language for a company that "
+                          uid=72_14 InlineTextBox "helps serve remote employees."
+        uid=71_18 main
+          uid=72_33 ignored
+            uid=72_34 figure
+              uid=72_35 ignored
+                uid=72_36 image url="https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66761ae87634133738ed7c42_feature-work-img__allwhere.webp"
+          uid=72_37 generic
+            uid=72_38 generic
+            uid=72_39 generic
+              uid=72_40 ignored
+                uid=72_41 ignored
+                  uid=72_42 ignored
+                    uid=71_19 heading "Project overview" level="2"
+                      uid=72_43 StaticText "Project overview"
+                        uid=72_14 InlineTextBox "Project overview"
+              uid=72_44 ignored
+                uid=72_45 ignored
+                  uid=72_46 ignored
+                    uid=72_47 ignored
+                      uid=71_20 heading "About the client" level="2"
+                        uid=72_48 StaticText "About the client"
+                          uid=72_14 InlineTextBox "About the client"
+                      uid=72_49 paragraph
+                        uid=71_21 StaticText "allwhere provides on- and off-boarding for remote workers, particularly equipment maintenance."
+                          uid=72_14 InlineTextBox "allwhere provides on- and off-"
+                          uid=72_14 InlineTextBox "boarding for remote workers, "
+                          uid=72_14 InlineTextBox "particularly equipment maintenance."
+                      uid=71_22 heading "What we did" level="2"
+                        uid=72_50 StaticText "What we did"
+                          uid=72_14 InlineTextBox "What we did"
+                      uid=72_51 paragraph
+                        uid=71_23 StaticText "When allwhere approached whiteboard for a fresh website redesign, they already had charming illustrations in their brand guide. In particular I was drawn to a shipment box with legs that I felt could become a sort of mascot for the allwhere brand. I expanded the illustration system by introducing global scenes that the box could "run" through, highlighting allwhere's crucial device maintenance business line."
+                          uid=72_14 InlineTextBox "When allwhere approached "
+                          uid=72_14 InlineTextBox "whiteboard for a fresh website "
+                          uid=72_14 InlineTextBox "redesign, they already had charming "
+                          uid=72_14 InlineTextBox "illustrations in their brand guide. In "
+                          uid=72_14 InlineTextBox "particular I was drawn to a shipment "
+                          uid=72_14 InlineTextBox "box with legs that I felt could become "
+                          uid=72_14 InlineTextBox "a sort of mascot for the allwhere "
+                          uid=72_14 InlineTextBox "brand. I expanded the illustration "
+                          uid=72_14 InlineTextBox "system by introducing global scenes "
+                          uid=72_14 InlineTextBox "that the box could "run" through, "
+                          uid=72_14 InlineTextBox "highlighting allwhere's crucial device "
+                          uid=72_14 InlineTextBox "maintenance business line."
+                uid=72_52 ignored
+                  uid=72_53 ignored
+                    uid=72_54 ignored
+                      uid=72_55 ignored
+                        uid=72_56 paragraph
+                          uid=71_24 StaticText "MY ROLE"
+                            uid=72_14 InlineTextBox "MY ROLE"
+                        uid=72_57 paragraph
+                          uid=71_25 StaticText "Lead Designer & Developer"
+                            uid=72_14 InlineTextBox "Lead Designer & Developer"
+                      uid=72_58 ignored
+                        uid=72_59 paragraph
+                          uid=71_26 StaticText "DONE WITH"
+                            uid=72_14 InlineTextBox "DONE WITH"
+                        uid=72_60 paragraph
+                          uid=71_27 StaticText "Whiteboard"
+                            uid=72_14 InlineTextBox "Whiteboard"
+                      uid=72_61 ignored
+                        uid=72_62 list
+                          uid=72_63 listitem level="1"
+                            uid=72_64 generic
+                              uid=71_28 StaticText "Creative Direction"
+                                uid=72_14 InlineTextBox "Creative Direction"
+                          uid=72_65 listitem level="1"
+                            uid=72_66 generic
+                              uid=71_29 StaticText "Web Design"
+                                uid=72_14 InlineTextBox "Web Design"
+                          uid=72_67 listitem level="1"
+                            uid=72_68 generic
+                              uid=71_30 StaticText "Development"
+                                uid=72_14 InlineTextBox "Development"
+                          uid=72_69 listitem level="1"
+                            uid=72_70 generic
+                              uid=71_31 StaticText "Illustration"
+                                uid=72_14 InlineTextBox "Illustration"
+                    uid=72_71 ignored
+                      uid=71_32 link "VISIT THE WEBSITE" url="https://www.allwhere.co/"
+                        uid=72_72 generic
+                        uid=72_73 generic
+                          uid=71_33 StaticText "VISIT THE WEBSITE"
+                            uid=72_14 InlineTextBox "VISIT THE WEBSITE"
+                        uid=72_74 generic
+                          uid=72_75 ignored
+                            uid=72_76 image
+          uid=72_77 generic
+            uid=72_78 generic
+              uid=72_79 ignored
+                uid=72_80 ignored
+                  uid=72_81 ignored
+                    uid=72_82 list
+                      uid=72_83 listitem level="1"
+                        uid=72_84 generic
+                      uid=72_85 listitem level="1"
+                        uid=72_86 generic
+                      uid=72_87 listitem level="1"
+                        uid=72_88 generic
+                      uid=72_89 listitem level="1"
+                        uid=72_90 generic
+                      uid=72_91 listitem level="1"
+                        uid=72_92 generic
+          uid=72_93 generic
+            uid=72_94 generic
+              uid=72_95 ignored
+                uid=72_96 ignored
+                  uid=71_34 heading "All work" level="2"
+                    uid=72_97 StaticText "All work"
+                      uid=72_14 InlineTextBox "All work"
+                  uid=72_98 generic
+                    uid=71_35 StaticText "17"
+                      uid=72_14 InlineTextBox "17"
+                uid=72_99 generic
+                  uid=71_36 list live="polite" relevant="additions text"
+                    uid=72_100 listitem "14 / 16" level="1"
+                      uid=71_37 link "aro" url="https://www.joseocando.com/work/aro"
+                        uid=72_101 ignored
+                    uid=72_102 listitem "15 / 16" level="1"
+                      uid=71_38 link "New Story" url="https://www.joseocando.com/work/new-story"
+                        uid=72_103 ignored
+                    uid=72_104 listitem "16 / 16" level="1"
+                      uid=71_39 link "Overflow" url="https://www.joseocando.com/work/overflow"
+                        uid=72_105 ignored
+                    uid=72_106 listitem "1 / 16" level="1"
+                      uid=71_40 link "Aspect" url="https://www.joseocando.com/work/aspect"
+                        uid=72_107 ignored
+                    uid=72_108 listitem "2 / 16" level="1"
+                      uid=71_41 link "Intellicheck" url="https://www.joseocando.com/work/intellicheck"
+                        uid=72_109 ignored
+                    uid=72_110 listitem "3 / 16" level="1"
+                      uid=71_42 link "MASTRY" url="https://www.joseocando.com/work/mastry"
+                        uid=72_111 ignored
+                    uid=72_112 listitem "4 / 16" level="1"
+                      uid=71_43 link "Aggregate Singularity" url="https://www.joseocando.com/work/aggregate-singularity"
+                        uid=72_113 ignored
+                    uid=72_114 listitem "5 / 16" level="1"
+                      uid=71_44 link "TED" url="https://www.joseocando.com/work/ted"
+                        uid=72_115 ignored
+                    uid=72_116 listitem "6 / 16" level="1"
+                      uid=71_45 link "Good Paper" url="https://www.joseocando.com/work/good-paper"
+                        uid=72_117 ignored
+                    uid=72_118 listitem "7 / 16" level="1"
+                      uid=71_46 link "Whiteboard" url="https://www.joseocando.com/work/whiteboard"
+                        uid=72_119 ignored
+                    uid=72_120 listitem "8 / 16" level="1"
+                      uid=71_47 link "Happy Valley Farms" url="https://www.joseocando.com/work/happy-valley-farms"
+                        uid=72_121 ignored
+                    uid=72_122 listitem "9 / 16" level="1"
+                      uid=71_48 link "Support Ninja" url="https://www.joseocando.com/work/support-ninja"
+                        uid=72_123 ignored
+                    uid=72_124 listitem "10 / 16" level="1"
+                      uid=71_49 link "Climate Neutral" url="https://www.joseocando.com/work/climate-neutral"
+                        uid=72_125 ignored
+                    uid=72_126 listitem "11 / 16" level="1"
+                      uid=71_50 link "Greenhouse" url="https://www.joseocando.com/work/greenhouse"
+                        uid=72_127 ignored
+                    uid=72_128 listitem "12 / 16" level="1"
+                      uid=71_51 link "Steam Logistics" url="https://www.joseocando.com/work/steam-logistics"
+                        uid=72_129 ignored
+                    uid=72_130 listitem "13 / 16" level="1"
+                      uid=71_52 link "Webflow" url="https://www.joseocando.com/work/webflow"
+                        uid=72_131 ignored
+                  uid=71_53 generic atomic live="assertive" relevant="additions text"
+                uid=72_132 ignored
+                  uid=71_54 button "Previous slide"
+                    uid=72_133 ignored
+                      uid=72_134 image
+                    uid=72_135 generic
+                      uid=72_136 StaticText "BACK"
+                        uid=72_14 InlineTextBox "BACK"
+                  uid=72_137 generic
+                    uid=72_138 generic
+                  uid=71_55 button "Next slide"
+                    uid=72_139 generic
+                      uid=72_140 StaticText "NEXT"
+                        uid=72_14 InlineTextBox "NEXT"
+                    uid=72_141 ignored
+                      uid=72_142 image
+        uid=71_56 contentinfo
+          uid=72_143 generic
+            uid=72_144 ignored
+              uid=72_145 ignored
+                uid=72_146 ignored
+                  uid=71_57 link "Jose Ocando BRAND DESIGNER WEBFLOW DEVELOPER" url="https://www.joseocando.com/"
+                    uid=72_147 generic
+                      uid=71_58 image "Jose Ocando" url="https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6624741c5ec7146127cb1873_Jose%20Portrait%20SM.webp"
+                    uid=72_148 ignored
+                      uid=72_149 generic
+                        uid=71_59 StaticText "BRAND DESIGNER"
+                          uid=72_14 InlineTextBox "BRAND DESIGNER"
+                      uid=72_150 generic
+                        uid=71_60 StaticText "WEBFLOW DEVELOPER"
+                          uid=72_14 InlineTextBox "WEBFLOW DEVELOPER"
+                  uid=72_151 ignored
+                    uid=71_61 link "WORK" url="https://www.joseocando.com/#work"
+                      uid=71_62 StaticText "WORK"
+                        uid=72_14 InlineTextBox "WORK"
+                    uid=71_63 link "ABOUT" url="https://www.joseocando.com/about"
+                      uid=71_64 StaticText "ABOUT"
+                        uid=72_14 InlineTextBox "ABOUT"
+                    uid=71_65 link "BLOG" url="https://www.joseocando.com/blog"
+                      uid=71_66 StaticText "BLOG"
+                        uid=72_14 InlineTextBox "BLOG"
+                    uid=71_67 link "CONTACT" url="mailto:a.jose.ocando@gmail.com"
+                      uid=71_68 StaticText "CONTACT"
+                        uid=72_14 InlineTextBox "CONTACT"
+                  uid=72_152 ignored
+                    uid=71_69 link "X (Formerly Twitter)" url="https://x.com/jaocando"
+                      uid=72_153 image
+                    uid=71_70 link "LinkedIn" url="https://www.linkedin.com/in/jocando/"
+                      uid=72_154 image

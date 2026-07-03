@@ -1,0 +1,347 @@
+uid=53_0 RootWebArea "Intellicheck | Case Study by Jose Ocando" url="https://www.joseocando.com/work/intellicheck"
+  uid=54_0 ignored
+    uid=54_1 ignored
+      uid=54_2 generic
+        uid=54_3 ignored
+          uid=54_4 generic
+          uid=54_5 ignored
+        uid=53_1 banner
+          uid=53_2 banner
+            uid=54_6 generic
+              uid=54_7 ignored
+                uid=54_8 generic
+                  uid=53_3 navigation
+                    uid=54_9 generic
+                      uid=54_10 generic
+                      uid=54_11 generic
+                        uid=53_4 link "Home" url="https://www.joseocando.com/"
+                          uid=54_12 image
+                      uid=54_13 generic
+                        uid=53_5 link "WORK" url="https://www.joseocando.com/#work"
+                          uid=53_6 StaticText "WORK"
+                            uid=54_14 InlineTextBox "WORK"
+                      uid=54_15 generic
+                        uid=53_7 link "ABOUT" url="https://www.joseocando.com/about"
+                          uid=53_8 StaticText "ABOUT"
+                            uid=54_14 InlineTextBox "ABOUT"
+                      uid=54_16 generic
+                        uid=53_9 link "BLOG" url="https://www.joseocando.com/blog"
+                          uid=53_10 StaticText "BLOG"
+                            uid=54_14 InlineTextBox "BLOG"
+                      uid=54_17 generic
+                        uid=53_11 link "CONTACT" url="mailto:a.jose.ocando@gmail.com"
+                          uid=53_12 StaticText "CONTACT"
+                            uid=54_14 InlineTextBox "CONTACT"
+          uid=54_18 ignored
+            uid=54_19 generic
+              uid=54_20 ignored
+                uid=54_21 ignored
+                  uid=54_22 ignored
+                    uid=54_23 ignored
+                      uid=54_24 ignored
+                        uid=54_25 ignored
+                          uid=54_26 image
+                        uid=54_27 generic
+                          uid=53_13 StaticText "WORK"
+                            uid=54_14 InlineTextBox "WORK"
+                        uid=54_28 generic
+                          uid=53_14 StaticText "•"
+                            uid=54_14 InlineTextBox "•"
+                        uid=54_29 generic
+                          uid=53_15 StaticText "JUN 16, 2026"
+                            uid=54_14 InlineTextBox "JUN 16, 2026"
+                      uid=53_16 heading "Intellicheck" level="1"
+                        uid=54_30 StaticText "Intellicheck"
+                          uid=54_14 InlineTextBox "Intellicheck"
+                    uid=54_31 ignored
+                      uid=54_32 paragraph
+                        uid=53_17 StaticText "We helped Intellicheck tell their story of being the best experience customers never knew they had."
+                          uid=54_14 InlineTextBox "We helped Intellicheck tell their story of being the "
+                          uid=54_14 InlineTextBox "best experience customers never knew they had."
+        uid=53_18 main
+          uid=54_33 ignored
+            uid=54_34 figure
+              uid=54_35 ignored
+                uid=54_36 image url="https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66738098120c2d627a43ccf8_Featured%20Work%20Img__Immerse.webp"
+          uid=54_37 generic
+            uid=54_38 generic
+            uid=54_39 generic
+              uid=54_40 ignored
+                uid=54_41 ignored
+                  uid=54_42 ignored
+                    uid=53_19 heading "Project overview" level="2"
+                      uid=54_43 StaticText "Project overview"
+                        uid=54_14 InlineTextBox "Project overview"
+              uid=54_44 ignored
+                uid=54_45 ignored
+                uid=54_46 ignored
+                  uid=54_47 ignored
+                    uid=54_48 ignored
+                      uid=53_20 heading "About the client" level="2"
+                        uid=54_49 StaticText "About the client"
+                          uid=54_14 InlineTextBox "About the client"
+                      uid=54_50 paragraph
+                        uid=53_21 StaticText "Intellicheck is an ID validation company. In 2023, Intellicheck validated over 100M identities, all in seconds."
+                          uid=54_14 InlineTextBox "Intellicheck is an ID validation company. In 2023, "
+                          uid=54_14 InlineTextBox "Intellicheck validated over 100M identities, all in seconds."
+                      uid=53_22 heading "What we did" level="2"
+                        uid=54_51 StaticText "What we did"
+                          uid=54_14 InlineTextBox "What we did"
+                      uid=54_52 paragraph
+                        uid=53_23 StaticText "Whiteboard partnered with Intellicheck on a fresh identity system and website. I really enjoy projects where I get to collaborate with our very talented identity designers. The brand guides we receive are full of potential for great experiences."
+                          uid=54_14 InlineTextBox "Whiteboard partnered with Intellicheck on a fresh identity "
+                          uid=54_14 InlineTextBox "system and website. I really enjoy projects where I get to "
+                          uid=54_14 InlineTextBox "collaborate with our very talented identity designers. The "
+                          uid=54_14 InlineTextBox "brand guides we receive are full of potential for great "
+                          uid=54_14 InlineTextBox "experiences."
+                      uid=54_53 paragraph
+                        uid=53_24 StaticText "Early on, the identity team pinpointed that customer service was one of Intellicheck's core values. The tagline: "The best customer experience your customer never knew they had" became a rallying cry within their organization. And the invisible layer—depicted as a layer of frosted glass—became one of the central visual themes of the website."
+                          uid=54_14 InlineTextBox "Early on, the identity team pinpointed that customer service "
+                          uid=54_14 InlineTextBox "was one of Intellicheck's core values. The tagline: "The best "
+                          uid=54_14 InlineTextBox "customer experience your customer never knew they had" "
+                          uid=54_14 InlineTextBox "became a rallying cry within their organization. And the "
+                          uid=54_14 InlineTextBox "invisible layer—depicted as a layer of frosted glass—became "
+                          uid=54_14 InlineTextBox "one of the central visual themes of the website."
+                uid=54_54 ignored
+                uid=54_55 ignored
+                  uid=54_56 ignored
+                    uid=54_57 ignored
+                      uid=54_58 ignored
+                        uid=54_59 paragraph
+                          uid=53_25 StaticText "MY ROLE"
+                            uid=54_14 InlineTextBox "MY ROLE"
+                        uid=54_60 paragraph
+                          uid=53_26 StaticText "Lead Designer & Developer"
+                            uid=54_14 InlineTextBox "Lead Designer & Developer"
+                      uid=54_61 ignored
+                        uid=54_62 paragraph
+                          uid=53_27 StaticText "DONE WITH"
+                            uid=54_14 InlineTextBox "DONE WITH"
+                        uid=54_63 paragraph
+                          uid=53_28 StaticText "Whiteboard"
+                            uid=54_14 InlineTextBox "Whiteboard"
+                      uid=54_64 ignored
+                        uid=54_65 list
+                          uid=54_66 listitem level="1"
+                            uid=54_67 generic
+                              uid=53_29 StaticText "Web Design"
+                                uid=54_14 InlineTextBox "Web Design"
+                          uid=54_68 listitem level="1"
+                            uid=54_69 generic
+                              uid=53_30 StaticText "Development"
+                                uid=54_14 InlineTextBox "Development"
+                    uid=54_70 ignored
+                      uid=53_31 link "VISIT THE WEBSITE" url="https://www.intellicheck.com/"
+                        uid=54_71 generic
+                        uid=54_72 generic
+                          uid=53_32 StaticText "VISIT THE WEBSITE"
+                            uid=54_14 InlineTextBox "VISIT THE WEBSITE"
+                        uid=54_73 generic
+                          uid=54_74 ignored
+                            uid=54_75 image
+                uid=54_76 ignored
+          uid=54_77 generic
+            uid=54_78 generic
+              uid=54_79 ignored
+                uid=54_80 ignored
+                  uid=54_81 ignored
+                    uid=54_82 list
+                      uid=54_83 listitem level="1"
+                        uid=54_84 generic
+                      uid=54_85 listitem level="1"
+                        uid=54_86 generic
+                      uid=54_87 listitem level="1"
+                        uid=54_88 generic
+                      uid=54_89 listitem level="1"
+                        uid=54_90 generic
+                      uid=54_91 listitem level="1"
+                        uid=54_92 generic
+          uid=54_93 generic
+            uid=54_94 generic
+              uid=54_95 ignored
+                uid=54_96 ignored
+                  uid=53_33 heading "All work" level="2"
+                    uid=54_97 StaticText "All work"
+                      uid=54_14 InlineTextBox "All work"
+                  uid=54_98 generic
+                    uid=53_34 StaticText "17"
+                      uid=54_14 InlineTextBox "17"
+                uid=54_99 generic
+                  uid=53_35 list live="polite" relevant="additions text"
+                    uid=54_100 listitem "12 / 16" level="1"
+                      uid=53_36 link "Steam Logistics" url="https://www.joseocando.com/work/steam-logistics"
+                        uid=54_101 ignored
+                        uid=54_102 generic
+                          uid=54_103 ignored
+                            uid=54_104 ignored
+                              uid=54_105 ignored
+                                uid=54_106 image
+                    uid=54_107 listitem "13 / 16" level="1"
+                      uid=53_37 link "Webflow" url="https://www.joseocando.com/work/webflow"
+                        uid=54_108 ignored
+                        uid=54_109 generic
+                          uid=54_110 ignored
+                            uid=54_111 ignored
+                              uid=54_112 ignored
+                                uid=54_113 image
+                    uid=54_114 listitem "14 / 16" level="1"
+                      uid=53_38 link "aro" url="https://www.joseocando.com/work/aro"
+                        uid=54_115 ignored
+                        uid=54_116 generic
+                          uid=54_117 ignored
+                            uid=54_118 ignored
+                              uid=54_119 ignored
+                                uid=54_120 image
+                    uid=54_121 listitem "15 / 16" level="1"
+                      uid=53_39 link "New Story" url="https://www.joseocando.com/work/new-story"
+                        uid=54_122 ignored
+                        uid=54_123 generic
+                          uid=54_124 ignored
+                            uid=54_125 ignored
+                              uid=54_126 ignored
+                                uid=54_127 image
+                    uid=54_128 listitem "16 / 16" level="1"
+                      uid=53_40 link "Overflow" url="https://www.joseocando.com/work/overflow"
+                        uid=54_129 ignored
+                        uid=54_130 generic
+                          uid=54_131 ignored
+                            uid=54_132 ignored
+                              uid=54_133 ignored
+                                uid=54_134 image
+                    uid=54_135 listitem "1 / 16" level="1"
+                      uid=53_41 link "Aspect" url="https://www.joseocando.com/work/aspect"
+                        uid=54_136 ignored
+                        uid=54_137 generic
+                          uid=54_138 ignored
+                            uid=54_139 ignored
+                              uid=54_140 ignored
+                                uid=54_141 image
+                    uid=54_142 listitem "2 / 16" level="1"
+                      uid=53_42 link "MASTRY" url="https://www.joseocando.com/work/mastry"
+                        uid=54_143 ignored
+                        uid=54_144 generic
+                          uid=54_145 ignored
+                            uid=54_146 ignored
+                              uid=54_147 ignored
+                                uid=54_148 image
+                    uid=54_149 listitem "3 / 16" level="1"
+                      uid=53_43 link "Aggregate Singularity" url="https://www.joseocando.com/work/aggregate-singularity"
+                        uid=54_150 ignored
+                        uid=54_151 generic
+                          uid=54_152 ignored
+                            uid=54_153 ignored
+                              uid=54_154 ignored
+                                uid=54_155 image
+                    uid=54_156 listitem "4 / 16" level="1"
+                      uid=53_44 link "TED" url="https://www.joseocando.com/work/ted"
+                        uid=54_157 ignored
+                        uid=54_158 generic
+                          uid=54_159 ignored
+                            uid=54_160 ignored
+                              uid=54_161 ignored
+                                uid=54_162 image
+                    uid=54_163 listitem "5 / 16" level="1"
+                      uid=53_45 link "allwhere" url="https://www.joseocando.com/work/allwhere"
+                        uid=54_164 ignored
+                        uid=54_165 generic
+                          uid=54_166 ignored
+                            uid=54_167 ignored
+                              uid=54_168 ignored
+                                uid=54_169 image
+                    uid=54_170 listitem "6 / 16" level="1"
+                      uid=53_46 link "Good Paper" url="https://www.joseocando.com/work/good-paper"
+                        uid=54_171 ignored
+                        uid=54_172 generic
+                          uid=54_173 ignored
+                            uid=54_174 ignored
+                              uid=54_175 ignored
+                                uid=54_176 image
+                    uid=54_177 listitem "7 / 16" level="1"
+                      uid=53_47 link "Whiteboard" url="https://www.joseocando.com/work/whiteboard"
+                        uid=54_178 ignored
+                        uid=54_179 generic
+                          uid=54_180 ignored
+                            uid=54_181 ignored
+                              uid=54_182 ignored
+                                uid=54_183 image
+                    uid=54_184 listitem "8 / 16" level="1"
+                      uid=53_48 link "Happy Valley Farms" url="https://www.joseocando.com/work/happy-valley-farms"
+                        uid=54_185 ignored
+                        uid=54_186 generic
+                          uid=54_187 ignored
+                            uid=54_188 ignored
+                              uid=54_189 ignored
+                                uid=54_190 image
+                    uid=54_191 listitem "9 / 16" level="1"
+                      uid=53_49 link "Support Ninja" url="https://www.joseocando.com/work/support-ninja"
+                        uid=54_192 ignored
+                        uid=54_193 generic
+                          uid=54_194 ignored
+                            uid=54_195 ignored
+                              uid=54_196 ignored
+                                uid=54_197 image
+                    uid=54_198 listitem "10 / 16" level="1"
+                      uid=53_50 link "Climate Neutral" url="https://www.joseocando.com/work/climate-neutral"
+                        uid=54_199 ignored
+                        uid=54_200 generic
+                          uid=54_201 ignored
+                            uid=54_202 ignored
+                              uid=54_203 ignored
+                                uid=54_204 image
+                    uid=54_205 listitem "11 / 16" level="1"
+                      uid=53_51 link "Greenhouse" url="https://www.joseocando.com/work/greenhouse"
+                        uid=54_206 ignored
+                        uid=54_207 generic
+                          uid=54_208 ignored
+                            uid=54_209 ignored
+                              uid=54_210 ignored
+                                uid=54_211 image
+                  uid=53_52 generic atomic live="assertive" relevant="additions text"
+                uid=54_212 ignored
+                  uid=53_53 button "Previous slide"
+                    uid=54_213 ignored
+                      uid=54_214 image
+                    uid=54_215 generic
+                      uid=54_216 StaticText "BACK"
+                        uid=54_14 InlineTextBox "BACK"
+                  uid=54_217 generic
+                    uid=54_218 generic
+                  uid=53_54 button "Next slide"
+                    uid=54_219 generic
+                      uid=54_220 StaticText "NEXT"
+                        uid=54_14 InlineTextBox "NEXT"
+                    uid=54_221 ignored
+                      uid=54_222 image
+        uid=53_55 contentinfo
+          uid=54_223 generic
+            uid=54_224 ignored
+              uid=54_225 ignored
+                uid=54_226 ignored
+                  uid=53_56 link "Jose Ocando BRAND DESIGNER WEBFLOW DEVELOPER" url="https://www.joseocando.com/"
+                    uid=54_227 generic
+                      uid=53_57 image "Jose Ocando" url="https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6624741c5ec7146127cb1873_Jose%20Portrait%20SM.webp"
+                    uid=54_228 ignored
+                      uid=54_229 generic
+                        uid=53_58 StaticText "BRAND DESIGNER"
+                          uid=54_14 InlineTextBox "BRAND DESIGNER"
+                      uid=54_230 generic
+                        uid=53_59 StaticText "WEBFLOW DEVELOPER"
+                          uid=54_14 InlineTextBox "WEBFLOW DEVELOPER"
+                  uid=54_231 ignored
+                    uid=53_60 link "WORK" url="https://www.joseocando.com/#work"
+                      uid=53_61 StaticText "WORK"
+                        uid=54_14 InlineTextBox "WORK"
+                    uid=53_62 link "ABOUT" url="https://www.joseocando.com/about"
+                      uid=53_63 StaticText "ABOUT"
+                        uid=54_14 InlineTextBox "ABOUT"
+                    uid=53_64 link "BLOG" url="https://www.joseocando.com/blog"
+                      uid=53_65 StaticText "BLOG"
+                        uid=54_14 InlineTextBox "BLOG"
+                    uid=53_66 link "CONTACT" url="mailto:a.jose.ocando@gmail.com"
+                      uid=53_67 StaticText "CONTACT"
+                        uid=54_14 InlineTextBox "CONTACT"
+                  uid=54_232 ignored
+                    uid=53_68 link "X (Formerly Twitter)" url="https://x.com/jaocando"
+                      uid=54_233 image
+                    uid=53_69 link "LinkedIn" url="https://www.linkedin.com/in/jocando/"
+                      uid=54_234 image

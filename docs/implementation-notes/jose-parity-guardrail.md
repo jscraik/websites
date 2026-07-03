@@ -55,6 +55,38 @@ REFERENCE_BASE_URL=https://www.joseocando.com CANDIDATE_BASE_URL=<local-url> npm
 
 Agents cannot treat `screenshots:site` or `test:jose-parity` as visual parity proof when the topbar, blog first viewport, about sidebar/portrait, fun-facts card grid, downstream about-section geometry, direct deep-link scroll state, hash-section top band, on-the-web footer boundary, sampled background color, calibrated pixel-diff ratio, or topbar/link transition timing is materially different. The test now fails with assertion-shaped deltas that identify the exact measurement drift to repair.
 
+## Repeated Steering Recovery - Page Surfaces
+
+Human review repeatedly caught grey section bands and oversized gaps after build-only closeouts. The root operational failure was weak validation plus stale rendered-state assumptions: npm run build proved compilation, while the Playwright/CDP parity lane was blocked by local Chromium launch permissions and no deterministic fallback checked the CSS surface invariant.
+
+The durable correction is npm run validate:page-surfaces. It fails when the shared stylesheet reintroduces the Jose grey surface token, the hidden 100vmax full-bleed band pattern, or removes required var(--paper) background rules for Jamie page surfaces. This is intentionally narrower than visual parity: it protects the specific repeated regression that human steering had to catch.
+
+Future page-layout work must run this gate before claiming page background or section-surface changes are ready for visual review.
+
+The same gate also blocks the collapsed blog author-card max-width rule that disfigured the Blog page card after global About portrait rules leaked into the Blog layout. Blog author cards must keep an explicit desktop two-column contract and a separate mobile stacked contract.
+
 ## Evidence Boundary
 
 This guardrail covers the benchmark topbar plus high-signal blog, about, fun-facts, skills, work-history, and on-the-web structure on desktop and mobile. Pixel parity is enforced through calibrated mismatch-ratio budgets rather than exact equality because Jamie's copy and image assets intentionally differ from Jose's. Motion parity is enforced for the topbar/link/button transition duration and easing class, not every possible Webflow interaction timeline.
+
+## Claim Boundary - Capture Is Not Parity
+
+The Jose capture/reference pipeline is not visual parity proof. Static reference capture, rendered artifact wiring, package-script wiring, syntax checks, and generated reference indexes only prove that evidence collection is available or partially working.
+
+Do not claim the Jamie prototype matches Jose unless the parity guardrail passes against the current candidate build, or the closeout explicitly states that the parity lane is blocked and names the browser/runtime blocker.
+
+The proof command for a visual-match claim is: REFERENCE_BASE_URL=https://www.joseocando.com CANDIDATE_BASE_URL=<local-url> npm run test:jose-parity.
+
+The npm run test:jose-parity command now routes through scripts/jose-parity-runner.mjs. If CHROME_CDP_URL is present, it uses the CDP attach lane. If CHROME_CDP_URL is absent, it first checks whether managed Chromium can launch; when the managed sandbox blocks Chromium during bootstrap, it exits before the full parity run and prints the CDP command instead of reporting an opaque Playwright failure.
+
+For raw Playwright Chromium launch, bootstrap_check_in ... Permission denied (1100) is a managed macOS process/Mach bootstrap restriction. workspace-net and filesystem grants can provide network access, local binding, cache access, and profile-directory writes, but they cannot grant Chromium the host process entitlement it needs when launched inside the managed Codex sandbox.
+
+When Playwright cannot launch managed Chromium in the current environment, use the CDP attach lane instead of reducing the claim. Start a separate Chrome process with remote debugging, then run: CHROME_CDP_URL=http://127.0.0.1:9222 REFERENCE_BASE_URL=https://www.joseocando.com CANDIDATE_BASE_URL=<local-url> npm run test:jose-parity.
+
+The explicit CDP-only command is also available as: CHROME_CDP_URL=http://127.0.0.1:9222 REFERENCE_BASE_URL=https://www.joseocando.com CANDIDATE_BASE_URL=<local-url> npm run test:jose-parity:cdp.
+
+The CDP attach lane writes rendered artifacts under artifacts/screenshots-cdp/, including compare.html, per-capture screenshots, diffs, metrics, and run-summary.json. It proves rendered browser parity only when that command passes for the current candidate URL. A missing CDP endpoint is a browser-bridge blocker, not visual parity evidence.
+
+If browser-rendered capture is blocked, the strongest supported claim is pipeline readiness or partial reference validation, not visual match.
+
+When the managed sandbox cannot run the browser-rendered Playwright lane, report the proof gap with the exact attempted or required command. Example: Command: cd /Users/jamiecraik/dev/brainwav.io && REFERENCE_BASE_URL=https://www.joseocando.com npm run test:jose-parity -> blocked (browser-rendered Playwright lane was previously blocked or hung in the managed sandbox).

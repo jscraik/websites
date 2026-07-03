@@ -4,22 +4,9 @@ import StartLinks from "../components/StartLinks.astro";
 import CarouselControls from "../components/CarouselControls.astro";
 import { featuredCaseStudies, proofWorkCards } from "../data/work";
 
-const featuredCards = [
-  ...featuredCaseStudies,
-  {
-    title: "Agent Skills",
-    eyebrow: "From the workflow",
-    quote: "Reusable instructions are useful when they make judgment easier to repeat.",
-    href: "/proof/",
-    cta: "Browse proof",
-    previewTitle: "Skill-backed workflows",
-    previewMeta: "Design taste / validation / repeatable practice",
-    visual: "skills"
-  }
-];
+const featuredCards = featuredCaseStudies;
 
 const workCount = String(proofWorkCards.length).padStart(2, "0");
-const featuredCount = String(featuredCards.length).padStart(2, "0");
 ---
 
 <BaseLayout title="Jamie Scott Craik | AI-native DevRel">
@@ -54,7 +41,7 @@ const featuredCount = String(featuredCards.length).padStart(2, "0");
   <section id="featured-work" class="featured-band section-shell" aria-labelledby="featured-title">
     <div class="section-label">
       <span>Featured work</span>
-      <span>{featuredCount}</span>
+      <span>Curated projects</span>
     </div>
     <div class="featured-list">
       {featuredCards.map((card, index) => (

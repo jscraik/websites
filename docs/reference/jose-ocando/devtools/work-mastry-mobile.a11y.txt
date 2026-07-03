@@ -1,0 +1,277 @@
+uid=59_0 RootWebArea "MASTRY | Case Study by Jose Ocando" url="https://www.joseocando.com/work/mastry"
+  uid=60_0 ignored
+    uid=60_1 ignored
+      uid=60_2 generic
+        uid=60_3 ignored
+          uid=60_4 generic
+          uid=60_5 ignored
+        uid=59_1 banner
+          uid=59_2 banner
+            uid=60_6 generic
+              uid=60_7 ignored
+                uid=60_8 generic
+                  uid=59_3 navigation
+                    uid=60_9 generic
+                      uid=60_10 generic
+                      uid=60_11 generic
+                        uid=59_4 link "Home" url="https://www.joseocando.com/"
+                          uid=60_12 image
+                      uid=60_13 generic
+                        uid=59_5 link "WORK" url="https://www.joseocando.com/#work"
+                          uid=59_6 StaticText "WORK"
+                            uid=60_14 InlineTextBox "WORK"
+                      uid=60_15 generic
+                        uid=59_7 link "ABOUT" url="https://www.joseocando.com/about"
+                          uid=59_8 StaticText "ABOUT"
+                            uid=60_14 InlineTextBox "ABOUT"
+                      uid=60_16 generic
+                        uid=59_9 link "BLOG" url="https://www.joseocando.com/blog"
+                          uid=59_10 StaticText "BLOG"
+                            uid=60_14 InlineTextBox "BLOG"
+                      uid=60_17 generic
+                        uid=59_11 link "CONTACT" url="mailto:a.jose.ocando@gmail.com"
+                          uid=59_12 StaticText "CONTACT"
+                            uid=60_14 InlineTextBox "CONTACT"
+          uid=60_18 ignored
+            uid=60_19 generic
+              uid=60_20 ignored
+                uid=60_21 ignored
+                  uid=60_22 ignored
+                    uid=60_23 ignored
+                      uid=60_24 ignored
+                        uid=60_25 ignored
+                          uid=60_26 image
+                        uid=60_27 generic
+                          uid=59_13 StaticText "WORK"
+                            uid=60_14 InlineTextBox "WORK"
+                        uid=60_28 generic
+                          uid=59_14 StaticText "•"
+                            uid=60_14 InlineTextBox "•"
+                        uid=60_29 generic
+                          uid=59_15 StaticText "JUN 16, 2026"
+                            uid=60_14 InlineTextBox "JUN 16, 2026"
+                      uid=59_16 heading "MASTRY" level="1"
+                        uid=60_30 StaticText "MASTRY"
+                          uid=60_14 InlineTextBox "MASTRY"
+                    uid=60_31 ignored
+                      uid=60_32 paragraph
+                        uid=59_17 StaticText "The venture capital firm of Rudy Cline-Thomas"
+                          uid=60_14 InlineTextBox "The venture capital firm "
+                          uid=60_14 InlineTextBox "of Rudy Cline-Thomas"
+        uid=59_18 main
+          uid=60_33 ignored
+            uid=60_34 figure
+              uid=60_35 ignored
+                uid=60_36 image url="https://cdn.prod.website-files.com/6624669425dcd1e5513fb862/66d605873e23c2ce57458538_feature-work-img_mastry.webp"
+          uid=60_37 generic
+            uid=60_38 generic
+            uid=60_39 generic
+              uid=60_40 ignored
+                uid=60_41 ignored
+                  uid=60_42 ignored
+                    uid=59_19 heading "Project overview" level="2"
+                      uid=60_43 StaticText "Project overview"
+                        uid=60_14 InlineTextBox "Project overview"
+              uid=60_44 ignored
+                uid=60_45 ignored
+                  uid=60_46 ignored
+                    uid=60_47 ignored
+                      uid=59_20 heading "About the cliient" level="2"
+                        uid=60_48 StaticText "About the cliient"
+                          uid=60_14 InlineTextBox "About the cliient"
+                      uid=60_49 paragraph
+                        uid=59_21 StaticText "After coming across my work for "
+                          uid=60_14 InlineTextBox "After coming across my work for "
+                        uid=59_22 link "Aro" url="https://www.joseocando.com/work/aro"
+                          uid=59_23 StaticText "Aro"
+                            uid=60_14 InlineTextBox "Aro"
+                        uid=59_24 StaticText " (also done with Whiteboard), Venture Capitalist Rudy Cline-Thomas knew he wanted to work with us on his firm's website. Cline-Thomas has a knack for investing early in successful companies and for his partnership with athletes like Steph Curry and Andre Iguodala through Athletes First and his ownership of Leeds United."
+                          uid=60_14 InlineTextBox "(also done with Whiteboard), Venture "
+                          uid=60_14 InlineTextBox "Capitalist Rudy Cline-Thomas knew "
+                          uid=60_14 InlineTextBox "he wanted to work with us on his "
+                          uid=60_14 InlineTextBox "firm's website. Cline-Thomas has a "
+                          uid=60_14 InlineTextBox "knack for investing early in successful "
+                          uid=60_14 InlineTextBox "companies and for his partnership "
+                          uid=60_14 InlineTextBox "with athletes like Steph Curry and "
+                          uid=60_14 InlineTextBox "Andre Iguodala through Athletes First "
+                          uid=60_14 InlineTextBox "and his ownership of Leeds United."
+                      uid=59_25 heading "What we did" level="2"
+                        uid=60_50 StaticText "What we did"
+                          uid=60_14 InlineTextBox "What we did"
+                      uid=60_51 paragraph
+                        uid=59_26 StaticText "Cline-Thomas has a special passion for fine art and, in particular, for the work of Kerry James Marshall who inspired the firm's name: MASTRY. We wanted to infuse the idea of fine art by layering ink and brush textures into a simple aesthetic. To add a sense of sophistication to the site we used animated typography, smooth scrolling, and sticky hover states."
+                          uid=60_14 InlineTextBox "Cline-Thomas has a special passion "
+                          uid=60_14 InlineTextBox "for fine art and, in particular, for the "
+                          uid=60_14 InlineTextBox "work of Kerry James Marshall who "
+                          uid=60_14 InlineTextBox "inspired the firm's name: MASTRY. "
+                          uid=60_14 InlineTextBox "We wanted to infuse the idea of fine "
+                          uid=60_14 InlineTextBox "art by layering ink and brush textures "
+                          uid=60_14 InlineTextBox "into a simple aesthetic. To add a sense "
+                          uid=60_14 InlineTextBox "of sophistication to the site we used "
+                          uid=60_14 InlineTextBox "animated typography, smooth "
+                          uid=60_14 InlineTextBox "scrolling, and sticky hover states."
+                uid=60_52 ignored
+                  uid=60_53 ignored
+                    uid=60_54 ignored
+                      uid=60_55 ignored
+                        uid=60_56 paragraph
+                          uid=59_27 StaticText "MY ROLE"
+                            uid=60_14 InlineTextBox "MY ROLE"
+                        uid=60_57 paragraph
+                          uid=59_28 StaticText "Lead Designer & Developer"
+                            uid=60_14 InlineTextBox "Lead Designer & Developer"
+                      uid=60_58 ignored
+                        uid=60_59 paragraph
+                          uid=59_29 StaticText "DONE WITH"
+                            uid=60_14 InlineTextBox "DONE WITH"
+                        uid=60_60 paragraph
+                          uid=59_30 StaticText "Whiteboard"
+                            uid=60_14 InlineTextBox "Whiteboard"
+                      uid=60_61 ignored
+                        uid=60_62 list
+                          uid=60_63 listitem level="1"
+                            uid=60_64 generic
+                              uid=59_31 StaticText "Web Design"
+                                uid=60_14 InlineTextBox "Web Design"
+                          uid=60_65 listitem level="1"
+                            uid=60_66 generic
+                              uid=59_32 StaticText "Development"
+                                uid=60_14 InlineTextBox "Development"
+                          uid=60_67 listitem level="1"
+                            uid=60_68 generic
+                              uid=59_33 StaticText "Art Direction"
+                                uid=60_14 InlineTextBox "Art Direction"
+                          uid=60_69 listitem level="1"
+                            uid=60_70 generic
+                              uid=59_34 StaticText "Animation"
+                                uid=60_14 InlineTextBox "Animation"
+                    uid=60_71 ignored
+                      uid=59_35 link "VISIT THE WEBSITE" url="https://www.mastryinc.com/"
+                        uid=60_72 generic
+                        uid=60_73 generic
+                          uid=59_36 StaticText "VISIT THE WEBSITE"
+                            uid=60_14 InlineTextBox "VISIT THE WEBSITE"
+                        uid=60_74 generic
+                          uid=60_75 ignored
+                            uid=60_76 image
+          uid=60_77 generic
+            uid=60_78 generic
+              uid=60_79 ignored
+                uid=60_80 ignored
+                  uid=60_81 ignored
+                    uid=60_82 list
+                      uid=60_83 listitem level="1"
+                        uid=60_84 generic
+                      uid=60_85 listitem level="1"
+                        uid=60_86 generic
+                      uid=60_87 listitem level="1"
+                        uid=60_88 generic
+          uid=60_89 generic
+            uid=60_90 generic
+              uid=60_91 ignored
+                uid=60_92 ignored
+                  uid=59_37 heading "All work" level="2"
+                    uid=60_93 StaticText "All work"
+                      uid=60_14 InlineTextBox "All work"
+                  uid=60_94 generic
+                    uid=59_38 StaticText "17"
+                      uid=60_14 InlineTextBox "17"
+                uid=60_95 generic
+                  uid=59_39 list live="polite" relevant="additions text"
+                    uid=60_96 listitem "14 / 16" level="1"
+                      uid=59_40 link "aro" url="https://www.joseocando.com/work/aro"
+                        uid=60_97 ignored
+                    uid=60_98 listitem "15 / 16" level="1"
+                      uid=59_41 link "New Story" url="https://www.joseocando.com/work/new-story"
+                        uid=60_99 ignored
+                    uid=60_100 listitem "16 / 16" level="1"
+                      uid=59_42 link "Overflow" url="https://www.joseocando.com/work/overflow"
+                        uid=60_101 ignored
+                    uid=60_102 listitem "1 / 16" level="1"
+                      uid=59_43 link "Aspect" url="https://www.joseocando.com/work/aspect"
+                        uid=60_103 ignored
+                    uid=60_104 listitem "2 / 16" level="1"
+                      uid=59_44 link "Intellicheck" url="https://www.joseocando.com/work/intellicheck"
+                        uid=60_105 ignored
+                    uid=60_106 listitem "3 / 16" level="1"
+                      uid=59_45 link "Aggregate Singularity" url="https://www.joseocando.com/work/aggregate-singularity"
+                        uid=60_107 ignored
+                    uid=60_108 listitem "4 / 16" level="1"
+                      uid=59_46 link "TED" url="https://www.joseocando.com/work/ted"
+                        uid=60_109 ignored
+                    uid=60_110 listitem "5 / 16" level="1"
+                      uid=59_47 link "allwhere" url="https://www.joseocando.com/work/allwhere"
+                        uid=60_111 ignored
+                    uid=60_112 listitem "6 / 16" level="1"
+                      uid=59_48 link "Good Paper" url="https://www.joseocando.com/work/good-paper"
+                        uid=60_113 ignored
+                    uid=60_114 listitem "7 / 16" level="1"
+                      uid=59_49 link "Whiteboard" url="https://www.joseocando.com/work/whiteboard"
+                        uid=60_115 ignored
+                    uid=60_116 listitem "8 / 16" level="1"
+                      uid=59_50 link "Happy Valley Farms" url="https://www.joseocando.com/work/happy-valley-farms"
+                        uid=60_117 ignored
+                    uid=60_118 listitem "9 / 16" level="1"
+                      uid=59_51 link "Support Ninja" url="https://www.joseocando.com/work/support-ninja"
+                        uid=60_119 ignored
+                    uid=60_120 listitem "10 / 16" level="1"
+                      uid=59_52 link "Climate Neutral" url="https://www.joseocando.com/work/climate-neutral"
+                        uid=60_121 ignored
+                    uid=60_122 listitem "11 / 16" level="1"
+                      uid=59_53 link "Greenhouse" url="https://www.joseocando.com/work/greenhouse"
+                        uid=60_123 ignored
+                    uid=60_124 listitem "12 / 16" level="1"
+                      uid=59_54 link "Steam Logistics" url="https://www.joseocando.com/work/steam-logistics"
+                        uid=60_125 ignored
+                    uid=60_126 listitem "13 / 16" level="1"
+                      uid=59_55 link "Webflow" url="https://www.joseocando.com/work/webflow"
+                        uid=60_127 ignored
+                  uid=59_56 generic atomic live="assertive" relevant="additions text"
+                uid=60_128 ignored
+                  uid=59_57 button "Previous slide"
+                    uid=60_129 ignored
+                      uid=60_130 image
+                    uid=60_131 generic
+                      uid=60_132 StaticText "BACK"
+                        uid=60_14 InlineTextBox "BACK"
+                  uid=60_133 generic
+                    uid=60_134 generic
+                  uid=59_58 button "Next slide"
+                    uid=60_135 generic
+                      uid=60_136 StaticText "NEXT"
+                        uid=60_14 InlineTextBox "NEXT"
+                    uid=60_137 ignored
+                      uid=60_138 image
+        uid=59_59 contentinfo
+          uid=60_139 generic
+            uid=60_140 ignored
+              uid=60_141 ignored
+                uid=60_142 ignored
+                  uid=59_60 link "Jose Ocando BRAND DESIGNER WEBFLOW DEVELOPER" url="https://www.joseocando.com/"
+                    uid=60_143 generic
+                      uid=59_61 image "Jose Ocando" url="https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6624741c5ec7146127cb1873_Jose%20Portrait%20SM.webp"
+                    uid=60_144 ignored
+                      uid=60_145 generic
+                        uid=59_62 StaticText "BRAND DESIGNER"
+                          uid=60_14 InlineTextBox "BRAND DESIGNER"
+                      uid=60_146 generic
+                        uid=59_63 StaticText "WEBFLOW DEVELOPER"
+                          uid=60_14 InlineTextBox "WEBFLOW DEVELOPER"
+                  uid=60_147 ignored
+                    uid=59_64 link "WORK" url="https://www.joseocando.com/#work"
+                      uid=59_65 StaticText "WORK"
+                        uid=60_14 InlineTextBox "WORK"
+                    uid=59_66 link "ABOUT" url="https://www.joseocando.com/about"
+                      uid=59_67 StaticText "ABOUT"
+                        uid=60_14 InlineTextBox "ABOUT"
+                    uid=59_68 link "BLOG" url="https://www.joseocando.com/blog"
+                      uid=59_69 StaticText "BLOG"
+                        uid=60_14 InlineTextBox "BLOG"
+                    uid=59_70 link "CONTACT" url="mailto:a.jose.ocando@gmail.com"
+                      uid=59_71 StaticText "CONTACT"
+                        uid=60_14 InlineTextBox "CONTACT"
+                  uid=60_148 ignored
+                    uid=59_72 link "X (Formerly Twitter)" url="https://x.com/jaocando"
+                      uid=60_149 image
+                    uid=59_73 link "LinkedIn" url="https://www.linkedin.com/in/jocando/"
+                      uid=60_150 image
