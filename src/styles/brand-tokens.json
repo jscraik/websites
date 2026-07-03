@@ -1,0 +1,16 @@
+{
+  "brand": "JSC",
+  "owner": "Jamie Scott Craik",
+  "tagline": "Visible proof. AI-native DevRel.",
+  "descriptor": "Former Army Leader \u2022 AI-native Builder \u2022 Developer Advocate",
+  "colors": {
+    "charcoal": "#111316",
+    "sage": "#6B7F6B",
+    "ink_blue": "#0F2A44",
+    "warm_off_white": "#FAF8F5",
+    "stone": "#E6E6E1",
+    "white": "#FFFFFF",
+    "accent_blue": "#5EA8D8"
+  },
+  "social_safe_rule": "Keep all important identity content away from the lower-left avatar overlay area."
+}
