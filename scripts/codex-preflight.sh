@@ -1,0 +1,954 @@
+#!/usr/bin/env bash
+
+print_do_not_source_message() {
+	printf '%s\n' \
+		'Do not source scripts/codex-preflight.sh.' \
+		'Run: bash scripts/codex-preflight.sh --stack auto --mode required' \
+		'Optional mode: bash scripts/codex-preflight.sh --mode optional' >&2
+}
+
+is_sourced_invocation=0
+if [[ -n "${ZSH_VERSION:-}" ]]; then
+	_script_source_path="$(eval 'printf "%s\n" "${(%):-%N}"')"
+	if [[ "${_script_source_path}" != "$0" ]]; then
+		is_sourced_invocation=1
+	fi
+elif [[ "${BASH_SOURCE[0]:-$0}" != "$0" ]]; then
+	is_sourced_invocation=1
+fi
+
+if (( is_sourced_invocation )) && [[ "${CODEX_PREFLIGHT_ALLOW_SOURCE:-0}" != "1" ]]; then
+	print_do_not_source_message
+	# shellcheck disable=SC2317 # exit is a non-sourced fallback when `return` is invalid.
+	if ! return 1 2>/dev/null; then
+		exit 1
+	fi
+fi
+
+set -euo pipefail
+
+ensure_optional_npm_token_env() {
+	if [[ -z "${NPM_TOKEN+x}" ]]; then
+		export NPM_TOKEN=""
+	fi
+}
+
+ensure_optional_npm_token_env
+
+resolve_script_path() {
+	if [[ -n "${ZSH_VERSION:-}" ]]; then
+		eval 'printf "%s\n" "${(%):-%N}"'
+		return
+	fi
+	printf '%s\n' "${BASH_SOURCE[0]:-$0}"
+}
+
+is_script_sourced() {
+	if [[ -n "${ZSH_VERSION:-}" ]]; then
+		local source_path
+		source_path="$(resolve_script_path)"
+		[[ "${source_path}" != "$0" ]]
+		return
+	fi
+	[[ "${BASH_SOURCE[0]:-$0}" != "$0" ]]
+}
+
+SCRIPT_PATH="$(resolve_script_path)"
+SCRIPT_DIR="$(cd -- "$(dirname -- "${SCRIPT_PATH}")" && pwd -P)"
+WORKSPACE_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd -P)"
+PREFLIGHT_OVERRIDES_FILE="${WORKSPACE_ROOT}/.harness/memory/codex-preflight-overrides.env"
+PREFLIGHT_RECEIPT_PATH="${WORKSPACE_ROOT}/.harness/runtime/codex-preflight-status.json"
+LOCAL_MEMORY_FALLBACK_SCRIPT="${SCRIPT_DIR}/codex-preflight-local-memory-legacy.sh"
+GIT_COMMON_CONFIG_GUARD_SCRIPT="${SCRIPT_DIR}/check-git-common-config.sh"
+PROJECT_BRAIN_REQUIRED_PATHS='.harness/README.md,.harness/memory/LEARNINGS.md,.harness/knowledge/INDEX.md,.harness/knowledge/cli/knowledge.md,.harness/knowledge/cli/hypotheses.md,.harness/knowledge/cli/rules.md,.harness/knowledge/ci/knowledge.md,.harness/knowledge/ci/hypotheses.md,.harness/knowledge/ci/rules.md,.harness/knowledge/governance/knowledge.md,.harness/knowledge/governance/hypotheses.md,.harness/knowledge/governance/rules.md,.harness/knowledge/tooling/knowledge.md,.harness/knowledge/tooling/hypotheses.md,.harness/knowledge/tooling/rules.md,.harness/knowledge/tooling/codex-learn-summary.md,.harness/decisions,.harness/quality/criteria.md,.harness/review-log.md'
+WORKSPACE_GIT_USE_WORKTREE_OVERRIDE=0
+WORKSPACE_GIT_ROOT=''
+
+# usage prints the CLI usage text, available options, examples, and the legacy positional-interface note for the codex preflight script.
+usage() {
+	cat <<'USAGE'
+Usage:
+  ./scripts/codex-preflight.sh [options]
+
+Options:
+  --stack <auto|repo|js|py|rust>    Stack mode. Default: auto
+  --mode <off|optional|required>    Local Memory mode. Default: required
+  --repo-fragment <text>            Require repo root to contain this fragment
+  --bins <csv>                      Override required binaries
+  --paths <csv>                     Override required paths
+  -h, --help                        Show this help
+
+Examples:
+  ./scripts/codex-preflight.sh
+  ./scripts/codex-preflight.sh --stack js
+  ./scripts/codex-preflight.sh --stack py --mode required
+  ./scripts/codex-preflight.sh --repo-fragment local-memory
+
+Legacy compatibility:
+  ./scripts/codex-preflight.sh <repo-fragment> [bins-csv] [paths-csv] [off|optional|required]
+  ./scripts/codex-preflight.sh <auto|js|py|rust> <off|optional|required>
+  This preserves the older positional interface used by parent-repo checks and
+  defaults to required Local Memory preflight unless optional/off is explicit.
+USAGE
+}
+
+log_section() {
+	printf '== %s ==\n' "$*"
+}
+
+log_ok() {
+	printf '✅ %s\n' "$*"
+}
+
+log_warn() {
+	printf '⚠️ %s\n' "$*"
+}
+
+log_err() {
+	printf '❌ %s\n' "$*" >&2
+}
+
+write_preflight_receipt() {
+	local status="$1"
+	local mode="$2"
+	local generated_at=''
+	generated_at="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+	if ! mkdir -p "$(dirname -- "${PREFLIGHT_RECEIPT_PATH}")"; then
+		log_warn "could not create preflight receipt directory"
+		return 0
+	fi
+	if ! cat >"${PREFLIGHT_RECEIPT_PATH}" <<JSON
+{
+  "schemaVersion": "codex-preflight-status/v1",
+  "generatedAt": "${generated_at}",
+  "mode": "${mode}",
+  "status": "${status}",
+  "command": "bash scripts/codex-preflight.sh --stack auto --mode ${mode}"
+}
+JSON
+	then
+		log_warn "could not write preflight receipt: ${PREFLIGHT_RECEIPT_PATH}"
+	fi
+}
+
+clear_preflight_receipt() {
+	if [[ -f "${PREFLIGHT_RECEIPT_PATH}" ]] && ! rm -f -- "${PREFLIGHT_RECEIPT_PATH}"; then
+		log_warn "could not clear stale preflight receipt: ${PREFLIGHT_RECEIPT_PATH}"
+	fi
+}
+
+PREFLIGHT_EXIT_RECEIPT_MODE='required'
+write_preflight_failure_receipt_on_exit() {
+	local exit_code="$?"
+	if (( exit_code != 0 )); then
+		write_preflight_receipt 'fail' "${PREFLIGHT_EXIT_RECEIPT_MODE:-required}"
+	fi
+}
+
+workspace_git() {
+	if (( WORKSPACE_GIT_USE_WORKTREE_OVERRIDE )); then
+		GIT_WORK_TREE="${WORKSPACE_ROOT}" git -C "${WORKSPACE_ROOT}" "$@"
+		return
+	fi
+	git -C "${WORKSPACE_ROOT}" "$@"
+}
+
+resolve_workspace_git_root() {
+	local git_root=''
+	local canonical_workspace_root=''
+	canonical_workspace_root="$(cd -- "${WORKSPACE_ROOT}" 2>/dev/null && pwd -P)"
+	WORKSPACE_GIT_USE_WORKTREE_OVERRIDE=0
+	WORKSPACE_GIT_ROOT=''
+
+	if git_root="$(git -C "${WORKSPACE_ROOT}" rev-parse --show-toplevel 2>/dev/null)"; then
+		git_root="$(cd -- "${git_root}" 2>/dev/null && pwd -P || printf '%s\n' "${git_root}")"
+		if [[ "${canonical_workspace_root}" == "${git_root}" || "${canonical_workspace_root}" == "${git_root}"/* ]]; then
+			WORKSPACE_GIT_ROOT="${git_root}"
+			return 0
+		fi
+	fi
+	if git_root="$(GIT_WORK_TREE="${WORKSPACE_ROOT}" git -C "${WORKSPACE_ROOT}" rev-parse --show-toplevel 2>/dev/null)"; then
+		git_root="$(cd -- "${git_root}" 2>/dev/null && pwd -P || printf '%s\n' "${git_root}")"
+		WORKSPACE_GIT_USE_WORKTREE_OVERRIDE=1
+		WORKSPACE_GIT_ROOT="${git_root}"
+		return 0
+	fi
+	return 1
+}
+
+# append_csv_values combines two comma-separated lists: if one is empty returns the other, otherwise returns both joined with a single comma.
+append_csv_values() {
+	local base_csv="${1:-}"
+	local extra_csv="${2:-}"
+
+	if [[ -z "${base_csv}" ]]; then
+		printf '%s\n' "${extra_csv}"
+		return
+	fi
+	if [[ -z "${extra_csv}" ]]; then
+		printf '%s\n' "${base_csv}"
+		return
+	fi
+	printf '%s,%s\n' "${base_csv}" "${extra_csv}"
+}
+
+append_project_brain_paths() {
+	local base_paths="$1"
+	if project_brain_required_enabled; then
+		append_csv_values "${base_paths}" "${PROJECT_BRAIN_REQUIRED_PATHS}"
+		return
+	fi
+	printf '%s\n' "${base_paths}"
+}
+
+project_brain_required_enabled() {
+	local knowledge_index="${WORKSPACE_ROOT}/.harness/knowledge/INDEX.md"
+	local decisions_dir="${WORKSPACE_ROOT}/.harness/decisions"
+	local review_log="${WORKSPACE_ROOT}/.harness/review-log.md"
+	case "${CODEX_PREFLIGHT_REQUIRE_PROJECT_BRAIN:-auto}" in
+		always|1|true|yes) return 0 ;;
+		never|0|false|no) return 1 ;;
+	esac
+	# Auto-enable only when the core scaffold appears complete, not just when a
+	# single legacy memory marker exists.
+	[[ -f "${knowledge_index}" && -d "${decisions_dir}" && -f "${review_log}" ]]
+}
+
+trim_ascii_whitespace() {
+	local value="${1:-}"
+	value="${value#"${value%%[![:space:]]*}"}"
+	value="${value%"${value##*[![:space:]]}"}"
+	printf '%s\n' "${value}"
+}
+
+decode_preflight_override_value() {
+	local raw_value="${1:-}"
+	local value=''
+	# shellcheck disable=SC2016 # ${} is intentionally treated as literal characters in this allowlist.
+	local safe_value_re='^[A-Za-z0-9_./,:@+*?${}~ -]*$'
+
+	value="$(trim_ascii_whitespace "${raw_value}")"
+	if [[ "${value}" == \"*\" && "${value}" == *\" ]]; then
+		value="${value:1:${#value}-2}"
+	elif [[ "${value}" == \'*\' && "${value}" == *\' ]]; then
+		value="${value:1:${#value}-2}"
+	fi
+
+	if [[ -n "${value}" && ! "${value}" =~ ${safe_value_re} ]]; then
+		return 1
+	fi
+	printf '%s\n' "${value}"
+}
+
+# load_preflight_overrides loads preflight override variables from a file into PREFLIGHT_OVERRIDE_BINS, PREFLIGHT_OVERRIDE_PATHS, and PREFLIGHT_OVERRIDE_ALLOWED_EXTERNAL_PATHS.
+# override_file is the path to an optional overrides file; if the file does not exist the variables are set to empty and the function returns success (0).
+load_preflight_overrides() {
+	local override_file="$1"
+	local line=''
+	local cleaned_line=''
+	local key=''
+	local raw_value=''
+	local parsed_value=''
+
+	PREFLIGHT_OVERRIDE_BINS=''
+	PREFLIGHT_OVERRIDE_PATHS=''
+	PREFLIGHT_OVERRIDE_ALLOWED_EXTERNAL_PATHS="${CODEX_PREFLIGHT_ALLOWED_EXTERNAL_PATHS:-}"
+	if [[ ! -f "${override_file}" ]]; then
+		return 0
+	fi
+
+	while IFS= read -r line || [[ -n "${line}" ]]; do
+		cleaned_line="$(trim_ascii_whitespace "${line%%#*}")"
+		[[ -z "${cleaned_line}" ]] && continue
+		cleaned_line="${cleaned_line#export }"
+		if [[ "${cleaned_line}" != *=* ]]; then
+			log_warn "ignoring malformed override line in ${override_file}"
+			continue
+		fi
+
+		key="$(trim_ascii_whitespace "${cleaned_line%%=*}")"
+		raw_value="${cleaned_line#*=}"
+		if ! parsed_value="$(decode_preflight_override_value "${raw_value}")"; then
+			log_warn "ignoring unsafe override value for ${key} in ${override_file}"
+			continue
+		fi
+
+		case "${key}" in
+			CODEX_PREFLIGHT_EXTRA_BINS) PREFLIGHT_OVERRIDE_BINS="${parsed_value}" ;;
+			CODEX_PREFLIGHT_EXTRA_PATHS) PREFLIGHT_OVERRIDE_PATHS="${parsed_value}" ;;
+			CODEX_PREFLIGHT_ALLOWED_EXTERNAL_PATHS)
+				PREFLIGHT_OVERRIDE_ALLOWED_EXTERNAL_PATHS="${parsed_value}"
+				;;
+			*)
+				log_warn "ignoring unsupported override key in ${override_file}: ${key}"
+				;;
+		esac
+	done < "${override_file}"
+}
+
+# detect_stack determines the project stack by checking for standard manifest files and echoes one of: `js`, `py`, `rust`, or `repo`.
+detect_stack() {
+	if [[ -f package.json ]]; then
+		echo js
+		return
+	fi
+	if [[ -f pyproject.toml ]]; then
+		echo py
+		return
+	fi
+	if [[ -f Cargo.toml ]]; then
+		echo rust
+		return
+	fi
+	echo repo
+}
+
+stack_bins_csv() {
+	case "$1" in
+		js) echo 'git,bash,sed,rg,jq,curl,node,npm,python3' ;;
+		py) echo 'git,bash,sed,rg,jq,curl,python3' ;;
+		rust) echo 'git,bash,sed,rg,jq,curl,python3,cargo' ;;
+		repo) echo 'git,bash,sed,rg,jq,curl,python3' ;;
+		*) log_err "unknown stack: $1"; return 2 ;;
+	esac
+}
+
+# stack_paths_csv returns a comma-separated list of repository paths required for the specified stack (`js`, `py`, `rust`, or `repo`).
+# stack_paths_csv returns a comma-separated list of repository paths required for the given stack (js, py, rust, repo); on unknown stack it logs an error and returns exit code 2.
+stack_paths_csv() {
+	case "$1" in
+		js) append_project_brain_paths 'package.json,CODESTYLE.md,CONTRIBUTING.md,Makefile,scripts,scripts/codex-preflight.sh,scripts/codex-preflight-local-memory-legacy.sh,scripts/check-git-common-config.sh,scripts/verify-work.sh,scripts/validate-codestyle.sh' ;;
+		py) append_project_brain_paths 'pyproject.toml,CODESTYLE.md,CONTRIBUTING.md,Makefile,scripts,scripts/codex-preflight.sh,scripts/codex-preflight-local-memory-legacy.sh,scripts/check-git-common-config.sh,scripts/verify-work.sh,scripts/validate-codestyle.sh' ;;
+		rust) append_project_brain_paths 'Cargo.toml,CODESTYLE.md,CONTRIBUTING.md,Makefile,scripts,scripts/codex-preflight.sh,scripts/codex-preflight-local-memory-legacy.sh,scripts/check-git-common-config.sh,scripts/verify-work.sh,scripts/validate-codestyle.sh' ;;
+		repo) append_project_brain_paths 'CODESTYLE.md,CONTRIBUTING.md,Makefile,scripts,scripts/codex-preflight.sh,scripts/codex-preflight-local-memory-legacy.sh,scripts/check-git-common-config.sh,scripts/verify-work.sh,scripts/validate-codestyle.sh' ;;
+		*) log_err "unknown stack: $1"; return 2 ;;
+	esac
+}
+
+# check_bins verifies each binary named in a comma-separated list is available on PATH; logs missing binaries and returns 2 if any are absent.
+check_bins() {
+	local bins_csv="$1"
+	local -a bins=()
+	local -a missing_bins=()
+	local b
+
+	IFS=',' read -r -a bins <<<"${bins_csv}"
+	for b in "${bins[@]}"; do
+		[[ -z "${b}" ]] && continue
+		if ! command -v "${b}" >/dev/null 2>&1; then
+			missing_bins+=("${b}")
+		fi
+	done
+
+	if (( ${#missing_bins[@]} > 0 )); then
+		log_err "missing binaries: ${missing_bins[*]}"
+		return 2
+	fi
+	log_ok "binaries ok: ${bins_csv}"
+}
+
+# is_allowed_repo_external_path determines whether a symlinked CODESTYLE.md or its resolved absolute path is allowed to point outside the repository by matching against entries in `${root}/.codex/preflight-allowed-external-paths.txt` and the `PREFLIGHT_OVERRIDE_ALLOWED_EXTERNAL_PATHS` overrides.
+# `root` is the repository root used for variable substitution; `match` is expected to be "CODESTYLE.md" (must be a symlink); `abs` is the resolved absolute path of `match`.
+is_allowed_repo_external_path() {
+	local root="$1"
+	local match="$2"
+	local abs="$3"
+	local link_target=''
+	local config_path="${root}/.codex/preflight-allowed-external-paths.txt"
+	local candidate=''
+	local candidate_abs=''
+	# Narrow path escape exemption: only CODESTYLE.md may resolve outside repo root.
+	if [[ "${match}" != "CODESTYLE.md" ]]; then
+		return 1
+	fi
+	if [[ ! -L "${match}" ]]; then
+		return 1
+	fi
+
+	link_target="$(readlink "${match}" 2>/dev/null || true)"
+	case "${link_target}" in
+		*/.codex/instructions/CODESTYLE.md) ;;
+		*) return 1 ;;
+	esac
+
+	while IFS= read -r candidate; do
+		[[ -z "${candidate}" ]] && continue
+		candidate="${candidate//\$\{HOME\}/${HOME}}"
+		candidate="${candidate//\$HOME/${HOME}}"
+		candidate="${candidate//\$\{REPO_ROOT\}/${root}}"
+		candidate="${candidate//\$REPO_ROOT/${root}}"
+		if [[ "${link_target}" == "${candidate}" || "${abs}" == "${candidate}" ]]; then
+			return 0
+		fi
+		if candidate_abs="$(
+			python3 -c 'import os, sys; print(os.path.realpath(sys.argv[1]))' "${candidate}" 2>/dev/null
+		)" && [[ "${abs}" == "${candidate_abs}" ]]; then
+			return 0
+		fi
+	done < <(
+		{
+			if [[ -f "${config_path}" ]]; then
+				sed -e 's/#.*$//' -e '/^[[:space:]]*$/d' "${config_path}"
+			fi
+			if [[ -n "${PREFLIGHT_OVERRIDE_ALLOWED_EXTERNAL_PATHS:-}" ]]; then
+				printf '%s\n' "${PREFLIGHT_OVERRIDE_ALLOWED_EXTERNAL_PATHS}" | tr ',' '\n'
+			fi
+		}
+	)
+
+	return 1
+}
+
+# check_paths validates that each path (comma-separated, supports globs) exists and is located inside the repository root.
+# It treats unmatched globs as literal entries, resolves symlinks/real paths, and returns nonzero if any required path is missing or resolves outside `root` (except for allowed external exceptions).
+# @param root repository root absolute path used as the containment boundary
+# check_paths validates each comma-separated path or glob exists and resolves to a real path inside the given repository root, allowing explicitly approved external symlink targets; it logs a descriptive error and returns exit code 2 on missing paths, on paths that escape the repo root (and are not allowed), or on realpath resolution failures.
+check_paths() {
+	local root="$1"
+	local paths_csv="$2"
+	local -a paths=()
+	local p
+
+	IFS=',' read -r -a paths <<<"${paths_csv}"
+	for p in "${paths[@]}"; do
+		[[ -z "${p}" ]] && continue
+
+		local -a matches=()
+		local match
+		shopt -s nullglob
+		for match in ${p}; do
+			matches+=("${match}")
+		done
+		shopt -u nullglob
+
+		if (( ${#matches[@]} == 0 )); then
+			matches+=("${p}")
+		fi
+
+		local found=0
+		local abs
+		for match in "${matches[@]}"; do
+			if [[ -e "${match}" ]]; then
+				found=1
+				if ! abs="$(python3 -c 'import os, sys; print(os.path.realpath(sys.argv[1]))' "${match}")"; then
+					log_err "failed to resolve path: ${match}"
+					return 2
+				fi
+				if [[ "${abs}" != "${root}" && "${abs}" != "${root}"/* ]]; then
+					if is_allowed_repo_external_path "${root}" "${match}" "${abs}"; then
+						continue
+					fi
+					log_err "path escapes repo root: ${match} -> ${abs}"
+					return 2
+				fi
+			fi
+		done
+
+		if (( found == 0 )); then
+			log_err "missing path: ${p}"
+			return 2
+		fi
+	done
+	log_ok "paths ok: ${paths_csv}"
+}
+
+emit_north_star_summary() {
+	local contract_path="$1"
+	local parsed=''
+	local status=''
+	local mission=''
+	local primary_metric=''
+	local primary_bottleneck=''
+	local autonomy_boundary=''
+	local safety_floor=''
+
+	if [[ ! -f "${contract_path}" ]]; then
+		log_warn "north-star summary skipped: missing ${contract_path}"
+		return 1
+	fi
+
+	if ! parsed="$(
+		python3 - "${contract_path}" <<'PY'
+import json
+import sys
+
+contract_path = sys.argv[1]
+try:
+    with open(contract_path, encoding="utf-8") as handle:
+        contract = json.load(handle)
+except Exception as exc:  # pragma: no cover - shell-consumed diagnostics only
+    print(f"error::{exc}")
+    raise SystemExit(0)
+
+north_star = contract.get("northStar")
+if not isinstance(north_star, dict):
+    print("missing")
+    raise SystemExit(0)
+
+def normalized(value):
+    if isinstance(value, str):
+        return value.strip()
+    return ""
+
+required_fields = (
+    "mission",
+    "primaryMetric",
+    "primaryBottleneck",
+    "autonomyBoundary",
+)
+if any(not normalized(north_star.get(field)) for field in required_fields):
+    print("invalid")
+    raise SystemExit(0)
+
+safety_floor = north_star.get("safetyFloor")
+if isinstance(safety_floor, list):
+    safety_items = [
+        item.strip()
+        for item in (str(entry) for entry in safety_floor)
+        if item.strip()
+    ]
+else:
+    print("invalid")
+    raise SystemExit(0)
+
+if not safety_items:
+    print("invalid")
+    raise SystemExit(0)
+
+print("ok")
+print(normalized(north_star.get("mission")))
+print(normalized(north_star.get("primaryMetric")))
+print(normalized(north_star.get("primaryBottleneck")))
+print(normalized(north_star.get("autonomyBoundary")))
+print(" | ".join(safety_items))
+PY
+	)"; then
+		log_warn "north-star summary skipped: failed to parse ${contract_path}"
+		return 1
+	fi
+
+	status="$(printf '%s\n' "${parsed}" | sed -n '1p')"
+	case "${status}" in
+		ok)
+			mission="$(printf '%s\n' "${parsed}" | sed -n '2p')"
+			primary_metric="$(printf '%s\n' "${parsed}" | sed -n '3p')"
+			primary_bottleneck="$(printf '%s\n' "${parsed}" | sed -n '4p')"
+			autonomy_boundary="$(printf '%s\n' "${parsed}" | sed -n '5p')"
+			safety_floor="$(printf '%s\n' "${parsed}" | sed -n '6p')"
+			log_section "North-Star Summary"
+			printf 'mission: %s\n' "${mission:-<unset>}"
+			printf 'primary metric: %s\n' "${primary_metric:-<unset>}"
+			printf 'primary bottleneck: %s\n' "${primary_bottleneck:-<unset>}"
+			printf 'autonomy boundary: %s\n' "${autonomy_boundary:-<unset>}"
+			printf 'safety floor: %s\n' "${safety_floor:-<unset>}"
+			;;
+		missing | invalid)
+			log_warn "north-star summary skipped: contract northStar block missing or invalid"
+			return 1
+			;;
+		error::*)
+			log_warn "north-star summary skipped: ${status#error::}"
+			return 1
+			;;
+		*)
+			log_warn "north-star summary skipped: unexpected parser output"
+			return 1
+			;;
+	esac
+
+	return 0
+}
+
+# run_local_memory_preflight_with_runner runs the given Local Memory helper command, appends a `--config` argument when a config path is available, prints the helper's output on success, writes the helper's output to stderr on failure, returns `0` on success, returns `3` when the output indicates a module-resolution/unknown-command error, and otherwise returns the helper's exit status.
+run_local_memory_preflight_with_runner() {
+	local runner_label="$1"
+	shift
+	local -a command=("$@")
+	local config_path="${LOCAL_MEMORY_CONFIG_PATH:-${HOME}/.local-memory/config.yaml}"
+	local output=''
+	local status=0
+
+	if [[ -n "${config_path}" ]]; then
+		command+=(--config "${config_path}")
+	fi
+
+	if output="$("${command[@]}" 2>&1)"; then
+		if [[ -n "${output}" ]]; then
+			printf '%s\n' "${output}"
+		fi
+		return 0
+	else
+		status=$?
+	fi
+
+	case "${output}" in
+		*"Unknown command"*|*"local @brainwav/coding-harness could not be resolved"*|*"MODULE_NOT_FOUND"*|*"Cannot find module"*)
+			return 3
+			;;
+		*"listen EPERM: operation not permitted"*"/tmp/tsx-"*)
+			return 3
+			;;
+	esac
+	if [[ -n "${output}" ]]; then
+		printf '%s\n' "${output}" >&2
+	fi
+	log_warn "Local Memory helper runner failed: ${runner_label}"
+	return "${status}"
+}
+
+# run_local_memory_preflight_via_harness attempts to run the local-memory preflight using available harness runners in preferred order (repo source via pnpm+tsx, repo dist CLI via node, repo wrapper script, then global `harness`), returning the executed runner's exit status or `3` if no runner is available.
+run_local_memory_preflight_via_harness() {
+	local status=3
+
+	if [[ -f "${WORKSPACE_ROOT}/src/dev/run-local-memory-preflight.ts" ]] && command -v pnpm >/dev/null 2>&1; then
+		if command -v tsx >/dev/null 2>&1 || [[ -x "${WORKSPACE_ROOT}/node_modules/.bin/tsx" ]]; then
+			run_local_memory_preflight_with_runner \
+				"repo source helper (pnpm exec tsx src/dev/run-local-memory-preflight.ts)" \
+				pnpm exec tsx "${WORKSPACE_ROOT}/src/dev/run-local-memory-preflight.ts"
+			status=$?
+			if [[ "${status}" -ne 3 ]]; then
+				return "${status}"
+			fi
+		fi
+	fi
+
+	if [[ -f "${WORKSPACE_ROOT}/dist/cli.js" ]] && command -v node >/dev/null 2>&1; then
+		run_local_memory_preflight_with_runner \
+			"repo dist CLI (node dist/cli.js)" \
+			node "${WORKSPACE_ROOT}/dist/cli.js" local-memory-preflight
+		status=$?
+		if [[ "${status}" -ne 3 ]]; then
+			return "${status}"
+		fi
+	fi
+
+	if [[ -x "${WORKSPACE_ROOT}/scripts/harness-cli.sh" ]]; then
+		run_local_memory_preflight_with_runner \
+			"repo wrapper (bash scripts/harness-cli.sh)" \
+			bash "${WORKSPACE_ROOT}/scripts/harness-cli.sh" local-memory-preflight
+		status=$?
+		if [[ "${status}" -ne 3 ]]; then
+			return "${status}"
+		fi
+	fi
+
+	local mise_harness=""
+	if command -v mise >/dev/null 2>&1; then
+		mise_harness="$(mise which harness 2>/dev/null || true)"
+	fi
+
+	if [[ -n "${mise_harness}" && -x "${mise_harness}" ]]; then
+		run_local_memory_preflight_with_runner \
+			"mise harness (${mise_harness})" \
+			"${mise_harness}" local-memory-preflight
+		status=$?
+		if [[ "${status}" -ne 3 ]]; then
+			return "${status}"
+		fi
+	fi
+
+	if command -v harness >/dev/null 2>&1; then
+		local global_harness
+		global_harness="$(command -v harness)"
+		if [[ -z "${mise_harness}" || "${global_harness}" != "${mise_harness}" ]]; then
+			run_local_memory_preflight_with_runner \
+				"global npm harness (${global_harness})" \
+				harness local-memory-preflight
+			status=$?
+			if [[ "${status}" -ne 3 ]]; then
+				return "${status}"
+			fi
+		fi
+	fi
+
+	return 3
+}
+
+# preflight_local_memory_gold attempts to run a Local Memory preflight using available harness runners; if none are usable it falls back to the legacy shell preflight and returns the resulting exit status.
+preflight_local_memory_gold() {
+	local helper_status=0
+
+	if [[ -n "${CODEX_PREFLIGHT_TEST_FORCE_LOCAL_MEMORY_STATUS:-}" ]]; then
+		if [[ "${CODEX_PREFLIGHT_ENABLE_TEST_OVERRIDES:-}" != '1' ]]; then
+			log_err 'CODEX_PREFLIGHT_TEST_FORCE_LOCAL_MEMORY_STATUS requires CODEX_PREFLIGHT_ENABLE_TEST_OVERRIDES=1'
+			return 1
+		fi
+		if [[ -n "${CI:-}" ]]; then
+			log_err 'CODEX_PREFLIGHT_TEST_FORCE_LOCAL_MEMORY_STATUS is not allowed in CI'
+			return 1
+		fi
+	fi
+
+	case "${CODEX_PREFLIGHT_TEST_FORCE_LOCAL_MEMORY_STATUS:-}" in
+		pass)
+			log_ok 'local-memory preflight forced pass for deterministic validation'
+			return 0
+			;;
+		unavailable)
+			log_err 'local-memory preflight forced unavailable: blocker=local_memory_unavailable'
+			return 1
+			;;
+		unclassified)
+			log_err 'local-memory preflight forced unclassified: blocker=local_memory_unclassified'
+			return 1
+			;;
+		'') ;;
+		*)
+			log_err "invalid CODEX_PREFLIGHT_TEST_FORCE_LOCAL_MEMORY_STATUS: ${CODEX_PREFLIGHT_TEST_FORCE_LOCAL_MEMORY_STATUS}"
+			return 1
+			;;
+	esac
+
+	run_local_memory_preflight_via_harness
+	helper_status=$?
+	if [[ "${helper_status}" -eq 0 ]]; then
+		return 0
+	fi
+	if [[ "${helper_status}" -ne 3 ]]; then
+		return "${helper_status}"
+	fi
+
+	log_warn 'no harness Local Memory helper runner available; falling back to legacy shell implementation'
+	if [[ ! -f "${LOCAL_MEMORY_FALLBACK_SCRIPT}" ]]; then
+		log_err "missing Local Memory fallback script: ${LOCAL_MEMORY_FALLBACK_SCRIPT}"
+		return 1
+	fi
+	# shellcheck source=/dev/null
+	source "${LOCAL_MEMORY_FALLBACK_SCRIPT}"
+	preflight_local_memory_shell_fallback
+}
+
+# run_preflight_profile constructs argument flags for the given stack, optional expected repo fragment, bins CSV, paths CSV, and local memory mode (defaults to "required"), then invokes main with those flags.
+run_preflight_profile() {
+	local stack="$1"
+	local expected_repo="${2:-}"
+	local bins_csv="${3:-}"
+	local paths_csv="${4:-}"
+	local local_memory_mode="${5:-required}"
+	local -a args=(
+		--stack "${stack}"
+		--mode "${local_memory_mode}"
+	)
+
+	if [[ -n "${expected_repo}" ]]; then
+		args+=(--repo-fragment "${expected_repo}")
+	fi
+	if [[ -n "${bins_csv}" ]]; then
+		args+=(--bins "${bins_csv}")
+	fi
+	if [[ -n "${paths_csv}" ]]; then
+		args+=(--paths "${paths_csv}")
+	fi
+
+	main "${args[@]}"
+}
+
+# preflight_repo runs the Codex preflight profile for a generic repository stack using sensible defaults.
+# preflight_repo [expected_repo_fragment] [bins_csv] [paths_csv] [local_memory_mode]
+# - expected_repo_fragment: optional substring to validate against the repository root (default: none).
+# - bins_csv: comma-separated required executables (default: git,bash,sed,rg,jq,curl,python3).
+# - paths_csv: comma-separated required repository files/paths (default: stack-specific baseline plus Project Brain scaffold paths).
+# - local_memory_mode: one of off|optional|required (default: required).
+preflight_repo() {
+	run_preflight_profile \
+		repo \
+		"${1:-}" \
+		"${2:-git,bash,sed,rg,jq,curl,python3}" \
+		"${3:-$(stack_paths_csv repo)}" \
+		"${4:-required}"
+}
+
+# preflight_js runs the preflight profile for the JavaScript (js) stack using defaults for expected repo fragment, required binaries, required repository paths, and local memory mode; positional arguments (expected_repo, bins_csv, paths_csv, local_memory_mode) override those defaults.
+preflight_js() {
+	run_preflight_profile \
+		js \
+		"${1:-}" \
+		"${2:-git,bash,sed,rg,jq,curl,node,npm,python3}" \
+		"${3:-$(stack_paths_csv js)}" \
+		"${4:-required}"
+}
+
+# preflight_py runs the Codex preflight using the Python stack defaults; accepts optional arguments to override (1) expected repository fragment, (2) comma-separated binaries (default "git,bash,sed,rg,jq,curl,python3"), (3) comma-separated repository paths (default: stack-specific baseline plus Project Brain scaffold paths), and (4) local memory mode (`off`|`optional`|`required`, default `required`).
+preflight_py() {
+	run_preflight_profile \
+		py \
+		"${1:-}" \
+		"${2:-git,bash,sed,rg,jq,curl,python3}" \
+		"${3:-$(stack_paths_csv py)}" \
+		"${4:-required}"
+}
+
+# preflight_rust runs the preflight profile for the Rust stack using sensible defaults for binaries, paths, and local-memory mode.
+# 
+# Arguments:
+#   $1 - optional repository fragment to validate the workspace root contains (default: none).
+#   $2 - optional comma-separated list of required binaries (default: "git,bash,sed,rg,jq,curl,python3,cargo").
+#   $3 - optional comma-separated list of required repository paths/globs (default: stack-specific baseline plus Project Brain scaffold paths).
+#   $4 - local memory mode: one of "off", "optional", or "required" (default: "required").
+preflight_rust() {
+	run_preflight_profile \
+		rust \
+		"${1:-}" \
+		"${2:-git,bash,sed,rg,jq,curl,python3,cargo}" \
+		"${3:-$(stack_paths_csv rust)}" \
+		"${4:-required}"
+}
+
+# preflight_repo_local_memory runs a repository preflight configured for the `repo` stack with Local Memory set to required, using sensible default binaries and path lists; optional positional arguments override `expected_repo`, `bins_csv`, and `paths_csv`.
+preflight_repo_local_memory() {
+	preflight_repo "${1:-}" "${2:-git,bash,sed,rg,jq,curl,python3}" "${3:-$(stack_paths_csv repo)}" required
+}
+
+# main orchestrates the Codex preflight checks: it parses CLI arguments (legacy positional or flags), determines the repo stack and required binaries/paths (including overrides), verifies git and workspace expectations, runs binary and path validations, invokes the Local Memory preflight according to --mode (off|optional|required), and exits non‑zero on validation failures.
+main() {
+	local stack='auto'
+	local local_memory_mode='required'
+	local expected_repo=''
+	local bins_csv=''
+	local paths_csv=''
+
+	PREFLIGHT_EXIT_RECEIPT_MODE="${local_memory_mode}"
+	trap write_preflight_failure_receipt_on_exit EXIT
+
+	if (( $# > 0 )) && [[ "${1}" != --* ]] && [[ "${1}" != '-h' ]]; then
+		if (( $# == 2 )) && [[ "${1}" =~ ^(auto|js|py|rust)$ ]] && [[ "${2}" =~ ^(off|optional|required)$ ]]; then
+			stack="${1}"
+			local_memory_mode="${2}"
+			set --
+		elif (( $# <= 4 )); then
+			expected_repo="${1:-}"
+			bins_csv="${2:-}"
+			paths_csv="${3:-}"
+			local_memory_mode="${4:-required}"
+			set --
+		else
+			log_err "legacy positional mode accepts at most 4 arguments"
+			usage >&2
+			exit 2
+		fi
+	fi
+
+	while (( $# > 0 )); do
+		case "$1" in
+			--stack)
+				stack="${2:-}"
+				shift 2
+				;;
+			--mode)
+				local_memory_mode="${2:-}"
+				shift 2
+				;;
+			--repo-fragment)
+				expected_repo="${2:-}"
+				shift 2
+				;;
+			--bins)
+				bins_csv="${2:-}"
+				shift 2
+				;;
+			--paths)
+				paths_csv="${2:-}"
+				shift 2
+				;;
+			-h|--help)
+				usage
+				exit 0
+				;;
+			*)
+				log_err "unknown argument: $1"
+				usage >&2
+				exit 2
+				;;
+		esac
+	done
+
+	case "${local_memory_mode}" in
+		off|optional|required) ;;
+		*) log_err "invalid --mode: ${local_memory_mode}"; exit 2 ;;
+	esac
+	PREFLIGHT_EXIT_RECEIPT_MODE="${local_memory_mode}"
+
+	log_section 'Codex Preflight'
+	echo "pwd: $(pwd)"
+
+	if ! command -v git >/dev/null 2>&1; then
+		log_err 'missing binary: git'
+		exit 2
+	fi
+	if [[ -x "${GIT_COMMON_CONFIG_GUARD_SCRIPT}" ]]; then
+		"${GIT_COMMON_CONFIG_GUARD_SCRIPT}"
+	fi
+
+	if ! resolve_workspace_git_root; then
+		log_err 'not inside a git repo (git rev-parse failed)'
+		exit 2
+	fi
+	local git_root="${WORKSPACE_GIT_ROOT}"
+	if [[ -z "${git_root}" ]]; then
+		log_err 'git rev-parse returned empty root'
+		exit 2
+	fi
+	git_root="$(cd -- "${git_root}" && pwd -P)"
+	echo "git root: ${git_root}"
+	echo "workspace root: ${WORKSPACE_ROOT}"
+	if [[ "$(workspace_git rev-parse --is-inside-work-tree 2>/dev/null || true)" != 'true' ]]; then
+		log_err 'git workspace validation failed for current workspace root'
+		exit 2
+	fi
+	if [[ -n "${expected_repo}" && "${WORKSPACE_ROOT}" != *"${expected_repo}"* ]]; then
+		log_err "repo mismatch: expected fragment '${expected_repo}' in '${WORKSPACE_ROOT}'"
+		exit 2
+	fi
+
+	cd "${WORKSPACE_ROOT}"
+	clear_preflight_receipt
+
+	if [[ "${stack}" == 'auto' ]]; then
+		stack="$(detect_stack)"
+	fi
+	echo "stack: ${stack}"
+
+	if [[ -z "${bins_csv}" ]]; then
+		bins_csv="$(stack_bins_csv "${stack}")"
+	fi
+	if [[ -z "${paths_csv}" ]]; then
+		paths_csv="$(stack_paths_csv "${stack}")"
+	fi
+	load_preflight_overrides "${PREFLIGHT_OVERRIDES_FILE}"
+	bins_csv="$(append_csv_values "${bins_csv}" "${PREFLIGHT_OVERRIDE_BINS}")"
+	paths_csv="$(append_csv_values "${paths_csv}" "${PREFLIGHT_OVERRIDE_PATHS}")"
+
+	check_bins "${bins_csv}"
+	check_paths "${WORKSPACE_ROOT}" "${paths_csv}"
+	if ! emit_north_star_summary "${WORKSPACE_ROOT}/harness.contract.json"; then
+		log_warn "north-star summary unresolved (continuing)"
+	fi
+
+	local branch_name
+	branch_name="$(workspace_git rev-parse --abbrev-ref HEAD 2>/dev/null || true)"
+	echo "git branch: ${branch_name:-HEAD}"
+	echo "clean?: $(workspace_git status --porcelain -- . | wc -l | tr -d ' ') changes"
+
+	if [[ "${local_memory_mode}" != 'off' ]]; then
+		if ! preflight_local_memory_gold; then
+			if [[ "${local_memory_mode}" == 'required' ]]; then
+				log_err 'local-memory preflight failed (required mode)'
+				exit 2
+			fi
+			log_warn 'local-memory preflight failed (optional mode)'
+		fi
+	fi
+
+	write_preflight_receipt 'pass' "${local_memory_mode}"
+	trap - EXIT
+	log_ok 'preflight passed'
+}
+
+if is_script_sourced; then
+	# shellcheck disable=SC2317 # exit is a non-sourced fallback when `return` is invalid.
+	if ! return 0 2>/dev/null; then
+		exit 0
+	fi
+fi
+
+main "$@"
