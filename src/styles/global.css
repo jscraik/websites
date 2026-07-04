@@ -40,6 +40,7 @@
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --shadow-soft: -31px 46px 22px rgba(0, 0, 0, 0.01), -17px 26px 19px rgba(0, 0, 0, 0.03), -8px 11px 14px rgba(0, 0, 0, 0.05), -2px 3px 8px rgba(0, 0, 0, 0.06);
+
   color-scheme: light;
   font-family: Stringer, "Times New Roman", Georgia, serif;
   background: var(--surface-page);
@@ -3147,15 +3148,6 @@ body {
 }
 
 /* Jose parity pass: closer mobile-first spacing, paper, type rhythm, and restrained motion. */
-:root {
-  --paper: var(--surface-page);
-  --soft-white: var(--surface-card);
-  --neutral-02: var(--color-jose-nav);
-  --neutral-06: var(--color-jose-muted);
-  --blue: var(--accent-primary);
-  background: var(--surface-page);
-}
-
 html,
 body {
   background: var(--surface-page);
@@ -3504,26 +3496,6 @@ body {
 
 /* Measured Jose mapping: CDP-captured shell, type, and navigation geometry. */
 :root {
-  --color-jose-page: #d5d6d0;
-  --color-jose-text: #3d403c;
-  --color-jose-nav: #e8e8e3;
-  --color-jose-soft: #fbfaf5;
-  --color-jose-muted: #4f564d;
-  --color-jose-neutral: #b8bab4;
-  --surface-page: var(--color-jose-page);
-  --surface-nav: rgba(232, 232, 227, 0.86);
-  --surface-card: var(--color-jose-soft);
-  --surface-feature: var(--surface-page);
-  --text-primary: var(--color-jose-text);
-  --text-muted: rgba(61, 64, 60, 0.72);
-  --text-subtle: var(--color-jose-muted);
-  --border-subtle: rgba(61, 64, 60, 0.12);
-  --paper: var(--surface-page);
-  --soft-white: var(--surface-card);
-  --neutral-02: var(--color-jose-nav);
-  --neutral-04: var(--color-jose-neutral);
-  --neutral-06: var(--color-jose-muted);
-  --neutral-07: var(--color-jose-text);
   --shell: min(894px, calc(100% - 62px));
   --shell-wide: min(1088px, calc(100% - 62px));
 }
