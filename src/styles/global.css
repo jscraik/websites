@@ -4039,27 +4039,26 @@ body {
   margin: 12px 0 44px;
 }
 
-#fun-facts,
-#skills,
-#current-focus,
-#on-the-web,
-.article-list {
+`#fun-facts`:target,
+`#skills`:target,
+`#current-focus`:target,
+`#on-the-web`:target,
+.article-list:has(:target) {
   background: var(--surface-feature);
   box-shadow: 0 0 0 100vmax var(--surface-feature);
   clip-path: inset(0 -100vmax);
 }
 
-html:has(#fun-facts:target),
-body:has(#fun-facts:target),
-html:has(#skills:target),
-body:has(#skills:target),
-html:has(#current-focus:target),
-body:has(#current-focus:target),
-html:has(#on-the-web:target),
-body:has(#on-the-web:target) {
+html:has(`#fun-facts`:target),
+body:has(`#fun-facts`:target),
+html:has(`#skills`:target),
+body:has(`#skills`:target),
+html:has(`#current-focus`:target),
+body:has(`#current-focus`:target),
+html:has(`#on-the-web`:target),
+body:has(`#on-the-web`:target) {
   background: var(--surface-feature);
 }
-
 .nav-link,
 .icon-box.cc-nav,
 .small-button,
