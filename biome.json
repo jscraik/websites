@@ -1,0 +1,55 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.4.15/schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true,
+		"defaultBranch": "main"
+	},
+	"files": {
+		"ignoreUnknown": true,
+		"includes": [
+			"**",
+			"!**/node_modules",
+			"!**/dist",
+			"!**/coverage",
+			"!**/artifacts",
+			"!**/CODESTYLE.md",
+			"!**/.tmp-diagram-refresh-*"
+		]
+	},
+	"overrides": [
+		{
+			"includes": ["**/*.config.ts", "**/vite.config.ts", "**/vitest.config.ts"],
+			"linter": {
+				"rules": {
+					"style": {
+						"noDefaultExport": "off"
+					}
+				}
+			}
+		}
+	],
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"correctness": {
+				"noUnusedImports": "error",
+				"noUnusedVariables": "error"
+			},
+			"suspicious": {
+				"noEmptyBlockStatements": "error",
+				"noExplicitAny": "warn",
+				"noConsole": "off",
+				"noDebugger": "error"
+			},
+			"style": {
+				"noDefaultExport": "error",
+				"useConst": "error",
+				"useImportType": "error"
+			}
+		}
+	},
+	"assist": { "actions": { "source": { "organizeImports": "off" } } }
+}
