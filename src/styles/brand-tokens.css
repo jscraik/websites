@@ -58,12 +58,9 @@
   --bds-motion-slow: 400ms;
   --bds-ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
   --bds-icon-stroke: 1.75;
+  --bds-icon-linecap: round;
+  --bds-icon-linejoin: round;
 
-  --jsc-charcoal: #111316;
-  --jsc-sage: #6b7f6b;
-  --jsc-ink-blue: #0f2a44;
-  --jsc-warm-off-white: #faf8f5;
   --jsc-stone: var(--bds-color-portfolio-bg);
-  --jsc-white: #ffffff;
   --jsc-accent-blue: var(--bds-color-blue);
 }

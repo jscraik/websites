@@ -1,4 +1,31 @@
-export const caseStudies = [
+export type Frame = readonly [category: string, headline: string, description: string];
+
+type CaseStudy = {
+  slug: string;
+  title: string;
+  shortTitle: string;
+  subtitle: string;
+  date: string;
+  isFeatured: boolean;
+  overview: string;
+  organization: string;
+  work: string;
+  role: string;
+  tags: string[];
+  tone: string;
+  route: string;
+  featured: {
+    eyebrow: string;
+    quote: string;
+    cta: string;
+    previewTitle: string;
+    previewMeta: string;
+    visual: string;
+  };
+  frames: Frame[];
+};
+
+export const caseStudies: CaseStudy[] = [
   {
     slug: "ai-native-devrel",
     title: "AI-native DevRel",

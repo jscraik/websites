@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import Icon from "../../components/Icon.astro";
 
 const articles = [
   {
@@ -17,10 +18,7 @@ const articles = [
       <div class="blog-heading-lockup">
         <h1 id="blog-title">Writing</h1>
         <span class="icon-box blog-heading-icon" aria-hidden="true">
-          <svg viewBox="0 0 17 16" class="sm-icon">
-            <path d="m13.89 6.85 1.24-1.24a2 2 0 0 0 0-2.83l-1.41-1.41a2 2 0 0 0-2.83 0L9.65 2.61"></path>
-            <path d="m14.01 6.73-4.24-4.24-7.37 7.37a.5.5 0 0 0-.14.28l-.59 4.12a.5.5 0 0 0 .57.57l4.12-.59a.5.5 0 0 0 .28-.14l7.37-7.37Z"></path>
-          </svg>
+          <Icon name="pencil" />
         </span>
       </div>
       <div class="draft-links">
@@ -105,7 +103,7 @@ const articles = [
   }
 
   .blog-heading-icon {
-    display: none;
+    display: grid;
   }
 
   .blog-title-block h1 {
@@ -169,8 +167,7 @@ const articles = [
     box-shadow: none;
   }
 
-  .latest-article article::before {
-    content: "LATEST ARTICLE";
+  .latest-article article > div:first-child .eyebrow {
     display: inline-flex;
     width: fit-content;
     margin-bottom: var(--space-4);
@@ -179,15 +176,7 @@ const articles = [
     border-radius: var(--radius-pill);
     background: rgba(251, 250, 245, 0.62);
     color: rgba(0, 11, 0, 0.48);
-    font-family: var(--body-mono);
-    font-size: 10px;
-    font-weight: 700;
     line-height: 1;
-    letter-spacing: 0.05em;
-  }
-
-  .latest-article article > div:first-child .eyebrow {
-    display: none;
   }
 
   .latest-article h2 {

@@ -42,7 +42,14 @@ const requiredTokens = {
   "--bds-radius-button": "14px",
   "--bds-radius-image": "20px",
   "--bds-radius-pill": "999px",
-  "--bds-icon-stroke": "1.75"
+  "--bds-shadow-soft": "0 10px 40px rgba(0, 0, 0, 0.25)",
+  "--bds-motion-fast": "150ms",
+  "--bds-motion-normal": "250ms",
+  "--bds-motion-slow": "400ms",
+  "--bds-ease-out": "cubic-bezier(0.22, 0.61, 0.36, 1)",
+  "--bds-icon-stroke": "1.75",
+  "--bds-icon-linecap": "round",
+  "--bds-icon-linejoin": "round"
 };
 
 for (const [token, value] of Object.entries(requiredTokens)) {
@@ -57,6 +64,49 @@ addCheck(
   "token json names design system",
   tokensJson.system?.name === "brAInwav Design System",
   "expected brand-tokens.json system.name to be brAInwav Design System"
+);
+
+const expectedCssJsonPairs = {
+  "--bds-color-blue-glow": tokensJson.colors?.blue_glow,
+  "--bds-color-orange-glow": tokensJson.colors?.orange_glow,
+  "--bds-shadow-soft": tokensJson.shadow?.soft,
+  "--bds-shadow-editorial": tokensJson.shadow?.editorial,
+  "--bds-motion-fast": tokensJson.motion?.fast,
+  "--bds-motion-normal": tokensJson.motion?.normal,
+  "--bds-motion-slow": tokensJson.motion?.slow,
+  "--bds-ease-out": tokensJson.motion?.ease_out,
+  "--bds-icon-linecap": tokensJson.iconography?.linecap,
+  "--bds-icon-linejoin": tokensJson.iconography?.linejoin
+};
+
+for (const [token, value] of Object.entries(expectedCssJsonPairs)) {
+  addCheck(
+    "token json coverage " + token,
+    typeof value === "string" && tokensCss.includes(token + ": " + value + ";"),
+    "expected " + token + " in brand-tokens.css to match brand-tokens.json value " + value
+  );
+}
+
+const legacyColorAliases = [
+  "--jsc-charcoal",
+  "--jsc-sage",
+  "--jsc-ink-blue",
+  "--jsc-warm-off-white",
+  "--jsc-white"
+];
+
+for (const token of legacyColorAliases) {
+  addCheck(
+    "legacy alias removed " + token,
+    !tokensCss.includes(token + ":"),
+    "did not expect stale token alias " + token + " in brand-tokens.css"
+  );
+}
+
+addCheck(
+  "token json typography.display is font stack",
+  tokensJson.typography?.display === 'Stringer, "Times New Roman", Georgia, serif',
+  "expected typography.display to be the display font stack, not a prose note"
 );
 
 addCheck(

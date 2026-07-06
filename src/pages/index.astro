@@ -2,6 +2,8 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import StartLinks from "../components/StartLinks.astro";
 import CarouselControls from "../components/CarouselControls.astro";
+import BrandWord from "../components/BrandWord.astro";
+import Icon from "../components/Icon.astro";
 import { featuredCaseStudies, proofWorkCards } from "../data/work";
 
 const featuredCards = featuredCaseStudies;
@@ -54,7 +56,7 @@ const workCount = String(proofWorkCards.length).padStart(2, "0");
             <div class="feature-block__content">
               <h2 id={index === 0 ? "featured-title" : undefined}>
                 {card.title === "brAInwav" ? (
-                  <span class="brand-word">br<span>AI</span>nwav</span>
+                  <BrandWord />
                 ) : card.title}
               </h2>
               <div class="feature-block__copy">
@@ -79,10 +81,13 @@ const workCount = String(proofWorkCards.length).padStart(2, "0");
                   <h3>{card.previewTitle}</h3>
                   <p>{card.previewMeta}</p>
                   <dl>
-                    {card.frames.map(([label, value]) => (
+                    {card.frames.map(([label, value, description]) => (
                       <div>
                         <dt>{label}</dt>
-                        <dd>{value}</dd>
+                        <dd>
+                          <span>{value}</span>
+                          <small>{description}</small>
+                        </dd>
                       </div>
                     ))}
                   </dl>
@@ -129,10 +134,7 @@ const workCount = String(proofWorkCards.length).padStart(2, "0");
       <div class="blog-heading-lockup">
         <h2 id="blog-preview-title">Blog</h2>
         <span class="icon-box blog-heading-icon" aria-hidden="true">
-          <svg viewBox="0 0 17 16" class="sm-icon">
-            <path d="m13.89 6.85 1.24-1.24a2 2 0 0 0 0-2.83l-1.41-1.41a2 2 0 0 0-2.83 0L9.65 2.61"></path>
-            <path d="m14.01 6.73-4.24-4.24-7.37 7.37a.5.5 0 0 0-.14.28l-.59 4.12a.5.5 0 0 0 .57.57l4.12-.59a.5.5 0 0 0 .28-.14l7.37-7.37Z"></path>
-          </svg>
+          <Icon name="pencil" />
         </span>
       </div>
       <div class="blog-preview__drafts" aria-label="In my drafts">
@@ -158,10 +160,10 @@ const workCount = String(proofWorkCards.length).padStart(2, "0");
 
   <section id="brainwav" class="brainwav-bridge section-shell" aria-labelledby="brainwav-title" data-reveal>
     <div class="brainwav-bridge__intro">
-      <p class="eyebrow">Powered by <span class="brand-word">br<span>AI</span>nwav</span></p>
+      <p class="eyebrow">Powered by <BrandWord /></p>
       <h2 id="brainwav-title">The technical depth behind the portfolio.</h2>
       <p>
-        jscraik.com tells the story. <span class="brand-word">br<span>AI</span>nwav</span> is where the engineering practice
+        jscraik.com tells the story. <BrandWord /> is where the engineering practice
         gets concrete: documentation, workflows, proof logs, architecture notes,
         and reusable AI-native patterns.
       </p>

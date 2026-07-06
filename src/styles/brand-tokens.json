@@ -19,6 +19,8 @@
     "blue_hover": "#58BFFF",
     "orange": "#FF7A00",
     "orange_hover": "#FF9733",
+    "blue_glow": "rgba(45, 168, 255, 0.18)",
+    "orange_glow": "rgba(255, 122, 0, 0.15)",
     "success": "#35D07F",
     "warning": "#F8C84E",
     "error": "#F25B5B",
@@ -30,7 +32,7 @@
     "portfolio_muted": "#4F564D"
   },
   "typography": {
-    "display": "Stringer while using the Jose reference; migrate to Geist for BDS product surfaces",
+    "display": "Stringer, \"Times New Roman\", Georgia, serif",
     "body": "Geist / Inter / system sans",
     "mono": "Geist Mono",
     "scale": {
@@ -49,6 +51,16 @@
     "button": "14px",
     "image": "20px",
     "pill": "999px"
+  },
+  "shadow": {
+    "soft": "0 10px 40px rgba(0, 0, 0, 0.25)",
+    "editorial": "-31px 46px 22px rgba(0, 0, 0, 0.01), -17px 26px 19px rgba(0, 0, 0, 0.03), -8px 11px 14px rgba(0, 0, 0, 0.05), -2px 3px 8px rgba(0, 0, 0, 0.06)"
+  },
+  "motion": {
+    "fast": "150ms",
+    "normal": "250ms",
+    "slow": "400ms",
+    "ease_out": "cubic-bezier(0.22, 0.61, 0.36, 1)"
   },
   "iconography": {
     "stroke": "1.75",

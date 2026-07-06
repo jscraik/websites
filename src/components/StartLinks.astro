@@ -1,4 +1,6 @@
 ---
+import Icon from "./Icon.astro";
+
 const links = [
   {
     href: "/now/",
@@ -32,29 +34,7 @@ const links = [
         <li class="icon-link-item">
           <a href={link.href} class="icon-link">
             <span class="icon-box start-links__icon" aria-hidden="true">
-              {link.icon === "person" && (
-                <svg viewBox="0 0 16 16" class="sm-icon">
-                  <circle cx="8" cy="4" r="3"></circle>
-                  <path d="M2 15c0-1.6.63-3.12 1.76-4.24C4.88 9.63 6.41 9 8 9s3.12.63 4.24 1.76C13.37 11.88 14 13.41 14 15"></path>
-                </svg>
-              )}
-              {link.icon === "document" && (
-                <svg viewBox="0 0 16 16" class="sm-icon">
-                  <rect x="2" y="1" width="12" height="14" rx="2"></rect>
-                  <path d="M4 4.75h5M4 7.75h8M4 10.75h8"></path>
-                </svg>
-              )}
-              {link.icon === "bookmark" && (
-                <svg viewBox="0 0 16 16" class="sm-icon">
-                  <path d="M3 3c0-1.1.9-2 2-2h6c1.1 0 2 .9 2 2v11.04c0 .4-.46.64-.79.41l-3.92-2.75a.5.5 0 0 0-.58 0l-3.92 2.75A.5.5 0 0 1 3 14.04V3Z"></path>
-                </svg>
-              )}
-              {link.icon === "pencil" && (
-                <svg viewBox="0 0 17 16" class="sm-icon">
-                  <path d="m13.89 6.85 1.24-1.24a2 2 0 0 0 0-2.83l-1.41-1.41a2 2 0 0 0-2.83 0L9.65 2.61"></path>
-                  <path d="m14.01 6.73-4.24-4.24-7.37 7.37a.5.5 0 0 0-.14.28l-.59 4.12a.5.5 0 0 0 .57.57l4.12-.59a.5.5 0 0 0 .28-.14l7.37-7.37Z"></path>
-                </svg>
-              )}
+              <Icon name={link.icon} />
             </span>
             <span>{link.label}</span>
             <span aria-hidden="true">-&gt;</span>
