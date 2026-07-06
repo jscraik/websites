@@ -3197,15 +3197,6 @@ body {
   height: 28px;
 }
 
-.brand-mark__home,
-.brand-mark__roof {
-  fill: none;
-  stroke: currentcolor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 2.7;
-}
-
 .home-hero {
   min-height: 610px;
 }
@@ -3571,11 +3562,6 @@ body {
 .brand-mark.icon-box.cc-nav {
   font-size: 16px;
   font-weight: 500;
-}
-
-.brand-mark__home,
-.brand-mark__roof {
-  stroke-width: 3.2;
 }
 
 .header-inner {
@@ -4018,8 +4004,8 @@ body {
 .start-links a,
 .draft-links span,
 .about-jump a {
-  transition-duration: 200ms;
-  transition-timing-function: ease;
+  transition-duration: 160ms;
+  transition-timing-function: var(--ease-out);
 }
 
 @media (max-width: 640px) {
@@ -6530,13 +6516,17 @@ body:has(.about-page) .site-footer {
   height: 32px;
 }
 
-.brand-mark__home,
-.brand-mark__roof {
-  fill: none;
-  stroke: currentcolor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 1.5;
+.brand-mark--tiny .brand-mark__letters {
+  font-size: 25px;
+  letter-spacing: -0.12em;
+}
+
+.brand-mark--tiny .brand-mark__line {
+  stroke-width: 1.8;
+}
+
+.brand-mark--tiny .brand-mark__dot {
+  fill: currentcolor;
 }
 
 /* Blog: match the captured mobile first viewport type rhythm. */

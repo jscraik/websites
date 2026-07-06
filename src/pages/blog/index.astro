@@ -1,14 +1,12 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
 
-const articles = [
-  {
-    date: "June 2026",
-    title: "Why AI-native DevRel?",
-    href: "/articles/why-ai-native-devrel/",
-    summary: "Capability is not the same as trust. Developer education has to carry the proof."
-  }
-];
+type BlogEntry = CollectionEntry<"blog">;
+
+const articles: BlogEntry[] = (await getCollection("blog")).sort((a: BlogEntry, b: BlogEntry) => a.data.order - b.data.order);
+const latestArticle = articles.find((article) => article.data.featured) ?? articles[0];
 ---
 
 <BaseLayout title="Blog | brainwav">
@@ -27,8 +25,8 @@ const articles = [
       <article>
         <div>
           <p class="eyebrow">Latest article</p>
-          <h2 id="latest-article-title">Why AI-native DevRel?</h2>
-          <p class="article-date">June 2026</p>
+          <h2 id="latest-article-title">{latestArticle.data.title}</h2>
+          <p class="article-date">{latestArticle.data.date}</p>
         </div>
         <div>
           <p>
@@ -38,7 +36,7 @@ const articles = [
           </p>
         </div>
         <div>
-          <a class="small-button small-button--light" href="/articles/why-ai-native-devrel/">
+          <a class="small-button small-button--light" href={latestArticle.data.href}>
             <span>Keep reading</span>
             <span aria-hidden="true">-&gt;</span>
           </a>
@@ -50,12 +48,12 @@ const articles = [
   <div class="page-main">
     <section class="article-list" aria-labelledby="article-list-title">
       <h2 id="article-list-title">Browse all articles</h2>
-      {articles.map((article) => (
+      {articles.map((article: BlogEntry) => (
         <article>
-          <p>{article.date}</p>
-          <h3>{article.title}</h3>
-          <span>{article.summary}</span>
-          <a href={article.href}>Read</a>
+          <p>{article.data.date}</p>
+          <h3>{article.data.title}</h3>
+          <span>{article.data.summary}</span>
+          <a href={article.data.href}>Read</a>
         </article>
       ))}
     </section>

@@ -41,6 +41,11 @@ const pages = [
     route: "/work/brainwav-io/",
     file: "work/brainwav-io/index.html",
     includes: ["brainwav.io", "proof-led AI work"]
+  },
+  {
+    route: "/work/cli-proof-series/",
+    file: "work/cli-proof-series/index.html",
+    includes: ["CLI proof series", "developer-facing artifacts"]
   }
 ];
 

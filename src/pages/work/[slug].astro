@@ -1,14 +1,24 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import CarouselControls from "../../components/CarouselControls.astro";
-import { caseStudies, proofWorkCards } from "../../data/work";
+import { getCollection } from "astro:content";
+import { byOrder, proofWorkCards, workRoute } from "../../lib/portfolio";
+import type { ProofEntry, WorkCard, WorkEntry } from "../../lib/portfolio";
+type Study = WorkEntry["data"] & { slug: string; route: string };
 
-export function getStaticPaths() {
-  return caseStudies.map((study) => ({ params: { slug: study.slug }, props: { study } }));
+export async function getStaticPaths() {
+  const caseStudies: WorkEntry[] = (await getCollection("work")).sort((a: WorkEntry, b: WorkEntry) => a.data.order - b.data.order);
+  return caseStudies.map((entry) => ({
+    params: { slug: entry.id },
+    props: { study: { slug: entry.id, route: workRoute(entry), ...entry.data } }
+  }));
 }
 
-const { study } = Astro.props;
-const workCount = String(proofWorkCards.length).padStart(2, "0");
+const { study } = Astro.props as { study: Study };
+const workEntries: WorkEntry[] = (await getCollection("work")).sort(byOrder);
+const proofEntries: ProofEntry[] = (await getCollection("proof")).sort(byOrder);
+const workCards = proofWorkCards(workEntries, proofEntries);
+const workCount = String(workCards.length).padStart(2, "0");
 ---
 
 <BaseLayout title={`${study.title} | brainwav case study`}>
@@ -65,7 +75,7 @@ const workCount = String(proofWorkCards.length).padStart(2, "0");
           <div>
             <p class="input-label">Done with</p>
             <div class="tag-row case-tags">
-              {study.tags.map((tag) => <span>{tag}</span>)}
+              {study.tags.map((tag: string) => <span>{tag}</span>)}
             </div>
           </div>
         </aside>
@@ -73,7 +83,7 @@ const workCount = String(proofWorkCards.length).padStart(2, "0");
     </section>
 
     <section class="case-gallery section-shell" aria-label="Case study proof frames">
-      {study.frames.map((frame) => (
+      {study.frames.map((frame: [string, string, string]) => (
         <div class="case-gallery-frame">
           <p>{frame[0]}</p>
           <h3>{frame[1]}</h3>
@@ -86,7 +96,7 @@ const workCount = String(proofWorkCards.length).padStart(2, "0");
     <section class="work-carousel case-all-work" aria-labelledby="case-all-work-title">
       <h2 id="case-all-work-title">All work <sup>{workCount}</sup></h2>
       <div class="work-row" aria-label="More work" data-work-row>
-        {proofWorkCards.map((item, index) => (
+        {workCards.map((item: WorkCard, index: number) => (
           <a class="work-mini-card" href={item.href}>
             <p class="work-card-count">{String(index + 1).padStart(2, "0")} / {workCount}</p>
             <div class={"work-thumbnail work-thumbnail--" + item.tone} aria-hidden="true">
@@ -95,7 +105,7 @@ const workCount = String(proofWorkCards.length).padStart(2, "0");
             </div>
             <h3>{item.title}</h3>
             <div class="tag-row">
-              {item.tags.map((tag) => <span>{tag}</span>)}
+              {item.tags.map((tag: string) => <span>{tag}</span>)}
             </div>
           </a>
         ))}

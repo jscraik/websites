@@ -1,0 +1,55 @@
+schema_version: "1.0"
+skill: "astro-portfolio"
+purpose: "Guide docs-backed Astro implementation and validation for the brainwav.io portfolio repo."
+behavior_type: "guidance"
+execution_mode: "prose"
+enforcement_level: "advisory"
+triggers:
+  - "Building or validating Astro routes, layouts, components, content collections, or portfolio proof pages in brainwav.io."
+  - "Choosing validation for Astro source, page-surface, content-source, smoke, or Jose-parity changes."
+inputs:
+  - name: "task"
+    required: true
+    description: "The requested Astro, content, validation, docs, or proof-surface change."
+  - name: "target_paths"
+    required: false
+    description: "Affected files, routes, scripts, docs, screenshots, or reference artifacts."
+  - name: "docs_basis"
+    required: false
+    description: "Context7 Astro docs query or retrieved docs source when API behavior is version-sensitive."
+outputs:
+  - name: "change_or_decision"
+    description: "The implemented patch, review finding, docs-backed answer, or explicit blocker."
+  - name: "validation_evidence"
+    description: "Exact command outcomes and the claim boundary they support."
+permission_profile:
+  reads:
+    - "AGENTS.md, README.md, package.json, src/**, scripts/**, tests/**, docs/**, and .codex/skills/astro-portfolio/**"
+  writes:
+    - "Requested brainwav.io source, docs, scripts, tests, or skill files only."
+  network:
+    - "Context7 docs retrieval for Astro when current external docs are needed."
+evidence_policy:
+  proves:
+    - "The local Astro source or docs changed as requested."
+    - "The selected repo validation command passed, failed, or was blocked."
+    - "The Astro docs basis used for version-sensitive decisions."
+  does_not_prove:
+    - "Hosted deployment, CI state, PR readiness, or external review status."
+    - "Visual parity with Jose Ocando unless the parity runner passed against a local candidate URL."
+    - "Production behavior outside the validated route or script surface."
+non_goals:
+  - "Generic Astro tutorial generation detached from this repo."
+  - "Replacing Jamie's portfolio identity with benchmark-site content."
+  - "Shipping runtime caches, Playwright scratch, or ad hoc screenshots by default."
+risks:
+  - "Confusing reference capture availability with visual parity proof."
+  - "Using stale Astro assumptions instead of Context7 or official docs."
+  - "Widening validation beyond the changed surface without evidence need."
+rollback_procedure:
+  - "Revert only files changed for the current task; preserve unrelated dirty worktree files."
+  - "Remove generated local evidence only when it was created by the current run and is not requested as source."
+exit_criteria:
+  - "The requested change or blocker is explicit."
+  - "Exact validation command outcomes are reported."
+  - "Readiness claims are limited to the checked evidence lane."

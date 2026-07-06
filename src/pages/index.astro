@@ -2,11 +2,16 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import StartLinks from "../components/StartLinks.astro";
 import CarouselControls from "../components/CarouselControls.astro";
-import { featuredCaseStudies, proofWorkCards } from "../data/work";
+import { getCollection } from "astro:content";
+import { byOrder, featuredWorkCards, proofWorkCards } from "../lib/portfolio";
+import type { ProofEntry, WorkCard, WorkEntry } from "../lib/portfolio";
 
-const featuredCards = featuredCaseStudies;
+const workEntries: WorkEntry[] = (await getCollection("work")).sort(byOrder);
+const proofEntries: ProofEntry[] = (await getCollection("proof")).sort(byOrder);
+const featuredCards = featuredWorkCards(workEntries);
+const workCards = proofWorkCards(workEntries, proofEntries);
 
-const workCount = String(proofWorkCards.length).padStart(2, "0");
+const workCount = String(workCards.length).padStart(2, "0");
 ---
 
 <BaseLayout title="Jamie Scott Craik | AI-native DevRel">
@@ -80,7 +85,7 @@ const workCount = String(proofWorkCards.length).padStart(2, "0");
   <section id="work" class="work-carousel section-shell" aria-labelledby="work-carousel-title">
     <h2 id="work-carousel-title">All work <sup>{workCount}</sup></h2>
     <div class="work-row" aria-label="Curated proof cards" data-work-row>
-      {proofWorkCards.map((item, index) => (
+      {workCards.map((item: WorkCard, index: number) => (
         <a class="work-mini-card" href={item.href}>
           <p class="work-card-count">{String(index + 1).padStart(2, "0")} / {workCount}</p>
           <div class={"work-thumbnail work-thumbnail--" + item.tone} aria-hidden="true">
@@ -89,7 +94,7 @@ const workCount = String(proofWorkCards.length).padStart(2, "0");
           </div>
           <h3>{item.title}</h3>
           <div class="tag-row">
-            {item.tags.map((tag) => <span>{tag}</span>)}
+              {item.tags.map((tag: string) => <span>{tag}</span>)}
           </div>
         </a>
       ))}

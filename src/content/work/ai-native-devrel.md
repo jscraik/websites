@@ -1,0 +1,34 @@
+---
+title: "AI-native DevRel"
+shortTitle: "AI DevRel"
+subtitle: "Building trust surfaces for agentic developer tools"
+date: "June 2026"
+order: 1
+isFeatured: true
+overview: "This case study frames the first public article and proof log as one artifact: a position, a receipt, and a boundary."
+organization: "brainwav.io is Jamie's public proof surface for AI-native DevRel writing, demos, CLI work, and validation notes."
+work: "I am shaping the reader journey, writing the anchor article, and making evidence visible through proof cards, caveats, and command receipts."
+role: "AI-native DevRel builder"
+tags:
+  - "Article"
+  - "Proof log"
+  - "DevRel"
+  - "Trust"
+tone: "paper"
+featured:
+  eyebrow: "From the position piece"
+  quote: "The capability exists. The trust problem is what is left to solve."
+  cta: "Read case study"
+  previewTitle: "Article plus public proof log"
+  previewMeta: "Editorial article / trust loop / reader path"
+  visual: "article"
+proof:
+  claim: "AI-native DevRel is a trust, evaluation, and education problem."
+  evidence: "Anchor article, proof index, and portfolio case-study path."
+  caveat: "This does not prove deployed reach or external adoption yet."
+frames:
+  - ["Article", "Position piece", "Why AI-native DevRel?"]
+  - ["Receipt", "Command evidence", "Build output and screenshots"]
+  - ["Boundary", "Caveat", "What the proof does not prove"]
+  - ["Reader path", "Trust loop", "Claim -> evidence -> next action"]
+---

@@ -1,47 +1,17 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
 
-const proofItems = [
-  {
-    title: "Why AI-Native DevRel?",
-    status: "Article",
-    href: "/articles/why-ai-native-devrel/",
-    claim: "AI-native DevRel is a trust, evaluation, and education problem.",
-    evidence: "Article page and local build receipt",
-    caveat: "Does not prove deployed reach or external review yet.",
-    nextState: "Add public examples and deployment evidence."
-  },
-  {
-    title: "brainwav.io prototype",
-    status: "Build",
-    href: "/",
-    claim: "The site can act as Jamie's public proof surface.",
-    evidence: "Astro repo and prototype pages",
-    caveat: "Needs deployed URL and visual QA before public promotion.",
-    nextState: "Publish the domain route and complete visual QA."
-  },
-  {
-    title: "CLI proof series",
-    status: "Planned",
-    href: "/now/",
-    claim: "Small CLIs can become developer-facing proof units.",
-    evidence: "Candidate rsearch and wsearch lanes",
-    caveat: "Needs current repo validation before it counts as proof.",
-    nextState: "Validate one tool and write the first tutorial."
-  },
-  {
-    title: "Agent skills notes",
-    status: "Planned",
-    href: "/now/",
-    claim: "Skills can teach repeatable AI workflow practice.",
-    evidence: "Installed project skills and future notes",
-    caveat: "Needs public-safe examples and review boundaries.",
-    nextState: "Extract public-safe examples from the workflow."
-  }
-];
+type ProofEntry = CollectionEntry<"proof">;
+type ProofItem = ProofEntry["data"];
 
-const liveProofItems = proofItems.filter((item) => item.status !== "Planned");
-const plannedProofItems = proofItems.filter((item) => item.status === "Planned");
+const proofItems: ProofItem[] = (await getCollection("proof"))
+  .sort((a: ProofEntry, b: ProofEntry) => a.data.order - b.data.order)
+  .map((entry: ProofEntry) => entry.data);
+
+const liveProofItems = proofItems.filter((item: ProofItem) => item.status !== "Planned");
+const plannedProofItems = proofItems.filter((item: ProofItem) => item.status === "Planned");
 ---
 
 <BaseLayout title="Proof Index | brainwav">
@@ -61,7 +31,7 @@ const plannedProofItems = proofItems.filter((item) => item.status === "Planned")
     </div>
 
     <div class="proof-row">
-      {liveProofItems.map((item) => (
+      {liveProofItems.map((item: ProofItem) => (
         <a class="proof-card" href={item.href}>
           <span>{item.status}</span>
           <h2>{item.title}</h2>
@@ -90,7 +60,7 @@ const plannedProofItems = proofItems.filter((item) => item.status === "Planned")
     </div>
 
     <div class="proof-row">
-      {plannedProofItems.map((item) => (
+      {plannedProofItems.map((item: ProofItem) => (
         <div class="proof-card proof-card--planned">
           <span>{item.status}</span>
           <h2>{item.title}</h2>
