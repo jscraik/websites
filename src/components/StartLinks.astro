@@ -1,4 +1,6 @@
 ---
+import Icon from "./Icon.astro";
+
 const links = [
   {
     href: "/now/",
@@ -21,6 +23,7 @@ const links = [
     icon: "pencil"
   }
 ];
+
 ---
 
 <aside class="start-links" aria-labelledby="start-links-title">
@@ -30,7 +33,9 @@ const links = [
       links.map((link) => (
         <li class="icon-link-item">
           <a href={link.href} class="icon-link">
-            <span class={"icon-box start-links__icon start-links__icon--" + link.icon} aria-hidden="true"></span>
+            <span class="icon-box start-links__icon" aria-hidden="true">
+              <Icon name={link.icon} />
+            </span>
             <span>{link.label}</span>
             <span aria-hidden="true">-&gt;</span>
           </a>

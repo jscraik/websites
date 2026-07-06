@@ -1,4 +1,31 @@
-export const caseStudies = [
+export type Frame = readonly [category: string, headline: string, description: string];
+
+type CaseStudy = {
+  slug: string;
+  title: string;
+  shortTitle: string;
+  subtitle: string;
+  date: string;
+  isFeatured: boolean;
+  overview: string;
+  organization: string;
+  work: string;
+  role: string;
+  tags: string[];
+  tone: string;
+  route: string;
+  featured: {
+    eyebrow: string;
+    quote: string;
+    cta: string;
+    previewTitle: string;
+    previewMeta: string;
+    visual: string;
+  };
+  frames: Frame[];
+};
+
+export const caseStudies: CaseStudy[] = [
   {
     slug: "ai-native-devrel",
     title: "AI-native DevRel",
@@ -7,7 +34,7 @@ export const caseStudies = [
     date: "June 2026",
     isFeatured: true,
     overview: "This case study frames the first public article and proof log as one artifact: a position, a receipt, and a boundary.",
-    organization: "brainwav.io is Jamie's public proof surface for AI-native DevRel writing, demos, CLI work, and validation notes.",
+    organization: "brAInwav is Jamie's public proof surface for AI-native DevRel writing, demos, CLI work, and validation notes.",
     work: "I am shaping the reader journey, writing the anchor article, and making evidence visible through proof cards, caveats, and command receipts.",
     role: "AI-native DevRel builder",
     tags: ["Article", "Proof log", "DevRel", "Trust"],
@@ -22,15 +49,15 @@ export const caseStudies = [
       visual: "article"
     },
     frames: [
-      ["Article", "Position piece", "Why AI-native DevRel?"],
-      ["Receipt", "Command evidence", "Build output and screenshots"],
-      ["Boundary", "Caveat", "What the proof does not prove"],
+      ["Challenge", "Trust gap", "AI work needs inspectable receipts"],
+      ["Approach", "Proof loop", "Claim -> command -> evidence"],
+      ["Outcome", "Reader path", "Clearer DevRel positioning"],
       ["Reader path", "Trust loop", "Claim -> evidence -> next action"]
     ]
   },
   {
     slug: "brainwav-io",
-    title: "brainwav.io",
+    title: "brAInwav",
     shortTitle: "Proof Log",
     subtitle: "A personal site for proof-led AI work",
     date: "Current",
@@ -51,9 +78,9 @@ export const caseStudies = [
       visual: "site"
     },
     frames: [
-      ["Home", "Editorial entry", "Name, statement, profile chip"],
-      ["About", "Personal archive", "Army standards to AI work"],
-      ["Work", "Case study cards", "Proof-led public artifacts"],
+      ["Challenge", "Identity", "Make the AI-native practice legible"],
+      ["Approach", "Portfolio", "Editorial story plus proof surfaces"],
+      ["Outcome", "Ecosystem", "Bridge to brAInwav depth"],
       ["Footer", "Signature", "Small links and social proof"]
     ]
   },
@@ -80,9 +107,9 @@ export const caseStudies = [
       visual: "terminal"
     },
     frames: [
-      ["CLI", "Command", "rsearch query"],
-      ["Docs", "Guide", "Install and first useful run"],
-      ["Validation", "Receipt", "Expected output and caveats"],
+      ["Challenge", "Adoption", "Small tools need credible examples"],
+      ["Approach", "Tutorial", "Docs and commands travel together"],
+      ["Outcome", "Proof", "Expected output and caveats"],
       ["Tutorial", "Reader path", "From problem to repeatable use"]
     ]
   }
@@ -91,17 +118,30 @@ export const caseStudies = [
 export const featuredCaseStudies = caseStudies.filter((study) => study.isFeatured).map((study) => ({
   title: study.title,
   href: study.route,
+  summary: study.subtitle,
+  frames: study.frames.slice(0, 3),
   ...study.featured
 }));
 
 export const proofWorkCards = [
-  ...caseStudies.map((study) => ({
+  ...caseStudies.map((study, index) => ({
     title: study.shortTitle,
+    eyebrow: study.date,
+    summary: study.subtitle,
+    index: index + 1,
     tags: study.tags.slice(0, 3),
     tone: study.tone,
     href: study.route
   })),
-  { title: "Agent Skills", tags: ["Reusable", "Practice"], tone: "green", href: "/proof/" }
+  {
+    title: "Agent Skills",
+    eyebrow: "Current",
+    summary: "Reusable workflow capture and skill-led proof loops",
+    index: caseStudies.length + 1,
+    tags: ["Reusable", "Practice"],
+    tone: "green",
+    href: "/proof/"
+  }
 ];
 
 export const featuredCaseStudy = caseStudies.find((study) => study.isFeatured);
