@@ -3,12 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=26.3.0"
+  },
   "scripts": {
     "dev": "astro dev",
     "check": "astro check",
     "build": "astro build",
     "preview": "astro preview",
     "capture:jose-reference": "mkdir -p .playwright-tmp && TMPDIR=$PWD/.playwright-tmp PWTEST_CACHE_DIR=.playwright-cache node scripts/capture-jose-reference.mjs",
+    "validate:design-system": "node scripts/validate-design-system.mjs",
     "validate:content-source-boundary": "node scripts/validate-content-source-boundary.mjs",
     "validate:portfolio-content": "node scripts/validate-portfolio-content.mjs",
     "validate:jose-claim-boundary": "node scripts/validate-jose-claim-boundary.mjs",

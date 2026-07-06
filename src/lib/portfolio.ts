@@ -5,6 +5,9 @@ export type ProofEntry = CollectionEntry<"proof">;
 
 export type WorkCard = {
   title: string;
+  eyebrow: string;
+  summary: string;
+  index: number;
   tags: string[];
   tone: string;
   href: string;
@@ -22,14 +25,18 @@ export function featuredWorkCards(workEntries: WorkEntry[]) {
     .map((entry) => ({
       title: entry.data.title,
       href: workRoute(entry),
+      frames: entry.data.frames.slice(0, 3),
       ...entry.data.featured
     }));
 }
 
 export function proofWorkCards(workEntries: WorkEntry[], proofEntries: ProofEntry[]): WorkCard[] {
   return [
-    ...workEntries.map((entry) => ({
+    ...workEntries.map((entry, index) => ({
       title: entry.data.shortTitle,
+      eyebrow: entry.data.date,
+      summary: entry.data.subtitle,
+      index: index + 1,
       tags: entry.data.tags.slice(0, 3),
       tone: entry.data.tone,
       href: workRoute(entry)
@@ -38,6 +45,9 @@ export function proofWorkCards(workEntries: WorkEntry[], proofEntries: ProofEntr
       .filter((entry) => entry.id === "agent-skills-notes")
       .map(() => ({
         title: "Agent Skills",
+        eyebrow: "Current",
+        summary: "Reusable workflow capture and skill-led proof loops",
+        index: workEntries.length + 1,
         tags: ["Reusable", "Practice"],
         tone: "green",
         href: "/proof/"

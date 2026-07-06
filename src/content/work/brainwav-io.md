@@ -1,5 +1,5 @@
 ---
-title: "brainwav.io"
+title: "brAInwav"
 shortTitle: "Proof Log"
 subtitle: "A personal site for proof-led AI work"
 date: "Current"
@@ -27,8 +27,8 @@ proof:
   evidence: "Astro repo, prototype pages, local build output, and content-source guardrails."
   caveat: "Needs deployed URL and current visual QA before public promotion."
 frames:
-  - ["Home", "Editorial entry", "Name, statement, profile chip"]
-  - ["About", "Personal archive", "Army standards to AI work"]
-  - ["Work", "Case study cards", "Proof-led public artifacts"]
+  - ["Challenge", "Identity", "Make the AI-native practice legible"]
+  - ["Approach", "Portfolio", "Editorial story plus proof surfaces"]
+  - ["Outcome", "Ecosystem", "Bridge to brAInwav depth"]
   - ["Footer", "Signature", "Small links and social proof"]
 ---

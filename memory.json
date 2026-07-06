@@ -1,0 +1,32 @@
+{
+  "repo": "brainwav-io",
+  "session_id": "repo-memory/current",
+  "preamble": {
+    "bootstrap": true,
+    "search": true,
+    "claim_boundary": "orientation-only"
+  },
+  "entries": [
+    {
+      "level": "observation",
+      "content": "brainwav-io uses Coding Harness repo memory for compact orientation only. Durable operational learnings belong in .harness/memory/LEARNINGS.md and Project Brain surfaces under .harness/.",
+      "tags": [
+        "repo:brainwav-io",
+        "area:memory",
+        "type:orientation"
+      ],
+      "session_id": "repo-memory/current",
+      "source": "harness init",
+      "observed_at": "2026-01-01T00:00:00.000Z"
+    }
+  ],
+  "closeout": {
+    "forjamie_updated": false,
+    "date": "2026-01-01T00:00:00.000Z",
+    "claim_boundary": "orientation-only"
+  },
+  "meta": {
+    "created_at": "2026-01-01T00:00:00.000Z",
+    "version": "1.0"
+  }
+}

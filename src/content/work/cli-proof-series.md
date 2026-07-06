@@ -27,8 +27,8 @@ proof:
   evidence: "Candidate rsearch and wsearch lanes."
   caveat: "Needs current repo validation before it counts as proof."
 frames:
-  - ["CLI", "Command", "rsearch query"]
-  - ["Docs", "Guide", "Install and first useful run"]
-  - ["Validation", "Receipt", "Expected output and caveats"]
+  - ["Challenge", "Adoption", "Small tools need credible examples"]
+  - ["Approach", "Tutorial", "Docs and commands travel together"]
+  - ["Outcome", "Proof", "Expected output and caveats"]
   - ["Tutorial", "Reader path", "From problem to repeatable use"]
 ---

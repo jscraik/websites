@@ -1,0 +1,23 @@
+# Prek configuration (Rust-based pre-commit replacement)
+# Install prek: mise install cargo-prek || cargo install prek
+# Run: bash scripts/run-prek.sh install --overwrite
+
+default_install_hook_types = ["pre-commit", "pre-push"]
+
+[[repos]]
+repo = "local"
+
+[[repos.hooks]]
+id = "pre-commit"
+name = "Pre-commit"
+entry = "bash scripts/hook-pre-commit.sh"
+language = "system"
+pass_filenames = false
+
+[[repos.hooks]]
+id = "pre-push"
+name = "Pre-push"
+entry = "bash scripts/hook-pre-push.sh"
+language = "system"
+pass_filenames = false
+stages = ["pre-push"]

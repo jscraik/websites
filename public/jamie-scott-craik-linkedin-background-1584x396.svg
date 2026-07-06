@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1584" height="396" viewBox="0 0 1584 396" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="1584" y2="396" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#faf9f4"/>
+      <stop offset="0.58" stop-color="#e8e8e3"/>
+      <stop offset="1" stop-color="#d5d6d0"/>
+    </linearGradient>
+    <radialGradient id="warmPool" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(480 58) rotate(24) scale(760 286)">
+      <stop stop-color="#fbfaf5" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#fbfaf5" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bluePool" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1332 56) rotate(134) scale(458 214)">
+      <stop stop-color="#2f80ff" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#2f80ff" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="paperGrain" width="84" height="84" patternUnits="userSpaceOnUse">
+      <path d="M9 19h1M37 6h1M66 28h1M24 57h1M72 71h1M46 41h1" stroke="#000b00" stroke-opacity="0.08" stroke-linecap="round"/>
+      <path d="M16 34h1M58 12h1M34 74h1M78 48h1" stroke="#fbfaf5" stroke-opacity="0.5" stroke-linecap="round"/>
+    </pattern>
+    <pattern id="pinDots" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="1.05" fill="#2f80ff" opacity="0.17"/>
+    </pattern>
+    <filter id="cardShadow" x="-20%" y="-30%" width="140%" height="160%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="-14" dy="18" stdDeviation="18" flood-color="#000b00" flood-opacity="0.08"/>
+      <feDropShadow dx="-2" dy="4" stdDeviation="5" flood-color="#000b00" flood-opacity="0.09"/>
+    </filter>
+    <filter id="softLift" x="-35%" y="-50%" width="170%" height="200%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="-8" dy="10" stdDeviation="10" flood-color="#000b00" flood-opacity="0.09"/>
+    </filter>
+    <style>
+      @font-face {
+        font-family: "Stringer";
+        src: url("https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6672f9522072572b2dccc510_Stringer-Thin-Web.woff2") format("woff2");
+        font-weight: 100;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Stringer";
+        src: url("https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6672f952b36b0a9463c9d316_Stringer-Light-Web.woff2") format("woff2");
+        font-weight: 300;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Geist Mono";
+        src: url("https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/662462fa49c81673fb535b57_GeistMono-Regular.woff") format("woff");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      .serif { font-family: "Stringer", "Times New Roman", Georgia, serif; }
+      .mono { font-family: "Geist Mono", Menlo, Monaco, Consolas, monospace; }
+      .sans { font-family: -apple-system, BlinkMacSystemFont, "Avenir Next", "Helvetica Neue", Arial, sans-serif; }
+      .ink { fill: #000b00; }
+      .strong { fill: #3d403c; }
+      .secondary { fill: #4f564d; }
+      .muted { fill: #7d8790; }
+      .label { font-size: 12px; font-weight: 400; letter-spacing: .72px; }
+      .tiny { font-size: 10px; font-weight: 700; letter-spacing: 0; }
+    </style>
+  </defs>
+
+  <rect width="1584" height="396" fill="#faf9f4"/>
+  <rect width="1584" height="396" fill="url(#paper)"/>
+  <rect width="1584" height="396" fill="url(#warmPool)"/>
+  <rect width="1584" height="396" fill="url(#bluePool)"/>
+  <rect width="1584" height="396" fill="url(#paperGrain)" opacity="0.38"/>
+  <rect x="0" y="0" width="352" height="396" fill="url(#pinDots)" opacity="0.64"/>
+
+  <path d="M0 304 C178 251 302 336 476 294 C626 258 716 274 876 232" stroke="#2f80ff" stroke-opacity="0.12" stroke-width="1.2"/>
+  <path d="M0 319 C210 266 298 358 512 314 C658 284 742 302 932 268" stroke="#2f80ff" stroke-opacity="0.08" stroke-width="1.2"/>
+  <circle cx="87" cy="301" r="3.1" fill="#ff7a1a" opacity="0.76"/>
+  <circle cx="217" cy="257" r="2.8" fill="#2f80ff" opacity="0.42"/>
+  <circle cx="345" cy="303" r="2.8" fill="#2f80ff" opacity="0.32"/>
+
+  <g transform="translate(156 52) scale(1.270833)" filter="url(#softLift)">
+    <rect width="96" height="96" rx="20" fill="#fbfaf5"/>
+    <rect x="0.75" y="0.75" width="94.5" height="94.5" rx="19.25" fill="none" stroke="#000b00" stroke-opacity="0.08" stroke-width="1.18"/>
+    <text x="18" y="58" fill="#242923" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="400" letter-spacing="-3">JSC</text>
+    <path d="M18 30h48c8 0 13 5 13 13" fill="none" stroke="#242923" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.8"/>
+    <circle cx="81" cy="59" r="3" fill="#242923"/>
+  </g>
+
+  <line x1="352" y1="92" x2="352" y2="305" stroke="#2f80ff" stroke-opacity="0.42" stroke-width="2"/>
+
+  <g transform="translate(388 74)">
+    <text class="mono label secondary">AI-NATIVE DEVREL / PUBLIC PROOF</text>
+    <text y="83" class="serif strong" font-size="76" font-weight="100" letter-spacing="-3.04">Jamie Scott Craik</text>
+    <text y="128" class="serif strong" font-size="28" font-weight="300">Trust surfaces for AI-native developer tools.</text>
+
+    <g transform="translate(0 168)">
+      <rect width="428" height="1.5" rx="0.75" fill="#2f80ff" opacity="0.54"/>
+      <circle cx="113" cy="0.75" r="2.5" fill="#ff7a1a"/>
+      <circle cx="272" cy="0.75" r="2.5" fill="#2f80ff"/>
+      <circle cx="406" cy="0.75" r="2.5" fill="#ff7a1a" opacity="0.82"/>
+      <text y="34" class="mono tiny secondary">DEVELOPER EDUCATION</text>
+      <text x="178" y="34" class="mono tiny secondary">AGENT WORKFLOWS</text>
+      <text x="330" y="34" class="mono tiny secondary">EVALUATION</text>
+    </g>
+  </g>
+
+  <g transform="translate(388 302)" filter="url(#softLift)">
+    <rect width="405" height="58" rx="12" fill="#fbfaf5" fill-opacity="0.82"/>
+    <rect x="0.75" y="0.75" width="403.5" height="56.5" rx="11.25" stroke="#000b00" stroke-opacity="0.07" stroke-width="1.5"/>
+    <rect x="14" y="13" width="32" height="32" rx="6" fill="#e8e8e3" stroke="#000b00" stroke-opacity=".12"/>
+    <path d="M22 29.5h16M30 21.5v16" stroke="#2f80ff" stroke-opacity="0.9" stroke-width="1.5" stroke-linecap="round"/>
+    <circle cx="39" cy="38" r="2.6" fill="#ff7a1a"/>
+    <text x="64" y="24" class="mono tiny secondary">VISIBLE PROOF / HUMAN JUDGMENT</text>
+    <text x="64" y="43" class="mono tiny muted">brainwav.io</text>
+    <circle cx="186" cy="40" r="2.2" fill="#2f80ff" opacity="0.72"/>
+    <text x="199" y="43" class="mono tiny muted">jscraik.com</text>
+  </g>
+
+  <g transform="translate(888 52)" filter="url(#cardShadow)">
+    <rect width="538" height="292" rx="20" fill="#fbfaf5" fill-opacity="0.52"/>
+    <rect x="0.75" y="0.75" width="536.5" height="290.5" rx="19.25" stroke="#000b00" stroke-opacity="0.08" stroke-width="1.5"/>
+
+    <g transform="translate(34 32)">
+      <text class="mono label secondary">PROFESSIONAL OPERATING MODEL</text>
+      <text y="41" class="serif strong" font-size="44" font-weight="300" letter-spacing="-1.76">Evidence before claims.</text>
+      <text y="77" class="serif secondary" font-size="18" font-weight="300">Clear explanations, bounded proof, and careful developer trust.</text>
+    </g>
+
+    <g transform="translate(36 136)">
+      <g>
+        <rect width="132" height="88" rx="8" fill="#e8e8e3" fill-opacity="0.72" stroke="#000b00" stroke-opacity="0.08"/>
+        <path d="M31 30h67M31 47h45M31 64h76" stroke="#4f564d" stroke-opacity=".48" stroke-width="3" stroke-linecap="round"/>
+        <rect x="31" y="30" width="26" height="3" rx="1.5" fill="#2f80ff"/>
+        <text x="24" y="109" class="mono tiny secondary">EXPLAIN</text>
+      </g>
+      <g transform="translate(168 0)">
+        <rect width="132" height="88" rx="8" fill="#e8e8e3" fill-opacity="0.72" stroke="#000b00" stroke-opacity="0.08"/>
+        <path d="M34 63V29h64v34M34 46h64M51 29v34M76 29v34" stroke="#263129" stroke-opacity="0.82" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="34" cy="29" r="4" fill="#2f80ff"/>
+        <circle cx="98" cy="63" r="4" fill="#ff7a1a"/>
+        <text x="37" y="109" class="mono tiny secondary">TRACE</text>
+      </g>
+      <g transform="translate(336 0)">
+        <rect width="132" height="88" rx="8" fill="#e8e8e3" fill-opacity="0.72" stroke="#000b00" stroke-opacity="0.08"/>
+        <path d="M37 48l16 16 42-42" stroke="#2f80ff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="27" y="20" width="78" height="49" rx="9" stroke="#263129" stroke-opacity=".42" stroke-width="2"/>
+        <text x="42" y="109" class="mono tiny secondary">VERIFY</text>
+      </g>
+    </g>
+  </g>
+
+  <g transform="translate(1450 74)">
+    <text class="mono tiny muted" transform="rotate(90)">brainwav.io / linkedIn profile background</text>
+  </g>
+</svg>

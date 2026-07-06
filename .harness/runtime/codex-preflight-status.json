@@ -1,0 +1,7 @@
+{
+  "schemaVersion": "codex-preflight-status/v1",
+  "generatedAt": "2026-07-04T09:47:44Z",
+  "mode": "optional",
+  "status": "pass",
+  "command": "bash scripts/codex-preflight.sh --stack auto --mode optional"
+}

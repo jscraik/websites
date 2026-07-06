@@ -1,5 +1,5 @@
 ---
-title: "brainwav.io prototype"
+title: "brAInwav prototype"
 status: "Build"
 order: 2
 href: "/"

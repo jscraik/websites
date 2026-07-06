@@ -18,6 +18,11 @@ test-results/
 playwright-report/
 artifacts/screenshots/
 artifacts/screenshots-cdp/
+artifacts/button-video-frames/
+artifacts/jamie-button-video-frames/
+artifacts/jose-layout-extract/
+artifacts/nav-video-frames/
+artifacts/visual-audit/
 .lighthouseci/
 .playwright-cache/
 .playwright-tmp/

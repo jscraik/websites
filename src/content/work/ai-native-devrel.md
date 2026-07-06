@@ -6,7 +6,7 @@ date: "June 2026"
 order: 1
 isFeatured: true
 overview: "This case study frames the first public article and proof log as one artifact: a position, a receipt, and a boundary."
-organization: "brainwav.io is Jamie's public proof surface for AI-native DevRel writing, demos, CLI work, and validation notes."
+organization: "brAInwav is Jamie's public proof surface for AI-native DevRel writing, demos, CLI work, and validation notes."
 work: "I am shaping the reader journey, writing the anchor article, and making evidence visible through proof cards, caveats, and command receipts."
 role: "AI-native DevRel builder"
 tags:
@@ -27,8 +27,8 @@ proof:
   evidence: "Anchor article, proof index, and portfolio case-study path."
   caveat: "This does not prove deployed reach or external adoption yet."
 frames:
-  - ["Article", "Position piece", "Why AI-native DevRel?"]
-  - ["Receipt", "Command evidence", "Build output and screenshots"]
-  - ["Boundary", "Caveat", "What the proof does not prove"]
+  - ["Challenge", "Trust gap", "AI work needs inspectable receipts"]
+  - ["Approach", "Proof loop", "Claim -> command -> evidence"]
+  - ["Outcome", "Reader path", "Clearer DevRel positioning"]
   - ["Reader path", "Trust loop", "Claim -> evidence -> next action"]
 ---
