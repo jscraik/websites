@@ -3,14 +3,57 @@
   "owner": "Jamie Scott Craik",
   "tagline": "Visible proof. AI-native DevRel.",
   "descriptor": "Former Army Leader \u2022 AI-native Builder \u2022 Developer Advocate",
+  "system": {
+    "name": "brAInwav Design System",
+    "mode": "portfolio-light",
+    "reference": "Jose-inspired editorial rhythm, owned by Jamie/brAInwav tokens"
+  },
   "colors": {
-    "charcoal": "#111316",
-    "sage": "#6B7F6B",
-    "ink_blue": "#0F2A44",
-    "warm_off_white": "#FAF8F5",
-    "stone": "#E6E6E1",
-    "white": "#FFFFFF",
-    "accent_blue": "#5EA8D8"
+    "brainwav_bg": "#0B0F17",
+    "brainwav_surface": "#141A23",
+    "brainwav_surface_elevated": "#1B2230",
+    "brainwav_text": "#F8F8F6",
+    "brainwav_text_secondary": "#C5CAD3",
+    "brainwav_muted": "#8B93A4",
+    "blue": "#2DA8FF",
+    "blue_hover": "#58BFFF",
+    "orange": "#FF7A00",
+    "orange_hover": "#FF9733",
+    "success": "#35D07F",
+    "warning": "#F8C84E",
+    "error": "#F25B5B",
+    "portfolio_bg": "#E6E6E1",
+    "portfolio_surface": "#FBFAF5",
+    "portfolio_nav": "#E8E8E3",
+    "portfolio_ink": "#000B00",
+    "portfolio_text": "#3D403C",
+    "portfolio_muted": "#4F564D"
+  },
+  "typography": {
+    "display": "Stringer while using the Jose reference; migrate to Geist for BDS product surfaces",
+    "body": "Geist / Inter / system sans",
+    "mono": "Geist Mono",
+    "scale": {
+      "hero": "72-88px",
+      "display": "56px",
+      "h1": "48px",
+      "h2": "36px",
+      "h3": "28px",
+      "body": "18px",
+      "small": "15px"
+    }
+  },
+  "spacing": ["8px", "16px", "24px", "32px", "48px", "64px", "96px", "128px"],
+  "radius": {
+    "card": "18px",
+    "button": "14px",
+    "image": "20px",
+    "pill": "999px"
+  },
+  "iconography": {
+    "stroke": "1.75",
+    "linecap": "round",
+    "linejoin": "round"
   },
   "social_safe_rule": "Keep all important identity content away from the lower-left avatar overlay area."
 }

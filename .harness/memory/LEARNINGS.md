@@ -25,3 +25,5 @@ This repository only.
 ## Format
 
 Use `**YYYY-MM-DD [Agent]:** problem -> fix`.
+
+**2026-07-06 [Codex]:** Blog UI fixes regressed into stacked global CSS overrides after screenshot steering -> for route-specific visual parity issues, make the route own its layout in the page/component first, then delete or bypass stale global experiments instead of adding another cascade patch.

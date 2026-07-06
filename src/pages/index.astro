@@ -11,7 +11,7 @@ const workCount = String(proofWorkCards.length).padStart(2, "0");
 
 <BaseLayout title="Jamie Scott Craik | AI-native DevRel">
   <header class="header-inner section-shell" aria-labelledby="home-title">
-    <div class="home-hero">
+    <div class="home-hero" data-reveal>
       <div class="home-hero__intro v-stack cc-lg">
         <h1 id="home-title" class="h1-name" aria-label="Jamie Scott Craik">
           <span>Jamie</span>
@@ -19,9 +19,13 @@ const workCount = String(proofWorkCards.length).padStart(2, "0");
           <span>Craik</span>
         </h1>
         <div>
+          <p class="home-hero__position">
+            AI-native Developer Relations focused on trustworthy AI-assisted software engineering.
+          </p>
           <p class="home-hero__body">
-            One of my deepest joys comes from equipping technical people with
-            the proof, language, and workflow habits they need to trust AI work.
+            I help technical teams turn agentic workflows into inspected,
+            teachable systems with clear claims, command evidence, and honest
+            proof boundaries.
           </p>
           <div class="profile-row cc-home-hero" aria-label="Jamie Scott Craik">
             <div class="pfp-img-wrap">
@@ -45,10 +49,14 @@ const workCount = String(proofWorkCards.length).padStart(2, "0");
     </div>
     <div class="featured-list">
       {featuredCards.map((card, index) => (
-        <article class="feature-block">
+        <article class="feature-block" data-reveal>
           <div class="feature-block-inner">
             <div class="feature-block__content">
-              <h2 id={index === 0 ? "featured-title" : undefined}>{card.title}</h2>
+              <h2 id={index === 0 ? "featured-title" : undefined}>
+                {card.title === "brAInwav" ? (
+                  <span class="brand-word">br<span>AI</span>nwav</span>
+                ) : card.title}
+              </h2>
               <div class="feature-block__copy">
                 <p class="eyebrow">{card.eyebrow}</p>
                 <p class="feature-quote">"{card.quote}"</p>
@@ -66,9 +74,19 @@ const workCount = String(proofWorkCards.length).padStart(2, "0");
                   <span></span>
                   <span></span>
                 </div>
-                <p class="eyebrow">From the work</p>
-                <h3>{card.previewTitle}</h3>
-                <p>{card.previewMeta}</p>
+                <div class="feature-proof-panel" aria-label={card.previewTitle}>
+                  <p class="eyebrow">From the work</p>
+                  <h3>{card.previewTitle}</h3>
+                  <p>{card.previewMeta}</p>
+                  <dl>
+                    {card.frames.map(([label, value]) => (
+                      <div>
+                        <dt>{label}</dt>
+                        <dd>{value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
               </div>
             </div>
           </div>
@@ -77,7 +95,7 @@ const workCount = String(proofWorkCards.length).padStart(2, "0");
     </div>
   </section>
 
-  <section id="work" class="work-carousel section-shell" aria-labelledby="work-carousel-title">
+  <section id="work" class="work-carousel section-shell" aria-labelledby="work-carousel-title" data-reveal>
     <h2 id="work-carousel-title">All work <sup>{workCount}</sup></h2>
     <div class="work-row" aria-label="Curated proof cards" data-work-row>
       {proofWorkCards.map((item, index) => (
@@ -86,10 +104,19 @@ const workCount = String(proofWorkCards.length).padStart(2, "0");
           <div class={"work-thumbnail work-thumbnail--" + item.tone} aria-hidden="true">
             <span></span>
             <span></span>
+            <span class="work-thumbnail__arrow">
+              <svg viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M0 8h14M14 8l-5-5M14 8l-5 5"></path>
+              </svg>
+            </span>
           </div>
-          <h3>{item.title}</h3>
-          <div class="tag-row">
-            {item.tags.map((tag) => <span>{tag}</span>)}
+          <div class="work-card-body">
+            <p>{item.eyebrow}</p>
+            <h3>{item.title}</h3>
+            <span>{item.summary}</span>
+            <div class="tag-row">
+              {item.tags.map((tag) => <span>{tag}</span>)}
+            </div>
           </div>
         </a>
       ))}
@@ -97,9 +124,17 @@ const workCount = String(proofWorkCards.length).padStart(2, "0");
     <CarouselControls />
   </section>
 
-  <section class="blog-preview section-shell" aria-labelledby="blog-preview-title">
+  <section class="blog-preview section-shell" aria-labelledby="blog-preview-title" data-reveal>
     <div class="blog-title-block">
-      <h2 id="blog-preview-title">Blog</h2>
+      <div class="blog-heading-lockup">
+        <h2 id="blog-preview-title">Blog</h2>
+        <span class="icon-box blog-heading-icon" aria-hidden="true">
+          <svg viewBox="0 0 17 16" class="sm-icon">
+            <path d="m13.89 6.85 1.24-1.24a2 2 0 0 0 0-2.83l-1.41-1.41a2 2 0 0 0-2.83 0L9.65 2.61"></path>
+            <path d="m14.01 6.73-4.24-4.24-7.37 7.37a.5.5 0 0 0-.14.28l-.59 4.12a.5.5 0 0 0 .57.57l4.12-.59a.5.5 0 0 0 .28-.14l7.37-7.37Z"></path>
+          </svg>
+        </span>
+      </div>
       <div class="blog-preview__drafts" aria-label="In my drafts">
         <p class="eyebrow">In my drafts</p>
         <a href="/proof/">How I review agent output</a>
@@ -119,6 +154,44 @@ const workCount = String(proofWorkCards.length).padStart(2, "0");
         <span aria-hidden="true">-&gt;</span>
       </a>
     </article>
+  </section>
+
+  <section id="brainwav" class="brainwav-bridge section-shell" aria-labelledby="brainwav-title" data-reveal>
+    <div class="brainwav-bridge__intro">
+      <p class="eyebrow">Powered by <span class="brand-word">br<span>AI</span>nwav</span></p>
+      <h2 id="brainwav-title">The technical depth behind the portfolio.</h2>
+      <p>
+        jscraik.com tells the story. <span class="brand-word">br<span>AI</span>nwav</span> is where the engineering practice
+        gets concrete: documentation, workflows, proof logs, architecture notes,
+        and reusable AI-native patterns.
+      </p>
+      <a class="small-button small-button--light brainwav-bridge__cta" href="/proof/">
+        <span>Explore the project ecosystem</span>
+        <span aria-hidden="true">-&gt;</span>
+      </a>
+    </div>
+    <div class="brainwav-resource-grid" aria-label="brAInwav technical resources">
+      <a class="brainwav-resource-card" href="/proof/">
+        <span>01</span>
+        <h3>Proof Logs</h3>
+        <p>Claim, command, receipt, and caveat in one inspectable path.</p>
+      </a>
+      <a class="brainwav-resource-card" href="/work/brainwav-io/">
+        <span>02</span>
+        <h3>Architecture</h3>
+        <p>How public surfaces, local validation, and evidence ledgers fit together.</p>
+      </a>
+      <a class="brainwav-resource-card" href="/articles/why-ai-native-devrel/">
+        <span>03</span>
+        <h3>Articles</h3>
+        <p>Position pieces and tutorials for trustworthy AI-assisted engineering.</p>
+      </a>
+      <a class="brainwav-resource-card" href="https://github.com/jscraik">
+        <span>04</span>
+        <h3>GitHub</h3>
+        <p>Source work, experiments, and project activity as the ecosystem matures.</p>
+      </a>
+    </div>
   </section>
 
 </BaseLayout>
