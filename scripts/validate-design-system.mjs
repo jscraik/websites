@@ -10,10 +10,16 @@ const addCheck = (name, passed, detail) => {
   checks.push({ name, passed, detail });
 };
 
-const tokensCss = read("src/styles/brand-tokens.css");
-const tokensJson = JSON.parse(read("src/styles/brand-tokens.json"));
-const globalCss = read("src/styles/global.css");
-const blogPage = read("src/pages/blog/index.astro");
+let tokensCss, tokensJson, globalCss, blogPage;
+try {
+  tokensCss = read("src/styles/brand-tokens.css");
+  tokensJson = JSON.parse(read("src/styles/brand-tokens.json"));
+  globalCss = read("src/styles/global.css");
+  blogPage = read("src/pages/blog/index.astro");
+} catch (error) {
+  console.error(`Design system validation failed to read inputs: ${error.message}`);
+  process.exit(1);
+}
 
 const requiredTokens = {
   "--bds-color-brainwav-bg": "#0b0f17",
