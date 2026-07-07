@@ -27,7 +27,7 @@ export function featuredWorkCards(workEntries: WorkEntry[]) {
     .map((entry) => ({
       title: entry.data.title,
       href: workRoute(entry),
-      frames: entry.data.frames,
+      frames: entry.data.frames ?? [],
       ...entry.data.featured
     }));
 }
@@ -41,7 +41,7 @@ export function proofWorkCards(workEntries: WorkEntry[], proofEntries: ProofEntr
       eyebrow: entry.data.date,
       summary: entry.data.subtitle,
       index: index + 1,
-      tags: entry.data.tags,
+      tags: entry.data.tags ?? [],
       tone: entry.data.tone,
       href: workRoute(entry)
     })),
