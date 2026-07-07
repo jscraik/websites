@@ -4,7 +4,13 @@ import { join, relative } from "node:path";
 const failures = [];
 
 const packageJsonPath = "package.json";
-const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf8"));
+let packageJson;
+try {
+  packageJson = JSON.parse(readFileSync(packageJsonPath, "utf8"));
+} catch (error) {
+  console.error(`Content source-boundary validation failed: ${packageJsonPath} could not be parsed (${error.message}).`);
+  process.exit(1);
+}
 const boundaryDocPath = "docs/implementation-notes/content-source-boundary.md";
 const boundaryDoc = existsSync(boundaryDocPath) ? readFileSync(boundaryDocPath, "utf8") : "";
 const readmePath = "README.md";
