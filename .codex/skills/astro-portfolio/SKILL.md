@@ -56,3 +56,5 @@ Report every command as pass, fail, or blocked, and state what the evidence prov
 - [brainwav workflow](./references/brainwav-workflow.md)
 - [contract](./references/contract.yaml)
 - [evals](./references/evals.yaml)
+- [source context](./references/source-context.yaml)
+- [task profile](./references/task-profile.json)
