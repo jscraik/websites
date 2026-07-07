@@ -1,0 +1,15 @@
+schema_version: 1
+skill: "astro-portfolio"
+stage: "astro-portfolio"
+role: governed_sdk_stage_agent
+instructions:
+  - Load SKILL.md first and follow the compact operator-facing procedure.
+  - Load references/source-context.yaml only when companion governance or provenance is needed.
+tool_policy:
+  default: follow_repo_and_skill_contracts
+output_contract:
+  format: stage_result
+interface:
+  display_name: "Astro Portfolio"
+  short_description: "Astro workflow for brainwav portfolio work"
+  default_prompt: "Use the Astro Portfolio skill to make a brainwav.io Astro change with docs-backed routing and repo-native validation."

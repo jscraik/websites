@@ -14,51 +14,59 @@ Use npm from the repository root.
 Useful local checks:
 
     ASTRO_TELEMETRY_DISABLED=1 npm run build
+    npm run validate:portfolio-content
+    npm run validate:content-source-boundary
     npm run test:smoke
     npm run validate:page-surfaces
     npm run validate:jose-claim-boundary
 
-The smoke test builds the site and checks generated HTML for the main public routes. The page-surface validator protects repeated layout regressions in the shared stylesheet. The Jose claim-boundary validator prevents static reference capture from being reported as visual parity proof.
+The portfolio content validator checks required metadata, proof fields, local links, and collection structure. The content-source validator protects the repo-file-backed storage boundary. The smoke test builds the site and checks generated HTML for the main public routes. The page-surface validator protects repeated layout regressions in the shared stylesheet. The Jose claim-boundary validator prevents static reference capture from being reported as visual parity proof.
 
 ## Site Map
 
 The current site includes:
 
-| Route | Purpose |
-| --- | --- |
-| / | Homepage with Jamie's identity, featured work, proof cards, and blog preview. |
-| /now/ | About/current-focus page with background, skills, work history, and web links. |
-| /blog/ | Article index and current draft prompts. |
-| /articles/why-ai-native-devrel/ | Anchor article for the AI-native DevRel position. |
-| /proof/ | Proof index with claim, evidence, caveat, and next-state fields. |
-| /contact/ | Contact page and external profile links. |
-| /work/ai-native-devrel/ | Case study for the AI-native DevRel proof surface. |
-| /work/brainwav-io/ | Case study for this site as a proof-led portfolio. |
-| /work/cli-proof-series/ | Planned CLI proof-series case-study route. |
+| Route                           | Purpose                                                                        |
+| ------------------------------- | ------------------------------------------------------------------------------ |
+| /                               | Homepage with Jamie's identity, featured work, proof cards, and blog preview.  |
+| /now/                           | About/current-focus page with background, skills, work history, and web links. |
+| /blog/                          | Article index and current draft prompts.                                       |
+| /articles/why-ai-native-devrel/ | Anchor article for the AI-native DevRel position.                              |
+| /proof/                         | Proof index with claim, evidence, caveat, and next-state fields.               |
+| /contact/                       | Contact page and external profile links.                                       |
+| /work/ai-native-devrel/         | Case study for the AI-native DevRel proof surface.                             |
+| /work/brainwav-io/              | Case study for this site as a proof-led portfolio.                             |
+| /work/cli-proof-series/         | CLI proof-series case-study route.                                             |
 
-Routes are generated from Astro pages under src/pages/ and case-study data in src/data/work.ts.
+Routes are generated from Astro pages under src/pages/ and portfolio content collections under src/content/.
 
 ## Project Layout
 
-| Path | What lives there |
-| --- | --- |
-| src/pages/ | Astro routes for the public site. |
-| src/components/ | Shared UI pieces such as navigation, brand mark, start links, footer, and carousel controls. |
-| src/data/work.ts | Case-study and proof-card data used by home and work pages. |
-| src/styles/global.css | Shared visual system and page layout rules. |
-| public/ | Static images and public assets. |
-| scripts/ | Repo-owned validators and reference-capture utilities. |
-| tests/ | Playwright smoke, visual, accessibility, and Jose screenshot/parity checks. |
-| docs/reference/jose-ocando/ | Stored Jose Ocando reference capture and rendered artifact index. |
-| docs/implementation-notes/ | Proof-boundary notes and repeated-regression guardrail rationale. |
-| AGENTS.md | Agent operating guidance for this repo. |
-| BRAND_GUIDELINES.md | Brand, visual direction, and public-proof copy boundaries. |
+| Path                        | What lives there                                                                             |
+| --------------------------- | -------------------------------------------------------------------------------------------- |
+| src/pages/                  | Astro routes for the public site.                                                            |
+| src/components/             | Shared UI pieces such as navigation, brand mark, start links, footer, and carousel controls. |
+| src/lib/                    | Small typed helpers for deriving route/page view models from content collections.            |
+| src/content.config.ts       | Astro Content Collections schema for work, blog, and proof content.                          |
+| src/content/work/           | Featured work and case-study entries.                                                        |
+| src/content/blog/           | Blog/article metadata used by the blog index.                                                |
+| src/content/proof/          | Proof index entries with claim, evidence, caveat, and next-state fields.                     |
+| src/styles/global.css       | Shared visual system and page layout rules.                                                  |
+| public/                     | Static images and public assets.                                                             |
+| scripts/                    | Repo-owned validators and reference-capture utilities.                                       |
+| tests/                      | Playwright smoke, visual, accessibility, and Jose screenshot/parity checks.                  |
+| docs/reference/jose-ocando/ | Stored Jose Ocando reference capture and rendered artifact index.                            |
+| docs/implementation-notes/  | Proof-boundary notes and repeated-regression guardrail rationale.                            |
+| AGENTS.md                   | Agent operating guidance for this repo.                                                      |
+| BRAND_GUIDELINES.md         | Brand, visual direction, and public-proof copy boundaries.                                   |
 
 ## Proof Boundaries
 
 This repo separates local build proof, visual-reference proof, and public readiness.
 
 - npm run build proves Astro can build the current source tree.
+- npm run validate:portfolio-content proves collection entries include required portfolio metadata and local links.
+- npm run validate:content-source-boundary proves the repo-file-backed content boundary is still documented and enforced.
 - npm run test:smoke proves selected generated routes contain expected text after a local build.
 - npm run validate:page-surfaces proves specific shared CSS regressions are absent.
 - npm run validate:jose-claim-boundary proves the docs and scripts still preserve the "capture is not parity" claim boundary.
@@ -83,18 +91,20 @@ If Playwright or Chromium cannot launch in the current sandbox, report the exact
 
 ## Common Commands
 
-| Command | Use |
-| --- | --- |
-| npm run dev | Start the Astro development server. |
-| npm run build | Build the static site into dist/. |
-| npm run preview | Preview the built site locally. |
-| npm run check | Run Astro's type/content check. |
-| npm run test:smoke | Build and verify expected text on core generated routes. |
-| npm run test:e2e | Run Playwright end-to-end tests. |
-| npm run test:visual | Run Playwright visual tests. |
-| npm run test:a11y | Run Playwright accessibility smoke tests. |
-| npm run test:jose-parity | Run the Jose/Jamie screenshot parity guardrail. |
-| npm run lhci | Run Lighthouse CI using lighthouserc.json. |
+| Command                                  | Use                                                      |
+| ---------------------------------------- | -------------------------------------------------------- |
+| npm run dev                              | Start the Astro development server.                      |
+| npm run build                            | Build the static site into dist/.                        |
+| npm run preview                          | Preview the built site locally.                          |
+| npm run check                            | Run Astro's type/content check.                          |
+| npm run validate:portfolio-content       | Validate work, blog, and proof collection metadata.      |
+| npm run validate:content-source-boundary | Validate the repo-file-backed content storage boundary.  |
+| npm run test:smoke                       | Build and verify expected text on core generated routes. |
+| npm run test:e2e                         | Run Playwright end-to-end tests.                         |
+| npm run test:visual                      | Run Playwright visual tests.                             |
+| npm run test:a11y                        | Run Playwright accessibility smoke tests.                |
+| npm run test:jose-parity                 | Run the Jose/Jamie screenshot parity guardrail.          |
+| npm run lhci                             | Run Lighthouse CI using lighthouserc.json.               |
 
 Playwright commands use .playwright-tmp/, .playwright-cache/, test-results/, and playwright-report/; these are runtime artifacts, not source.
 

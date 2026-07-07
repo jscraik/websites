@@ -32,14 +32,12 @@ const viewBox = isTiny ? "0 0 44 44" : "0 0 126 56";
     <svg class="brand-mark__svg" viewBox={viewBox} focusable="false">
       {isTiny ? (
         <>
+          <text class="brand-mark__letters" x="3" y="30">JSC</text>
           <path
-            class="brand-mark__home"
-            d="M29 35.5H14.5a3.5 3.5 0 0 1-3.5-3.5V20.5L21.75 12 32.5 20.5V32a3.5 3.5 0 0 1-3.5 3.5Z"
+            class="brand-mark__line"
+            d="M3 9h26c7 0 11 4.8 11 12"
           />
-          <path
-            class="brand-mark__roof"
-            d="m8.5 21.5 13.25-10.7L35 21.5"
-          />
+          <circle class="brand-mark__dot" cx="39" cy="31" r="2.8" />
         </>
       ) : (
         <>

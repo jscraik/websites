@@ -1,15 +1,17 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Icon from "../../components/Icon.astro";
+import { getCollection } from "astro:content";
+import { byOrder } from "../../lib/portfolio";
+import type { CollectionEntry } from "astro:content";
 
-const articles = [
-  {
-    date: "June 2026",
-    title: "Why AI-native DevRel?",
-    href: "/articles/why-ai-native-devrel/",
-    summary: "Capability is not the same as trust. Developer education has to carry the proof."
-  }
-];
+type BlogEntry = CollectionEntry<"blog">;
+
+const articles: BlogEntry[] = (await getCollection("blog")).sort(byOrder);
+const latestArticle = articles.find((article) => article.data.featured) ?? articles[0];
+if (!latestArticle) {
+  throw new Error("No blog entries found in the 'blog' content collection");
+}
 ---
 
 <BaseLayout title="Writing | brAInwav">
@@ -33,18 +35,14 @@ const articles = [
       <article>
         <div>
           <p class="eyebrow">Latest article</p>
-          <h2 id="latest-article-title">Why AI-native DevRel?</h2>
-          <p class="article-date">June 2026</p>
+          <h2 id="latest-article-title">{latestArticle.data.title}</h2>
+          <p class="article-date">{latestArticle.data.date}</p>
         </div>
         <div>
-          <p>
-            AI tooling is capable now. The harder problem is helping developers
-            understand when to trust it, how to inspect it, and how to carry the
-            receipt forward.
-          </p>
+          <p>{latestArticle.data.summary}</p>
         </div>
         <div>
-          <a class="small-button small-button--light" href="/articles/why-ai-native-devrel/">
+          <a class="small-button small-button--light" href={latestArticle.data.href}>
             <span>Keep reading</span>
             <span aria-hidden="true">-&gt;</span>
           </a>
@@ -56,14 +54,14 @@ const articles = [
   <div class="page-main">
     <section class="article-list" aria-labelledby="article-list-title">
       <h2 id="article-list-title">Browse all articles</h2>
-      {articles.map((article) => (
+      {articles.map((article: BlogEntry) => (
         <article class="blog-list-item">
           <div>
-            <p>{article.date}</p>
-            <h3>{article.title}</h3>
+            <p>{article.data.date}</p>
+            <h3>{article.data.title}</h3>
           </div>
-          <span>{article.summary}</span>
-          <a href={article.href} aria-label={`Read article: ${article.title}`}>Read</a>
+          <span>{article.data.summary}</span>
+          <a href={article.data.href} aria-label={`Read article: ${article.data.title}`}>Read</a>
         </article>
       ))}
     </section>

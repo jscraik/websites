@@ -3311,15 +3311,6 @@ body {
   height: 28px;
 }
 
-.brand-mark__home,
-.brand-mark__roof {
-  fill: none;
-  stroke: currentcolor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 2.7;
-}
-
 .home-hero {
   min-height: 610px;
 }
@@ -3684,11 +3675,6 @@ body {
 .brand-mark.icon-box.cc-nav {
   font-size: 16px;
   font-weight: 500;
-}
-
-.brand-mark__home,
-.brand-mark__roof {
-  stroke-width: 3.2;
 }
 
 .header-inner {
@@ -4155,8 +4141,8 @@ body:has(#on-the-web:target) {
 .start-links a,
 .draft-links span,
 .about-jump a {
-  transition-duration: 200ms;
-  transition-timing-function: ease;
+  transition-duration: 160ms;
+  transition-timing-function: var(--ease-out);
 }
 
 @media (max-width: 640px) {
@@ -7104,6 +7090,19 @@ body:has(.about-page) .site-footer {
   stroke-linecap: var(--bds-icon-linecap);
   stroke-linejoin: var(--bds-icon-linejoin);
   stroke-width: var(--icon-stroke);
+}
+
+.brand-mark--tiny .brand-mark__letters {
+  font-size: 25px;
+  letter-spacing: -0.12em;
+}
+
+.brand-mark--tiny .brand-mark__line {
+  stroke-width: 1.8;
+}
+
+.brand-mark--tiny .brand-mark__dot {
+  fill: currentcolor;
 }
 
 :is(.feature-block-inner, .work-mini-card, .proof-card, .about-fact-card, .about-object, .brainwav-resource-card, .case-window, .case-sidebar, .article-receipt) {
