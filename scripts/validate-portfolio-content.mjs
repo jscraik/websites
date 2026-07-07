@@ -83,6 +83,11 @@ function localHrefToPath(href) {
     return candidate;
   }
 
+  const workMatch = cleanHref.match(/^\/work\/([^/]+)$/);
+  if (workMatch && existsSync("src/pages/work/[slug].astro")) {
+    return join(collectionDirs.work, workMatch[1] + ".md");
+  }
+
   return "src/pages" + cleanHref + "/index.astro";
 }
 
@@ -91,6 +96,12 @@ for (const fileName of contentFiles(collectionDirs.work)) {
   const file = join(collectionDirs.work, fileName);
   const frontmatter = readFrontmatter(file);
   workEntries.push({ file, frontmatter });
+  const workSlug = fileName.replace(/\.md$/, "");
+  const workHrefPath = localHrefToPath("/work/" + workSlug + "/");
+  if (!workHrefPath || !existsSync(workHrefPath)) {
+    failures.push(file + ": generated work href /work/" + workSlug + "/ does not resolve to collection content.");
+  }
+
   for (const key of ["title", "shortTitle", "subtitle", "date", "order", "overview", "organization", "work", "role", "tone"]) {
     requirePattern(file, frontmatter, new RegExp("^" + key + ":", "m"), key);
   }
