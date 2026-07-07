@@ -8,7 +8,7 @@ const featuredSchema = z.object({
   previewTitle: z.string(),
   previewMeta: z.string(),
   visual: z.enum(["article", "site", "terminal", "skills"])
-});
+}).strict();
 
 const work = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/work" }),
@@ -30,9 +30,9 @@ const work = defineCollection({
       claim: z.string(),
       evidence: z.string(),
       caveat: z.string()
-    }),
+    }).strict(),
     frames: z.array(z.tuple([z.string(), z.string(), z.string()])).min(1)
-  })
+  }).strict()
 });
 
 const blog = defineCollection({
@@ -48,8 +48,8 @@ const blog = defineCollection({
       claim: z.string(),
       evidence: z.string(),
       caveat: z.string()
-    })
-  })
+    }).strict()
+  }).strict()
 });
 
 const proof = defineCollection({
@@ -63,7 +63,7 @@ const proof = defineCollection({
     evidence: z.string(),
     caveat: z.string(),
     nextState: z.string()
-  })
+  }).strict()
 });
 
 export const collections = { work, blog, proof };
