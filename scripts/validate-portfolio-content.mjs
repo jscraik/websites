@@ -38,7 +38,7 @@ function requirePattern(file, frontmatter, pattern, label) {
 }
 
 function quotedValue(frontmatter, key) {
-  const match = frontmatter.match(new RegExp("^" + key + ':\\\\s+\"([^\"]+)\"', "m"));
+  const match = frontmatter.match(new RegExp("^" + key + ':\\s+\"([^\"]+)\"', "m"));
   return match?.[1];
 }
 

@@ -35,11 +35,7 @@ const latestArticle = articles.find((article) => article.data.featured) ?? artic
           <p class="article-date">{latestArticle.data.date}</p>
         </div>
         <div>
-          <p>
-            AI tooling is capable now. The harder problem is helping developers
-            understand when to trust it, how to inspect it, and how to carry the
-            receipt forward.
-          </p>
+          <p>{latestArticle.data.summary}</p>
         </div>
         <div>
           <a class="small-button small-button--light" href={latestArticle.data.href}>
