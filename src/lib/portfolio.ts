@@ -43,10 +43,10 @@ export function proofWorkCards(workEntries: WorkEntry[], proofEntries: ProofEntr
     })),
     ...proofEntries
       .filter((entry) => entry.id === "agent-skills-notes")
-      .map(() => ({
-        title: "Agent Skills",
-        eyebrow: "Current",
-        summary: "Reusable workflow capture and skill-led proof loops",
+      .map((entry) => ({
+        title: entry.data.title,
+        eyebrow: entry.data.status,
+        summary: entry.data.claim,
         index: workEntries.length + 1,
         tags: ["Reusable", "Practice"],
         tone: "green",
