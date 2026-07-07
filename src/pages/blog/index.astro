@@ -8,6 +8,9 @@ type BlogEntry = CollectionEntry<"blog">;
 
 const articles: BlogEntry[] = (await getCollection("blog")).sort((a: BlogEntry, b: BlogEntry) => a.data.order - b.data.order);
 const latestArticle = articles.find((article) => article.data.featured) ?? articles[0];
+if (!latestArticle) {
+  throw new Error("No blog entries found in the 'blog' content collection");
+}
 ---
 
 <BaseLayout title="Writing | brAInwav">
