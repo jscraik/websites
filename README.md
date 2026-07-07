@@ -36,7 +36,7 @@ The current site includes:
 | /contact/                       | Contact page and external profile links.                                       |
 | /work/ai-native-devrel/         | Case study for the AI-native DevRel proof surface.                             |
 | /work/brainwav-io/              | Case study for this site as a proof-led portfolio.                             |
-| /work/cli-proof-series/         | Planned CLI proof-series case-study route.                                     |
+| /work/cli-proof-series/         | CLI proof-series case-study route.                                             |
 
 Routes are generated from Astro pages under src/pages/ and portfolio content collections under src/content/.
 
