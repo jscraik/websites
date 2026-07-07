@@ -2,11 +2,12 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Icon from "../../components/Icon.astro";
 import { getCollection } from "astro:content";
+import { byOrder } from "../../lib/portfolio";
 import type { CollectionEntry } from "astro:content";
 
 type BlogEntry = CollectionEntry<"blog">;
 
-const articles: BlogEntry[] = (await getCollection("blog")).sort((a: BlogEntry, b: BlogEntry) => a.data.order - b.data.order);
+const articles: BlogEntry[] = (await getCollection("blog")).sort(byOrder);
 const latestArticle = articles.find((article) => article.data.featured) ?? articles[0];
 if (!latestArticle) {
   throw new Error("No blog entries found in the 'blog' content collection");

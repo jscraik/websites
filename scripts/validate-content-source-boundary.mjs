@@ -110,18 +110,23 @@ for (const [bucketName, deps] of Object.entries(dependencyBuckets)) {
 
 const sourceRoots = ["src", "astro.config.mjs"].filter((path) => existsSync(path));
 const allowedTextFiles = new Set(["src/content/README.md"]);
+const importStart = String.raw`(?:from\s+|require\(\s*|import\(\s*)`;
+
+function forbiddenImportPattern(specifier) {
+  return new RegExp(importStart + "[\"']" + specifier + "[\"']", "g");
+}
 
 const forbiddenSourcePatterns = [
-  { pattern: /from\s+["']@prisma\/client["']/g, label: "@prisma/client import" },
-  { pattern: /from\s+["']@supabase\/supabase-js["']/g, label: "@supabase/supabase-js import" },
-  { pattern: /from\s+["']mongodb["']/g, label: "mongodb import" },
-  { pattern: /from\s+["']pg["']/g, label: "pg import" },
-  { pattern: /from\s+["']better-sqlite3["']/g, label: "better-sqlite3 import" },
-  { pattern: /from\s+["']drizzle-orm/g, label: "drizzle-orm import" },
-  { pattern: /from\s+["']@sanity\//g, label: "Sanity import" },
-  { pattern: /from\s+["']contentful["']/g, label: "Contentful import" },
-  { pattern: /from\s+["']airtable["']/g, label: "Airtable import" },
-  { pattern: /from\s+["']@notionhq\/client["']/g, label: "Notion client import" },
+  { pattern: forbiddenImportPattern("@prisma\\/client"), label: "@prisma/client import" },
+  { pattern: forbiddenImportPattern("@supabase\\/supabase-js"), label: "@supabase/supabase-js import" },
+  { pattern: forbiddenImportPattern("mongodb"), label: "mongodb import" },
+  { pattern: forbiddenImportPattern("pg"), label: "pg import" },
+  { pattern: forbiddenImportPattern("better-sqlite3"), label: "better-sqlite3 import" },
+  { pattern: forbiddenImportPattern("drizzle-orm"), label: "drizzle-orm import" },
+  { pattern: new RegExp(importStart + "[\"']@sanity\\/", "g"), label: "Sanity import" },
+  { pattern: forbiddenImportPattern("contentful"), label: "Contentful import" },
+  { pattern: forbiddenImportPattern("airtable"), label: "Airtable import" },
+  { pattern: forbiddenImportPattern("@notionhq\\/client"), label: "Notion client import" },
   {
     pattern: /process\.env\.(DATABASE_URL|POSTGRES_URL|SUPABASE_URL|SANITY_PROJECT_ID|CONTENTFUL_SPACE_ID|AIRTABLE_API_KEY|NOTION_TOKEN)/g,
     label: "database/CMS environment contract"

@@ -6,10 +6,18 @@ import BrandWord from "../components/BrandWord.astro";
 import Icon from "../components/Icon.astro";
 import { getCollection } from "astro:content";
 import { byOrder, featuredWorkCards, proofWorkCards } from "../lib/portfolio";
+import type { CollectionEntry } from "astro:content";
 import type { ProofEntry, WorkCard, WorkEntry } from "../lib/portfolio";
+
+type BlogEntry = CollectionEntry<"blog">;
 
 const workEntries: WorkEntry[] = (await getCollection("work")).sort(byOrder);
 const proofEntries: ProofEntry[] = (await getCollection("proof")).sort(byOrder);
+const blogEntries: BlogEntry[] = (await getCollection("blog")).sort(byOrder);
+const featuredBlog = blogEntries.find((entry) => entry.data.featured) ?? blogEntries[0];
+if (!featuredBlog) {
+  throw new Error("No blog entries found in the 'blog' content collection");
+}
 const featuredCards = featuredWorkCards(workEntries);
 const workCards = proofWorkCards(workEntries, proofEntries);
 
@@ -150,13 +158,10 @@ const workCount = String(workCards.length).padStart(2, "0");
       </div>
     </div>
     <article>
-      <h3>Why AI-native DevRel?</h3>
-      <p class="article-date">June 2026</p>
-      <p>
-        AI tooling is genuinely capable now. The harder question is how developers
-        learn to trust the work, inspect the output, and carry the receipt forward.
-      </p>
-      <a class="small-button small-button--light" href="/blog/">
+      <h3>{featuredBlog.data.title}</h3>
+      <p class="article-date">{featuredBlog.data.date}</p>
+      <p>{featuredBlog.data.summary}</p>
+      <a class="small-button small-button--light" href={featuredBlog.data.href}>
         <span>Keep reading</span>
         <span aria-hidden="true">-&gt;</span>
       </a>

@@ -22,7 +22,14 @@ for (const [name, dir] of Object.entries(collectionDirs)) {
 }
 
 function readFrontmatter(file) {
-  const content = readFileSync(file, "utf8");
+  let content;
+  try {
+    content = readFileSync(file, "utf8");
+  } catch (error) {
+    failures.push(file + ": could not be read (" + error.message + ").");
+    return "";
+  }
+
   const match = content.match(/^---\n([\s\S]*?)\n---/);
   if (!match) {
     failures.push(file + ": missing YAML frontmatter block.");
@@ -37,14 +44,13 @@ function requirePattern(file, frontmatter, pattern, label) {
   }
 }
 
-function quotedValue(frontmatter, key) {
-  const match = frontmatter.match(new RegExp("^" + key + ':\\s+\"([^\"]+)\"', "m"));
-  return match?.[1];
+function stringValue(frontmatter, key) {
+  const match = frontmatter.match(new RegExp("^" + key + ":\\s+(?:\\\"([^\\\"]+)\\\"|'([^']+)'|([^#\\n]+))", "m"));
+  return (match?.[1] ?? match?.[2] ?? match?.[3])?.trim();
 }
 
 function scalarValue(frontmatter, key) {
-  const match = frontmatter.match(new RegExp("^" + key + ":\\s+(.+)$", "m"));
-  return match?.[1]?.trim();
+  return stringValue(frontmatter, key);
 }
 
 function contentFiles(dir) {
@@ -134,7 +140,7 @@ for (const fileName of contentFiles(collectionDirs.blog)) {
   requirePattern(file, frontmatter, /^\s+evidence:\s+/m, "proof evidence");
   requirePattern(file, frontmatter, /^\s+caveat:\s+/m, "proof caveat");
 
-  const href = quotedValue(frontmatter, "href");
+  const href = stringValue(frontmatter, "href");
   const path = localHrefToPath(href);
   if (path && !existsSync(path)) {
     failures.push(file + ": href " + href + " does not resolve to " + path + ".");
@@ -155,7 +161,7 @@ for (const fileName of contentFiles(collectionDirs.proof)) {
     requirePattern(file, frontmatter, new RegExp("^" + key + ":", "m"), key);
   }
 
-  const href = quotedValue(frontmatter, "href");
+  const href = stringValue(frontmatter, "href");
   const path = localHrefToPath(href);
   if (path && !existsSync(path)) {
     failures.push(file + ": href " + href + " does not resolve to " + path + ".");
@@ -172,9 +178,16 @@ if (!existsSync("src/content.config.ts")) {
   failures.push("src/content.config.ts: missing Astro content collection schema.");
 } else {
   const schema = readFileSync("src/content.config.ts", "utf8");
-  for (const marker of ["const work = defineCollection", "const blog = defineCollection", "const proof = defineCollection", "glob({ pattern: \"**/*.md\"", "proof: z.object"]) {
-    if (!schema.includes(marker)) {
-      failures.push("src/content.config.ts: missing schema marker " + marker + ".");
+  const requiredSchemaPatterns = [
+    { pattern: /const\s+work\s*=\s*defineCollection/, label: "work collection" },
+    { pattern: /const\s+blog\s*=\s*defineCollection/, label: "blog collection" },
+    { pattern: /const\s+proof\s*=\s*defineCollection/, label: "proof collection" },
+    { pattern: /glob\(\s*\{\s*pattern:\s*["']\*\*\/\*\.md["']/, label: "markdown glob loader" },
+    { pattern: /proof:\s*z\.object/, label: "proof schema object" }
+  ];
+  for (const check of requiredSchemaPatterns) {
+    if (!check.pattern.test(schema)) {
+      failures.push("src/content.config.ts: missing schema marker " + check.label + ".");
     }
   }
 }

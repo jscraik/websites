@@ -1,13 +1,14 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
+import { byOrder } from "../../lib/portfolio";
 import type { CollectionEntry } from "astro:content";
 
 type ProofEntry = CollectionEntry<"proof">;
 type ProofItem = ProofEntry["data"];
 
 const proofItems: ProofItem[] = (await getCollection("proof"))
-  .sort((a: ProofEntry, b: ProofEntry) => a.data.order - b.data.order)
+  .sort(byOrder)
   .map((entry: ProofEntry) => entry.data);
 
 const liveProofItems = proofItems.filter((item: ProofItem) => item.status !== "Planned");

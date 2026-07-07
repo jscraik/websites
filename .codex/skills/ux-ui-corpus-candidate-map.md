@@ -2,9 +2,9 @@
 
 Purpose: map the KnowledgeOS UX/UI design corpus to brainwav local skill candidates for future knowledge capsules and skill improvements.
 
-Corpus source: ~/dev/knowledge-OS/sources/design/ux-ui-design-corpus-2026-07-04/
+Corpus source: <knowledge-os-root>/sources/design/ux-ui-design-corpus-2026-07-04/
 
-Primary wiki route: ~/dev/knowledge-OS/sources/design/ux-ui-design-corpus-2026-07-04/wiki/index.md
+Primary wiki route: <knowledge-os-root>/sources/design/ux-ui-design-corpus-2026-07-04/wiki/index.md
 
 Review lens: ui-ux-creative-coding. Use the corpus to improve focused UI polish, motion purpose, accessibility, reduced-motion parity, source-backed critique, and browser-verifiable behavior. Do not turn this into greenfield brand advice or generic aesthetic expansion.
 
@@ -27,9 +27,9 @@ Use these before editing any skill from this map:
 
 Parsed corpus control surfaces:
 
-- ~/dev/knowledge-OS/sources/design/ux-ui-design-corpus-2026-07-04/wiki/extraction-policy.md
-- ~/dev/knowledge-OS/sources/design/ux-ui-design-corpus-2026-07-04/wiki/extraction-ledger.md
-- ~/dev/knowledge-OS/sources/design/ux-ui-design-corpus-2026-07-04/wiki/pdf-capsules/index.md
+- <knowledge-os-root>/sources/design/ux-ui-design-corpus-2026-07-04/wiki/extraction-policy.md
+- <knowledge-os-root>/sources/design/ux-ui-design-corpus-2026-07-04/wiki/extraction-ledger.md
+- <knowledge-os-root>/sources/design/ux-ui-design-corpus-2026-07-04/wiki/pdf-capsules/index.md
 
 ## Verified Source Anchors
 
@@ -321,11 +321,11 @@ Do not route greenfield brand or whole-site art direction to ui-ux-creative-codi
 
 Use the KnowledgeOS skill-capsule lane before editing brainwav skills:
 
-- Critique: ~/dev/knowledge-OS/sources/design/ux-ui-design-corpus-2026-07-04/wiki/skill-capsules/critique-diagnosis-before-styling.md
-- Redesign: ~/dev/knowledge-OS/sources/design/ux-ui-design-corpus-2026-07-04/wiki/skill-capsules/redesign-audit-routing.md
-- Existing UI polish and motion: ~/dev/knowledge-OS/sources/design/ux-ui-design-corpus-2026-07-04/wiki/skill-capsules/existing-ui-polish-and-motion-evidence.md
-- Image-to-code: ~/dev/knowledge-OS/sources/design/ux-ui-design-corpus-2026-07-04/wiki/skill-capsules/image-to-code-interaction-limits.md
-- Style, brand, and image generation: ~/dev/knowledge-OS/sources/design/ux-ui-design-corpus-2026-07-04/wiki/skill-capsules/product-fit-style-selection.md
+- Critique: <knowledge-os-root>/sources/design/ux-ui-design-corpus-2026-07-04/wiki/skill-capsules/critique-diagnosis-before-styling.md
+- Redesign: <knowledge-os-root>/sources/design/ux-ui-design-corpus-2026-07-04/wiki/skill-capsules/redesign-audit-routing.md
+- Existing UI polish and motion: <knowledge-os-root>/sources/design/ux-ui-design-corpus-2026-07-04/wiki/skill-capsules/existing-ui-polish-and-motion-evidence.md
+- Image-to-code: <knowledge-os-root>/sources/design/ux-ui-design-corpus-2026-07-04/wiki/skill-capsules/image-to-code-interaction-limits.md
+- Style, brand, and image generation: <knowledge-os-root>/sources/design/ux-ui-design-corpus-2026-07-04/wiki/skill-capsules/product-fit-style-selection.md
 
 ## 2026-07-04 Re-review After Brainwav Skill Read
 

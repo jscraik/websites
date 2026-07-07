@@ -23,7 +23,7 @@
     "claim boundary and next safe step"
   ],
   "validation_profile": {
-    "skill_validator": "~/.venvs/pyyaml/bin/python ~/dev/agent-skills/skills-system/skill-creator/scripts/quick_validate.py .codex/skills/astro-portfolio",
+    "skill_validator": "python3 ${AGENT_SKILLS_ROOT:-../agent-skills}/skills-system/skill-creator/scripts/quick_validate.py .codex/skills/astro-portfolio",
     "runtime_default": "ASTRO_TELEMETRY_DISABLED=1 npm run build",
     "surface_validator": "npm run validate:page-surfaces",
     "smoke_validator": "npm run test:smoke",

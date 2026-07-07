@@ -35,7 +35,7 @@ Use this skill for project-local Astro work in this `brainwav.io` checkout: rout
 ## Validation
 Choose the smallest proving check first:
 
-- Skill-only edits: `~/.venvs/pyyaml/bin/python ~/dev/agent-skills/skills-system/skill-creator/scripts/quick_validate.py .codex/skills/astro-portfolio`.
+- Skill-only edits: `python3 ${AGENT_SKILLS_ROOT:-../agent-skills}/skills-system/skill-creator/scripts/quick_validate.py .codex/skills/astro-portfolio`.
 - Astro source, route, layout, or CSS edits: `ASTRO_TELEMETRY_DISABLED=1 npm run build`.
 - Page surface, spacing, background, or section-band edits: `npm run validate:page-surfaces`.
 - Route output or page wiring edits: `npm run test:smoke`.
