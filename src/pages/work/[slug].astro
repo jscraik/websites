@@ -7,7 +7,7 @@ import type { ProofEntry, WorkCard, WorkEntry } from "../../lib/portfolio";
 type Study = WorkEntry["data"] & { slug: string; route: string };
 
 export async function getStaticPaths() {
-  const caseStudies: WorkEntry[] = (await getCollection("work")).sort((a: WorkEntry, b: WorkEntry) => a.data.order - b.data.order);
+  const caseStudies: WorkEntry[] = (await getCollection("work")).sort(byOrder);
   return caseStudies.map((entry) => ({
     params: { slug: entry.id },
     props: { study: { slug: entry.id, route: workRoute(entry), ...entry.data } }
