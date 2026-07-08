@@ -65,6 +65,22 @@ Future page-layout work must run this gate before claiming page background or se
 
 The same gate also blocks the collapsed blog author-card max-width rule that disfigured the Blog page card after global About portrait rules leaked into the Blog layout. Blog author cards must keep an explicit desktop two-column contract and a separate mobile stacked contract.
 
+## Repeated Steering Recovery - Measured Layout Rules
+
+Human review repeatedly caught homepage sections that looked locally plausible but missed the Jose spacing system: the topbar, name section, work carousel, and blog preview each drifted because they were tuned with one-off clamp grids instead of the measured reference row model.
+
+When a Jose capture includes concrete container, row, column, gutter, typography, or section-height measurements, do not treat those numbers as a local exception for the reported selector. Treat them as a systemic layout signal. First ask whether the affected section should use the shared Jose-parity primitives, including the measured container width, row gutter, half-gutter padding, desktop column fractions, shared type variables, neutral tokens, and page-surface invariants.
+
+New Jose-parity CSS should avoid private per-section escape hatches unless the deviation is intentional, documented, and scoped to Jamie's content identity. Prefer a shared measured primitive or token-backed rule over a local clamp override. If a local rule remains necessary, record the reason and the searched sibling scope before closeout.
+
+Future corrective passes should report:
+
+- whether the issue was isolated or systemic
+- which sibling sections or patterns were searched
+- which shared measured primitive or token was used
+- which local deviations remain and why
+- which validation command proves the affected lane, and what it does not prove
+
 ## Evidence Boundary
 
 This guardrail covers the benchmark topbar plus high-signal blog, about, fun-facts, skills, work-history, and on-the-web structure on desktop and mobile. Pixel parity is enforced through calibrated mismatch-ratio budgets rather than exact equality because Jamie's copy and image assets intentionally differ from Jose's. Motion parity is enforced for the topbar/link/button transition duration and easing class, not every possible Webflow interaction timeline.

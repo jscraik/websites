@@ -30,8 +30,7 @@ const workCount = String(workCards.length).padStart(2, "0");
       <div class="home-hero__intro v-stack cc-lg">
         <h1 id="home-title" class="h1-name" aria-label="Jamie Scott Craik">
           <span>Jamie</span>
-          <span>Scott</span>
-          <span>Craik</span>
+          <span>Scott Craik</span>
         </h1>
         <div>
           <p class="home-hero__position">
@@ -44,7 +43,7 @@ const workCount = String(workCards.length).padStart(2, "0");
           </p>
           <div class="profile-row cc-home-hero" aria-label="Jamie Scott Craik">
             <div class="pfp-img-wrap">
-              <img src="/jamie-profile.png" alt="Jamie Scott Craik" class="u-img-cover" />
+              <img src="/jamie-profile.png" alt="Jamie Scott Craik" class="u-img-cover" width="1254" height="1254" />
             </div>
             <div class="profile-row-meta">
               <div class="input-label">AI-native DevRel</div>
@@ -111,6 +110,43 @@ const workCount = String(workCards.length).padStart(2, "0");
         </article>
       ))}
     </div>
+    <section id="brainwav" class="brainwav-bridge section-shell" aria-labelledby="brainwav-title" data-reveal>
+      <div class="brainwav-bridge__intro">
+        <p class="eyebrow">Powered by <BrandWord /></p>
+        <h2 id="brainwav-title">The technical depth behind the portfolio.</h2>
+        <p>
+          jscraik.com tells the story. <BrandWord /> is where the engineering practice
+          gets concrete: documentation, workflows, proof logs, architecture notes,
+          and reusable AI-native patterns.
+        </p>
+        <a class="small-button small-button--light brainwav-bridge__cta" href="/proof/">
+          <span>Explore the project ecosystem</span>
+          <span aria-hidden="true">-&gt;</span>
+        </a>
+      </div>
+      <div class="brainwav-resource-grid" aria-label="brAInwav technical resources">
+        <a class="brainwav-resource-card" href="/proof/">
+          <span>01</span>
+          <h3>Proof Logs</h3>
+          <p>Claim, command, receipt, and caveat in one inspectable path.</p>
+        </a>
+        <a class="brainwav-resource-card" href="/work/brainwav-io/">
+          <span>02</span>
+          <h3>Architecture</h3>
+          <p>How public surfaces, local validation, and evidence ledgers fit together.</p>
+        </a>
+        <a class="brainwav-resource-card" href="/articles/why-ai-native-devrel/">
+          <span>03</span>
+          <h3>Articles</h3>
+          <p>Position pieces and tutorials for trustworthy AI-assisted engineering.</p>
+        </a>
+        <a class="brainwav-resource-card" href="https://github.com/jscraik">
+          <span>04</span>
+          <h3>GitHub</h3>
+          <p>Source work, experiments, and project activity as the ecosystem matures.</p>
+        </a>
+      </div>
+    </section>
   </section>
 
   <section id="work" class="work-carousel section-shell" aria-labelledby="work-carousel-title" data-reveal>
@@ -166,44 +202,6 @@ const workCount = String(workCards.length).padStart(2, "0");
         <span aria-hidden="true">-&gt;</span>
       </a>
     </article>
-  </section>
-
-  <section id="brainwav" class="brainwav-bridge section-shell" aria-labelledby="brainwav-title" data-reveal>
-    <div class="brainwav-bridge__intro">
-      <p class="eyebrow">Powered by <BrandWord /></p>
-      <h2 id="brainwav-title">The technical depth behind the portfolio.</h2>
-      <p>
-        jscraik.com tells the story. <BrandWord /> is where the engineering practice
-        gets concrete: documentation, workflows, proof logs, architecture notes,
-        and reusable AI-native patterns.
-      </p>
-      <a class="small-button small-button--light brainwav-bridge__cta" href="/proof/">
-        <span>Explore the project ecosystem</span>
-        <span aria-hidden="true">-&gt;</span>
-      </a>
-    </div>
-    <div class="brainwav-resource-grid" aria-label="brAInwav technical resources">
-      <a class="brainwav-resource-card" href="/proof/">
-        <span>01</span>
-        <h3>Proof Logs</h3>
-        <p>Claim, command, receipt, and caveat in one inspectable path.</p>
-      </a>
-      <a class="brainwav-resource-card" href="/work/brainwav-io/">
-        <span>02</span>
-        <h3>Architecture</h3>
-        <p>How public surfaces, local validation, and evidence ledgers fit together.</p>
-      </a>
-      <a class="brainwav-resource-card" href="/articles/why-ai-native-devrel/">
-        <span>03</span>
-        <h3>Articles</h3>
-        <p>Position pieces and tutorials for trustworthy AI-assisted engineering.</p>
-      </a>
-      <a class="brainwav-resource-card" href="https://github.com/jscraik">
-        <span>04</span>
-        <h3>GitHub</h3>
-        <p>Source work, experiments, and project activity as the ecosystem matures.</p>
-      </a>
-    </div>
   </section>
 
 </BaseLayout>

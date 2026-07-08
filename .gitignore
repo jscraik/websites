@@ -22,6 +22,7 @@ artifacts/button-video-frames/
 artifacts/jamie-button-video-frames/
 artifacts/jose-layout-extract/
 artifacts/nav-video-frames/
+artifacts/parity-loop/
 artifacts/visual-audit/
 .lighthouseci/
 .playwright-cache/

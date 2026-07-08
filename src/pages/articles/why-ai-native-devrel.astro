@@ -17,6 +17,9 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
         <a href="#why-here">Why I am here for this</a>
         <a href="#requires">What AI-native DevRel requires</a>
       </div>
+    </header>
+
+    <aside class="article-sidebar" aria-label="Article proof and pullquotes">
       <aside class="article-receipt" aria-label="Article proof boundary">
         <p class="eyebrow">Proof boundary</p>
         <dl>
@@ -34,7 +37,37 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
           </div>
         </dl>
       </aside>
-    </header>
+      <aside class="pullquote-stack" aria-label="Shareable pullquotes">
+        <figure class="pullquote-wrap">
+          <div>
+            <p class="input-label">Fig 1.1</p>
+            <blockquote>
+              "Capability is not trust. Developer education has to carry the proof."
+            </blockquote>
+          </div>
+          <figcaption>
+            <p>Copy this pullquote and the article link for easy sharing</p>
+            <button type="button" class="pullquote-button">
+              <span>Copy</span>
+            </button>
+          </figcaption>
+        </figure>
+        <figure class="pullquote-wrap">
+          <div>
+            <p class="input-label">Fig 1.2</p>
+            <blockquote>
+              "The scaffolding around AI work matters as much as the capability curve."
+            </blockquote>
+          </div>
+          <figcaption>
+            <p>Copy this pullquote and the article link for easy sharing</p>
+            <button type="button" class="pullquote-button">
+              <span>Copy</span>
+            </button>
+          </figcaption>
+        </figure>
+      </aside>
+    </aside>
 
     <div class="article-body">
       <p class="lede">

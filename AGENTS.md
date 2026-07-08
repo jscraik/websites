@@ -24,6 +24,12 @@ schema_version: 2
 - docs/implementation-notes/jose-parity-guardrail.md defines the Jose parity proof boundary, repeated steering fixes, and what screenshot/parity commands do and do not prove.
 - docs/reference/jose-ocando/README.md describes the stored Jose reference bundle. Static capture proves reference availability, not visual parity.
 - scripts/validate-page-surfaces.mjs protects repeated page-surface regressions such as grey section bands, hidden full-bleed band patterns, and leaked Blog author-card layout rules.
+- scripts/validate-astro-anti-patterns.mjs protects AI-prone Astro regressions: fake controls, missing image alt text, careless hydration, component-level global styles, transition-all, important/overflow masking, pixel breakpoints, and heading-outline jumps.
+- scripts/validate-css-policy.mjs protects token usage, rem breakpoints, selector specificity, z-index scale, and type-scale discipline.
+- scripts/validate-html-output.mjs validates built HTML semantics, duplicate IDs, landmarks, headings, links, buttons, images, and ARIA references.
+- scripts/validate-js-budget.mjs protects Astro's static-first output with a strict JavaScript budget and no accidental hydration.
+- scripts/validate-render-flow.mjs uses Playwright against built output to catch horizontal overflow, clipped text, tiny hit targets, blank routes, and zero-size images across common viewports.
+- scripts/validate-no-prototype-slop.mjs blocks placeholder copy, empty links, local machine paths, debug logging, and patch-status comments from source/public files.
 - scripts/validate-jose-claim-boundary.mjs protects claim wording around Jose reference capture versus parity proof.
 - scripts/smoke-pages.mjs and tests/** cover route smoke, visual, screenshot, and accessibility lanes.
 
@@ -32,6 +38,11 @@ schema_version: 2
 - For docs or instruction-only edits, at minimum verify the touched paths and links with rg/test -f, then run the smallest relevant repo check when practical.
 - For Astro source, layout, or CSS changes, prefer:
   - ASTRO_TELEMETRY_DISABLED=1 npm run build
+  - npm run validate:astro-anti-patterns when component markup, hydration, scoped styles, responsive CSS, or animation rules are touched.
+  - npm run validate:fast for ordinary Astro/source/CSS/content edits.
+  - npm run validate:source when route output or built HTML semantics are affected.
+  - npm run validate:rendered when layout, visual flow, accessibility, or viewport behavior is affected.
+  - npm run validate:site before release or when a broad site-quality proof is needed.
   - npm run validate:page-surfaces when page backgrounds, section surfaces, spacing bands, or Blog card layout are touched.
   - npm run test:smoke when route output or page wiring changes.
   - npm run check when TypeScript/Astro typing is relevant and dependencies are available.

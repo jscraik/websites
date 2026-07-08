@@ -1,9 +1,15 @@
 ---
 const { name, class: className = "sm-icon" } = Astro.props;
 
-type IconName = "person" | "document" | "bookmark" | "pencil";
+type IconName = "home" | "person" | "document" | "bookmark" | "pencil";
 
 const icons: Record<IconName, { viewBox: string; paths: string[] }> = {
+  home: {
+    viewBox: "0 0 16 16",
+    paths: [
+      "M2 7.07c0-.67.33-1.29.89-1.66l4-2.67a2 2 0 0 1 2.22 0l4 2.67c.56.37.89.99.89 1.66V12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7.07Z"
+    ]
+  },
   person: {
     viewBox: "0 0 16 16",
     paths: [

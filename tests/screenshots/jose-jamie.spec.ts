@@ -528,9 +528,9 @@ async function measureTopbar(page: Page, baseURL: string, capture: (typeof captu
   await page.addStyleTag({ content: stableScreenshotStyle });
 
   return page.evaluate(() => {
-    const nav = document.querySelector(".nav-inner");
+    const nav = document.querySelector(".nav-inner, [data-component='nav'] > div, nav > div");
     if (!nav) {
-      throw new Error("Topbar parity gate could not find .nav-inner");
+      throw new Error("Topbar parity gate could not find a nav shell");
     }
 
     const toRect = (rect: DOMRect): RectMetrics => ({

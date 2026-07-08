@@ -14,11 +14,11 @@ if (!latestArticle) {
 }
 ---
 
-<BaseLayout title="Writing | brAInwav">
+<BaseLayout title="Blog | brAInwav">
   <header class="blog-index section-shell" aria-labelledby="blog-title">
     <div class="blog-title-block">
       <div class="blog-heading-lockup">
-        <h1 id="blog-title">Writing</h1>
+        <h1 id="blog-title">Blog</h1>
         <span class="icon-box blog-heading-icon" aria-hidden="true">
           <Icon name="pencil" />
         </span>
@@ -51,7 +51,7 @@ if (!latestArticle) {
     </section>
   </header>
 
-  <div class="page-main">
+  <div class="blog-page-main">
     <section class="article-list" aria-labelledby="article-list-title">
       <h2 id="article-list-title">Browse all articles</h2>
       {articles.map((article: BlogEntry) => (
@@ -67,20 +67,25 @@ if (!latestArticle) {
     </section>
 
     <section class="blog-about-card" aria-labelledby="blog-about-title">
-      <img src="/jamie-profile.png" alt="Jamie Scott Craik" />
-      <div>
+      <img src="/jamie-profile.png" alt="Jamie Scott Craik" width="1254" height="1254" />
+      <div class="blog-author-copy">
         <h2 id="blog-about-title">About Jamie</h2>
-        <p>
-          I am building public proof surfaces for AI-native DevRel: articles,
-          demos, validation notes, and developer-facing examples.
-        </p>
-        <p>
-          The work sits between field notes and finished case studies: small
-          receipts, careful caveats, and examples that make the trust boundary
-          visible.
-        </p>
-        <p class="eyebrow">Contact me</p>
-        <a href="mailto:jscraik@brainwav.io">jscraik@brainwav.io</a>
+        <div class="text-lg w-richtext">
+          <p>
+            I am building public proof surfaces for AI-native DevRel: articles,
+            demos, validation notes, and developer-facing examples.
+          </p>
+          <p>
+            The work sits between field notes and finished case studies: small
+            receipts, careful caveats, and examples that make the trust boundary
+            visible.
+          </p>
+          <p>Thank you for reading.</p>
+        </div>
+        <div class="blog-contact-block">
+          <p class="eyebrow">Contact me</p>
+          <a href="mailto:jscraik@brainwav.io">jscraik@brainwav.io</a>
+        </div>
       </div>
     </section>
   </div>
@@ -314,7 +319,7 @@ if (!latestArticle) {
     font-weight: 300;
   }
 
-  @media (min-width: 921px) {
+  @media (min-width: 57.5625rem) {
     .blog-index {
       grid-template-columns: minmax(0, 430px) minmax(0, 480px);
       column-gap: clamp(var(--space-7), 11vw, 168px);
@@ -451,6 +456,181 @@ if (!latestArticle) {
 
     .blog-about-card img {
       aspect-ratio: 1;
+    }
+  }
+
+  @media (min-width: 57.5626rem) {
+    .blog-index.section-shell {
+      display: grid;
+      grid-template-columns: 3fr 1fr 4fr;
+      column-gap: 0;
+      width: min(67.6667vw, calc(var(--jp-fluid-rem) * 67.6667));
+      max-width: calc(var(--jp-fluid-rem) * 67.6667);
+      min-height: calc(var(--jp-fluid-rem) * 45);
+      padding: calc(var(--jp-fluid-rem) * 8.5) 0 calc(var(--jp-fluid-rem) * 6);
+      background: var(--paper);
+    }
+
+    .blog-index .blog-title-block {
+      grid-column: 1;
+      width: 100%;
+      min-height: 100%;
+    }
+
+    .blog-index .latest-article {
+      grid-column: 3;
+      width: 100%;
+      max-width: none;
+      padding: 0;
+    }
+
+    .blog-title-block h1 {
+      margin: 0;
+      font-size: calc(var(--jp-fluid-rem) * 6);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+    }
+
+    .blog-index .draft-links span {
+      grid-template-columns: calc(var(--jp-fluid-rem) * 1) minmax(0, 1fr);
+      gap: calc(var(--jp-fluid-rem) * 0.75);
+      font-size: calc(var(--jp-fluid-rem) * 1);
+      line-height: 1.5;
+    }
+
+    .latest-article article {
+      display: flex;
+      flex-direction: column;
+      gap: calc(var(--jp-fluid-rem) * 3.5);
+    }
+
+    .latest-article h2 {
+      max-width: calc(var(--jp-fluid-rem) * 25);
+      font-size: calc(var(--jp-fluid-rem) * 1.25);
+      line-height: 1.4;
+    }
+
+    .latest-article p:not(.eyebrow, .article-date) {
+      max-width: calc(var(--jp-fluid-rem) * 32.333);
+      margin: 0;
+      font-size: calc(var(--jp-fluid-rem) * 1.125);
+      line-height: 1.6;
+    }
+
+    .blog-page-main {
+      display: grid;
+      gap: calc(var(--jp-fluid-rem) * 8);
+      padding: 0 0 calc(var(--jp-fluid-rem) * 8);
+      background: var(--paper);
+    }
+
+    .article-list {
+      display: flex;
+      flex-direction: column;
+      gap: calc(var(--jp-fluid-rem) * 3.5);
+      width: min(66.1667vw, calc(var(--jp-fluid-rem) * 66.1667));
+      max-width: calc(var(--jp-fluid-rem) * 66.1667);
+      margin-inline: auto;
+      padding: 0;
+    }
+
+    .article-list h2 {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-size: calc(var(--jp-fluid-rem) * 3.125);
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+    }
+
+    .blog-list-item {
+      display: flex;
+      flex-direction: column;
+      gap: calc(var(--jp-fluid-rem) * 1.5);
+      padding: 0 0 calc(var(--jp-fluid-rem) * 3);
+      border-top: 0;
+      border-bottom: 0;
+    }
+
+    .blog-list-item + .blog-list-item {
+      padding-top: calc(var(--jp-fluid-rem) * 1);
+    }
+
+    .blog-list-item h3 {
+      max-width: calc(var(--jp-fluid-rem) * 25);
+      font-size: calc(var(--jp-fluid-rem) * 1.25);
+      line-height: 1.4;
+    }
+
+    .blog-list-item > span {
+      max-width: calc(var(--jp-fluid-rem) * 32.333);
+      font-size: calc(var(--jp-fluid-rem) * 1.125);
+      line-height: 1.6;
+    }
+
+    .blog-list-item > a {
+      margin: 0;
+      padding-bottom: 0;
+      border-bottom: 2px solid rgba(0, 11, 0, 0.12);
+      font-size: calc(var(--jp-fluid-rem) * 0.75);
+      line-height: 1.4;
+    }
+
+    .blog-about-card {
+      display: grid;
+      grid-template-columns: 3fr 1fr 4fr;
+      column-gap: 0;
+      width: min(67.6667vw, calc(var(--jp-fluid-rem) * 67.6667));
+      max-width: calc(var(--jp-fluid-rem) * 67.6667);
+      margin-inline: auto;
+      padding: calc(var(--jp-fluid-rem) * 1) 0 calc(var(--jp-fluid-rem) * 2);
+      background: var(--paper);
+    }
+
+    .blog-about-card img {
+      grid-column: 1;
+      justify-self: center;
+      width: calc(var(--jp-fluid-rem) * 16);
+      max-width: 100%;
+      aspect-ratio: 3 / 4;
+      height: auto;
+      object-fit: cover;
+      object-position: 50% 32%;
+    }
+
+    .blog-about-card .blog-author-copy {
+      grid-column: 3;
+      display: flex;
+      flex-direction: column;
+      gap: calc(var(--jp-fluid-rem) * 2);
+      width: 100%;
+      max-width: calc(var(--jp-fluid-rem) * 32.333);
+      padding: 0;
+      border: 0;
+      background: transparent;
+    }
+
+    .blog-about-card h2 {
+      margin: 0;
+      font-size: calc(var(--jp-fluid-rem) * 3.125);
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+    }
+
+    .blog-about-card .text-lg {
+      display: grid;
+      gap: calc(var(--jp-fluid-rem) * 1);
+      font-size: calc(var(--jp-fluid-rem) * 1.125);
+      line-height: 1.6;
+    }
+
+    .blog-about-card .text-lg p {
+      margin: 0;
+    }
+
+    .blog-contact-block {
+      display: grid;
+      gap: calc(var(--jp-fluid-rem) * 0.25);
     }
   }
 </style>

@@ -1,11 +1,10 @@
 ---
-import BrandMark from "./BrandMark.astro";
+import Icon from "./Icon.astro";
 
 const navItems = [
   { href: "/#work", label: "Work" },
-  { href: "/#brainwav", label: "brAInwav" },
   { href: "/now/", label: "About" },
-  { href: "/blog/", label: "Writing" },
+  { href: "/blog/", label: "Blog" },
   { href: "/contact/", label: "Contact" }
 ];
 
@@ -21,72 +20,27 @@ const currentFor = (href: string): "page" | undefined => {
   <div class="container">
     <div class="row row-justify-center">
       <div class="col col-lg-8 col-md-10 col-sm-12">
-        <nav class="nav-menu" aria-label="Primary navigation" data-nav-shell>
+        <nav class="nav-menu" aria-label="Primary navigation">
           <div class="nav-inner">
             <div class="nav-flip">
-              <BrandMark
-                variant="tiny"
-                className="icon-box cc-nav"
-                ariaCurrent={currentPath === "/" ? "page" : undefined}
-                label="Home"
-              />
+              <a class="icon-box cc-nav" href="/" aria-label="Home" aria-current={currentPath === "/" ? "page" : undefined}>
+                <Icon name="home" />
+              </a>
             </div>
             {navItems.map((item) => (
               <div class="nav-flip">
                 <a
                   href={item.href}
-                  class:list={["nav-link", item.label === "brAInwav" && "nav-link--brand"]}
+                  class="nav-link"
                   aria-current={currentFor(item.href)}
                 >
-                  {item.label === "brAInwav" ? (
-                    <span class="brand-word">br<span>AI</span>nwav</span>
-                  ) : item.label}
+                  {item.label}
                 </a>
               </div>
             ))}
-            <div class="nav-bg" aria-hidden="true"></div>
-            <div class="nav-hover-bg" aria-hidden="true"></div>
           </div>
         </nav>
       </div>
     </div>
   </div>
 </header>
-
-<script>
-  const navShells = document.querySelectorAll<HTMLElement>("[data-nav-shell]");
-
-  navShells.forEach((shell) => {
-    const inner = shell.querySelector<HTMLElement>(".nav-inner");
-    const items = inner
-      ? Array.from(inner.querySelectorAll<HTMLElement>(".nav-flip"))
-      : [];
-    const setHoverPill = (item: HTMLElement | undefined, visible: boolean) => {
-      if (!inner || !item) {
-        shell.style.setProperty("--nav-hover-opacity", "0");
-        return;
-      }
-
-      const innerRect = inner.getBoundingClientRect();
-      const itemRect = item.getBoundingClientRect();
-      shell.style.setProperty("--nav-hover-x", `${itemRect.left - innerRect.left}px`);
-      shell.style.setProperty("--nav-hover-w", `${itemRect.width}px`);
-      shell.style.setProperty("--nav-hover-opacity", visible ? "1" : "0");
-    };
-
-    const resetHoverPill = () => setHoverPill(undefined, false);
-    resetHoverPill();
-
-    items.forEach((item) => {
-      item.addEventListener("pointerenter", () => setHoverPill(item, true));
-      item.addEventListener("focusin", () => setHoverPill(item, true));
-    });
-
-    inner?.addEventListener("pointerleave", resetHoverPill);
-    inner?.addEventListener("focusout", (event) => {
-      if (!inner.contains(event.relatedTarget as Node | null)) resetHoverPill();
-    });
-
-    window.addEventListener("resize", resetHoverPill, { passive: true });
-  });
-</script>

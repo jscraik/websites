@@ -66,26 +66,51 @@ const skills = [
   }
 ];
 
+const capabilities = [
+  "AI DevRel",
+  "Proof Writing",
+  "Agent Workflows",
+  "CLI Tools",
+  "Developer Education",
+  "Validation",
+  "Technical Writing",
+  "Instruction"
+];
+
 const history = [
   {
     title: "brAInwav",
-    meta: "2026 / current / personal site",
-    detail: "Building the public home for AI-native DevRel writing, proof notes, and small developer-facing demos."
+    badge: "Current",
+    dates: "2026 - Present",
+    roles: ["Personal site", "AI-native DevRel portfolio"],
+    detail: [
+      "Building the public home for AI-native DevRel writing, proof notes, and small developer-facing demos."
+    ]
   },
   {
     title: "Codex workflows",
-    meta: "current / agent work / validation",
-    detail: "Shaping repeatable loops for agent tasks, review, validation, and evidence-aware closeout."
+    badge: "Agent work",
+    dates: "Current",
+    roles: ["Workflow design", "Validation loops"],
+    detail: [
+      "Shaping repeatable loops for agent tasks, review, validation, and evidence-aware closeout."
+    ]
   },
   {
     title: "rsearch and wsearch",
-    meta: "candidate portfolio units / CLI",
-    detail: "Tightening small developer tools into documented examples with command receipts and tutorial paths."
+    dates: "Candidate portfolio units",
+    roles: ["CLI tools", "Tutorial path"],
+    detail: [
+      "Tightening small developer tools into documented examples with command receipts and tutorial paths."
+    ]
   },
   {
     title: "British Army",
-    meta: "10 years / warrant officer",
-    detail: "Standards, training, operational delivery, logistics, management, and leadership under pressure."
+    dates: "10 years",
+    roles: ["Warrant Officer", "Instruction and standards", "Operational delivery"],
+    detail: [
+      "Standards, training, operational delivery, logistics, management, and leadership under pressure."
+    ]
   }
 ];
 
@@ -98,8 +123,8 @@ const webLinks = [
 ---
 
 <BaseLayout title="About | brAInwav">
-  <section class="about-page section-shell" aria-labelledby="about-title">
-    <header class="about-intro">
+  <header class="about-page about-hero-shell" aria-labelledby="about-title">
+    <div class="about-intro">
       <div class="about-copy-block">
         <h1 id="about-title">About</h1>
         <div class="about-copy">
@@ -120,6 +145,7 @@ const webLinks = [
           </p>
         </div>
       </div>
+      <div class="about-hero-spacer" aria-hidden="true"></div>
       <aside class="about-sidebar">
         <div class="about-jump">
           <p class="eyebrow">Get to know me</p>
@@ -132,83 +158,119 @@ const webLinks = [
             ))}
           </nav>
         </div>
-        <img class="about-portrait" src="/jamie-profile.png" alt="Jamie Scott Craik" />
+        <img class="about-portrait" src="/jamie-profile.png" alt="Jamie Scott Craik" width="1254" height="1254" />
       </aside>
-    </header>
+    </div>
+  </header>
 
-    <section id="fun-facts" class="about-band" aria-labelledby="fun-facts-title">
+  <section id="fun-facts" class="about-band" aria-labelledby="fun-facts-title">
+    <div class="about-band-heading">
       <h2 id="fun-facts-title">Fun Facts</h2>
       <p class="eyebrow">Updated July 2026</p>
-      <div class="about-card-grid">
-        {funFacts.map((fact) => (
-          <article class="about-fact-card">
-            <div class={`about-object about-object--${fact.visual}`} aria-hidden="true">
-              <span>{fact.artifact}</span>
-              <i></i>
-              <i></i>
-              <i></i>
-            </div>
-            <h3>{fact.title}</h3>
-            <p>{fact.kicker} / {fact.meta}</p>
-            <span>{fact.detail}</span>
-          </article>
-        ))}
-      </div>
-    </section>
+    </div>
+    <div class="about-card-grid">
+      {funFacts.map((fact) => (
+        <article class="about-fact-card">
+          <div class={`about-object about-object--${fact.visual}`} aria-hidden="true">
+            <span class="about-fact-label">{fact.kicker}</span>
+            <span class="about-object__artifact">{fact.artifact}</span>
+            <i></i>
+            <i></i>
+            <i></i>
+          </div>
+          <h3>{fact.title}</h3>
+          <p>{fact.meta}</p>
+          <span>{fact.detail}</span>
+        </article>
+      ))}
+    </div>
+  </section>
 
-    <section id="skills" class="about-band about-split" aria-labelledby="skills-title">
-      <div>
-        <p class="eyebrow">Skills</p>
-        <h2 id="skills-title">Skills</h2>
-      </div>
+  <section id="skills" class="about-band about-skills-band" aria-labelledby="skills-title">
+    <div class="about-skills-stack">
+      <h2 id="skills-title">Skills</h2>
       <div class="about-skill-list">
         {skills.map((skill) => (
           <article>
             <span class={`skill-icon skill-icon--${skill.icon}`} aria-hidden="true"></span>
-            <h3>{skill.title}</h3>
-            <p>{skill.detail}</p>
+            <div>
+              <h3>{skill.title}</h3>
+              <p>{skill.detail}</p>
+            </div>
           </article>
         ))}
       </div>
-    </section>
-
-    <section id="current-focus" class="about-band about-split" aria-labelledby="focus-title">
-      <div>
-        <p class="eyebrow">Work history</p>
-        <h2 id="focus-title">Work history</h2>
+      <div class="about-capabilities">
+        <h3>All Capabilities</h3>
+        <ul class="about-capability-list" aria-label="All capabilities">
+          {capabilities.map((capability) => (
+            <li>{capability}</li>
+          ))}
+        </ul>
       </div>
-      <div class="about-history">
+    </div>
+  </section>
+
+  <section id="current-focus" class="about-band about-work-history-band" aria-labelledby="focus-title">
+    <div class="about-history-stack">
+      <h2 id="focus-title">Work history</h2>
+      <ul class="history-list" role="list">
         {history.map((item) => (
-          <article>
-            <p>{item.meta}</p>
-            <h3>{item.title}</h3>
-            <span>{item.detail}</span>
-          </article>
+          <li class="history-list-item">
+            <article>
+              <div class="work-history-inner cc-top">
+                <div class="history-flex">
+                  <h3>{item.title}</h3>
+                </div>
+                <div class="u-d-tablet-none" aria-hidden="true"></div>
+                <div class="history-flex history-flex--meta">
+                  {item.badge && <span class="about-history-badge">{item.badge}</span>}
+                  <span class="about-history-date">{item.dates}</span>
+                </div>
+              </div>
+              <div class="work-history-inner">
+                <div class="history-flex cc-vertical">
+                  {item.roles.map((role) => (
+                    <span>{role}</span>
+                  ))}
+                </div>
+                <div class="u-d-tablet-none" aria-hidden="true"></div>
+                <div class="history-flex">
+                  <div class="about-history-copy">
+                    {item.detail.map((paragraph) => (
+                      <p>{paragraph}</p>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </article>
+          </li>
         ))}
-      </div>
-    </section>
+      </ul>
+    </div>
+  </section>
 
-    <section id="on-the-web" class="about-band about-split" aria-labelledby="web-title">
-      <div>
-        <p class="eyebrow">On the web</p>
-        <h2 id="web-title">On the web</h2>
-      </div>
-      <div class="web-table">
-        <div class="web-table-header" aria-hidden="true">
-          <span>Date</span>
-          <span>Venue</span>
-          <span>Occasion</span>
-          <span>Subject</span>
-        </div>
+  <section id="on-the-web" class="about-band about-web-band" aria-labelledby="web-title">
+    <div class="about-web-stack">
+      <h2 id="web-title">On the web</h2>
+      <ul class="recognition-list" role="list">
+        <li class="recognition-list-li cc-header" aria-hidden="true">
+          <div><span class="input-label u-text-black">Date</span></div>
+          <div><span class="input-label u-text-black">Venue</span></div>
+          <div><span class="input-label u-text-black">Occasion</span></div>
+          <div><span class="input-label u-text-black">Subject</span></div>
+        </li>
         {webLinks.map(([date, venue, occasion, value, href]) => (
-          <a href={href}>
-            <span>{date}</span>
-            <span>{venue}</span>
-            <span>{occasion}</span>
-            <span>{value}</span>
-          </a>
+          <li class="recognition-list-li">
+            <div><span class="input-label">{date}</span></div>
+            <div>
+              <a class="input-label cc-link" href={href}>{venue}</a>
+            </div>
+            <div><span class="input-label">{occasion}</span></div>
+            <div><span class="input-label">{value}</span></div>
+          </li>
         ))}
-      </div>
-    </section>
+      </ul>
+    </div>
   </section>
 </BaseLayout>
