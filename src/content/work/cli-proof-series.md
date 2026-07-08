@@ -4,7 +4,7 @@ shortTitle: "CLI Tools"
 subtitle: "Turning small tools into developer-facing artifacts"
 date: "Planned"
 order: 3
-isFeatured: false
+isFeatured: true
 overview: "rsearch and wsearch can become portfolio units when each tool has docs, command examples, validation receipts, and a useful tutorial."
 organization: "The audience is developers evaluating whether agent-safe CLI workflows are understandable and inspectable."
 work: "The next step is to validate current repo behavior, tighten docs, and publish one tutorial with exact command evidence."

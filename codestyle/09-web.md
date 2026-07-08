@@ -12,6 +12,7 @@
 
 ## Scope
 - This module covers web application standards for React, Vite, Tailwind, Storybook, Apps SDK UI, and chat widget surfaces.
+- Astro portfolio overrides for this checkout live in [06-appendices-and-project-overrides.md](./06-appendices-and-project-overrides.md#astro-htmlcss-anti-patterns).
 
 ## React
 - Web surfaces MUST use semantic HTML first; ARIA SHOULD be added only where semantics are insufficient.
@@ -44,6 +45,7 @@
 ## Accessibility
 - Interactive web surfaces MUST target WCAG 2.2 AA.
 - Full keyboard operation, visible focus, and screen-reader-meaningful labels MUST be present.
+- Native HTML semantics MUST be preferred before ARIA. Links MUST use `<a>`, actions MUST use `<button>`, and generic elements with fake interactive roles are forbidden unless a documented host constraint leaves no native alternative.
 
 ## Enforcement
 - Web changes MUST pass:
@@ -55,4 +57,5 @@
   - `bash scripts/validate-codestyle.sh`
   - `bash scripts/verify-work.sh --fast`
 - For component-system work, include Storybook/accessibility checks when configured in the touched project.
+- Astro markup, hydration, responsive CSS, or animation changes MUST also pass `npm run validate:astro-anti-patterns`.
 - All waivers require documented metadata with rule ID or section, reason, tracking ticket, and expiry or ADR reference.

@@ -59,16 +59,39 @@ diffBudgetOverrides:
 
 > Add project-specific linting, formatting, or architectural rules here. This section is NOT overwritten when upgrading the governance pack.
 
-### Additional Rules
+### Astro HTML/CSS Anti-Patterns
 
-```jsonc
-{
-  // Extend local eslint.config.mjs with project-specific rules
-}
-```
+Astro work in this repository MUST stay HTML-first, scoped-CSS-first, and JavaScript-light. Static display components MUST remain server-rendered unless browser-side interactivity is required and documented.
+
+- Use semantic HTML first. Generic `div` or `span` elements MUST NOT replace `main`, `section`, `article`, `nav`, `header`, `footer`, `button`, `a`, `ul`, `li`, `figure`, or heading elements when those elements describe the content.
+- Use `<a>` for navigation and `<button type="button">` for actions. Clickable `div` or `span` elements, fake button roles, and inline event handlers are forbidden.
+- Heading levels MUST describe the document outline. Use CSS, not skipped heading levels, for visual size.
+- Every image MUST have intentional alt text. Decorative images use `alt=""` and SHOULD be hidden from assistive technology when appropriate.
+- Use Astro scoped component styles by default. Component-level `is:global` styles are forbidden; tokens, resets, base typography, and intentional global utilities belong in shared CSS.
+- `client:*` hydration directives are forbidden in static Astro surfaces. If browser interactivity is genuinely required, split that behavior into a deliberately reviewed interactive component before adding hydration.
+- Prefer static Astro components over React, Vue, or Svelte components when no browser interactivity is needed.
+- Use design tokens for color, spacing, typography, radius, shadow, motion, and z-index. One-off hard-coded values require a concrete visual reason.
+- Use normal document flow, grid, or flex for layout. Absolute positioning is reserved for badges, overlays, decorative marks, and deliberate art direction.
+- Avoid large fixed heights for content sections. Prefer intrinsic sizing, `min-block-size`, and padding.
+- Keep selectors low-specificity and readable; scoped Astro CSS removes the need for defensive selector chains.
+- `!important` is forbidden. Fix the cascade or use a more explicit scoped selector.
+- `transition: all` is forbidden. Transition only named properties and respect `prefers-reduced-motion`.
+- Start responsive design from the mobile/default layout. Use the repo breakpoint scale rather than one-off pixel breakpoints.
+- Do not hide layout bugs with `overflow-x: hidden`; fix the overflowing element.
+
+`npm run validate:astro-anti-patterns` is the deterministic guardrail for the high-confidence subset of these rules. It is intentionally strict so prototype regressions fail until the source is fixed.
+
+### Site Quality Validation Ladder
+
+- `npm run validate:fast` MUST cover ordinary Astro, CSS, design-system, content-source, portfolio-content, page-surface, and prototype-polish edits.
+- `npm run validate:source` MUST cover route output, Astro type checks, built HTML semantics, and smoke behavior.
+- `npm run validate:rendered` MUST cover viewport flow, JavaScript budget, accessibility, and visual regression behavior.
+- `npm run validate:site` is the broad pre-release gate and MUST keep local validation separate from hosted CI, external review, and deployment truth.
+- Validators intentionally fail on prototype drift. Agents should fix the source rather than weakening the check.
 
 ### Architectural Boundaries
 
-<!-- Define project-specific import restrictions or layer rules -->
+- Portfolio source uses shared tokens in `src/styles/brand-tokens.css` and `src/styles/global.css`, with component/page-level scoped styles for local presentation.
+- Styling-system mixing is allowed only when the boundary is explicit: global CSS for tokens, reset, base layout primitives, and site-wide utilities; Astro scoped styles for component-local presentation.
 
 <!-- PROJECT-SPECIFIC: END -->

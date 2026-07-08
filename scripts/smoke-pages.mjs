@@ -10,7 +10,7 @@ const pages = [
   {
     route: "/blog/",
     file: "blog/index.html",
-    includes: ["Writing", "Why AI-native DevRel"]
+    includes: ["Blog", "Why AI-native DevRel"]
   },
   {
     route: "/proof/",
