@@ -111,7 +111,7 @@ The agent should then:
   }
 
   // 3. Inject the script tag at the current port
-  const injectOut = runScript('live-inject.mjs', ['--port', String(serverInfo.port)], { cwd: activeCwd });
+  const injectOut = runScript('live-inject.mjs', ['--port', String(serverInfo.port), '--token', serverInfo.token], { cwd: activeCwd });
   const injectResult = safeParse(injectOut);
   if (!injectResult || !injectResult.ok) {
     console.log(JSON.stringify({
@@ -150,10 +150,9 @@ The agent should then:
 }
 
 function missingLiveContext(ctx) {
-  const missing = [];
-  if (!ctx.hasProduct) missing.push('PRODUCT.md');
-  if (!ctx.hasDesign) missing.push('DESIGN.md');
-  return missing;
+  // Existing-project live iteration does not require optional context docs.
+  // When present, PRODUCT.md and DESIGN.md are still included in the output.
+  return [];
 }
 
 /**

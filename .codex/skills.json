@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "skills": [
+    { "name": "establish-visual-hierarchy", "path": "skills/01-establish-visual-hierarchy/SKILL.md" },
+    { "name": "apply-typography-scale", "path": "skills/02-apply-typography-scale/SKILL.md" },
+    { "name": "build-color-palette", "path": "skills/03-build-color-palette/SKILL.md" },
+    { "name": "apply-consistent-spacing", "path": "skills/04-apply-consistent-spacing/SKILL.md" },
+    { "name": "design-button-hierarchy", "path": "skills/05-design-button-hierarchy/SKILL.md" },
+    { "name": "eliminate-visual-clutter", "path": "skills/06-eliminate-visual-clutter/SKILL.md" },
+    { "name": "design-empty-states", "path": "skills/07-design-empty-states/SKILL.md" },
+    { "name": "use-shadows-appropriately", "path": "skills/08-use-shadows-appropriately/SKILL.md" },
+    { "name": "manage-color-contrast", "path": "skills/09-manage-color-contrast/SKILL.md" },
+    { "name": "group-related-elements", "path": "skills/10-group-related-elements/SKILL.md" }
+  ]
+}

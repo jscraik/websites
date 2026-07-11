@@ -397,6 +397,8 @@ function createRequestHandler({ detectScript, liveScriptParts }) {
 
     // --- Scripts ---
     if (p === '/live.js') {
+      const token = url.searchParams.get('token');
+      if (token !== state.token) { res.writeHead(401); res.end('Unauthorized'); return; }
       // Re-read from disk each request so edits to live-browser.js land on
       // the next tab reload. No-store headers prevent browser caching across
       // sessions — during iteration, a cached old script silently breaks
@@ -602,8 +604,10 @@ function createRequestHandler({ detectScript, liveScriptParts }) {
       if (token !== state.token) { res.writeHead(401); res.end('Unauthorized'); return; }
       const filePath = url.searchParams.get('path');
       if (!filePath || filePath.includes('..')) { res.writeHead(400); res.end('Bad path'); return; }
-      const absPath = path.resolve(process.cwd(), filePath);
-      if (!absPath.startsWith(process.cwd())) { res.writeHead(403); res.end('Forbidden'); return; }
+      const projectRoot = path.resolve(process.cwd());
+      const absPath = path.resolve(projectRoot, filePath);
+      const relativePath = path.relative(projectRoot, absPath);
+      if (relativePath.startsWith('..') || path.isAbsolute(relativePath)) { res.writeHead(403); res.end('Forbidden'); return; }
       let content;
       try { content = fs.readFileSync(absPath, 'utf-8'); }
       catch { res.writeHead(404); res.end('File not found'); return; }

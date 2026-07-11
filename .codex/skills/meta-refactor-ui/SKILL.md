@@ -36,7 +36,7 @@ Run a complete UI design audit against all 10 Refactoring UI principles, generat
 
 ### Phase 1: Load Skill Registry
 ```
-Read skills.json
+Read `../skills.json` from the `.codex/skills` parent directory
 Validate all 10 skills available
 ```
 
