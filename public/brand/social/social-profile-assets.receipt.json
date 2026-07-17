@@ -1,0 +1,68 @@
+{
+  "schema_version": "jamie-social-profile-assets-receipt/v1",
+  "contract": "jamie-social-profile-assets/v1",
+  "design_system_version": "1.1.0",
+  "source_digest": "ab575cf65a5802b6a3f078a383c5fec6ac236f73560b862c06942aa9ee5b9253",
+  "sources": {
+    "public/jamie-profile.png": "daf30bfa63cab49c77f109da04089ccd74c0f4c574cccea67fd2d27579f250bc",
+    "scripts/generate-social-profile-assets.mjs": "df7a686298752437b7209b8eb5967b6d664911997558c5ffc0fbf2b3ca574cf1",
+    "src/brand/social-profile-assets.json": "29548e844762f59d7ee301204d64943abb8478162ca3b23e27094d82a625e477",
+    "src/styles/brand-tokens.json": "3d8ddd40eb286f049311d3eaf11dfb47f1db969863596aaef4564b5483d52b50"
+  },
+  "outputs": {
+    "public/brand/social/jamie-avatar-linkedin-400x400.png": {
+      "sha256": "41fed431266d4bea94269d5daee91026462dcbe53306011399f272913146f93c",
+      "width": 400,
+      "height": 400
+    },
+    "public/brand/social/jamie-avatar-x-400x400.png": {
+      "sha256": "41fed431266d4bea94269d5daee91026462dcbe53306011399f272913146f93c",
+      "width": 400,
+      "height": 400
+    },
+    "public/brand/social/jamie-linkedin-background-1584x396.png": {
+      "sha256": "2e08cf9eace85d29de7f75dc4212fcab36fdcfec107b790ce80fa8c877f3b2bf",
+      "width": 1584,
+      "height": 396
+    },
+    "public/brand/social/jamie-x-header-1500x500.png": {
+      "sha256": "345268497676fb7e55250891a485fa97f79570ae63df444f918ff05ab8238ffe",
+      "width": 1500,
+      "height": 500
+    },
+    "public/brand/social/masters/jamie-linkedin-background-3168x792.png": {
+      "sha256": "f2308ebbf5f4ee34963dd2c260b6d0f75d10663d7b43685ef306539e158fd034",
+      "width": 3168,
+      "height": 792
+    },
+    "public/brand/social/masters/jamie-x-header-3000x1000.png": {
+      "sha256": "7ad38bf81b7c697766a74da553da4e131bba335c919e0a9b7625983ed2477169",
+      "width": 3000,
+      "height": 1000
+    },
+    "public/brand/social/previews/jamie-linkedin-profile-preview-1584x660.png": {
+      "sha256": "e6980c01ed588042377fc42ae642a8a4c6fe9e47e805ef24677b7269cd6436e1",
+      "width": 1584,
+      "height": 660
+    },
+    "public/brand/social/previews/jamie-x-profile-preview-1500x780.png": {
+      "sha256": "a0b931f8b53e2a06564932f2bdac95414e872367ae9ee101a36e799a4ab0de23",
+      "width": 1500,
+      "height": 780
+    }
+  },
+  "typography": {
+    "embedded": {
+      "newsreader": false,
+      "geist": false,
+      "geist_mono": false
+    },
+    "rendering_stacks": {
+      "display": "Georgia, serif",
+      "sans": "Arial, sans-serif",
+      "mono": "Menlo, monospace"
+    },
+    "rendering_status": "locked_fallback_stacks_until_official_self-hosted_fonts_are_admitted"
+  },
+  "claims_boundary": "Binds local sources to generated files; does not prove live platform cropping, upload, publication, or Jamie taste approval."
+}
