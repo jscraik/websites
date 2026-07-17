@@ -21,6 +21,7 @@
     "validate:no-prototype-slop": "node scripts/validate-no-prototype-slop.mjs",
     "validate:content-source-boundary": "node scripts/validate-content-source-boundary.mjs",
     "check:git-worktree-authority": "node scripts/check-git-worktree-authority.mjs",
+    "test:git-worktree-authority": "node scripts/test-git-worktree-authority.mjs",
     "validate:release-boundary": "node scripts/validate-release-source-boundary.mjs",
     "test:portfolio-helpers": "node scripts/test-portfolio-helpers.mjs",
     "validate:portfolio-content": "node scripts/validate-portfolio-content.mjs",
