@@ -198,12 +198,11 @@ Stop if the baseline cannot build, instructions conflict, source selection would
 
 ### Slice 4: Site-wide consumers
 
-1. Migrate blog and proof collections and their static routes.
-2. Route homepage writing/proof placements, navigation, indexes, RSS, sitemap, search, related content, metadata, Open Graph, README, and social output through the shared predicates.
-3. Add the typed surface registry for optional pages, homepage sections, About sections, and skills.
-4. Move each optional literal page implementation outside `src/pages/**` and emit enabled page routes through the dynamic registry entrypoint.
-5. Add consumer-parity tests so any newly added publishable surface must declare how it consumes the shared decision.
-6. Add production fixtures that retain a disabled optional-page implementation while proving its route, HTML, metadata, navigation link, sitemap entry, search entry, and generated assets are absent.
+1. Inventory current production consumers before migration. Classify routes, homepage writing/proof placements, navigation, indexes, related content, metadata, Open Graph, README, social output, RSS, sitemap, search, and generated assets as existing and applicable, absent, or newly required.
+2. Migrate blog and proof collections, their static routes, and every existing applicable consumer through the shared predicates. Record absent consumers as `not applicable`; do not introduce RSS, search, sitemap, or another consumer only to satisfy parity proof.
+3. Require every newly introduced publishable surface or consumer to declare and test how it consumes the shared publication decision.
+4. Keep literal Astro routes when their admitted publication behavior can be enforced directly. Add a typed optional-surface registry, move implementations outside `src/pages/**`, and use a dynamic route entrypoint only when an admitted optional-page requirement cannot be enforced safely by the existing literal-route model.
+5. Add consumer-parity fixtures for each applicable consumer. When optional-route machinery is admitted, retain a disabled implementation fixture and prove its route, HTML, metadata, navigation link, and every other applicable discovery or generated-output surface are absent.
 
 ### Slice 5: Interactive demonstration admission
 
