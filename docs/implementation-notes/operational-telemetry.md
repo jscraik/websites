@@ -22,6 +22,8 @@ or authority boundary.
 | `steering-continuation-001` | stale state, poor workflow design, lack of observability | Require a continuation checkpoint with lane, worktree, branch, SHA, dirty state, dependency gate, blockers, and exact validation evidence. | implemented |
 | `validation-concurrency-002` | weak validation, poor workflow design, runtime ambiguity | Declare validation serial unless generated output is isolated per command. | implemented |
 | `runtime-shim-003` | runtime ambiguity, insufficient deterministic enforcement, lack of observability | Classify untrusted-shim failures as `blocked_runtime` and add a direct-runtime recovery wrapper. | proposed; follow-up required |
+| `filesystem-authority-004` | runtime ambiguity, lack of verification, missing guardrails | Check linked worktree Git paths before staging or committing. | implemented; blocked in current sandbox |
+| `remote-head-005` | stale state, lack of verification, weak observability | Fetch and compare the remote head immediately before pushing; never force-push an unreviewed divergence. | proposed; follow-up required |
 
 ## Continuation checkpoint contract
 
@@ -42,6 +44,16 @@ failure. Until the direct-runtime recovery wrapper exists, record the exact
 resolved executable, classify the command as `blocked_runtime`, and run the
 nearest meaningful direct-binary fallback without claiming the repository
 wrapper passed.
+
+Before a linked worktree is mutated, `npm run check:git-worktree-authority`
+checks the index, object store, refs, reflog, and current branch ref. A failure
+names the exact path that needs filesystem authority and must not be relabeled
+as a source or test failure.
+
+Before pushing, fetch the target ref and compare local and remote ancestry. A
+fetch-first rejection is stale branch state, not permission to force-push. Keep
+the remote history, create a reconciliation branch when needed, and record the
+divergence in the continuation checkpoint.
 
 This document is an implementation note and operating rule. The JSON contract
 and validator are the enforcement surface; this prose must not weaken their

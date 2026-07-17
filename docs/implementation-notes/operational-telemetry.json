@@ -80,6 +80,45 @@
         "command": "npm run validate:operational-telemetry",
         "expectedBehavior": "The gate requires a proposed recovery handler to include an explicit follow-up instead of silently treating the runtime blocker as fixed."
       }
+    },
+    {
+      "id": "filesystem-authority-004",
+      "feedback": "Git staging and commit in the linked worktree required repeated permission grants for the worktree index, object store, refs, reflog, and packed-refs paths.",
+      "rootFailure": "The worktree authority surface was not preflighted as a single set of linked Git paths before attempting mutation.",
+      "categories": ["runtime_ambiguity", "lack_of_verification", "missing_guardrails"],
+      "mechanism": "runtime_check",
+      "status": "implemented",
+      "durableImprovement": {
+        "artifact": "scripts/check-git-worktree-authority.mjs",
+        "validator": "scripts/validate-release-source-boundary.mjs",
+        "gate": "npm run check:git-worktree-authority",
+        "prevention": "Check the linked worktree index, object store, refs, reflog, and current branch ref for write access before staging or committing."
+      },
+      "proof": {
+        "command": "npm run check:git-worktree-authority",
+        "expectedBehavior": "The gate fails with the exact Git path when a linked worktree mutation surface is not writable.",
+        "outcome": "blocked_runtime",
+        "blockedReason": "The current sandbox denied write access to the shared linked-worktree .git parent even after the guarded commit completed; keep this check separate from source validation."
+      }
+    },
+    {
+      "id": "remote-head-005",
+      "feedback": "A push was rejected because the remote implementation branch had been force-updated independently after the previous push.",
+      "rootFailure": "The workflow did not fetch and compare the target remote head immediately before the next push.",
+      "categories": ["stale_state", "lack_of_verification", "weak_observability"],
+      "mechanism": "workflow_rule",
+      "status": "proposed",
+      "durableImprovement": {
+        "artifact": "docs/implementation-notes/operational-telemetry.json",
+        "validator": "scripts/validate-operational-telemetry.mjs",
+        "gate": "npm run validate:operational-telemetry",
+        "prevention": "Require a fetch-first remote-head comparison and explicit divergence receipt before push; never use force-push as a recovery shortcut.",
+        "followUp": "Add scripts/check-remote-head-before-push.sh and include its exact ancestry result in the continuation checkpoint."
+      },
+      "proof": {
+        "command": "npm run validate:operational-telemetry",
+        "expectedBehavior": "The gate requires a proposed remote-head recovery rule to include an explicit follow-up instead of silently treating stale state as resolved."
+      }
     }
   ]
 }

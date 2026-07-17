@@ -106,6 +106,9 @@ for (const signal of telemetry.signals) {
   assert(signal.durableImprovement?.artifact && signal.durableImprovement.validator && signal.durableImprovement.gate, `${signal.id}: durable improvement is incomplete`);
   assert(signal.durableImprovement.prevention?.length > 20, `${signal.id}: prevention behavior is missing`);
   assert(signal.proof?.command && signal.proof.expectedBehavior?.length > 20, `${signal.id}: proof contract is incomplete`);
+  if (signal.proof.outcome === "blocked_runtime") {
+    assert(signal.proof.blockedReason?.length > 20, `${signal.id}: blocked_runtime proof needs an exact blocker reason`);
+  }
   if (signal.status === "proposed") {
     assert(signal.durableImprovement.followUp?.length > 20, `${signal.id}: proposed improvement needs an explicit follow-up`);
   }
