@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "portfolio-release-source-boundary/v1",
+  "slice": "PU-000",
+  "status": "accepted-local-baseline",
+  "baseline": {
+    "sha": "fc10369edcf51d31ecfe954e2e4341c340cf40da",
+    "treeSha": "7132c6e17a643b7af05a61f3302935246fd3a717",
+    "branch": "jscraik/feature/no-issue-install-design-skills",
+    "source": "origin/jscraik/feature/no-issue-install-design-skills",
+    "reviewStatus": "local-plan-review-accepted-hosted-review-pending",
+    "validatedAt": "2026-07-17T18:59:49Z",
+    "worktree": {
+      "label": "portfolio-pu000-release-worktree",
+      "pathClass": "temporary-isolated-git-worktree",
+      "cleanBeforeEdit": true,
+      "exactPathRecordedInLocalReceipt": true
+    }
+  },
+  "acceptedPaths": [
+    ".harness/plan/portfolio-stabilization-and-cloud-release.md",
+    "AGENTS.md",
+    "package.json",
+    "package-lock.json",
+    "astro.config.mjs",
+    "src/**",
+    "public/**",
+    "scripts/**",
+    "docs/**",
+    "README.md",
+    "BRAND_GUIDELINES.md"
+  ],
+  "excludedPaths": [
+    ".harness/runtime/**",
+    ".playwright-cache/**",
+    ".playwright-tmp/**",
+    "playwright-report/**",
+    "test-results/**",
+    "dist/**",
+    "artifacts/**",
+    "node_modules/**",
+    ".codex/skills/**",
+    "<external-private-sources>"
+  ],
+  "baselineValidation": [
+    {
+      "command": "git status --short --branch && git rev-parse HEAD && git rev-parse HEAD^{tree} && git diff --check",
+      "outcome": "pass"
+    },
+    {
+      "command": "PATH=/opt/homebrew/bin:/usr/bin:/bin /opt/homebrew/bin/npm run validate:fast",
+      "outcome": "pass"
+    },
+    {
+      "command": "PATH=/opt/homebrew/bin:/usr/bin:/bin /opt/homebrew/bin/npm run check",
+      "outcome": "pass"
+    },
+    {
+      "command": "PATH=/opt/homebrew/bin:/usr/bin:/bin ASTRO_TELEMETRY_DISABLED=1 /opt/homebrew/bin/npm run build",
+      "outcome": "pass"
+    },
+    {
+      "command": "PATH=/opt/homebrew/bin:/usr/bin:/bin /opt/homebrew/bin/npm run test:smoke",
+      "outcome": "pass"
+    }
+  ],
+  "invariants": {
+    "reviewedBaselineShaRecorded": true,
+    "cleanWorktreeBeforeEditRecorded": true,
+    "acceptedAndExcludedPathsDeclared": true,
+    "runtimeReceiptsExcluded": true,
+    "unchangedBaselineValidated": true,
+    "privateMaterialExcluded": true
+  },
+  "notes": "This receipt records the source boundary for PU-000. The exact temporary worktree path is intentionally kept in the local operator receipt rather than public repository content."
+}
