@@ -2,41 +2,69 @@
 
 ## Purpose
 
-This file is the codestyle front door for the coding-harness repository and for
-the codestyle pack emitted into harness-managed downstream repositories.
+This file is the codestyle front door for the `codex/` subtree.
 Use it to locate the right standards module quickly.
-For technical work in this repository, read this file before deeper instruction modules.
 
 Detailed standards are split under [codestyle/README.md](./codestyle/README.md).
 
 ## Table of Contents
+
 - [Baselines](#baselines)
-- [Toolchain config](#toolchain-config)
+- [Toolchain configuration](#toolchain-configuration)
+- [Engineering judgement coverage](#engineering-judgement-coverage)
+- [Command scope](#command-scope)
 - [Codestyle modules](#codestyle-modules)
-- [Machine-readable policy index](#machine-readable-policy-index)
 - [Enforcement model](#enforcement-model)
 - [How to use this pack](#how-to-use-this-pack)
 
 ## Baselines
-- JS/TS toolchain: Biome, TypeScript `tsc --noEmit`, Vitest/Node test, and ESLint only where a downstream project configures it.
-- Docs: markdownlint plus Vale for the staged authoritative docs set.
+
+- JS/TS toolchain: Node >= 24, pnpm 10, Biome, Node syntax checks, TypeScript where present, and Vitest/Node test runners where configured.
+- Docs: markdownlint for broad Markdown linting; Vale only when `.vale.ini` is present.
 - Python: Ruff, Pyright, pytest.
 - Rust: rustfmt, Clippy, cargo test.
-- Go: gofmt, go vet where configured, go test.
+- Shell: Bash and Zsh scripts with explicit invocation contracts.
+- Config/data: JSON, YAML, TOML, plist/XML, KDL, `.env` files, lockfiles, and generated manifests.
+- Diagrams/assets: Mermaid (`.mmd` and fenced diagrams), static HTML, SVG/PNG/WebP assets, signatures, and checksums.
 - Security/policy: Semgrep, policy guards, supply-chain tooling.
-- Node baseline: repository engine floor `>=26.3.0` from `package.json`; runtime selection follows `.mise.toml`.
-- TypeScript baseline: 5.9.x with NodeNext module semantics when TS is used.
+- Node baseline: `>=24.0.0`, from the parent [`package.json`](../../package.json). Keep this project contract rather than copying a generic upstream “current” or LTS label; the runtime manager may install a newer compatible release.
+- TypeScript baseline: >= 5.9 (when TS is used).
 - Rust baseline: 2024 edition (rustc >= 1.85).
 - Security advisories override baselines: patch immediately when a baseline dependency has a published fix.
 
-## Toolchain config
-- `.mise.toml` is the canonical runtime and global CLI pin surface for this repository.
-- `package.json` `packageManager` plus `pnpm-lock.yaml` are the canonical package-manager and dependency lock surfaces.
-- `biome.json` is the canonical Biome formatter, assist, and style-lint configuration; run it through `pnpm lint`.
-- `scripts/check-environment.sh` and `docs/agents/tooling.md` MUST stay aligned with `.mise.toml` whenever managed CLIs change.
-- For this repository, `biome check` intentionally excludes the root `CODESTYLE.md` path; downstream packages should ship a real checked-in `CODESTYLE.md` file.
+## Toolchain configuration
+
+- [`../../.mise.toml`](../../.mise.toml) is the canonical runtime and managed-CLI pin surface for this repository.
+- Parent [`package.json`](../../package.json), its `packageManager` field, and [`../../pnpm-lock.yaml`](../../pnpm-lock.yaml) are the canonical package-manager and dependency-lock surfaces.
+- [`../../biome.json`](../../biome.json) is the canonical Biome formatter, assist, and style-lint configuration; use it through `pnpm lint`.
+- When managed runtimes or CLIs change, keep the runtime config, package contract, environment checks, and operator instructions aligned. Do not update a prose baseline without reconciling the executable contract.
+
+## Engineering judgement coverage
+
+- Treat language, configuration, architecture, testing, security, observability, CI/CD, accessibility, and AI-agent safety as review vocabulary tied to executable gates.
+- Eliminate untrusted or dynamic data at a declared boundary: parsers, schemas, API adapters, DTOs, configuration loaders, CLI argument parsing, storage decoders, migration importers, and test fixtures. Do not use generic shape probes to move unvalidated data further into application logic.
+- Treat each language's validation surface as the source of truth for domain
+  contracts: identifiers use branded or nominal types, measured values use
+  validated unit-bearing value types, and related types are composed rather
+  than manually mirrored. Language examples are in
+  [codestyle/07-python.md](./codestyle/07-python.md) and
+  [codestyle/08-typescript.md](./codestyle/08-typescript.md); Swift's
+  validating nominal value type owns that contract as described in
+  [codestyle/12-swift.md](./codestyle/12-swift.md).
+- When feedback or a defect reveals a transferable principle, search the relevant sibling implementations and tests before closeout. Fix the shared pattern where justified, or record why nearby cases intentionally differ.
+
+## Command scope
+
+- `parent repo root` means the Git root for this repository.
+- `codex subtree root` means the `codex/` directory inside the parent repo root.
+- Package-manager commands (`pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm run test:deep`) run from the parent repo root.
+- Codex-subtree scripts run from the codex subtree root unless explicitly written with a `codex/` prefix.
+- Equivalent path forms are acceptable only when the working directory is explicit in validation evidence:
+  - `Command: (cwd=<parent repo root>) bash codex/scripts/verify-work.sh --fast -> pass (...)`
+  - `Command: (cwd=<codex subtree root>) bash scripts/verify-work.sh --fast -> pass (...)`
 
 ## Codestyle modules
+
 - [codestyle/01-foundations.md](./codestyle/01-foundations.md)
 - [codestyle/02-javascript-ui.md](./codestyle/02-javascript-ui.md)
 - [codestyle/03-rust-tauri.md](./codestyle/03-rust-tauri.md)
@@ -57,36 +85,27 @@ Detailed standards are split under [codestyle/README.md](./codestyle/README.md).
 - [codestyle/18-code-review.md](./codestyle/18-code-review.md)
 - [codestyle/19-development-workflow.md](./codestyle/19-development-workflow.md)
 - [codestyle/20-go.md](./codestyle/20-go.md)
-
-## Machine-readable policy index
-- [coding-policy.json](./coding-policy.json) is the machine-readable index for this codestyle pack.
-- Markdown modules remain the prose authority; the JSON file maps changed-file routing, module ownership, source-rule lineage, required gates, and claim boundaries for validators and agents.
-- Run `pnpm run coding-policy:route -- <path...>` to discover the policy modules and gates that apply to a changed-file set.
-- Run `pnpm run coding-policy:route:changed` to discover the policy modules and gates that apply to current git changes.
-- Run `pnpm run coding-policy:route:branch` to discover the policy modules and gates that apply to a branch diff. The default scaffold comparator is `origin/main`.
-- Update [contracts/coding-policy.schema.json](./contracts/coding-policy.schema.json) and run `pnpm run coding-policy:validate` when the policy index shape changes.
+- [codestyle/21-artifact-formats.md](./codestyle/21-artifact-formats.md)
 
 ## Enforcement model
+
 - Rules in this pack use RFC2119 language (`MUST`, `MUST NOT`, `SHOULD`) and are normative unless an explicit waiver exists.
 - Waivers MUST include: rule ID or section, reason, tracking ticket, and expiry or ADR reference.
-- Design corrections MUST be generalized before closeout when they imply a broader principle. If feedback says one boolean success/failure API should instead return a named sentinel error, the agent MUST search sibling APIs and tests in the same command core, adapter family, and affected docs/templates; then either update the shared pattern or record why each sibling is intentionally different.
 - Validation evidence MUST use exact command text and explicit outcomes:
   - `Command: <exact command> -> pass|fail|blocked (<reason>)`
-- Commands are expected from the active instruction scope and the repository root.
-- Contract checks for this repository:
-  - `pnpm codestyle:parity`
-  - `pnpm lint`
-  - `pnpm typecheck`
-  - `pnpm test`
-  - `pnpm audit`
-  - `pnpm check`
-  - `pnpm run coding-policy:validate`
-  - `bash scripts/validate-codestyle.sh`
-  - `bash scripts/verify-work.sh --fast`
+- Contract checks for this repository (run from repository root):
+  - Commands are expected from the active instruction scope and MUST record `cwd` when scope could be ambiguous.
+  - From the parent repo root, use `bash codex/scripts/...` or `./codex/scripts/...` for codex-subtree validators.
+  - From the codex subtree root, use `bash scripts/...` for codex-subtree validators.
+  - `pnpm lint` (parent repo root)
+  - `pnpm typecheck` (parent repo root)
+  - `pnpm test` (parent repo root)
+  - `bash scripts/verify-work.sh --fast` (codex subtree root) or `bash codex/scripts/verify-work.sh --fast` (parent repo root)
+  - Workflow trigger: `$validation-contract-check` (required for changes to `codex/instructions/**`)
 
 ## How to use this pack
+
 1. Start at this file.
 2. Open only the module that matches the task surface.
-3. If user/review feedback corrects one line but implies a codebase rule, run the pattern-generalization pass before editing or claiming done.
-4. Keep project-specific override content in `06-appendices-and-project-overrides.md`.
-5. When changing standards, update the module first, update `coding-policy.json` when routing or required gates change, run `pnpm run codestyle:checksums`, then confirm this index still matches.
+3. Keep project-specific override content in `06-appendices-and-project-overrides.md`.
+4. When changing standards, update the module first, then confirm this index still matches.
