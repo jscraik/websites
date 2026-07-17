@@ -2,17 +2,34 @@
 
 ## Purpose
 
-brainwav.io is Jamie Scott Craik's public proof surface for AI-native Developer Relations work. It should feel like a calm editorial personal portfolio, not an AI dashboard, SaaS landing page, or speculative product shell.
+brainwav.io is the technical companion to Jamie Scott Craik's personal portfolio and the canonical public home of the shared brAInwav product-presentation system. It should feel like inspectable technical proof with an editorial human layer, not an AI dashboard, SaaS landing page, or speculative product shell.
 
 The site exists to help a reader understand:
 
-- who Jamie is
-- what AI-native DevRel problem he is working on
-- what proof exists today
-- what is still being built
-- how to contact him
+- what Jamie is making inspectable
+- what the product or case study claims
+- what proof exists for the exact current source
+- what the proof does not establish
+- what a developer should inspect next
 
 The brand should make the work feel inspectable, human-owned, and quietly credible.
+
+## Canonical System
+
+The reusable visual foundation is version 1.1.0 of the brAInwav Design System. It projects the accepted `jamie-brain-brand-system/v1` decision dated 2026-07-15; the private decision record governs intent, while this repository governs the machine-readable web and product contract.
+
+- `src/styles/brand-tokens.json` is the canonical machine-readable source.
+- `src/styles/brand-tokens.css` is the web projection and keeps temporary compatibility aliases for the current portfolio.
+- This document owns usage decisions and examples.
+- Product repositories consume these values; they do not create their own fonts, spacing scales, icon grammar, or dominant colours.
+
+The system is deliberately dual-surface. jscraik.com will use the light editorial surface for Jamie's personal story and concise case studies. brainwav.io uses the dark technical surface for evidence, product detail, and the neuron/wave motif. A product may use either surface or combine them, but both come from the same tokens.
+
+### Consumer contract
+
+Every product records the brAInwav Design System version it consumes. Web products map from the canonical JSON into CSS custom properties; native products map the same values into platform constants. Product-specific tokens may add semantic aliases and component decisions, but they may not replace or fork the primitive palette, font families, spacing scale, radius family, or icon grammar.
+
+Until the system has a published package, copy the versioned JSON with its source commit and generate local adapters from it. Do not hand-copy values from this prose guide. A product adopts a later version deliberately and validates the changed values rather than silently tracking the portfolio checkout.
 
 ## Positioning
 
@@ -20,21 +37,25 @@ Primary name:
 
 - Jamie Scott Craik
 
-Site and publishing surface:
+Role:
 
-- brainwav.io
+- AI-native DevRel builder
 
-Role signal:
+First association:
 
-- AI-native DevRel
+- Making AI-assisted developer work inspectable.
 
-Current core promise:
+Ultimate benefit:
 
-- I build trust surfaces for AI-native developer tools.
+- Help developers adopt emerging AI tools with confidence.
 
-Supporting idea:
+Site roles:
 
-- brainwav.io is the public record of the work: articles, proof notes, demos, and caveats that show how AI-native systems are explained and evaluated.
+- jscraik.com names Jamie and tells the personal and professional narrative through concise case studies, speaking, and contact routes.
+- brainwav.io is the technical companion: public technical proof, architecture, implementation detail, evidence ledgers, and this shared product-presentation system.
+- Paired case studies use `Inspect the technical evidence →` and `Read Jamie’s case study →`.
+
+OpenAI and Tessl are relevant audiences and career bridges. They are not affiliations or the headline identity.
 
 Primary audience:
 
@@ -93,67 +114,145 @@ Avoid:
 - oversized decorative diagrams
 - generic AI stock imagery
 
-## Current Palette
+## Identity System
 
-Do not change these colour values without a separate brand decision.
+Write the brand as `brAInwav`, pronounce it “brain-wave”, and use `brainwav` only for technical identifiers. The canonical origin sentence is:
 
-| Token | Value | Intended Use |
-| --- | --- | --- |
-| --ink | #000b00 | Primary text, deep contrast, dark proof surfaces |
-| --paper | #d8d9d2 | Main page background |
-| --soft-white | #fbfaf5 | Light panels, nav, subtle surface contrast |
-| --neutral-02 | #e8e8e3 | Light borders and secondary surfaces |
-| --neutral-04 | #b8bab4 | Muted borders and dividers |
-| --neutral-06 | #4f564d | Secondary text |
-| --neutral-07 | #3d403c | Heading and strong body text |
-| --muted | #7d8790 | Low-emphasis labels |
-| --blue | #2f80ff | Restrained link, icon, and brand accent |
-| --orange | #ff7a1a | Restrained brand emphasis and highlight |
-| --panel | #263129 | Dark editorial proof cards |
-| --panel-2 | #172219 | Deep proof-card contrast |
+> brAInwav brings together three parts of my story: a brain injury that changed how I work, AI tools that helped me, and the technical wave I continue to explore and build with.
 
-Usage rules:
+This origin requires target-output review. It is personal context, not trauma marketing, a treatment claim, or the default opening for a CV, application, product cover, or case study.
 
-- Use blue for small navigational, icon, and link accents.
-- Use orange for rare emphasis, especially the AI letters in the name treatment or a small brand cue.
-- Do not add new dominant colours.
-- Do not let blue and orange become the whole interface.
-- Dark panels should support proof sections only, not become the default site mood.
+Set the wordmark as one continuous `brAInwav` in Geist Semibold. Keep `AI` on the same baseline, size, and weight, using orange in the primary colour version. Maintain a one-colour variant. Approved lockups are wordmark, neuron plus wordmark, standalone neuron, and a vertical origin-story lockup.
+
+The neuron is a simplified, asymmetric, recognisably neuronal brand signature with one signal or wave path. Reserve it for the brainwav hero, About, Visual System, favicon/app signature, and brand campaigns. Do not use it as a routine interface action, a standard product-cover mark, a photorealistic brain, a brain outline, or a generic connected-node network.
+
+One optional branch reveal or restrained signal pulse may appear on the brainwav hero. It must be infrequent, reduced-motion safe, and backed by a complete static fallback. Product covers and evidence remain static.
+
+## Product Cover System
+
+Every cover is a deterministic two-zone composition generated from a structured manifest with HTML, CSS, and SVG. Image generation may explore atmosphere or decorative direction; it must not generate final typography, product UI, product logos, evidence, provenance, or status.
+
+Use a `1600 × 900` 16:9 master, 64px outer margins, a 32–48px gutter, and a 12-column grid split into 5 editorial columns and 7 technical columns. Required formats are 16:9, 1.91:1, 1:1, and 4:5. Square and portrait variants stack editorial above technical proof; they are deliberate reflows, not automatic crops.
+
+Cover hierarchy:
+
+1. product mark and product name in Geist Semibold
+2. one consequential hook in Newsreader
+3. one authentic proof object
+4. compact provenance and status in Geist Mono
+5. small `by brAInwav` endorsement footer
+
+Required manifest fields are `product_name`, `product_mark`, `hook`, `proof_object`, `proof_source_identity`, `caption`, `provenance`, `status`, `endorsement`, `design_system_version`, and `design_system_source_commit`. `support` is optional and is omitted before it causes overflow. `proof_source_identity` binds the proof to an exact revision, candidate fingerprint, artifact digest, capture URL/date, or equivalent identity. `design_system_source_commit` records the exact source commit of the consumed canonical token contract.
+
+Approved provenance labels:
+
+- `LIVE PRODUCT CAPTURE`
+- `IMPLEMENTATION EXCERPT`
+- `SYSTEM DIAGRAM`
+- `CONCEPT MOCKUP · NOT RUNTIME EVIDENCE`
+
+Omitted provenance, missing proof source identity, missing design-system source commit, or a claim without proof is invalid input. Do not add feature lists, testimonials, CTA buttons, URLs, logo strips, badge clutter, or a competing brAInwav wordmark.
+
+Product identity comes from the product name and custom functional mark, not a unique dominant colour. Build product marks on the 24px outline grid with round caps and joins and a clear monochrome 16px form. Use coherent library or platform-native icons for standard actions; an unmodified stock icon cannot become a product logo. The neuron remains exclusive to brAInwav identity.
+
+## Colour System
+
+Do not change these colour values or their roles without a separate system decision.
+
+### Surfaces and text
+
+| Role | Token | Value | Intended use |
+| --- | --- | --- | --- |
+| Editorial canvas | `portfolio_bg` | `#E6E6E1` | Personal portfolio and case-study background |
+| Editorial surface | `portfolio_surface` | `#FBFAF5` | Cards, navigation, and inset reading surfaces |
+| Editorial ink | `portfolio_ink` | `#000B00` | Primary text and deep contrast |
+| Editorial text | `portfolio_text` | `#3D403C` | Body copy |
+| Editorial muted | `portfolio_muted` | `#4F564D` | Secondary copy and metadata |
+| Technical canvas | `brainwav_bg` | `#0B0F17` | brAInwav and technical proof background |
+| Technical surface | `brainwav_surface` | `#141A23` | Product panels and proof cards |
+| Technical elevated | `brainwav_surface_elevated` | `#1B2230` | Selected or raised technical surfaces |
+| Technical text | `brainwav_text` | `#F8F8F6` | Primary text on dark surfaces |
+| Technical secondary | `brainwav_text_secondary` | `#C5CAD3` | Body copy on dark surfaces |
+| Technical muted | `brainwav_muted` | `#8B93A4` | Secondary labels on dark surfaces |
+
+### Accent and state
+
+| Meaning | Dark-surface value | Light-surface ink value | Rule |
+| --- | --- | --- | --- |
+| Current or verified technical evidence and navigation | `#2DA8FF` | `#006AA6` | Blue marks current/verified technical evidence and navigation |
+| AI, inspection, attention, stale evidence, and required action | `#FF7A00` | `#A94700` | Orange marks `AI`, inspection, attention, stale evidence, or required action |
+| Passed | `#35D07F` | `#0F6F3E` | Use with a check and a visible label |
+| Review | `#F8C84E` | `#7A5B00` | Use with a review symbol and a visible label |
+| Blocked or failed | `#F25B5B` | `#B02A2A` | Use with a blocked/error symbol and a visible label |
+
+The bright blue and orange meet text contrast on the technical canvas. Their darker ink variants meet text contrast on the editorial canvas. Bright accents are not body text on light surfaces. Status colours never become a product's identity colour, and colour never communicates state on its own.
+
+Blue is the normal accent for current or verified technical evidence and navigation. Orange is rarer: reserve it for the `AI` in brAInwav, inspection, attention, stale evidence, required action, or the single focal mark in a product cover. Do not add a new dominant product colour or turn blue and orange into the whole interface.
 
 ## Typography
 
-Primary editorial face:
+The fixed family stack is **Newsreader + Geist + Geist Mono**. Newsreader and Geist are distributed under the SIL Open Font License 1.1. Each product must self-host the official variable font files and retain their licence; a local operating-system installation is not a delivery strategy.
 
-- "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif
+- Newsreader is the editorial display face for page identity, case-study titles, major statements, and the one consequential product-cover hook.
+- Geist Semibold is the product-name and brAInwav-wordmark face; Geist Regular is the default for body copy, controls, navigation, product UI, and explanatory labels.
+- Geist Mono is the evidence face for commands, statuses, dates, measurements, and compact metadata.
 
-Metadata face:
+| Role | Family | Size | Line height | Weight | Tracking |
+| --- | --- | --- | --- | --- | --- |
+| Display XL | Newsreader | `clamp(4.5rem, 8vw, 5.5rem)` | `0.95` | `300` | `-0.03em` |
+| Display LG | Newsreader | `3.5rem` | `1` | `300` | `-0.025em` |
+| Heading 1 | Newsreader | `3rem` | `1.05` | `400` | `-0.02em` |
+| Heading 2 | Newsreader | `2.25rem` | `1.1` | `400` | `-0.015em` |
+| Heading 3 | Geist | `1.75rem` | `1.15` | `600` | `-0.01em` |
+| Body LG | Geist | `1.25rem` | `1.5` | `400` | `0` |
+| Body MD | Geist | `1.125rem` | `1.55` | `400` | `0` |
+| Body SM | Geist | `0.9375rem` | `1.5` | `400` | `0` |
+| Meta | Geist Mono | `0.75rem` | `1.25` | `600` | `0.08em` |
+| Code | Geist Mono | `0.8125rem` | `1.45` | `500` | `0` |
 
-- ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace
+Let Newsreader create one clear editorial anchor. Do not use it for controls or dense product UI. Set metadata in uppercase only when it stays short, and do not set display copy in all capitals. Do not introduce a fourth typeface.
 
-Use the serif for:
+The current global stylesheet still contains direct Stringer declarations from the earlier portfolio implementation. They are migration debt, not part of the reusable standard: do not copy them into new work, and replace them with role tokens when those surfaces are deliberately touched.
 
-- page identity
-- article titles
-- major proof-card titles
-- large editorial statements
+## Spacing
 
-Use the mono face for:
+The system uses a **4px base unit** with a deliberately sparse primitive scale.
 
-- labels
-- dates
-- statuses
-- nav text
-- proof metadata
-- compact profile chips
+| Step | Value | Typical use |
+| --- | --- | --- |
+| `000` | `0px` | Reset only |
+| `050` | `4px` | Optical correction and very tight grouping |
+| `100` | `8px` | Icon-to-label gap |
+| `150` | `12px` | Control gap |
+| `200` | `16px` | Content gap |
+| `300` | `24px` | Cluster gap and card padding |
+| `400` | `32px` | Large component separation |
+| `600` | `48px` | Section gap |
+| `800` | `64px` | Wide page gutter |
+| `1200` | `96px` | Section padding |
+| `1600` | `128px` | Hero padding |
 
-Typography rules:
+Use the semantic roles first: icon-text `8px`, controls `12px`, content `16px`, clusters and cards `24px`, sections `48px`, page gutter `clamp(24px, 5vw, 64px)`, section padding `96px`, and hero padding `128px`. Reach for a primitive only when no role fits. Optical exceptions must remain local and must not create a second scale.
 
-- Let the name lead the homepage.
-- Use large serif type only for true page identity.
-- Keep body copy calm and readable.
-- Keep metadata compact and uppercase.
-- Do not scale font sizes directly with viewport width.
-- Keep headings sparse enough that each page has one clear visual anchor.
+Keep the existing geometry family: `8px` icon containers, `14px` buttons, `18px` cards, `20px` images, and fully rounded pills. Borders are `1px`; visible focus rings are `2px` and use the surface-appropriate blue.
+
+## Iconography
+
+Interface icons use a **24px reference grid**, an outline construction, round line caps and joins, and no default fill.
+
+| Size | Use | Stroke |
+| --- | --- | --- |
+| `16px` | Dense metadata and compact controls | `1.5` |
+| `20px` | Small controls and navigation | `1.75` |
+| `24px` | Default interface icon | `1.75` |
+| `32px` | Feature and empty-state icon | `2` |
+| `48px` | Large explanatory icon | `2` |
+
+Use one coherent outline family inside each product. Platform-native symbols are preferred inside native controls when they fit the meaning; custom icons must still match the same optical weight and rounded construction. Filled icons are reserved for selected or critical state and must retain a visible shape distinction without colour.
+
+Product marks use no more than two brand colours, retain a recognisable monochrome silhouette at `16px`, and never bake a product name or tagline into the icon. Build app-store art on a `1024px` master and small marks on a `64px` master.
+
+**The neuron is a brand motif, not a UI icon.** It carries the brAInwav origin story and may appear as restrained editorial linework or a wave fragment. Do not use it for routine actions, statuses, menus, or generic AI decoration.
 
 ## Layout System
 
@@ -172,13 +271,9 @@ The nav should feel light, quiet, and stable. Avoid large headers, logo-heavy ba
 
 ### Homepage
 
-The homepage should keep the Jose-style split:
+The brainwav.io homepage sequence is promise, developer benefit, flagship SkillsBar, Products and Lab, method, Why brAInwav origin, then writing and technical notes. The brAInwav Visual System page is public but secondary; link it from the footer, About, and relevant case studies rather than primary navigation.
 
-- left side: Jamie's name, positioning, short explanation, profile chip
-- right side: where to start links
-- below fold: featured proof or current public work
-
-The homepage is a front door, not a complete CV.
+The homepage is a technical proof front door, not Jamie's complete personal portfolio or CV.
 
 ### Article Pages
 
@@ -254,7 +349,7 @@ Avoid:
 - fake customer dashboards
 - fake metrics
 - AI-generated dashboards
-- generic AI circuitry visuals
+- generic AI circuitry or neuron artwork that is not the owned brAInwav motif
 - unreviewed private source screenshots
 
 If a proof artifact is not public yet, label it as planned or prototype rather than dressing it up as finished work.
@@ -270,6 +365,12 @@ The voice should be:
 - curious
 - reflective without being sentimental
 - confident without pretending the transition is already complete
+
+Use first-person `I` for Jamie and neutral direct statements for products. Do not invent corporate `we`. Near the start of each AI-assisted case study, state the role boundary: Jamie frames the problem, directs the work, makes product and taste decisions, inspects the result, validates the evidence, and owns the claims; Codex implements within Jamie's direction, proposes options, generates bounded artifacts, and supports inspection and validation.
+
+End every case study with one primary evidence-seeking call to action that helps the reader inspect evidence or provide public technical feedback. Attach public technical feedback to the artifact or evidence surface, and route private hiring or contact through an approved private contact surface. Keep public technical feedback separate from private hiring or contact routes.
+
+For SkillsBar, lead with the Skill maintainer's trust decision, use the hook `When evidence goes stale.`, and make the core sentence visible: `A changed Skill candidate should not inherit proof that no longer belongs to it.` Reserve OpenAI and Tessl relevance for a short closing bridge.
 
 Good phrases:
 
@@ -309,7 +410,7 @@ Do not publish:
 - raw email content, private inbox detail, or private message text
 - unsupported affiliation claims
 
-A public-facing contact method may be listed only when approved for the target surface. Service-related context may appear only at a high level when Jamie approves the target output. Do not add medical, legal, compensation, support, diagnosis, private inbox, or raw message detail.
+A public-facing contact method may be listed only when approved for the target surface. The accepted brAInwav origin sentence may appear only after target-output review; do not expand it with medical, legal, compensation, support, diagnosis, private inbox, or raw message detail.
 
 ## Proof Content Contract
 
@@ -324,6 +425,14 @@ Before publishing or promoting a proof item, check:
 - Does the copy avoid unsupported role, affiliation, deployment, or adoption claims?
 
 If the evidence is private, convert it into public-safe synthesis before publishing.
+
+Products and Lab are separated by proof maturity, not whether code exists:
+
+1. `behavior_proven` — current implementation or test evidence supports the bounded behavior.
+2. `usability_tested` — a relevant user completed the target task and the observation is recorded.
+3. `adoption_evidenced` — repeated or external use is evidenced within a named scope.
+
+A case study may publish at Level 1 when clearly versioned and bounded. It cannot imply Level 2 or 3. Every technical companion records `claim`, `evidence`, `scope`, `limitation`, `status`, `last_verified`, and `reproduce`. Evidence is current only when bound to the exact source identity or a recent valid receipt; source mismatch makes it stale and unknown defaults to unverified. Keep behavior, usability, adoption, and developer confidence as separate evidence lanes. Traffic indicates interest only.
 
 ## Interaction Rules
 
@@ -345,6 +454,22 @@ Avoid:
 - motion that hides state changes
 - interactions that only work with a mouse
 
+WCAG 2.2 AA is the baseline. Require predictable navigation, generous spacing, cognitive clarity, full keyboard operation, visible focus, reduced motion, high contrast, captions, alt text, static routes, narrow-mobile support, zoom, and increased-text support. Prohibit scroll hijacking, auto-advance, flashing, hover-only evidence, and continuous decorative motion.
+
+## Deterministic Stress Test
+
+Before a product presentation becomes a reusable template, test short and long names, hooks, and support copy; light/dark, dense/sparse, portrait/landscape proof; missing/stale/blocked/unverified/concept/current states; invalid metadata and missing assets; narrow mobile, zoom, increased text, font failure, one-colour, low-quality display, print, colour vision, technical overflow, reduced motion, no JavaScript, slow images, and a complete static fallback. Use rSearch and wSearch manifests as cross-product fixtures. Include misuse cases for decorative orange, a stock icon used as a logo, omitted provenance, and a claim without proof, plus visual regression across every required format.
+
+Classify failures as `template_defect`, `invalid_input`, `unsupported`, or `intentional_constraint`. Acceptance requires automated contract checks, rendered inspection on real surfaces, independent QA, and Jamie taste approval.
+
+## Social Profile Assets
+
+Jamie's X and LinkedIn profiles reuse the product-cover and case-study grammar: a 12-column grid split into five warm editorial columns and seven dark technical columns. Jamie's identity stays in the editorial zone; `Making AI-assisted developer work inspectable.` stays in the technical zone with one blue neuron/wave, one orange inspection point, and a small brAInwav endorsement.
+
+The platform supplies the profile avatar. Never bake Jamie's portrait into a banner export, and keep the lower-left overlap guard free of essential promise or endorsement copy. Preview composites are conservative inspection fixtures, not platform captures or guarantees of one fixed responsive overlap.
+
+Required native uploads are `jamie-avatar-x-400x400.png`, `jamie-x-header-1500x500.png`, `jamie-avatar-linkedin-400x400.png`, and `jamie-linkedin-background-1584x396.png`. The deterministic source, 2x masters, preview fixtures, typography limitation, upload mapping, and regeneration commands are documented in [Jamie Social Profile Assets](docs/brand/social-profile-assets.md).
+
 ## Future Page Checklist
 
 Before adding a new page or section:
@@ -363,16 +488,22 @@ Before adding a new page or section:
 Keep:
 
 - Jamie Scott Craik as the personal identity
-- brainwav.io as the publishing surface
-- AI-native DevRel as the role signal
-- visible proof as the credibility mechanism
-- editorial portfolio as the visual reference
+- AI-native DevRel builder as the accepted role
+- `Making AI-assisted developer work inspectable.` as the first association
+- brainwav.io as the technical companion and shared-system authority
+- jscraik.com as the future personal case-study front door
+- SkillsBar as the first complete vertical slice
+- public-inspectable proof and provenance as the credibility mechanism
+- editorial plus technical dual-surface composition as the visual reference
 
 Do not drift into:
 
 - brAInwav as the main personal name
+- brainwav.io as a substitute for Jamie's personal portfolio
 - an AI product company homepage
 - a dashboard demo above the fold
 - a generic developer portfolio
 - an unsupported authority narrative
 - private second-brain disclosure
+
+This guide and the token contract encode the accepted direction. They do not prove that the wordmark, neuron assets, cover generator, SkillsBar slice, jscraik.com site, paired case studies, rendered accessibility, deployment, usability, adoption, or public publication exists.

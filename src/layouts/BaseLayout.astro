@@ -72,7 +72,9 @@ const {
         const scrollCards = (direction: number) => {
           workRow.scrollBy({
             left: direction * Math.max(288, workRow.clientWidth * 0.72),
-            behavior: "smooth"
+            behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+              ? "auto"
+              : "smooth"
           });
         };
 
