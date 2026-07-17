@@ -10,6 +10,11 @@ The machine-readable contract lives in
 validator before source checks so a missing lesson cannot silently regress into
 conversation-only guidance.
 
+The repository maintainer owns the JSON contract and validator. A blocked
+direct-runtime-wrapper follow-up escalates to the Portfolio Officer Commanding,
+then to the CO Thread only when repository evidence cannot resolve the runtime
+or authority boundary.
+
 ## Current signals
 
 | Signal | Failure category | Durable response | Status |

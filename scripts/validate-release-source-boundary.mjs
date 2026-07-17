@@ -3,7 +3,11 @@ import path from "node:path";
 import { execFileSync } from "node:child_process";
 
 const ROOT = process.cwd();
-const RECEIPT_PATH = path.join(ROOT, "docs/implementation-notes/pu-000-release-source-boundary.json");
+const DEFAULT_RECEIPT_PATH = path.join(ROOT, "docs/implementation-notes/pu-000-release-source-boundary.json");
+const inputIndex = process.argv.indexOf("--file");
+const RECEIPT_PATH = inputIndex >= 0 && process.argv[inputIndex + 1]
+  ? path.resolve(ROOT, process.argv[inputIndex + 1])
+  : DEFAULT_RECEIPT_PATH;
 
 function fail(message) {
   console.error(`Release source-boundary validation failed: ${message}`);
@@ -63,8 +67,21 @@ assert(excludedPaths.includes("<external-private-sources>"), "external private s
 assert(acceptedPaths.every((entry) => typeof entry === "string" && !path.isAbsolute(entry)), "accepted paths must be repository-relative patterns");
 assert(excludedPaths.every((entry) => typeof entry === "string" && (entry.startsWith("<") || !path.isAbsolute(entry))), "excluded paths must be repository-relative patterns or explicit tokens");
 
+const repositoryPatterns = (patterns) => patterns.filter((pattern) => !pattern.startsWith("<"));
+const matchesAny = (file, patterns) => repositoryPatterns(patterns).some((pattern) => path.matchesGlob(file, pattern));
+const changedPaths = git("diff", "--name-only", `${baselineSha}..HEAD`).split("\n").filter(Boolean);
+const excludedChanges = changedPaths.filter((file) => matchesAny(file, excludedPaths));
+const unacceptedChanges = changedPaths.filter((file) => !matchesAny(file, acceptedPaths));
+assert(excludedChanges.length === 0, `post-baseline diff changes excluded paths: ${excludedChanges.join(", ")}`);
+assert(unacceptedChanges.length === 0, `post-baseline diff changes paths outside the accepted boundary: ${unacceptedChanges.join(", ")}`);
+
 const validation = receipt.baselineValidation;
-assert(Array.isArray(validation) && validation.length >= 5, "baselineValidation must include the source, type, build, and smoke gates");
+const requiredValidationGates = new Set(["source-state", "fast-validation", "type-check", "build", "smoke"]);
+assert(Array.isArray(validation), "baselineValidation must be an array");
+assert(validation.length === requiredValidationGates.size, "baselineValidation must contain exactly the required gates");
+assert(new Set(validation.map((entry) => entry.gate)).size === validation.length, "baselineValidation gate identities must be unique");
+assert(validation.every((entry) => requiredValidationGates.has(entry.gate)), "baselineValidation contains an unknown gate identity");
+assert([...requiredValidationGates].every((gate) => validation.some((entry) => entry.gate === gate)), "baselineValidation is missing a required gate identity");
 assert(validation.every((entry) => entry && typeof entry.command === "string" && entry.command.length > 0 && entry.outcome === "pass"), "every baseline validation outcome must be pass with an exact command");
 assert(receipt.invariants?.reviewedBaselineShaRecorded === true, "reviewed baseline SHA invariant is not recorded");
 assert(receipt.invariants?.cleanWorktreeBeforeEditRecorded === true, "clean worktree invariant is not recorded");

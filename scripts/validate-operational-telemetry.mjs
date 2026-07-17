@@ -53,6 +53,7 @@ const requiredCheckpointFields = new Set([
   "blockers",
   "validationEvidence"
 ]);
+const requiredClaimLanes = new Set(["local", "hosted", "review", "runtime", "release"]);
 
 function fail(message) {
   console.error(`Operational telemetry validation failed: ${message}`);
@@ -80,7 +81,13 @@ const contract = telemetry.operatingContract;
 assert(contract?.continuationCheckpointRequired === true, "continuation checkpoint requirement is disabled");
 assert(contract.validationExecution === "serial", "validation must be serial unless generated output isolation is separately implemented");
 assert(contract.dependencyRule?.length > 20, "dependency rule is missing");
-assert(Array.isArray(contract.claimLanes) && contract.claimLanes.includes("local") && contract.claimLanes.includes("hosted") && contract.claimLanes.includes("runtime"), "claim lanes must keep local, hosted, and runtime truth separate");
+assert(
+  Array.isArray(contract.claimLanes)
+    && contract.claimLanes.length === requiredClaimLanes.size
+    && new Set(contract.claimLanes).size === contract.claimLanes.length
+    && [...requiredClaimLanes].every((lane) => contract.claimLanes.includes(lane)),
+  "claim lanes must preserve each evidence boundary"
+);
 assert(Array.isArray(contract.checkpointFields), "checkpointFields must be an array");
 assert([...requiredCheckpointFields].every((field) => contract.checkpointFields.includes(field)), "continuation checkpoint is missing a required state field");
 

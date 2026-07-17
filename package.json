@@ -29,7 +29,7 @@
     "validate:js-budget": "ASTRO_TELEMETRY_DISABLED=1 npm run build && node scripts/validate-js-budget.mjs",
     "validate:render-flow": "ASTRO_TELEMETRY_DISABLED=1 npm run build && node scripts/validate-render-flow.mjs",
     "validate:fast": "npm run validate:operational-telemetry && npm run validate:astro-anti-patterns && npm run validate:css-policy && npm run validate:design-system && npm run validate:social-assets && npm run validate:content-source-boundary && npm run validate:portfolio-content && npm run validate:page-surfaces && npm run validate:no-prototype-slop",
-    "validate:source": "npm run validate:fast && ASTRO_TELEMETRY_DISABLED=1 npm run check && ASTRO_TELEMETRY_DISABLED=1 npm run build && npm run test:smoke && node scripts/validate-html-output.mjs",
+    "validate:source": "npm run validate:release-boundary && npm run validate:fast && ASTRO_TELEMETRY_DISABLED=1 npm run check && ASTRO_TELEMETRY_DISABLED=1 npm run build && npm run test:smoke && node scripts/validate-html-output.mjs",
     "validate:rendered": "npm run validate:source && node scripts/validate-js-budget.mjs && node scripts/validate-render-flow.mjs && npm run test:a11y && npm run test:visual",
     "validate:site": "npm run validate:rendered && npm run lhci",
     "test:smoke": "ASTRO_TELEMETRY_DISABLED=1 npm run build && node scripts/smoke-pages.mjs",
