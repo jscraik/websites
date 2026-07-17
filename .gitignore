@@ -24,6 +24,8 @@ artifacts/jose-layout-extract/
 artifacts/nav-video-frames/
 artifacts/agent-runs/
 artifacts/reviews/
+artifacts/live-visual-check-*/
+artifacts/parity-*/
 artifacts/parity-loop/
 artifacts/visual-audit/
 .lighthouseci/
