@@ -276,6 +276,7 @@ Required repository gates:
 ```bash
 npm run validate:fast
 ASTRO_TELEMETRY_DISABLED=1 npm run validate:source
+npm run validate:release
 npm run validate:rendered
 npm run validate:site
 ```
