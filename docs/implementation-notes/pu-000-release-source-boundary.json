@@ -31,6 +31,7 @@
     "docs/**",
     "README.md",
     "BRAND_GUIDELINES.md",
+    ".codex/skills/find-animation-opportunities/SKILL.md",
     "codestyle/CHECKSUMS.sha256",
     "steering-feedback/2026-07-17-pr-readiness-gate.json"
   ],
@@ -43,7 +44,6 @@
     "dist/**",
     "artifacts/**",
     "node_modules/**",
-    ".codex/skills/**",
     "<external-private-sources>"
   ],
   "baselineValidation": [
