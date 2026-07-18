@@ -129,9 +129,10 @@ addCheck(
     tokensJson.identity?.spoken_name === "brain-wave" &&
     tokensJson.identity?.technical_identifier === "brainwav" &&
     tokensJson.identity?.canonical_origin ===
-      "brAInwav brings together three parts of my story: a brain injury that changed how I work, AI tools that helped me, and the technical wave I continue to explore and build with." &&
-    tokensJson.identity?.origin_publication_status === "target_output_review_required",
-  "expected the accepted written/spoken/technical names and review-bound origin"
+      "brAInwav brings together the human perspective, AI tools, and technical wave I continue to explore and build with." &&
+    tokensJson.identity?.origin_publication_status === "reviewed_public_safe" &&
+    tokensJson.identity?.origin_parts?.brain === "The human perspective that shapes how Jamie works.",
+  "expected the accepted written/spoken/technical names and reviewed-safe public origin"
 );
 
 addCheck(
