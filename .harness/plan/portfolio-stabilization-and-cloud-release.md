@@ -19,10 +19,9 @@ The first public vertical slice is SkillsBar. Other work remains draft until its
 
 This is the active repository execution input for the portfolio stabilization and release scope. It consumes:
 
-- `/Users/jamiecraik/dev/jamie-brain/00-LLM Wiki/syntheses/Jamie And brAInwav Brand System - Current.md`
-- `/Users/jamiecraik/dev/jamie-brain/00-LLM Wiki/syntheses/Jamie Portfolio Demo And Presentation Plan - Current.md`
-- `/Users/jamiecraik/dev/jamie-brain/00-LLM Wiki/logs/Jamie Portfolio Demo And Presentation Architecture Decision Receipt - 2026-07-17.md`
-- `/Users/jamiecraik/dev/jamie-brain/00-LLM Wiki/logs/Jamie And brAInwav Publication And Composition Decision Receipt - 2026-07-17.md`
+- Jamie-approved private brand-system direction (maintained outside this repository)
+- Jamie-approved private portfolio demonstration and presentation direction (maintained outside this repository)
+- Jamie-approved private architecture and publication decisions (maintained outside this repository)
 - `BRAND_GUIDELINES.md`
 - `src/styles/brand-tokens.json`
 - `AGENTS.md`
