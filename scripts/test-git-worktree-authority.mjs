@@ -55,6 +55,23 @@ try {
       "an existing Git file without write permission must fail closed"
     );
   }
+
+  const parentBlocked = path.join(gitDir, "parent-blocked");
+  const parentBlockedFile = path.join(parentBlocked, "index");
+  await mkdir(parentBlocked);
+  await writeFile(parentBlockedFile, "index\n");
+  if (process.getuid?.() !== 0) {
+    try {
+      await chmod(parentBlocked, 0o500);
+      await assert.rejects(
+        writableDirectoryForTarget(parentBlockedFile, "file"),
+        /EACCES|permission denied|operation not permitted/i,
+        "an existing Git file in a directory without write permission must fail closed"
+      );
+    } finally {
+      await chmod(parentBlocked, 0o700);
+    }
+  }
 } finally {
   await rm(root, { recursive: true, force: true });
 }

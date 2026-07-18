@@ -21,6 +21,7 @@ export async function writableDirectoryForTarget(originalTarget, kind) {
       const details = await stat(originalTarget);
       if (!details.isFile()) throw new Error(`path component is not a regular file: ${originalTarget}`);
       await access(originalTarget, W_OK);
+      await access(path.dirname(originalTarget), W_OK | X_OK);
       return originalTarget;
     } catch (error) {
       if (error.code !== "ENOENT") throw error;
