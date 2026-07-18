@@ -200,8 +200,12 @@ function loadHostedPr(result, repo, number) {
   return data;
 }
 
-function allPullRequests(result, repo, headBranch = null) {
-  const query = headBranch ? `&head=${encodeURIComponent(headBranch)}` : "";
+function ownerName(owner) {
+  return owner?.login || owner?.name || owner || null;
+}
+
+function allPullRequests(result, repo, headBranch = null, headOwner = null) {
+  const query = headBranch && headOwner ? `&head=${encodeURIComponent(`${headOwner}:${headBranch}`)}` : "";
   const payload = commandJson(
     result,
     GH,
@@ -218,7 +222,10 @@ function allPullRequests(result, repo, headBranch = null) {
     headRefOid: candidate.head?.sha,
     title: candidate.title,
     url: candidate.html_url,
-  })).filter((candidate) => !headBranch || candidate.headRefName === headBranch);
+  })).filter((candidate) => {
+    if (headBranch && candidate.headRefName !== headBranch) return false;
+    return !headOwner || ownerName(candidate.headRepositoryOwner) === headOwner;
+  });
 }
 
 function checkStackParent(result, repo, pr, defaultBranch) {
@@ -226,11 +233,10 @@ function checkStackParent(result, repo, pr, defaultBranch) {
     result.stack = { stacked: false, default_branch: defaultBranch };
     return;
   }
-  const candidates = allPullRequests(result, repo, pr.baseRefName);
+  const currentOwner = ownerName(pr.headRepositoryOwner);
+  const candidates = allPullRequests(result, repo, pr.baseRefName, currentOwner);
   const parent = candidates.find((candidate) => {
-    const owner = candidate.headRepositoryOwner?.login || candidate.headRepositoryOwner?.name || candidate.headRepositoryOwner;
-    const currentOwner = pr.headRepositoryOwner?.login || pr.headRepositoryOwner?.name || pr.headRepositoryOwner;
-    return candidate.headRefName === pr.baseRefName && Boolean(owner && currentOwner && owner === currentOwner);
+    return candidate.headRefName === pr.baseRefName && Boolean(currentOwner && ownerName(candidate.headRepositoryOwner) === currentOwner);
   });
   result.stack = {
     stacked: true,
