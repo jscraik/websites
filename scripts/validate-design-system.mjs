@@ -115,12 +115,12 @@ addCheck(
 );
 
 addCheck(
-  "site roles and handoffs stay separate",
-  tokensJson.positioning?.site_roles?.["jscraik.com"]?.includes("Personal and professional narrative") &&
-    tokensJson.positioning?.site_roles?.["brainwav.io"]?.includes("Technical companion") &&
-    tokensJson.positioning?.site_handoffs?.to_technical_evidence === "Inspect the technical evidence →" &&
-    tokensJson.positioning?.site_handoffs?.to_personal_case_study === "Read Jamie’s case study →",
-  "expected distinct jscraik.com and brainwav.io roles with two-way handoff labels"
+  "single portfolio front door and technical depth boundary",
+  tokensJson.positioning?.site_roles?.portfolio?.includes("Single public front door") &&
+    tokensJson.positioning?.site_roles?.brAInwav?.includes("Shared product-presentation system") &&
+    tokensJson.positioning?.site_handoffs?.technical_depth?.includes("public repositories") &&
+    tokensJson.positioning?.site_handoffs?.claim_boundary === "Evidence before claims; current source identity and freshness remain visible.",
+  "expected one portfolio front door with explicit technical-depth routing and claim-boundary wording"
 );
 
 addCheck(
@@ -429,6 +429,8 @@ const hexToLuminance = (hex) => {
   return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
 };
 
+const isHexColour = (value) => typeof value === "string" && /^#[0-9A-Fa-f]{6}$/.test(value);
+
 const contrastRatio = (foreground, background) => {
   const values = [hexToLuminance(foreground), hexToLuminance(background)].sort((a, b) => b - a);
   return (values[0] + 0.05) / (values[1] + 0.05);
@@ -449,7 +451,7 @@ for (const [foregroundKey, backgroundKey] of [
 ]) {
   const foreground = tokensJson.colors?.[foregroundKey];
   const background = tokensJson.colors?.[backgroundKey];
-  const hasColours = typeof foreground === "string" && typeof background === "string";
+  const hasColours = isHexColour(foreground) && isHexColour(background);
   const ratio = hasColours ? contrastRatio(foreground, background) : 0;
   addCheck(
     "colour contrast " + foregroundKey + " on " + backgroundKey,
@@ -463,8 +465,6 @@ for (const snippet of [
   "AI-native DevRel builder",
   "Making AI-assisted developer work inspectable.",
   "Help developers adopt emerging AI tools with confidence.",
-  "Inspect the technical evidence →",
-  "Read Jamie’s case study →",
   "brAInwav brings together three parts of my story",
   "one continuous `brAInwav` in Geist Semibold",
   "1600 × 900",
@@ -504,11 +504,9 @@ for (const staleSnippet of ["#d8d9d2", "#2f80ff", "#ff7a1a", "#263129", "#172219
 }
 
 for (const snippet of [
-  "technical companion to Jamie Scott Craik's future jscraik.com personal portfolio",
+  "single public portfolio front door",
   "Version 1.1.0 of the brAInwav Design System",
   "Making AI-assisted developer work inspectable.",
-  "Inspect the technical evidence →",
-  "Read Jamie’s case study →",
   "The SkillsBar vertical slice is the first implementation target",
   "not proved by the contract alone"
 ]) {

@@ -115,6 +115,14 @@ function addBlocker(result, code, message, evidence = {}) {
 
 function commandJson(result, command, args, evidence) {
   const execution = run(command, args);
+  if (!execution.ok) {
+    addBlocker(result, "command_failed", `${evidence} command failed`, {
+      command: [command, ...args].join(" "),
+      exit_code: execution.code,
+      output: execution.output,
+    });
+    return null;
+  }
   if (!execution.stdout.trim()) {
     addBlocker(result, "command_failed", `${evidence} could not be read`, {
       command: [command, ...args].join(" "),
@@ -193,15 +201,24 @@ function loadHostedPr(result, repo, number) {
 }
 
 function allPullRequests(result, repo, headBranch = null) {
-  const args = ["pr", "list", "--repo", repo, "--state", "all", "--limit", "100"];
-  if (headBranch) args.push("--head", headBranch);
-  args.push("--json", "number,state,headRefName,headRepositoryOwner,baseRefName,headRefOid,title,url");
-  return commandJson(
+  const query = headBranch ? `&head=${encodeURIComponent(headBranch)}` : "";
+  const payload = commandJson(
     result,
     GH,
-    args,
+    ["api", "--paginate", "--slurp", `repos/${repo}/pulls?state=all&per_page=100${query}`],
     "repository PR list",
-  ) || [];
+  );
+  const pages = Array.isArray(payload) ? payload : [];
+  return pages.flatMap((page) => (Array.isArray(page) ? page : [page])).map((candidate) => ({
+    number: candidate.number,
+    state: candidate.merged_at ? "MERGED" : candidate.state?.toUpperCase(),
+    headRefName: candidate.head?.ref,
+    headRepositoryOwner: candidate.head?.repo?.owner?.login || candidate.head?.user?.login || null,
+    baseRefName: candidate.base?.ref,
+    headRefOid: candidate.head?.sha,
+    title: candidate.title,
+    url: candidate.html_url,
+  })).filter((candidate) => !headBranch || candidate.headRefName === headBranch);
 }
 
 function checkStackParent(result, repo, pr, defaultBranch) {
@@ -213,7 +230,7 @@ function checkStackParent(result, repo, pr, defaultBranch) {
   const parent = candidates.find((candidate) => {
     const owner = candidate.headRepositoryOwner?.login || candidate.headRepositoryOwner?.name || candidate.headRepositoryOwner;
     const currentOwner = pr.headRepositoryOwner?.login || pr.headRepositoryOwner?.name || pr.headRepositoryOwner;
-    return candidate.headRefName === pr.baseRefName && (!owner || !currentOwner || owner === currentOwner);
+    return candidate.headRefName === pr.baseRefName && Boolean(owner && currentOwner && owner === currentOwner);
   });
   result.stack = {
     stacked: true,

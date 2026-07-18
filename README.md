@@ -1,6 +1,6 @@
-# brainwav.io
+# portfolio
 
-brainwav.io is the technical companion to Jamie Scott Craik's future jscraik.com personal portfolio and the canonical public home of the shared brAInwav product-presentation system. The site is intentionally small: it makes AI-assisted developer work inspectable, shows current proof artifacts, keeps caveats visible, and gives future agents a repeatable way to validate design and claim boundaries.
+This repository is Jamie Scott Craik's single public portfolio front door and the canonical home of the shared brAInwav product-presentation system. The site is intentionally small: it makes AI-assisted developer work inspectable, shows current proof artifacts, keeps caveats visible, and gives future agents a repeatable way to validate design and claim boundaries.
 
 Jamie’s accepted role is AI-native DevRel builder. The promise is `Making AI-assisted developer work inspectable.` and the intended benefit is helping developers adopt emerging AI tools with confidence. These are positioning and intended-benefit statements, not evidence of employment, affiliation, usability, adoption, or developer confidence.
 
@@ -11,8 +11,8 @@ Version 1.1.0 of the brAInwav Design System projects the accepted `jamie-brain-b
 - `src/styles/brand-tokens.json` is the canonical machine-readable consumer contract.
 - `BRAND_GUIDELINES.md` is the human usage and claims-boundary contract.
 - `scripts/validate-design-system.mjs` rejects drift in positioning, identity, site roles, product covers, provenance, evidence maturity, accessibility, and stress-test acceptance.
-- jscraik.com will own Jamie's personal/professional case-study narrative; brainwav.io owns the linked technical companion. Paired entries use `Inspect the technical evidence →` and `Read Jamie’s case study →`.
-- The SkillsBar vertical slice is the first implementation target. The generator, covers, technical companion, jscraik.com site, rendered acceptance, deployment, usability, and adoption are not proved by the contract alone.
+- This portfolio is the accepted single front door; technical depth routes to public repositories, READMEs, documentation, diagrams, tests, implementation excerpts, and bounded evidence receipts rather than a separate technical-companion site.
+- The SkillsBar vertical slice is the first implementation target. The generator, covers, rendered acceptance, deployment, usability, and adoption are not proved by the contract alone.
 
 ## Quick Start
 
@@ -38,7 +38,7 @@ The portfolio content validator checks required metadata, proof fields, local li
 
 The current site includes:
 
-These routes describe the current implementation, not the accepted target architecture. `/work/skillsbar/`, the paired jscraik.com case study, the Visual System page, and the product-cover generator remain pending until their owning files and evidence exist.
+These routes describe the current implementation, not the accepted target architecture. `/work/skillsbar/`, the Visual System page, and the product-cover generator remain pending until their owning files and evidence exist.
 
 | Route                           | Purpose                                                                        |
 | ------------------------------- | ------------------------------------------------------------------------------ |
