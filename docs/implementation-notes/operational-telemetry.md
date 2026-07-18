@@ -50,9 +50,11 @@ checks the index, object store, refs, reflog, and current branch ref. A failure
 names the exact path that needs filesystem authority and must not be relabeled
 as a source or test failure.
 
-Before pushing, fetch the target ref and compare local and remote ancestry. A
-fetch-first rejection is stale branch state, not permission to force-push. Keep
-the remote history, create a reconciliation branch when needed, and record the
+The `remote-head-005` rule is proposed and non-gating until the documented
+`scripts/check-remote-head-before-push.sh` exists. Until then, do not represent
+this paragraph as an executable push check: use the current PR-readiness gate
+for the hosted branch boundary, preserve remote history after a fetch-first
+rejection, create a reconciliation branch when needed, and record the
 divergence in the continuation checkpoint.
 
 This document is an implementation note and operating rule. The JSON contract

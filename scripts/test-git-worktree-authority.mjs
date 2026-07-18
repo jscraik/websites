@@ -1,9 +1,54 @@
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
 import { chmod, mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 import { writableDirectoryForTarget } from "./check-git-worktree-authority.mjs";
+
+const AUTHORITY_SCRIPT = fileURLToPath(new URL("./check-git-worktree-authority.mjs", import.meta.url));
+
+async function makeCliFixture(root) {
+  const gitDir = path.join(root, ".git");
+  const binDir = path.join(root, "bin");
+  const fakeGit = path.join(binDir, "git");
+  await mkdir(path.join(gitDir, "refs", "heads"), { recursive: true });
+  await mkdir(path.join(gitDir, "logs", "refs", "heads"), { recursive: true });
+  await mkdir(path.join(gitDir, "objects"), { recursive: true });
+  await mkdir(binDir);
+  await Promise.all([
+    writeFile(path.join(gitDir, "index"), "index\n"),
+    writeFile(path.join(gitDir, "logs", "HEAD"), "head\n"),
+    writeFile(path.join(gitDir, "refs", "heads", "test-branch"), "ref\n"),
+    writeFile(path.join(gitDir, "logs", "refs", "heads", "test-branch"), "reflog\n"),
+    writeFile(fakeGit, `#!/bin/sh
+if [ "$1" = "branch" ]; then
+  printf '%s\\n' test-branch
+  exit 0
+fi
+if [ "$1" = "rev-parse" ] && [ "$2" = "--git-path" ]; then
+  printf '%s/%s\\n' "$FAKE_GIT_DIR" "$3"
+  exit 0
+fi
+exit 1
+`),
+  ]);
+  await chmod(fakeGit, 0o755);
+  return { gitDir, binDir };
+}
+
+function runAuthorityCli(root, gitDir, binDir) {
+  return spawnSync(process.execPath, [AUTHORITY_SCRIPT], {
+    cwd: root,
+    encoding: "utf8",
+    env: {
+      ...process.env,
+      FAKE_GIT_DIR: gitDir,
+      PATH: `${binDir}:${process.env.PATH}`,
+    },
+  });
+}
 
 const root = await mkdtemp(path.join(os.tmpdir(), "portfolio-git-authority-"));
 try {
@@ -74,6 +119,28 @@ try {
   }
 } finally {
   await rm(root, { recursive: true, force: true });
+}
+
+if (process.getuid?.() !== 0) {
+  const cliRoot = await mkdtemp(path.join(os.tmpdir(), "portfolio-git-authority-cli-"));
+  try {
+    const { gitDir, binDir } = await makeCliFixture(cliRoot);
+    const packedRefs = path.join(gitDir, "packed-refs");
+    await writeFile(packedRefs, "refs\n");
+    await chmod(packedRefs, 0o400);
+    const blockedRuntime = runAuthorityCli(cliRoot, gitDir, binDir);
+    assert.equal(blockedRuntime.status, 1, "a non-writable packed-refs file must fail the command");
+    assert.equal(JSON.parse(blockedRuntime.stderr).outcome, "blocked_runtime");
+
+    await chmod(packedRefs, 0o700);
+    await rm(packedRefs);
+    await mkdir(packedRefs);
+    const invalidPath = runAuthorityCli(cliRoot, gitDir, binDir);
+    assert.equal(invalidPath.status, 1, "a non-file packed-refs path must fail the command");
+    assert.equal(JSON.parse(invalidPath.stderr).outcome, "invalid_git_path");
+  } finally {
+    await rm(cliRoot, { recursive: true, force: true });
+  }
 }
 
 console.log("Git worktree authority regression tests passed.");

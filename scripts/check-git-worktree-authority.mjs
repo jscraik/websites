@@ -10,8 +10,17 @@ function git(...args) {
   return execFileSync("git", args, { cwd: ROOT, encoding: "utf8" }).trim();
 }
 
-function fail(message) {
-  console.error(`Git worktree authority check failed: ${message}`);
+const RESULT_SCHEMA_VERSION = "portfolio-git-worktree-authority/v1";
+
+function fail(label, target, error) {
+  const blockedRuntime = ["EACCES", "EPERM"].includes(error?.code);
+  console.error(JSON.stringify({
+    schemaVersion: RESULT_SCHEMA_VERSION,
+    outcome: blockedRuntime ? "blocked_runtime" : "invalid_git_path",
+    label,
+    target: target ?? null,
+    diagnostic: error?.message ?? String(error),
+  }));
   process.exit(1);
 }
 
@@ -48,8 +57,7 @@ export async function writableDirectoryForTarget(originalTarget, kind) {
 async function main() {
   const branch = git("branch", "--show-current");
   if (!branch) {
-    console.error("Git worktree authority check failed: detached HEAD has no branch ref to update");
-    process.exit(1);
+    fail("current branch", null, new Error("detached HEAD has no branch ref to update"));
   }
 
   const paths = [
@@ -59,19 +67,14 @@ async function main() {
     ["logs/HEAD", git("rev-parse", "--git-path", "logs/HEAD"), "file"],
     ["current branch ref", git("rev-parse", "--git-path", `refs/heads/${branch}`), "file"],
     ["current branch reflog", git("rev-parse", "--git-path", `logs/refs/heads/${branch}`), "file"],
-    ["packed refs (optional)", git("rev-parse", "--git-path", "packed-refs"), "file", true]
+    ["packed refs", git("rev-parse", "--git-path", "packed-refs"), "file"]
   ];
 
-  for (const [label, originalTarget, kind, optional] of paths) {
+  for (const [label, originalTarget, kind] of paths) {
     try {
       await writableDirectoryForTarget(originalTarget, kind);
     } catch (error) {
-      if (optional) {
-        console.warn(`Git worktree authority check warning: ${label} is unavailable at ${originalTarget}; loose refs remain the normal commit path.`);
-        continue;
-      }
-      console.error(`Git worktree authority check failed: ${label} is not writable at ${originalTarget}: ${error.message}`);
-      process.exit(1);
+      fail(label, originalTarget, error);
     }
   }
 
@@ -80,7 +83,7 @@ async function main() {
   try {
     entries = await readdir(objectsPath, { withFileTypes: true });
   } catch (error) {
-    fail(`object store fanout directories could not be inspected at ${objectsPath}: ${error.message}`);
+    fail("object store", objectsPath, error);
   }
   for (const entry of entries) {
     if (!entry.isDirectory() || !/^[0-9a-f]{2}$/.test(entry.name)) continue;
@@ -88,11 +91,16 @@ async function main() {
     try {
       await access(fanout, W_OK | X_OK);
     } catch (error) {
-      fail(`object store fanout ${entry.name} is not writable at ${fanout}: ${error.message}`);
+      fail(`object store fanout ${entry.name}`, fanout, error);
     }
   }
 
-  console.log(`Git worktree authority check passed: ${paths.length} linked Git paths writable for ${branch}.`);
+  console.log(JSON.stringify({
+    schemaVersion: RESULT_SCHEMA_VERSION,
+    outcome: "pass",
+    branch,
+    checkedPaths: paths.length,
+  }));
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
