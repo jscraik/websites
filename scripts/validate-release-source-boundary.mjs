@@ -19,7 +19,7 @@ function git(...args) {
 }
 
 function dirtyPaths() {
-  const output = execFileSync("git", ["status", "--porcelain=v1", "--untracked-files=all", "--ignored=matching", "-z"], {
+  const output = execFileSync("git", ["status", "--porcelain=v1", "--untracked-files=all", "-z"], {
     cwd: ROOT,
     encoding: "utf8",
   });

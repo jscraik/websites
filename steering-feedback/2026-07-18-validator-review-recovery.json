@@ -1,0 +1,27 @@
+{
+  "schema_version": "steering-feedback/v1",
+  "feedback_signal": "Repeated merge-blocking review findings showed that repository validators must exercise their real producer and filesystem contracts before a pull request is considered ready.",
+  "repeated": true,
+  "occurrence_count": 2,
+  "root_operational_failure": "Validator checks reasoned about nominal file states instead of the observable Git and build behavior required by their callers.",
+  "failure_category": "weak_validation",
+  "durable_improvement": {
+    "kind": "validator",
+    "path": "scripts",
+    "action": "Treat ignored build outputs as outside dirty-worktree enforcement and require writable parent directories for Git files that need lock-file creation.",
+    "prevents": "Release and worktree-authority gates from passing or failing on states that disagree with the Git operations they are meant to protect."
+  },
+  "destination": "validator",
+  "proof": {
+    "commands": [
+      {
+        "command": "python3 /Users/jamiecraik/dev/configs/codex/scripts/validate-steering-feedback.py --input steering-feedback/2026-07-18-validator-review-recovery.json --json",
+        "outcome": "pass",
+        "evidence": "The projected steering-feedback validator accepts this durable recovery record."
+      }
+    ],
+    "future_behavior": "Release validation ignores Git-ignored build artifacts, while Git authority validation rejects existing files whose parent directories cannot create lock files."
+  },
+  "implementation_note": "This record covers the paired review findings as one validator-contract recovery. Each implementation change is proven through its affected repository command and regression test.",
+  "status": "implemented"
+}

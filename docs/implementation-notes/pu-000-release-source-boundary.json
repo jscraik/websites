@@ -33,7 +33,8 @@
     "BRAND_GUIDELINES.md",
     ".codex/skills/find-animation-opportunities/SKILL.md",
     "codestyle/CHECKSUMS.sha256",
-    "steering-feedback/2026-07-17-pr-readiness-gate.json"
+    "steering-feedback/2026-07-17-pr-readiness-gate.json",
+    "steering-feedback/2026-07-18-validator-review-recovery.json"
   ],
   "excludedPaths": [
     ".harness/runtime/**",
