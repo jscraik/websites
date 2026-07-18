@@ -2,12 +2,12 @@
   "schema_version": "jamie-social-profile-assets-receipt/v1",
   "contract": "jamie-social-profile-assets/v1",
   "design_system_version": "1.1.0",
-  "source_digest": "ab575cf65a5802b6a3f078a383c5fec6ac236f73560b862c06942aa9ee5b9253",
+  "source_digest": "48cecba8b05b5c1a4977c76794f584992c668c014499953f078b408d52f18dbe",
   "sources": {
     "public/jamie-profile.png": "daf30bfa63cab49c77f109da04089ccd74c0f4c574cccea67fd2d27579f250bc",
     "scripts/generate-social-profile-assets.mjs": "df7a686298752437b7209b8eb5967b6d664911997558c5ffc0fbf2b3ca574cf1",
     "src/brand/social-profile-assets.json": "29548e844762f59d7ee301204d64943abb8478162ca3b23e27094d82a625e477",
-    "src/styles/brand-tokens.json": "3d8ddd40eb286f049311d3eaf11dfb47f1db969863596aaef4564b5483d52b50"
+    "src/styles/brand-tokens.json": "30924a005bb707b12743ffd230e3b341d4a4bc5d36fd75e095ad5ee715e58a6e"
   },
   "outputs": {
     "public/brand/social/jamie-avatar-linkedin-400x400.png": {
