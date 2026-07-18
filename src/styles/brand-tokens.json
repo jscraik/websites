@@ -49,10 +49,10 @@
     "written_name": "brAInwav",
     "spoken_name": "brain-wave",
     "technical_identifier": "brainwav",
-    "canonical_origin": "brAInwav brings together three parts of my story: a brain injury that changed how I work, AI tools that helped me, and the technical wave I continue to explore and build with.",
-    "origin_publication_status": "target_output_review_required",
+    "canonical_origin": "brAInwav brings together the human perspective, AI tools, and technical wave I continue to explore and build with.",
+    "origin_publication_status": "reviewed_public_safe",
     "origin_parts": {
-      "brain": "The brain injury that changed how Jamie works.",
+      "brain": "The human perspective that shapes how Jamie works.",
       "AI": "The AI tools that helped Jamie.",
       "wav": "The technical wave Jamie continues to explore and build with."
     },
