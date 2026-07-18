@@ -30,18 +30,31 @@ try {
   await writeFile(path.join(gitDir, "refs", "heads", "blocked"), "not a directory\n");
   await assert.rejects(
     writableDirectoryForTarget(path.join(gitDir, "refs", "heads", "blocked", "topic"), "file"),
-    /path component is not a directory/,
+    /path component is not a directory|ENOTDIR|not a directory/,
     "a file in the branch path must fail closed"
   );
 
   const searchBlocked = path.join(gitDir, "search-blocked");
   await mkdir(searchBlocked);
   await chmod(searchBlocked, 0o200);
-  await assert.rejects(
-    writableDirectoryForTarget(searchBlocked, "directory"),
-    /EACCES|permission denied|operation not permitted/i,
-    "a Git directory without search permission must fail closed"
-  );
+  if (process.getuid?.() !== 0) {
+    await assert.rejects(
+      writableDirectoryForTarget(searchBlocked, "directory"),
+      /EACCES|permission denied|operation not permitted/i,
+      "a Git directory without search permission must fail closed"
+    );
+  }
+
+  const readOnlyFile = path.join(gitDir, "readonly-log");
+  await writeFile(readOnlyFile, "reflog\n");
+  await chmod(readOnlyFile, 0o400);
+  if (process.getuid?.() !== 0) {
+    await assert.rejects(
+      writableDirectoryForTarget(readOnlyFile, "file"),
+      /EACCES|permission denied|operation not permitted/i,
+      "an existing Git file without write permission must fail closed"
+    );
+  }
 } finally {
   await rm(root, { recursive: true, force: true });
 }
