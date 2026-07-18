@@ -57,13 +57,18 @@ async function main() {
     ["refs", git("rev-parse", "--git-path", "refs"), "directory"],
     ["logs/HEAD", git("rev-parse", "--git-path", "logs/HEAD"), "file"],
     ["current branch ref", git("rev-parse", "--git-path", `refs/heads/${branch}`), "file"],
-    ["current branch reflog", git("rev-parse", "--git-path", `logs/refs/heads/${branch}`), "file"]
+    ["current branch reflog", git("rev-parse", "--git-path", `logs/refs/heads/${branch}`), "file"],
+    ["packed refs (optional)", git("rev-parse", "--git-path", "packed-refs"), "file", true]
   ];
 
-  for (const [label, originalTarget, kind] of paths) {
+  for (const [label, originalTarget, kind, optional] of paths) {
     try {
       await writableDirectoryForTarget(originalTarget, kind);
     } catch (error) {
+      if (optional) {
+        console.warn(`Git worktree authority check warning: ${label} is unavailable at ${originalTarget}; loose refs remain the normal commit path.`);
+        continue;
+      }
       console.error(`Git worktree authority check failed: ${label} is not writable at ${originalTarget}: ${error.message}`);
       process.exit(1);
     }
