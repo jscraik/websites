@@ -20,6 +20,8 @@
     "validate:social-assets": "node scripts/validate-social-profile-assets.mjs",
     "validate:no-prototype-slop": "node scripts/validate-no-prototype-slop.mjs",
     "validate:content-source-boundary": "node scripts/validate-content-source-boundary.mjs",
+    "check:git-worktree-authority": "node scripts/check-git-worktree-authority.mjs",
+    "test:git-worktree-authority": "node scripts/test-git-worktree-authority.mjs",
     "validate:release-boundary": "node scripts/validate-release-source-boundary.mjs",
     "validate:release": "npm run validate:source && npm run validate:release-boundary",
     "test:portfolio-helpers": "node scripts/test-portfolio-helpers.mjs",

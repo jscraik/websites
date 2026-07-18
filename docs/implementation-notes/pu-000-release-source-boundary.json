@@ -5,10 +5,10 @@
   "baseline": {
     "sha": "7df7238f4d74a25f0f799338fdf151da6f00fa19",
     "treeSha": "2207a19cb83d58ba6de218e757e51252e65a28c1",
-    "branch": "jscraik/feature/no-issue-install-design-skills",
-    "source": "origin/jscraik/feature/no-issue-install-design-skills",
+    "branch": "codex/portfolio-pu000-release-boundary",
+    "source": "origin/codex/portfolio-pu000-release-boundary",
     "reviewStatus": "local-plan-review-accepted-hosted-review-pending",
-    "validatedAt": "2026-07-17T18:59:49Z",
+    "validatedAt": "2026-07-17T19:25:17Z",
     "worktree": {
       "label": "portfolio-pu000-release-worktree",
       "pathClass": "temporary-isolated-git-worktree",
