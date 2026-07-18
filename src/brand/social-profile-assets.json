@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "contract": "jamie-social-profile-assets/v1",
+  "design_system_version": "1.1.0",
+  "owner": "Jamie Scott Craik",
+  "avatar_source": "public/jamie-profile.png",
+  "brand_promise": "Making AI-assisted developer work inspectable.",
+  "brand_promise_lines": [
+    "Making AI-assisted",
+    "developer work inspectable."
+  ],
+  "role": "AI-native DevRel builder",
+  "generation_receipt": "public/brand/social/social-profile-assets.receipt.json",
+  "typography": {
+    "approved_stack": "Newsreader + Geist + Geist Mono",
+    "display": "Newsreader, Iowan Old Style, Georgia, serif",
+    "sans": "Geist, Avenir Next, Helvetica Neue, Arial, sans-serif",
+    "mono": "Geist Mono, Menlo, Monaco, monospace",
+    "embedded_stacks": {
+      "display": "Newsreader, Georgia, serif",
+      "sans": "Geist, Arial, sans-serif",
+      "mono": "Geist Mono, Menlo, monospace"
+    },
+    "fallback_stacks": {
+      "display": "Georgia, serif",
+      "sans": "Arial, sans-serif",
+      "mono": "Menlo, monospace"
+    },
+    "official_font_files": {
+      "newsreader": "public/brand/fonts/newsreader-variable.woff2",
+      "geist": "public/brand/fonts/geist-variable.woff2",
+      "geist_mono": "public/brand/fonts/geist-mono-variable.woff2"
+    },
+    "current_rendering_status": "locked_fallback_stacks_until_official_self-hosted_fonts_are_admitted",
+    "regeneration_requirement": "Regenerate all PNG outputs after the official Newsreader, Geist, and Geist Mono files are self-hosted."
+  },
+  "composition": {
+    "grid_columns": 12,
+    "editorial_columns": 5,
+    "technical_columns": 7,
+    "editorial_canvas": "#E6E6E1",
+    "technical_canvas": "#0B0F17",
+    "technical_signal": "#2DA8FF",
+    "inspection_signal": "#FF7A00",
+    "banner_rule": "The profile avatar is supplied by the platform and must never be baked into a banner export.",
+    "avatar_guard_rule": "Keep the lower-left banner region free of essential copy and treat preview overlap geometry as a conservative fixture rather than an official platform API guarantee."
+  },
+  "platforms": {
+    "x": {
+      "avatar": {
+        "width": 400,
+        "height": 400,
+        "output": "public/brand/social/jamie-avatar-x-400x400.png"
+      },
+      "banner": {
+        "width": 1500,
+        "height": 500,
+        "output": "public/brand/social/jamie-x-header-1500x500.png",
+        "master_scale": 2,
+        "master_output": "public/brand/social/masters/jamie-x-header-3000x1000.png"
+      },
+      "preview_fixture": {
+        "width": 1500,
+        "height": 780,
+        "avatar_left": 64,
+        "avatar_top": 368,
+        "avatar_size": 280,
+        "output": "public/brand/social/previews/jamie-x-profile-preview-1500x780.png"
+      }
+    },
+    "linkedin": {
+      "avatar": {
+        "width": 400,
+        "height": 400,
+        "output": "public/brand/social/jamie-avatar-linkedin-400x400.png"
+      },
+      "banner": {
+        "width": 1584,
+        "height": 396,
+        "output": "public/brand/social/jamie-linkedin-background-1584x396.png",
+        "master_scale": 2,
+        "master_output": "public/brand/social/masters/jamie-linkedin-background-3168x792.png"
+      },
+      "preview_fixture": {
+        "width": 1584,
+        "height": 660,
+        "avatar_left": 96,
+        "avatar_top": 276,
+        "avatar_size": 236,
+        "output": "public/brand/social/previews/jamie-linkedin-profile-preview-1584x660.png"
+      }
+    }
+  }
+}

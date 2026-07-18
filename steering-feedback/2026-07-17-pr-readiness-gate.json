@@ -1,0 +1,27 @@
+{
+  "schema_version": "steering-feedback/v1",
+  "feedback_signal": "Repeated corrections were required to reconcile the portfolio PR stack, separate mergeability from readiness, preserve dirty runtime state, and prevent new stacked repair PRs from opening before the existing queue was safe.",
+  "repeated": true,
+  "occurrence_count": 4,
+  "root_operational_failure": "The repository had no fail-fast stack/readiness gate that verified remote ancestry, current-head review evidence, required checks, PR scope, and dirty-worktree boundaries before a PR was created or merged.",
+  "failure_category": "insufficient_deterministic_enforcement",
+  "durable_improvement": {
+    "kind": "validator",
+    "path": "scripts/validate-pr-readiness.mjs",
+    "action": "Add a phase-aware JSON-producing gate: pre-pr validates local and remote ancestry, declared scope, and dirty-worktree boundaries; merge additionally validates current hosted reviews, required checks, and stack readiness.",
+    "prevents": "Future runs from opening PRs with unresolved local ancestry, undeclared scope, or unclassified dirty state, and from merging based on mergeable status alone, stale reviews, queued checks, or an unready stack."
+  },
+  "destination": "validator",
+  "proof": {
+    "commands": [
+      {
+        "command": "python3 /Users/jamiecraik/dev/configs/codex/scripts/validate-steering-feedback.py --input steering-feedback/2026-07-17-pr-readiness-gate.json --json",
+        "outcome": "pass",
+        "evidence": "The canonical projected validator accepts this steering-feedback/v1 record with status=pass."
+      }
+    ],
+    "future_behavior": "Before PR creation or merge, the readiness gate must emit machine-readable blockers and exit non-zero until the current remote stack, reviews, required checks, declared scope, and dirty-worktree policy all pass."
+  },
+  "implementation_note": "The gate is intentionally repository-local and read-only with respect to GitHub and the working tree; it reports hosted truth through gh and local truth through Git, while leaving review and merge mutations to an explicit later action.",
+  "status": "proposed"
+}

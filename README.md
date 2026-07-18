@@ -1,8 +1,18 @@
-# brainwav.io
+# portfolio
 
-brainwav.io is Jamie Scott Craik's Astro portfolio and public proof surface for AI-native DevRel work. The site is intentionally small: it explains the position, shows current proof artifacts, keeps caveats visible, and gives future agents a repeatable way to validate design and claim boundaries.
+This repository is Jamie Scott Craik's single public portfolio front door and the canonical home of the shared brAInwav product-presentation system. The site is intentionally small: it makes AI-assisted developer work inspectable, shows current proof artifacts, keeps caveats visible, and gives future agents a repeatable way to validate design and claim boundaries.
 
-The project is being shaped toward a calm editorial portfolio system inspired by Jose Ocando's structure, while preserving Jamie's own content, palette, and public-safe proof boundaries.
+Jamie’s accepted role is AI-native DevRel builder. The promise is `Making AI-assisted developer work inspectable.` and the intended benefit is helping developers adopt emerging AI tools with confidence. These are positioning and intended-benefit statements, not evidence of employment, affiliation, usability, adoption, or developer confidence.
+
+## Canonical Brand Contract
+
+Version 1.1.0 of the brAInwav Design System projects the accepted `jamie-brain-brand-system/v1` decision dated 2026-07-15.
+
+- `src/styles/brand-tokens.json` is the canonical machine-readable consumer contract.
+- `BRAND_GUIDELINES.md` is the human usage and claims-boundary contract.
+- `scripts/validate-design-system.mjs` rejects drift in positioning, identity, site roles, product covers, provenance, evidence maturity, accessibility, and stress-test acceptance.
+- This portfolio is the accepted single front door; technical depth routes to public repositories, READMEs, documentation, diagrams, tests, implementation excerpts, and bounded evidence receipts rather than a separate technical-companion site.
+- The SkillsBar vertical slice is the first implementation target. The generator, covers, rendered acceptance, deployment, usability, and adoption are not proved by the contract alone.
 
 ## Quick Start
 
@@ -16,15 +26,19 @@ Useful local checks:
     ASTRO_TELEMETRY_DISABLED=1 npm run build
     npm run validate:portfolio-content
     npm run validate:content-source-boundary
+    npm run validate:design-system
+    npm run validate:fast
     npm run test:smoke
     npm run validate:page-surfaces
     npm run validate:jose-claim-boundary
 
-The portfolio content validator checks required metadata, proof fields, local links, and collection structure. The content-source validator protects the repo-file-backed storage boundary. The smoke test builds the site and checks generated HTML for the main public routes. The page-surface validator protects repeated layout regressions in the shared stylesheet. The Jose claim-boundary validator prevents static reference capture from being reported as visual parity proof.
+The portfolio content validator checks required metadata, proof fields, local links, and collection structure. The content-source validator protects the repo-file-backed storage boundary. The design-system validator checks the versioned brand contract and its projection into this README and the human guide. The fast gate composes the repository's static content and design checks. The smoke test builds the site and checks generated HTML for the main public routes. The page-surface validator protects repeated layout regressions in the shared stylesheet. The Jose claim-boundary validator prevents static reference capture from being reported as visual parity proof.
 
 ## Site Map
 
 The current site includes:
+
+These routes describe the current implementation, not the accepted target architecture. `/work/skillsbar/`, the Visual System page, and the product-cover generator remain pending until their owning files and evidence exist.
 
 | Route                           | Purpose                                                                        |
 | ------------------------------- | ------------------------------------------------------------------------------ |
@@ -59,6 +73,8 @@ Routes are generated from Astro pages under src/pages/ and portfolio content col
 | docs/implementation-notes/  | Proof-boundary notes and repeated-regression guardrail rationale.                            |
 | AGENTS.md                   | Agent operating guidance for this repo.                                                      |
 | BRAND_GUIDELINES.md         | Brand, visual direction, and public-proof copy boundaries.                                   |
+| src/styles/brand-tokens.json | Versioned machine-readable positioning, identity, visual, cover, provenance, and evidence contract. |
+| src/brand/social-profile-assets.json | Deterministic X and LinkedIn avatar/banner dimensions, copy, split, and overlap fixtures. |
 
 ## Proof Boundaries
 
@@ -70,6 +86,8 @@ This repo separates local build proof, visual-reference proof, and public readin
 - npm run test:smoke proves selected generated routes contain expected text after a local build.
 - npm run validate:page-surfaces proves specific shared CSS regressions are absent.
 - npm run validate:jose-claim-boundary proves the docs and scripts still preserve the "capture is not parity" claim boundary.
+- npm run validate:design-system proves the required versioned contract fields, guide/README snippets, and token/CSS invariants are present; it does not prove rendered quality or product implementation.
+- npm run validate:social-assets proves the generated social PNGs match the declared dimensions and keep avatar/banner responsibilities separate; it does not prove live platform cropping.
 - npm run capture:jose-reference refreshes stored Jose reference artifacts, but capture output is not proof that Jamie's site matches Jose.
 - npm run test:jose-parity is the visual parity guardrail. A visual-match claim needs this command against a current local candidate URL, or an explicit blocked result with the browser/runtime blocker.
 
@@ -104,6 +122,8 @@ If Playwright or Chromium cannot launch in the current sandbox, report the exact
 | npm run test:visual                      | Run Playwright visual tests.                             |
 | npm run test:a11y                        | Run Playwright accessibility smoke tests.                |
 | npm run test:jose-parity                 | Run the Jose/Jamie screenshot parity guardrail.          |
+| npm run generate:social-assets           | Render Jamie's X and LinkedIn upload assets and previews. |
+| npm run validate:social-assets           | Validate social asset dimensions and source boundaries.   |
 | npm run lhci                             | Run Lighthouse CI using lighthouserc.json.               |
 
 Playwright commands use .playwright-tmp/, .playwright-cache/, test-results/, and playwright-report/; these are runtime artifacts, not source.

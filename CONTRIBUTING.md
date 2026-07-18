@@ -104,6 +104,7 @@ Recommended policy:
 - Treat `scripts/prepare-worktree.sh` as required first-push bootstrap for freshly created worktrees so local hooks run with dependencies, canonical hook wiring, remote branch collision checks, and detached-head fast-forwarding to latest `origin/main`.
 - Treat `scripts/check-git-common-config.sh` as the shared Git config guard; shared non-bare `.git/config` must not contain `core.worktree`, and repairs should run `bash scripts/check-git-common-config.sh --repair` so the resolved common config is fixed directly.
 - Treat `scripts/check-environment.sh` as the local readiness gate for required tooling.
+- Run `npm run validate:pr-readiness -- --phase pre-pr --base origin/main --scope-file <scope-file>` before `gh pr create`; run `npm run validate:pr-readiness -- --phase merge --pr <number> --scope-file <scope-file>` before requesting merge. The strict gate fails closed on remote ancestry, current-head reviews, required checks, declared PR scope, and dirty-worktree boundaries.
 - Block merge or promotion work when a required CLI is missing rather than silently skipping the corresponding validation lane.
 - For repositories with explicit `ui` / `chatgpt_apps_sdk` capabilities or matching dependency signals, install `@brainwav/design-system-guidance` and treat its absence as a readiness failure.
 
@@ -243,4 +244,3 @@ Configure GitHub branch protection (or rulesets) on `main`:
 - Require workflows to pin third-party actions to full commit SHAs.
 - Configure required checks workflows to run on both `pull_request` and `merge_group` when using merge queue.
 - Block direct pushes to `main`.
-	

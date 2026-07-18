@@ -1,12 +1,318 @@
 {
-  "brand": "JSC",
+  "schema_version": 1,
+  "brand": "brAInwav",
   "owner": "Jamie Scott Craik",
-  "tagline": "Visible proof. AI-native DevRel.",
-  "descriptor": "Former Army Leader \u2022 AI-native Builder \u2022 Developer Advocate",
+  "tagline": "Making AI-assisted developer work inspectable.",
+  "descriptor": "AI-native DevRel builder",
   "system": {
     "name": "brAInwav Design System",
-    "mode": "portfolio-light",
-    "reference": "Jose-inspired editorial rhythm, owned by Jamie/brAInwav tokens"
+    "version": "1.1.0",
+    "mode": "cross-product-dual-surface",
+    "canonical_source": "src/styles/brand-tokens.json",
+    "css_projection": "src/styles/brand-tokens.css",
+    "human_contract": "BRAND_GUIDELINES.md",
+    "reference": "Editorial personal identity paired with a dark technical proof surface",
+    "decision_contract": "jamie-brain-brand-system/v1",
+    "decision_accepted": "2026-07-15"
+  },
+  "consumer_contract": {
+    "record_version": true,
+    "record_source_commit": true,
+    "allowed_extensions": [
+      "semantic aliases",
+      "component tokens"
+    ],
+    "forbidden_overrides": [
+      "primitive palette",
+      "font families",
+      "spacing scale",
+      "radius family",
+      "icon grammar"
+    ]
+  },
+  "positioning": {
+    "personal_role": "AI-native DevRel builder",
+    "brand_promise": "Making AI-assisted developer work inspectable.",
+    "developer_benefit": "Help developers adopt emerging AI tools with confidence.",
+    "flagship_product": "SkillsBar",
+    "affiliation_boundary": "OpenAI and Tessl are relevant audiences and career bridges, not affiliations or the headline identity.",
+    "site_roles": {
+      "portfolio": "Single public front door for Jamie's personal narrative, concise case studies, speaking, contact routes, and bounded technical proof.",
+      "brAInwav": "Shared product-presentation system for editorial and technical evidence surfaces."
+    },
+    "site_handoffs": {
+      "technical_depth": "Route technical depth to public repositories, READMEs, documentation, diagrams, tests, implementation excerpts, and bounded evidence receipts.",
+      "claim_boundary": "Evidence before claims; current source identity and freshness remain visible."
+    }
+  },
+  "identity": {
+    "written_name": "brAInwav",
+    "spoken_name": "brain-wave",
+    "technical_identifier": "brainwav",
+    "canonical_origin": "brAInwav brings together the human perspective, AI tools, and technical wave I continue to explore and build with.",
+    "origin_publication_status": "reviewed_public_safe",
+    "origin_parts": {
+      "brain": "The human perspective that shapes how Jamie works.",
+      "AI": "The AI tools that helped Jamie.",
+      "wav": "The technical wave Jamie continues to explore and build with."
+    },
+    "wordmark": {
+      "text": "brAInwav",
+      "family": "Geist",
+      "weight": "600",
+      "construction": "one continuous word on one baseline with AI at the same size and weight",
+      "primary_accent": "AI uses orange",
+      "required_variants": [
+        "primary colour",
+        "one colour"
+      ]
+    },
+    "neuron": {
+      "construction": "simplified asymmetric recognisably neuronal form with one signal or wave path",
+      "reserved_for": [
+        "brainwav hero",
+        "About",
+        "Visual System",
+        "favicon or app signature",
+        "brand campaign"
+      ],
+      "forbidden_uses": [
+        "routine interface action",
+        "standard product-cover icon",
+        "photorealistic anatomy",
+        "brain outline",
+        "generic connected-node network"
+      ],
+      "motion": {
+        "allowed": [
+          "one optional branch reveal",
+          "one restrained signal pulse"
+        ],
+        "frequency": "infrequent",
+        "reduced_motion": "complete static fallback",
+        "static_surfaces": [
+          "product covers",
+          "proof objects"
+        ]
+      }
+    },
+    "approved_lockups": [
+      "wordmark",
+      "neuron plus wordmark",
+      "standalone neuron",
+      "vertical origin-story lockup"
+    ]
+  },
+  "product_identity": {
+    "identity_source": "product name and custom functional mark, never a unique dominant colour",
+    "product_mark": {
+      "grid": "24px",
+      "style": "outline",
+      "linecap": "round",
+      "linejoin": "round",
+      "monochrome_minimum": "16px"
+    },
+    "interface_icons": "Use one coherent library or platform-native icon family for standard interface actions.",
+    "stock_icon_boundary": "An unmodified stock library icon must not become a product logo.",
+    "endorsement": "by brAInwav"
+  },
+  "product_cover": {
+    "renderer": "structured manifest rendered with HTML, CSS, and SVG",
+    "imagegen_boundary": "Image generation is exploratory or decorative only and must not generate final typography, product UI, product logos, evidence, provenance, or status.",
+    "master": {
+      "width": 1600,
+      "height": 900,
+      "outer_margin": 64,
+      "zone_gutter": "32-48px",
+      "grid_columns": 12,
+      "editorial_columns": 5,
+      "technical_columns": 7
+    },
+    "formats": [
+      "16:9",
+      "1.91:1",
+      "1:1",
+      "4:5"
+    ],
+    "reflow_rule": "Square and portrait formats stack editorial above technical proof; they are not automatic crops of the landscape master.",
+    "hierarchy": [
+      "product mark and product name",
+      "one consequential hook",
+      "one authentic proof object",
+      "compact provenance and status",
+      "small by brAInwav endorsement footer"
+    ],
+    "required_manifest_fields": [
+      "product_name",
+      "product_mark",
+      "hook",
+      "proof_object",
+      "proof_source_identity",
+      "caption",
+      "provenance",
+      "status",
+      "endorsement",
+      "design_system_version",
+      "design_system_source_commit"
+    ],
+    "optional_manifest_fields": [
+      "support"
+    ],
+    "manifest_field_contracts": {
+      "support": "Optional short explanation; omit before overflowing.",
+      "proof_object": "Authentic capture, implementation excerpt, or system diagram.",
+      "proof_source_identity": "Exact source revision, candidate fingerprint, artifact digest, capture URL and date, or equivalent proof binding.",
+      "design_system_version": "Exact consumed semantic version.",
+      "design_system_source_commit": "Exact source commit of the consumed canonical token contract."
+    },
+    "provenance_labels": [
+      "LIVE PRODUCT CAPTURE",
+      "IMPLEMENTATION EXCERPT",
+      "SYSTEM DIAGRAM",
+      "CONCEPT MOCKUP · NOT RUNTIME EVIDENCE"
+    ],
+    "invalid_inputs": [
+      "omitted provenance",
+      "missing proof source identity",
+      "missing design-system source commit",
+      "claim without proof"
+    ],
+    "forbidden_clutter": [
+      "feature lists",
+      "testimonials",
+      "CTA buttons",
+      "URLs",
+      "logo strips",
+      "badge clutter",
+      "competing brAInwav wordmark"
+    ]
+  },
+  "evidence": {
+    "maturity_levels": [
+      {
+        "id": "behavior_proven",
+        "level": 1,
+        "rule": "Describe only behavior supported by current implementation or test evidence."
+      },
+      {
+        "id": "usability_tested",
+        "level": 2,
+        "rule": "Describe only the bounded observed user task."
+      },
+      {
+        "id": "adoption_evidenced",
+        "level": 3,
+        "rule": "Describe only the evidenced adoption scope."
+      }
+    ],
+    "ledger_fields": [
+      "claim",
+      "evidence",
+      "scope",
+      "limitation",
+      "status",
+      "last_verified",
+      "reproduce"
+    ],
+    "current_rule": "Evidence is current only when bound to the exact source identity or a recent valid receipt.",
+    "mismatch_rule": "Source mismatch automatically makes evidence stale.",
+    "unknown_rule": "Unknown evidence defaults to unverified.",
+    "headline_rule": "Every headline public claim requires public-inspectable proof.",
+    "separate_lanes": [
+      "behavior",
+      "usability",
+      "adoption",
+      "developer confidence"
+    ],
+    "analytics_boundary": "Traffic indicates interest only; it does not prove adoption or confidence."
+  },
+  "case_study_contract": {
+    "applies_to": "every AI-assisted case study",
+    "role_boundary_placement": "near the start",
+    "role_boundary": {
+      "jamie": "Frames the problem, directs the work, makes product and taste decisions, inspects the result, validates the evidence, and owns the claims.",
+      "codex": "Implements within Jamie's direction, proposes options, generates bounded artifacts, and supports inspection and validation."
+    },
+    "primary_cta": {
+      "count": 1,
+      "purpose": "evidence-seeking",
+      "rule": "End with one primary call to action that helps the reader inspect evidence or provide public technical feedback."
+    },
+    "channel_separation": {
+      "public_technical_feedback": "Attach public technical feedback to the artifact or evidence surface.",
+      "private_hiring_or_contact": "Route private hiring or contact through an approved private contact surface.",
+      "rule": "Keep public technical feedback separate from private hiring or contact routes."
+    }
+  },
+  "skillsbar_flagship": {
+    "hook": "When evidence goes stale.",
+    "core_sentence": "A changed Skill candidate should not inherit proof that no longer belongs to it.",
+    "lead_decision": "What can the Skill maintainer safely conclude about the current candidate, and what should they inspect next?",
+    "career_bridge": "Reserve OpenAI and Tessl relevance for a short closing bridge.",
+    "visual_proof_set": [
+      "one static fallback",
+      "one short walkthrough",
+      "one stale-proof diagram",
+      "one implementation or test excerpt"
+    ]
+  },
+  "accessibility": {
+    "baseline": "WCAG 2.2 AA",
+    "required": [
+      "predictable navigation",
+      "generous spacing",
+      "visible labels",
+      "complete keyboard operation",
+      "reduced motion",
+      "high contrast",
+      "captions",
+      "alt text",
+      "static routes",
+      "narrow mobile widths",
+      "zoom",
+      "increased text size"
+    ],
+    "forbidden": [
+      "scroll hijacking",
+      "auto-advance",
+      "flashing",
+      "hover-only evidence",
+      "continuous decorative motion"
+    ]
+  },
+  "stress_test": {
+    "fixtures": [
+      "short and long product names",
+      "short and long hooks",
+      "short and long support copy",
+      "light and dark proof",
+      "dense and sparse proof",
+      "portrait and landscape proof",
+      "missing, stale, blocked, unverified, concept, and current states",
+      "invalid metadata and missing assets",
+      "narrow mobile, zoom, increased text, and font failure",
+      "one-colour, low-quality display, print, and colour-vision conditions",
+      "technical overflow",
+      "reduced motion, no JavaScript, slow images, and complete static fallback",
+      "rSearch and wSearch manifests",
+      "decorative orange misuse",
+      "stock icon used as product logo",
+      "omitted provenance",
+      "claim without proof",
+      "visual regression"
+    ],
+    "failure_classes": [
+      "template_defect",
+      "invalid_input",
+      "unsupported",
+      "intentional_constraint"
+    ],
+    "acceptance": [
+      "automated contract checks",
+      "rendered inspection on real surfaces",
+      "independent QA",
+      "Jamie taste approval"
+    ]
   },
   "colors": {
     "brainwav_bg": "#0B0F17",
@@ -15,40 +321,206 @@
     "brainwav_text": "#F8F8F6",
     "brainwav_text_secondary": "#C5CAD3",
     "brainwav_muted": "#8B93A4",
+    "brainwav_border": "rgba(248, 248, 246, 0.14)",
     "blue": "#2DA8FF",
     "blue_hover": "#58BFFF",
+    "blue_ink": "#006AA6",
+    "blue_ink_hover": "#005F99",
     "orange": "#FF7A00",
     "orange_hover": "#FF9733",
+    "orange_ink": "#A94700",
+    "orange_ink_hover": "#8F3A00",
     "blue_glow": "rgba(45, 168, 255, 0.18)",
     "orange_glow": "rgba(255, 122, 0, 0.15)",
     "success": "#35D07F",
+    "success_ink": "#0F6F3E",
     "warning": "#F8C84E",
+    "warning_ink": "#7A5B00",
     "error": "#F25B5B",
+    "error_ink": "#B02A2A",
     "portfolio_bg": "#E6E6E1",
     "portfolio_surface": "#FBFAF5",
     "portfolio_nav": "#E8E8E3",
     "portfolio_ink": "#000B00",
     "portfolio_text": "#3D403C",
-    "portfolio_muted": "#4F564D"
+    "portfolio_muted": "#4F564D",
+    "portfolio_border": "rgba(61, 64, 60, 0.12)"
   },
-  "typography": {
-    "display": "Stringer, \"Times New Roman\", Georgia, serif",
-    "body": "Geist / Inter / system sans",
-    "mono": "Geist Mono",
-    "scale": {
-      "hero": "72-88px",
-      "display": "56px",
-      "h1": "48px",
-      "h2": "36px",
-      "h3": "28px",
-      "body": "18px",
-      "small": "15px"
+  "color_roles": {
+    "editorial": {
+      "canvas": "portfolio_bg",
+      "surface": "portfolio_surface",
+      "navigation": "portfolio_nav",
+      "text": "portfolio_ink",
+      "text_secondary": "portfolio_text",
+      "muted": "portfolio_muted",
+      "border": "portfolio_border"
+    },
+    "technical": {
+      "canvas": "brainwav_bg",
+      "surface": "brainwav_surface",
+      "surface_elevated": "brainwav_surface_elevated",
+      "text": "brainwav_text",
+      "text_secondary": "brainwav_text_secondary",
+      "muted": "brainwav_muted",
+      "border": "brainwav_border"
+    },
+    "accent": {
+      "evidence_on_dark": "blue",
+      "evidence_hover_on_dark": "blue_hover",
+      "evidence_on_light": "blue_ink",
+      "evidence_hover_on_light": "blue_ink_hover",
+      "inspection_on_dark": "orange",
+      "inspection_hover_on_dark": "orange_hover",
+      "inspection_on_light": "orange_ink",
+      "inspection_hover_on_light": "orange_ink_hover"
+    },
+    "status": {
+      "success_on_dark": "success",
+      "success_on_light": "success_ink",
+      "warning_on_dark": "warning",
+      "warning_on_light": "warning_ink",
+      "error_on_dark": "error",
+      "error_on_light": "error_ink"
     }
   },
-  "spacing": ["8px", "16px", "24px", "32px", "48px", "64px", "96px", "128px"],
+  "color_rules": [
+    "Blue represents current or verified technical evidence and navigation.",
+    "Orange represents AI in the brAInwav wordmark, inspection, attention, stale evidence, and required action.",
+    "Bright accents are for dark surfaces; ink variants are for text and icons on light surfaces.",
+    "Status colours never become product identity colours and never communicate state without a label or icon.",
+    "Products must not introduce a new dominant colour without a separate system decision."
+  ],
+  "typography": {
+    "stack_name": "Newsreader + Geist + Geist Mono",
+    "families": {
+      "display": "Newsreader, \"Iowan Old Style\", Georgia, serif",
+      "sans": "Geist, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "mono": "\"Geist Mono\", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+    },
+    "licenses": {
+      "newsreader": {
+        "spdx": "OFL-1.1",
+        "source": "https://github.com/productiontype/Newsreader"
+      },
+      "geist": {
+        "spdx": "OFL-1.1",
+        "source": "https://github.com/vercel/geist-font"
+      }
+    },
+    "delivery": "Self-host the official variable font files in each product; do not rely on an operating-system font install.",
+    "roles": {
+      "display_xl": {
+        "family": "display",
+        "size": "clamp(4.5rem, 8vw, 5.5rem)",
+        "line_height": "0.95",
+        "weight": "300",
+        "letter_spacing": "-0.03em"
+      },
+      "display_lg": {
+        "family": "display",
+        "size": "3.5rem",
+        "line_height": "1",
+        "weight": "300",
+        "letter_spacing": "-0.025em"
+      },
+      "heading_1": {
+        "family": "display",
+        "size": "3rem",
+        "line_height": "1.05",
+        "weight": "400",
+        "letter_spacing": "-0.02em"
+      },
+      "heading_2": {
+        "family": "display",
+        "size": "2.25rem",
+        "line_height": "1.1",
+        "weight": "400",
+        "letter_spacing": "-0.015em"
+      },
+      "heading_3": {
+        "family": "sans",
+        "size": "1.75rem",
+        "line_height": "1.15",
+        "weight": "600",
+        "letter_spacing": "-0.01em"
+      },
+      "body_lg": {
+        "family": "sans",
+        "size": "1.25rem",
+        "line_height": "1.5",
+        "weight": "400",
+        "letter_spacing": "0"
+      },
+      "body_md": {
+        "family": "sans",
+        "size": "1.125rem",
+        "line_height": "1.55",
+        "weight": "400",
+        "letter_spacing": "0"
+      },
+      "body_sm": {
+        "family": "sans",
+        "size": "0.9375rem",
+        "line_height": "1.5",
+        "weight": "400",
+        "letter_spacing": "0"
+      },
+      "meta": {
+        "family": "mono",
+        "size": "0.75rem",
+        "line_height": "1.25",
+        "weight": "600",
+        "letter_spacing": "0.08em"
+      },
+      "code": {
+        "family": "mono",
+        "size": "0.8125rem",
+        "line_height": "1.45",
+        "weight": "500",
+        "letter_spacing": "0"
+      }
+    },
+    "rules": [
+      "Use Newsreader only for page identity, case-study titles, editorial statements, and product-cover hooks.",
+      "Use Geist Semibold for product names and the brAInwav wordmark.",
+      "Use Geist for body copy, controls, navigation, product UI, and explanatory labels.",
+      "Use Geist Mono for evidence, commands, statuses, dates, measurements, and compact metadata.",
+      "Do not introduce a fourth typeface or set display copy in all capitals."
+    ]
+  },
+  "spacing": {
+    "base_unit": "4px",
+    "primitives": {
+      "000": "0px",
+      "050": "4px",
+      "100": "8px",
+      "150": "12px",
+      "200": "16px",
+      "300": "24px",
+      "400": "32px",
+      "600": "48px",
+      "800": "64px",
+      "1200": "96px",
+      "1600": "128px"
+    },
+    "roles": {
+      "icon_text_gap": "8px",
+      "control_gap": "12px",
+      "content_gap": "16px",
+      "cluster_gap": "24px",
+      "card_padding": "24px",
+      "section_gap": "48px",
+      "page_gutter": "clamp(24px, 5vw, 64px)",
+      "section_padding": "96px",
+      "hero_padding": "128px"
+    },
+    "rule": "Use the named roles first. Use primitive values only when no semantic role fits."
+  },
   "radius": {
-    "card": "18px",
+    "icon": "8px",
     "button": "14px",
+    "card": "18px",
     "image": "20px",
     "pill": "999px"
   },
@@ -63,9 +535,54 @@
     "ease_out": "cubic-bezier(0.22, 0.61, 0.36, 1)"
   },
   "iconography": {
-    "stroke": "1.75",
+    "style": "outline",
+    "grid": "24px",
+    "view_box": "0 0 24 24",
+    "sizes": {
+      "xs": "16px",
+      "sm": "20px",
+      "md": "24px",
+      "lg": "32px",
+      "xl": "48px"
+    },
+    "stroke": {
+      "small": "1.5",
+      "default": "1.75",
+      "large": "2"
+    },
     "linecap": "round",
-    "linejoin": "round"
+    "linejoin": "round",
+    "fill": "none",
+    "ui_source": "Use one coherent outline family per product; prefer platform-native symbols in native controls.",
+    "brand_motif": "The neuron and wave belong to brAInwav identity and editorial illustration, not routine interface controls or standard product-cover marks.",
+    "product_mark_rules": [
+      "Use no more than two brand colours.",
+      "Keep a recognisable monochrome silhouette at 16px.",
+      "Do not bake product names or taglines into app icons.",
+      "Build app-store artwork on a 1024px master and small marks on a 64px master."
+    ]
+  },
+  "social_profile": {
+    "contract": "jamie-social-profile-assets/v1",
+    "source_manifest": "src/brand/social-profile-assets.json",
+    "avatar_source": "public/jamie-profile.png",
+    "promise": "Making AI-assisted developer work inspectable.",
+    "composition": {
+      "grid_columns": 12,
+      "editorial_columns": 5,
+      "technical_columns": 7
+    },
+    "banner_rule": "The profile avatar is supplied by the platform and must never be baked into a banner export.",
+    "platforms": {
+      "x": {
+        "avatar": "400x400",
+        "banner": "1500x500"
+      },
+      "linkedin": {
+        "avatar": "400x400 minimum",
+        "banner": "1584x396"
+      }
+    }
   },
   "social_safe_rule": "Keep all important identity content away from the lower-left avatar overlay area."
 }
