@@ -289,6 +289,12 @@ export function requiredChecks(result, repo, branch, run, gh, commandJson, parse
       contexts.push(...branchContexts);
       sources.push("branch protection");
     }
+  } else if (!/HTTP 404|not protected/i.test(protection.output)) {
+    addBlocker(result, "required_checks_unavailable", `Branch protection for ${branch} could not be verified`, {
+      command: [gh, "api", `repos/${repo}/branches/${branch}/protection`].join(" "),
+      exit_code: protection.code,
+      output: protection.output,
+    });
   }
   const uniqueContexts = [...new Set(contexts)];
   if (uniqueContexts.length > 0) return { contexts: uniqueContexts, source: sources.join(" + ") };

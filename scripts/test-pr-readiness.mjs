@@ -123,3 +123,24 @@ test("required checks union active rulesets and branch protection", () => {
   assert.equal(checks.source, "active repository ruleset + branch protection");
   assert.deepEqual(result.blockers, []);
 });
+
+test("required checks fail closed when branch protection lookup is unavailable", () => {
+  const result = { blockers: [] };
+  const commandJson = (_result, _command, args) => {
+    if (args[0] === "api" && args.at(-1).endsWith("/rulesets")) return [];
+    return null;
+  };
+  const checks = requiredChecks(
+    result,
+    "jscraik/portfolio",
+    "main",
+    () => ({ ok: false, code: 403, stdout: "", output: "gh: Resource not accessible by integration (HTTP 403)" }),
+    "gh",
+    commandJson,
+    (output) => ({ value: JSON.parse(output), error: null }),
+    (target, code, message, evidence) => target.blockers.push({ code, message, evidence })
+  );
+  assert.deepEqual(checks.contexts, []);
+  assert.equal(result.blockers[0].code, "required_checks_unavailable");
+  assert.equal(result.blockers[1].code, "required_checks_unconfigured");
+});
