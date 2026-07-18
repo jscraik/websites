@@ -1,8 +1,8 @@
-# brainwav.io Brand Guidelines
+# brAInwav Portfolio Brand Guidelines
 
 ## Purpose
 
-brainwav.io is the technical companion to Jamie Scott Craik's personal portfolio and the canonical public home of the shared brAInwav product-presentation system. It should feel like inspectable technical proof with an editorial human layer, not an AI dashboard, SaaS landing page, or speculative product shell.
+This portfolio is Jamie Scott Craik's single public front door and the canonical home of the shared brAInwav product-presentation system. It should feel like inspectable technical proof with an editorial human layer, not an AI dashboard, SaaS landing page, or speculative product shell.
 
 The site exists to help a reader understand:
 
@@ -23,7 +23,7 @@ The reusable visual foundation is version 1.1.0 of the brAInwav Design System. I
 - This document owns usage decisions and examples.
 - Product repositories consume these values; they do not create their own fonts, spacing scales, icon grammar, or dominant colours.
 
-The system is deliberately dual-surface. jscraik.com will use the light editorial surface for Jamie's personal story and concise case studies. brainwav.io uses the dark technical surface for evidence, product detail, and the neuron/wave motif. A product may use either surface or combine them, but both come from the same tokens.
+The system is deliberately dual-surface within one portfolio front door. The light editorial surface carries Jamie's personal story and concise case studies; the dark technical surface carries evidence, product detail, and the neuron/wave motif. A product may use either surface or combine them, but both come from the same tokens.
 
 ### Consumer contract
 
@@ -51,9 +51,8 @@ Ultimate benefit:
 
 Site roles:
 
-- jscraik.com names Jamie and tells the personal and professional narrative through concise case studies, speaking, and contact routes.
-- brainwav.io is the technical companion: public technical proof, architecture, implementation detail, evidence ledgers, and this shared product-presentation system.
-- Paired case studies use `Inspect the technical evidence →` and `Read Jamie’s case study →`.
+- This portfolio is the single public front door for Jamie's personal and professional narrative, concise case studies, speaking, contact routes, and bounded technical proof.
+- Technical depth routes to public repositories, READMEs, documentation, diagrams, tests, implementation excerpts, and bounded evidence receipts.
 
 OpenAI and Tessl are relevant audiences and career bridges. They are not affiliations or the headline identity.
 
@@ -490,8 +489,7 @@ Keep:
 - Jamie Scott Craik as the personal identity
 - AI-native DevRel builder as the accepted role
 - `Making AI-assisted developer work inspectable.` as the first association
-- brainwav.io as the technical companion and shared-system authority
-- jscraik.com as the future personal case-study front door
+- one portfolio front door with brAInwav as its shared presentation system
 - SkillsBar as the first complete vertical slice
 - public-inspectable proof and provenance as the credibility mechanism
 - editorial plus technical dual-surface composition as the visual reference
@@ -499,11 +497,11 @@ Keep:
 Do not drift into:
 
 - brAInwav as the main personal name
-- brainwav.io as a substitute for Jamie's personal portfolio
+- a separate technical-companion site or split portfolio front door
 - an AI product company homepage
 - a dashboard demo above the fold
 - a generic developer portfolio
 - an unsupported authority narrative
 - private second-brain disclosure
 
-This guide and the token contract encode the accepted direction. They do not prove that the wordmark, neuron assets, cover generator, SkillsBar slice, jscraik.com site, paired case studies, rendered accessibility, deployment, usability, adoption, or public publication exists.
+This guide and the token contract encode the accepted direction. They do not prove that the wordmark, neuron assets, cover generator, SkillsBar slice, rendered accessibility, deployment, usability, adoption, or public publication exists.

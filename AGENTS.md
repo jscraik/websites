@@ -5,7 +5,7 @@ schema_version: 2
 # Portfolio Agent Guidelines
 
 ## Scope
-- This file applies to the whole `/Users/jamiecraik/dev/portfolio` checkout, renamed from the earlier `brainwav.io` directory.
+- This file applies to the whole Git repository and any current checkout of it. The repository was renamed from the earlier `brainwav.io` directory.
 - This repo is an Astro portfolio/proof site. Treat source, scripts, stored reference captures, generated screenshots, and package scripts as the local evidence surfaces.
 - There was no repo-local AGENTS.md or CODESTYLE.md when this file was created. If a deeper AGENTS.md is later added, it overrides this file only inside its own subtree.
 
@@ -16,8 +16,9 @@ schema_version: 2
 - For visual work, verify the affected route(s), not only the homepage hero. When a request compares against the Jose Ocando reference or site-wide presentation, inspect the relevant top-level surfaces such as /, /now, /blog, /contact, /proof, and affected work pages before closing the claim.
 
 ## Codestyle
-- For technical work, use the global Codex codestyle front door at /Users/jamiecraik/dev/configs/codex/instructions/CODESTYLE.md unless this repo later adds a local CODESTYLE.md.
-- If that global file cannot be read, report codestyle guidance as blocked and continue only from discovered AGENTS.md files, local code patterns, and explicit user instructions.
+- For technical work, read a repository-local `CODESTYLE.md` first when it exists, then use the global Codex codestyle front door at `/Users/jamiecraik/dev/configs/codex/instructions/CODESTYLE.md` only as the fallback when the local file is unavailable.
+- After the front door, open only the codestyle module that matches the task surface and keep repository-specific overrides in the project override module.
+- If neither codestyle front door can be read, report codestyle guidance as blocked and continue only from discovered AGENTS.md files, local code patterns, and explicit user instructions.
 
 ## Project Pointers
 - package.json is the source of truth for npm scripts. Re-read it before choosing validation commands.
