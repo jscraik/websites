@@ -20,6 +20,8 @@
     ".harness/active-artifacts.md",
     ".harness/plan/portfolio-stabilization-and-cloud-release.md",
     "AGENTS.md",
+    "CODESTYLE.md",
+    "CONTRIBUTING.md",
     "package.json",
     "package-lock.json",
     "astro.config.mjs",
@@ -28,7 +30,9 @@
     "scripts/**",
     "docs/**",
     "README.md",
-    "BRAND_GUIDELINES.md"
+    "BRAND_GUIDELINES.md",
+    "codestyle/CHECKSUMS.sha256",
+    "steering-feedback/2026-07-17-pr-readiness-gate.json"
   ],
   "excludedPaths": [
     ".harness/runtime/**",
