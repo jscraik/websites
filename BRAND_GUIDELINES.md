@@ -191,7 +191,7 @@ Blue is the normal accent for current or verified technical evidence and navigat
 
 ## Typography
 
-The fixed family stack is **Newsreader + Geist + Geist Mono**. Newsreader and Geist are distributed under the SIL Open Font License 1.1. Each product must self-host the official variable font files and retain their licence; a local operating-system installation is not a delivery strategy.
+The target family stack is **Newsreader + Geist + Geist Mono**. Newsreader and Geist are distributed under the SIL Open Font License 1.1. Each product must self-host the official variable font files and retain their licence; a local operating-system installation is not a delivery strategy. Until those assets and licences are admitted to a product, that product must retain its currently delivered face rather than naming an unavailable target font.
 
 - Newsreader is the editorial display face for page identity, case-study titles, major statements, and the one consequential product-cover hook.
 - Geist Semibold is the product-name and brAInwav-wordmark face; Geist Regular is the default for body copy, controls, navigation, product UI, and explanatory labels.
