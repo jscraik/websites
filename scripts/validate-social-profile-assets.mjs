@@ -98,24 +98,36 @@ check(
   "bannerDocument must not reference the avatar image"
 );
 
-const sourceAvatar = await readPng(manifest.avatar_source);
-check("source avatar is square", sourceAvatar.width === sourceAvatar.height, "expected a square source portrait");
-check("source avatar is high resolution", sourceAvatar.width >= 1200, "expected a source portrait at least 1200px wide");
+let sourceAvatar;
+try {
+  sourceAvatar = await readPng(manifest.avatar_source);
+  check("source avatar is square", sourceAvatar.width === sourceAvatar.height, "expected a square source portrait");
+  check("source avatar is high resolution", sourceAvatar.width >= 1200, "expected a source portrait at least 1200px wide");
+} catch (error) {
+  check("source avatar exists", false, error.message);
+}
 
 for (const [platform, specification] of Object.entries(manifest.platforms)) {
   await checkPng(`${platform} avatar`, specification.avatar.output, specification.avatar.width, specification.avatar.height);
   await checkPng(`${platform} banner`, specification.banner.output, specification.banner.width, specification.banner.height);
-  const banner = await readPng(specification.banner.output);
+  let banner;
+  try {
+    banner = await readPng(specification.banner.output);
+  } catch (error) {
+    check(`${platform} banner readable`, false, error.message);
+  }
   const split = Math.round(specification.banner.width * (5 / 12));
+  const editorialPixel = hexToRgba(tokens.colors?.portfolio_bg);
+  const technicalPixel = hexToRgba(tokens.colors?.brainwav_bg);
   check(
     `${platform} banner editorial split pixel`,
-    pixelMatches(banner, split - 10, 17, [230, 230, 225, 255]),
-    "expected the five-column editorial canvas immediately before the split"
+    Boolean(banner && editorialPixel && pixelMatches(banner, split - 10, 17, editorialPixel)),
+    "expected the five-column editorial canvas token immediately before the split"
   );
   check(
     `${platform} banner technical split pixel`,
-    pixelMatches(banner, split + 10, 17, [11, 15, 23, 255]),
-    "expected the seven-column technical canvas immediately after the split"
+    Boolean(banner && technicalPixel && pixelMatches(banner, split + 10, 17, technicalPixel)),
+    "expected the seven-column technical canvas token immediately after the split"
   );
   await checkPng(
     `${platform} 2x banner master`,
@@ -131,11 +143,28 @@ for (const [platform, specification] of Object.entries(manifest.platforms)) {
   );
 }
 
-const expectedSources = await sourceDigests();
+let expectedSources = {};
+try {
+  expectedSources = await sourceDigests();
+} catch (error) {
+  check("source files readable", false, error.message);
+}
 check(
   "receipt schema",
   receipt?.schema_version === "jamie-social-profile-assets-receipt/v1" && receipt?.contract === manifest.contract,
   "unexpected or mismatched generation receipt"
+);
+let expectedTypography = {};
+try {
+  expectedTypography = await expectedTypographyMetadata();
+} catch (error) {
+  check("typography metadata readable", false, error.message);
+}
+check(
+  "receipt metadata",
+  receipt?.design_system_version === manifest.design_system_version &&
+    JSON.stringify(receipt?.typography) === JSON.stringify(expectedTypography),
+  "generated receipt metadata does not match the current manifest-derived typography projection"
 );
 check(
   "receipt source map",
@@ -150,11 +179,15 @@ check(
 
 const expectedOutputs = {};
 for (const output of outputSpecifications()) {
-  expectedOutputs[output.path] = {
-    sha256: sha256(await readFile(path.join(ROOT, output.path))),
-    width: output.width,
-    height: output.height
-  };
+  try {
+    expectedOutputs[output.path] = {
+      sha256: sha256(await readFile(path.join(ROOT, output.path))),
+      width: output.width,
+      height: output.height
+    };
+  } catch (error) {
+    check(`receipt output ${output.path}`, false, error.message);
+  }
 }
 check(
   "receipt output hashes",
@@ -213,6 +246,11 @@ function pixelMatches(png, x, y, expected) {
   return expected.every((channel, index) => png.data[offset + index] === channel);
 }
 
+function hexToRgba(value) {
+  if (typeof value !== "string" || !/^#[0-9A-Fa-f]{6}$/.test(value)) return null;
+  return [1, 3, 5].map((offset) => Number.parseInt(value.slice(offset, offset + 2), 16)).concat(255);
+}
+
 function socialProfileProjectionMatches() {
   const projection = tokens.social_profile;
   return (
@@ -250,6 +288,31 @@ async function sourceDigests() {
   }
 
   return sortObject(sources);
+}
+
+async function expectedTypographyMetadata() {
+  const routes = { display: "newsreader", sans: "geist", mono: "geist_mono" };
+  const embedded = {};
+  for (const [key, relativePath] of Object.entries(manifest.typography.official_font_files || {})) {
+    try {
+      await readFile(path.join(ROOT, relativePath));
+      embedded[key] = true;
+    } catch (error) {
+      if (error.code === "ENOENT") embedded[key] = false;
+      else throw error;
+    }
+  }
+  const rendering_stacks = Object.fromEntries(
+    Object.entries(routes).map(([usage, font]) => [
+      usage,
+      embedded[font] ? manifest.typography.embedded_stacks?.[usage] : manifest.typography.fallback_stacks?.[usage]
+    ])
+  );
+  return {
+    embedded,
+    rendering_stacks,
+    rendering_status: manifest.typography.current_rendering_status
+  };
 }
 
 function outputSpecifications() {

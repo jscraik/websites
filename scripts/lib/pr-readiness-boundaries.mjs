@@ -6,7 +6,7 @@ const SCOPE_SCHEMA = "portfolio-pr-scope/v1";
 export function readChangedFiles(result, options, pr, run, git, gh) {
   const execution = pr
     ? run(gh, ["pr", "diff", String(pr.number), "--repo", result.repo, "--name-only"])
-    : run(git, ["diff", "--name-only", `${options.base}...${options.head}`, "--"]);
+    : run(git, ["diff", "--name-only", "-z", `${options.base}...${options.head}`, "--"]);
   if (!execution.ok) {
     result.blockers.push({
       code: "changed_files_unavailable",
@@ -15,7 +15,9 @@ export function readChangedFiles(result, options, pr, run, git, gh) {
     });
     return [];
   }
-  const files = execution.stdout.split(/\r?\n/).map((file) => file.trim()).filter(Boolean);
+  const files = execution.stdout.includes("\0")
+    ? execution.stdout.split("\0").filter(Boolean)
+    : execution.stdout.split(/\r?\n/).filter(Boolean);
   result.scope = { ...(result.scope || {}), changed_files: files };
   return files;
 }
@@ -53,11 +55,31 @@ export function loadScope(result, options, addBlocker) {
     try {
       const payload = JSON.parse(readFileSync(resolve(options.scopeFile), "utf8"));
       if (payload.schema_version !== SCOPE_SCHEMA) addBlocker(result, "scope_schema_invalid", "Scope manifest has the wrong schema_version");
-      if (!Array.isArray(payload.allowed_paths)) addBlocker(result, "scope_allowed_paths_missing", "Scope manifest must define allowed_paths");
-      else scope.allowed_paths.push(...payload.allowed_paths);
-      if (Array.isArray(payload.excluded_paths)) scope.excluded_paths.push(...payload.excluded_paths);
-      if (Array.isArray(payload.dirty_allowed_paths)) scope.dirty_allowed_paths.push(...payload.dirty_allowed_paths);
-      if (payload.max_files !== undefined) scope.max_files = payload.max_files;
+      const readPatterns = (field, missingCode, target) => {
+        const value = payload[field];
+        if (!Array.isArray(value)) {
+          addBlocker(result, missingCode, `Scope manifest must define ${field} as an array of strings`, { field, value });
+          return;
+        }
+        const invalid = value.filter((entry) => typeof entry !== "string");
+        if (invalid.length > 0) {
+          addBlocker(result, "scope_field_invalid", `Scope manifest ${field} must contain only strings`, {
+            field,
+            invalid,
+          });
+          return;
+        }
+        target.push(...value);
+      };
+      readPatterns("allowed_paths", "scope_allowed_paths_missing", scope.allowed_paths);
+      if (payload.excluded_paths !== undefined) readPatterns("excluded_paths", "scope_excluded_paths_invalid", scope.excluded_paths);
+      if (payload.dirty_allowed_paths !== undefined) {
+        readPatterns("dirty_allowed_paths", "scope_dirty_allowed_paths_invalid", scope.dirty_allowed_paths);
+      }
+      if (payload.max_files !== undefined) {
+        if (Number.isInteger(payload.max_files) && payload.max_files >= 0) scope.max_files = payload.max_files;
+        else addBlocker(result, "scope_max_files_invalid", "Scope manifest max_files must be a non-negative integer", { value: payload.max_files });
+      }
     } catch (error) {
       addBlocker(result, "scope_manifest_unreadable", `Scope manifest could not be read: ${error.message}`, { path: options.scopeFile });
     }
@@ -101,7 +123,7 @@ function dirtyFiles(result, run, git, addBlocker) {
   for (let index = 0; index < entries.length; index += 1) {
     const entry = entries[index];
     const status = entry.slice(0, 2);
-    files.push(entry.slice(3).split(" -> ").pop());
+    files.push(entry.slice(3));
     if (status.includes("R") || status.includes("C")) {
       const renamedPath = entries[index + 1];
       if (renamedPath) {
@@ -182,6 +204,10 @@ export function checkTrackedHead(result, options, run, git, addBlocker) {
   const upstream = run(git, ["rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{upstream}"]);
   if (!upstream.ok || !upstream.stdout.trim()) {
     result.ancestry.remote_head = { status: "untracked" };
+    addBlocker(result, "remote_head_untracked", "The current branch has no upstream remote head to compare", {
+      command: `${git} rev-parse --abbrev-ref --symbolic-full-name @{upstream}`,
+      output: upstream.output,
+    });
     return;
   }
   const upstreamRef = upstream.stdout.trim();
@@ -249,16 +275,23 @@ export function requiredChecks(result, repo, branch, run, gh, commandJson, parse
       }
     }
   }
-  if (contexts.length > 0) return { contexts, source: "active repository ruleset" };
+  const sources = [];
+  if (contexts.length > 0) sources.push("active repository ruleset");
   const protection = run(gh, ["api", `repos/${repo}/branches/${branch}/protection`]);
   if (protection.ok) {
     const parsed = parseJson(protection.stdout, `branch protection for ${branch}`);
+    if (parsed.error) addBlocker(result, "invalid_command_output", parsed.error, { command: [gh, "api", `repos/${repo}/branches/${branch}/protection`].join(" ") });
     const branchContexts = [
       ...(parsed.value?.required_status_checks?.contexts || []),
       ...(parsed.value?.required_status_checks?.checks || []).map((check) => check.context).filter(Boolean),
     ];
-    if (branchContexts.length > 0) return { contexts: [...new Set(branchContexts)], source: "branch protection" };
+    if (branchContexts.length > 0) {
+      contexts.push(...branchContexts);
+      sources.push("branch protection");
+    }
   }
+  const uniqueContexts = [...new Set(contexts)];
+  if (uniqueContexts.length > 0) return { contexts: uniqueContexts, source: sources.join(" + ") };
   addBlocker(result, "required_checks_unconfigured", `No required status checks are configured for protected branch ${branch}`);
   return { contexts: [], source: "none found" };
 }

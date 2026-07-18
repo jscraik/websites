@@ -8,8 +8,8 @@
   "durable_improvement": {
     "kind": "validator",
     "path": "scripts/validate-pr-readiness.mjs",
-    "action": "Add a strict JSON-producing gate that blocks PR creation when ancestry, review freshness, required checks, declared scope, or dirty-worktree boundaries are unresolved.",
-    "prevents": "Future runs from opening or merging stacked PRs based on mergeable status alone, stale reviews, queued checks, undeclared file scope, or unclassified dirty runtime state."
+    "action": "Add a phase-aware JSON-producing gate: pre-pr validates local and remote ancestry, declared scope, and dirty-worktree boundaries; merge additionally validates current hosted reviews, required checks, and stack readiness.",
+    "prevents": "Future runs from opening PRs with unresolved local ancestry, undeclared scope, or unclassified dirty state, and from merging based on mergeable status alone, stale reviews, queued checks, or an unready stack."
   },
   "destination": "validator",
   "proof": {

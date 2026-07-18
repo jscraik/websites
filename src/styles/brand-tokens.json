@@ -37,12 +37,12 @@
     "flagship_product": "SkillsBar",
     "affiliation_boundary": "OpenAI and Tessl are relevant audiences and career bridges, not affiliations or the headline identity.",
     "site_roles": {
-      "jscraik.com": "Personal and professional narrative, concise case studies, speaking, and contact routes.",
-      "brainwav.io": "Technical companion, public technical proof, architecture, implementation detail, evidence ledgers, and the shared product-presentation system."
+      "portfolio": "Single public front door for Jamie's personal narrative, concise case studies, speaking, contact routes, and bounded technical proof.",
+      "brAInwav": "Shared product-presentation system for editorial and technical evidence surfaces."
     },
     "site_handoffs": {
-      "to_technical_evidence": "Inspect the technical evidence →",
-      "to_personal_case_study": "Read Jamie’s case study →"
+      "technical_depth": "Route technical depth to public repositories, READMEs, documentation, diagrams, tests, implementation excerpts, and bounded evidence receipts.",
+      "claim_boundary": "Evidence before claims; current source identity and freshness remain visible."
     }
   },
   "identity": {
