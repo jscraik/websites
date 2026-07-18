@@ -185,15 +185,19 @@ export function checkTrackedHead(result, options, run, git, addBlocker) {
     return;
   }
   const upstreamRef = upstream.stdout.trim();
-  const remoteHead = run(git, ["rev-parse", "--verify", `${upstreamRef}^{commit}`]);
+  const separator = upstreamRef.indexOf("/");
+  const remoteName = separator > 0 ? upstreamRef.slice(0, separator) : options.remote;
+  const branch = separator > 0 ? upstreamRef.slice(separator + 1) : upstreamRef;
+  const remoteHead = run(git, ["ls-remote", remoteName, `refs/heads/${branch}`]);
+  const remoteSha = remoteHead.stdout.trim().split(/\r?\n/).find(Boolean)?.split(/\s+/)[0] || "";
   const localHead = run(git, ["rev-parse", "--verify", `${options.head}^{commit}`]);
   result.ancestry.remote_head = {
-    status: remoteHead.ok && localHead.ok ? "tracked" : "unavailable",
+    status: remoteHead.ok && /^[0-9a-f]{40}$/.test(remoteSha) && localHead.ok ? "tracked" : "unavailable",
     upstream: upstreamRef,
-    remote_sha: remoteHead.stdout.trim() || null,
+    remote_sha: remoteSha || null,
     local_sha: localHead.stdout.trim() || null,
   };
-  if (!remoteHead.ok || !localHead.ok) {
+  if (!remoteHead.ok || !/^[0-9a-f]{40}$/.test(remoteSha) || !localHead.ok) {
     addBlocker(result, "remote_head_unavailable", `Tracked branch head ${upstreamRef} could not be compared`, {
       upstream: upstreamRef,
       remote_output: remoteHead.output,
@@ -201,29 +205,42 @@ export function checkTrackedHead(result, options, run, git, addBlocker) {
     });
     return;
   }
-  const containsRemote = run(git, ["merge-base", "--is-ancestor", remoteHead.stdout.trim(), localHead.stdout.trim()]);
+  const containsRemote = run(git, ["merge-base", "--is-ancestor", remoteSha, localHead.stdout.trim()]);
   if (!containsRemote.ok) {
     addBlocker(result, "remote_head_stale", `Local head ${localHead.stdout.trim()} does not contain current ${upstreamRef}`, {
       upstream: upstreamRef,
-      remote_sha: remoteHead.stdout.trim(),
+      remote_sha: remoteSha,
       local_sha: localHead.stdout.trim(),
     });
   }
 }
 
-function rulesetApplies(ruleset, branch) {
+function rulesetRefMatches(branch, pattern, defaultBranch = branch) {
+  if (pattern === "~ALL") return true;
+  if (pattern === "~DEFAULT_BRANCH") return branch === defaultBranch;
+  const normalized = pattern.startsWith("refs/heads/") ? pattern.slice("refs/heads/".length) : pattern;
+  return globMatches(branch, normalized) || globMatches(`refs/heads/${branch}`, pattern);
+}
+
+export function rulesetApplies(ruleset, branch, defaultBranch = branch) {
   if (ruleset.enforcement !== "active" || ruleset.target !== "branch") return false;
   const includes = ruleset.conditions?.ref_name?.include || [];
-  return includes.some((pattern) => pattern === "~DEFAULT_BRANCH" || pattern === branch || pattern === `refs/heads/${branch}` || pattern === "*");
+  const excludes = ruleset.conditions?.ref_name?.exclude || [];
+  const included = includes.length === 0 || includes.some((pattern) => rulesetRefMatches(branch, pattern, defaultBranch));
+  const excluded = excludes.some((pattern) => rulesetRefMatches(branch, pattern, defaultBranch));
+  return included && !excluded;
 }
 
 export function requiredChecks(result, repo, branch, run, gh, commandJson, parseJson, addBlocker) {
   const contexts = [];
-  const rulesets = commandJson(result, gh, ["api", "--paginate", `repos/${repo}/rulesets`], "repository rulesets");
+  const rulesetsPayload = commandJson(result, gh, ["api", "--paginate", "--slurp", `repos/${repo}/rulesets`], "repository rulesets");
+  const rulesets = Array.isArray(rulesetsPayload)
+    ? rulesetsPayload.flatMap((page) => (Array.isArray(page) ? page : [page]))
+    : [];
   if (Array.isArray(rulesets)) {
     for (const summary of rulesets) {
       const detail = commandJson(result, gh, ["api", `repos/${repo}/rulesets/${summary.id}`], `ruleset ${summary.id}`);
-      if (!detail || !rulesetApplies(detail, branch)) continue;
+      if (!detail || !rulesetApplies(detail, branch, branch)) continue;
       for (const rule of detail.rules || []) {
         if (rule.type !== "required_status_checks") continue;
         for (const check of rule.parameters?.required_status_checks || []) {
@@ -236,8 +253,11 @@ export function requiredChecks(result, repo, branch, run, gh, commandJson, parse
   const protection = run(gh, ["api", `repos/${repo}/branches/${branch}/protection`]);
   if (protection.ok) {
     const parsed = parseJson(protection.stdout, `branch protection for ${branch}`);
-    const branchContexts = parsed.value?.required_status_checks?.contexts || [];
-    if (branchContexts.length > 0) return { contexts: branchContexts, source: "branch protection" };
+    const branchContexts = [
+      ...(parsed.value?.required_status_checks?.contexts || []),
+      ...(parsed.value?.required_status_checks?.checks || []).map((check) => check.context).filter(Boolean),
+    ];
+    if (branchContexts.length > 0) return { contexts: [...new Set(branchContexts)], source: "branch protection" };
   }
   addBlocker(result, "required_checks_unconfigured", `No required status checks are configured for protected branch ${branch}`);
   return { contexts: [], source: "none found" };

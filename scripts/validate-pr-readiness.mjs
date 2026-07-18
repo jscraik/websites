@@ -224,8 +224,9 @@ function checkStackParent(result, repo, pr, defaultBranch) {
 }
 
 function getReviews(result, repo, number) {
-  const data = commandJson(result, GH, ["api", "--paginate", `repos/${repo}/pulls/${number}/reviews`], `PR #${number} reviews`);
-  return Array.isArray(data) ? data : [];
+  const payload = commandJson(result, GH, ["api", "--paginate", "--slurp", `repos/${repo}/pulls/${number}/reviews`], `PR #${number} reviews`);
+  if (!Array.isArray(payload)) return [];
+  return payload.flatMap((page) => (Array.isArray(page) ? page : [page]));
 }
 
 function isBot(review) {
@@ -235,7 +236,13 @@ function isBot(review) {
 
 function checkReviews(result, repo, pr) {
   const reviews = getReviews(result, repo, pr.number);
-  const current = reviews.filter((review) => review.commit_id === pr.headRefOid && review.state !== "DISMISSED");
+  const latestByReviewer = new Map();
+  for (const review of reviews) {
+    if (review.commit_id !== pr.headRefOid) continue;
+    const reviewer = review.user?.login || review.user?.id || review.id;
+    latestByReviewer.set(reviewer, review);
+  }
+  const current = [...latestByReviewer.values()].filter((review) => review.state !== "DISMISSED");
   const currentCodex = current.filter((review) => /codex|chatgpt/i.test(review.user?.login || ""));
   const currentCodeRabbit = current.filter((review) => /coderabbit/i.test(review.user?.login || ""));
   const independentApprovals = current.filter(
@@ -278,8 +285,11 @@ function checkChecks(result, repo, pr, protectedBranch) {
     return;
   }
   if (checks.length === 0) addBlocker(result, "checks_missing", `PR #${pr.number} reported no check contexts`);
+  const requiredContexts = new Set(required.contexts);
+  const optionalFailures = checks.filter((check) => check.bucket !== "pass" && !requiredContexts.has(check.name));
+  result.checks.optional_failures = optionalFailures.map((check) => ({ name: check.name, bucket: check.bucket, state: check.state, link: check.link }));
   for (const check of checks) {
-    if (check.bucket !== "pass") {
+    if (check.bucket !== "pass" && requiredContexts.has(check.name)) {
       addBlocker(result, "check_not_passing", `${check.name} is ${check.bucket || check.state}`, {
         name: check.name,
         bucket: check.bucket,

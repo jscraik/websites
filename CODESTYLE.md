@@ -81,7 +81,6 @@ Detailed standards are split under [codestyle/README.md](./codestyle/README.md).
 - [codestyle/18-code-review.md](./codestyle/18-code-review.md)
 - [codestyle/19-development-workflow.md](./codestyle/19-development-workflow.md)
 - [codestyle/20-go.md](./codestyle/20-go.md)
-- [codestyle/21-artifact-formats.md](./codestyle/21-artifact-formats.md)
 
 ## Enforcement model
 
