@@ -165,6 +165,7 @@ function loadHostedPr(result, repo, number) {
     "isDraft",
     "headRefName",
     "headRefOid",
+    "headRepositoryOwner",
     "baseRefName",
     "baseRefOid",
     "mergeable",
@@ -191,11 +192,14 @@ function loadHostedPr(result, repo, number) {
   return data;
 }
 
-function allPullRequests(result, repo) {
+function allPullRequests(result, repo, headBranch = null) {
+  const args = ["pr", "list", "--repo", repo, "--state", "all", "--limit", "100"];
+  if (headBranch) args.push("--head", headBranch);
+  args.push("--json", "number,state,headRefName,headRepositoryOwner,baseRefName,headRefOid,title,url");
   return commandJson(
     result,
     GH,
-    ["pr", "list", "--repo", repo, "--state", "all", "--limit", "100", "--json", "number,state,headRefName,baseRefName,headRefOid,title,url"],
+    args,
     "repository PR list",
   ) || [];
 }
@@ -205,8 +209,12 @@ function checkStackParent(result, repo, pr, defaultBranch) {
     result.stack = { stacked: false, default_branch: defaultBranch };
     return;
   }
-  const candidates = allPullRequests(result, repo);
-  const parent = candidates.find((candidate) => candidate.headRefName === pr.baseRefName);
+  const candidates = allPullRequests(result, repo, pr.baseRefName);
+  const parent = candidates.find((candidate) => {
+    const owner = candidate.headRepositoryOwner?.login || candidate.headRepositoryOwner?.name || candidate.headRepositoryOwner;
+    const currentOwner = pr.headRepositoryOwner?.login || pr.headRepositoryOwner?.name || pr.headRepositoryOwner;
+    return candidate.headRefName === pr.baseRefName && (!owner || !currentOwner || owner === currentOwner);
+  });
   result.stack = {
     stacked: true,
     default_branch: defaultBranch,
@@ -240,6 +248,9 @@ function checkReviews(result, repo, pr) {
   for (const review of reviews) {
     if (review.commit_id !== pr.headRefOid) continue;
     const reviewer = review.user?.login || review.user?.id || review.id;
+    const previous = latestByReviewer.get(reviewer);
+    if (previous && previous.state === "APPROVED" && review.state === "COMMENTED") continue;
+    if (previous && previous.state === "CHANGES_REQUESTED" && review.state === "COMMENTED") continue;
     latestByReviewer.set(reviewer, review);
   }
   const current = [...latestByReviewer.values()].filter((review) => review.state !== "DISMISSED");
