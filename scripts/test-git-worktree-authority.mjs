@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { chmod, mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 
@@ -32,6 +32,15 @@ try {
     writableDirectoryForTarget(path.join(gitDir, "refs", "heads", "blocked", "topic"), "file"),
     /path component is not a directory/,
     "a file in the branch path must fail closed"
+  );
+
+  const searchBlocked = path.join(gitDir, "search-blocked");
+  await mkdir(searchBlocked);
+  await chmod(searchBlocked, 0o200);
+  await assert.rejects(
+    writableDirectoryForTarget(searchBlocked, "directory"),
+    /EACCES|permission denied|operation not permitted/i,
+    "a Git directory without search permission must fail closed"
   );
 } finally {
   await rm(root, { recursive: true, force: true });

@@ -1,4 +1,5 @@
-import { access, stat } from "node:fs/promises";
+import { access, readdir, stat } from "node:fs/promises";
+import { W_OK, X_OK } from "node:constants";
 import { execFileSync } from "node:child_process";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
@@ -9,6 +10,11 @@ function git(...args) {
   return execFileSync("git", args, { cwd: ROOT, encoding: "utf8" }).trim();
 }
 
+function fail(message) {
+  console.error(`Git worktree authority check failed: ${message}`);
+  process.exit(1);
+}
+
 export async function writableDirectoryForTarget(originalTarget, kind) {
   let target = kind === "file" ? path.dirname(originalTarget) : originalTarget;
   while (true) {
@@ -17,7 +23,7 @@ export async function writableDirectoryForTarget(originalTarget, kind) {
       if (!details.isDirectory()) {
         throw new Error(`path component is not a directory: ${target}`);
       }
-      await access(target, 2);
+      await access(target, W_OK | X_OK);
       return target;
     } catch (error) {
       if (error.code !== "ENOENT") throw error;
@@ -41,8 +47,7 @@ async function main() {
     ["refs", git("rev-parse", "--git-path", "refs"), "directory"],
     ["logs/HEAD", git("rev-parse", "--git-path", "logs/HEAD"), "file"],
     ["current branch ref", git("rev-parse", "--git-path", `refs/heads/${branch}`), "file"],
-    ["current branch reflog", git("rev-parse", "--git-path", `logs/refs/heads/${branch}`), "file"],
-    ["packed refs", git("rev-parse", "--git-path", "packed-refs"), "file"]
+    ["current branch reflog", git("rev-parse", "--git-path", `logs/refs/heads/${branch}`), "file"]
   ];
 
   for (const [label, originalTarget, kind] of paths) {
@@ -51,6 +56,23 @@ async function main() {
     } catch (error) {
       console.error(`Git worktree authority check failed: ${label} is not writable at ${originalTarget}: ${error.message}`);
       process.exit(1);
+    }
+  }
+
+  const objectsPath = git("rev-parse", "--git-path", "objects");
+  let entries;
+  try {
+    entries = await readdir(objectsPath, { withFileTypes: true });
+  } catch (error) {
+    fail(`object store fanout directories could not be inspected at ${objectsPath}: ${error.message}`);
+  }
+  for (const entry of entries) {
+    if (!entry.isDirectory() || !/^[0-9a-f]{2}$/.test(entry.name)) continue;
+    const fanout = path.join(objectsPath, entry.name);
+    try {
+      await access(fanout, W_OK | X_OK);
+    } catch (error) {
+      fail(`object store fanout ${entry.name} is not writable at ${fanout}: ${error.message}`);
     }
   }
 

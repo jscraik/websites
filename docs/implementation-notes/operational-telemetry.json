@@ -90,7 +90,7 @@
       "status": "implemented",
       "durableImprovement": {
         "artifact": "scripts/check-git-worktree-authority.mjs",
-        "validator": "scripts/validate-release-source-boundary.mjs",
+        "validator": "scripts/check-git-worktree-authority.mjs",
         "gate": "npm run check:git-worktree-authority",
         "prevention": "Check the linked worktree index, object store, refs, reflog, and current branch ref for write access before staging or committing."
       },
