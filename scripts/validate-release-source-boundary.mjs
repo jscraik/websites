@@ -18,6 +18,18 @@ function git(...args) {
   return execFileSync("git", args, { cwd: ROOT, encoding: "utf8" }).trim();
 }
 
+function dirtyPaths() {
+  const output = execFileSync("git", ["status", "--porcelain=v1", "--untracked-files=all", "--ignored=matching", "-z"], {
+    cwd: ROOT,
+    encoding: "utf8",
+  });
+  return output
+    .split("\0")
+    .filter(Boolean)
+    .map((entry) => entry.slice(3))
+    .filter((entry) => entry.length > 0);
+}
+
 function assert(condition, message) {
   if (!condition) {
     fail(message);
@@ -56,6 +68,8 @@ try {
 
 assert(baselineTree === baselineTreeSha, `baseline tree mismatch: recorded ${baselineTreeSha}, actual ${baselineTree}`);
 assert(currentSha !== baselineSha, "release branch must contain a post-baseline change");
+const dirty = dirtyPaths();
+assert(dirty.length === 0, `release worktree must be clean before boundary approval: ${dirty.join(", ")}`);
 
 const acceptedPaths = receipt.acceptedPaths;
 const excludedPaths = receipt.excludedPaths;
