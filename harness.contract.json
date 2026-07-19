@@ -458,7 +458,7 @@
     "requireBranchIssueKey": true,
     "requirePrIssueKey": true,
     "prReferenceMode": "either",
-    "branchPrefix": "jscraik/feature"
+    "branchPrefix": "jscraik"
   },
   "evidencePolicy": {
     "requiredFor": [],

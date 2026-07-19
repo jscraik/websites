@@ -300,6 +300,14 @@ if [[ "$should_refresh" -ne 1 ]]; then
 	exit 0
 fi
 
+# A tracked manifest is the repository's opt-in marker for generated diagram
+# freshness. Repositories that only retain a starter .diagram/.gitkeep must not
+# invoke the generator or require generated outputs on every package change.
+if ! git -C "$REPO_ROOT" ls-files --error-unmatch .diagram/manifest.json >/dev/null 2>&1; then
+	echo "Diagram freshness check skipped: no tracked diagram manifest baseline."
+	exit 0
+fi
+
 tracked_files=()
 while IFS= read -r tracked_file; do
 	[[ -n "$tracked_file" ]] || continue
