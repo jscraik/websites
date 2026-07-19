@@ -31,8 +31,11 @@ Useful local checks:
     npm run test:smoke
     npm run validate:page-surfaces
     npm run validate:jose-claim-boundary
+    npm run validate:operator-contract
 
 The portfolio content validator checks required metadata, proof fields, local links, and collection structure. The content-source validator protects the repo-file-backed storage boundary. The design-system validator checks the versioned brand contract and its projection into this README and the human guide. The fast gate composes the repository's static content and design checks. The smoke test builds the site and checks generated HTML for the main public routes. The page-surface validator protects repeated layout regressions in the shared stylesheet. The Jose claim-boundary validator prevents static reference capture from being reported as visual parity proof.
+
+For agent/worktree operation, use `bash scripts/new-task.sh --prepare <task-slug>` and run `bash scripts/preflight-branch-transition.sh --target origin/main --format json` before branch movement. The preflight only reports local untracked-path collisions; it never cleans, stashes, or overwrites them.
 
 ## Site Map
 

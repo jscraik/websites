@@ -35,9 +35,9 @@ This workflow keeps delivery auditable, reversible, and consistent even for solo
 ## Branching and PR rule
 
 1. Create a dedicated branch/worktree for each task:
-   - Agent-created branch: `git switch -c jscraik/feature/<issue-key>-<short-description>`
-   - Agent-created worktree: `git worktree add ../tmp-worktree -b jscraik/feature/<issue-key>-<short-description>`
-   - Human-authored branch prefixes (when not using `jscraik/feature/`): `feat/`, `fix/`, `docs/`, `refactor/`, `chore/`, `test/`
+   - Agent-created branch: `git switch -c jscraik/<linear-key>-<short-description>`
+   - Agent-created worktree: `git worktree add ../tmp-worktree -b jscraik/<linear-key>-<short-description>`
+   - Human-authored branch prefixes (when not using the Linear-linked `jscraik/` prefix): `feat/`, `fix/`, `docs/`, `refactor/`, `chore/`, `test/`
 2. Keep commits small and focused.
 3. Open a PR to merge into `main`.
 4. Do not merge until checks, reviews, and checklist items are complete.
@@ -46,7 +46,7 @@ This workflow keeps delivery auditable, reversible, and consistent even for solo
 ## Branch name policy
 
 - Use lower-case, kebab-case slugs.
-- Agent-created branches must use `jscraik/feature/<issue-key>-<short-description>`.
+- Agent-created branches must use `jscraik/<linear-key>-<short-description>` with a lower-case Linear key such as `jsc-123`.
 - Human-authored branches may use: `feat/`, `fix/`, `docs/`, `refactor/`, `chore/`, `test/`.
 - Avoid `main`-like names and do not include secrets or issue-pii.
 

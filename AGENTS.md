@@ -7,7 +7,7 @@ schema_version: 2
 ## Scope
 - This file applies to the whole Git repository and any current checkout of it. The repository was renamed from the earlier `brainwav.io` directory.
 - This repo is an Astro portfolio/proof site. Treat source, scripts, stored reference captures, generated screenshots, and package scripts as the local evidence surfaces.
-- There was no repo-local AGENTS.md or CODESTYLE.md when this file was created. If a deeper AGENTS.md is later added, it overrides this file only inside its own subtree.
+- This checkout has root `AGENTS.md` and `CODESTYLE.md`; a deeper `AGENTS.md` overrides this guidance only inside its own subtree.
 
 ## Operating Posture
 - Read current files before editing. This checkout often has active portfolio-parity work in progress; preserve unrelated dirty or untracked changes.

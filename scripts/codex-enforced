@@ -10,9 +10,9 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 PREFLIGHT_SCRIPT="${SCRIPT_DIR}/codex-preflight.sh"
 LEARN_SCRIPT="${SCRIPT_DIR}/codex-learn"
 # WORKTREE_BRANCH_PREFIX: Default branch prefix for auto-created worktrees.
-# For Linear-tracked work, use --worktree-slug JSC-XXX-short-description so the
-# resulting branch matches the repo's codex/JSC-<number>-<short-slug> contract.
-WORKTREE_BRANCH_PREFIX="${WORKTREE_BRANCH_PREFIX:-codex}"
+# For Linear-tracked work, use --worktree-slug jsc-XXX-short-description so the
+# resulting branch matches the repo's jscraik/jsc-<number>-<short-slug> contract.
+WORKTREE_BRANCH_PREFIX="${WORKTREE_BRANCH_PREFIX:-jscraik}"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
