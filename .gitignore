@@ -4,11 +4,27 @@ dist/
 .npm-cache/
 .playwright-cache/
 .playwright-tmp/
+
+# Generated architecture diagrams: commit deterministic Mermaid/manifest outputs,
+# keep refresh metadata and logs local.
+.diagram/*
+!.diagram/*.mmd
+!.diagram/manifest.json
+AI/context/refresh.log
+.tmp-diagram-refresh-*/
+
+# Local harness and gate reports are runtime evidence, not source.
+.cache/
+artifacts/consistency-gate/
+artifacts/context-integrity/
+artifacts/policy/
 playwright-report/
 test-results/
 .codex/*
 !.codex/skills/
 !.codex/skills/**
+!.codex/environments/
+!.codex/environments/environment.toml
 .gemini/
 .codex/config.toml
 .DS_Store
@@ -32,7 +48,5 @@ artifacts/visual-audit/
 .lighthouseci/
 .cache/prek/
 .harness/runtime/
-.diagram/*
-!.diagram/.gitkeep
 .playwright-cache/
 .playwright-tmp/

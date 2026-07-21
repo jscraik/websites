@@ -1,0 +1,14 @@
+flowchart TD
+  Untrusted["Untrusted input"]
+  validate_coding_policy_29976175["validate-coding-policy"]
+  Untrusted --> validate_coding_policy_29976175
+  validate_css_policy_1c5ec854["validate-css-policy"]
+  Untrusted --> validate_css_policy_1c5ec854
+  setup_git_hooks_70750d40["setup-git-hooks"]
+  Untrusted --> setup_git_hooks_70750d40
+  test_operator_workflow_contract_b4a152d7["test-operator-workflow-contract"]
+  Untrusted --> test_operator_workflow_contract_b4a152d7
+  validate_operator_contract_f777ed78["validate-operator-contract"]
+  Untrusted --> validate_operator_contract_f777ed78
+  classDef securityNode fill:#dc2626,color:#fff
+  class validate_coding_policy_29976175,validate_css_policy_1c5ec854,setup_git_hooks_70750d40,test_operator_workflow_contract_b4a152d7,validate_operator_contract_f777ed78 securityNode

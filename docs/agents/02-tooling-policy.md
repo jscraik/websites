@@ -39,3 +39,8 @@ review threads, required checks, declared scope, and dirty paths are checked.
 
 Generated receipts, build output, npm caches, and temporary fixtures remain
 runtime state unless a repository contract explicitly promotes them to source.
+
+The tracked `.codex/environments/environment.toml` is the project-local
+environment projection used by the operator gates. Keep it aligned with the
+central Codex environment contract, and treat `.codex/skills/` entries pinned to
+external commits as reviewed source rather than generated runtime output.

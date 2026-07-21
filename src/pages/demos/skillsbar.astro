@@ -1,0 +1,521 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const gates = [
+  ["Candidate identity", "Canonical package digest"],
+  ["Mechanical validation", "Package verify and strict audit"],
+  ["Security review", "Candidate-bound risk modes"],
+  ["Eval preparation", "Scenarios and scorer calibration"],
+  ["Local evaluation", "Governed local eval receipt"],
+  ["Cloud evaluation", "Remote eval receipt"],
+  ["Tessl staging", "Candidate-bound staging receipt"],
+  ["Runtime proof", "Installed digest and observed behavior"],
+  ["Registry publication", "Published version and visibility"],
+];
+---
+
+<BaseLayout
+  title="SkillsBar | Interactive evidence demo"
+  description="An interactive SkillsBar demo showing how candidate-bound evidence keeps AI skills honest before release."
+  bodyClass="skillsbar-demo"
+>
+    <header class="demo-nav">
+      <a class="demo-brand" href="#demo" aria-label="SkillsBar demo home">
+        <img src="/products/skillsbar/icon.png" alt="" width="32" height="32" />
+        <span>SkillsBar</span>
+      </a>
+      <p><span aria-hidden="true"></span> OpenAI Hackathon · Interactive prototype</p>
+    </header>
+
+    <div id="demo">
+      <section class="demo-intro" aria-labelledby="demo-title">
+        <p class="demo-kicker">SKILLSBAR · BY br<span>AI</span>nwav</p>
+        <h1 id="demo-title">When evidence goes stale.</h1>
+        <p class="demo-lede">
+          A changed Skill candidate should not inherit proof that no longer belongs to it. SkillsBar
+          shows what a maintainer can safely conclude, and the exact evidence to inspect next.
+        </p>
+        <div class="scenario-control" aria-label="Choose a release scenario">
+          <button class="scenario is-active" type="button" data-scenario="candidate" aria-pressed="true">
+            Candidate held
+          </button>
+          <button class="scenario" type="button" data-scenario="security" aria-pressed="false">
+            Security flagged
+          </button>
+          <button class="scenario" type="button" data-scenario="ready" aria-pressed="false">
+            Evidence current
+          </button>
+        </div>
+      </section>
+
+      <section class="product-shell" aria-label="Interactive SkillsBar cockpit">
+        <aside class="context-rail">
+          <div>
+            <p class="rail-label">SELECTED SKILL</p>
+            <div class="skill-identity">
+              <img src="/products/skillsbar/icon.png" alt="" width="44" height="44" />
+              <div>
+                <strong>improve-agent-native</strong>
+                <span>Skills/agent-ops</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="identity-block">
+            <p class="rail-label">CANDIDATE IDENTITY</p>
+            <dl>
+              <div><dt>Version</dt><dd>0.4.2</dd></div>
+              <div><dt>Digest</dt><dd class="mono">8e97…af31</dd></div>
+              <div><dt>Source</dt><dd>Local</dd></div>
+            </dl>
+          </div>
+
+          <div class="boundary-note">
+            <span aria-hidden="true">i</span>
+            <p>Registry visibility never promotes a local gate. Every proof lane stays independent.</p>
+          </div>
+        </aside>
+
+        <section class="pipeline-panel" aria-labelledby="pipeline-title">
+          <div class="panel-heading">
+            <div>
+              <p class="demo-kicker">CURRENT LOCAL CANDIDATE</p>
+              <h2 id="pipeline-title">Needs candidate identity</h2>
+              <p id="pipeline-summary">1 receipt current · downstream proof held</p>
+            </div>
+            <div class="readiness" aria-label="11 out of 100 pipeline readiness">
+              <strong id="readiness-score">11</strong><span>/100</span>
+              <small>pipeline readiness</small>
+            </div>
+          </div>
+
+          <div class="readiness-track" aria-hidden="true"><span id="readiness-fill"></span></div>
+
+          <article class="next-action" id="next-action">
+            <div class="action-index" id="action-index">01</div>
+            <div class="action-copy">
+              <p>NEXT REQUIRED</p>
+              <h3 id="action-title">Candidate identity</h3>
+              <span id="action-detail">Build the canonical non-mutating package receipt.</span>
+            </div>
+            <button id="copy-command" class="command-button" type="button">Copy command</button>
+          </article>
+
+          <ol class="gate-list" id="gate-list" aria-label="Nine evidence gates">
+            {gates.map(([name, detail], index) => (
+              <li class:list={["gate", index === 0 ? "active" : "pending"]}>
+                <span class="gate-marker">{String(index + 1).padStart(2, "0")}</span>
+                <span class="gate-copy"><strong>{name}</strong><span>{detail}</span></span>
+                <span class="gate-state">{index === 0 ? "Required" : "Held"}</span>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <aside class="evidence-panel">
+          <div class="evidence-heading">
+            <div>
+              <p class="demo-kicker">EXTERNAL EVIDENCE</p>
+              <h2>Tessl registry</h2>
+            </div>
+            <span class="status-pill">Observed</span>
+          </div>
+
+          <div class="registry-score">
+            <div class="score-ring"><strong>66</strong><span>/100</span></div>
+            <div><strong>Registry score</strong><span>Historical external baseline</span></div>
+          </div>
+
+          <dl class="metrics">
+            <div><dt>Quality</dt><dd>72</dd></div>
+            <div><dt>Impact</dt><dd>68</dd></div>
+            <div><dt>Security</dt><dd class="good">Passed</dd></div>
+            <div><dt>Visibility</dt><dd>Private</dd></div>
+          </dl>
+
+          <div class="proof-warning">
+            <strong>Observation, not proof</strong>
+            <p>This registry result is not bound to the current local digest.</p>
+          </div>
+
+          <div class="event-log" aria-live="polite">
+            <p class="rail-label">EVIDENCE LOG</p>
+            <div><time id="event-time">10:42:16</time><span id="event-entry">Local candidate selected</span></div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="judge-story" aria-labelledby="codex-story-title">
+        <div class="judge-heading">
+          <p class="demo-kicker">WHY CODEX MATTERS</p>
+          <h2 id="codex-story-title">From repository evidence to a release decision.</h2>
+        </div>
+        <ol>
+          <li><span>01</span><strong>Collect</strong><p>Codex runs the Skills SDK’s read-only checks and preserves structured receipts.</p></li>
+          <li><span>02</span><strong>Bind</strong><p>Every downstream result must match one canonical package digest and scenario set.</p></li>
+          <li><span>03</span><strong>Challenge</strong><p>Security, eval, and runtime evidence remain independent instead of becoming one vague green tick.</p></li>
+          <li><span>04</span><strong>Act</strong><p>SkillsBar exposes the next exact command, so an operator can fix the weakest gate first.</p></li>
+        </ol>
+      </section>
+
+      <section class="role-boundary" aria-labelledby="role-boundary-title">
+        <div>
+          <p class="demo-kicker">HUMAN-OWNED DELIVERY</p>
+          <h2 id="role-boundary-title">Built with Codex. Directed and verified by Jamie.</h2>
+        </div>
+        <dl>
+          <div>
+            <dt>Jamie</dt>
+            <dd>Framed the stale-evidence problem, set the product direction, made taste decisions, and owns every public claim.</dd>
+          </div>
+          <div>
+            <dt>Codex</dt>
+            <dd>Implemented bounded changes, ran repository checks, preserved structured evidence, and supported inspection.</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="closing-statement">
+        <p>THE IDEA</p>
+        <h2>Release confidence should be inspectable, not inferred.</h2>
+        <span>Safe mock data · No credentials · No production endpoints</span>
+      </section>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script>
+      const gates = [
+        ["Candidate identity", "Canonical package digest"],
+        ["Mechanical validation", "Package verify and strict audit"],
+        ["Security review", "Candidate-bound risk modes"],
+        ["Eval preparation", "Scenarios and scorer calibration"],
+        ["Local evaluation", "Governed local eval receipt"],
+        ["Cloud evaluation", "Remote eval receipt"],
+        ["Tessl staging", "Candidate-bound staging receipt"],
+        ["Runtime proof", "Installed digest and observed behavior"],
+        ["Registry publication", "Published version and visibility"],
+      ];
+
+      const scenarios = {
+        candidate: {
+          title: "Needs candidate identity",
+          summary: "1 receipt current · downstream proof held",
+          score: 11,
+          action: 0,
+          detail: "Build the canonical non-mutating package receipt.",
+          command: "./bin/ask sdk package build Skills/agent-ops/improve-agent-native/SKILL.md --json --robot",
+          event: "Local candidate selected",
+          states: ["active", "pending", "pending", "pending", "pending", "pending", "pending", "pending", "pending"],
+        },
+        security: {
+          title: "Security review is flagged",
+          summary: "2 receipts current · delivery evidence held",
+          score: 24,
+          action: 2,
+          detail: "Resolve the candidate-bound risk-mode finding.",
+          command: "./bin/ask sdk security risk-modes Skills/agent-ops/improve-agent-native/SKILL.md --preview --json --robot",
+          event: "Critical-negative fixture detected",
+          states: ["passed", "passed", "flagged", "pending", "pending", "pending", "pending", "pending", "pending"],
+        },
+        ready: {
+          title: "Evidence chain is current",
+          summary: "9 receipts current · release evidence available",
+          score: 100,
+          action: 8,
+          detail: "Inspect the bound publication receipt before promotion.",
+          command: "./bin/ask sdk release inspect Skills/agent-ops/improve-agent-native/SKILL.md --json --robot",
+          event: "All nine candidate-bound receipts reconciled",
+          states: ["passed", "passed", "passed", "passed", "passed", "passed", "passed", "passed", "passed"],
+        },
+      };
+
+      const gateList = document.querySelector("#gate-list");
+      const pipelineTitle = document.querySelector("#pipeline-title");
+      const pipelineSummary = document.querySelector("#pipeline-summary");
+      const readiness = document.querySelector(".readiness");
+      const score = document.querySelector("#readiness-score");
+      const fill = document.querySelector("#readiness-fill");
+      const actionIndex = document.querySelector("#action-index");
+      const actionTitle = document.querySelector("#action-title");
+      const actionDetail = document.querySelector("#action-detail");
+      const nextAction = document.querySelector("#next-action");
+      const eventEntry = document.querySelector("#event-entry");
+      const eventTime = document.querySelector("#event-time");
+      const copyButton = document.querySelector("#copy-command");
+      const toast = document.querySelector("#toast");
+      let activeScenario = scenarios.candidate;
+
+      const renderGates = (states: string[]) => {
+        if (!(gateList instanceof HTMLOListElement)) return;
+        gateList.replaceChildren(...gates.map(([name, detail], index) => {
+          const state = states[index];
+          const row = document.createElement("li");
+          row.className = `gate ${state}`;
+
+          const marker = document.createElement("span");
+          marker.className = "gate-marker";
+          marker.textContent = state === "passed" ? "✓" : String(index + 1).padStart(2, "0");
+
+          const copy = document.createElement("span");
+          copy.className = "gate-copy";
+          const nameElement = document.createElement("strong");
+          nameElement.textContent = name;
+          const detailElement = document.createElement("span");
+          detailElement.textContent = detail;
+          copy.append(nameElement, detailElement);
+
+          const status = document.createElement("span");
+          status.className = "gate-state";
+          status.textContent = state === "active" ? "Required" : state === "flagged" ? "Flagged" : state === "passed" ? "Current" : "Held";
+          row.append(marker, copy, status);
+          return row;
+        }));
+      };
+
+      const selectScenario = (key: keyof typeof scenarios) => {
+        activeScenario = scenarios[key];
+        document.querySelectorAll(".scenario").forEach((button) => {
+          if (!(button instanceof HTMLButtonElement)) return;
+          const selected = button.dataset.scenario === key;
+          button.classList.toggle("is-active", selected);
+          button.setAttribute("aria-pressed", String(selected));
+        });
+        if (pipelineTitle) pipelineTitle.textContent = activeScenario.title;
+        if (pipelineSummary) pipelineSummary.textContent = activeScenario.summary;
+        if (score) score.textContent = String(activeScenario.score);
+        if (readiness) readiness.setAttribute("aria-label", `${activeScenario.score} out of 100 pipeline readiness`);
+        if (fill instanceof HTMLElement) {
+          fill.style.width = `${activeScenario.score}%`;
+          fill.dataset.tone = key;
+        }
+        if (actionIndex) actionIndex.textContent = String(activeScenario.action + 1).padStart(2, "0");
+        if (actionTitle) actionTitle.textContent = gates[activeScenario.action][0];
+        if (actionDetail) actionDetail.textContent = activeScenario.detail;
+        if (nextAction instanceof HTMLElement) nextAction.dataset.tone = key;
+        if (eventEntry) eventEntry.textContent = activeScenario.event;
+        if (eventTime) eventTime.textContent = new Date().toLocaleTimeString([], { hour12: false });
+        renderGates(activeScenario.states);
+      };
+
+      document.querySelectorAll(".scenario").forEach((button) => {
+        button.addEventListener("click", () => {
+          if (button instanceof HTMLButtonElement && button.dataset.scenario) {
+            selectScenario(button.dataset.scenario as keyof typeof scenarios);
+          }
+        });
+      });
+
+      copyButton?.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(activeScenario.command);
+          if (toast) toast.textContent = "Command copied";
+        } catch {
+          if (toast) toast.textContent = "Clipboard unavailable";
+        }
+        toast?.classList.add("is-visible");
+        window.setTimeout(() => toast?.classList.remove("is-visible"), 1800);
+      });
+    </script>
+</BaseLayout>
+
+<style>
+  :global(:root) {
+    --skillsbar-canvas: var(--bds-color-brainwav-bg);
+    --skillsbar-surface: var(--bds-color-brainwav-surface);
+    --skillsbar-surface-2: var(--bds-color-brainwav-surface-elevated);
+    --skillsbar-line: rgba(248, 248, 246, .14);
+    --skillsbar-ink: var(--bds-color-brainwav-text);
+    --skillsbar-muted: var(--bds-color-brainwav-text-secondary);
+    --skillsbar-quiet: var(--bds-color-brainwav-muted);
+    --skillsbar-blue: var(--bds-color-blue);
+    --skillsbar-orange: var(--bds-color-orange);
+    --skillsbar-green: var(--bds-color-success);
+    --skillsbar-amber: var(--bds-color-warning);
+    --skillsbar-red: var(--bds-color-error);
+  }
+
+  :global(html) { background: var(--skillsbar-canvas); }
+  :global(body.skillsbar-demo .site-header) { display: none; }
+  :global(body.skillsbar-demo) {
+    margin: 0;
+    min-width: 320px;
+    background: var(--skillsbar-canvas);
+    color: var(--skillsbar-ink);
+    font-family: var(--body-sans);
+    letter-spacing: 0;
+  }
+  :global(.skillsbar-demo *) { box-sizing: border-box; }
+  :global(.skillsbar-demo button) { color: inherit; font: inherit; }
+
+  .demo-nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    padding: 0 clamp(1.25rem, 4vw, 4rem);
+    border-bottom: 1px solid var(--skillsbar-line);
+    background: rgba(16, 18, 17, 0.94);
+    backdrop-filter: blur(16px);
+  }
+  .demo-brand { display: flex; align-items: center; gap: .625rem; color: var(--skillsbar-ink); text-decoration: none; font-weight: 650; }
+  .demo-brand img { border-radius: .4375rem; }
+  .demo-nav p { display: flex; align-items: center; gap: .5rem; margin: 0; color: var(--skillsbar-muted); font-size: .75rem; }
+  .demo-nav p span { width: .4375rem; height: .4375rem; border-radius: 50%; background: var(--skillsbar-blue); box-shadow: 0 0 0 .25rem rgba(45, 168, 255, .18); }
+
+  :global(main) { width: min(90rem, 100%); margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 4rem) 4rem; }
+  .demo-intro { max-width: 59rem; padding: clamp(3rem, 7vw, 5.25rem) 0 2.25rem; }
+  .demo-kicker, .rail-label { margin: 0 0 .625rem; color: var(--skillsbar-muted); font-family: var(--body-mono); font-size: .6875rem; font-weight: 700; line-height: 1.4; }
+  .demo-kicker span { color: var(--skillsbar-orange); }
+  h1 { max-width: 52rem; margin: 0; color: var(--skillsbar-ink); font-family: var(--body-serif); font-size: clamp(2.75rem, 6.2vw, 5.5rem); font-weight: 300; line-height: .95; }
+  .demo-lede { max-width: 49rem; margin: 1.5rem 0 1.75rem; color: #c5c7c2; font-size: clamp(1rem, 2vw, 1.25rem); line-height: 1.55; }
+  .scenario-control { display: inline-flex; padding: .1875rem; border: 1px solid var(--skillsbar-line); border-radius: .4375rem; background: #0c0e0d; }
+  .scenario { min-height: 2.25rem; padding: 0 .875rem; border: 0; border-radius: .3125rem; background: transparent; color: var(--skillsbar-muted); cursor: pointer; }
+  .scenario:hover, .scenario:focus-visible { color: var(--skillsbar-ink); outline: 2px solid var(--skillsbar-blue); outline-offset: 2px; }
+  .scenario.is-active { color: var(--skillsbar-ink); background: var(--skillsbar-surface-2); box-shadow: inset 0 0 0 1px #3a403a; }
+
+  .product-shell {
+    display: grid;
+    grid-template-columns: minmax(11.875rem, .7fr) minmax(30rem, 1.8fr) minmax(15rem, .85fr);
+    min-height: 40.625rem;
+    overflow: hidden;
+    border: 1px solid var(--skillsbar-line);
+    border-radius: .5rem;
+    background: var(--skillsbar-surface);
+    box-shadow: 0 1.875rem 5rem rgba(0, 0, 0, .28);
+  }
+  .context-rail, .evidence-panel { padding: 1.5rem; background: #131614; }
+  .context-rail { display: flex; flex-direction: column; gap: 1.875rem; border-right: 1px solid var(--skillsbar-line); }
+  .evidence-panel { border-left: 1px solid var(--skillsbar-line); }
+  .skill-identity { display: flex; align-items: center; gap: .75rem; }
+  .skill-identity img { border-radius: .5rem; }
+  .skill-identity strong, .skill-identity span { display: block; }
+  .skill-identity strong { overflow-wrap: anywhere; font-size: .8125rem; }
+  .skill-identity span { margin-top: .25rem; color: var(--skillsbar-muted); font-size: .6875rem; }
+  .identity-block { padding-top: 1.375rem; border-top: 1px solid var(--skillsbar-line); }
+  dl { margin: 0; }
+  .identity-block dl { display: grid; gap: .75rem; }
+  .identity-block dl div, .metrics div { display: flex; justify-content: space-between; gap: .75rem; }
+  dt { color: var(--skillsbar-muted); font-size: .6875rem; }
+  dd { margin: 0; color: var(--skillsbar-ink); font-size: .6875rem; }
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .boundary-note { display: flex; gap: .625rem; margin-top: auto; padding-top: 1.25rem; border-top: 1px solid var(--skillsbar-line); color: var(--skillsbar-muted); }
+  .boundary-note > span { display: grid; flex: 0 0 1.25rem; place-items: center; width: 1.25rem; height: 1.25rem; border: 1px solid var(--skillsbar-quiet); border-radius: 50%; font-size: .6875rem; }
+  .boundary-note p { margin: .0625rem 0 0; font-size: .6875rem; line-height: 1.5; }
+
+  .pipeline-panel { padding: 1.75rem 1.875rem; background: var(--skillsbar-surface); }
+  .panel-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 1.5rem; }
+  .panel-heading h2, .evidence-heading h2 { margin: 0; color: var(--skillsbar-ink); font-size: 1.5rem; font-weight: 600; line-height: 1.2; }
+  .panel-heading > div > p:last-child { margin: .4375rem 0 0; color: var(--skillsbar-muted); font-size: .75rem; }
+  .readiness { display: grid; grid-template-columns: auto auto; align-items: baseline; text-align: right; }
+  .readiness strong { color: var(--skillsbar-orange); font-size: 1.875rem; font-weight: 620; font-variant-numeric: tabular-nums; }
+  .readiness > span { color: var(--skillsbar-muted); font-size: .75rem; }
+  .readiness small { grid-column: 1 / -1; color: var(--skillsbar-muted); font-size: .625rem; }
+  .readiness-track { height: .3125rem; margin: 1.375rem 0 1.5rem; overflow: hidden; border-radius: .1875rem; background: #292d29; }
+  .readiness-track span { display: block; width: 11%; height: 100%; background: var(--skillsbar-orange); transition: width 350ms var(--bds-ease-out), background-color 200ms ease; }
+  .readiness-track span[data-tone="security"] { background: var(--skillsbar-red); }
+  .readiness-track span[data-tone="ready"] { background: var(--skillsbar-green); }
+  .next-action { display: grid; grid-template-columns: 2.5rem 1fr auto; align-items: center; gap: .75rem; padding: .8125rem; border: 1px solid var(--skillsbar-orange); border-radius: .5rem; background: rgba(255, 122, 0, .04); }
+  .next-action[data-tone="security"] { border-color: var(--skillsbar-red); }
+  .next-action[data-tone="ready"] { border-color: var(--skillsbar-green); }
+  .action-index { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border: 1px solid currentColor; border-radius: 50%; color: var(--skillsbar-orange); font: 650 .6875rem var(--body-mono); }
+  .next-action[data-tone="security"] .action-index { color: var(--skillsbar-red); }
+  .next-action[data-tone="ready"] .action-index { color: var(--skillsbar-green); }
+  .action-copy p { margin: 0 0 .1875rem; color: var(--skillsbar-muted); font-size: .5625rem; }
+  .action-copy h3 { margin: 0 0 .25rem; color: var(--skillsbar-ink); font-size: .8125rem; }
+  .action-copy span { color: var(--skillsbar-muted); font-size: .6875rem; }
+  .command-button { min-height: 2rem; padding: 0 .6875rem; border: 1px solid var(--skillsbar-line); border-radius: .3125rem; background: var(--skillsbar-surface-2); font-size: .625rem; text-transform: uppercase; cursor: pointer; }
+  .command-button:hover, .command-button:focus-visible { border-color: var(--skillsbar-blue); outline: 2px solid var(--skillsbar-blue); outline-offset: 2px; }
+  .gate-list { margin: 0; padding: 1rem 0 0; list-style: none; }
+  .gate { position: relative; display: grid; grid-template-columns: 2.5rem 1fr auto; align-items: center; gap: .75rem; min-height: 3rem; border-bottom: 1px solid #292d29; }
+  .gate:last-child { border-bottom: 0; }
+  .gate-marker { z-index: 1; display: grid; place-items: center; width: 1.375rem; height: 1.375rem; margin-left: .5rem; border: 1px solid var(--skillsbar-quiet); border-radius: 50%; background: var(--skillsbar-surface); color: var(--skillsbar-quiet); font-size: .625rem; }
+  .gate:not(:last-child)::before { position: absolute; top: 2.1875rem; left: 1.1875rem; width: 1px; height: 1.75rem; background: #3b403b; content: ""; }
+  .gate-copy strong, .gate-copy span { display: block; }
+  .gate-copy strong { color: var(--skillsbar-ink); font-size: .75rem; font-weight: 560; }
+  .gate-copy span { margin-top: .1875rem; color: var(--skillsbar-muted); font-size: .625rem; }
+  .gate-state { color: var(--skillsbar-quiet); font-size: .5625rem; font-weight: 700; text-transform: uppercase; }
+  .gate.passed .gate-marker { border-color: var(--skillsbar-green); background: var(--skillsbar-green); color: #0c120d; }
+  .gate.passed .gate-state { color: var(--skillsbar-green); }
+  .gate.flagged .gate-marker, .gate.flagged .gate-state { border-color: var(--skillsbar-red); color: var(--skillsbar-red); }
+  .gate.active .gate-marker, .gate.active .gate-state { border-color: var(--skillsbar-orange); color: var(--skillsbar-orange); }
+
+  .evidence-heading { display: flex; justify-content: space-between; gap: .75rem; }
+  .evidence-heading h2 { font-size: 1.1875rem; }
+  .status-pill { height: fit-content; padding: .3125rem .4375rem; border: 1px solid rgba(45, 168, 255, .45); border-radius: .3125rem; color: var(--skillsbar-blue); font-size: .5625rem; text-transform: uppercase; }
+  .registry-score { display: flex; align-items: center; gap: .875rem; padding: 1.625rem 0; border-bottom: 1px solid var(--skillsbar-line); }
+  .score-ring { display: flex; flex: 0 0 4.125rem; align-items: baseline; justify-content: center; width: 4.125rem; height: 4.125rem; padding-top: 1.125rem; border: .3125rem solid #263245; border-top-color: var(--skillsbar-blue); border-radius: 50%; }
+  .score-ring strong { font-size: 1.125rem; }
+  .score-ring span { color: var(--skillsbar-muted); font-size: .5625rem; }
+  .registry-score > div:last-child strong, .registry-score > div:last-child span { display: block; }
+  .registry-score > div:last-child strong { font-size: .75rem; }
+  .registry-score > div:last-child span { margin-top: .3125rem; color: var(--skillsbar-muted); font-size: .625rem; line-height: 1.4; }
+  .metrics { display: grid; gap: .8125rem; padding: 1.375rem 0; border-bottom: 1px solid var(--skillsbar-line); }
+  .good { color: var(--skillsbar-green); }
+  .proof-warning { margin-top: 1.25rem; padding: .8125rem; border-left: 2px solid var(--skillsbar-blue); background: rgba(45, 168, 255, .06); }
+  .proof-warning strong { color: var(--skillsbar-blue); font-size: .6875rem; }
+  .proof-warning p { margin: .375rem 0 0; color: var(--skillsbar-muted); font-size: .625rem; line-height: 1.45; }
+  .event-log { margin-top: 1.625rem; }
+  .event-log > div { display: flex; align-items: flex-start; gap: .5625rem; color: var(--skillsbar-muted); font-size: .625rem; line-height: 1.4; }
+  .event-log time { color: var(--skillsbar-quiet); font-family: ui-monospace, monospace; }
+
+  .judge-story { display: grid; grid-template-columns: minmax(15rem, .7fr) 1.8fr; gap: 2rem; padding: clamp(3rem, 7vw, 5rem) 0; border-bottom: 1px solid var(--skillsbar-line); }
+  .judge-heading h2 { max-width: 28rem; margin: 0; color: var(--skillsbar-ink); font-family: var(--body-serif); font-size: clamp(2rem, 4vw, 3.75rem); font-weight: 300; line-height: 1.08; }
+  .judge-story ol { display: grid; grid-template-columns: 1fr 1fr; margin: 0; padding: 0; list-style: none; }
+  .judge-story li { display: grid; grid-template-columns: 2rem 1fr; grid-template-rows: auto 1fr; min-height: 10rem; padding: 1.5rem; border-top: 1px solid var(--skillsbar-line); }
+  .judge-story li:nth-child(odd) { border-right: 1px solid var(--skillsbar-line); }
+  .judge-story li span { grid-row: 1 / 3; color: var(--skillsbar-blue); font: 600 .6875rem var(--body-mono); }
+  .judge-story li strong { color: var(--skillsbar-ink); font-size: .875rem; }
+  .judge-story li p { margin: .5rem 0 0; color: var(--skillsbar-muted); font-size: .75rem; line-height: 1.55; }
+  .role-boundary { display: grid; grid-template-columns: minmax(15rem, .7fr) 1.8fr; gap: 2rem; padding: clamp(3rem, 7vw, 5rem) 0; border-bottom: 1px solid var(--skillsbar-line); }
+  .role-boundary h2 { max-width: 29rem; margin: 0; color: var(--skillsbar-ink); font-family: var(--body-serif); font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 300; line-height: 1.08; }
+  .role-boundary dl { display: grid; gap: 1.5rem; }
+  .role-boundary dl div { display: grid; grid-template-columns: 7rem 1fr; gap: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--skillsbar-line); }
+  .role-boundary dt { color: var(--skillsbar-blue); font-family: var(--body-mono); font-size: .75rem; font-weight: 700; text-transform: uppercase; }
+  .role-boundary dd { color: var(--skillsbar-muted); font-size: .875rem; line-height: 1.55; }
+  .closing-statement { padding: clamp(3rem, 8vw, 6rem) 0 2rem; text-align: center; }
+  .closing-statement p { color: var(--skillsbar-blue); font-family: var(--body-mono); font-size: .6875rem; font-weight: 700; }
+  .closing-statement h2 { max-width: 52rem; margin: 1rem auto; color: var(--skillsbar-ink); font-family: var(--body-serif); font-size: clamp(2.25rem, 5vw, 4.5rem); font-weight: 300; line-height: 1.05; }
+  .closing-statement span { color: var(--skillsbar-muted); font-size: .75rem; }
+  .toast { position: fixed; bottom: 1.5rem; left: 50%; z-index: 20; padding: .625rem .875rem; border-radius: .3125rem; background: var(--skillsbar-ink); color: #111; font-size: .75rem; opacity: 0; pointer-events: none; transform: translate(-50%, 1.25rem); transition: opacity 200ms ease, transform 200ms ease; }
+  .toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
+
+  @media (max-width: 65.625rem) {
+    .product-shell { grid-template-columns: 11.875rem 1fr; }
+    .evidence-panel { display: grid; grid-column: 1 / -1; grid-template-columns: 1fr 1fr; gap: 0 1.75rem; border-top: 1px solid var(--skillsbar-line); border-left: 0; }
+    .evidence-heading, .registry-score { grid-column: 1; }
+    .metrics, .proof-warning, .event-log { grid-column: 2; }
+    .metrics { grid-row: 1 / 3; padding-top: 0; }
+  }
+
+  @media (max-width: 45rem) {
+    .demo-nav { padding: 0 1rem; }
+    .demo-nav p { font-size: 0; }
+    :global(main) { padding-inline: .875rem; }
+    .demo-intro { padding-top: 2.375rem; }
+    .scenario-control { display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; }
+    .scenario { padding: 0 .375rem; font-size: .6875rem; }
+    .product-shell { grid-template-columns: 1fr; }
+    .context-rail { display: grid; grid-template-columns: 1fr 1fr; border-right: 0; border-bottom: 1px solid var(--skillsbar-line); }
+    .identity-block { padding-top: 0; border-top: 0; }
+    .boundary-note { grid-column: 1 / -1; margin-top: 0; }
+    .pipeline-panel { padding: 1.375rem 1rem; }
+    .panel-heading h2 { font-size: 1.25rem; }
+    .next-action { grid-template-columns: 2.25rem 1fr; }
+    .command-button { grid-column: 1 / -1; width: 100%; }
+    .evidence-panel { grid-template-columns: 1fr; }
+    .evidence-heading, .registry-score, .metrics, .proof-warning, .event-log { grid-row: auto; grid-column: 1; }
+    .metrics { padding-top: 1.375rem; }
+    .judge-story, .role-boundary { grid-template-columns: 1fr; }
+    .judge-story ol { grid-template-columns: 1fr; }
+    .judge-story li:nth-child(odd) { border-right: 0; }
+    .role-boundary dl div { grid-template-columns: 1fr; gap: .5rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(body.skillsbar-demo *) { scroll-behavior: auto; transition-duration: .01ms; }
+  }
+</style>

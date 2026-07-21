@@ -1,0 +1,30 @@
+flowchart LR
+  User(("User"))
+  capture_jose_reference_e7b66705["capture-jose-reference"]
+  User --> capture_jose_reference_e7b66705
+  check_public_api_docs_a9604f1b["check-public-api-docs"]
+  User --> check_public_api_docs_a9604f1b
+  jose_parity_cdp_bdcde21d["jose-parity-cdp"]
+  User --> jose_parity_cdp_bdcde21d
+  smoke_pages_9a92b30d["smoke-pages"]
+  User --> smoke_pages_9a92b30d
+  test_operator_workflow_contract_b4a152d7["test-operator-workflow-contract"]
+  User --> test_operator_workflow_contract_b4a152d7
+  validate_coding_policy_29976175["validate-coding-policy"]
+  User --> validate_coding_policy_29976175
+  validate_content_source_boundary_8a6f121b["validate-content-source-boundary"]
+  User --> validate_content_source_boundary_8a6f121b
+  validate_css_policy_1c5ec854["validate-css-policy"]
+  User --> validate_css_policy_1c5ec854
+  validate_design_system_b8a5f37c["validate-design-system"]
+  User --> validate_design_system_b8a5f37c
+  validate_operator_contract_f777ed78["validate-operator-contract"]
+  User --> validate_operator_contract_f777ed78
+  validate_page_surfaces_078ef6b6["validate-page-surfaces"]
+  User --> validate_page_surfaces_078ef6b6
+  validate_portfolio_content_6d36990e["validate-portfolio-content"]
+  User --> validate_portfolio_content_6d36990e
+  check_public_api_docs_a9604f1b --> changed_files_4c0102f6
+  check_code_size_9c5efc3a --> changed_files_4c0102f6
+  classDef userNode fill:#16a34a,color:#fff
+  class capture_jose_reference_e7b66705,check_public_api_docs_a9604f1b,jose_parity_cdp_bdcde21d,smoke_pages_9a92b30d,test_operator_workflow_contract_b4a152d7,validate_coding_policy_29976175,validate_content_source_boundary_8a6f121b,validate_css_policy_1c5ec854,validate_design_system_b8a5f37c,validate_operator_contract_f777ed78,validate_page_surfaces_078ef6b6,validate_portfolio_content_6d36990e userNode

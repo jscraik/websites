@@ -1,0 +1,7 @@
+sequenceDiagram
+  actor capture_jose_reference_e7b66705 as capture-jose-reference
+  actor check_public_api_docs_a9604f1b as check-public-api-docs
+  participant changed_files_4c0102f6 as changed-files
+
+  check_public_api_docs_a9604f1b->>changed_files_4c0102f6: calls
+  changed_files_4c0102f6-->>check_public_api_docs_a9604f1b: response

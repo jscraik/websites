@@ -6,11 +6,13 @@ import SiteFooter from "../components/SiteFooter.astro";
 interface Props {
   title: string;
   description?: string;
+  bodyClass?: string;
 }
 
 const {
   title,
-  description = "Jamie Scott Craik writes about AI-native DevRel, agent skills, Codex workflows, evals, and visible proof."
+  description = "Jamie Scott Craik writes about AI-native DevRel, agent skills, Codex workflows, evals, and visible proof.",
+  bodyClass
 } = Astro.props;
 ---
 
@@ -27,7 +29,7 @@ const {
     <link rel="icon" href="/favicon.svg" />
     <title>{title}</title>
   </head>
-  <body>
+  <body class={bodyClass}>
     <SiteNav />
     <main>
       <slot />

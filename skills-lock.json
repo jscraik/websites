@@ -12,6 +12,22 @@
       "sourceType": "github",
       "skillPath": "skills/review-animations/SKILL.md",
       "computedHash": "ca04aaa0a815f05e0910ded8fedbfbdfe0acdec8f52dfbb88277890070d134d4"
+    },
+    "pick-ui-library": {
+      "source": "emilkowalski/skills",
+      "sourceType": "github",
+      "sourceCommit": "f6f79ca1d8e9e2d82c8b90d7481b70ca66f4adfb",
+      "sourceUrl": "https://github.com/emilkowalski/skills/tree/f6f79ca1d8e9e2d82c8b90d7481b70ca66f4adfb/skills/pick-ui-library",
+      "skillPath": "skills/pick-ui-library/SKILL.md",
+      "computedHash": "4b889bd6c08358499ac4a7202b8af71ffbd3485d2468f7b09d0613bbe7b24bf4"
+    },
+    "batch-grill-me": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceCommit": "ed37663cc5fbef691ddfecd080dff42f7e7e350d",
+      "sourceUrl": "https://github.com/mattpocock/skills/tree/ed37663cc5fbef691ddfecd080dff42f7e7e350d/skills/in-progress/batch-grill-me",
+      "skillPath": "skills/in-progress/batch-grill-me/SKILL.md",
+      "computedHash": "7ca3ecc5c0214c5084475b453831d4cab81ddadf80180a10635f5d27c3ae3ca2"
     }
   }
 }

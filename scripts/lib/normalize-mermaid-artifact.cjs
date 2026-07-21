@@ -9,7 +9,6 @@ const normalizeMermaidId = (id) => {
 		.replace(/(?:[_-](?:[a-f0-9]{6,}|[0-9]{4,}))+$/i, "")
 		.replace(/(?:[_-][0-9]+)+$/i, "")}${roleSuffix}`;
 };
-
 const normalizeQuotedPackageLists = (line) =>
 	line.replace(/"([^"]*,[^"]*)"/g, (match, value) => {
 		if (!/\b(packages?|dependencies|deps|requires|depends on)\b/i.test(line)) {
@@ -71,7 +70,6 @@ const normalizeMermaidLine = (line) => {
 	value = normalizeQuotedPackageLists(value);
 	return value.replace(/\s+/g, " ").trim();
 };
-
 const canonicalizeMermaidLines = (lines) => {
 	const topLevel = [];
 	const blocks = [];
@@ -119,71 +117,78 @@ const canonicalizeMermaidLines = (lines) => {
 
 const normalizeMermaidLines = (lines) => canonicalizeMermaidLines(lines);
 
+const VOLATILE_CONTEXT_SECTIONS = new Set([
+  "changed source focus",
+  "agent",
+  "architecture",
+  "c4context",
+  "class",
+  "events",
+  "flow",
+  "security",
+  "sequence",
+  "user",
+]);
+
+const classifyContextLine = (line, state) => {
+  if (/^Generated: /.test(line)) return { kind: "skip" };
+  if (state.inMermaid && line.trim() === "```") return { kind: "mermaid-end" };
+  if (state.inMermaid) return { kind: "mermaid-body", line };
+
+  const sectionMatch = line.match(/^##\s+(.+?)\s*$/);
+  if (sectionMatch) {
+    state.skipSection = VOLATILE_CONTEXT_SECTIONS.has(
+      sectionMatch[1].trim().toLowerCase(),
+    );
+    if (state.skipSection) return { kind: "skip" };
+  }
+  if (state.skipSection) return { kind: "skip" };
+  if (/^```mermaid\s*$/.test(line.trim())) return { kind: "mermaid-start" };
+  return { kind: "text", line: line.trimEnd() };
+};
+
 const normalizeDiagramContextLines = (lines) => {
-	const normalized = [];
-	let inMermaid = false;
-	let mermaidLines = [];
-	let skipSection = false;
+  const normalized = [];
+  const state = { inMermaid: false, skipSection: false };
+  let mermaidLines = [];
 
-	const volatileContextSections = new Set([
-		"changed source focus",
-		"agent",
-		"architecture",
-		"c4context",
-		"class",
-		"events",
-		"flow",
-		"security",
-		"sequence",
-		"user",
-	]);
+  const flushMermaid = () => {
+    normalized.push("```mermaid");
+    normalized.push(
+      ...canonicalizeMermaidLines(mermaidLines).trimEnd().split("\n"),
+    );
+    normalized.push("```");
+    mermaidLines = [];
+  };
 
-	const flushMermaid = () => {
-		normalized.push("```mermaid");
-		normalized.push(
-			...canonicalizeMermaidLines(mermaidLines).trimEnd().split("\n"),
-		);
-		normalized.push("```");
-		mermaidLines = [];
-	};
+  for (const line of lines) {
+    const result = classifyContextLine(line, state);
+    if (result.kind === "skip") continue;
+    if (result.kind === "mermaid-end") {
+      flushMermaid();
+      state.inMermaid = false;
+      continue;
+    }
+    if (result.kind === "mermaid-body") {
+      mermaidLines.push(result.line);
+      continue;
+    }
+    if (result.kind === "mermaid-start") {
+      state.inMermaid = true;
+      mermaidLines = [];
+      continue;
+    }
+    normalized.push(result.line);
+  }
 
-	for (const line of lines) {
-		if (/^Generated: /.test(line)) continue;
-		if (inMermaid && line.trim() === "```") {
-			flushMermaid();
-			inMermaid = false;
-			continue;
-		}
-		if (inMermaid) {
-			mermaidLines.push(line);
-			continue;
-		}
-		const sectionMatch = line.match(/^##\s+(.+?)\s*$/);
-		if (sectionMatch) {
-			const sectionName = sectionMatch[1].trim().toLowerCase();
-			skipSection = volatileContextSections.has(sectionName);
-			if (skipSection) continue;
-		}
-		if (skipSection) continue;
-		if (line.trim() === "```mermaid") {
-			inMermaid = true;
-			mermaidLines = [];
-			continue;
-		}
-		normalized.push(line.trimEnd());
-	}
-
-	if (inMermaid) {
-		flushMermaid();
-	}
-
-	return `${normalized.join("\n").replace(/\n{3,}/g, "\n\n")}\n`;
+  if (state.inMermaid) flushMermaid();
+  return normalized.join("\n").replace(/\n{3,}/g, "\n\n") + "\n";
 };
 
 module.exports = {
-	normalizeDiagramContextLines,
-	normalizeMermaidId,
-	normalizeMermaidLine,
-	normalizeMermaidLines,
-	normalizeQuotedPackageLists,
+  normalizeDiagramContextLines,
+  normalizeMermaidId,
+  normalizeMermaidLine,
+  normalizeMermaidLines,
+  normalizeQuotedPackageLists,
 };

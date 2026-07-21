@@ -33,6 +33,8 @@ schema_version: 2
 - scripts/validate-no-prototype-slop.mjs blocks placeholder copy, empty links, local machine paths, debug logging, and patch-status comments from source/public files.
 - scripts/validate-jose-claim-boundary.mjs protects claim wording around Jose reference capture versus parity proof.
 - scripts/smoke-pages.mjs and tests/** cover route smoke, visual, screenshot, and accessibility lanes.
+- `.codex/skills/` contains explicitly pinned workflow skills; review their source
+  commit before treating a skill addition as project governance.
 
 ## Validation
 - Run the narrowest proving check first, then widen when the change affects shared styling, route behavior, generated artifacts, or user-visible design.
