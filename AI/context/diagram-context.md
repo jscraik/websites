@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-07-21T18:35:59Z
+Generated: 2026-07-21T18:44:29Z
 
 ## Table of Contents
 
@@ -30,6 +30,8 @@ Generated: 2026-07-21T18:35:59Z
 
 - These architecture-sensitive paths changed on the current branch and may be compacted out of Mermaid diagrams.
 - `package.json`
+- `scripts/lib/normalize-mermaid-artifact.cjs`
+- `scripts/refresh-diagram-context.sh`
 - `src/layouts/BaseLayout.astro`
 - `src/pages/demos/skillsbar.astro`
 
@@ -44,12 +46,16 @@ flowchart TD
   subgraph ToolLayer["🔧 Tool Layer"]
     jose_parity_cdp_bdcde21d["🔧 jose-parity-cdp"]
   end
+  subgraph MemoryLayer["📚 Memory / Vector Layer"]
+    normalize_mermaid_artifact_9dba7231[("📚 normalize-mermaid-artifact")]
+  end
   classDef agentNode fill:#555,color:#fff
   class jose_parity_runner_50cc4344,validate_jose_claim_boundary_01082824 agentNode
   classDef llmNode fill:#555,color:#fff
   classDef toolNode fill:#555,color:#fff
   class jose_parity_cdp_bdcde21d toolNode
   classDef memNode fill:#555,color:#fff
+  class normalize_mermaid_artifact_9dba7231 memNode
 
 ```
 ## architecture
@@ -274,6 +280,10 @@ flowchart LR
   VecDB -->|top-k chunks| Retriever
   Retriever -->|context + query| LLMNode
   LLMNode -->|generated answer| Output
+  subgraph DetectedMemory["Detected memory stores"]
+    det_detectedmemory_normalize_mermaid_artifact_9dba7231[("normalize-mermaid-artifact")]
+  end
+  VecDB -. "implemented by" .-> DetectedMemory
   subgraph DetectedTools["Agentic tool calls"]
     det_detectedtools_jose_parity_cdp_bdcde21d["🔧 jose-parity-cdp"]
   end

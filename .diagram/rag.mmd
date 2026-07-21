@@ -10,6 +10,10 @@ flowchart LR
   VecDB -->|top-k chunks| Retriever
   Retriever -->|context + query| LLMNode
   LLMNode -->|generated answer| Output
+  subgraph DetectedMemory["Detected memory stores"]
+    det_detectedmemory_normalize_mermaid_artifact_9dba7231[("normalize-mermaid-artifact")]
+  end
+  VecDB -. "implemented by" .-> DetectedMemory
   subgraph DetectedTools["Agentic tool calls"]
     det_detectedtools_jose_parity_cdp_bdcde21d["🔧 jose-parity-cdp"]
   end
