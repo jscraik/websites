@@ -28,6 +28,11 @@ const pages = [
     includes: ["Contact", "Jamie"]
   },
   {
+    route: "/demos/skillsbar/",
+    file: "demos/skillsbar/index.html",
+    includes: ["SkillsBar", "When evidence goes stale.", "Candidate held"]
+  },
+  {
     route: "/articles/why-ai-native-devrel/",
     file: "articles/why-ai-native-devrel/index.html",
     includes: ["Why AI-Native DevRel", "trust"]

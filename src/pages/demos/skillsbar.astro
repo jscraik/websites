@@ -182,9 +182,9 @@ const gates = [
       </section>
     </div>
 
-    <div class="toast" id="toast" role="status">Command copied</div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script is:inline>
+    <script>
       const gates = [
         ["Candidate identity", "Canonical package digest"],
         ["Mechanical validation", "Package verify and strict audit"],
@@ -246,7 +246,7 @@ const gates = [
       const toast = document.querySelector("#toast");
       let activeScenario = scenarios.candidate;
 
-      const renderGates = (states) => {
+      const renderGates = (states: string[]) => {
         if (!(gateList instanceof HTMLOListElement)) return;
         gateList.replaceChildren(...gates.map(([name, detail], index) => {
           const state = states[index];
@@ -273,7 +273,7 @@ const gates = [
         }));
       };
 
-      const selectScenario = (key) => {
+      const selectScenario = (key: keyof typeof scenarios) => {
         activeScenario = scenarios[key];
         document.querySelectorAll(".scenario").forEach((button) => {
           if (!(button instanceof HTMLButtonElement)) return;
@@ -300,7 +300,9 @@ const gates = [
 
       document.querySelectorAll(".scenario").forEach((button) => {
         button.addEventListener("click", () => {
-          if (button instanceof HTMLButtonElement && button.dataset.scenario) selectScenario(button.dataset.scenario);
+          if (button instanceof HTMLButtonElement && button.dataset.scenario) {
+            selectScenario(button.dataset.scenario as keyof typeof scenarios);
+          }
         });
       });
 
@@ -334,6 +336,7 @@ const gates = [
   }
 
   :global(html) { background: var(--skillsbar-canvas); }
+  :global(body.skillsbar-demo .site-header) { display: none; }
   :global(body.skillsbar-demo) {
     margin: 0;
     min-width: 320px;
@@ -363,7 +366,7 @@ const gates = [
   .demo-nav p { display: flex; align-items: center; gap: .5rem; margin: 0; color: var(--skillsbar-muted); font-size: .75rem; }
   .demo-nav p span { width: .4375rem; height: .4375rem; border-radius: 50%; background: var(--skillsbar-blue); box-shadow: 0 0 0 .25rem rgba(45, 168, 255, .18); }
 
-  main { width: min(90rem, 100%); margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 4rem) 4rem; }
+  :global(main) { width: min(90rem, 100%); margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 4rem) 4rem; }
   .demo-intro { max-width: 59rem; padding: clamp(3rem, 7vw, 5.25rem) 0 2.25rem; }
   .demo-kicker, .rail-label { margin: 0 0 .625rem; color: var(--skillsbar-muted); font-family: var(--body-mono); font-size: .6875rem; font-weight: 700; line-height: 1.4; }
   .demo-kicker span { color: var(--skillsbar-orange); }
@@ -491,7 +494,7 @@ const gates = [
   @media (max-width: 45rem) {
     .demo-nav { padding: 0 1rem; }
     .demo-nav p { font-size: 0; }
-    main { padding-inline: .875rem; }
+    :global(main) { padding-inline: .875rem; }
     .demo-intro { padding-top: 2.375rem; }
     .scenario-control { display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; }
     .scenario { padding: 0 .375rem; font-size: .6875rem; }

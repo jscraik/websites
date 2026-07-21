@@ -44,8 +44,8 @@ if ! command -v fd >/dev/null 2>&1 && ! command -v fdfind >/dev/null 2>&1; then
   missing_tools=1
 fi
 require_tool node "install Node.js runtime"
-if ! command -v pnpm >/dev/null 2>&1 && ! command -v corepack >/dev/null 2>&1 && [ ! -x /opt/homebrew/bin/pnpm ]; then
-  echo "[codex] missing required tool: pnpm (or corepack with pnpm support)"
+if ! command -v npm >/dev/null 2>&1; then
+  echo "[codex] missing required tool: npm (install Node.js/npm before continuing)"
   missing_tools=1
 fi
 
@@ -72,27 +72,27 @@ fi
 run_node_pm() {
   bootstrap_node_tools
 
-  if command -v pnpm >/dev/null 2>&1; then
-    pnpm "$@"
+  if command -v npm >/dev/null 2>&1; then
+    npm "$@"
     return
   fi
 
-  if [ -x /opt/homebrew/bin/pnpm ]; then
-    /opt/homebrew/bin/pnpm "$@"
+  if [ -x /opt/homebrew/bin/npm ]; then
+    /opt/homebrew/bin/npm "$@"
     return
   fi
 
   if command -v corepack >/dev/null 2>&1; then
     corepack enable >/dev/null 2>&1 || true
-    corepack pnpm "$@"
+    npm "$@"
     return
   fi
 
-  echo "[codex] pnpm is not available in this environment"
+  echo "[codex] npm is not available in this environment"
   return 127
 }
 
-run_node_pm install --frozen-lockfile || run_node_pm install
+run_node_pm ci
 '''
 
 [[actions]]
@@ -129,14 +129,14 @@ else
   echo "fd: missing"
 fi
 printf '%s: ' node; if command -v node >/dev/null 2>&1; then if node --version >"${TMPDIR:-/tmp}/codex-tool-output-node-$$.txt" 2>/dev/null; then if [ -s "${TMPDIR:-/tmp}/codex-tool-output-node-$$.txt" ]; then head -n 1 "${TMPDIR:-/tmp}/codex-tool-output-node-$$.txt"; else printf 'available\n'; fi; else printf 'probe failed\n'; fi; else printf 'missing\n'; fi; rm -f "${TMPDIR:-/tmp}/codex-tool-output-node-$$.txt"
-if command -v pnpm >/dev/null 2>&1; then
-  printf '%s: ' pnpm; if command -v pnpm >/dev/null 2>&1; then if pnpm --version >"${TMPDIR:-/tmp}/codex-tool-output-pnpm-$$.txt" 2>/dev/null; then if [ -s "${TMPDIR:-/tmp}/codex-tool-output-pnpm-$$.txt" ]; then head -n 1 "${TMPDIR:-/tmp}/codex-tool-output-pnpm-$$.txt"; else printf 'available\n'; fi; else printf 'probe failed\n'; fi; else printf 'missing\n'; fi; rm -f "${TMPDIR:-/tmp}/codex-tool-output-pnpm-$$.txt"
-elif [ -x /opt/homebrew/bin/pnpm ]; then
-  printf '%s: ' pnpm; if command -v /opt/homebrew/bin/pnpm >/dev/null 2>&1; then if /opt/homebrew/bin/pnpm --version >"${TMPDIR:-/tmp}/codex-tool-output-pnpm-$$.txt" 2>/dev/null; then if [ -s "${TMPDIR:-/tmp}/codex-tool-output-pnpm-$$.txt" ]; then head -n 1 "${TMPDIR:-/tmp}/codex-tool-output-pnpm-$$.txt"; else printf 'available\n'; fi; else printf 'probe failed\n'; fi; else printf 'missing\n'; fi; rm -f "${TMPDIR:-/tmp}/codex-tool-output-pnpm-$$.txt"
+if command -v npm >/dev/null 2>&1; then
+  printf '%s: ' npm; if command -v npm >/dev/null 2>&1; then if npm --version >"${TMPDIR:-/tmp}/codex-tool-output-npm-$$.txt" 2>/dev/null; then if [ -s "${TMPDIR:-/tmp}/codex-tool-output-npm-$$.txt" ]; then head -n 1 "${TMPDIR:-/tmp}/codex-tool-output-npm-$$.txt"; else printf 'available\n'; fi; else printf 'probe failed\n'; fi; else printf 'missing\n'; fi; rm -f "${TMPDIR:-/tmp}/codex-tool-output-npm-$$.txt"
+elif [ -x /opt/homebrew/bin/npm ]; then
+  printf '%s: ' npm; if command -v /opt/homebrew/bin/npm >/dev/null 2>&1; then if /opt/homebrew/bin/npm --version >"${TMPDIR:-/tmp}/codex-tool-output-npm-$$.txt" 2>/dev/null; then if [ -s "${TMPDIR:-/tmp}/codex-tool-output-npm-$$.txt" ]; then head -n 1 "${TMPDIR:-/tmp}/codex-tool-output-npm-$$.txt"; else printf 'available\n'; fi; else printf 'probe failed\n'; fi; else printf 'missing\n'; fi; rm -f "${TMPDIR:-/tmp}/codex-tool-output-npm-$$.txt"
 elif command -v corepack >/dev/null 2>&1; then
-  echo "pnpm: available via corepack"
+  echo "npm: available via corepack"
 else
-  echo "pnpm: missing"
+  echo "npm: missing"
 fi
 printf '%s: ' python3; if command -v python3 >/dev/null 2>&1; then if python3 --version >"${TMPDIR:-/tmp}/codex-tool-output-python3-$$.txt" 2>/dev/null; then if [ -s "${TMPDIR:-/tmp}/codex-tool-output-python3-$$.txt" ]; then head -n 1 "${TMPDIR:-/tmp}/codex-tool-output-python3-$$.txt"; else printf 'available\n'; fi; else printf 'probe failed\n'; fi; else printf 'missing\n'; fi; rm -f "${TMPDIR:-/tmp}/codex-tool-output-python3-$$.txt"
 printf '%s: ' uv; if command -v uv >/dev/null 2>&1; then if uv --version >"${TMPDIR:-/tmp}/codex-tool-output-uv-$$.txt" 2>/dev/null; then if [ -s "${TMPDIR:-/tmp}/codex-tool-output-uv-$$.txt" ]; then head -n 1 "${TMPDIR:-/tmp}/codex-tool-output-uv-$$.txt"; else printf 'available\n'; fi; else printf 'probe failed\n'; fi; else printf 'missing\n'; fi; rm -f "${TMPDIR:-/tmp}/codex-tool-output-uv-$$.txt"
@@ -173,27 +173,27 @@ fi
 run_node_pm() {
   bootstrap_node_tools
 
-  if command -v pnpm >/dev/null 2>&1; then
-    pnpm "$@"
+  if command -v npm >/dev/null 2>&1; then
+    npm "$@"
     return
   fi
 
-  if [ -x /opt/homebrew/bin/pnpm ]; then
-    /opt/homebrew/bin/pnpm "$@"
+  if [ -x /opt/homebrew/bin/npm ]; then
+    /opt/homebrew/bin/npm "$@"
     return
   fi
 
   if command -v corepack >/dev/null 2>&1; then
     corepack enable >/dev/null 2>&1 || true
-    corepack pnpm "$@"
+    npm "$@"
     return
   fi
 
-  echo "[codex] pnpm is not available in this environment"
+  echo "[codex] npm is not available in this environment"
   return 127
 }
 
-run_node_pm install --frozen-lockfile || run_node_pm install
+run_node_pm ci
 '''
 
 [[actions]]
@@ -224,23 +224,23 @@ fi
 run_node_pm() {
   bootstrap_node_tools
 
-  if command -v pnpm >/dev/null 2>&1; then
-    pnpm "$@"
+  if command -v npm >/dev/null 2>&1; then
+    npm "$@"
     return
   fi
 
-  if [ -x /opt/homebrew/bin/pnpm ]; then
-    /opt/homebrew/bin/pnpm "$@"
+  if [ -x /opt/homebrew/bin/npm ]; then
+    /opt/homebrew/bin/npm "$@"
     return
   fi
 
   if command -v corepack >/dev/null 2>&1; then
     corepack enable >/dev/null 2>&1 || true
-    corepack pnpm "$@"
+    npm "$@"
     return
   fi
 
-  echo "[codex] pnpm is not available in this environment"
+  echo "[codex] npm is not available in this environment"
   return 127
 }
 
@@ -275,23 +275,23 @@ fi
 run_node_pm() {
   bootstrap_node_tools
 
-  if command -v pnpm >/dev/null 2>&1; then
-    pnpm "$@"
+  if command -v npm >/dev/null 2>&1; then
+    npm "$@"
     return
   fi
 
-  if [ -x /opt/homebrew/bin/pnpm ]; then
-    /opt/homebrew/bin/pnpm "$@"
+  if [ -x /opt/homebrew/bin/npm ]; then
+    /opt/homebrew/bin/npm "$@"
     return
   fi
 
   if command -v corepack >/dev/null 2>&1; then
     corepack enable >/dev/null 2>&1 || true
-    corepack pnpm "$@"
+    npm "$@"
     return
   fi
 
-  echo "[codex] pnpm is not available in this environment"
+  echo "[codex] npm is not available in this environment"
   return 127
 }
 
@@ -326,23 +326,23 @@ fi
 run_node_pm() {
   bootstrap_node_tools
 
-  if command -v pnpm >/dev/null 2>&1; then
-    pnpm "$@"
+  if command -v npm >/dev/null 2>&1; then
+    npm "$@"
     return
   fi
 
-  if [ -x /opt/homebrew/bin/pnpm ]; then
-    /opt/homebrew/bin/pnpm "$@"
+  if [ -x /opt/homebrew/bin/npm ]; then
+    /opt/homebrew/bin/npm "$@"
     return
   fi
 
   if command -v corepack >/dev/null 2>&1; then
     corepack enable >/dev/null 2>&1 || true
-    corepack pnpm "$@"
+    npm "$@"
     return
   fi
 
-  echo "[codex] pnpm is not available in this environment"
+  echo "[codex] npm is not available in this environment"
   return 127
 }
 
@@ -377,23 +377,23 @@ fi
 run_node_pm() {
   bootstrap_node_tools
 
-  if command -v pnpm >/dev/null 2>&1; then
-    pnpm "$@"
+  if command -v npm >/dev/null 2>&1; then
+    npm "$@"
     return
   fi
 
-  if [ -x /opt/homebrew/bin/pnpm ]; then
-    /opt/homebrew/bin/pnpm "$@"
+  if [ -x /opt/homebrew/bin/npm ]; then
+    /opt/homebrew/bin/npm "$@"
     return
   fi
 
   if command -v corepack >/dev/null 2>&1; then
     corepack enable >/dev/null 2>&1 || true
-    corepack pnpm "$@"
+    npm "$@"
     return
   fi
 
-  echo "[codex] pnpm is not available in this environment"
+  echo "[codex] npm is not available in this environment"
   return 127
 }
 
@@ -428,23 +428,23 @@ fi
 run_node_pm() {
   bootstrap_node_tools
 
-  if command -v pnpm >/dev/null 2>&1; then
-    pnpm "$@"
+  if command -v npm >/dev/null 2>&1; then
+    npm "$@"
     return
   fi
 
-  if [ -x /opt/homebrew/bin/pnpm ]; then
-    /opt/homebrew/bin/pnpm "$@"
+  if [ -x /opt/homebrew/bin/npm ]; then
+    /opt/homebrew/bin/npm "$@"
     return
   fi
 
   if command -v corepack >/dev/null 2>&1; then
     corepack enable >/dev/null 2>&1 || true
-    corepack pnpm "$@"
+    npm "$@"
     return
   fi
 
-  echo "[codex] pnpm is not available in this environment"
+  echo "[codex] npm is not available in this environment"
   return 127
 }
 
@@ -590,23 +590,23 @@ fi
 run_node_pm() {
   bootstrap_node_tools
 
-  if command -v pnpm >/dev/null 2>&1; then
-    pnpm "$@"
+  if command -v npm >/dev/null 2>&1; then
+    npm "$@"
     return
   fi
 
-  if [ -x /opt/homebrew/bin/pnpm ]; then
-    /opt/homebrew/bin/pnpm "$@"
+  if [ -x /opt/homebrew/bin/npm ]; then
+    /opt/homebrew/bin/npm "$@"
     return
   fi
 
   if command -v corepack >/dev/null 2>&1; then
     corepack enable >/dev/null 2>&1 || true
-    corepack pnpm "$@"
+    npm "$@"
     return
   fi
 
-  echo "[codex] pnpm is not available in this environment"
+  echo "[codex] npm is not available in this environment"
   return 127
 }
 
@@ -647,14 +647,14 @@ else
   echo "fd: missing"
 fi
 printf '%s: ' node; if command -v node >/dev/null 2>&1; then if node --version >"${TMPDIR:-/tmp}/codex-tool-output-node-$$.txt" 2>/dev/null; then if [ -s "${TMPDIR:-/tmp}/codex-tool-output-node-$$.txt" ]; then head -n 1 "${TMPDIR:-/tmp}/codex-tool-output-node-$$.txt"; else printf 'available\n'; fi; else printf 'probe failed\n'; fi; else printf 'missing\n'; fi; rm -f "${TMPDIR:-/tmp}/codex-tool-output-node-$$.txt"
-if command -v pnpm >/dev/null 2>&1; then
-  printf '%s: ' pnpm; if command -v pnpm >/dev/null 2>&1; then if pnpm --version >"${TMPDIR:-/tmp}/codex-tool-output-pnpm-$$.txt" 2>/dev/null; then if [ -s "${TMPDIR:-/tmp}/codex-tool-output-pnpm-$$.txt" ]; then head -n 1 "${TMPDIR:-/tmp}/codex-tool-output-pnpm-$$.txt"; else printf 'available\n'; fi; else printf 'probe failed\n'; fi; else printf 'missing\n'; fi; rm -f "${TMPDIR:-/tmp}/codex-tool-output-pnpm-$$.txt"
-elif [ -x /opt/homebrew/bin/pnpm ]; then
-  printf '%s: ' pnpm; if command -v /opt/homebrew/bin/pnpm >/dev/null 2>&1; then if /opt/homebrew/bin/pnpm --version >"${TMPDIR:-/tmp}/codex-tool-output-pnpm-$$.txt" 2>/dev/null; then if [ -s "${TMPDIR:-/tmp}/codex-tool-output-pnpm-$$.txt" ]; then head -n 1 "${TMPDIR:-/tmp}/codex-tool-output-pnpm-$$.txt"; else printf 'available\n'; fi; else printf 'probe failed\n'; fi; else printf 'missing\n'; fi; rm -f "${TMPDIR:-/tmp}/codex-tool-output-pnpm-$$.txt"
+if command -v npm >/dev/null 2>&1; then
+  printf '%s: ' npm; if command -v npm >/dev/null 2>&1; then if npm --version >"${TMPDIR:-/tmp}/codex-tool-output-npm-$$.txt" 2>/dev/null; then if [ -s "${TMPDIR:-/tmp}/codex-tool-output-npm-$$.txt" ]; then head -n 1 "${TMPDIR:-/tmp}/codex-tool-output-npm-$$.txt"; else printf 'available\n'; fi; else printf 'probe failed\n'; fi; else printf 'missing\n'; fi; rm -f "${TMPDIR:-/tmp}/codex-tool-output-npm-$$.txt"
+elif [ -x /opt/homebrew/bin/npm ]; then
+  printf '%s: ' npm; if command -v /opt/homebrew/bin/npm >/dev/null 2>&1; then if /opt/homebrew/bin/npm --version >"${TMPDIR:-/tmp}/codex-tool-output-npm-$$.txt" 2>/dev/null; then if [ -s "${TMPDIR:-/tmp}/codex-tool-output-npm-$$.txt" ]; then head -n 1 "${TMPDIR:-/tmp}/codex-tool-output-npm-$$.txt"; else printf 'available\n'; fi; else printf 'probe failed\n'; fi; else printf 'missing\n'; fi; rm -f "${TMPDIR:-/tmp}/codex-tool-output-npm-$$.txt"
 elif command -v corepack >/dev/null 2>&1; then
-  echo "pnpm: available via corepack"
+  echo "npm: available via corepack"
 else
-  echo "pnpm: missing"
+  echo "npm: missing"
 fi
 printf '%s: ' python3; if command -v python3 >/dev/null 2>&1; then if python3 --version >"${TMPDIR:-/tmp}/codex-tool-output-python3-$$.txt" 2>/dev/null; then if [ -s "${TMPDIR:-/tmp}/codex-tool-output-python3-$$.txt" ]; then head -n 1 "${TMPDIR:-/tmp}/codex-tool-output-python3-$$.txt"; else printf 'available\n'; fi; else printf 'probe failed\n'; fi; else printf 'missing\n'; fi; rm -f "${TMPDIR:-/tmp}/codex-tool-output-python3-$$.txt"
 printf '%s: ' uv; if command -v uv >/dev/null 2>&1; then if uv --version >"${TMPDIR:-/tmp}/codex-tool-output-uv-$$.txt" 2>/dev/null; then if [ -s "${TMPDIR:-/tmp}/codex-tool-output-uv-$$.txt" ]; then head -n 1 "${TMPDIR:-/tmp}/codex-tool-output-uv-$$.txt"; else printf 'available\n'; fi; else printf 'probe failed\n'; fi; else printf 'missing\n'; fi; rm -f "${TMPDIR:-/tmp}/codex-tool-output-uv-$$.txt"
@@ -718,23 +718,23 @@ fi
 run_node_pm() {
   bootstrap_node_tools
 
-  if command -v pnpm >/dev/null 2>&1; then
-    pnpm "$@"
+  if command -v npm >/dev/null 2>&1; then
+    npm "$@"
     return
   fi
 
-  if [ -x /opt/homebrew/bin/pnpm ]; then
-    /opt/homebrew/bin/pnpm "$@"
+  if [ -x /opt/homebrew/bin/npm ]; then
+    /opt/homebrew/bin/npm "$@"
     return
   fi
 
   if command -v corepack >/dev/null 2>&1; then
     corepack enable >/dev/null 2>&1 || true
-    corepack pnpm "$@"
+    npm "$@"
     return
   fi
 
-  echo "[codex] pnpm is not available in this environment"
+  echo "[codex] npm is not available in this environment"
   return 127
 }
 

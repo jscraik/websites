@@ -1,6 +1,6 @@
 {
   "schemaVersion": "code-quality-debt-baseline/v1",
-  "generatedAt": "2026-07-21T18:07:06.019Z",
+  "generatedAt": "2026-07-21T19:41:29.670Z",
   "thresholds": {
     "maxFileLines": 400,
     "maxFunctionLines": 80,
@@ -80,6 +80,16 @@
       "detail": "nodeComplexityIncrement has complexity 14; max is 10"
     },
     {
+      "id": "high_complexity_function:scripts/check-git-worktree-authority.mjs:writableDirectoryForTarget",
+      "category": "high_complexity_function",
+      "path": "scripts/check-git-worktree-authority.mjs",
+      "line": 27,
+      "symbol": "writableDirectoryForTarget",
+      "actual": 11,
+      "max": 10,
+      "detail": "writableDirectoryForTarget has complexity 11; max is 10"
+    },
+    {
       "id": "high_complexity_function:scripts/check-public-api-docs.mjs:checkFile",
       "category": "high_complexity_function",
       "path": "scripts/check-public-api-docs.mjs",
@@ -88,6 +98,36 @@
       "actual": 15,
       "max": 10,
       "detail": "checkFile has complexity 15; max is 10"
+    },
+    {
+      "id": "high_complexity_function:scripts/generate-social-profile-assets.mjs:assertContract",
+      "category": "high_complexity_function",
+      "path": "scripts/generate-social-profile-assets.mjs",
+      "line": 66,
+      "symbol": "assertContract",
+      "actual": 15,
+      "max": 10,
+      "detail": "assertContract has complexity 15; max is 10"
+    },
+    {
+      "id": "high_complexity_function:scripts/generate-social-profile-assets.mjs:bannerDocument",
+      "category": "high_complexity_function",
+      "path": "scripts/generate-social-profile-assets.mjs",
+      "line": 209,
+      "symbol": "bannerDocument",
+      "actual": 14,
+      "max": 10,
+      "detail": "bannerDocument has complexity 14; max is 10"
+    },
+    {
+      "id": "high_complexity_function:scripts/generate-social-profile-assets.mjs:socialProfileProjectionMatches",
+      "category": "high_complexity_function",
+      "path": "scripts/generate-social-profile-assets.mjs",
+      "line": 85,
+      "symbol": "socialProfileProjectionMatches",
+      "actual": 12,
+      "max": 10,
+      "detail": "socialProfileProjectionMatches has complexity 12; max is 10"
     },
     {
       "id": "high_complexity_function:scripts/jose-parity-cdp.mjs:<anonymous>",
@@ -108,6 +148,56 @@
       "actual": 27,
       "max": 10,
       "detail": "assertSurfaceParity has complexity 27; max is 10"
+    },
+    {
+      "id": "high_complexity_function:scripts/lib/pr-readiness-boundaries.mjs:checkAncestry",
+      "category": "high_complexity_function",
+      "path": "scripts/lib/pr-readiness-boundaries.mjs",
+      "line": 145,
+      "symbol": "checkAncestry",
+      "actual": 20,
+      "max": 10,
+      "detail": "checkAncestry has complexity 20; max is 10"
+    },
+    {
+      "id": "high_complexity_function:scripts/lib/pr-readiness-boundaries.mjs:checkTrackedHead",
+      "category": "high_complexity_function",
+      "path": "scripts/lib/pr-readiness-boundaries.mjs",
+      "line": 203,
+      "symbol": "checkTrackedHead",
+      "actual": 15,
+      "max": 10,
+      "detail": "checkTrackedHead has complexity 15; max is 10"
+    },
+    {
+      "id": "high_complexity_function:scripts/lib/pr-readiness-boundaries.mjs:globMatches",
+      "category": "high_complexity_function",
+      "path": "scripts/lib/pr-readiness-boundaries.mjs",
+      "line": 25,
+      "symbol": "globMatches",
+      "actual": 11,
+      "max": 10,
+      "detail": "globMatches has complexity 11; max is 10"
+    },
+    {
+      "id": "high_complexity_function:scripts/lib/pr-readiness-boundaries.mjs:loadScope",
+      "category": "high_complexity_function",
+      "path": "scripts/lib/pr-readiness-boundaries.mjs",
+      "line": 46,
+      "symbol": "loadScope",
+      "actual": 11,
+      "max": 10,
+      "detail": "loadScope has complexity 11; max is 10"
+    },
+    {
+      "id": "high_complexity_function:scripts/lib/pr-readiness-boundaries.mjs:requiredChecks",
+      "category": "high_complexity_function",
+      "path": "scripts/lib/pr-readiness-boundaries.mjs",
+      "line": 260,
+      "symbol": "requiredChecks",
+      "actual": 21,
+      "max": 10,
+      "detail": "requiredChecks has complexity 21; max is 10"
     },
     {
       "id": "high_complexity_function:scripts/validate-coding-policy.cjs:parseArgs",
@@ -160,6 +250,46 @@
       "detail": "validateHtml has complexity 37; max is 10"
     },
     {
+      "id": "high_complexity_function:scripts/validate-pr-readiness.mjs:checkChecks",
+      "category": "high_complexity_function",
+      "path": "scripts/validate-pr-readiness.mjs",
+      "line": 305,
+      "symbol": "checkChecks",
+      "actual": 12,
+      "max": 10,
+      "detail": "checkChecks has complexity 12; max is 10"
+    },
+    {
+      "id": "high_complexity_function:scripts/validate-pr-readiness.mjs:checkReviews",
+      "category": "high_complexity_function",
+      "path": "scripts/validate-pr-readiness.mjs",
+      "line": 268,
+      "symbol": "checkReviews",
+      "actual": 14,
+      "max": 10,
+      "detail": "checkReviews has complexity 14; max is 10"
+    },
+    {
+      "id": "high_complexity_function:scripts/validate-pr-readiness.mjs:main",
+      "category": "high_complexity_function",
+      "path": "scripts/validate-pr-readiness.mjs",
+      "line": 350,
+      "symbol": "main",
+      "actual": 17,
+      "max": 10,
+      "detail": "main has complexity 17; max is 10"
+    },
+    {
+      "id": "high_complexity_function:scripts/validate-pr-readiness.mjs:parseArgs",
+      "category": "high_complexity_function",
+      "path": "scripts/validate-pr-readiness.mjs",
+      "line": 19,
+      "symbol": "parseArgs",
+      "actual": 25,
+      "max": 10,
+      "detail": "parseArgs has complexity 25; max is 10"
+    },
+    {
       "id": "high_complexity_function:scripts/validate-render-flow.mjs:validateRoute",
       "category": "high_complexity_function",
       "path": "scripts/validate-render-flow.mjs",
@@ -168,6 +298,16 @@
       "actual": 16,
       "max": 10,
       "detail": "validateRoute has complexity 16; max is 10"
+    },
+    {
+      "id": "high_complexity_function:scripts/validate-social-profile-assets.mjs:socialProfileProjectionMatches",
+      "category": "high_complexity_function",
+      "path": "scripts/validate-social-profile-assets.mjs",
+      "line": 254,
+      "symbol": "socialProfileProjectionMatches",
+      "actual": 12,
+      "max": 10,
+      "detail": "socialProfileProjectionMatches has complexity 12; max is 10"
     },
     {
       "id": "oversized_file:scripts/capture-jose-reference.mjs",
@@ -183,9 +323,18 @@
       "category": "oversized_file",
       "path": "scripts/check-code-quality-debt.mjs",
       "line": 1,
-      "actual": 606,
+      "actual": 613,
       "max": 400,
-      "detail": "file has 606 lines; max is 400"
+      "detail": "file has 613 lines; max is 400"
+    },
+    {
+      "id": "oversized_file:scripts/generate-social-profile-assets.mjs",
+      "category": "oversized_file",
+      "path": "scripts/generate-social-profile-assets.mjs",
+      "line": 1,
+      "actual": 521,
+      "max": 400,
+      "detail": "file has 521 lines; max is 400"
     },
     {
       "id": "oversized_file:scripts/jose-parity-cdp.mjs",
@@ -204,6 +353,15 @@
       "actual": 813,
       "max": 400,
       "detail": "file has 813 lines; max is 400"
+    },
+    {
+      "id": "oversized_file:scripts/validate-design-system.mjs",
+      "category": "oversized_file",
+      "path": "scripts/validate-design-system.mjs",
+      "line": 1,
+      "actual": 614,
+      "max": 400,
+      "detail": "file has 614 lines; max is 400"
     },
     {
       "id": "oversized_function:scripts/capture-jose-reference.mjs:captureRenderedArtifacts",
@@ -234,6 +392,16 @@
       "actual": 102,
       "max": 80,
       "detail": "typeEscapeDebt has 102 lines; max is 80"
+    },
+    {
+      "id": "oversized_function:scripts/generate-social-profile-assets.mjs:bannerDocument",
+      "category": "oversized_function",
+      "path": "scripts/generate-social-profile-assets.mjs",
+      "line": 209,
+      "symbol": "bannerDocument",
+      "actual": 102,
+      "max": 80,
+      "detail": "bannerDocument has 102 lines; max is 80"
     },
     {
       "id": "oversized_function:scripts/jose-parity-cdp.mjs:<anonymous>",

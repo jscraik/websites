@@ -7,7 +7,7 @@ import ts from "typescript";
 
 const SOURCE_EXTENSIONS = /\.(ts|tsx|js|jsx|mts|cts|mjs|cjs)$/;
 const TYPE_DECLARATION = /\.d\.ts$/;
-const TEST_SOURCE = /([./](?:__tests__|test|tests)[./]|\.test\.|\.spec\.)/;
+const TEST_SOURCE = /([./](?:__tests__|test|tests)[./]|(?:^|\/)test-[^/]+|\.test\.|\.spec\.)/;
 const PRODUCTION_PREFIXES = ["src/", "scripts/"];
 const BASELINE_SCHEMA_VERSION = "code-quality-debt-baseline/v1";
 const REPORT_SCHEMA_VERSION = "code-quality-debt/v1";
@@ -477,40 +477,39 @@ function readBaseline() {
 	return parsed;
 }
 
-function countById(entries) {
-	const counts = new Map();
-	for (const entry of entries) {
-		counts.set(entry.id, (counts.get(entry.id) ?? 0) + 1);
-	}
-	return counts;
-}
-
 function compareToBaseline(current, baseline) {
 	const baselineEntries = Array.isArray(baseline?.entries)
 		? baseline.entries
 		: [];
-	const baselineCounts = countById(baselineEntries);
-	const currentCounts = countById(current);
+	const remainingBaseline = new Map();
+	for (const entry of baselineEntries) {
+		const entries = remainingBaseline.get(entry.id) ?? [];
+		entries.push(entry);
+		remainingBaseline.set(entry.id, entries);
+	}
 	const newDebt = [];
 
 	for (const entry of current) {
-		const remaining = baselineCounts.get(entry.id) ?? 0;
-		if (remaining > 0) {
-			baselineCounts.set(entry.id, remaining - 1);
-		} else {
+		const matches = remainingBaseline.get(entry.id) ?? [];
+		const baselineEntry = matches.shift();
+		if (!baselineEntry) {
 			newDebt.push(entry);
+			continue;
+		}
+		if (
+			typeof entry.actual === "number" &&
+			typeof baselineEntry.actual === "number" &&
+			entry.actual > baselineEntry.actual
+		) {
+			newDebt.push({
+				...entry,
+				baselineActual: baselineEntry.actual,
+				detail: `${entry.detail}; increased from baselined value ${baselineEntry.actual}`,
+			});
 		}
 	}
 
-	const resolvedDebt = [];
-	for (const entry of baselineEntries) {
-		const remaining = currentCounts.get(entry.id) ?? 0;
-		if (remaining > 0) {
-			currentCounts.set(entry.id, remaining - 1);
-		} else {
-			resolvedDebt.push(entry);
-		}
-	}
+	const resolvedDebt = [...remainingBaseline.values()].flat();
 
 	return { newDebt, resolvedDebt, baselineCount: baselineEntries.length };
 }

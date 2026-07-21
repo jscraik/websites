@@ -143,7 +143,7 @@ const classifyContextLine = (line, state) => {
     if (state.skipSection) return { kind: "skip" };
   }
   if (state.skipSection) return { kind: "skip" };
-  if (line.trim() === "```") return { kind: "mermaid-start" };
+  if (/^```mermaid\s*$/.test(line.trim())) return { kind: "mermaid-start" };
   return { kind: "text", line: line.trimEnd() };
 };
 
@@ -153,7 +153,7 @@ const normalizeDiagramContextLines = (lines) => {
   let mermaidLines = [];
 
   const flushMermaid = () => {
-    normalized.push("```");
+    normalized.push("```mermaid");
     normalized.push(
       ...canonicalizeMermaidLines(mermaidLines).trimEnd().split("\n"),
     );
