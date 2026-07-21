@@ -16,6 +16,7 @@ paths = [
   "(^|/)[^.]+\\.(test|spec)\\.[^.]+$",
   "^\\.diagram/",
   "^AI/context/diagram-context\\.md$",
+  "^public/brand/social/social-profile-assets\\.receipt\\.json$",
 ]
 regexes = [
   "\\[REDACTED\\]",

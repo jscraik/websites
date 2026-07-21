@@ -8,7 +8,7 @@ help: ## Show this help message
 	@echo 'Usage: make [target]'
 	@echo ''
 	@echo 'Targets:'
-	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  %-15s %s\n", $1, $2}' $(MAKEFILE_LIST)
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  %-15s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 # === Setup ===
 
@@ -34,7 +34,6 @@ codestyle: ## Run fail-closed codestyle validation
 
 hooks: ## Setup git hooks
 	node scripts/setup-git-hooks.js
-
 
 hooks-pre-commit: ## Run local pre-commit gates before creating a commit
 	@bash ./scripts/hook-pre-commit.sh

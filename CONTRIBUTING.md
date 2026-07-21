@@ -35,9 +35,9 @@ This workflow keeps delivery auditable, reversible, and consistent even for solo
 ## Branching and PR rule
 
 1. Create a dedicated branch/worktree for each task:
-   - Agent-created branch: `git switch -c jscraik/feature/<issue-key>-<short-description>`
-   - Agent-created worktree: `git worktree add ../tmp-worktree -b jscraik/feature/<issue-key>-<short-description>`
-   - Human-authored branch prefixes (when not using `jscraik/feature/`): `feat/`, `fix/`, `docs/`, `refactor/`, `chore/`, `test/`
+   - Agent-created branch: `git switch -c jscraik/<linear-key>-<short-description>`
+   - Agent-created worktree: `git worktree add ../tmp-worktree -b jscraik/<linear-key>-<short-description>`
+   - Human-authored branch prefixes (when not using the Linear-linked `jscraik/` prefix): `feat/`, `fix/`, `docs/`, `refactor/`, `chore/`, `test/`
 2. Keep commits small and focused.
 3. Open a PR to merge into `main`.
 4. Do not merge until checks, reviews, and checklist items are complete.
@@ -46,7 +46,7 @@ This workflow keeps delivery auditable, reversible, and consistent even for solo
 ## Branch name policy
 
 - Use lower-case, kebab-case slugs.
-- Agent-created branches must use `jscraik/feature/<issue-key>-<short-description>`.
+- Agent-created branches must use `jscraik/<linear-key>-<short-description>` with a lower-case Linear key such as `jsc-123`.
 - Human-authored branches may use: `feat/`, `fix/`, `docs/`, `refactor/`, `chore/`, `test/`.
 - Avoid `main`-like names and do not include secrets or issue-pii.
 
@@ -104,6 +104,7 @@ Recommended policy:
 - Treat `scripts/prepare-worktree.sh` as required first-push bootstrap for freshly created worktrees so local hooks run with dependencies, canonical hook wiring, remote branch collision checks, and detached-head fast-forwarding to latest `origin/main`.
 - Treat `scripts/check-git-common-config.sh` as the shared Git config guard; shared non-bare `.git/config` must not contain `core.worktree`, and repairs should run `bash scripts/check-git-common-config.sh --repair` so the resolved common config is fixed directly.
 - Treat `scripts/check-environment.sh` as the local readiness gate for required tooling.
+- Run `npm run validate:pr-readiness -- --phase pre-pr --base origin/main --scope-file <scope-file>` before `gh pr create`; run `npm run validate:pr-readiness -- --phase merge --pr <number> --scope-file <scope-file>` before requesting merge. The strict gate fails closed on remote ancestry, current-head reviews, required checks, declared PR scope, and dirty-worktree boundaries.
 - Block merge or promotion work when a required CLI is missing rather than silently skipping the corresponding validation lane.
 - For repositories with explicit `ui` / `chatgpt_apps_sdk` capabilities or matching dependency signals, install `@brainwav/design-system-guidance` and treat its absence as a readiness failure.
 
@@ -243,4 +244,3 @@ Configure GitHub branch protection (or rulesets) on `main`:
 - Require workflows to pin third-party actions to full commit SHAs.
 - Configure required checks workflows to run on both `pull_request` and `merge_group` when using merge queue.
 - Block direct pushes to `main`.
-	

@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "portfolio-release-source-boundary/v1",
+  "slice": "PU-000",
+  "status": "accepted-local-baseline",
+  "baseline": {
+    "sha": "7df7238f4d74a25f0f799338fdf151da6f00fa19",
+    "treeSha": "2207a19cb83d58ba6de218e757e51252e65a28c1",
+    "branch": "codex/portfolio-pu000-release-boundary",
+    "source": "origin/codex/portfolio-pu000-release-boundary",
+    "reviewStatus": "local-plan-review-accepted-hosted-review-pending",
+    "validatedAt": "2026-07-17T19:25:17Z",
+    "worktree": {
+      "label": "portfolio-pu000-release-worktree",
+      "pathClass": "temporary-isolated-git-worktree",
+      "cleanBeforeEdit": true,
+      "exactPathRecordedInLocalReceipt": true
+    }
+  },
+  "acceptedPaths": [
+    ".harness/active-artifacts.md",
+    ".harness/plan/portfolio-stabilization-and-cloud-release.md",
+    "AGENTS.md",
+    "CODESTYLE.md",
+    "CONTRIBUTING.md",
+    "package.json",
+    "package-lock.json",
+    "astro.config.mjs",
+    "src/**",
+    "public/**",
+    "scripts/**",
+    "docs/**",
+    "README.md",
+    "BRAND_GUIDELINES.md",
+    ".codex/skills/find-animation-opportunities/SKILL.md",
+    "codestyle/CHECKSUMS.sha256",
+    "steering-feedback/2026-07-17-pr-readiness-gate.json",
+    "steering-feedback/2026-07-18-validator-review-recovery.json"
+  ],
+  "excludedPaths": [
+    ".harness/runtime/**",
+    ".playwright-cache/**",
+    ".playwright-tmp/**",
+    "playwright-report/**",
+    "test-results/**",
+    "dist/**",
+    "artifacts/**",
+    "node_modules/**",
+    "<external-private-sources>"
+  ],
+  "baselineValidation": [
+    {
+      "gate": "source-state",
+      "command": "git status --short --branch && git rev-parse HEAD && git rev-parse HEAD^{tree} && git diff --check",
+      "outcome": "pass"
+    },
+    {
+      "gate": "fast-validation",
+      "command": "PATH=/opt/homebrew/bin:/usr/bin:/bin /opt/homebrew/bin/npm run validate:fast",
+      "outcome": "pass"
+    },
+    {
+      "gate": "type-check",
+      "command": "PATH=/opt/homebrew/bin:/usr/bin:/bin /opt/homebrew/bin/npm run check",
+      "outcome": "pass"
+    },
+    {
+      "gate": "build",
+      "command": "PATH=/opt/homebrew/bin:/usr/bin:/bin ASTRO_TELEMETRY_DISABLED=1 /opt/homebrew/bin/npm run build",
+      "outcome": "pass"
+    },
+    {
+      "gate": "smoke",
+      "command": "PATH=/opt/homebrew/bin:/usr/bin:/bin /opt/homebrew/bin/npm run test:smoke",
+      "outcome": "pass"
+    }
+  ],
+  "invariants": {
+    "reviewedBaselineShaRecorded": true,
+    "cleanWorktreeBeforeEditRecorded": true,
+    "acceptedAndExcludedPathsDeclared": true,
+    "runtimeReceiptsExcluded": true,
+    "unchangedBaselineValidated": true,
+    "privateMaterialExcluded": true
+  },
+  "notes": "This receipt records the source boundary for PU-000. The exact temporary worktree path is intentionally kept in the local operator receipt rather than public repository content."
+}

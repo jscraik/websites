@@ -231,6 +231,16 @@ if [[ "$fast_mode" -eq 0 ]]; then
 	exit 0
 fi
 
+if ! is_source_harness_repo; then
+	# Downstream projects own their quality contract in package.json. Requiring
+	# the harness repository's internal script names here makes the generated
+	# pre-commit path impossible to run even when the project's actual quality
+	# and typecheck commands pass.
+	run_required_script "validate:fast"
+	run_required_script "check"
+	exit 0
+fi
+
 run_required_script "lint"
 run_source_repo_script "quality:scripts"
 run_source_repo_script "tooling:parity"

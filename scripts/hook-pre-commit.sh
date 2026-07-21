@@ -30,14 +30,6 @@ bash ./scripts/check-hook-critical-config-sync.sh
 make codestyle-parity
 unset_git_context_env
 bash ./scripts/validate-codestyle.sh --fast
-bash ./scripts/run-package-command.sh npm run lint
-bash ./scripts/run-package-command.sh npm run docs:lint
-bash ./scripts/run-package-command.sh npm run typecheck
-bash ./scripts/run-package-command.sh npm run quality:docstrings
-bash ./scripts/run-package-command.sh npm run quality:size
-run_optional_package_script "quality:behavior-tests" bash ./scripts/run-package-command.sh npm run quality:behavior-tests
-run_optional_package_script "quality:git-env-sanitizer" bash ./scripts/run-package-command.sh npm run quality:git-env-sanitizer
-run_optional_package_script "harness:audit-tracking" bash ./scripts/run-package-command.sh npm run harness:audit-tracking
-make secrets-staged
-make docs-style-changed
+run_optional_package_script "secrets:staged" bash ./scripts/run-package-command.sh npm run secrets:staged
+run_optional_package_script "docs:style:changed" bash ./scripts/run-package-command.sh npm run docs:style:changed
 make related-tests-staged

@@ -16,10 +16,11 @@ This repository expects one task = one worktree = one branch = one agent thread.
 
 Options:
   --base <ref>            Start the branch from this ref (default: main)
-  --branch-prefix <name>  Branch prefix (default: jscraik/feature)
+  --branch-prefix <name>  Branch prefix (default: jscraik)
   --path <dir>            Worktree path (default: ../wt-<issue-key>-<slug>)
   --allow-stale-base      Continue from local refs when default remote-base fetch fails
-  --bootstrap             Run worktree bootstrap immediately after creation
+  --prepare               Run worktree bootstrap immediately after creation
+  --bootstrap             Backward-compatible alias for --prepare
   -h, --help              Show this help text
 USAGE
 }
@@ -36,7 +37,7 @@ require_option_value() {
 }
 
 base_ref="main"
-branch_prefix="jscraik/feature"
+branch_prefix="jscraik"
 worktree_path=""
 explicit_worktree_path=0
 allow_stale_base=0
@@ -65,7 +66,7 @@ while (( $# > 0 )); do
 			allow_stale_base=1
 			shift
 			;;
-		--bootstrap)
+		--bootstrap|--prepare)
 			bootstrap=1
 			shift
 			;;
@@ -105,9 +106,9 @@ if [[ ! "$branch_prefix" =~ ^[A-Za-z0-9._/-]+$ ]]; then
 	exit 2
 fi
 
-if [[ "$branch_prefix" == jscraik/feature* ]]; then
-	if [[ ! "$slug" =~ ^[A-Za-z][A-Za-z0-9]*-[0-9]+-[a-z0-9][a-z0-9-]*$ ]]; then
-		echo "[new-task] for agent branches, slug must start with an issue key (example: JSC-123-my-task): $slug" >&2
+if [[ "$branch_prefix" == "jscraik" ]]; then
+	if [[ ! "$slug" =~ ^jsc-[0-9]+-[a-z0-9][a-z0-9-]*$ ]]; then
+		echo "[new-task] for Linear-tracked branches, slug must start with a lower-case issue key (example: jsc-123-my-task): $slug" >&2
 		exit 2
 	fi
 elif [[ ! "$slug" =~ ^[a-z0-9][a-z0-9-]*$ ]]; then
@@ -244,7 +245,7 @@ echo
 echo "[new-task] next:"
 echo "  cd \"$worktree_path\""
 if [[ "$bootstrap" -eq 1 ]]; then
-	echo "  # bootstrap already ran (--bootstrap)"
+	echo "  # bootstrap already ran (--prepare)"
 elif [[ -f "$worktree_path/Makefile" ]] && rg -q '^worktree-ready:' "$worktree_path/Makefile"; then
 	echo "  make worktree-ready"
 else

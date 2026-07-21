@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "portfolio-operational-telemetry/v1",
+  "status": "active",
+  "purpose": "Convert repeated steering and recovery guidance into deterministic workflow checks and explicit evidence lanes.",
+  "operatingContract": {
+    "continuationCheckpointRequired": true,
+    "checkpointFields": [
+      "activeLane",
+      "worktree",
+      "branch",
+      "headSha",
+      "dirtyState",
+      "nextAction",
+      "dependencyGate",
+      "blockers",
+      "validationEvidence"
+    ],
+    "validationExecution": "serial",
+    "claimLanes": [
+      "local",
+      "hosted",
+      "review",
+      "runtime",
+      "release"
+    ],
+    "dependencyRule": "Do not start a downstream implementation slice until the upstream receipt validator passes."
+  },
+  "signals": [
+    {
+      "id": "steering-continuation-001",
+      "feedback": "Repeated requests to try again or continue after the baseline handoff.",
+      "rootFailure": "The workflow had no durable continuation checkpoint, so the next agent turn had to reconstruct branch, worktree, PR, dirty-state, and next-action truth from conversation context.",
+      "categories": ["stale_state", "poor_workflow_design", "weak_observability"],
+      "mechanism": "workflow_rule",
+      "status": "implemented",
+      "durableImprovement": {
+        "artifact": "docs/implementation-notes/operational-telemetry.json",
+        "validator": "scripts/validate-operational-telemetry.mjs",
+        "gate": "npm run validate:operational-telemetry",
+        "prevention": "Require a structured continuation checkpoint with branch, SHA, dirty-state, dependency, blockers, and exact validation evidence before a lane may resume."
+      },
+      "proof": {
+        "command": "npm run validate:operational-telemetry",
+        "expectedBehavior": "The gate fails when a checkpoint field, claim lane, or signal remediation is missing."
+      }
+    },
+    {
+      "id": "validation-concurrency-002",
+      "feedback": "A parallel Astro check/build attempt raced on the shared generated .astro directory and had to be rerun serially.",
+      "rootFailure": "The validation strategy optimized for parallelism without a generated-state isolation contract.",
+      "categories": ["weak_validation", "poor_workflow_design", "runtime_ambiguity"],
+      "mechanism": "validator",
+      "status": "implemented",
+      "durableImprovement": {
+        "artifact": "docs/implementation-notes/operational-telemetry.json",
+        "validator": "scripts/validate-operational-telemetry.mjs",
+        "gate": "npm run validate:operational-telemetry",
+        "prevention": "Declare portfolio validation execution serial; generated-state checks must not be fanned out unless each command has an isolated output directory."
+      },
+      "proof": {
+        "command": "npm run validate:operational-telemetry",
+        "expectedBehavior": "The gate fails if validationExecution is changed from serial without an explicit isolation rule."
+      }
+    },
+    {
+      "id": "runtime-shim-003",
+      "feedback": "The repository's untrusted mise shim repeatedly prevented the canonical wrapper from resolving its pinned Node tool, while direct npm binaries passed.",
+      "rootFailure": "Runtime selection and repository command contracts were coupled to an untrusted shim without a structured blocked-runtime classification.",
+      "categories": ["runtime_ambiguity", "insufficient_deterministic_enforcement", "weak_observability"],
+      "mechanism": "recovery_handler",
+      "status": "proposed",
+      "durableImprovement": {
+        "artifact": "docs/implementation-notes/operational-telemetry.json",
+        "validator": "scripts/validate-operational-telemetry.mjs",
+        "gate": "npm run validate:operational-telemetry",
+        "prevention": "Classify untrusted-shim failures as blocked_runtime, record the resolved executable paths, and route validation through a repository-owned direct-runtime wrapper before claiming a source failure.",
+        "followUp": "Add scripts/run-portfolio-validation.sh with an explicit direct-runtime resolution policy before the next release gate."
+      },
+      "proof": {
+        "command": "npm run validate:operational-telemetry",
+        "expectedBehavior": "The gate requires a proposed recovery handler to include an explicit follow-up instead of silently treating the runtime blocker as fixed."
+      }
+    },
+    {
+      "id": "filesystem-authority-004",
+      "feedback": "Git staging and commit in the linked worktree required repeated permission grants for the worktree index, object store, refs, reflog, and packed-refs paths.",
+      "rootFailure": "The worktree authority surface was not preflighted as a single set of linked Git paths before attempting mutation.",
+      "categories": ["runtime_ambiguity", "lack_of_verification", "missing_guardrails"],
+      "mechanism": "runtime_check",
+      "status": "implemented",
+      "durableImprovement": {
+        "artifact": "scripts/check-git-worktree-authority.mjs",
+        "validator": "scripts/check-git-worktree-authority.mjs",
+        "gate": "npm run check:git-worktree-authority",
+        "prevention": "Check the linked worktree index, object store, refs, reflog, and current branch ref for write access before staging or committing."
+      },
+      "proof": {
+        "command": "npm run check:git-worktree-authority",
+        "expectedBehavior": "The gate fails with the exact Git path when a linked worktree mutation surface is not writable.",
+        "outcome": "blocked_runtime",
+        "blockedReason": "The current sandbox denied write access to the shared linked-worktree .git parent even after the guarded commit completed; keep this check separate from source validation."
+      }
+    },
+    {
+      "id": "remote-head-005",
+      "feedback": "A push was rejected because the remote implementation branch had been force-updated independently after the previous push.",
+      "rootFailure": "The workflow did not fetch and compare the target remote head immediately before the next push.",
+      "categories": ["stale_state", "lack_of_verification", "weak_observability"],
+      "mechanism": "workflow_rule",
+      "status": "proposed",
+      "durableImprovement": {
+        "artifact": "docs/implementation-notes/operational-telemetry.json",
+        "validator": "scripts/validate-operational-telemetry.mjs",
+        "gate": "npm run validate:operational-telemetry",
+        "prevention": "Require a fetch-first remote-head comparison and explicit divergence receipt before push; never use force-push as a recovery shortcut.",
+        "followUp": "Add scripts/check-remote-head-before-push.sh and include its exact ancestry result in the continuation checkpoint."
+      },
+      "proof": {
+        "command": "npm run validate:operational-telemetry",
+        "expectedBehavior": "The gate requires a proposed remote-head recovery rule to include an explicit follow-up instead of silently treating stale state as resolved."
+      }
+    }
+  ]
+}
