@@ -1,6 +1,6 @@
 {
   "schemaVersion": "code-quality-debt-baseline/v1",
-  "generatedAt": "2026-07-21T20:54:34.068Z",
+  "generatedAt": "2026-07-21T22:16:19.849Z",
   "thresholds": {
     "maxFileLines": 400,
     "maxFunctionLines": 80,
@@ -10,10 +10,10 @@
   },
   "entries": [
     {
-      "id": "duplicate_block:scripts/check-code-quality-debt.mjs:5727e86b87647fb5",
+      "id": "duplicate_block:scripts/check-code-quality-debt.mjs:5727e86b87647fb5:124:scripts/check-code-size.mjs:118",
       "category": "duplicate_block",
       "path": "scripts/check-code-quality-debt.mjs",
-      "line": 125,
+      "line": 124,
       "fingerprint": "5727e86b87647fb5",
       "relatedPath": "scripts/check-code-size.mjs",
       "relatedLine": 118,
@@ -33,7 +33,7 @@
       "id": "high_complexity_function:scripts/check-code-quality-debt.mjs:isExplicitAnyAnnotation",
       "category": "high_complexity_function",
       "path": "scripts/check-code-quality-debt.mjs",
-      "line": 292,
+      "line": 291,
       "symbol": "isExplicitAnyAnnotation",
       "actual": 11,
       "max": 10,
@@ -43,7 +43,7 @@
       "id": "high_complexity_function:scripts/check-code-quality-debt.mjs:nodeComplexityIncrement",
       "category": "high_complexity_function",
       "path": "scripts/check-code-quality-debt.mjs",
-      "line": 125,
+      "line": 124,
       "symbol": "nodeComplexityIncrement",
       "actual": 14,
       "max": 10,
@@ -53,7 +53,7 @@
       "id": "high_complexity_function:scripts/check-code-quality-debt.mjs:normalizedDuplicateLines",
       "category": "high_complexity_function",
       "path": "scripts/check-code-quality-debt.mjs",
-      "line": 360,
+      "line": 359,
       "symbol": "normalizedDuplicateLines",
       "actual": 11,
       "max": 10,
@@ -63,7 +63,7 @@
       "id": "high_complexity_function:scripts/check-code-quality-debt.mjs:visit",
       "category": "high_complexity_function",
       "path": "scripts/check-code-quality-debt.mjs",
-      "line": 307,
+      "line": 306,
       "symbol": "visit",
       "actual": 14,
       "max": 10,
@@ -333,9 +333,9 @@
       "category": "oversized_file",
       "path": "scripts/check-code-quality-debt.mjs",
       "line": 1,
-      "actual": 609,
+      "actual": 608,
       "max": 400,
-      "detail": "file has 609 lines; max is 400"
+      "detail": "file has 608 lines; max is 400"
     },
     {
       "id": "oversized_file:scripts/generate-social-profile-assets.mjs",
@@ -415,7 +415,7 @@
       "id": "oversized_function:scripts/check-code-quality-debt.mjs:typeEscapeDebt",
       "category": "oversized_function",
       "path": "scripts/check-code-quality-debt.mjs",
-      "line": 235,
+      "line": 234,
       "symbol": "typeEscapeDebt",
       "actual": 102,
       "max": 80,
@@ -465,7 +465,7 @@
       "id": "production_marker:scripts/check-code-quality-debt.mjs:793639c28746",
       "category": "production_marker",
       "path": "scripts/check-code-quality-debt.mjs",
-      "line": 343,
+      "line": 342,
       "fingerprint": "793639c28746",
       "detail": "TODO marker in production path: const match = /\\b(TODO|FIXME|HACK)\\b/.exec(line);"
     }

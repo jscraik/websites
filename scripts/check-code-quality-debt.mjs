@@ -6,7 +6,7 @@ import { dirname, relative, resolve } from "node:path";
 import ts from "typescript";
 
 const SOURCE_EXTENSIONS = /\.(astro|ts|tsx|js|jsx|mts|cts|mjs|cjs)$/;
-const TYPE_DECLARATION = /\.d\.ts$/;
+const TYPE_DECLARATION = /\.d\.(ts|mts|cts)$/;
 const TEST_SOURCE = /([./](?:__tests__|test|tests)[./]|(?:^|\/)test-[^/]+|\.test\.|\.spec\.)/;
 const PRODUCTION_PREFIXES = ["src/", "scripts/"];
 const BASELINE_SCHEMA_VERSION = "code-quality-debt-baseline/v1";
@@ -87,7 +87,6 @@ function normalizeSnippet(line) {
 function snippetFor(lines, lineNumber) {
 	return normalizeSnippet(lines[lineNumber - 1] ?? "");
 }
-
 function isFunctionLike(node) {
 	return (
 		ts.isFunctionDeclaration(node) ||
@@ -167,7 +166,7 @@ function addDebt(items, debt) {
 
 function debtId(debt) {
 	const symbol = debt.symbol ? `:${debt.symbol}` : "";
-	const fingerprint = debt.fingerprint ? `:${debt.fingerprint}` : "";
+	const fingerprint = `${debt.fingerprint ? `:${debt.fingerprint}` : ""}${debt.relatedPath ? `:${debt.line}:${debt.relatedPath}:${debt.relatedLine}` : ""}`;
 	return `${debt.category}:${debt.path}${symbol}${fingerprint}`;
 }
 
@@ -233,7 +232,7 @@ function sizeAndComplexityDebt(path, sourceText, sourceFile) {
 }
 
 function typeEscapeDebt(path, sourceText, sourceFile) {
-	if (!path.startsWith("src/") || !/\.(?:ts|tsx|mts|cts)$/.test(path) || isTestFile(path)) {
+	if (!path.startsWith("src/") || TYPE_DECLARATION.test(path) || !/\.(?:ts|tsx|mts|cts)$/.test(path) || isTestFile(path)) {
 		return [];
 	}
 	const lines = sourceText.split(/\r?\n/);

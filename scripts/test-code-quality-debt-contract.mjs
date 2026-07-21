@@ -9,6 +9,7 @@ const read = (relativePath) =>
 
 const debtValidator = read("scripts/check-code-quality-debt.mjs");
 const environment = read(".codex/environments/environment.toml");
+const packageJson = JSON.parse(read("package.json"));
 
 assert.ok(
 	debtValidator.includes(
@@ -20,6 +21,14 @@ assert.ok(
 	debtValidator.includes("!/\\.(?:ts|tsx|mts|cts)$/.test(path)"),
 	"TypeScript escape-hatch debt must include TSX and module extensions",
 );
+assert.ok(
+	debtValidator.includes("const TYPE_DECLARATION = /\\.d\\.(ts|mts|cts)$/;"),
+	"module declaration files must stay outside the debt source surface",
+);
+assert.ok(
+	debtValidator.includes("TYPE_DECLARATION.test(path)"),
+	"escape-hatch scanning must exclude declaration files directly",
+);
 assert.doesNotMatch(
 	debtValidator,
 	/const reportedPairs = new Set\(\)/,
@@ -29,6 +38,16 @@ assert.match(
 	debtValidator,
 	/const reportedOccurrences = new Set\(\)/,
 	"duplicate debt must deduplicate only identical occurrences",
+);
+assert.match(
+	debtValidator,
+	/debt\.relatedPath \? `:\$\{debt\.line\}:\$\{debt\.relatedPath\}:\$\{debt\.relatedLine\}`/,
+	"duplicate debt IDs must include their reported occurrence coordinates",
+);
+assert.match(
+	packageJson.scripts["validate:fast"],
+	/^npm run test:code-quality-debt &&/,
+	"the debt contract test must run in the standard fast validation gate",
 );
 
 assert.equal(
