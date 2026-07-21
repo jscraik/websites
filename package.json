@@ -6,10 +6,21 @@
   "engines": {
     "node": ">=26.3.0"
   },
-  "scripts": {
-    "dev": "astro dev",
-    "check": "astro check",
-    "build": "astro build",
+	"scripts": {
+		"dev": "astro dev",
+		"check": "astro check",
+		"lint": "npm run validate:fast",
+		"docs:lint": "bash scripts/check-doc-style.sh",
+		"typecheck": "ASTRO_TELEMETRY_DISABLED=1 npm run check",
+		"types:check": "ASTRO_TELEMETRY_DISABLED=1 npm run check",
+		"quality:docstrings": "node scripts/check-public-api-docs.mjs --staged",
+		"quality:size": "node scripts/check-code-size.mjs --staged",
+		"quality:debt": "node scripts/check-code-quality-debt.mjs",
+		"secrets:staged": "bash scripts/check-staged-secrets.sh",
+		"docs:style:changed": "bash scripts/check-doc-style.sh",
+		"test:related": "bash scripts/check-related-tests.sh",
+		"semgrep:changed": "bash scripts/check-semgrep-changed.sh",
+		"build": "astro build",
     "preview": "astro preview",
     "capture:jose-reference": "mkdir -p .playwright-tmp && TMPDIR=$PWD/.playwright-tmp PWTEST_CACHE_DIR=.playwright-cache node scripts/capture-jose-reference.mjs",
     "validate:astro-anti-patterns": "node scripts/validate-astro-anti-patterns.mjs",
