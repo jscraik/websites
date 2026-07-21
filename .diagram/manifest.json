@@ -1,0 +1,134 @@
+{
+	"generatedAt": "2026-07-21T18:35:59.324Z",
+	"schemaVersion": "1.0",
+	"rootPath": ".",
+	"diagramDir": ".diagram",
+	"compaction": {
+		"applied": false,
+		"profile": "full",
+		"maxTotalBytes": null,
+		"maxPerDiagramBytes": null,
+		"maxDiagrams": null,
+		"generatedDiagrams": 14,
+		"writtenDiagrams": 14,
+		"omittedTypes": [],
+		"truncatedTypes": [],
+		"bytesSaved": 0,
+		"estimatedTokensSaved": 0,
+		"reason": "full_profile"
+	},
+	"diagrams": [
+		{
+			"type": "agent",
+			"file": "agent.mmd",
+			"outputPath": ".diagram/agent.mmd",
+			"lines": 15,
+			"bytes": 598,
+			"isPlaceholder": false
+		},
+		{
+			"type": "architecture",
+			"file": "architecture.mmd",
+			"outputPath": ".diagram/architecture.mmd",
+			"lines": 2,
+			"bytes": 9,
+			"isPlaceholder": false
+		},
+		{
+			"type": "auth",
+			"file": "auth.mmd",
+			"outputPath": ".diagram/auth.mmd",
+			"lines": 3,
+			"bytes": 58,
+			"isPlaceholder": false
+		},
+		{
+			"type": "c4context",
+			"file": "c4context.mmd",
+			"outputPath": ".diagram/c4context.mmd",
+			"lines": 8,
+			"bytes": 327,
+			"isPlaceholder": false
+		},
+		{
+			"type": "class",
+			"file": "class.mmd",
+			"outputPath": ".diagram/class.mmd",
+			"lines": 10,
+			"bytes": 379,
+			"isPlaceholder": false
+		},
+		{
+			"type": "database",
+			"file": "database.mmd",
+			"outputPath": ".diagram/database.mmd",
+			"lines": 3,
+			"bytes": 60,
+			"isPlaceholder": false
+		},
+		{
+			"type": "dependency",
+			"file": "dependency.mmd",
+			"outputPath": ".diagram/dependency.mmd",
+			"lines": 107,
+			"bytes": 8522,
+			"isPlaceholder": false
+		},
+		{
+			"type": "erd",
+			"file": "erd.mmd",
+			"outputPath": ".diagram/erd.mmd",
+			"lines": 5,
+			"bytes": 152,
+			"isPlaceholder": false
+		},
+		{
+			"type": "events",
+			"file": "events.mmd",
+			"outputPath": ".diagram/events.mmd",
+			"lines": 3,
+			"bytes": 58,
+			"isPlaceholder": false
+		},
+		{
+			"type": "flow",
+			"file": "flow.mmd",
+			"outputPath": ".diagram/flow.mmd",
+			"lines": 21,
+			"bytes": 975,
+			"isPlaceholder": false
+		},
+		{
+			"type": "rag",
+			"file": "rag.mmd",
+			"outputPath": ".diagram/rag.mmd",
+			"lines": 24,
+			"bytes": 804,
+			"isPlaceholder": false
+		},
+		{
+			"type": "security",
+			"file": "security.mmd",
+			"outputPath": ".diagram/security.mmd",
+			"lines": 11,
+			"bytes": 493,
+			"isPlaceholder": false
+		},
+		{
+			"type": "sequence",
+			"file": "sequence.mmd",
+			"outputPath": ".diagram/sequence.mmd",
+			"lines": 8,
+			"bytes": 335,
+			"isPlaceholder": false
+		},
+		{
+			"type": "user",
+			"file": "user.mmd",
+			"outputPath": ".diagram/user.mmd",
+			"lines": 27,
+			"bytes": 1523,
+			"isPlaceholder": false
+		}
+	]
+}

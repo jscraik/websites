@@ -1,0 +1,23 @@
+flowchart LR
+  UserQ(["👤 User Query"])
+  Embed["📐 Embedding Model"]
+  VecDB[("📚 Vector Store")]
+  Retriever["🔍 Retriever"]
+  LLMNode["🧠 LLM / Generator"]
+  Output(["✅ Response"])
+  UserQ -->|query| Embed
+  Embed -->|vector| VecDB
+  VecDB -->|top-k chunks| Retriever
+  Retriever -->|context + query| LLMNode
+  LLMNode -->|generated answer| Output
+  subgraph DetectedTools["Agentic tool calls"]
+    det_detectedtools_jose_parity_cdp_bdcde21d["🔧 jose-parity-cdp"]
+  end
+  LLMNode -->|tool use| DetectedTools
+  DetectedTools -->|result| LLMNode
+  classDef memNode fill:#555,color:#fff
+  class VecDB,Retriever memNode
+  classDef llmNode fill:#555,color:#fff
+  class LLMNode,Embed llmNode
+  classDef toolNode fill:#555,color:#fff
+  class det_detectedtools_jose_parity_cdp_bdcde21d toolNode

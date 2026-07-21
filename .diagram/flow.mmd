@@ -1,0 +1,20 @@
+flowchart TD
+  Start(["Start"])
+  capture_jose_reference_e7b66705["capture-jose-reference"]
+  Start --> capture_jose_reference_e7b66705
+  check_code_quality_debt_cba04f67["check-code-quality-debt"]
+  capture_jose_reference_e7b66705 --> check_code_quality_debt_cba04f67
+  check_code_size_9c5efc3a["check-code-size"]
+  check_code_quality_debt_cba04f67 --> check_code_size_9c5efc3a
+  check_node_engine_217689bf["check-node-engine"]
+  check_code_size_9c5efc3a --> check_node_engine_217689bf
+  check_public_api_docs_a9604f1b["check-public-api-docs"]
+  check_node_engine_217689bf --> check_public_api_docs_a9604f1b
+  jose_parity_cdp_bdcde21d["jose-parity-cdp"]
+  check_public_api_docs_a9604f1b --> jose_parity_cdp_bdcde21d
+  jose_parity_runner_50cc4344["jose-parity-runner"]
+  jose_parity_cdp_bdcde21d --> jose_parity_runner_50cc4344
+  changed_files_4c0102f6["changed-files"]
+  jose_parity_runner_50cc4344 --> changed_files_4c0102f6
+  End(["End"])
+  changed_files_4c0102f6 --> End

@@ -4,6 +4,19 @@ dist/
 .npm-cache/
 .playwright-cache/
 .playwright-tmp/
+
+# Generated architecture diagrams: commit deterministic Mermaid/manifest outputs,
+# keep refresh metadata and logs local.
+.diagram/*
+!.diagram/*.mmd
+!.diagram/manifest.json
+AI/context/refresh.log
+.tmp-diagram-refresh-*/
+
+# Local harness and gate reports are runtime evidence, not source.
+.cache/
+artifacts/consistency-gate/
+artifacts/context-integrity/
 playwright-report/
 test-results/
 .codex/*
