@@ -1,2 +1,6 @@
 flowchart TD
-  Note["No event/channels components found"]
+  subgraph Channels["Event channels / queues"]
+    validate_design_system_b8a5f37c{{"validate-design-system"}}
+  end
+  classDef eventNode fill:#db2777,color:#fff
+  class validate_design_system_b8a5f37c eventNode

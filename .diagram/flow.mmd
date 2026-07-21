@@ -6,15 +6,15 @@ flowchart TD
   capture_jose_reference_e7b66705 --> check_code_quality_debt_cba04f67
   check_code_size_9c5efc3a["check-code-size"]
   check_code_quality_debt_cba04f67 --> check_code_size_9c5efc3a
+  check_git_worktree_authority_940ab26d["check-git-worktree-authority"]
+  check_code_size_9c5efc3a --> check_git_worktree_authority_940ab26d
   check_node_engine_217689bf["check-node-engine"]
-  check_code_size_9c5efc3a --> check_node_engine_217689bf
+  check_git_worktree_authority_940ab26d --> check_node_engine_217689bf
   check_public_api_docs_a9604f1b["check-public-api-docs"]
   check_node_engine_217689bf --> check_public_api_docs_a9604f1b
+  generate_social_profile_assets_f4f94011["generate-social-profile-assets"]
+  check_public_api_docs_a9604f1b --> generate_social_profile_assets_f4f94011
   jose_parity_cdp_bdcde21d["jose-parity-cdp"]
-  check_public_api_docs_a9604f1b --> jose_parity_cdp_bdcde21d
-  jose_parity_runner_50cc4344["jose-parity-runner"]
-  jose_parity_cdp_bdcde21d --> jose_parity_runner_50cc4344
-  changed_files_4c0102f6["changed-files"]
-  jose_parity_runner_50cc4344 --> changed_files_4c0102f6
+  generate_social_profile_assets_f4f94011 --> jose_parity_cdp_bdcde21d
   End(["End"])
-  changed_files_4c0102f6 --> End
+  jose_parity_cdp_bdcde21d --> End
