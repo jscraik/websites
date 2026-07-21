@@ -457,8 +457,7 @@
     "disableGitHubIssues": true,
     "requireBranchIssueKey": true,
     "requirePrIssueKey": true,
-    "prReferenceMode": "either",
-    "branchPrefix": "jscraik/feature"
+    "prReferenceMode": "either"
   },
   "evidencePolicy": {
     "requiredFor": [],
