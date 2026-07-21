@@ -17,6 +17,7 @@ AI/context/refresh.log
 .cache/
 artifacts/consistency-gate/
 artifacts/context-integrity/
+artifacts/policy/
 playwright-report/
 test-results/
 .codex/*
