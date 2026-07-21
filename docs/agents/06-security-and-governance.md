@@ -28,3 +28,7 @@ schema rejects multi-segment values such as `jscraik/feature`.
 Creating tracker items, changing pull-request state, pushing refs, and merging
 are separate external mutations. Perform them only with explicit user
 authority and report their results independently from local validation.
+
+Environment projections, pinned skills, and diagram artifacts are committed
+only within an explicit delivery scope. Review their source commit or digest
+before staging, and preserve unrelated dirty paths and runtime receipts.

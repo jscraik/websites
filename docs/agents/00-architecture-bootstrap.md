@@ -19,3 +19,8 @@ When the project adopts checked-in diagram projections, add the manifest and the
 ## Validation Boundary
 
 Use the narrowest deterministic test first. For operator-contract changes, run the relevant `test:*` script, `npm run validate:operator-contract`, and the hook path that the change affects. Local results establish only local behavior; hosted checks, reviews, and merge readiness remain separate lanes.
+
+The checked-in `.diagram/manifest.json` and Mermaid projections are intentional
+architecture evidence. Refresh them with the repository diagram workflow and
+keep `AI/context/diagram-context.md` aligned; generated runtime receipts remain
+evidence rather than canonical source.

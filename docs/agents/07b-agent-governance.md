@@ -30,3 +30,7 @@ Command: <exact command> -> pass|fail|blocked (<reason>)
 
 When a tool or permission prevents execution, state the blocker and nearest
 meaningful fallback without describing the unavailable lane as proved.
+
+Project-local skills and operator projections remain bounded governance inputs:
+record their pinned source or contract when they enter a delivery scope, and do
+not treat generated receipts as approval or hosted-state evidence.
