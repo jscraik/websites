@@ -44,3 +44,8 @@ The tracked `.codex/environments/environment.toml` is the project-local
 environment projection used by the operator gates. Keep it aligned with the
 central Codex environment contract, and treat `.codex/skills/` entries pinned to
 external commits as reviewed source rather than generated runtime output.
+
+The projection's setup action uses `scripts/prepare-worktree.sh` when that
+helper is available. Its test actions use `npm run test:smoke`, its run actions
+use `npm run dev`, and its Codex actions may only advertise helpers that exist
+under this repository's `scripts/` directory.
