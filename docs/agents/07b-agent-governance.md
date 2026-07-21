@@ -34,3 +34,8 @@ meaningful fallback without describing the unavailable lane as proved.
 Project-local skills and operator projections remain bounded governance inputs:
 record their pinned source or contract when they enter a delivery scope, and do
 not treat generated receipts as approval or hosted-state evidence.
+
+When changing an operator projection or its validation gate, keep the action
+contract and the debt baseline reviewable: add a focused regression test,
+inspect newly discovered debt, and baseline only existing findings. This does
+not replace hosted PR readiness, review, or merge evidence.

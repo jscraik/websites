@@ -54,6 +54,10 @@ schema_version: 2
   - REFERENCE_BASE_URL=https://www.joseocando.com CANDIDATE_BASE_URL=<local-url> npm run test:jose-parity before claiming visual match.
 - If Playwright or browser-rendered validation is blocked by sandbox/runtime permissions, report blocked with the exact command and blocker, run the nearest meaningful static/build fallback, and do not claim visual parity.
 - Report validation as exact commands with pass, fail, or blocked, plus what the evidence proves and does not prove.
+- For changes to the tracked environment projection or debt validator, add a
+  focused contract test. Inspect newly visible debt before updating the
+  baseline, and never use a baseline update to conceal debt introduced by the
+  current delivery.
 
 ## Visual Reference Work
 - Preserve Jamie's site identity while using Jose Ocando as a structural reference. Do not replace source content or brand direction with copied benchmark content.
