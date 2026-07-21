@@ -22,6 +22,8 @@ test-results/
 .codex/*
 !.codex/skills/
 !.codex/skills/**
+!.codex/environments/
+!.codex/environments/environment.toml
 .gemini/
 .codex/config.toml
 .DS_Store
