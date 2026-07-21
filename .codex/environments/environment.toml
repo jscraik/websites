@@ -1793,3 +1793,12 @@ fi
 command -v wsearch >/dev/null 2>&1
 wsearch --help
 '''
+
+[[actions]]
+name = "Context7"
+icon = "tool"
+command = '''
+set -euo pipefail
+command -v ctx7 >/dev/null 2>&1
+ctx7 --help
+'''
