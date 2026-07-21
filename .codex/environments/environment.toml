@@ -92,11 +92,8 @@ run_node_pm() {
   return 127
 }
 
-if [ -x scripts/prepare-worktree.sh ]; then
-  bash scripts/prepare-worktree.sh
-else
-  run_node_pm ci
-fi
+run_node_pm ci
+node scripts/setup-git-hooks.js
 '''
 
 [[actions]]

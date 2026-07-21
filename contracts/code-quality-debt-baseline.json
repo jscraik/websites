@@ -10,13 +10,15 @@
   },
   "entries": [
     {
-      "id": "duplicate_block:scripts/check-code-quality-debt.mjs:5727e86b87647fb5:124:scripts/check-code-size.mjs:118",
+      "id": "duplicate_block:scripts/check-code-quality-debt.mjs:5727e86b87647fb5:0:scripts/check-code-size.mjs:0",
       "category": "duplicate_block",
       "path": "scripts/check-code-quality-debt.mjs",
       "line": 124,
       "fingerprint": "5727e86b87647fb5",
+      "occurrenceIndex": 0,
       "relatedPath": "scripts/check-code-size.mjs",
       "relatedLine": 118,
+      "relatedOccurrenceIndex": 0,
       "detail": "duplicate 24-line block across scripts/check-code-quality-debt.mjs, scripts/check-code-size.mjs"
     },
     {

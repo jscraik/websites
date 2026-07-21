@@ -166,8 +166,8 @@ function addDebt(items, debt) {
 
 function debtId(debt) {
 	const symbol = debt.symbol ? `:${debt.symbol}` : "";
-	const fingerprint = `${debt.fingerprint ? `:${debt.fingerprint}` : ""}${debt.relatedPath ? `:${debt.line}:${debt.relatedPath}:${debt.relatedLine}` : ""}`;
-	return `${debt.category}:${debt.path}${symbol}${fingerprint}`;
+	const fingerprint = debt.fingerprint ? `:${debt.fingerprint}` : "";
+	return `${debt.category}:${debt.path}${symbol}${fingerprint}${debt.relatedPath ? `:${debt.occurrenceIndex}:${debt.relatedPath}:${debt.relatedOccurrenceIndex}` : ""}`;
 }
 
 function sizeAndComplexityDebt(path, sourceText, sourceFile) {
@@ -396,12 +396,9 @@ function duplicateDebt(sources) {
 				.update(block)
 				.digest("hex")
 				.slice(0, 16);
-			const entry = {
-				path: source.path,
-				line: normalized[index].lineNumber,
-				fingerprint,
-			};
 			const existing = windows.get(fingerprint) ?? [];
+			const entry = { path: source.path, line: normalized[index].lineNumber, fingerprint,
+				occurrenceIndex: existing.filter((item) => item.path === source.path).length };
 			existing.push(entry);
 			windows.set(fingerprint, existing);
 		}
@@ -418,7 +415,7 @@ function duplicateDebt(sources) {
 			.filter(([first, second]) => first.path !== second.path);
 		for (const [left, right] of pairs) {
 			const [first, second] = left.path < right.path ? [left, right] : [right, left];
-			const occurrenceKey = [fingerprint, first.path, first.line, second.path, second.line].join("\u0000");
+			const occurrenceKey = [fingerprint, first.path, first.occurrenceIndex, second.path, second.occurrenceIndex].join("\u0000");
 			if (reportedOccurrences.has(occurrenceKey)) continue;
 			reportedOccurrences.add(occurrenceKey);
 			addDebt(debt, {
@@ -426,8 +423,10 @@ function duplicateDebt(sources) {
 				path: first.path,
 				line: first.line,
 				fingerprint,
+				occurrenceIndex: first.occurrenceIndex,
 				relatedPath: second.path,
 				relatedLine: second.line,
+				relatedOccurrenceIndex: second.occurrenceIndex,
 				detail: `duplicate ${DUPLICATE_BLOCK_LINES}-line block across ${paths.slice(0, 3).join(", ")}`,
 			});
 		}
