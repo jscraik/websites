@@ -1,6 +1,6 @@
 {
   "schemaVersion": "code-quality-debt-baseline/v1",
-  "generatedAt": "2026-07-21T19:41:29.670Z",
+  "generatedAt": "2026-07-21T20:54:34.068Z",
   "thresholds": {
     "maxFileLines": 400,
     "maxFunctionLines": 80,
@@ -310,6 +310,16 @@
       "detail": "socialProfileProjectionMatches has complexity 12; max is 10"
     },
     {
+      "id": "high_complexity_function:src/pages/demos/skillsbar.astro:selectScenario",
+      "category": "high_complexity_function",
+      "path": "src/pages/demos/skillsbar.astro",
+      "line": 276,
+      "symbol": "selectScenario",
+      "actual": 12,
+      "max": 10,
+      "detail": "selectScenario has complexity 12; max is 10"
+    },
+    {
       "id": "oversized_file:scripts/capture-jose-reference.mjs",
       "category": "oversized_file",
       "path": "scripts/capture-jose-reference.mjs",
@@ -323,9 +333,9 @@
       "category": "oversized_file",
       "path": "scripts/check-code-quality-debt.mjs",
       "line": 1,
-      "actual": 613,
+      "actual": 609,
       "max": 400,
-      "detail": "file has 613 lines; max is 400"
+      "detail": "file has 609 lines; max is 400"
     },
     {
       "id": "oversized_file:scripts/generate-social-profile-assets.mjs",
@@ -362,6 +372,24 @@
       "actual": 614,
       "max": 400,
       "detail": "file has 614 lines; max is 400"
+    },
+    {
+      "id": "oversized_file:src/pages/blog/index.astro",
+      "category": "oversized_file",
+      "path": "src/pages/blog/index.astro",
+      "line": 1,
+      "actual": 636,
+      "max": 400,
+      "detail": "file has 636 lines; max is 400"
+    },
+    {
+      "id": "oversized_file:src/pages/demos/skillsbar.astro",
+      "category": "oversized_file",
+      "path": "src/pages/demos/skillsbar.astro",
+      "line": 1,
+      "actual": 521,
+      "max": 400,
+      "detail": "file has 521 lines; max is 400"
     },
     {
       "id": "oversized_function:scripts/capture-jose-reference.mjs:captureRenderedArtifacts",

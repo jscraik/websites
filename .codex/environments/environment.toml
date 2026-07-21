@@ -92,7 +92,11 @@ run_node_pm() {
   return 127
 }
 
-run_node_pm ci
+if [ -x scripts/prepare-worktree.sh ]; then
+  bash scripts/prepare-worktree.sh
+else
+  run_node_pm ci
+fi
 '''
 
 [[actions]]
@@ -448,7 +452,7 @@ run_node_pm() {
   return 127
 }
 
-run_node_pm test
+run_node_pm run test:smoke
 '''
 
 [[actions]]
@@ -472,55 +476,7 @@ set -euo pipefail
 export UV_CACHE_DIR="${UV_CACHE_DIR:-/private/tmp/codex-uv-cache-${USER:-codex}}"
 mkdir -p "$UV_CACHE_DIR"
 
-bash codex/scripts/codex-preflight.sh --mode optional
-'''
-
-[[actions]]
-name = "Codex config"
-icon = "debug"
-command = '''
-set -euo pipefail
-
-export UV_CACHE_DIR="${UV_CACHE_DIR:-/private/tmp/codex-uv-cache-${USER:-codex}}"
-mkdir -p "$UV_CACHE_DIR"
-
-python3 codex/scripts/validate-codex-config.py
-'''
-
-[[actions]]
-name = "Codex hooks"
-icon = "debug"
-command = '''
-set -euo pipefail
-
-export UV_CACHE_DIR="${UV_CACHE_DIR:-/private/tmp/codex-uv-cache-${USER:-codex}}"
-mkdir -p "$UV_CACHE_DIR"
-
-bash codex/scripts/validate-codex-hooks.sh
-'''
-
-[[actions]]
-name = "Codex hooks runtime"
-icon = "debug"
-command = '''
-set -euo pipefail
-
-export UV_CACHE_DIR="${UV_CACHE_DIR:-/private/tmp/codex-uv-cache-${USER:-codex}}"
-mkdir -p "$UV_CACHE_DIR"
-
-bash codex/scripts/validate-codex-hooks.sh --runtime required
-'''
-
-[[actions]]
-name = "Codex symlinks"
-icon = "debug"
-command = '''
-set -euo pipefail
-
-export UV_CACHE_DIR="${UV_CACHE_DIR:-/private/tmp/codex-uv-cache-${USER:-codex}}"
-mkdir -p "$UV_CACHE_DIR"
-
-bash codex/scripts/audit-codex-symlinks.sh
+bash scripts/codex-preflight.sh --mode optional
 '''
 
 [[actions]]
@@ -532,7 +488,7 @@ set -euo pipefail
 export UV_CACHE_DIR="${UV_CACHE_DIR:-/private/tmp/codex-uv-cache-${USER:-codex}}"
 mkdir -p "$UV_CACHE_DIR"
 
-bash codex/scripts/verify-work.sh --fast
+bash scripts/verify-work.sh --fast
 '''
 
 [[actions]]
@@ -558,8 +514,7 @@ if command -v mise >/dev/null 2>&1; then
   rm -f "$mise_env_file"
 fi
 
-echo "[codex] no run command inferred for this repository"
-exit 1
+npm run dev
 '''
 
 [[actions]]
@@ -686,8 +641,7 @@ if command -v mise >/dev/null 2>&1; then
   rm -f "$mise_env_file"
 fi
 
-echo "[codex] no run command inferred for this repository"
-exit 1
+npm run dev
 '''
 
 [[actions]]
@@ -738,7 +692,7 @@ run_node_pm() {
   return 127
 }
 
-run_node_pm test
+run_node_pm run test:smoke
 '''
 
 [[actions]]
