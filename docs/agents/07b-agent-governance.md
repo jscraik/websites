@@ -39,3 +39,8 @@ When changing an operator projection or its validation gate, keep the action
 contract and the debt baseline reviewable: add a focused regression test,
 inspect newly discovered debt, and baseline only existing findings. This does
 not replace hosted PR readiness, review, or merge evidence.
+
+When a dependency change refreshes tracked architecture projections, update
+the linked architecture and governance documentation before push. Generated
+diagram evidence informs the change; it does not replace the documented
+workflow contract or hosted review evidence.

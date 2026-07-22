@@ -27,4 +27,6 @@ evidence rather than canonical source.
 
 The tracked environment projection and code-quality debt validator are part of
 the operator workflow architecture. When either changes, refresh the diagram
-context after its focused contract test and inspected baseline update.
+context after `npm run test:code-quality-debt`, `npm run quality:debt`, and an
+inspected baseline update. The focused contract test remains the regression
+boundary for the debt validator and its environment projection.

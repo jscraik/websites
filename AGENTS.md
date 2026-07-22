@@ -58,6 +58,9 @@ schema_version: 2
   focused contract test. Inspect newly visible debt before updating the
   baseline, and never use a baseline update to conceal debt introduced by the
   current delivery.
+- For dependency or lockfile changes, run the package audit and refresh any
+  tracked diagram projections. When the diagrams change, keep their required
+  architecture and governance documentation surfaces synchronized before push.
 
 ## Visual Reference Work
 - Preserve Jamie's site identity while using Jose Ocando as a structural reference. Do not replace source content or brand direction with copied benchmark content.
