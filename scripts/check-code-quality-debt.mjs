@@ -167,7 +167,7 @@ function addDebt(items, debt) {
 function debtId(debt) {
 	const symbol = debt.symbol ? `:${debt.symbol}` : "";
 	const fingerprint = debt.fingerprint ? `:${debt.fingerprint}` : "";
-	return `${debt.category}:${debt.path}${symbol}${fingerprint}${debt.relatedPath ? `:${debt.occurrenceIndex}:${debt.relatedPath}:${debt.relatedOccurrenceIndex}` : ""}`;
+	return `${debt.category}:${debt.path}${symbol}${fingerprint}${debt.relatedPath ? `:${debt.occurrenceFingerprint}:${debt.relatedPath}:${debt.relatedOccurrenceFingerprint}` : ""}`;
 }
 
 function sizeAndComplexityDebt(path, sourceText, sourceFile) {
@@ -396,9 +396,10 @@ function duplicateDebt(sources) {
 				.update(block)
 				.digest("hex")
 				.slice(0, 16);
+			const context = [...normalized.slice(Math.max(0, index - 1), index).map((item) => `before:${item.line}`), ...normalized.slice(index + DUPLICATE_BLOCK_LINES, index + DUPLICATE_BLOCK_LINES + 1).map((item) => `after:${item.line}`)].join("\n");
+			const occurrenceFingerprint = createHash("sha256").update(context).digest("hex").slice(0, 16);
 			const existing = windows.get(fingerprint) ?? [];
-			const entry = { path: source.path, line: normalized[index].lineNumber, fingerprint,
-				occurrenceIndex: existing.filter((item) => item.path === source.path).length };
+			const entry = { path: source.path, line: normalized[index].lineNumber, fingerprint, occurrenceFingerprint };
 			existing.push(entry);
 			windows.set(fingerprint, existing);
 		}
@@ -415,7 +416,7 @@ function duplicateDebt(sources) {
 			.filter(([first, second]) => first.path !== second.path);
 		for (const [left, right] of pairs) {
 			const [first, second] = left.path < right.path ? [left, right] : [right, left];
-			const occurrenceKey = [fingerprint, first.path, first.occurrenceIndex, second.path, second.occurrenceIndex].join("\u0000");
+			const occurrenceKey = [fingerprint, first.path, first.occurrenceFingerprint, second.path, second.occurrenceFingerprint].join("\u0000");
 			if (reportedOccurrences.has(occurrenceKey)) continue;
 			reportedOccurrences.add(occurrenceKey);
 			addDebt(debt, {
@@ -423,10 +424,10 @@ function duplicateDebt(sources) {
 				path: first.path,
 				line: first.line,
 				fingerprint,
-				occurrenceIndex: first.occurrenceIndex,
+				occurrenceFingerprint: first.occurrenceFingerprint,
 				relatedPath: second.path,
 				relatedLine: second.line,
-				relatedOccurrenceIndex: second.occurrenceIndex,
+				relatedOccurrenceFingerprint: second.occurrenceFingerprint,
 				detail: `duplicate ${DUPLICATE_BLOCK_LINES}-line block across ${paths.slice(0, 3).join(", ")}`,
 			});
 		}

@@ -93,6 +93,12 @@ run_node_pm() {
 }
 
 run_node_pm ci
+if command -v mise >/dev/null 2>&1; then
+  mise install cargo:prek
+elif ! command -v prek >/dev/null 2>&1; then
+  echo "[codex] missing required tool: prek (install mise or the pinned cargo:prek tool before continuing)"
+  exit 1
+fi
 node scripts/setup-git-hooks.js
 '''
 

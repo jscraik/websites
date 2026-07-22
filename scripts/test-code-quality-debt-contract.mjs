@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { chmodSync, mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -16,9 +16,11 @@ const packageJson = JSON.parse(read("package.json"));
 const debtValidatorPath = path.join(repoRoot, "scripts/check-code-quality-debt.mjs");
 
 function runDebtValidator(cwd) {
+	const { HARNESS_CODE_QUALITY_DEBT_BASELINE: _ignoredBaseline, ...fixtureEnv } = process.env;
 	const result = spawnSync(process.execPath, [debtValidatorPath, "--json"], {
 		cwd,
 		encoding: "utf8",
+		env: fixtureEnv,
 	});
 	assert.equal(result.error, undefined, "the debt validator must start");
 	assert.notEqual(result.stdout.trim(), "", "the debt validator must emit JSON");
@@ -55,12 +57,28 @@ function assertDuplicateOccurrenceContract() {
 		repeatedBlock,
 		"const firstFixtureDivider = true;",
 		repeatedBlock,
+		"const firstFixtureTail = true;",
 	].join("\n");
 	const secondSource = [
 		"const secondFixturePrefix = true;",
 		repeatedBlock,
 		"const secondFixtureDivider = true;",
 		repeatedBlock,
+		"const secondFixtureTail = true;",
+	].join("\n");
+	const replacementBlock = Array.from(
+		{ length: 24 },
+		(_, index) => `const replacementFixtureLine${index} = ${index};`,
+	).join("\n");
+	const replacementFirstSource = [
+		"const firstFixturePrefix = true;",
+		replacementBlock,
+		"const firstFixtureDivider = true;",
+		repeatedBlock,
+		"const firstFixtureTail = true;",
+		"const replacementFixtureDivider = true;",
+		repeatedBlock,
+		"const replacementFixtureTail = true;",
 	].join("\n");
 
 	try {
@@ -88,16 +106,12 @@ function assertDuplicateOccurrenceContract() {
 			(entry) => entry.category === "duplicate_block",
 		);
 		assert.equal(duplicateEntries.length, 4, "every cross-file occurrence pair must be reported");
-		assert.deepEqual(
-			duplicateEntries.map((entry) => entry.id).sort(),
-			[
-				`duplicate_block:src/first.ts:${expectedFingerprint}:0:src/second.ts:0`,
-				`duplicate_block:src/first.ts:${expectedFingerprint}:0:src/second.ts:1`,
-				`duplicate_block:src/first.ts:${expectedFingerprint}:1:src/second.ts:0`,
-				`duplicate_block:src/first.ts:${expectedFingerprint}:1:src/second.ts:1`,
-			],
-			"duplicate IDs must distinguish each stable occurrence pair",
-		);
+		assert.equal(new Set(duplicateEntries.map((entry) => entry.id)).size, 4,
+			"duplicate IDs must distinguish each stable occurrence pair");
+		assert.ok(duplicateEntries.every((entry) =>
+			entry.id.startsWith(`duplicate_block:src/first.ts:${expectedFingerprint}:`) &&
+			entry.id.includes("src/second.ts"),
+		), "duplicate IDs must bind the two reported source paths");
 		assert.equal(
 			firstRun.report.newDebt.some(
 				(entry) => entry.category === "typescript_escape_hatch",
@@ -119,6 +133,77 @@ function assertDuplicateOccurrenceContract() {
 		assert.equal(shiftedRun.report.status, "pass");
 		assert.deepEqual(shiftedRun.report.newDebt, []);
 		assert.deepEqual(shiftedRun.report.resolvedDebt, []);
+
+		const previousOverride = process.env.HARNESS_CODE_QUALITY_DEBT_BASELINE;
+		process.env.HARNESS_CODE_QUALITY_DEBT_BASELINE = path.join(
+			repoRoot,
+			"contracts/code-quality-debt-baseline.json",
+		);
+		try {
+			const overrideRun = runDebtValidator(fixtureRoot);
+			assert.equal(overrideRun.exitCode, 0, "fixture validation must ignore inherited baseline overrides");
+			assert.equal(overrideRun.report.status, "pass");
+		} finally {
+			if (previousOverride === undefined) {
+				delete process.env.HARNESS_CODE_QUALITY_DEBT_BASELINE;
+			} else {
+				process.env.HARNESS_CODE_QUALITY_DEBT_BASELINE = previousOverride;
+			}
+		}
+
+		writeFileSync(path.join(fixtureRoot, "src/first.ts"), replacementFirstSource);
+		const replacementRun = runDebtValidator(fixtureRoot);
+		assert.equal(replacementRun.exitCode, 1, "replacing a copy must create new debt");
+		assert.equal(replacementRun.report.newDebt.filter((entry) => entry.category === "duplicate_block").length, 2);
+		assert.equal(replacementRun.report.resolvedDebt.filter((entry) => entry.category === "duplicate_block").length, 2);
+	} finally {
+		rmSync(fixtureRoot, { recursive: true, force: true });
+	}
+}
+
+function assertEnvironmentSetupContract() {
+	const setupScript = environment.match(/\[setup\]\nscript = '''([\s\S]*?)'''/)?.[1];
+	assert.ok(setupScript, "environment must declare a setup script");
+	assert.match(setupScript, /run_node_pm ci/);
+	assert.match(setupScript, /mise install cargo:prek/);
+	assert.match(setupScript, /node scripts\/setup-git-hooks\.js/);
+	assert.doesNotMatch(setupScript, /prepare-worktree/);
+
+	const fixtureRoot = mkdtempSync(path.join(tmpdir(), "portfolio-environment-contract-"));
+	const binDirectory = path.join(fixtureRoot, "bin");
+	const logPath = path.join(fixtureRoot, "setup.log");
+	const writeExecutable = (name, content) => {
+		const target = path.join(binDirectory, name);
+		writeFileSync(target, content);
+		chmodSync(target, 0o755);
+	};
+
+	try {
+		mkdirSync(binDirectory, { recursive: true });
+		mkdirSync(path.join(fixtureRoot, "scripts"), { recursive: true });
+		mkdirSync(path.join(fixtureRoot, "tmp"), { recursive: true });
+		writeFileSync(path.join(fixtureRoot, ".mise.toml"), "[tools]\n");
+		writeExecutable("mise", "#!/usr/bin/env bash\nprintf 'mise %s\\n' \"$*\" >> \"$SETUP_LOG\"\nif [ \"$1\" = activate ]; then printf ':\\n'; fi\n");
+		writeExecutable("npm", "#!/usr/bin/env bash\nprintf 'npm %s\\n' \"$*\" >> \"$SETUP_LOG\"\n");
+		writeExecutable("node", "#!/usr/bin/env bash\nprintf 'node %s\\n' \"$*\" >> \"$SETUP_LOG\"\n");
+		for (const command of ["git", "rg", "jq", "fd"]) {
+			writeExecutable(command, "#!/usr/bin/env bash\nexit 0\n");
+		}
+		const scriptPath = path.join(fixtureRoot, "setup.sh");
+		writeFileSync(
+			scriptPath,
+			`#!/usr/bin/env bash\n${setupScript.replace(/^export PATH=.*$/gm, 'export PATH="$CONTRACT_BIN:/usr/bin:/bin"')}`,
+		);
+		chmodSync(scriptPath, 0o755);
+		const setup = spawnSync("bash", [scriptPath], {
+			cwd: fixtureRoot,
+			encoding: "utf8",
+			env: { ...process.env, HOME: fixtureRoot, PATH: `${binDirectory}:${process.env.PATH}`, CONTRACT_BIN: binDirectory, SETUP_LOG: logPath, TMPDIR: path.join(fixtureRoot, "tmp") },
+		});
+		assert.equal(setup.status, 0, setup.stderr);
+		const commands = readFileSync(logPath, "utf8").trim().split("\n");
+		assert.ok(commands.includes("npm ci"));
+		assert.ok(commands.indexOf("mise install cargo:prek") < commands.indexOf("node scripts/setup-git-hooks.js"));
 	} finally {
 		rmSync(fixtureRoot, { recursive: true, force: true });
 	}
@@ -143,6 +228,7 @@ assert.ok(
 	"escape-hatch scanning must exclude declaration files directly",
 );
 assertDuplicateOccurrenceContract();
+assertEnvironmentSetupContract();
 assert.match(
 	packageJson.scripts["validate:fast"],
 	/^npm run test:code-quality-debt &&/,
@@ -163,23 +249,6 @@ assert.doesNotMatch(
 	environment,
 	/codex\/scripts\//,
 	"environment actions must not point at nonexistent codex/scripts helpers",
-);
-const setupScript = environment.match(/\[setup\]\nscript = '''([\s\S]*?)'''/)?.[1];
-assert.ok(setupScript, "environment must declare a setup script");
-assert.match(
-	setupScript,
-	/run_node_pm ci/,
-	"environment setup must install the reviewed lockfile deterministically",
-);
-assert.match(
-	setupScript,
-	/node scripts\/setup-git-hooks\.js/,
-	"environment setup must prepare hooks without changing Git revisions",
-);
-assert.doesNotMatch(
-	setupScript,
-	/prepare-worktree/,
-	"environment setup must not attach or fast-forward the requested checkout",
 );
 assert.match(
 	environment,
