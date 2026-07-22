@@ -24,3 +24,7 @@ The checked-in `.diagram/manifest.json` and Mermaid projections are intentional
 architecture evidence. Refresh them with the repository diagram workflow and
 keep `AI/context/diagram-context.md` aligned; generated runtime receipts remain
 evidence rather than canonical source.
+
+The tracked environment projection and code-quality debt validator are part of
+the operator workflow architecture. When either changes, refresh the diagram
+context after its focused contract test and inspected baseline update.

@@ -5,8 +5,8 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, relative, resolve } from "node:path";
 import ts from "typescript";
 
-const SOURCE_EXTENSIONS = /\.(ts|tsx|js|jsx|mts|cts|mjs|cjs)$/;
-const TYPE_DECLARATION = /\.d\.ts$/;
+const SOURCE_EXTENSIONS = /\.(astro|ts|tsx|js|jsx|mts|cts|mjs|cjs)$/;
+const TYPE_DECLARATION = /\.d\.(ts|mts|cts)$/;
 const TEST_SOURCE = /([./](?:__tests__|test|tests)[./]|(?:^|\/)test-[^/]+|\.test\.|\.spec\.)/;
 const PRODUCTION_PREFIXES = ["src/", "scripts/"];
 const BASELINE_SCHEMA_VERSION = "code-quality-debt-baseline/v1";
@@ -87,7 +87,6 @@ function normalizeSnippet(line) {
 function snippetFor(lines, lineNumber) {
 	return normalizeSnippet(lines[lineNumber - 1] ?? "");
 }
-
 function isFunctionLike(node) {
 	return (
 		ts.isFunctionDeclaration(node) ||
@@ -168,7 +167,7 @@ function addDebt(items, debt) {
 function debtId(debt) {
 	const symbol = debt.symbol ? `:${debt.symbol}` : "";
 	const fingerprint = debt.fingerprint ? `:${debt.fingerprint}` : "";
-	return `${debt.category}:${debt.path}${symbol}${fingerprint}`;
+	return `${debt.category}:${debt.path}${symbol}${fingerprint}${debt.relatedPath ? `:${debt.occurrenceFingerprint}:${debt.relatedPath}:${debt.relatedOccurrenceFingerprint}` : ""}`;
 }
 
 function sizeAndComplexityDebt(path, sourceText, sourceFile) {
@@ -233,7 +232,7 @@ function sizeAndComplexityDebt(path, sourceText, sourceFile) {
 }
 
 function typeEscapeDebt(path, sourceText, sourceFile) {
-	if (!path.startsWith("src/") || !path.endsWith(".ts") || isTestFile(path)) {
+	if (!path.startsWith("src/") || TYPE_DECLARATION.test(path) || !/\.(?:ts|tsx|mts|cts)$/.test(path) || isTestFile(path)) {
 		return [];
 	}
 	const lines = sourceText.split(/\r?\n/);
@@ -397,37 +396,41 @@ function duplicateDebt(sources) {
 				.update(block)
 				.digest("hex")
 				.slice(0, 16);
-			const entry = {
-				path: source.path,
-				line: normalized[index].lineNumber,
-				fingerprint,
-			};
+			const context = [...normalized.slice(Math.max(0, index - 1), index).map((item) => `before:${item.line}`), ...normalized.slice(index + DUPLICATE_BLOCK_LINES, index + DUPLICATE_BLOCK_LINES + 1).map((item) => `after:${item.line}`)].join("\n");
+			const occurrenceFingerprint = createHash("sha256").update(context).digest("hex").slice(0, 16);
 			const existing = windows.get(fingerprint) ?? [];
+			const entry = { path: source.path, line: normalized[index].lineNumber, fingerprint, occurrenceFingerprint };
 			existing.push(entry);
 			windows.set(fingerprint, existing);
 		}
 	}
 	const debt = [];
-	const reportedPairs = new Set();
+	const reportedOccurrences = new Set();
 	for (const [fingerprint, entries] of windows) {
-		const uniquePaths = new Set(entries.map((entry) => entry.path));
-		if (uniquePaths.size < 2) continue;
-		const [first] = entries;
-		const second = entries.find((entry) => entry.path !== first.path);
-		if (!second) continue;
-		const paths = [...uniquePaths].sort();
-		const pairKey = paths.slice(0, 2).join("\u0000");
-		if (reportedPairs.has(pairKey)) continue;
-		reportedPairs.add(pairKey);
-		addDebt(debt, {
-			category: "duplicate_block",
-			path: first.path,
-			line: first.line,
-			fingerprint,
-			relatedPath: second.path,
-			relatedLine: second.line,
-			detail: `duplicate ${DUPLICATE_BLOCK_LINES}-line block across ${paths.slice(0, 3).join(", ")}`,
-		});
+		const paths = [...new Set(entries.map((entry) => entry.path))].sort();
+		if (paths.length < 2) continue;
+		const pairs = entries
+			.flatMap((first, index) =>
+				entries.slice(index + 1).map((second) => [first, second]),
+			)
+			.filter(([first, second]) => first.path !== second.path);
+		for (const [left, right] of pairs) {
+			const [first, second] = left.path < right.path ? [left, right] : [right, left];
+			const occurrenceKey = [fingerprint, first.path, first.occurrenceFingerprint, second.path, second.occurrenceFingerprint].join("\u0000");
+			if (reportedOccurrences.has(occurrenceKey)) continue;
+			reportedOccurrences.add(occurrenceKey);
+			addDebt(debt, {
+				category: "duplicate_block",
+				path: first.path,
+				line: first.line,
+				fingerprint,
+				occurrenceFingerprint: first.occurrenceFingerprint,
+				relatedPath: second.path,
+				relatedLine: second.line,
+				relatedOccurrenceFingerprint: second.occurrenceFingerprint,
+				detail: `duplicate ${DUPLICATE_BLOCK_LINES}-line block across ${paths.slice(0, 3).join(", ")}`,
+			});
+		}
 	}
 	return debt;
 }

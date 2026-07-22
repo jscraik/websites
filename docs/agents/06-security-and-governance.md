@@ -32,3 +32,8 @@ authority and report their results independently from local validation.
 Environment projections, pinned skills, and diagram artifacts are committed
 only within an explicit delivery scope. Review their source commit or digest
 before staging, and preserve unrelated dirty paths and runtime receipts.
+
+The code-quality debt baseline records accepted existing debt only. When the
+validator expands a source surface, inspect newly visible findings first, then
+update the baseline only for pre-existing findings rather than using it to hide
+debt introduced by the delivery.

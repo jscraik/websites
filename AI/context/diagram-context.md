@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-07-21T19:08:41Z
+Generated: 2026-07-21T21:05:34Z
 
 ## Table of Contents
 
@@ -30,9 +30,6 @@ Generated: 2026-07-21T19:08:41Z
 
 - These architecture-sensitive paths changed on the current branch and may be compacted out of Mermaid diagrams.
 - `package.json`
-- `scripts/lib/normalize-mermaid-artifact.cjs`
-- `src/layouts/BaseLayout.astro`
-- `src/pages/demos/skillsbar.astro`
 
 ## agent
 
@@ -65,6 +62,7 @@ flowchart TD
   class normalize_mermaid_artifact_9dba7231,validate_operational_telemetry_cb447bde memNode
 
 ```
+
 ## architecture
 
 ```mermaid
@@ -135,6 +133,7 @@ graph LR
   node_setup_git_hooks_70750d40_b4ca2cf9["setup_git_hooks_70750d40"]
   node_smoke_pages_9a92b30d_72f6805f["smoke_pages_9a92b30d"]
   node_test_branch_transition_preflight_1665655e_acac1534["test_branch_transition_preflight_1665655e"]
+  node_test_code_quality_debt_contract_569cff13_2953095a["test_code_quality_debt_contract_569cff13"]
   node_test_codex_preflight_receipt_200ab781_029a12e8["test_codex_preflight_receipt_200ab781"]
   node_test_diagram_freshness_opt_in_96293749_08c46e10["test_diagram_freshness_opt_in_96293749"]
   node_test_git_worktree_authority_e031ba7e_d149c121["test_git_worktree_authority_e031ba7e"]
@@ -168,6 +167,7 @@ graph LR
   ext_astro_90c9d7bd["astro"] --> node_content_config_a9a9d2e1_05943ac5
   ext_astro_content_2110f121["astro:content"] --> node_content_config_a9a9d2e1_05943ac5
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_branch_transition_preflight_1665655e_acac1534
+  ext_node_assert_f1a93ba5["node:assert"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_diagram_freshness_opt_in_96293749_08c46e10
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_git_worktree_authority_e031ba7e_d149c121
@@ -212,6 +212,7 @@ graph LR
   ext_node_fs_a15b7d96["node:fs"] --> node_setup_git_hooks_70750d40_b4ca2cf9
   ext_node_fs_a15b7d96["node:fs"] --> node_smoke_pages_9a92b30d_72f6805f
   ext_node_fs_a15b7d96["node:fs"] --> node_test_branch_transition_preflight_1665655e_acac1534
+  ext_node_fs_a15b7d96["node:fs"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_fs_a15b7d96["node:fs"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
   ext_node_fs_a15b7d96["node:fs"] --> node_test_diagram_freshness_opt_in_96293749_08c46e10
   ext_node_fs_a15b7d96["node:fs"] --> node_test_git_worktree_authority_e031ba7e_d149c121
@@ -256,6 +257,7 @@ graph LR
   ext_node_path_78811c13["node:path"] --> node_setup_git_hooks_70750d40_b4ca2cf9
   ext_node_path_78811c13["node:path"] --> node_smoke_pages_9a92b30d_72f6805f
   ext_node_path_78811c13["node:path"] --> node_test_branch_transition_preflight_1665655e_acac1534
+  ext_node_path_78811c13["node:path"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_path_78811c13["node:path"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
   ext_node_path_78811c13["node:path"] --> node_test_diagram_freshness_opt_in_96293749_08c46e10
   ext_node_path_78811c13["node:path"] --> node_test_git_worktree_authority_e031ba7e_d149c121
@@ -282,6 +284,7 @@ graph LR
   ext_node_url_d0cb3ad7["node:url"] --> node_check_node_engine_217689bf_3e5964b2
   ext_node_url_d0cb3ad7["node:url"] --> node_generate_social_profile_assets_f4f94011_2a983f29
   ext_node_url_d0cb3ad7["node:url"] --> node_test_branch_transition_preflight_1665655e_acac1534
+  ext_node_url_d0cb3ad7["node:url"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_url_d0cb3ad7["node:url"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
   ext_node_url_d0cb3ad7["node:url"] --> node_test_diagram_freshness_opt_in_96293749_08c46e10
   ext_node_url_d0cb3ad7["node:url"] --> node_test_git_worktree_authority_e031ba7e_d149c121
@@ -474,3 +477,4 @@ flowchart LR
   class capture_jose_reference_e7b66705,check_public_api_docs_a9604f1b,jose_parity_cdp_bdcde21d,smoke_pages_9a92b30d,test_operator_workflow_contract_b4a152d7,validate_coding_policy_29976175,validate_content_source_boundary_8a6f121b,validate_css_policy_1c5ec854,validate_design_system_b8a5f37c,validate_operator_contract_f777ed78,validate_page_surfaces_078ef6b6,validate_portfolio_content_6d36990e userNode
 
 ```
+
