@@ -45,6 +45,9 @@
   --body-serif: var(--bds-font-display);
   --body-sans: var(--bds-font-body);
   --body-mono: var(--bds-font-mono);
+  --font-display: var(--body-serif);
+  --font-sans: var(--body-sans);
+  --font-mono: var(--body-mono);
   --jose-body-serif: var(--bds-font-display);
   --jose-body-sans: var(--bds-font-body);
   --jose-mono: var(--bds-font-mono);
@@ -63,7 +66,7 @@
   --icon-stroke: var(--bds-icon-stroke);
 
   color-scheme: light;
-  font-family: var(--body-serif);
+  font-family: var(--body-sans);
   font-kerning: normal;
   font-optical-sizing: auto;
   background: var(--surface-page);
@@ -71,33 +74,25 @@
 }
 
 @font-face {
-  font-family: Stringer;
-  src: url("https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6672f9522072572b2dccc510_Stringer-Thin-Web.woff2") format("woff2");
-  font-weight: 100;
+  font-family: Newsreader;
+  src: url("/brand/fonts/newsreader-variable.woff2") format("woff2");
+  font-weight: 200 800;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: Stringer;
-  src: url("https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6672f952b36b0a9463c9d316_Stringer-Light-Web.woff2") format("woff2");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Geist Mono";
-  src: url("https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/662462fa49c81673fb535b57_GeistMono-Regular.woff") format("woff");
-  font-weight: 400;
+  font-family: Geist;
+  src: url("/brand/fonts/geist-variable.woff2") format("woff2");
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
   font-family: "Geist Mono";
-  src: url("https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/662462faf971285a23464ef4_GeistMono-Bold.woff") format("woff");
-  font-weight: 700;
+  src: url("/brand/fonts/geist-mono-variable.woff2") format("woff2");
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
@@ -119,7 +114,7 @@ body {
   min-height: 100vh;
   background: var(--surface-page);
   color: var(--text-muted);
-  font-family: var(--body-serif);
+  font-family: var(--body-sans);
   font-size: var(--bds-type-body);
   line-height: 1.7;
 }
@@ -332,9 +327,9 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
 
 .brand-mark__letters {
   fill: currentcolor;
-  font-family: Stringer, "Times New Roman", Georgia, serif;
+  font-family: var(--body-sans);
   font-size: 44px;
-  font-weight: 300;
+  font-weight: 600;
   letter-spacing: -0.08em;
 }
 
@@ -367,7 +362,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
 .brand-mark__copy {
   display: grid;
   gap: 1px;
-  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--body-mono);
   font-size: 10px;
   font-weight: 700;
   line-height: 1.6;
@@ -492,7 +487,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
 
 .input-label,
 .profile-row-meta {
-  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--body-mono);
   font-size: 10px;
   font-weight: 700;
   line-height: 1.6;
@@ -515,7 +510,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
 .proof-card span {
   margin: 0 0 20px;
   color: rgba(0, 11, 0, 0.46);
-  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--body-mono);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0;
@@ -863,7 +858,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
 .proof-card dt {
   margin-bottom: 4px;
   color: rgba(0, 11, 0, 0.42);
-  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--body-mono);
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
@@ -893,7 +888,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
   border: 1px solid rgba(251, 250, 245, 0.16);
   background: transparent;
   color: rgba(11, 15, 20, 0.74);
-  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--body-mono);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0;
@@ -950,7 +945,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
   position: relative;
   top: -0.8em;
   margin-left: 4px;
-  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--body-mono);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0;
@@ -974,7 +969,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
 .work-card-count {
   margin: 0 0 12px;
   color: rgba(0, 11, 0, 0.42);
-  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--body-mono);
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
@@ -1048,7 +1043,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
 .work-mini-card h3 {
   margin: 24px 0 12px;
   color: rgba(61, 64, 60, 0.92);
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--body-sans);
   font-size: 21px;
   line-height: 1.05;
 }
@@ -1065,7 +1060,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
   border-radius: 999px;
   background: rgba(251, 250, 245, 0.72);
   color: rgba(0, 11, 0, 0.5);
-  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--body-mono);
   font-size: 9px;
   font-weight: 700;
   text-transform: uppercase;
@@ -1079,10 +1074,34 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
   max-width: 820px;
   margin: 62px auto 0;
   color: rgba(0, 11, 0, 0.5);
-  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--body-mono);
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
+}
+
+/* The overflow check reveals these controls after the first layout pass. Give
+   that occasional state change a brief visual bridge without delaying use. */
+@media (prefers-reduced-motion: no-preference) {
+  .carousel-controls {
+    transition:
+      opacity var(--bds-motion-fast) var(--bds-ease-out),
+      transform var(--bds-motion-fast) var(--bds-ease-out);
+  }
+
+  @starting-style {
+    .carousel-controls:not([hidden]) {
+      opacity: 0;
+      transform: translateY(0.25rem);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-controls {
+    transition: none;
+    transform: none;
+  }
 }
 
 .carousel-button {
@@ -1186,7 +1205,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
   max-width: 430px;
   margin: 0 0 12px;
   color: rgba(11, 15, 20, 0.82);
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--body-sans);
   font-size: 25px;
   line-height: 1.15;
 }
@@ -1243,7 +1262,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
 
 .draft-links span i {
   color: rgba(0, 11, 0, 0.42);
-  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--body-mono);
   font-size: 11px;
 }
 
@@ -1267,7 +1286,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
   max-width: 430px;
   margin: 0 0 10px;
   color: rgba(11, 15, 20, 0.8);
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--body-sans);
   font-size: 28px;
   line-height: 1.12;
 }
@@ -1306,7 +1325,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
 .article-list article > p {
   margin: 0 0 12px;
   color: rgba(0, 11, 0, 0.42);
-  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--body-mono);
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
@@ -1316,7 +1335,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
   max-width: 420px;
   margin: 0 0 22px;
   color: rgba(11, 15, 20, 0.78);
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--body-sans);
   font-size: 24px;
   line-height: 1.16;
 }
@@ -1333,7 +1352,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
   display: inline-flex;
   margin-top: 22px;
   color: rgba(0, 11, 0, 0.5);
-  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--body-mono);
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
@@ -1398,7 +1417,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
   gap: 8px;
   margin-bottom: 22px;
   color: rgba(0, 11, 0, 0.5);
-  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--body-mono);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0;
@@ -1465,7 +1484,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
 }
 
 .case-window p {
-  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--body-mono);
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
@@ -1521,7 +1540,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
 .case-copy h3 {
   margin: 0 0 10px;
   color: rgba(11, 15, 20, 0.82);
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--body-sans);
   font-size: 18px;
 }
 
@@ -1599,7 +1618,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
 .case-gallery-frame p {
   margin: 0 0 12px;
   color: rgba(0, 11, 0, 0.46);
-  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--body-mono);
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
@@ -1659,7 +1678,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
 .article-layout h2,
 .plain-page h2 {
   margin: 56px 0 18px;
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--body-sans);
   font-size: 22px;
   line-height: 1.2;
 }
@@ -1704,7 +1723,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
 
 .article-receipt dt {
   color: rgba(0, 11, 0, 0.42);
-  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--body-mono);
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
@@ -1883,7 +1902,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
   border: 1px solid rgba(0, 11, 0, 0.12);
   border-radius: 5px;
   color: rgba(0, 11, 0, 0.4);
-  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--body-mono);
   font-size: 10px;
 }
 
@@ -1937,7 +1956,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
 .about-object span {
   margin-bottom: 16px;
   color: rgba(0, 11, 0, 0.42);
-  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--body-mono);
   font-size: 9px;
   font-weight: 700;
   text-transform: uppercase;
@@ -1963,7 +1982,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
 .about-history article > p {
   margin: 0 0 8px;
   color: rgba(0, 11, 0, 0.44);
-  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--body-mono);
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
@@ -1972,7 +1991,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
 .about-fact-card h3 {
   margin: 0 0 6px;
   color: rgba(61, 64, 60, 0.92);
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--body-sans);
   font-size: 17px;
   font-weight: 700;
   line-height: 1.15;
@@ -1988,7 +2007,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
 .about-history h3 {
   margin: 0 0 10px;
   color: rgba(11, 15, 20, 0.78);
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--body-sans);
   font-size: 18px;
   font-weight: 400;
   line-height: 1.2;
@@ -2020,7 +2039,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
 .about-skill-list h3 {
   margin: 0 0 10px;
   color: rgba(11, 15, 20, 0.78);
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--body-sans);
   font-size: 18px;
   line-height: 1.2;
 }
@@ -2066,7 +2085,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
 
 .web-table span:first-child {
   color: rgba(0, 11, 0, 0.42);
-  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--body-mono);
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
@@ -2103,7 +2122,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
 .contact-links {
   display: flex;
   gap: 18px;
-  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--body-mono);
   font-size: 12px;
   letter-spacing: 0;
   text-transform: uppercase;
@@ -2191,7 +2210,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
 
 .footer-links,
 .footer-social-links {
-  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--body-mono);
   font-size: 10px;
   font-style: normal;
   font-weight: 700;
@@ -2652,7 +2671,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
 :root {
   --shell: min(820px, calc(100% - 48px));
   --shell-wide: min(1088px, calc(100% - 48px));
-  --body-sans: ui-sans-serif, system-ui, -apple-system, blinkmacsystemfont, "Segoe UI", sans-serif;
+  --body-sans: var(--bds-font-body);
 }
 
 body {
@@ -4902,7 +4921,7 @@ body:has(#on-the-web:target) {
 .about-history h3,
 .about-skill-list h3 {
   color: rgba(0, 11, 0, 0.72);
-  font-family: Stringer, "Times New Roman", Georgia, serif;
+  font-family: var(--body-serif);
   font-weight: 300;
 }
 
@@ -5314,7 +5333,7 @@ body:has(#on-the-web:target) {
   width: 126px;
   max-width: 126px;
   color: rgba(0, 11, 0, 0.52);
-  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--body-mono);
   font-size: 10.5px;
   font-weight: 700;
   line-height: 1.05;
@@ -5404,7 +5423,7 @@ body:has(#on-the-web:target) {
 
 .case-study h1 {
   color: rgba(0, 11, 0, 0.76);
-  font-family: Stringer, Georgia, "Times New Roman", serif;
+  font-family: var(--body-serif);
   font-size: clamp(82px, 8.6vw, 132px);
   font-weight: 100;
   line-height: 0.86;
@@ -5467,7 +5486,7 @@ body:has(#on-the-web:target) {
 .case-overview h2 {
   margin: 0 0 clamp(76px, 8vw, 124px);
   color: rgba(0, 11, 0, 0.76);
-  font-family: Stringer, Georgia, "Times New Roman", serif;
+  font-family: var(--body-serif);
   font-size: clamp(58px, 5.3vw, 82px);
   font-weight: 100;
   line-height: 0.96;
@@ -6356,7 +6375,7 @@ body:has(#on-the-web:target) {
 .feature-proof-panel dt {
   margin: 0 0 5px;
   color: rgba(0, 11, 0, 0.42);
-  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--body-mono);
   font-size: 9px;
   font-weight: 700;
   text-transform: uppercase;
@@ -6365,7 +6384,7 @@ body:has(#on-the-web:target) {
 .feature-proof-panel dd {
   margin: 0;
   color: rgba(0, 11, 0, 0.66);
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--body-sans);
   font-size: 12px;
   line-height: 1.25;
 }
@@ -6455,7 +6474,7 @@ body:has(#on-the-web:target) {
 .work-card-body > p {
   margin: 0;
   color: rgba(0, 11, 0, 0.44);
-  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--body-mono);
   font-size: 9px;
   font-weight: 700;
   line-height: 1.3;
@@ -6586,7 +6605,7 @@ body:has(#on-the-web:target) {
 
 .brainwav-resource-card > span {
   color: rgba(45, 168, 255, 0.84);
-  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--body-mono);
   font-size: 10px;
   font-weight: 700;
 }
@@ -6594,7 +6613,7 @@ body:has(#on-the-web:target) {
 .brainwav-resource-card h3 {
   margin: 60px 0 12px;
   color: #f8f8f6;
-  font-family: Stringer, "Times New Roman", Georgia, serif;
+  font-family: var(--body-serif);
   font-size: clamp(28px, 2.4vw, 38px);
   font-weight: 300;
   line-height: 1;
@@ -6981,7 +7000,7 @@ body:has(.about-page) .site-footer {
 }
 
 :is(body, p, li, .home-hero__body, .latest-article p:not(.eyebrow, .article-date), .blog-preview p:not(.article-date), .article-body, .about-copy p, .blog-about-card p:not(.eyebrow)) {
-  font-family: var(--body-serif);
+  font-family: var(--body-sans);
   letter-spacing: 0;
 }
 
@@ -7395,21 +7414,8 @@ body:has(.about-page) .site-footer {
     transform: none;
   }
 
-  .small-button:hover > span:last-child {
-    transform: none;
-  }
-
   .feature-block .small-button:hover {
     border-color: var(--colors--hr-light, rgba(251, 250, 245, 0.16));
-    color: var(--surface-nav);
-  }
-
-  .feature-block .small-button:hover::before {
-    transform: translateX(calc(100% - 52px)) scaleX(0.21);
-  }
-
-  .feature-block .small-button:hover > span:last-child {
-    color: var(--text-primary);
   }
 }
 
@@ -8444,6 +8450,20 @@ body:has(.about-page) .site-footer {
   }
 }
 
+/* CTAs are lifted on hover. A pressed state needs to settle from that position
+   so a pointer press is visible rather than overridden by the hover transform. */
+@media (prefers-reduced-motion: no-preference) {
+  .small-button:active {
+    box-shadow: inset 0 1px 0 color-mix(in srgb, currentColor 14%, transparent);
+    transform: translateY(0) scale(0.975);
+    transition-duration: var(--bds-motion-fast);
+  }
+
+  .small-button:active > span:last-child {
+    transform: translateX(2px) scale(0.96);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   main > [data-reveal],
   main [data-reveal] {
@@ -8517,7 +8537,6 @@ body:has(.about-page) .site-footer {
 @media (hover: hover) and (pointer: fine) {
   .brainwav-bridge__cta:hover {
     border-color: color-mix(in srgb, var(--blue) 52%, var(--text-inverse));
-    color: var(--text-inverse);
   }
 
   .brainwav-resource-card:hover {
@@ -10415,7 +10434,7 @@ body:has(.about-page) .site-footer {
   }
 
   .about-page.about-hero-shell .about-copy p {
-    font-family: var(--body-serif);
+    font-family: var(--body-sans);
   }
 
   .about-object > .about-fact-label {
@@ -10428,7 +10447,7 @@ body:has(.about-page) .site-footer {
     border-radius: calc(var(--jp-fluid-rem) * 2);
     background: var(--neutral-02);
     color: var(--neutral-06);
-    font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-family: var(--body-mono);
     font-size: calc(var(--jp-fluid-rem) * 0.625);
     font-weight: 700;
     line-height: 1.4;
@@ -10451,7 +10470,7 @@ body:has(.about-page) .site-footer {
     border-radius: calc(var(--jp-fluid-rem) * 0.375);
     background: color-mix(in srgb, var(--paper) 80%, var(--neutral-04));
     color: var(--neutral-06);
-    font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-family: var(--body-mono);
     font-size: calc(var(--jp-fluid-rem) * 0.625);
     font-weight: 700;
     line-height: 1.4;
@@ -10505,7 +10524,7 @@ body:has(.about-page) .site-footer {
   .about-band > .about-band-heading .eyebrow {
     margin: 0;
     color: var(--neutral-06);
-    font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-family: var(--body-mono);
     font-size: calc(var(--jp-fluid-rem) * 0.625);
     font-weight: 700;
     line-height: 1.4;
@@ -10636,7 +10655,7 @@ body:has(.about-page) .site-footer {
     border-radius: calc(var(--jp-fluid-rem) * 2);
     background: var(--neutral-02);
     color: var(--neutral-07);
-    font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-family: var(--body-mono);
     font-size: calc(var(--jp-fluid-rem) * 0.625);
     font-weight: 700;
     line-height: 1.4;
@@ -10750,7 +10769,7 @@ body:has(.about-page) .site-footer {
     display: inline-flex;
     align-items: center;
     min-height: calc(var(--jp-fluid-rem) * 1);
-    font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-family: var(--body-mono);
     font-size: calc(var(--jp-fluid-rem) * 0.625);
     font-weight: 700;
     line-height: 1.4;
@@ -10909,7 +10928,7 @@ body:has(.about-page) .site-footer {
   #on-the-web .input-label {
     display: inline-block;
     color: var(--neutral-06);
-    font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-family: var(--body-mono);
     font-size: calc(var(--jp-fluid-rem) * 0.625);
     font-weight: 700;
     line-height: 1.4;
@@ -10964,7 +10983,7 @@ body:has(.about-page) .site-footer {
 
   #on-the-web .input-label {
     color: var(--neutral-06);
-    font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-family: var(--body-mono);
     font-size: 10px;
     font-weight: 700;
     line-height: 1.4;
@@ -11267,4 +11286,76 @@ body:has(.about-page) .site-footer {
   :is(.nav-link, .icon-link, .small-button, .proof-card, .work-mini-card, .large-link, .icon-box):focus-visible {
     outline-color: var(--text-primary);
   }
+}
+
+/* These controls keep a light pill surface across their hover and press states.
+   Keep their foreground stable so the CTA never transitions through low contrast. */
+.feature-block .small-button,
+.small-button--light,
+.brainwav-bridge__cta {
+  color: var(--text-primary);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .feature-block .small-button:hover,
+  .small-button--light:hover,
+  .brainwav-bridge__cta:hover {
+    color: var(--text-primary);
+  }
+
+  .feature-block .small-button:hover > span:last-child,
+  .small-button--light:hover > span:last-child,
+  .brainwav-bridge__cta:hover > span:last-child {
+    color: currentColor;
+  }
+}
+
+/* Display titles are navigation landmarks inside dark surfaces. Keep their
+   contrast and stroke weight independent of the decorative surface treatment. */
+#featured-work .feature-block__content h2,
+.brainwav-bridge h2 {
+  color: var(--text-inverse);
+  font-weight: 300;
+}
+
+#featured-work .feature-block__content h2 .brand-word {
+  color: inherit;
+}
+
+#featured-work .feature-block__content h2 .brand-word span {
+  color: var(--orange);
+}
+
+/* Self-hosted Newsreader needs the design-system display weights to preserve
+   the editorial title silhouette without reintroducing the retired display
+   face. Keep sans-serif UI headings such as the latest-article card explicit. */
+:is(
+  .h1-name,
+  .home-hero h1,
+  .article-layout h1,
+  .plain-page h1,
+  .proof-index h1,
+  .contact-page h1,
+  #proof-title,
+  #case-title,
+  #blog-title,
+  #case-overview-title,
+  #case-all-work-title,
+  .blog-title-block h1
+) {
+  font-weight: var(--bds-type-display-xl-weight);
+}
+
+:is(
+  #fun-facts-title,
+  #skills-title,
+  #focus-title,
+  #web-title,
+  .article-list h2,
+  .blog-about-card h2,
+  .work-carousel h2,
+  .blog-preview h2,
+  .brainwav-bridge h2
+) {
+  font-weight: var(--bds-type-display-lg-weight);
 }

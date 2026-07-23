@@ -30,29 +30,29 @@
     </filter>
     <style>
       @font-face {
-        font-family: "Stringer";
-        src: url("https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6672f9522072572b2dccc510_Stringer-Thin-Web.woff2") format("woff2");
-        font-weight: 100;
-        font-style: normal;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: "Stringer";
-        src: url("https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/6672f952b36b0a9463c9d316_Stringer-Light-Web.woff2") format("woff2");
-        font-weight: 300;
+        font-family: "Newsreader";
+        src: url("/brand/fonts/newsreader-variable.woff2") format("woff2");
+        font-weight: 200 800;
         font-style: normal;
         font-display: swap;
       }
       @font-face {
         font-family: "Geist Mono";
-        src: url("https://cdn.prod.website-files.com/66245c2c8b72c9616045fa9b/662462fa49c81673fb535b57_GeistMono-Regular.woff") format("woff");
-        font-weight: 400;
+        src: url("/brand/fonts/geist-mono-variable.woff2") format("woff2");
+        font-weight: 100 900;
         font-style: normal;
         font-display: swap;
       }
-      .serif { font-family: "Stringer", "Times New Roman", Georgia, serif; }
+      @font-face {
+        font-family: "Geist";
+        src: url("/brand/fonts/geist-variable.woff2") format("woff2");
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: swap;
+      }
+      .serif { font-family: "Newsreader", "Iowan Old Style", Georgia, serif; }
       .mono { font-family: "Geist Mono", Menlo, Monaco, Consolas, monospace; }
-      .sans { font-family: -apple-system, BlinkMacSystemFont, "Avenir Next", "Helvetica Neue", Arial, sans-serif; }
+      .sans { font-family: "Geist", Arial, sans-serif; }
       .ink { fill: #000b00; }
       .strong { fill: #3d403c; }
       .secondary { fill: #4f564d; }

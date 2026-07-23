@@ -2,11 +2,14 @@
   "schema_version": "jamie-social-profile-assets-receipt/v1",
   "contract": "jamie-social-profile-assets/v1",
   "design_system_version": "1.1.0",
-  "source_digest": "b6ddde774c63c792a42c1d61ae69ea5f66a8435382be1183231a9b6c28fb533e",
+  "source_digest": "250bafa44d4495f97e5459566b8605e3d338c63c3e4532fc72a91d02bd1275b7",
   "sources": {
+    "public/brand/fonts/geist-mono-variable.woff2": "afaacc4c5fbba89d2ebf7a02dc4070208540874592a5504d57175782fe893101",
+    "public/brand/fonts/geist-variable.woff2": "2ffebe993e969069a9789d15164b7715d42491b5835516c5e3b935d5f81b05f1",
+    "public/brand/fonts/newsreader-variable.woff2": "1faa3380ac0e87e057b180e03fd94bd708a612afb67d2590677be4508909fae9",
     "public/jamie-profile.png": "daf30bfa63cab49c77f109da04089ccd74c0f4c574cccea67fd2d27579f250bc",
     "scripts/generate-social-profile-assets.mjs": "df7a686298752437b7209b8eb5967b6d664911997558c5ffc0fbf2b3ca574cf1",
-    "src/brand/social-profile-assets.json": "29548e844762f59d7ee301204d64943abb8478162ca3b23e27094d82a625e477",
+    "src/brand/social-profile-assets.json": "ce440c4a055237e9293853671ecb3c55bb02e191d5fa6fb57ff5716fac5a1ecf",
     "src/styles/brand-tokens.json": "5e2606a0ff43601e1e1329cf080c1570e9786e828d7ee93e4d5bf5c51d0007b7"
   },
   "outputs": {
@@ -21,48 +24,48 @@
       "height": 400
     },
     "public/brand/social/jamie-linkedin-background-1584x396.png": {
-      "sha256": "2e08cf9eace85d29de7f75dc4212fcab36fdcfec107b790ce80fa8c877f3b2bf",
+      "sha256": "2d00f7873c1490fb7dbc1ac7c7c14fe6dd68cbbf2e1a4931e9f55c56369b1dc6",
       "width": 1584,
       "height": 396
     },
     "public/brand/social/jamie-x-header-1500x500.png": {
-      "sha256": "345268497676fb7e55250891a485fa97f79570ae63df444f918ff05ab8238ffe",
+      "sha256": "816eefa1d44a60666ded4f3c1aa2567137ecd4ea0a35b58a3f70f89107df1be0",
       "width": 1500,
       "height": 500
     },
     "public/brand/social/masters/jamie-linkedin-background-3168x792.png": {
-      "sha256": "f2308ebbf5f4ee34963dd2c260b6d0f75d10663d7b43685ef306539e158fd034",
+      "sha256": "4239802347da81c81b535f902ad822296fc4a36203c6263522fb8e15cabbd75a",
       "width": 3168,
       "height": 792
     },
     "public/brand/social/masters/jamie-x-header-3000x1000.png": {
-      "sha256": "7ad38bf81b7c697766a74da553da4e131bba335c919e0a9b7625983ed2477169",
+      "sha256": "43b86a563ab9e79ec25c8877a0a8af41df55b823f36e73e142f60132b7b5fcf9",
       "width": 3000,
       "height": 1000
     },
     "public/brand/social/previews/jamie-linkedin-profile-preview-1584x660.png": {
-      "sha256": "e6980c01ed588042377fc42ae642a8a4c6fe9e47e805ef24677b7269cd6436e1",
+      "sha256": "5cdd7d4e4f93affa0273d1da0d35e87df101b84a817abd8ee14cc666ae35381c",
       "width": 1584,
       "height": 660
     },
     "public/brand/social/previews/jamie-x-profile-preview-1500x780.png": {
-      "sha256": "a0b931f8b53e2a06564932f2bdac95414e872367ae9ee101a36e799a4ab0de23",
+      "sha256": "e1022f3cbce6677a9a5264ee1b4fe5197946652965f55bec4de1316e37de5184",
       "width": 1500,
       "height": 780
     }
   },
   "typography": {
     "embedded": {
-      "newsreader": false,
-      "geist": false,
-      "geist_mono": false
+      "newsreader": true,
+      "geist": true,
+      "geist_mono": true
     },
     "rendering_stacks": {
-      "display": "Georgia, serif",
-      "sans": "Arial, sans-serif",
-      "mono": "Menlo, monospace"
+      "display": "Newsreader, Georgia, serif",
+      "sans": "Geist, Arial, sans-serif",
+      "mono": "Geist Mono, Menlo, monospace"
     },
-    "rendering_status": "locked_fallback_stacks_until_official_self-hosted_fonts_are_admitted"
+    "rendering_status": "official_self-hosted_fonts_admitted"
   },
   "claims_boundary": "Binds local sources to generated files; does not prove live platform cropping, upload, publication, or Jamie taste approval."
 }

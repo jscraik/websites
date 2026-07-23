@@ -211,7 +211,7 @@ The target family stack is **Newsreader + Geist + Geist Mono**. Newsreader and G
 
 Let Newsreader create one clear editorial anchor. Do not use it for controls or dense product UI. Set metadata in uppercase only when it stays short, and do not set display copy in all capitals. Do not introduce a fourth typeface.
 
-The current global stylesheet still contains direct Stringer declarations from the earlier portfolio implementation. They are migration debt, not part of the reusable standard: do not copy them into new work, and replace them with role tokens when those surfaces are deliberately touched.
+The global stylesheet consumes the self-hosted role-token stack. Legacy Stringer declarations have been removed; keep new surfaces on the Newsreader, Geist, and Geist Mono role tokens and do not reintroduce the retired face.
 
 ## Spacing
 
