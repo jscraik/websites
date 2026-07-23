@@ -114,7 +114,7 @@ if (!latestArticle) {
     margin: 0;
     color: rgba(0, 11, 0, 0.78);
     font-family: var(--body-serif);
-    font-weight: 100;
+    font-weight: var(--bds-type-display-xl-weight);
     line-height: 0.86;
     letter-spacing: 0;
   }
@@ -224,7 +224,7 @@ if (!latestArticle) {
     max-width: none;
     color: rgba(61, 64, 60, 0.86);
     font-family: var(--body-serif);
-    font-weight: 100;
+    font-weight: var(--bds-type-display-lg-weight);
     letter-spacing: 0;
   }
 
@@ -309,7 +309,7 @@ if (!latestArticle) {
   .blog-about-card h2 {
     color: rgba(61, 64, 60, 0.86);
     font-family: var(--body-serif);
-    font-weight: 100;
+    font-weight: var(--bds-type-display-lg-weight);
     letter-spacing: 0;
   }
 
@@ -631,6 +631,57 @@ if (!latestArticle) {
     .blog-contact-block {
       display: grid;
       gap: calc(var(--jp-fluid-rem) * 0.25);
+    }
+  }
+
+  /* Keep the editorial lockup readable before the three-column desktop grid
+     has enough room for its title, draft list, and lead article. */
+  @media (min-width: 57.5626rem) and (max-width: 72rem) {
+    .blog-index.section-shell {
+      grid-template-columns: minmax(0, 1fr);
+      width: min(calc(100% - var(--space-5)), 720px);
+      max-width: 720px;
+      min-height: 0;
+      gap: var(--space-6);
+      padding-top: clamp(96px, 12vw, 132px);
+      padding-bottom: var(--space-7);
+    }
+
+    .blog-index .blog-title-block,
+    .blog-index .latest-article {
+      grid-column: 1;
+    }
+
+    .blog-index .blog-title-block {
+      min-height: 0;
+      gap: var(--space-5);
+    }
+
+    .blog-title-block h1 {
+      margin-bottom: var(--space-5);
+      font-size: clamp(72px, 10vw, 96px);
+      line-height: 0.95;
+    }
+
+    .draft-links span {
+      font-size: clamp(20px, 2.1vw, 26px);
+    }
+
+    .latest-article article {
+      gap: var(--space-5);
+    }
+
+    .latest-article h2 {
+      max-width: none;
+      font-size: clamp(24px, 3vw, 30px);
+      line-height: 1.2;
+    }
+
+    .latest-article p:not(.eyebrow, .article-date) {
+      max-width: 38rem;
+      margin: 0;
+      font-size: clamp(22px, 2.4vw, 26px);
+      line-height: 1.45;
     }
   }
 </style>

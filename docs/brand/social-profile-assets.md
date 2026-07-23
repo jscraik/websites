@@ -19,7 +19,7 @@ Do not add OpenAI or Tessl marks, product screenshots, fake platform controls, U
 
 ## Typography Status
 
-The approved stack remains Newsreader + Geist + Geist Mono. The official self-hosted font files have not yet been admitted to this repo, so the current generator uses manifest-locked fallback stacks and deliberately omits the official family names from rendered CSS. A developer's locally installed Newsreader or Geist files therefore cannot silently change the pixels. The generator switches a family to its official face only when the matching `public/brand/fonts/newsreader-variable.woff2`, `public/brand/fonts/geist-variable.woff2`, or `public/brand/fonts/geist-mono-variable.woff2` file is present and embedded. Regenerate every PNG after those official files and their OFL licences are added; do not treat the present fallback rendering as evidence that the font-delivery requirement is satisfied.
+The approved Newsreader + Geist + Geist Mono stack is now self-hosted. The generator embeds the matching variable WOFF2 file from `public/brand/fonts/` into its isolated render document and records each source digest in the generation receipt. The OFL licence texts are kept beside those files. Regenerate every PNG after an admitted font or renderer change; do not treat a locally installed font as delivery evidence.
 
 ## Regeneration
 

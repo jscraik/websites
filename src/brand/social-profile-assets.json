@@ -31,7 +31,7 @@
       "geist": "public/brand/fonts/geist-variable.woff2",
       "geist_mono": "public/brand/fonts/geist-mono-variable.woff2"
     },
-    "current_rendering_status": "locked_fallback_stacks_until_official_self-hosted_fonts_are_admitted",
+    "current_rendering_status": "official_self-hosted_fonts_admitted",
     "regeneration_requirement": "Regenerate all PNG outputs after the official Newsreader, Geist, and Geist Mono files are self-hosted."
   },
   "composition": {
