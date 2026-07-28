@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This portfolio is Jamie Scott Craik's single public front door and the canonical home of the shared brAInwav product-presentation system. It should feel like inspectable technical proof with an editorial human layer, not an AI dashboard, SaaS landing page, or speculative product shell.
+`jscraik.com` is Jamie Scott Craik's single public portfolio front door. brAInwav is the identity and shared presentation system behind the work: it connects Jamie's human perspective, AI tools, and technical exploration as they become public products, writing, and proof. It should feel like inspectable technical proof with an editorial human layer, not an AI dashboard, SaaS landing page, or speculative product shell.
 
 The site exists to help a reader understand:
 
@@ -270,9 +270,9 @@ The nav should feel light, quiet, and stable. Avoid large headers, logo-heavy ba
 
 ### Homepage
 
-The brainwav.io homepage sequence is promise, developer benefit, flagship SkillsBar, Products and Lab, method, Why brAInwav origin, then writing and technical notes. The brAInwav Visual System page is public but secondary; link it from the footer, About, and relevant case studies rather than primary navigation.
+The jscraik.com homepage sequence is Jamie's promise and developer benefit, flagship SkillsBar, brAInwav origin, method, then writing and technical notes. brAInwav is not a separate website: use it to make the reason behind Jamie's developments legible. Link to an individual project's public ChatGPT Site, GitBook, or GitHub repository only when that project has a public-safe, current destination.
 
-The homepage is a technical proof front door, not Jamie's complete personal portfolio or CV.
+The homepage is Jamie's public portfolio, led by technical proof and work rather than a conventional CV.
 
 ### Article Pages
 
@@ -489,7 +489,7 @@ Keep:
 - Jamie Scott Craik as the personal identity
 - AI-native DevRel builder as the accepted role
 - `Making AI-assisted developer work inspectable.` as the first association
-- one portfolio front door with brAInwav as its shared presentation system
+- one portfolio front door at jscraik.com, with brAInwav as Jamie's identity and shared presentation system
 - SkillsBar as the first complete vertical slice
 - public-inspectable proof and provenance as the credibility mechanism
 - editorial plus technical dual-surface composition as the visual reference

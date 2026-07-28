@@ -5,7 +5,7 @@ const baseURL = new URL(process.env.JOSE_REFERENCE_BASE_URL ?? "https://www.jose
 const outputRoot = path.resolve(process.env.JOSE_REFERENCE_OUTPUT_DIR ?? "docs/reference/jose-ocando");
 const maxPages = Number.parseInt(process.env.JOSE_REFERENCE_MAX_PAGES ?? "32", 10);
 const userAgent =
-  "brainwav.io Jose reference capture (+https://brainwav.io; design parity documentation)";
+  "jscraik.com Jose reference capture (+https://jscraik.com; design parity documentation)";
 const shouldCaptureRenderedArtifacts = process.env.JOSE_REFERENCE_RENDERED_ARTIFACTS !== "0";
 const renderNavigationTimeoutMs = Number.parseInt(
   process.env.JOSE_REFERENCE_RENDER_TIMEOUT_MS ?? "60000",
