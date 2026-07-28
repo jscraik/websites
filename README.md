@@ -1,6 +1,6 @@
 # portfolio
 
-This repository serves [jscraik.com](https://jscraik.com), Jamie Scott Craik's single public portfolio front door. brAInwav is the identity behind the work: it connects Jamie's human perspective, AI tools, and technical exploration as they become public products, writing, and proof. The site is intentionally small: it makes AI-assisted developer work inspectable, shows current proof artifacts, keeps caveats visible, and gives future agents a repeatable way to validate design and claim boundaries.
+This repository contains the source configured with [jscraik.com](https://jscraik.com) as Jamie Scott Craik's intended canonical single public portfolio front door. brAInwav is the identity behind the work: it connects Jamie's human perspective, AI tools, and technical exploration as they become public products, writing, and proof. The site is intentionally small: it makes AI-assisted developer work inspectable, shows current proof artifacts, keeps caveats visible, and gives future agents a repeatable way to validate design and claim boundaries.
 
 Jamie’s accepted role is AI-native DevRel builder. The promise is `Making AI-assisted developer work inspectable.` and the intended benefit is helping developers adopt emerging AI tools with confidence. These are positioning and intended-benefit statements, not evidence of employment, affiliation, usability, adoption, or developer confidence.
 
