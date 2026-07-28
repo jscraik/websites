@@ -59,25 +59,25 @@ Routes are generated from Astro pages under src/pages/ and portfolio content col
 
 ## Project Layout
 
-| Path                        | What lives there                                                                             |
-| --------------------------- | -------------------------------------------------------------------------------------------- |
-| src/pages/                  | Astro routes for the public site.                                                            |
-| src/components/             | Shared UI pieces such as navigation, brand mark, start links, footer, and carousel controls. |
-| src/lib/                    | Small typed helpers for deriving route/page view models from content collections.            |
-| src/content.config.ts       | Astro Content Collections schema for work, blog, and proof content.                          |
-| src/content/work/           | Featured work and case-study entries.                                                        |
-| src/content/blog/           | Blog/article metadata used by the blog index.                                                |
-| src/content/proof/          | Proof index entries with claim, evidence, caveat, and next-state fields.                     |
-| src/styles/global.css       | Shared visual system and page layout rules.                                                  |
-| public/                     | Static images and public assets.                                                             |
-| scripts/                    | Repo-owned validators and reference-capture utilities.                                       |
-| tests/                      | Playwright smoke, visual, accessibility, and Jose screenshot/parity checks.                  |
-| docs/reference/jose-ocando/ | Stored Jose Ocando reference capture and rendered artifact index.                            |
-| docs/implementation-notes/  | Proof-boundary notes and repeated-regression guardrail rationale.                            |
-| AGENTS.md                   | Agent operating guidance for this repo.                                                      |
-| BRAND_GUIDELINES.md         | Brand, visual direction, and public-proof copy boundaries.                                   |
-| src/styles/brand-tokens.json | Versioned machine-readable positioning, identity, visual, cover, provenance, and evidence contract. |
-| src/brand/social-profile-assets.json | Deterministic X and LinkedIn avatar/banner dimensions, copy, split, and overlap fixtures. |
+| Path                                 | What lives there                                                                                    |
+| ------------------------------------ | --------------------------------------------------------------------------------------------------- |
+| src/pages/                           | Astro routes for the public site.                                                                   |
+| src/components/                      | Shared UI pieces such as navigation, brand mark, start links, footer, and carousel controls.        |
+| src/lib/                             | Small typed helpers for deriving route/page view models from content collections.                   |
+| src/content.config.ts                | Astro Content Collections schema for work, blog, and proof content.                                 |
+| src/content/work/                    | Featured work and case-study entries.                                                               |
+| src/content/blog/                    | Blog/article metadata used by the blog index.                                                       |
+| src/content/proof/                   | Proof index entries with claim, evidence, caveat, and next-state fields.                            |
+| src/styles/global.css                | Shared visual system and page layout rules.                                                         |
+| public/                              | Static images and public assets.                                                                    |
+| scripts/                             | Repo-owned validators and reference-capture utilities.                                              |
+| tests/                               | Playwright smoke, visual, accessibility, and Jose screenshot/parity checks.                         |
+| docs/reference/jose-ocando/          | Stored Jose Ocando reference capture and rendered artifact index.                                   |
+| docs/implementation-notes/           | Proof-boundary notes and repeated-regression guardrail rationale.                                   |
+| AGENTS.md                            | Agent operating guidance for this repo.                                                             |
+| BRAND_GUIDELINES.md                  | Brand, visual direction, and public-proof copy boundaries.                                          |
+| src/styles/brand-tokens.json         | Versioned machine-readable positioning, identity, visual, cover, provenance, and evidence contract. |
+| src/brand/social-profile-assets.json | Deterministic X and LinkedIn avatar/banner dimensions, copy, split, and overlap fixtures.           |
 
 ## Proof Boundaries
 
@@ -112,22 +112,22 @@ If Playwright or Chromium cannot launch in the current sandbox, report the exact
 
 ## Common Commands
 
-| Command                                  | Use                                                      |
-| ---------------------------------------- | -------------------------------------------------------- |
-| npm run dev                              | Start the Astro development server.                      |
-| npm run build                            | Build the static site into dist/.                        |
-| npm run preview                          | Preview the built site locally.                          |
-| npm run check                            | Run Astro's type/content check.                          |
-| npm run validate:portfolio-content       | Validate work, blog, and proof collection metadata.      |
-| npm run validate:content-source-boundary | Validate the repo-file-backed content storage boundary.  |
-| npm run test:smoke                       | Build and verify expected text on core generated routes. |
-| npm run test:e2e                         | Run Playwright end-to-end tests.                         |
-| npm run test:visual                      | Run Playwright visual tests.                             |
-| npm run test:a11y                        | Run Playwright accessibility smoke tests.                |
-| npm run test:jose-parity                 | Run the Jose/Jamie screenshot parity guardrail.          |
+| Command                                  | Use                                                       |
+| ---------------------------------------- | --------------------------------------------------------- |
+| npm run dev                              | Start the Astro development server.                       |
+| npm run build                            | Build the static site into dist/.                         |
+| npm run preview                          | Preview the built site locally.                           |
+| npm run check                            | Run Astro's type/content check.                           |
+| npm run validate:portfolio-content       | Validate work, blog, and proof collection metadata.       |
+| npm run validate:content-source-boundary | Validate the repo-file-backed content storage boundary.   |
+| npm run test:smoke                       | Build and verify expected text on core generated routes.  |
+| npm run test:e2e                         | Run Playwright end-to-end tests.                          |
+| npm run test:visual                      | Run Playwright visual tests.                              |
+| npm run test:a11y                        | Run Playwright accessibility smoke tests.                 |
+| npm run test:jose-parity                 | Run the Jose/Jamie screenshot parity guardrail.           |
 | npm run generate:social-assets           | Render Jamie's X and LinkedIn upload assets and previews. |
 | npm run validate:social-assets           | Validate social asset dimensions and source boundaries.   |
-| npm run lhci                             | Run Lighthouse CI using lighthouserc.json.               |
+| npm run lhci                             | Run Lighthouse CI using lighthouserc.json.                |
 
 Playwright commands use .playwright-tmp/, .playwright-cache/, test-results/, and playwright-report/; these are runtime artifacts, not source.
 
