@@ -1,6 +1,6 @@
 # Animation Standards Reference
 
-The precise values, curves, and rules behind the review. Cite these in findings instead of approximating. Distilled from Emil Kowalski's design engineering philosophy ([animations.dev](https://animations.dev/)).
+The precise values, curves, and rules behind the review. Cite these in findings instead of approximating. Distilled from Emil Kowalski's design engineering philosophy.
 
 ## Should it animate? (frequency table)
 
@@ -46,15 +46,14 @@ Find curves at [easing.dev](https://easing.dev/) or [easings.co](https://easings
 | Modals, drawers | 200–500ms |
 | Marketing / explanatory | Can be longer |
 
-**Rule: Most UI animations stay under 300ms.** Modals and drawers may run longer when the interaction warrants it. A 180ms dropdown feels more responsive than a slower, heavier interaction. Faster spinners make load feel faster (same actual time). Instant tooltips after the first (skip delay + animation) make a toolbar feel faster.
+**Rule: UI animations stay under 300ms.** A 180ms dropdown feels more responsive than a 400ms one. Faster spinners make load feel faster (same actual time). Instant tooltips after the first (skip delay + animation) make a toolbar feel faster.
 
 ## Physicality
 
 - **Never `scale(0)`.** Start from `scale(0.9–0.97)` + `opacity: 0`. Nothing in the real world appears from nothing.
 - **Origin-aware popovers.** Scale from the trigger, not center:
   ```css
-  .popover { transform-origin: var(--radix-popover-content-transform-origin); } /* Radix */
-  .popover { transform-origin: var(--transform-origin); }                       /* Base UI */
+  .popover { transform-origin: var(--transform-origin); } /* Base UI */
   ```
   **Modals are exempt** — they appear centered in the viewport, keep `transform-origin: center`.
 - **Button press feedback.** `transform: scale(0.97)` on `:active`, `transition: transform 160ms ease-out`. Subtle (0.95–0.98). Applies to any pressable element.
@@ -81,7 +80,7 @@ CSS **transitions** can be interrupted and retargeted mid-animation; **keyframes
 
 ```css
 /* Interruptible — good for dynamic UI */
-.toast { transition: transform 200ms ease-out; }
+.toast { transition: transform 400ms ease; }
 
 /* Not interruptible — avoid for dynamic UI */
 @keyframes slideIn { from { transform: translateY(100%); } to { transform: translateY(0); } }
@@ -92,7 +91,7 @@ Use `@starting-style` for entry without JS:
 ```css
 .toast {
   opacity: 1; transform: translateY(0);
-  transition: opacity 200ms ease-out, transform 200ms ease-out;
+  transition: opacity 400ms ease, transform 400ms ease;
   @starting-style { opacity: 0; transform: translateY(100%); }
 }
 ```
