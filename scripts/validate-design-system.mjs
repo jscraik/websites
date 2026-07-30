@@ -10,7 +10,7 @@ const addCheck = (name, passed, detail) => {
   checks.push({ name, passed, detail });
 };
 
-let tokensCss, tokensJson, globalCss, blogPage, brandGuide, readme;
+let tokensCss, tokensJson, globalCss, blogPage, brandGuide, readme, astroConfig, homepage;
 try {
   tokensCss = read("src/styles/brand-tokens.css");
   tokensJson = JSON.parse(read("src/styles/brand-tokens.json"));
@@ -18,6 +18,8 @@ try {
   blogPage = read("src/pages/blog/index.astro");
   brandGuide = read("BRAND_GUIDELINES.md");
   readme = read("README.md");
+  astroConfig = read("astro.config.mjs");
+  homepage = read("src/pages/index.astro");
 } catch (error) {
   console.error(`Design system validation failed to read inputs: ${error.message}`);
   process.exit(1);
@@ -115,12 +117,22 @@ addCheck(
 );
 
 addCheck(
-  "single portfolio front door and technical depth boundary",
-  tokensJson.positioning?.site_roles?.portfolio?.includes("Single public front door") &&
-    tokensJson.positioning?.site_roles?.brAInwav?.includes("Shared product-presentation system") &&
-    tokensJson.positioning?.site_handoffs?.technical_depth?.includes("public repositories") &&
+  "canonical portfolio front door and technical depth boundary",
+  astroConfig.includes('site: "https://jscraik.com"') &&
+    tokensJson.positioning?.canonical_portfolio_url === "https://jscraik.com" &&
+    tokensJson.positioning?.site_roles?.portfolio?.includes("Single public front door") &&
+    tokensJson.positioning?.site_roles?.brAInwav?.includes("Jamie's identity and shared presentation system") &&
+    tokensJson.positioning?.site_handoffs?.technical_depth?.includes("public ChatGPT Sites, GitBooks, GitHub repositories") &&
     tokensJson.positioning?.site_handoffs?.claim_boundary === "Evidence before claims; current source identity and freshness remain visible.",
-  "expected one portfolio front door with explicit technical-depth routing and claim-boundary wording"
+  "expected jscraik.com to be the canonical front door with brAInwav identity and explicit technical-depth routing"
+);
+
+addCheck(
+  "homepage exposes SkillsBar as the first concrete proof",
+  homepage.includes('href="/demos/skillsbar/"') &&
+    homepage.includes("See SkillsBar in action") &&
+    homepage.includes("SkillsBar is the first concrete demonstration."),
+  "expected the homepage to link to the SkillsBar demo and name it as the first concrete proof"
 );
 
 addCheck(
