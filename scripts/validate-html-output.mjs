@@ -85,6 +85,10 @@ function validateHtml(file, html) {
       if (!("alt" in attrs)) fail(file, line, "image is missing alt text.");
       if (/^(image|photo|picture|graphic|icon)$/i.test(attrs.alt ?? "")) fail(file, line, "image has generic alt text.");
       if (!attrs.width || !attrs.height) fail(file, line, "image is missing width or height.");
+      if (isBelowFoldPortrait(file, html, match.index, attrs)) {
+        if (attrs.loading !== "lazy") fail(file, line, "below-fold portrait must use loading=\"lazy\".");
+        if (attrs.decoding !== "async") fail(file, line, "below-fold portrait must use decoding=\"async\".");
+      }
     }
 
     if (attrs["aria-labelledby"]) {
@@ -109,6 +113,14 @@ function validateHtml(file, html) {
     const id = decodeURIComponent(link.href.slice(1));
     if (id.length > 0 && !ids.has(id)) fail(file, link.line, "hash link targets missing id \"" + id + "\".");
   }
+}
+
+function isBelowFoldPortrait(file, html, index, attrs) {
+  const isBlogAuthor = file === "dist/blog/index.html" && attrs.src === "/jamie-profile-640.webp";
+  const footerStart = html.lastIndexOf("<footer", index);
+  const footerEnd = html.lastIndexOf("</footer>", index);
+  const isFooterPortrait = footerStart > footerEnd && attrs.src === "/jamie-profile-96.webp";
+  return isBlogAuthor || isFooterPortrait;
 }
 
 function parseAttrs(source) {

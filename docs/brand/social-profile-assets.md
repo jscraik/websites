@@ -2,11 +2,13 @@
 
 This asset family applies the brAInwav 1.1.0 visual system to Jamie Scott Craik's personal X and LinkedIn profiles. The source contract is `src/brand/social-profile-assets.json`; `npm run generate:social-assets` renders the PNGs and `npm run validate:social-assets` checks their contract and exact dimensions.
 
+The high-resolution portrait at `src/brand/source/jamie-profile.png` is a generator input, not a website download. The site serves the sized WebP derivatives, while the generated social uploads below remain public so they can be inspected and downloaded directly.
+
 ## Required Uploads
 
-| Platform | Profile photo | Banner |
-| --- | --- | --- |
-| X | `public/brand/social/jamie-avatar-x-400x400.png` | `public/brand/social/jamie-x-header-1500x500.png` |
+| Platform | Profile photo                                           | Banner                                                       |
+| -------- | ------------------------------------------------------- | ------------------------------------------------------------ |
+| X        | `public/brand/social/jamie-avatar-x-400x400.png`        | `public/brand/social/jamie-x-header-1500x500.png`            |
 | LinkedIn | `public/brand/social/jamie-avatar-linkedin-400x400.png` | `public/brand/social/jamie-linkedin-background-1584x396.png` |
 
 The avatar and banner remain separate files. X and LinkedIn supply the circular crop and overlap at runtime; the banner must never contain a second portrait. The lower-left of each banner therefore carries no essential promise or endorsement copy. Preview composites under `public/brand/social/previews/` are conservative inspection fixtures, not platform captures or guarantees of one fixed responsive overlap.

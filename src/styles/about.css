@@ -1,0 +1,60 @@
+html body:not(.skillsbar-demo) .about-page.about-hero-shell {
+  background: linear-gradient(180deg, var(--surface-card), var(--paper));
+}
+
+/* Stored Jose mobile About contract: full-bleed surface and editorial intro rhythm. */
+@media (max-width: 40rem) {
+  html body:not(.skillsbar-demo) .about-page.about-hero-shell {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 115px 0 96px;
+  }
+
+  .about-page.about-hero-shell .about-intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 38px;
+    width: min(calc(100% - 61px), 329px);
+    max-width: none;
+    margin-inline: auto;
+    padding: 0;
+  }
+
+  .about-page.about-hero-shell .about-copy-block {
+    display: flex;
+    flex-direction: column;
+    gap: 23px;
+    width: 100%;
+  }
+
+  .about-page.about-hero-shell .about-copy-block > h1#about-title {
+    margin: 0;
+    color: var(--neutral-07);
+    font-family: var(--body-sans);
+    font-size: var(--bds-type-body-lg-size);
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0;
+  }
+
+  .about-page.about-hero-shell .about-copy {
+    display: grid;
+    gap: 0;
+  }
+
+  .about-page.about-hero-shell .about-copy p {
+    margin: 0 0 15px;
+    color: var(--neutral-07);
+    font-family: var(--body-serif);
+    font-size: var(--bds-type-body-lg-size);
+    font-weight: 300;
+    line-height: 1.6;
+    letter-spacing: 0;
+  }
+
+  .about-page.about-hero-shell .about-copy p:last-child {
+    margin-bottom: 0;
+  }
+}
