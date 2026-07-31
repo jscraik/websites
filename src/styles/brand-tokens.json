@@ -35,13 +35,14 @@
     "brand_promise": "Making AI-assisted developer work inspectable.",
     "developer_benefit": "Help developers adopt emerging AI tools with confidence.",
     "flagship_product": "SkillsBar",
+    "canonical_portfolio_url": "https://jscraik.com",
     "affiliation_boundary": "OpenAI and Tessl are relevant audiences and career bridges, not affiliations or the headline identity.",
     "site_roles": {
       "portfolio": "Single public front door for Jamie's personal narrative, concise case studies, speaking, contact routes, and bounded technical proof.",
-      "brAInwav": "Shared product-presentation system for editorial and technical evidence surfaces."
+      "brAInwav": "Jamie's identity and shared presentation system for the work, turning human perspective, AI tools, and technical exploration into public products, writing, and evidence surfaces."
     },
     "site_handoffs": {
-      "technical_depth": "Route technical depth to public repositories, READMEs, documentation, diagrams, tests, implementation excerpts, and bounded evidence receipts.",
+      "technical_depth": "Route technical depth to public ChatGPT Sites, GitBooks, GitHub repositories, READMEs, documentation, diagrams, tests, implementation excerpts, and bounded evidence receipts when each project is ready.",
       "claim_boundary": "Evidence before claims; current source identity and freshness remain visible."
     }
   },

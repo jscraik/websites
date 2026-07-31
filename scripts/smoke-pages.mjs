@@ -5,7 +5,7 @@ const pages = [
   {
     route: "/",
     file: "index.html",
-    includes: ["Jamie Scott Craik", "AI-native DevRel", "Featured work"]
+    includes: ["Jamie Scott Craik", "AI-native DevRel", "SkillsBar", "/demos/skillsbar/"]
   },
   {
     route: "/blog/",
@@ -45,7 +45,7 @@ const pages = [
   {
     route: "/work/brainwav-io/",
     file: "work/brainwav-io/index.html",
-    includes: ["brainwav.io", "proof-led AI work"]
+    includes: ["jscraik.com", "proof-led AI work"]
   },
   {
     route: "/work/cli-proof-series/",

@@ -1,6 +1,6 @@
 # portfolio
 
-This repository is Jamie Scott Craik's single public portfolio front door and the canonical home of the shared brAInwav product-presentation system. The site is intentionally small: it makes AI-assisted developer work inspectable, shows current proof artifacts, keeps caveats visible, and gives future agents a repeatable way to validate design and claim boundaries.
+This repository contains the source configured with [jscraik.com](https://jscraik.com) as Jamie Scott Craik's intended canonical single public portfolio front door. brAInwav is the identity behind the work: it connects Jamie's human perspective, AI tools, and technical exploration as they become public products, writing, and proof. The site is intentionally small: it makes AI-assisted developer work inspectable, shows current proof artifacts, keeps caveats visible, and gives future agents a repeatable way to validate design and claim boundaries.
 
 Jamie’s accepted role is AI-native DevRel builder. The promise is `Making AI-assisted developer work inspectable.` and the intended benefit is helping developers adopt emerging AI tools with confidence. These are positioning and intended-benefit statements, not evidence of employment, affiliation, usability, adoption, or developer confidence.
 
@@ -11,7 +11,7 @@ Version 1.1.0 of the brAInwav Design System projects the accepted `jamie-brain-b
 - `src/styles/brand-tokens.json` is the canonical machine-readable consumer contract.
 - `BRAND_GUIDELINES.md` is the human usage and claims-boundary contract.
 - `scripts/validate-design-system.mjs` rejects drift in positioning, identity, site roles, product covers, provenance, evidence maturity, accessibility, and stress-test acceptance.
-- This portfolio is the accepted single front door; technical depth routes to public repositories, READMEs, documentation, diagrams, tests, implementation excerpts, and bounded evidence receipts rather than a separate technical-companion site.
+- `jscraik.com` is the accepted single front door. brAInwav is Jamie's identity and shared presentation system, not a second website. Technical depth routes to public ChatGPT Sites, GitBooks, GitHub repositories, READMEs, documentation, diagrams, tests, implementation excerpts, and bounded evidence receipts when each project is ready to make its own public claims.
 - The SkillsBar vertical slice is the first implementation target. The generator, covers, rendered acceptance, deployment, usability, and adoption are not proved by the contract alone.
 
 ## Quick Start
@@ -94,7 +94,7 @@ This repo separates local build proof, visual-reference proof, and public readin
 - npm run capture:jose-reference refreshes stored Jose reference artifacts, but capture output is not proof that Jamie's site matches Jose.
 - npm run test:jose-parity is the visual parity guardrail. A visual-match claim needs this command against a current local candidate URL, or an explicit blocked result with the browser/runtime blocker.
 
-The Astro config sets the site URL to https://brainwav.io, but hosted deployment, production reach, external review, and PR readiness are separate evidence lanes.
+The Astro config sets the canonical site URL to https://jscraik.com, but hosted deployment, production reach, external review, and PR readiness are separate evidence lanes.
 
 ## Jose Reference Workflow
 
