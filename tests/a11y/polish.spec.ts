@@ -34,6 +34,42 @@ test.describe("UI polish contracts", () => {
     expect(colors.actual).toBe(colors.expected);
   });
 
+  test("portfolio images carry the surface outline treatment", async ({ page }) => {
+    const imageRoutes = [
+      ...coreRoutes,
+      { name: "work-brainwav-io", path: "/work/brainwav-io/" }
+    ];
+
+    for (const route of imageRoutes) {
+      await preparePage(page, route.path);
+
+      const imageStyles = await page.locator("img").evaluateAll((images) => {
+        const expectedColor = document.body.classList.contains("skillsbar-demo")
+          ? "rgba(255, 255, 255, 0.1)"
+          : "rgba(0, 0, 0, 0.1)";
+
+        return images.map((image) => {
+          const style = getComputedStyle(image);
+          return {
+            outlineColor: style.outlineColor,
+            outlineOffset: style.outlineOffset,
+            outlineStyle: style.outlineStyle,
+            outlineWidth: style.outlineWidth,
+            expectedColor
+          };
+        });
+      });
+
+      expect(imageStyles, `${route.path}: image surface outlines`).not.toEqual([]);
+      for (const style of imageStyles) {
+        expect(style.outlineStyle, `${route.path}: image outline style`).toBe("solid");
+        expect(style.outlineWidth, `${route.path}: image outline width`).toBe("1px");
+        expect(style.outlineOffset, `${route.path}: image outline offset`).toBe("-1px");
+        expect(style.outlineColor, `${route.path}: image outline color`).toBe(style.expectedColor);
+      }
+    }
+  });
+
   test("core routes preserve target size and typography floors", async ({ page }, testInfo) => {
     const minimumTarget = testInfo.project.name.includes("mobile") ? 44 : 40;
 
