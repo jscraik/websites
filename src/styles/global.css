@@ -11875,3 +11875,24 @@ html body:not(.skillsbar-demo) .blog-index .latest-article .eyebrow {
     min-inline-size: 44px;
   }
 }
+
+/* Shared shell parity: route state stays quiet while technical surfaces own their theme. */
+html body:not(.skillsbar-demo) .site-header .nav-link[aria-current="page"] {
+  color: var(--bds-color-portfolio-muted);
+}
+
+.footer-profile-card.profile-row {
+  width: fit-content;
+  min-width: 0;
+}
+
+.footer-profile-card .profile-row-meta {
+  min-width: 0;
+}
+
+@media (max-width: 57.5625rem) {
+  .footer-profile-card.profile-row {
+    width: fit-content;
+    max-width: 100%;
+  }
+}

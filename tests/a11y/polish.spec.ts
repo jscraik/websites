@@ -34,6 +34,30 @@ test.describe("UI polish contracts", () => {
     expect(colors.actual).toBe(colors.expected);
   });
 
+  test("shared shell keeps portfolio and technical surface themes", async ({ page }) => {
+    await preparePage(page, "/now/");
+
+    const portfolioShell = await page.evaluate(() => ({
+      activeNav: getComputedStyle(document.querySelector('.site-header .nav-link[aria-current="page"]')!).color,
+      footerBackground: getComputedStyle(document.querySelector(".site-footer")!).backgroundColor
+    }));
+
+    expect(portfolioShell.activeNav).toBe("rgb(79, 86, 77)");
+    expect(portfolioShell.footerBackground).toBe("rgb(213, 214, 208)");
+
+    await preparePage(page, "/demos/skillsbar/");
+
+    const technicalShell = await page.evaluate(() => ({
+      footerBackground: getComputedStyle(document.querySelector(".site-footer")!).backgroundColor,
+      profileBackground: getComputedStyle(document.querySelector(".site-footer .footer-profile-card")!).backgroundColor,
+      socialBackground: getComputedStyle(document.querySelector(".site-footer .footer-social-links a")!).backgroundColor
+    }));
+
+    expect(technicalShell.footerBackground).toBe("rgb(11, 15, 23)");
+    expect(technicalShell.profileBackground).toBe("rgb(20, 26, 35)");
+    expect(technicalShell.socialBackground).toBe("rgb(27, 34, 48)");
+  });
+
   test("portfolio images carry the surface outline treatment", async ({ page }) => {
     const imageRoutes = [
       ...coreRoutes,

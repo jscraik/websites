@@ -345,6 +345,26 @@ const gates = [
     font-family: var(--body-sans);
     letter-spacing: 0;
   }
+  :global(body.skillsbar-demo .site-footer) {
+    border-top: 1px solid var(--skillsbar-line);
+    background: var(--skillsbar-canvas);
+    color: var(--skillsbar-muted);
+  }
+  :global(body.skillsbar-demo .site-footer .footer-profile-card) {
+    border: 1px solid var(--skillsbar-line);
+    background: var(--skillsbar-surface);
+    color: var(--skillsbar-ink);
+    box-shadow: none;
+  }
+  :global(body.skillsbar-demo .site-footer .footer-profile-card .input-label),
+  :global(body.skillsbar-demo .site-footer .footer-links a),
+  :global(body.skillsbar-demo .site-footer .footer-social-links a) {
+    color: var(--skillsbar-muted);
+  }
+  :global(body.skillsbar-demo .site-footer .footer-social-links a) {
+    border-color: var(--skillsbar-line);
+    background: var(--skillsbar-surface-2);
+  }
   :global(.skillsbar-demo *) { box-sizing: border-box; }
   :global(.skillsbar-demo button) { color: inherit; font: inherit; }
 
