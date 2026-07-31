@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-07-22T06:16:36Z
+Generated: 2026-07-31T16:50:04Z
 
 ## Table of Contents
 
@@ -30,6 +30,17 @@ Generated: 2026-07-22T06:16:36Z
 
 - These architecture-sensitive paths changed on the current branch and may be compacted out of Mermaid diagrams.
 - `package.json`
+- `src/brand/social-profile-assets.json`
+- `src/components/CarouselControls.astro`
+- `src/components/SiteFooter.astro`
+- `src/pages/blog/index.astro`
+- `src/pages/contact.astro`
+- `src/pages/demos/skillsbar.astro`
+- `src/pages/index.astro`
+- `src/pages/now.astro`
+- `src/styles/brand-tokens.css`
+- `src/styles/brand-tokens.json`
+- `src/styles/global.css`
 
 ## agent
 
@@ -138,6 +149,7 @@ graph LR
   node_test_diagram_freshness_opt_in_96293749_08c46e10["test_diagram_freshness_opt_in_96293749"]
   node_test_git_worktree_authority_e031ba7e_d149c121["test_git_worktree_authority_e031ba7e"]
   node_test_harness_cli_public_fallback_ad793eff_5fbe4aa9["test_harness_cli_public_fallback_ad793eff"]
+  node_test_jose_parity_measurements_2477824f_5f030e16["test_jose_parity_measurements_2477824f"]
   node_test_operator_workflow_contract_b4a152d7_c294797c["test_operator_workflow_contract_b4a152d7"]
   node_test_portfolio_helpers_88b404c3_859ed297["test_portfolio_helpers_88b404c3"]
   node_test_pr_readiness_fbe81eba_0ec78421["test_pr_readiness_fbe81eba"]
@@ -172,6 +184,7 @@ graph LR
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_diagram_freshness_opt_in_96293749_08c46e10
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_git_worktree_authority_e031ba7e_d149c121
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_harness_cli_public_fallback_ad793eff_5fbe4aa9
+  ext_node_assert_f1a93ba5["node:assert"] --> node_test_jose_parity_measurements_2477824f_5f030e16
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_operator_workflow_contract_b4a152d7_c294797c
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_portfolio_helpers_88b404c3_859ed297
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_pr_readiness_fbe81eba_0ec78421
@@ -219,6 +232,7 @@ graph LR
   ext_node_fs_a15b7d96["node:fs"] --> node_test_diagram_freshness_opt_in_96293749_08c46e10
   ext_node_fs_a15b7d96["node:fs"] --> node_test_git_worktree_authority_e031ba7e_d149c121
   ext_node_fs_a15b7d96["node:fs"] --> node_test_harness_cli_public_fallback_ad793eff_5fbe4aa9
+  ext_node_fs_a15b7d96["node:fs"] --> node_test_jose_parity_measurements_2477824f_5f030e16
   ext_node_fs_a15b7d96["node:fs"] --> node_test_operator_workflow_contract_b4a152d7_c294797c
   ext_node_fs_a15b7d96["node:fs"] --> node_test_portfolio_helpers_88b404c3_859ed297
   ext_node_fs_a15b7d96["node:fs"] --> node_test_pr_readiness_fbe81eba_0ec78421
@@ -475,7 +489,9 @@ flowchart LR
   validate_portfolio_content_6d36990e["validate-portfolio-content"]
   User --> validate_portfolio_content_6d36990e
   check_public_api_docs_a9604f1b --> changed_files_4c0102f6
+  jose_parity_cdp_bdcde21d --> jose_parity_measurements_afc7a199
   check_code_size_9c5efc3a --> changed_files_4c0102f6
+  test_jose_parity_measurements_2477824f --> jose_parity_measurements_afc7a199
   classDef userNode fill:#16a34a,color:#fff
   class capture_jose_reference_e7b66705,check_public_api_docs_a9604f1b,jose_parity_cdp_bdcde21d,smoke_pages_9a92b30d,test_operator_workflow_contract_b4a152d7,validate_coding_policy_29976175,validate_content_source_boundary_8a6f121b,validate_css_policy_1c5ec854,validate_design_system_b8a5f37c,validate_operator_contract_f777ed78,validate_page_surfaces_078ef6b6,validate_portfolio_content_6d36990e userNode
 
