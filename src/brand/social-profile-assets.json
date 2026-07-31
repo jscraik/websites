@@ -38,7 +38,7 @@
     "grid_columns": 12,
     "editorial_columns": 5,
     "technical_columns": 7,
-    "editorial_canvas": "#E6E6E1",
+    "editorial_canvas": "#D5D6D0",
     "technical_canvas": "#0B0F17",
     "technical_signal": "#2DA8FF",
     "inspection_signal": "#FF7A00",

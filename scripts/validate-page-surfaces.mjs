@@ -2,6 +2,10 @@ import { readFileSync } from "node:fs";
 
 const cssPath = process.env.PAGE_SURFACE_CSS_PATH ?? "src/styles/global.css";
 const css = readFileSync(cssPath, "utf8");
+const tokensPath = "src/styles/brand-tokens.json";
+const tokens = JSON.parse(readFileSync(tokensPath, "utf8"));
+const tokensCssPath = "src/styles/brand-tokens.css";
+const tokensCss = readFileSync(tokensCssPath, "utf8");
 const aboutPagePath = process.env.PAGE_SURFACE_ABOUT_PATH ?? "src/pages/now.astro";
 const aboutPageSource = readFileSync(aboutPagePath, "utf8");
 const blogPagePath = process.env.PAGE_SURFACE_BLOG_PATH ?? "src/pages/blog/index.astro";
@@ -9,24 +13,29 @@ const blogPageSource = readFileSync(blogPagePath, "utf8");
 
 const failures = [];
 
-const forbiddenSurfaceTokens = [
-  "#d5d6d0",
-  "rgb(213, 214, 208)",
-  "rgba(213, 214, 208"
-];
+if (tokens.colors?.portfolio_bg !== "#D5D6D0") {
+  failures.push(tokensPath + ": colors.portfolio_bg must map to Jose neutral-03 #D5D6D0.");
+}
 
-for (const token of forbiddenSurfaceTokens) {
-  if (css.includes(token)) {
-    failures.push(
-      cssPath + ": forbidden Jose grey surface token found: " + token + ". Use var(--paper) for Jamie page backgrounds."
-    );
-  }
+if (!tokensCss.includes("--bds-color-portfolio-bg: #d5d6d0;")) {
+  failures.push(tokensCssPath + ": portfolio background projection must match #D5D6D0.");
 }
 
 const forbiddenFullBleedPatterns = [
   /box-shadow:\s*0\s+0\s+0\s+100vmax/gi,
   /clip-path:\s*inset\(0\s+-100vmax\)/gi
 ];
+
+const forbiddenTargetSurfacePatterns = [
+  /#fun-facts:target,[\s\S]*?background:\s*var\(--surface-feature\);/m,
+  /html:has\(#fun-facts:target\),[\s\S]*?background:\s*var\(--surface-feature\);/m
+];
+
+for (const pattern of forbiddenTargetSurfacePatterns) {
+  if (pattern.test(css)) {
+    failures.push(cssPath + ": deep-link targets must preserve the Jose neutral page surface.");
+  }
+}
 
 for (const pattern of forbiddenFullBleedPatterns) {
   const matches = [...css.matchAll(pattern)];
@@ -162,6 +171,12 @@ if (!/class=["']recognition-list-li\s+cc-header["']/.test(aboutPageSource)) {
   );
 }
 
+if (!/#on-the-web\.about-web-band\s*{[^}]*min-height:\s*100svh;/m.test(css)) {
+  failures.push(
+    cssPath + ": mobile On the Web must own at least one small viewport height so hash navigation cannot expose the following footer."
+  );
+}
+
 if (!/class=["']blog-page-main["']/.test(blogPageSource)) {
   failures.push(
     blogPagePath + ": missing Blog page main wrapper. Browse all articles and the author block should stay in the Jose-style centered Blog page flow."
@@ -182,12 +197,16 @@ if (!/class=["']text-lg\s+w-richtext["']/.test(blogPageSource)) {
 
 const requiredPaperRules = [
   {
-    name: "About page shell",
-    pattern: /body:has\(\.about-page\),\s*\nbody:has\(\.about-page\) main\s*{\s*\n\s*background:\s*var\(--paper\);/m
+    name: "Homepage Jose header gradient",
+    pattern: /body:has\(\.home-hero\)\s*{[\s\S]*?linear-gradient\(180deg,\s*var\(--surface-card\),\s*var\(--paper\)\)[\s\S]*?var\(--paper\);[\s\S]*?}/m
   },
   {
-    name: "About page container",
-    pattern: /\.about-page\s*{[\s\S]*?background:\s*var\(--paper\);[\s\S]*?}/m
+    name: "About header and page surfaces",
+    pattern: /body:has\(\.about-page\)\s*{\s*\n\s*background:\s*var\(--surface-card\);\s*\n}\s*\n\s*body:has\(\.about-page\) main\s*{\s*\n\s*background:\s*var\(--paper\);/m
+  },
+  {
+    name: "About Jose header gradient",
+    pattern: /\.about-page\.about-hero-shell\s*{[\s\S]*?background:\s*linear-gradient\(180deg,\s*var\(--surface-card\),\s*var\(--paper\)\);[\s\S]*?}/m
   },
   {
     name: "Footer",
@@ -209,4 +228,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log("Page surface validation passed: page backgrounds stay on var(--paper).");
+console.log("Page surface validation passed: var(--paper) maps to Jose neutral-03 #D5D6D0.");

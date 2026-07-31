@@ -40,6 +40,6 @@ Visible proof. AI-native DevRel.
 | Sage           | `#6B7F6B` |
 | Ink Blue       | `#0F2A44` |
 | Warm Off-white | `#FAF8F5` |
-| Stone          | `#E6E6E1` |
+| Stone          | `#D5D6D0` |
 | White          | `#FFFFFF` |
 | Accent Blue    | `#5EA8D8` |
