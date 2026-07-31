@@ -361,7 +361,7 @@ const gates = [
     background: rgba(16, 18, 17, 0.94);
     backdrop-filter: blur(16px);
   }
-  .demo-brand { display: flex; align-items: center; gap: .625rem; color: var(--skillsbar-ink); text-decoration: none; font-weight: 650; }
+  .demo-brand { display: flex; align-items: center; min-height: 2.75rem; gap: .625rem; color: var(--skillsbar-ink); text-decoration: none; font-weight: 650; }
   .demo-brand img { border-radius: .4375rem; }
   .demo-nav p { display: flex; align-items: center; gap: .5rem; margin: 0; color: var(--skillsbar-muted); font-size: .75rem; }
   .demo-nav p span { width: .4375rem; height: .4375rem; border-radius: 50%; background: var(--skillsbar-blue); box-shadow: 0 0 0 .25rem rgba(45, 168, 255, .18); }
@@ -373,8 +373,9 @@ const gates = [
   h1 { max-width: 52rem; margin: 0; color: var(--skillsbar-ink); font-family: var(--body-serif); font-size: clamp(2.75rem, 6.2vw, 5.5rem); font-weight: 300; line-height: .95; }
   .demo-lede { max-width: 49rem; margin: 1.5rem 0 1.75rem; color: #c5c7c2; font-size: clamp(1rem, 2vw, 1.25rem); line-height: 1.55; }
   .scenario-control { display: inline-flex; padding: .1875rem; border: 1px solid var(--skillsbar-line); border-radius: .4375rem; background: #0c0e0d; }
-  .scenario { min-height: 2.25rem; padding: 0 .875rem; border: 0; border-radius: .3125rem; background: transparent; color: var(--skillsbar-muted); cursor: pointer; }
-  .scenario:hover, .scenario:focus-visible { color: var(--skillsbar-ink); outline: 2px solid var(--skillsbar-blue); outline-offset: 2px; }
+  .scenario { min-height: 2.75rem; padding: 0 .875rem; border: 0; border-radius: .3125rem; background: transparent; color: var(--skillsbar-muted); cursor: pointer; }
+  .scenario:hover { color: var(--skillsbar-ink); }
+  .scenario:focus-visible { color: var(--skillsbar-ink); outline: 2px solid var(--focus-ring-inverse); outline-offset: 2px; }
   .scenario.is-active { color: var(--skillsbar-ink); background: var(--skillsbar-surface-2); box-shadow: inset 0 0 0 1px #3a403a; }
 
   .product-shell {
@@ -427,8 +428,9 @@ const gates = [
   .action-copy p { margin: 0 0 .1875rem; color: var(--skillsbar-muted); font-size: .5625rem; }
   .action-copy h3 { margin: 0 0 .25rem; color: var(--skillsbar-ink); font-size: .8125rem; }
   .action-copy span { color: var(--skillsbar-muted); font-size: .6875rem; }
-  .command-button { min-height: 2rem; padding: 0 .6875rem; border: 1px solid var(--skillsbar-line); border-radius: .3125rem; background: var(--skillsbar-surface-2); font-size: .625rem; text-transform: uppercase; cursor: pointer; }
-  .command-button:hover, .command-button:focus-visible { border-color: var(--skillsbar-blue); outline: 2px solid var(--skillsbar-blue); outline-offset: 2px; }
+  .command-button { min-height: 2.75rem; padding: 0 .6875rem; border: 1px solid var(--skillsbar-line); border-radius: .3125rem; background: var(--skillsbar-surface-2); font-size: .625rem; text-transform: uppercase; cursor: pointer; }
+  .command-button:hover { border-color: var(--skillsbar-blue); }
+  .command-button:focus-visible { border-color: var(--skillsbar-blue); outline: 2px solid var(--focus-ring-inverse); outline-offset: 2px; }
   .gate-list { margin: 0; padding: 1rem 0 0; list-style: none; }
   .gate { position: relative; display: grid; grid-template-columns: 2.5rem 1fr auto; align-items: center; gap: .75rem; min-height: 3rem; border-bottom: 1px solid #292d29; }
   .gate:last-child { border-bottom: 0; }

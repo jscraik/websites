@@ -31,7 +31,7 @@ const plannedProofItems = proofItems.filter((item: ProofItem) => item.status ===
       <span>Curated proof</span>
     </div>
 
-    <div class="proof-row">
+    <div class="proof-row" role="region" aria-label="Featured proof" tabindex="0">
       {liveProofItems.map((item: ProofItem) => (
         <a class="proof-card" href={item.href}>
           <span>{item.status}</span>
@@ -60,7 +60,7 @@ const plannedProofItems = proofItems.filter((item: ProofItem) => item.status ===
       <span>Not proof yet</span>
     </div>
 
-    <div class="proof-row">
+    <div class="proof-row" role="region" aria-label="Planned proof lanes" tabindex="0">
       {plannedProofItems.map((item: ProofItem) => (
         <div class="proof-card proof-card--planned">
           <span>{item.status}</span>

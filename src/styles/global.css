@@ -22,7 +22,8 @@
   --text-subtle: var(--color-jose-muted);
   --text-inverse: var(--color-jose-soft);
   --border-subtle: rgba(61, 64, 60, 0.12);
-  --focus-ring: rgba(47, 128, 255, 0.68);
+  --focus-ring: oklch(38% 0 0 / 0.9);
+  --focus-ring-inverse: oklch(92% 0 0 / 0.92);
   --accent-primary: var(--color-brand-blue);
   --accent-warm: var(--color-brand-orange);
 
@@ -117,6 +118,8 @@ body {
   font-family: var(--body-sans);
   font-size: var(--bds-type-body);
   line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
@@ -385,17 +388,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
 .work-mini-card:focus-visible,
 .large-link:focus-visible,
 .icon-box:focus-visible {
-  color: var(--blue);
-}
-
-.nav-link:focus-visible,
-.icon-link:focus-visible,
-.small-button:focus-visible,
-.proof-card:focus-visible,
-.work-mini-card:focus-visible,
-.large-link:focus-visible,
-.icon-box:focus-visible {
-  outline: 2px solid rgba(47, 128, 255, 0.68);
+  outline: 2px solid var(--focus-ring);
   outline-offset: 4px;
 }
 
@@ -554,7 +547,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
 .large-link:active,
 .contact-links a:active,
 .site-footer a:active {
-  transform: scale(0.97);
+  transform: scale(0.96);
 }
 
 .start-links__icon {
@@ -1122,7 +1115,7 @@ main [data-reveal]:nth-child(5) { animation-delay: 160ms; }
 }
 
 .carousel-button:active {
-  transform: scale(0.97);
+  transform: scale(0.96);
 }
 
 .carousel-button:disabled {
@@ -6985,14 +6978,14 @@ body:has(.about-page) .site-footer {
   --jose-nav-desktop-height: var(--space-5);
 }
 
-:is(h1, h2, .h1-name, .section-heading, .blog-title-block h1, .article-list h2, .about-page .about-copy-block h1, .about-band h2, .blog-about-card h2) {
+body:not(.skillsbar-demo) :is(h1, h2, .h1-name, .section-heading, .blog-title-block h1, .article-list h2, .about-page .about-copy-block h1, .about-band h2, .blog-about-card h2) {
   color: color-mix(in srgb, var(--text-primary) 92%, transparent);
   font-family: var(--body-serif);
   font-weight: 100;
   letter-spacing: 0;
 }
 
-:is(h3, h4, .latest-article h2, .work-mini-card h3, .feature-block h3, .proof-card h3, .about-fact-card h3, .about-skill-list h3, .about-history h3) {
+body:not(.skillsbar-demo) :is(h3, h4, .latest-article h2, .work-mini-card h3, .feature-block h3, .proof-card h3, .about-fact-card h3, .about-skill-list h3, .about-history h3) {
   color: color-mix(in srgb, var(--text-primary) 84%, transparent);
   font-family: var(--body-sans);
   font-weight: 600;
@@ -11358,4 +11351,229 @@ body:has(.about-page) .site-footer {
   .brainwav-bridge h2
 ) {
   font-weight: var(--bds-type-display-lg-weight);
+}
+
+/* Bounded accessibility polish. Keep state color semantic: neutral focus rings
+   indicate keyboard position, while blue remains reserved for current/evidence. */
+:where(h1, h2, h3) {
+  text-wrap: balance;
+}
+
+body:not(.skillsbar-demo) #case-title {
+  white-space: normal;
+  text-wrap: balance;
+}
+
+:where(a[href], button, input, select, textarea) {
+  touch-action: manipulation;
+}
+
+body :is(a[href], button, input, select, textarea):focus-visible,
+.proof-row:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 4px;
+}
+
+body.skillsbar-demo :is(a[href], button, input, select, textarea):focus-visible {
+  outline-color: var(--focus-ring-inverse);
+}
+
+.icon-box {
+  position: relative;
+}
+
+.icon-box::before {
+  position: absolute;
+  inset: -6px;
+  content: "";
+}
+
+:is(
+  .nav-link,
+  .icon-link,
+  .start-links a,
+  .carousel-button,
+  .footer-links a,
+  .footer-social-links a,
+  .contact-links a,
+  .about-jump a,
+  .web-table a,
+  .article-list a,
+  .blog-list-item > a,
+  .blog-contact-block a,
+  .draft-links a,
+  .blog-preview__drafts a,
+  .large-link
+) {
+  min-block-size: 40px;
+}
+
+.contact-links a {
+  display: inline-flex;
+  align-items: center;
+  min-inline-size: 40px;
+}
+
+body:not(.skillsbar-demo) :is(
+  .nav-link,
+  .icon-link,
+  .start-links a,
+  .carousel-button,
+  .footer-links a,
+  .footer-social-links a,
+  .contact-links a,
+  .about-jump a,
+  .web-table a,
+  .article-list a,
+  .blog-list-item > a,
+  .blog-contact-block a,
+  .draft-links a,
+  .blog-preview__drafts a
+) {
+  color: var(--bds-color-portfolio-muted);
+}
+
+body:not(.skillsbar-demo) :is(
+  .nav-link[aria-current="page"],
+  .icon-box[aria-current="page"],
+  .large-link
+) {
+  color: var(--bds-color-blue-ink);
+}
+
+body:not(.skillsbar-demo) :is(
+  .eyebrow,
+  .article-date,
+  .section-label,
+  .proof-card > span,
+  .proof-card dt,
+  .about-fact-card > span,
+  .about-fact-card > p,
+  .about-skill-list article div > p,
+  .about-history article div > p,
+  .blog-list-item > div p,
+  .blog-list-item > span,
+  .blog-about-card .text-lg,
+  .work-card-count,
+  .work-card-body > p,
+  .work-card-body > span,
+  .work-card-body h3,
+  .tag-row span
+) {
+  color: var(--bds-color-portfolio-muted);
+}
+
+.work-mini-card {
+  color: var(--bds-color-portfolio-muted);
+  opacity: 1;
+}
+
+body:not(.skillsbar-demo) .about-page.about-hero-shell .about-jump a,
+body:not(.skillsbar-demo) #on-the-web .web-table a,
+body:not(.skillsbar-demo) #on-the-web .input-label.cc-link,
+body:not(.skillsbar-demo) .blog-contact-block a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 40px;
+  min-inline-size: 40px;
+  color: var(--bds-color-portfolio-muted);
+}
+
+body:not(.skillsbar-demo) .blog-list-item > a {
+  min-inline-size: 40px;
+}
+
+html body .site-footer .nav-link.cc-footer {
+  color: var(--bds-color-portfolio-muted);
+  opacity: 1;
+}
+
+html body:not(.skillsbar-demo) .site-header .nav-link {
+  color: var(--bds-color-portfolio-muted);
+  opacity: 1;
+}
+
+html body:not(.skillsbar-demo) .site-header .nav-link[aria-current="page"] {
+  color: var(--bds-color-blue-ink);
+}
+
+html body:not(.skillsbar-demo) :is(.home-hero__position, .home-hero__body),
+html body:not(.skillsbar-demo) .profile-row-meta .input-label,
+html body:not(.skillsbar-demo) #start-links-title,
+html body:not(.skillsbar-demo) .start-links a > span:nth-child(2),
+html body:not(.skillsbar-demo) .section-label > span {
+  color: var(--bds-color-portfolio-muted);
+}
+
+html body:not(.skillsbar-demo) #home-title > span {
+  color: var(--text-primary);
+}
+
+html body:not(.skillsbar-demo) #skills .about-skill-list article > div > p,
+html body:not(.skillsbar-demo) .blog-list-item > div > p,
+html body:not(.skillsbar-demo) .blog-list-item > span,
+html body:not(.skillsbar-demo) .blog-list-item > a,
+html body:not(.skillsbar-demo) .blog-about-card .text-lg p,
+html body:not(.skillsbar-demo) .article-layout .draft-list > p,
+html body:not(.skillsbar-demo) .article-receipt :is(dt, dd),
+html body:not(.skillsbar-demo) .case-meta > span,
+html body:not(.skillsbar-demo) .case-work-header > p,
+html body:not(.skillsbar-demo) .case-sidebar .input-label,
+html body:not(.skillsbar-demo) .case-sidebar > div > p:not(.input-label) {
+  color: var(--bds-color-portfolio-muted);
+}
+
+html body:not(.skillsbar-demo) .blog-index .latest-article .eyebrow {
+  color: var(--bds-color-portfolio-muted);
+}
+
+@media (max-width: 57.5625rem) {
+  .icon-box::before {
+    inset: -8px;
+  }
+
+  .article-body {
+    grid-row: 2;
+  }
+
+  .article-sidebar {
+    grid-row: 3;
+    margin-top: 48px;
+  }
+
+  :is(
+    .nav-link,
+    .icon-link,
+    .start-links a,
+    .carousel-button,
+    .footer-links a,
+    .footer-social-links a,
+    .contact-links a,
+    .about-jump a,
+    .web-table a,
+    .article-list a,
+    .blog-list-item > a,
+    .blog-contact-block a,
+    .draft-links a,
+    .blog-preview__drafts a,
+    .large-link
+  ) {
+    min-block-size: 44px;
+  }
+
+  body:not(.skillsbar-demo) .about-page.about-hero-shell .about-jump a,
+  body:not(.skillsbar-demo) #on-the-web .web-table a,
+  body:not(.skillsbar-demo) #on-the-web .input-label.cc-link,
+  body:not(.skillsbar-demo) .blog-contact-block a {
+    min-block-size: 44px;
+    min-inline-size: 44px;
+  }
+
+  body:not(.skillsbar-demo) .blog-list-item > a {
+    min-inline-size: 44px;
+  }
+
+  .contact-links a {
+    min-inline-size: 44px;
+  }
 }

@@ -24,6 +24,7 @@ export const coreRoutes = [
   { name: "home", path: "/" },
   { name: "about", path: "/now/" },
   { name: "blog", path: "/blog/" },
+  { name: "contact", path: "/contact/" },
   { name: "skillsbar-demo", path: "/demos/skillsbar/" },
   { name: "article-ai-native-devrel", path: "/articles/why-ai-native-devrel/" },
   { name: "proof", path: "/proof/" },
