@@ -4,6 +4,10 @@ const packageJson = JSON.parse(readFileSync("package.json", "utf8"));
 const captureScript = readFileSync("scripts/capture-jose-reference.mjs", "utf8");
 const notePath = "docs/implementation-notes/jose-parity-guardrail.md";
 const notes = readFileSync(notePath, "utf8");
+const referencePath = "docs/reference/jose-ocando/README.md";
+const referenceNotes = readFileSync(referencePath, "utf8");
+const decisionPath = "docs/decisions/2026-07-31-freeze-jose-reference-authority.md";
+const decision = readFileSync(decisionPath, "utf8");
 const cdpParityScript = readFileSync("scripts/jose-parity-cdp.mjs", "utf8");
 const parityRunnerScript = readFileSync("scripts/jose-parity-runner.mjs", "utf8");
 
@@ -65,7 +69,7 @@ for (const capability of requiredCaptureCapabilities) {
 
 const requiredBoundaryStatements = [
   "capture/reference pipeline is not visual parity proof",
-  "Do not claim the Jamie prototype matches Jose unless",
+  "Do not claim the Jamie prototype matches the stored Jose contract unless",
   "REFERENCE_BASE_URL=https://www.joseocando.com CANDIDATE_BASE_URL=<local-url> npm run test:jose-parity",
   "CHROME_CDP_URL=http://127.0.0.1:9222 REFERENCE_BASE_URL=https://www.joseocando.com CANDIDATE_BASE_URL=<local-url> npm run test:jose-parity",
   "CHROME_CDP_URL=http://127.0.0.1:9222 REFERENCE_BASE_URL=https://www.joseocando.com CANDIDATE_BASE_URL=<local-url> npm run test:jose-parity:cdp",
@@ -73,9 +77,24 @@ const requiredBoundaryStatements = [
   "Command: cd /Users/jamiecraik/dev/brainwav.io && REFERENCE_BASE_URL=https://www.joseocando.com npm run test:jose-parity -> blocked"
 ];
 
+const requiredAuthorityStatements = [
+  [referencePath, referenceNotes, "The stored bundle is the canonical structural reference"],
+  [referencePath, referenceNotes, "The current live site is advisory evidence"],
+  [notePath, notes, "identity-content regions are masked before pixel comparison"],
+  [notePath, notes, "Page-surface colors remain part of Jose palette parity"],
+  [decisionPath, decision, "Status: Accepted"],
+  [decisionPath, decision, "Stored-reference stability"],
+];
+
 for (const statement of requiredBoundaryStatements) {
   if (!notes.includes(statement)) {
     failures.push(notePath + ": missing claim-boundary statement: " + statement + ".");
+  }
+}
+
+for (const [filePath, contents, statement] of requiredAuthorityStatements) {
+  if (!contents.includes(statement)) {
+    failures.push(filePath + ": missing stored-reference authority statement: " + statement + ".");
   }
 }
 

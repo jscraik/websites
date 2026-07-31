@@ -44,3 +44,8 @@ When a dependency change refreshes tracked architecture projections, update
 the linked architecture and governance documentation before push. Generated
 diagram evidence informs the change; it does not replace the documented
 workflow contract or hosted review evidence.
+
+For Jose parity work, the stored bundle and its accepted decision record are
+the design authority. Current-live comparisons remain advisory evidence, and
+agents must not silently refresh the bundle, weaken mismatch budgets, or turn
+identity-specific copy and imagery into the structural comparison oracle.

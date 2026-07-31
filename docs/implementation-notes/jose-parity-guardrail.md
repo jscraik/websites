@@ -32,6 +32,8 @@ The Jose/Jamie screenshot spec now measures reference and candidate pages for th
 - deep-link header scroll behavior
 - sampled page/background color
 
+Transparent hit targets are resolved through their ancestor background layers before color metrics are recorded, so an unpainted element cannot become a false black sample. Page-surface colors remain part of Jose palette parity. Jamie's `var(--paper)` token must map to the stored neutral-03 value `#D5D6D0`, enforced by `npm run validate:page-surfaces`.
+
 The second parity hardening pass extends the same guardrail to downstream sections and effects:
 
 - about skills section heading and repeated block geometry
@@ -42,6 +44,8 @@ The second parity hardening pass extends the same guardrail to downstream sectio
 - viewport-specific Playwright project routing so desktop and mobile workers do not race while writing the same artifact names
 - downstream hash-section top-band contamination, so previous-section text cannot remain visible above the target section
 - about on-the-web bottom-band contamination, so the footer cannot intrude into the comparable section viewport
+
+For `about-fun-facts`, identity-content regions are masked before pixel comparison because the people, titles, labels, and imagery are expected to differ. Their region count and x/y/width/height geometry remain independently measured, and the existing mismatch-ratio budgets are unchanged.
 
 The downstream block detector is scoped to the target heading's containing section/root. That prevents a shorter candidate section from leaking visible blocks from the previous section into the metric comparison.
 
@@ -83,13 +87,13 @@ Future corrective passes should report:
 
 ## Evidence Boundary
 
-This guardrail covers the benchmark topbar plus high-signal blog, about, fun-facts, skills, work-history, and on-the-web structure on desktop and mobile. Pixel parity is enforced through calibrated mismatch-ratio budgets rather than exact equality because Jamie's copy and image assets intentionally differ from Jose's. Motion parity is enforced for the topbar/link/button transition duration and easing class, not every possible Webflow interaction timeline.
+This guardrail covers the benchmark topbar plus high-signal blog, about, fun-facts, skills, work-history, and on-the-web structure on desktop and mobile. Pixel parity is enforced through calibrated mismatch-ratio budgets rather than exact equality because Jamie's copy and image assets intentionally differ from Jose's. The stored bundle under `docs/reference/jose-ocando/` is the canonical structural authority; current-live comparisons are advisory and cannot update that authority without an approved reference refresh. Motion parity is enforced for the topbar/link/button transition duration and easing class, not every possible Webflow interaction timeline.
 
 ## Claim Boundary - Capture Is Not Parity
 
 The Jose capture/reference pipeline is not visual parity proof. Static reference capture, rendered artifact wiring, package-script wiring, syntax checks, and generated reference indexes only prove that evidence collection is available or partially working.
 
-Do not claim the Jamie prototype matches Jose unless the parity guardrail passes against the current candidate build, or the closeout explicitly states that the parity lane is blocked and names the browser/runtime blocker.
+Do not claim the Jamie prototype matches the stored Jose contract unless the canonical artifacts and structural assertions support that claim. A parity run against the current live site proves only an advisory current-live comparison; when it is blocked, name the browser/runtime blocker rather than reducing the claim.
 
 The proof command for a visual-match claim is: REFERENCE_BASE_URL=https://www.joseocando.com CANDIDATE_BASE_URL=<local-url> npm run test:jose-parity.
 

@@ -162,7 +162,7 @@ Do not change these colour values or their roles without a separate system decis
 
 | Role | Token | Value | Intended use |
 | --- | --- | --- | --- |
-| Editorial canvas | `portfolio_bg` | `#E6E6E1` | Personal portfolio and case-study background |
+| Editorial canvas | `portfolio_bg` | `#D5D6D0` | Jose-mapped portfolio and case-study background |
 | Editorial surface | `portfolio_surface` | `#FBFAF5` | Cards, navigation, and inset reading surfaces |
 | Editorial ink | `portfolio_ink` | `#000B00` | Primary text and deep contrast |
 | Editorial text | `portfolio_text` | `#3D403C` | Body copy |
@@ -178,11 +178,11 @@ Do not change these colour values or their roles without a separate system decis
 
 | Meaning | Dark-surface value | Light-surface ink value | Rule |
 | --- | --- | --- | --- |
-| Current or verified technical evidence and navigation | `#2DA8FF` | `#006AA6` | Blue marks current/verified technical evidence and navigation |
-| AI, inspection, attention, stale evidence, and required action | `#FF7A00` | `#A94700` | Orange marks `AI`, inspection, attention, stale evidence, or required action |
-| Passed | `#35D07F` | `#0F6F3E` | Use with a check and a visible label |
-| Review | `#F8C84E` | `#7A5B00` | Use with a review symbol and a visible label |
-| Blocked or failed | `#F25B5B` | `#B02A2A` | Use with a blocked/error symbol and a visible label |
+| Current or verified technical evidence and navigation | `#2DA8FF` | `#005F99` | Blue marks current/verified technical evidence and navigation |
+| AI, inspection, attention, stale evidence, and required action | `#FF7A00` | `#8F3A00` | Orange marks `AI`, inspection, attention, stale evidence, or required action |
+| Passed | `#35D07F` | `#0D6638` | Use with a check and a visible label |
+| Review | `#F8C84E` | `#6F5200` | Use with a review symbol and a visible label |
+| Blocked or failed | `#F25B5B` | `#AA2727` | Use with a blocked/error symbol and a visible label |
 
 The bright blue and orange meet text contrast on the technical canvas. Their darker ink variants meet text contrast on the editorial canvas. Bright accents are not body text on light surfaces. Status colours never become a product's identity colour, and colour never communicates state on its own.
 

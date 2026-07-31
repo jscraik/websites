@@ -30,3 +30,11 @@ the operator workflow architecture. When either changes, refresh the diagram
 context after `npm run test:code-quality-debt`, `npm run quality:debt`, and an
 inspected baseline update. The focused contract test remains the regression
 boundary for the debt validator and its environment projection.
+
+The Jose parity workflow treats `docs/reference/jose-ocando/` as its frozen
+structural authority. `scripts/jose-parity-cdp.mjs` owns browser capture and
+comparison orchestration, while `scripts/jose-parity-measurements.mjs` owns the
+deterministic color-resolution and identity-region masking primitives verified
+by `npm run test:jose-parity-measurements`. Refreshing the stored reference is
+an explicit design-contract change; a comparison with the current live site is
+advisory evidence and does not replace that authority.

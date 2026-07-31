@@ -1,15 +1,15 @@
 {
   "ci": {
     "collect": {
-      "startServerCommand": "npm run build && npm run preview -- --host 127.0.0.1 --port 4321",
+      "startServerCommand": "npm run build && npm run preview -- --host 127.0.0.1 --port 4322 --strictPort",
       "startServerReadyPattern": "Local",
       "url": [
-        "http://127.0.0.1:4321/",
-        "http://127.0.0.1:4321/now/",
-        "http://127.0.0.1:4321/blog/",
-        "http://127.0.0.1:4321/proof/",
-        "http://127.0.0.1:4321/articles/why-ai-native-devrel/",
-        "http://127.0.0.1:4321/work/ai-native-devrel/"
+        "http://127.0.0.1:4322/",
+        "http://127.0.0.1:4322/now/",
+        "http://127.0.0.1:4322/blog/",
+        "http://127.0.0.1:4322/proof/",
+        "http://127.0.0.1:4322/articles/why-ai-native-devrel/",
+        "http://127.0.0.1:4322/work/ai-native-devrel/"
       ],
       "numberOfRuns": 1,
       "settings": {

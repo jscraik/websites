@@ -2,6 +2,12 @@
 
 This reference was generated from https://www.joseocando.com/ on 2026-07-02T12:45:11.620Z. It is a local design-analysis artifact for mapping Jamie's prototype against Jose Ocando's live portfolio without repeating the discovery step.
 
+## Authority
+
+The stored bundle is the canonical structural reference for Jamie's portfolio. It fixes the approved composition, rhythm, hierarchy, density, and responsive-behavior evidence at a reviewable point in time. Refreshing this bundle is a deliberate design-contract change and requires explicit approval.
+
+The current live site is advisory evidence. It may reveal useful refinements or drift, but a change on joseocando.com does not automatically redefine Jamie's regression contract. Jamie's copy and imagery remain identity inputs. The editorial neutral palette intentionally maps to the stored Jose palette, including the `#D5D6D0` page canvas.
+
 ## Capture Scope
 
 - Rendered artifacts indexed: 90
@@ -132,6 +138,7 @@ This reference was generated from https://www.joseocando.com/ on 2026-07-02T12:4
 ### Typography
 
 Font families:
+
 - `sans-serif`
 - `monospace`
 - `webflow-icons`
@@ -161,6 +168,7 @@ Font families:
 - `var(--text-family--body)`
 
 Font sizes:
+
 - `calc(0.625rem + 0.41666666666666663vw)`
 - `calc(0.625rem + 0.41666666666666674vw)`
 - `calc(0.8126951092611863rem + 0.20811654526534862vw)`
@@ -235,6 +243,7 @@ Font sizes:
 ### Spacing And Layout
 
 Spacing, sizing, and line-height values:
+
 - `992px)`
 - `1920px)`
 - `1440px)`
@@ -397,6 +406,7 @@ Spacing, sizing, and line-height values:
 - `var(--spacing-gap--2xs)`
 
 Layout declarations:
+
 - `flex-direction: row-reverse`
 - `flex-wrap: nowrap`
 - `display:flex`
@@ -439,6 +449,7 @@ Layout declarations:
 - `grid-template-columns:minmax(0,1fr) minmax(0,2fr) minmax(0,3fr) minmax(0,2fr)`
 
 Breakpoints:
+
 - `@media (min-width:992px)`
 - `@media screen and (max-width:1920px)`
 - `@media screen and (max-width:1440px)`
@@ -453,6 +464,7 @@ Breakpoints:
 ### Effects
 
 Radii:
+
 - `0`
 - `unset`
 - `3px!important`
@@ -473,6 +485,7 @@ Radii:
 - `var(--swiper-scrollbar-border-radius,10px)`
 
 Shadows:
+
 - `-5px 5px 3px rgba(0, 0, 0, 0.03), -3px 3px 3px rgba(0, 0, 0, 0.1), -1px 1px 2px rgba(0, 0, 0, 0.17), 0px 0px 1px rgba(0, 0, 0, 0.19)`
 - `-31px 46px 22px rgba(0, 0, 0, 0.01), -17px 26px 19px rgba(0, 0, 0, 0.03), -8px 11px 14px rgba(0, 0, 0, 0.05), -2px 3px 8px rgba(0, 0, 0, 0.06)`
 - `-96px 127px 64px rgba(0, 0, 0, 0.01), -54px 71px 54px rgba(0, 0, 0, 0.05), -24px 32px 40px rgba(0, 0, 0, 0.08), -6px 8px 22px rgba(0, 0, 0, 0.1)`
@@ -484,6 +497,7 @@ Shadows:
 - `inset 0 0 0 100px #ffffff26`
 
 Transitions:
+
 - `width .6s cubic-bezier(0.22, 1, 0.36, 1)`
 - `unset`
 - `background-color .1s,color .1s`
@@ -513,10 +527,12 @@ Transitions:
 - `transform,opacity,height`
 
 Animations:
+
 - `.8s linear infinite spin`
 - `swiper-preloader-spin 1s infinite linear`
 
 Easing:
+
 - `cubic-bezier(0.22, 1, 0.36, 1)`
 - `linear`
 - `ease`
@@ -526,6 +542,7 @@ Easing:
 ### Iconography And Assets
 
 Inline SVG summary:
+
 - SVG instances: `325`
 - View boxes: `0 0 16 16`, `0 0 17 16`, `0 0 12 17`, `0 0 16 15`, `0 0 16 17`
 - Stroke widths: `1.5`, `1.12019`
