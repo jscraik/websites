@@ -7,11 +7,14 @@ import type { CollectionEntry } from "astro:content";
 
 type BlogEntry = CollectionEntry<"blog">;
 
-const articles: BlogEntry[] = (await getCollection("blog")).sort(byOrder);
+const articles: BlogEntry[] = (await getCollection("blog"))
+  .filter((article: BlogEntry) => article.data.publicationState === "published")
+  .sort(byOrder);
 const latestArticle = articles.find((article) => article.data.featured) ?? articles[0];
 if (!latestArticle) {
   throw new Error("No blog entries found in the 'blog' content collection");
 }
+const showArticleIndex = articles.length > 1;
 ---
 
 <BaseLayout title="Blog | brAInwav">
@@ -25,9 +28,9 @@ if (!latestArticle) {
       </div>
       <div class="draft-links">
         <p class="eyebrow">In my drafts</p>
-        <span><i aria-hidden="true"></i>How I review agent output</span>
-        <span><i aria-hidden="true"></i>How to present proof surfaces</span>
-        <span><i aria-hidden="true"></i>The Army-to-AI DevRel bridge</span>
+        <span><Icon name="document" />How I review agent output</span>
+        <span><Icon name="document" />How to present proof surfaces</span>
+        <span><Icon name="document" />The Army-to-AI DevRel bridge</span>
       </div>
     </div>
 
@@ -52,19 +55,21 @@ if (!latestArticle) {
   </header>
 
   <div class="blog-page-main">
-    <section class="article-list" aria-labelledby="article-list-title">
-      <h2 id="article-list-title">Browse all articles</h2>
-      {articles.map((article: BlogEntry) => (
-        <article class="blog-list-item">
-          <div>
-            <p>{article.data.date}</p>
-            <h3>{article.data.title}</h3>
-          </div>
-          <span>{article.data.summary}</span>
-          <a href={article.data.href} aria-label={`Read article: ${article.data.title}`}>Read</a>
-        </article>
-      ))}
-    </section>
+    {showArticleIndex && (
+      <section class="article-list" aria-labelledby="article-list-title">
+        <h2 id="article-list-title">Browse all articles</h2>
+        {articles.map((article: BlogEntry) => (
+          <article class="blog-list-item">
+            <div>
+              <p>{article.data.date}</p>
+              <h3>{article.data.title}</h3>
+            </div>
+            <span>{article.data.summary}</span>
+            <a href={article.data.href} aria-label={`Read article: ${article.data.title}`}>Read</a>
+          </article>
+        ))}
+      </section>
+    )}
 
     <section class="blog-about-card" aria-labelledby="blog-about-title">
       <img src="/jamie-profile.png" alt="Jamie Scott Craik" width="1254" height="1254" />
@@ -141,17 +146,12 @@ if (!latestArticle) {
     line-height: 1.25;
   }
 
-  .draft-links span i {
+  .draft-links span :global(.sm-icon) {
     align-self: start;
-    width: calc(var(--space-2) - 5px);
-    height: calc(var(--space-2) - 5px);
-    margin-top: 0.36em;
-    border: 1px solid rgba(0, 11, 0, 0.32);
-    border-radius: 2px;
-  }
-
-  .draft-links span i::before {
-    content: none;
+    width: var(--space-3);
+    height: var(--space-3);
+    margin-top: 0.18em;
+    color: var(--bds-color-portfolio-muted);
   }
 
   .latest-article {

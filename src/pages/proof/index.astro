@@ -8,6 +8,7 @@ type ProofEntry = CollectionEntry<"proof">;
 type ProofItem = ProofEntry["data"];
 
 const proofItems: ProofItem[] = (await getCollection("proof"))
+  .filter((entry: ProofEntry) => entry.data.publicationState === "published")
   .sort(byOrder)
   .map((entry: ProofEntry) => entry.data);
 
@@ -55,33 +56,28 @@ const plannedProofItems = proofItems.filter((item: ProofItem) => item.status ===
       ))}
     </div>
 
-    <div class="section-label proof-label">
-      <span>Planned lanes</span>
-      <span>Not proof yet</span>
-    </div>
-
-    <div class="proof-row" role="region" aria-label="Planned proof lanes" tabindex="0">
-      {plannedProofItems.map((item: ProofItem) => (
-        <div class="proof-card proof-card--planned">
-          <span>{item.status}</span>
-          <h2>{item.title}</h2>
-          <p>{item.claim}</p>
-          <dl>
-            <div>
-              <dt>Evidence</dt>
-              <dd>{item.evidence}</dd>
-            </div>
-            <div>
-              <dt>Caveat</dt>
-              <dd>{item.caveat}</dd>
-            </div>
-            <div>
-              <dt>Next state</dt>
-              <dd>{item.nextState}</dd>
-            </div>
-          </dl>
+    {plannedProofItems.length > 0 && (
+      <>
+        <div class="section-label proof-label">
+          <span>Planned lanes</span>
+          <span>Not proof yet</span>
         </div>
-      ))}
-    </div>
+
+        <div class="proof-row" role="region" aria-label="Planned proof lanes" tabindex="0">
+          {plannedProofItems.map((item: ProofItem) => (
+            <div class="proof-card proof-card--planned">
+              <span>{item.status}</span>
+              <h2>{item.title}</h2>
+              <p>{item.claim}</p>
+              <dl>
+                <div><dt>Evidence</dt><dd>{item.evidence}</dd></div>
+                <div><dt>Caveat</dt><dd>{item.caveat}</dd></div>
+                <div><dt>Next state</dt><dd>{item.nextState}</dd></div>
+              </dl>
+            </div>
+          ))}
+        </div>
+      </>
+    )}
   </section>
 </BaseLayout>

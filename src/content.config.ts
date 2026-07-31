@@ -2,6 +2,8 @@ import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 
+import { PUBLICATION_STATES } from "./lib/publication-state";
+
 const featuredSchema = z.object({
   eyebrow: z.string(),
   quote: z.string(),
@@ -11,6 +13,8 @@ const featuredSchema = z.object({
   visual: z.enum(["article", "site", "terminal", "skills"])
 }).strict();
 
+const publicationStateSchema = z.enum(PUBLICATION_STATES);
+
 const work = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/work" }),
   schema: z.object({
@@ -19,7 +23,9 @@ const work = defineCollection({
     subtitle: z.string(),
     date: z.string(),
     order: z.number().int().positive(),
+    publicationState: publicationStateSchema,
     isFeatured: z.boolean(),
+    href: z.string().startsWith("/").optional(),
     overview: z.string(),
     organization: z.string(),
     work: z.string(),
@@ -42,6 +48,7 @@ const blog = defineCollection({
     title: z.string(),
     date: z.string(),
     order: z.number().int().positive(),
+    publicationState: publicationStateSchema,
     summary: z.string(),
     href: z.string(),
     featured: z.boolean(),
@@ -59,6 +66,7 @@ const proof = defineCollection({
     title: z.string(),
     status: z.enum(["Article", "Build", "Planned"]),
     order: z.number().int().positive(),
+    publicationState: publicationStateSchema,
     href: z.string(),
     claim: z.string(),
     evidence: z.string(),

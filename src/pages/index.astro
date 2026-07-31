@@ -13,7 +13,9 @@ type BlogEntry = CollectionEntry<"blog">;
 
 const workEntries: WorkEntry[] = (await getCollection("work")).sort(byOrder);
 const proofEntries: ProofEntry[] = (await getCollection("proof")).sort(byOrder);
-const blogEntries: BlogEntry[] = (await getCollection("blog")).sort(byOrder);
+const blogEntries: BlogEntry[] = (await getCollection("blog"))
+  .filter((entry: BlogEntry) => entry.data.publicationState === "published")
+  .sort(byOrder);
 const featuredBlog = blogEntries.find((entry) => entry.data.featured) ?? blogEntries[0];
 if (!featuredBlog) {
   throw new Error("No blog entries found in the 'blog' content collection");
@@ -83,10 +85,34 @@ const workCount = String(workCards.length).padStart(2, "0");
             <div class={"feature-block-img feature-block-img--" + card.visual}>
               <div class="work-preview">
                 <div class={"work-preview__image work-preview__image--" + card.visual} aria-hidden="true">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
+                  {card.visual === "skills" ? (
+                    <div class="skillsbar-preview">
+                      <div class="skillsbar-preview__header">
+                        <img src="/products/skillsbar/icon.png" alt="" width="56" height="56" />
+                        <div>
+                          <span>SkillsBar</span>
+                          <small>Interactive evidence demo</small>
+                        </div>
+                      </div>
+                      <div class="skillsbar-preview__status">
+                        <p>Current local candidate</p>
+                        <strong>Needs candidate identity</strong>
+                        <span>1 receipt current · downstream proof held</span>
+                      </div>
+                      <div class="skillsbar-preview__track"><span></span></div>
+                      <div class="skillsbar-preview__next">
+                        <span>01</span>
+                        <div><small>Next required</small><strong>Candidate identity</strong></div>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </>
+                  )}
                 </div>
                 <div class="feature-proof-panel" aria-label={card.previewTitle}>
                   <p class="eyebrow">From the work</p>
@@ -124,28 +150,16 @@ const workCount = String(workCards.length).padStart(2, "0");
           <span aria-hidden="true">-&gt;</span>
         </a>
       </div>
-      <div class="brainwav-resource-grid" aria-label="brAInwav technical resources">
-        <a class="brainwav-resource-card" href="/proof/">
+      <nav class="brainwav-resource-links" aria-label="Explore brAInwav">
+        <a href="/proof/">
           <span>01</span>
-          <h3>Proof Logs</h3>
-          <p>Claim, command, receipt, and caveat in one inspectable path.</p>
+          <span><strong>Browse the proof index</strong><small>Claims, evidence, caveats, and next states.</small></span>
         </a>
-        <a class="brainwav-resource-card" href="/work/brainwav-io/">
+        <a href="/work/brainwav-io/">
           <span>02</span>
-          <h3>Architecture</h3>
-          <p>How public surfaces, local validation, and evidence ledgers fit together.</p>
+          <span><strong>Read how the portfolio works</strong><small>The public front door and its evidence boundaries.</small></span>
         </a>
-        <a class="brainwav-resource-card" href="/articles/why-ai-native-devrel/">
-          <span>03</span>
-          <h3>Articles</h3>
-          <p>Position pieces and tutorials for trustworthy AI-assisted engineering.</p>
-        </a>
-        <a class="brainwav-resource-card" href="https://github.com/jscraik">
-          <span>04</span>
-          <h3>GitHub</h3>
-          <p>Source work, experiments, and project activity as the ecosystem matures.</p>
-        </a>
-      </div>
+      </nav>
     </section>
   </section>
 

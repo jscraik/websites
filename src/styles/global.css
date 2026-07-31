@@ -8795,6 +8795,285 @@ body:not(.skillsbar-demo) :is(h3, h4, .latest-article h2, .work-mini-card h3, .f
   }
 }
 
+/* SkillsBar-first portfolio refinement: preserve the measured Jose layout while
+   making Jamie's strongest evidence specific, legible, and keyboard reachable. */
+.skip-link {
+  position: fixed;
+  z-index: 1000;
+  top: var(--space-2);
+  left: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--bds-color-portfolio-surface);
+  color: var(--bds-color-portfolio-ink);
+  font-family: var(--body-sans);
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(calc(-100% - var(--space-4)));
+  transition: transform var(--bds-motion-fast) var(--bds-ease-out);
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+.work-preview__image--skills {
+  display: grid;
+  place-items: center;
+  padding: clamp(24px, 5vw, 72px);
+  background:
+    radial-gradient(circle at 78% 18%, var(--bds-color-blue-glow), transparent 34%),
+    var(--bds-color-brainwav-bg);
+}
+
+.skillsbar-preview {
+  display: grid;
+  width: min(100%, 720px);
+  gap: clamp(18px, 2.4vw, 30px);
+  padding: clamp(24px, 3.5vw, 48px);
+  border: 1px solid var(--bds-color-brainwav-border);
+  border-radius: var(--bds-radius-card);
+  background: var(--bds-color-brainwav-surface);
+  box-shadow: var(--bds-shadow-soft);
+  color: var(--bds-color-brainwav-text);
+  text-align: left;
+}
+
+.skillsbar-preview__header,
+.skillsbar-preview__next {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.skillsbar-preview__header img {
+  border-radius: var(--bds-radius-button);
+}
+
+.skillsbar-preview__header div,
+.skillsbar-preview__status,
+.skillsbar-preview__next div {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.skillsbar-preview__header span,
+.skillsbar-preview__status strong,
+.skillsbar-preview__next strong {
+  font-family: var(--body-sans);
+  font-size: clamp(16px, 1.5vw, 22px);
+  line-height: 1.2;
+}
+
+.skillsbar-preview :is(small, p, .skillsbar-preview__status > span) {
+  margin: 0;
+  color: var(--bds-color-brainwav-text-secondary);
+  font-family: var(--body-mono);
+  font-size: clamp(10px, 0.9vw, 13px);
+  line-height: 1.4;
+}
+
+.skillsbar-preview__status p,
+.skillsbar-preview__next small {
+  color: var(--bds-color-blue);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.skillsbar-preview__track {
+  height: 5px;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: var(--bds-color-brainwav-surface-elevated);
+}
+
+.skillsbar-preview__track span {
+  display: block;
+  width: 11%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--bds-color-blue);
+}
+
+.skillsbar-preview__next {
+  padding: var(--space-3);
+  border: 1px solid var(--bds-color-brainwav-border);
+  border-radius: var(--bds-radius-button);
+  background: var(--bds-color-brainwav-surface-elevated);
+}
+
+.skillsbar-preview__next > span {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--bds-color-blue-glow);
+  color: var(--bds-color-blue);
+  font-family: var(--body-mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.brainwav-resource-links {
+  display: grid;
+  align-content: center;
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--bds-color-brainwav-border);
+  border-radius: var(--bds-radius-card);
+  background: var(--bds-color-brainwav-border);
+}
+
+.brainwav-resource-links a {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-3);
+  align-items: start;
+  padding: clamp(22px, 3vw, 34px);
+  background: var(--bds-color-brainwav-surface);
+  color: var(--bds-color-brainwav-text);
+  text-decoration: none;
+  transition: background-color var(--bds-motion-fast) var(--bds-ease-out);
+}
+
+.brainwav-resource-links a:hover {
+  background: var(--bds-color-brainwav-surface-elevated);
+}
+
+.brainwav-resource-links a > span:first-child {
+  color: var(--bds-color-orange);
+  font-family: var(--body-mono);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.brainwav-resource-links a > span:last-child {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.brainwav-resource-links strong {
+  font-family: var(--body-sans);
+  font-size: clamp(18px, 1.6vw, 24px);
+  line-height: 1.2;
+}
+
+.brainwav-resource-links small {
+  color: var(--bds-color-brainwav-text-secondary);
+  font-family: var(--body-serif);
+  font-size: clamp(15px, 1.2vw, 18px);
+  line-height: 1.45;
+}
+
+.case-proof-summary {
+  display: grid;
+  width: min(100% - var(--space-6), 1100px);
+  gap: var(--space-4);
+  margin-inline: auto;
+  padding-block: clamp(72px, 9vw, 132px);
+}
+
+.case-proof-summary > :is(p, h2),
+.case-proof-summary dl {
+  margin: 0;
+}
+
+.case-proof-summary h2 {
+  max-width: 12ch;
+  color: var(--bds-color-portfolio-ink);
+  font-family: var(--body-serif);
+  font-size: clamp(48px, 6vw, 78px);
+  font-weight: var(--bds-type-display-lg-weight);
+  line-height: 1;
+}
+
+.case-proof-summary dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--bds-color-portfolio-border);
+  border-radius: var(--bds-radius-card);
+  background: var(--bds-color-portfolio-border);
+}
+
+.case-proof-summary dl div {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+  min-height: 180px;
+  padding: clamp(24px, 3vw, 36px);
+  background: var(--bds-color-portfolio-surface);
+}
+
+.case-proof-summary dt {
+  color: var(--bds-color-portfolio-muted);
+  font-family: var(--body-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.case-proof-summary dd {
+  margin: 0;
+  color: var(--bds-color-portfolio-text);
+  font-family: var(--body-serif);
+  font-size: clamp(18px, 1.6vw, 24px);
+  line-height: 1.45;
+}
+
+body:not(.skillsbar-demo) :is(
+  .home-hero__position,
+  .home-hero__body,
+  .work-card-body > span,
+  .blog-list-item > span,
+  .blog-about-card .text-lg p,
+  .case-copy p,
+  .proof-card > p,
+  .proof-card dd
+) {
+  color: var(--bds-color-portfolio-text);
+}
+
+@media (max-width: 57.5625rem) {
+  .feature-proof-panel dl {
+    display: none;
+  }
+
+  .work-preview__image--skills {
+    padding: var(--space-3);
+  }
+
+  .skillsbar-preview {
+    gap: var(--space-3);
+    padding: var(--space-3);
+  }
+
+  .skillsbar-preview__header img {
+    width: 44px;
+    height: 44px;
+  }
+
+  .brainwav-resource-links {
+    margin-top: var(--space-4);
+  }
+
+  .case-proof-summary {
+    width: min(100% - var(--space-5), 640px);
+  }
+
+  .case-proof-summary dl {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .case-proof-summary dl div {
+    min-height: 0;
+  }
+}
+
 /* Jose parity loop phase 7: two-line hero name lockup. */
 .h1-name,
 .home-hero h1 {
@@ -11279,6 +11558,15 @@ body:not(.skillsbar-demo) :is(h3, h4, .latest-article h2, .work-mini-card h3, .f
   :is(.nav-link, .icon-link, .small-button, .proof-card, .work-mini-card, .large-link, .icon-box):focus-visible {
     outline-color: var(--text-primary);
   }
+}
+
+/* The Jose motion reference uses the CSS ease curve for navigation and primary
+   calls to action. Keep these measured controls aligned without flattening the
+   more expressive easing used by cards and decorative surfaces. */
+.site-header .nav-inner a,
+.small-button,
+.start-links a {
+  transition-timing-function: ease;
 }
 
 /* These controls keep a light pill surface across their hover and press states.

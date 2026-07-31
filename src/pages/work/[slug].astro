@@ -7,7 +7,9 @@ import type { ProofEntry, WorkCard, WorkEntry } from "../../lib/portfolio";
 type Study = WorkEntry["data"] & { slug: string; route: string };
 
 export async function getStaticPaths() {
-  const caseStudies: WorkEntry[] = (await getCollection("work")).sort(byOrder);
+  const caseStudies: WorkEntry[] = (await getCollection("work"))
+    .filter((entry: WorkEntry) => entry.data.publicationState !== "draft" && !entry.data.href)
+    .sort(byOrder);
   return caseStudies.map((entry) => ({
     params: { slug: entry.id },
     props: { study: { slug: entry.id, route: workRoute(entry), ...entry.data } }
@@ -82,15 +84,23 @@ const workCount = String(workCards.length).padStart(2, "0");
       </div>
     </section>
 
-    <section class="case-gallery section-shell" aria-label="Case study proof frames">
-      {study.frames.map((frame: [string, string, string]) => (
-        <div class="case-gallery-frame">
-          <p>{frame[0]}</p>
-          <h3>{frame[1]}</h3>
-          <span>{frame[2]}</span>
-          <i aria-hidden="true"></i>
+    <section class="case-proof-summary section-shell" aria-labelledby="case-proof-title">
+      <p class="eyebrow">Inspectable boundary</p>
+      <h2 id="case-proof-title">What this work proves</h2>
+      <dl>
+        <div>
+          <dt>Claim</dt>
+          <dd>{study.proof.claim}</dd>
         </div>
-      ))}
+        <div>
+          <dt>Evidence</dt>
+          <dd>{study.proof.evidence}</dd>
+        </div>
+        <div>
+          <dt>Caveat</dt>
+          <dd>{study.proof.caveat}</dd>
+        </div>
+      </dl>
     </section>
 
     <section class="work-carousel case-all-work" aria-labelledby="case-all-work-title">

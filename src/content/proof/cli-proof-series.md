@@ -2,6 +2,7 @@
 title: "CLI proof series"
 status: "Planned"
 order: 3
+publicationState: "draft"
 href: "/now/"
 claim: "Small CLIs can become developer-facing proof units."
 evidence: "Candidate rsearch and wsearch lanes."

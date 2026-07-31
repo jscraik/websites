@@ -30,8 +30,9 @@ const {
     <title>{title}</title>
   </head>
   <body class={bodyClass}>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <SiteNav />
-    <main>
+    <main id="main-content" tabindex="-1">
       <slot />
     </main>
     <SiteFooter />

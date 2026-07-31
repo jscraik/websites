@@ -2,6 +2,7 @@
 title: "Why AI-native DevRel?"
 date: "June 2026"
 order: 1
+publicationState: "published"
 summary: "Capability is not the same as trust. Developer education has to carry the proof."
 href: "/articles/why-ai-native-devrel/"
 featured: true

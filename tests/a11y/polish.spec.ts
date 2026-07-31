@@ -5,6 +5,17 @@ const interactiveSelector =
   "a[href], button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)";
 
 test.describe("UI polish contracts", () => {
+  test("skip link moves focus to the shared main landmark", async ({ page }) => {
+    await preparePage(page, "/");
+
+    const skipLink = page.getByRole("link", { name: "Skip to main content" });
+    await skipLink.focus();
+    await expect(skipLink).toBeFocused();
+    await skipLink.press("Enter");
+
+    await expect(page.locator("#main-content")).toBeFocused();
+  });
+
   test("dark surfaces retain their own heading color", async ({ page }) => {
     await preparePage(page, "/demos/skillsbar/");
 

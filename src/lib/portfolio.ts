@@ -15,14 +15,15 @@ export type WorkCard = {
 
 export const byOrder = <T extends { data: { order: number } }>(a: T, b: T) => a.data.order - b.data.order;
 
-export function workRoute(entry: Pick<WorkEntry, "id">) {
-  return "/work/" + entry.id + "/";
+export function workRoute(entry: Pick<WorkEntry, "id" | "data">) {
+  return entry.data.href ?? "/work/" + entry.id + "/";
 }
 
 export function featuredWorkCards(workEntries: WorkEntry[]) {
   return workEntries
     .slice()
     .sort(byOrder)
+    .filter((entry) => entry.data.publicationState === "published")
     .filter((entry) => entry.data.isFeatured)
     .map((entry) => ({
       title: entry.data.title,
@@ -33,7 +34,10 @@ export function featuredWorkCards(workEntries: WorkEntry[]) {
 }
 
 export function proofWorkCards(workEntries: WorkEntry[], proofEntries: ProofEntry[]): WorkCard[] {
-  const sortedWorkEntries = workEntries.slice().sort(byOrder);
+  const sortedWorkEntries = workEntries
+    .slice()
+    .sort(byOrder)
+    .filter((entry) => entry.data.publicationState === "published");
 
   return [
     ...sortedWorkEntries.map((entry, index) => ({
@@ -48,6 +52,7 @@ export function proofWorkCards(workEntries: WorkEntry[], proofEntries: ProofEntr
     ...proofEntries
       .slice()
       .sort(byOrder)
+      .filter((entry) => entry.data.publicationState === "published")
       .filter((entry) => entry.id === "agent-skills-notes")
       .map((entry) => ({
         title: entry.data.title,
