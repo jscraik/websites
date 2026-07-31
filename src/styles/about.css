@@ -2,8 +2,90 @@ html body:not(.skillsbar-demo) .about-page.about-hero-shell {
   background: linear-gradient(180deg, var(--surface-card), var(--paper));
 }
 
+/* Intermediate About contract: retain Jose's centered two-column rhythm for
+   tablet widths while the stored mobile layout remains below 48rem. */
+@media (min-width: 48rem) and (max-width: 57.5625rem) {
+  html body:not(.skillsbar-demo) .about-page.about-hero-shell {
+    box-sizing: border-box;
+    width: min(78%, 668px);
+    max-width: none;
+    margin-inline: auto;
+    padding: 96px 0;
+  }
+
+  .about-page.about-hero-shell .about-intro {
+    grid-template-columns: minmax(0, 1fr) minmax(180px, 240px);
+    column-gap: clamp(36px, 7vw, 72px);
+    row-gap: 0;
+    width: 100%;
+    max-width: none;
+    margin-inline: auto;
+    align-items: start;
+  }
+
+  .about-page.about-hero-shell .about-hero-spacer {
+    display: none;
+  }
+
+  .about-page.about-hero-shell .about-copy-block {
+    display: flex;
+    flex-direction: column;
+    grid-column: 1;
+    gap: clamp(24px, 3vw, 34px);
+  }
+
+  .about-page.about-hero-shell .about-copy-block > h1#about-title {
+    margin: 0;
+    color: var(--neutral-07);
+    font-family: var(--body-sans);
+    font-size: var(--bds-type-body-lg-size);
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0;
+  }
+
+  .about-page.about-hero-shell .about-copy {
+    gap: 0;
+    max-width: none;
+  }
+
+  .about-page.about-hero-shell .about-copy p {
+    margin: 0 0 clamp(16px, 2vw, 24px);
+    color: var(--neutral-07);
+    font-family: var(--body-serif);
+    font-size: clamp(24px, 3vw, 30px);
+    font-weight: 300;
+    line-height: 1.5;
+    letter-spacing: 0;
+  }
+
+  .about-page.about-hero-shell .about-copy p:last-child {
+    margin-bottom: 0;
+  }
+
+  .about-page.about-hero-shell .about-sidebar {
+    grid-column: 2;
+    width: 100%;
+    padding-top: clamp(20px, 4vw, 42px);
+    justify-self: stretch;
+  }
+
+  .about-page.about-hero-shell .about-jump {
+    margin: 0 0 clamp(48px, 7vw, 76px);
+  }
+
+  .about-page.about-hero-shell .about-portrait {
+    width: 100%;
+    max-width: none;
+    height: auto;
+    margin: 0;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+  }
+}
+
 /* Stored Jose mobile About contract: full-bleed surface and editorial intro rhythm. */
-@media (max-width: 40rem) {
+@media (max-width: 47.9999rem) {
   html body:not(.skillsbar-demo) .about-page.about-hero-shell {
     box-sizing: border-box;
     width: 100%;

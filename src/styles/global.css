@@ -6704,10 +6704,15 @@ body:has(.about-page) .site-footer {
 }
 
 body:has(.about-page) .site-header {
-  background: linear-gradient(180deg, var(--surface-card), transparent);
+  background: linear-gradient(180deg, var(--surface-card), var(--paper));
 }
 
 .about-page.about-hero-shell {
+  background: linear-gradient(180deg, var(--surface-card), var(--paper));
+}
+
+/* Extend the stored Jose gradient through the full About main canvas. */
+body:has(.about-page) main {
   background: linear-gradient(180deg, var(--surface-card), var(--paper));
 }
 
@@ -11874,4 +11879,36 @@ html body:not(.skillsbar-demo) .blog-index .latest-article .eyebrow {
   .contact-links a {
     min-inline-size: 44px;
   }
+}
+
+/* Shared shell parity: route state stays quiet while technical surfaces own their theme. */
+html body:not(.skillsbar-demo) .site-header .nav-link[aria-current="page"] {
+  color: var(--bds-color-portfolio-muted);
+}
+
+body:not(.skillsbar-demo) .site-header .icon-box[aria-current="page"] {
+  color: var(--bds-color-portfolio-muted);
+}
+
+.footer-profile-card.profile-row {
+  width: fit-content;
+  min-width: 0;
+}
+
+.footer-profile-card .profile-row-meta {
+  min-width: 0;
+}
+
+@media (max-width: 57.5625rem) {
+  .footer-profile-card.profile-row {
+    width: fit-content;
+    max-width: 100%;
+  }
+}
+
+/* Preserve the square source ratio at every responsive contact width. */
+.contact-photo {
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
 }

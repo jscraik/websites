@@ -34,6 +34,72 @@ test.describe("UI polish contracts", () => {
     expect(colors.actual).toBe(colors.expected);
   });
 
+  test("shared shell keeps portfolio and technical surface themes", async ({ page }) => {
+    await preparePage(page, "/now/");
+
+    const portfolioShell = await page.evaluate(() => ({
+      activeNav: getComputedStyle(document.querySelector('.site-header .nav-link[aria-current="page"]')!).color,
+      activeHomeIcon: getComputedStyle(document.querySelector('.site-header .icon-box[aria-current="page"]')!).color,
+      footerBackground: getComputedStyle(document.querySelector(".site-footer")!).backgroundColor,
+      profileBackground: getComputedStyle(document.querySelector(".site-footer .footer-profile-card")!).backgroundColor,
+      socialBackground: getComputedStyle(document.querySelector(".site-footer .footer-social-links a")!).backgroundColor
+    }));
+
+    expect(portfolioShell.activeNav).toBe("rgb(79, 86, 77)");
+    expect(portfolioShell.activeHomeIcon).toBe("rgb(79, 86, 77)");
+    expect(portfolioShell.footerBackground).toBe("rgb(213, 214, 208)");
+    expect(portfolioShell.profileBackground).toBe("rgba(251, 250, 245, 0.88)");
+    expect(portfolioShell.socialBackground).toBe("rgba(251, 250, 245, 0.42)");
+
+    await preparePage(page, "/demos/skillsbar/");
+
+    const technicalShell = await page.evaluate(() => ({
+      footerBackground: getComputedStyle(document.querySelector(".site-footer")!).backgroundColor,
+      profileBackground: getComputedStyle(document.querySelector(".site-footer .footer-profile-card")!).backgroundColor,
+      socialBackground: getComputedStyle(document.querySelector(".site-footer .footer-social-links a")!).backgroundColor
+    }));
+
+    expect(technicalShell.footerBackground).toBe("rgb(11, 15, 23)");
+    expect(technicalShell.profileBackground).toBe("rgb(20, 26, 35)");
+    expect(technicalShell.socialBackground).toBe("rgb(27, 34, 48)");
+  });
+
+  test("About keeps the stored full-bleed neutral gradient", async ({ page }) => {
+    await page.setViewportSize({ width: 645, height: 964 });
+    await preparePage(page, "/now/");
+
+    const shell = await page.evaluate(() => ({
+      viewportWidth: window.innerWidth,
+      mainWidth: document.querySelector("main")!.getBoundingClientRect().width,
+      headerBackground: getComputedStyle(document.querySelector(".site-header")!).backgroundImage,
+      mainBackground: getComputedStyle(document.querySelector("main")!).backgroundImage
+    }));
+
+    expect(shell.mainWidth).toBe(shell.viewportWidth);
+    expect(shell.headerBackground).toBe("linear-gradient(rgb(251, 250, 245), rgb(213, 214, 208))");
+    expect(shell.mainBackground).toBe("linear-gradient(rgb(251, 250, 245), rgb(213, 214, 208))");
+  });
+
+  test("contact portrait preserves its square source ratio", async ({ page }) => {
+    await page.setViewportSize({ width: 1151, height: 964 });
+    await preparePage(page, "/contact/");
+
+    const image = await page.locator(".contact-photo").evaluate((element) => {
+      const style = getComputedStyle(element);
+      const rect = element.getBoundingClientRect();
+      return {
+        width: rect.width,
+        height: rect.height,
+        objectFit: style.objectFit,
+        aspectRatio: style.aspectRatio
+      };
+    });
+
+    expect(Math.abs(image.width - image.height)).toBeLessThanOrEqual(1);
+    expect(image.objectFit).toBe("cover");
+    expect(image.aspectRatio).toBe("1 / 1");
+  });
+
   test("portfolio images carry the surface outline treatment", async ({ page }) => {
     const imageRoutes = [
       ...coreRoutes,
@@ -114,7 +180,7 @@ test.describe("UI polish contracts", () => {
           return { height, width };
         };
 
-        const smallTargets = [...document.querySelectorAll(selector)]
+        const smallTargets = Array.from(document.querySelectorAll(selector))
           .filter(isVisible)
           .map((element) => {
             const rect = element.getBoundingClientRect();
@@ -129,7 +195,7 @@ test.describe("UI polish contracts", () => {
           })
           .filter(({ width, height }) => width < minimum || height < minimum);
 
-        const unbalancedHeadings = [...document.querySelectorAll("h1, h2, h3")]
+        const unbalancedHeadings = Array.from(document.querySelectorAll("h1, h2, h3"))
           .filter(isVisible)
           .filter((heading) => getComputedStyle(heading).textWrap !== "balance")
           .map(labelFor);
@@ -213,5 +279,81 @@ test.describe("UI polish contracts", () => {
     expect(body!.y + body!.height, "article body must end before proof cards begin").toBeLessThanOrEqual(
       sidebar!.y
     );
+  });
+
+  test("About keeps the reference composition across responsive boundaries", async ({ page }) => {
+    const measureAbout = async (width: number, height: number) => {
+      await page.setViewportSize({ width, height });
+      await preparePage(page, "/now/");
+      return page.locator(".about-intro").evaluate((intro) => {
+        const copy = intro.querySelector<HTMLElement>(".about-copy-block");
+        const sidebar = intro.querySelector<HTMLElement>(".about-sidebar");
+        const title = intro.querySelector<HTMLElement>("#about-title");
+        if (!copy || !sidebar || !title) throw new Error("About intro structure is incomplete");
+
+        const copyRect = copy.getBoundingClientRect();
+        const sidebarRect = sidebar.getBoundingClientRect();
+        const style = getComputedStyle(intro);
+        const titleStyle = getComputedStyle(title);
+
+        return {
+          columns: style.gridTemplateColumns.split(" ").filter(Boolean).length,
+          copyX: copyRect.x,
+          copyWidth: copyRect.width,
+          sidebarX: sidebarRect.x,
+          sidebarY: sidebarRect.y,
+          titleFontSize: Number.parseFloat(titleStyle.fontSize),
+          titleFontFamily: titleStyle.fontFamily,
+          spacerDisplay: getComputedStyle(intro.querySelector(".about-hero-spacer")!).display
+        };
+      });
+    };
+
+    const belowBreakpoint = await measureAbout(767, 964);
+    expect(belowBreakpoint.columns, "767px About remains one track").toBe(1);
+    expect(Math.abs(belowBreakpoint.sidebarX - belowBreakpoint.copyX), "767px About sidebar stays below the copy").toBeLessThan(1);
+
+    const atBreakpoint = await measureAbout(768, 964);
+    expect(atBreakpoint.columns, "768px About switches to two tracks").toBe(2);
+    expect(atBreakpoint.sidebarX, "768px About sidebar moves beside the copy").toBeGreaterThan(
+      atBreakpoint.copyX + atBreakpoint.copyWidth - 1
+    );
+    expect(atBreakpoint.sidebarY, "768px About sidebar starts near the intro").toBeLessThan(240);
+    expect(atBreakpoint.titleFontSize, "768px About title stays a compact route label").toBeLessThanOrEqual(24);
+    expect(atBreakpoint.titleFontFamily, "768px About title uses the sans contract").toContain("Geist");
+    expect(atBreakpoint.spacerDisplay, "768px About spacer stays structural and hidden").toBe("none");
+
+    const intermediate = await measureAbout(857, 964);
+    expect(intermediate.columns, "857px About keeps two tracks").toBe(2);
+    expect(intermediate.sidebarX, "857px About sidebar stays beside the copy").toBeGreaterThan(
+      intermediate.copyX + intermediate.copyWidth - 1
+    );
+    expect(intermediate.sidebarY, "857px About sidebar starts near the intro").toBeLessThan(240);
+    expect(intermediate.titleFontSize, "857px About title stays a compact route label").toBeLessThanOrEqual(24);
+    expect(intermediate.titleFontFamily, "857px About title uses the sans contract").toContain("Geist");
+    expect(intermediate.spacerDisplay, "857px About spacer stays structural and hidden").toBe("none");
+
+    const beforeUpperBreakpoint = await measureAbout(921, 964);
+    expect(beforeUpperBreakpoint.columns, "921px About keeps two tracks").toBe(2);
+    expect(beforeUpperBreakpoint.sidebarX, "921px About sidebar stays beside the copy").toBeGreaterThan(
+      beforeUpperBreakpoint.copyX + beforeUpperBreakpoint.copyWidth - 1
+    );
+    expect(beforeUpperBreakpoint.sidebarY, "921px About sidebar starts near the intro").toBeLessThan(240);
+
+    const afterUpperBreakpoint = await measureAbout(922, 964);
+    expect(afterUpperBreakpoint.columns, "922px About enters the desktop three-track contract").toBe(3);
+    expect(afterUpperBreakpoint.sidebarX, "922px About sidebar stays beside the copy").toBeGreaterThan(
+      afterUpperBreakpoint.copyX + afterUpperBreakpoint.copyWidth - 1
+    );
+
+    const mobile = await measureAbout(390, 844);
+    expect(mobile.columns, "390px About remains one track").toBe(1);
+    expect(Math.abs(mobile.sidebarX - mobile.copyX), "390px About sidebar returns below the copy").toBeLessThan(1);
+    expect(mobile.titleFontSize, "390px About title remains a compact route label").toBeLessThanOrEqual(24);
+    expect(mobile.titleFontFamily, "390px About title keeps the sans contract").toContain("Geist");
+
+    const desktop = await measureAbout(1440, 1000);
+    expect(desktop.titleFontSize, "1440px About title remains a compact route label").toBeLessThanOrEqual(24);
+    expect(desktop.titleFontFamily, "1440px About title keeps the sans contract").toContain("Geist");
   });
 });
