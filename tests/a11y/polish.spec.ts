@@ -214,4 +214,53 @@ test.describe("UI polish contracts", () => {
       sidebar!.y
     );
   });
+
+  test("About keeps the reference composition across responsive boundaries", async ({ page }) => {
+    const measureAbout = async (width: number, height: number) => {
+      await page.setViewportSize({ width, height });
+      await preparePage(page, "/now/");
+      return page.locator(".about-intro").evaluate((intro) => {
+        const copy = intro.querySelector<HTMLElement>(".about-copy-block");
+        const sidebar = intro.querySelector<HTMLElement>(".about-sidebar");
+        const title = intro.querySelector<HTMLElement>("#about-title");
+        if (!copy || !sidebar || !title) throw new Error("About intro structure is incomplete");
+
+        const copyRect = copy.getBoundingClientRect();
+        const sidebarRect = sidebar.getBoundingClientRect();
+        const style = getComputedStyle(intro);
+        const titleStyle = getComputedStyle(title);
+
+        return {
+          columns: style.gridTemplateColumns.split(" ").filter(Boolean).length,
+          copyX: copyRect.x,
+          copyWidth: copyRect.width,
+          sidebarX: sidebarRect.x,
+          sidebarY: sidebarRect.y,
+          titleFontSize: Number.parseFloat(titleStyle.fontSize),
+          titleFontFamily: titleStyle.fontFamily,
+          spacerDisplay: getComputedStyle(intro.querySelector(".about-hero-spacer")!).display
+        };
+      });
+    };
+
+    const intermediate = await measureAbout(857, 964);
+    expect(intermediate.columns, "857px About keeps two tracks").toBe(2);
+    expect(intermediate.sidebarX, "857px About sidebar stays beside the copy").toBeGreaterThan(
+      intermediate.copyX + intermediate.copyWidth - 1
+    );
+    expect(intermediate.sidebarY, "857px About sidebar starts near the intro").toBeLessThan(240);
+    expect(intermediate.titleFontSize, "857px About title stays a compact route label").toBeLessThanOrEqual(24);
+    expect(intermediate.titleFontFamily, "857px About title uses the sans contract").toContain("Geist");
+    expect(intermediate.spacerDisplay, "857px About spacer stays structural and hidden").toBe("none");
+
+    const mobile = await measureAbout(390, 844);
+    expect(mobile.columns, "390px About remains one track").toBe(1);
+    expect(Math.abs(mobile.sidebarX - mobile.copyX), "390px About sidebar returns below the copy").toBeLessThan(1);
+    expect(mobile.titleFontSize, "390px About title remains a compact route label").toBeLessThanOrEqual(24);
+    expect(mobile.titleFontFamily, "390px About title keeps the sans contract").toContain("Geist");
+
+    const desktop = await measureAbout(1440, 1000);
+    expect(desktop.titleFontSize, "1440px About title remains a compact route label").toBeLessThanOrEqual(24);
+    expect(desktop.titleFontFamily, "1440px About title keeps the sans contract").toContain("Geist");
+  });
 });
