@@ -3,6 +3,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import pixelmatch from "pixelmatch";
 import { PNG } from "pngjs";
+import { maskPixelRegions, resolveEffectiveBackgroundRgb } from "./jose-parity-measurements.mjs";
 
 const referenceBaseURL = process.env.REFERENCE_BASE_URL;
 const candidateBaseURL = process.env.CANDIDATE_BASE_URL ?? "http://127.0.0.1:4321";
@@ -86,7 +87,20 @@ try {
       const pairName = capture.name + "-" + viewport.name;
       const reference = await captureFrame(page, referenceBaseURL, capture, "jose/" + pairName + ".png");
       const candidate = await captureFrame(page, candidateBaseURL, capture, "jamie/" + pairName + ".png");
-      const diff = await writeDiff(reference.filePath, candidate.filePath, "diff/" + pairName + ".png");
+      let referenceSurface;
+      let candidateSurface;
+
+      if (structuredSurfaceCaptures.has(capture.name)) {
+        referenceSurface = await measureSurface(page, referenceBaseURL, capture);
+        candidateSurface = await measureSurface(page, candidateBaseURL, capture);
+        await writeJson(path.join(outputRoot, "metrics", pairName + "-surface.json"), { reference: referenceSurface, candidate: candidateSurface });
+      }
+
+      const identityRegions =
+        ["about-top", "about-fun-facts"].includes(capture.name) && referenceSurface && candidateSurface
+          ? [...referenceSurface.identityRegions, ...candidateSurface.identityRegions]
+          : [];
+      const diff = await writeDiff(reference.filePath, candidate.filePath, "diff/" + pairName + ".png", identityRegions);
 
       if (diff) {
         await writeJson(path.join(outputRoot, "metrics", pairName + "-pixel.json"), diff.metrics);
@@ -100,10 +114,7 @@ try {
         assertTopbarParity(pairName, referenceTopbar, candidateTopbar);
       }
 
-      if (structuredSurfaceCaptures.has(capture.name)) {
-        const referenceSurface = await measureSurface(page, referenceBaseURL, capture);
-        const candidateSurface = await measureSurface(page, candidateBaseURL, capture);
-        await writeJson(path.join(outputRoot, "metrics", pairName + "-surface.json"), { reference: referenceSurface, candidate: candidateSurface });
+      if (referenceSurface && candidateSurface) {
         assertSurfaceParity(pairName, capture.name, viewport.name, referenceSurface, candidateSurface);
       }
 
@@ -228,7 +239,7 @@ async function measureSurface(activePage, baseURL, capture) {
   await activePage.addStyleTag({ content: stableScreenshotStyle });
   await settleHashScroll(activePage, url);
 
-  return activePage.evaluate((captureName) => {
+  const measured = await activePage.evaluate((captureName) => {
     const toRect = (rect) => ({ x: rect.x, y: rect.y, width: rect.width, height: rect.height });
     const toNumber = (value) => Number.parseFloat(value) || 0;
     const visibleRect = (element) => {
@@ -278,11 +289,12 @@ async function measureSurface(activePage, baseURL, capture) {
               : document.querySelector("h1") ?? byText("h2, .h1, [class*='heading']", "Blog");
     const surfaceRoot = headingElement?.closest("section") ?? headingElement?.parentElement?.parentElement ?? document;
     const sampleElement = document.elementFromPoint(20, 20) ?? document.body;
-    const sampleColor = window
-      .getComputedStyle(sampleElement)
-      .backgroundColor.match(/\d+(?:\.\d+)?/g)
-      ?.slice(0, 3)
-      .map(Number) ?? [0, 0, 0];
+    const sampleBackgroundLayers = [];
+    let backgroundElement = sampleElement;
+    while (backgroundElement) {
+      sampleBackgroundLayers.push(window.getComputedStyle(backgroundElement).backgroundColor);
+      backgroundElement = backgroundElement.parentElement;
+    }
     const cardSources =
       document.querySelectorAll(".about-object").length > 0
         ? [...document.querySelectorAll(".about-object")]
@@ -290,7 +302,7 @@ async function measureSurface(activePage, baseURL, capture) {
 
     return {
       nav: visibleRect(document.querySelector(".nav-inner") ?? document.querySelector("nav")),
-      sampleColor,
+      sampleBackgroundLayers,
       h1: visibleRect(headingElement),
       lead:
         captureName === "blog-top"
@@ -299,6 +311,10 @@ async function measureSurface(activePage, baseURL, capture) {
                 containsText("h2, h3", "creative direction") ??
                 document.querySelector("article h2, article h3")
             )
+          : null,
+      copy:
+        captureName === "about-top"
+          ? visibleRect(document.querySelector(".about-copy") ?? document.querySelector(".rich-text.text-3xl"))
           : null,
       aside:
         captureName === "about-top"
@@ -315,6 +331,18 @@ async function measureSurface(activePage, baseURL, capture) {
               .filter(Boolean)
               .filter((rect) => rect.width >= 100 && rect.height >= 100)
               .filter((rect) => rect.y >= -1)
+              .slice(0, 4)
+          : [],
+      identityRegions:
+        captureName === "about-top"
+          ? [document.querySelector(".about-copy") ?? document.querySelector(".rich-text.text-3xl")]
+              .map(visibleRect)
+              .filter(Boolean)
+          : captureName === "about-fun-facts"
+          ? cardSources
+              .map((element) => visibleRect(element.closest(".about-fact-card, .grid__2-col > div")))
+              .filter(Boolean)
+              .filter((rect) => rect.y < window.innerHeight && rect.y + rect.height > 0)
               .slice(0, 4)
           : [],
       blocks:
@@ -342,11 +370,16 @@ async function measureSurface(activePage, baseURL, capture) {
               .filter((element) => {
                 const rect = element.getBoundingClientRect();
                 const text = element.textContent?.trim() ?? "";
-                return text.length > 0 && rect.width > 20 && rect.height > 8 && rect.y > window.innerHeight * 0.72 && rect.y < window.innerHeight;
+                return text.length > 0 && rect.width > 20 && rect.height > 8 && rect.y > window.innerHeight * 0.72 && rect.y < window.innerHeight - 8;
               }).length
           : 0,
     };
   }, capture.name);
+
+  return {
+    ...measured,
+    sampleColor: resolveEffectiveBackgroundRgb(measured.sampleBackgroundLayers),
+  };
 }
 
 async function settleHashScroll(activePage, url) {
@@ -404,6 +437,17 @@ function assertSurfaceParity(pairName, captureName, viewportName, reference, can
   }
 
   if (captureName === "about-top") {
+    if (requireRect("about heading", reference.h1, candidate.h1)) {
+      checkDelta("heading.x", candidate.h1.x, reference.h1.x, viewportName === "mobile" ? 12 : 72);
+      checkDelta("heading.y", candidate.h1.y, reference.h1.y, viewportName === "mobile" ? 12 : 72);
+      checkDelta("heading.width", candidate.h1.width, reference.h1.width, viewportName === "mobile" ? 12 : 72);
+      checkDelta("heading.height", candidate.h1.height, reference.h1.height, viewportName === "mobile" ? 8 : 24);
+    }
+    if (requireRect("about copy", reference.copy, candidate.copy)) {
+      checkDelta("copy.x", candidate.copy.x, reference.copy.x, viewportName === "mobile" ? 12 : 72);
+      checkDelta("copy.y", candidate.copy.y, reference.copy.y, viewportName === "mobile" ? 12 : 72);
+      checkDelta("copy.width", candidate.copy.width, reference.copy.width, viewportName === "mobile" ? 12 : 72);
+    }
     if (requireRect("about sidebar", reference.aside, candidate.aside)) {
       checkDelta("aside.x", candidate.aside.x, reference.aside.x, viewportName === "mobile" ? 56 : 72);
       checkDelta("aside.width", candidate.aside.width, reference.aside.width, viewportName === "mobile" ? 72 : 40);
@@ -422,6 +466,22 @@ function assertSurfaceParity(pairName, captureName, viewportName, reference, can
     }
     if (reference.cards.length < 2) failures.push("fun facts: expected at least two reference media cards");
     if (candidate.cards.length < 2) failures.push("fun facts: expected at least two candidate media cards");
+    if (reference.identityRegions.length < 2) failures.push("fun facts: expected at least two reference identity regions");
+    if (candidate.identityRegions.length < 2) failures.push("fun facts: expected at least two candidate identity regions");
+    if (reference.cards.length >= 2 && candidate.cards.length >= 2) {
+      checkDelta("card[0].x", candidate.cards[0].x, reference.cards[0].x, viewportName === "mobile" ? 56 : 72);
+      checkDelta("card[0].width", candidate.cards[0].width, reference.cards[0].width, 72);
+      checkDelta("card[0].height", candidate.cards[0].height, reference.cards[0].height, viewportName === "mobile" ? 90 : 72);
+      checkDelta("card[1].x", candidate.cards[1].x, reference.cards[1].x, viewportName === "mobile" ? 96 : 96);
+      checkDelta("card[1].width", candidate.cards[1].width, reference.cards[1].width, 72);
+      checkDelta("card[1].height", candidate.cards[1].height, reference.cards[1].height, viewportName === "mobile" ? 90 : 72);
+    }
+    if (reference.identityRegions.length >= 2 && candidate.identityRegions.length >= 2) {
+      for (const index of [0, 1]) {
+        checkDelta("identityRegion[" + index + "].x", candidate.identityRegions[index].x, reference.identityRegions[index].x, viewportName === "mobile" ? 56 : 72);
+        checkDelta("identityRegion[" + index + "].width", candidate.identityRegions[index].width, reference.identityRegions[index].width, 72);
+      }
+    }
   }
 
   if (["about-skills", "about-work-history", "about-on-web"].includes(captureName)) {
@@ -456,12 +516,15 @@ function deltaChecker(failures) {
   };
 }
 
-async function writeDiff(referencePath, candidatePath, relativePath) {
+async function writeDiff(referencePath, candidatePath, relativePath, identityRegions = []) {
   const reference = PNG.sync.read(await readFile(referencePath));
   const candidate = PNG.sync.read(await readFile(candidatePath));
   if (reference.width !== candidate.width || reference.height !== candidate.height) {
     return undefined;
   }
+
+  maskPixelRegions(reference.data, reference.width, reference.height, identityRegions);
+  maskPixelRegions(candidate.data, candidate.width, candidate.height, identityRegions);
 
   const diff = new PNG({ width: reference.width, height: reference.height });
   const mismatches = pixelmatch(reference.data, candidate.data, diff.data, reference.width, reference.height, {
@@ -472,6 +535,7 @@ async function writeDiff(referencePath, candidatePath, relativePath) {
     ratio: mismatches / (reference.width * reference.height),
     width: reference.width,
     height: reference.height,
+    maskedIdentityRegions: identityRegions.length,
   };
 
   const filePath = path.join(outputRoot, relativePath);
