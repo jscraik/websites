@@ -23,6 +23,7 @@ schema_version: 2
 ## Project Pointers
 - package.json is the source of truth for npm scripts. Re-read it before choosing validation commands.
 - docs/implementation-notes/jose-parity-guardrail.md defines the Jose parity proof boundary, repeated steering fixes, and what screenshot/parity commands do and do not prove.
+- docs/decisions/2026-07-31-freeze-jose-reference-authority.md records the approved stored-reference authority; current-live Jose comparisons remain advisory until an explicit reference refresh is approved.
 - docs/reference/jose-ocando/README.md describes the stored Jose reference bundle. Static capture proves reference availability, not visual parity.
 - scripts/validate-page-surfaces.mjs protects repeated page-surface regressions such as grey section bands, hidden full-bleed band patterns, and leaked Blog author-card layout rules.
 - scripts/validate-astro-anti-patterns.mjs protects AI-prone Astro regressions: fake controls, missing image alt text, careless hydration, component-level global styles, transition-all, important/overflow masking, pixel breakpoints, and heading-outline jumps.
@@ -51,6 +52,7 @@ schema_version: 2
   - npm run check when TypeScript/Astro typing is relevant and dependencies are available.
 - For Jose-reference or parity-claim work, run:
   - npm run validate:jose-claim-boundary
+  - npm run test:jose-parity-measurements
   - REFERENCE_BASE_URL=https://www.joseocando.com CANDIDATE_BASE_URL=<local-url> npm run test:jose-parity before claiming visual match.
 - If Playwright or browser-rendered validation is blocked by sandbox/runtime permissions, report blocked with the exact command and blocker, run the nearest meaningful static/build fallback, and do not claim visual parity.
 - Report validation as exact commands with pass, fail, or blocked, plus what the evidence proves and does not prove.
@@ -76,5 +78,5 @@ schema_version: 2
 
 ## Context Ledger
 - Root: Astro portfolio purpose, dirty-worktree preservation, artifact hygiene, codestyle fallback, validation routing, Jose parity claim boundary, and compact subagent coordination rules.
-- Context pointers: package.json, docs/implementation-notes/jose-parity-guardrail.md, docs/reference/jose-ocando/README.md, scripts/validate-page-surfaces.mjs, scripts/validate-jose-claim-boundary.mjs, scripts/smoke-pages.mjs, and tests/**.
+- Context pointers: package.json, docs/decisions/2026-07-31-freeze-jose-reference-authority.md, docs/implementation-notes/jose-parity-guardrail.md, docs/reference/jose-ocando/README.md, scripts/jose-parity-measurements.mjs, scripts/validate-page-surfaces.mjs, scripts/validate-jose-claim-boundary.mjs, scripts/smoke-pages.mjs, and tests/**.
 - Supplemental: generated screenshots, recordings, runtime cards, Playwright reports, and ad hoc artifacts unless the user explicitly asks to promote them.
