@@ -142,7 +142,9 @@ The contract is fixed regardless of how the harness renders:
 Verbatim for the standalone-HTML branch; in a framework, keep the same behavior but express it idiomatically (state instead of `innerHTML`, a keyed re-mount instead of `requestAnimationFrame`, refs + a layout effect for the highlight measurement).
 
 ```js
-// `variants` is an array of render functions, one per variant, in picker order.
+// `variants` is an array of { render, init? } objects, one per variant, in
+// picker order. Use `init(root)` for listeners bound to freshly rendered nodes;
+// event delegation from `stage` is also safe because the stage itself persists.
 const stage = document.getElementById('stage');
 const picker = document.querySelector('.proto-picker');
 const highlight = picker.querySelector('.proto-picker-highlight');
@@ -159,7 +161,11 @@ function moveHighlight() {
 function mount(i) {
   stage.innerHTML = '';
   // Clear first, render next frame, so entrance animations re-run.
-  requestAnimationFrame(() => { stage.innerHTML = variants[i](); });
+  requestAnimationFrame(() => {
+    const variant = variants[i];
+    stage.innerHTML = variant.render();
+    variant.init?.(stage);
+  });
 }
 
 function setActive(i) {
@@ -191,7 +197,15 @@ document.addEventListener('keydown', (e) => {
   else if (e.key === 'r' || e.key === 'R') mount(current);
 });
 
-setActive((parseInt(new URLSearchParams(location.search).get('v'), 10) || 1) - 1);
+const requestedVariant = Number.parseInt(
+  new URLSearchParams(location.search).get('v'),
+  10
+);
+const initialVariant =
+  Number.isInteger(requestedVariant) && requestedVariant >= 1 && requestedVariant <= variants.length
+    ? requestedVariant - 1
+    : 0;
+setActive(initialVariant);
 // Enable the slide only after first paint, so load doesn't animate.
 requestAnimationFrame(() => requestAnimationFrame(() => picker.setAttribute('data-ready', '')));
 ```

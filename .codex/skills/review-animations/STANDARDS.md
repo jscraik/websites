@@ -79,8 +79,8 @@ Mouse interactions: interpolate with `useSpring` rather than tying value directl
 CSS **transitions** can be interrupted and retargeted mid-animation; **keyframes** restart from zero. For anything triggered rapidly (toasts being added, toggles), transitions are smoother.
 
 ```css
-/* Interruptible — good for dynamic UI */
-.toast { transition: transform 400ms ease; }
+/* Interruptible — good for dynamic UI; use the normal UI budget. */
+.toast { transition: transform var(--bds-motion-normal) var(--bds-ease-out); }
 
 /* Not interruptible — avoid for dynamic UI */
 @keyframes slideIn { from { transform: translateY(100%); } to { transform: translateY(0); } }
@@ -91,7 +91,9 @@ Use `@starting-style` for entry without JS:
 ```css
 .toast {
   opacity: 1; transform: translateY(0);
-  transition: opacity 400ms ease, transform 400ms ease;
+  transition:
+    opacity var(--bds-motion-normal) var(--bds-ease-out),
+    transform var(--bds-motion-normal) var(--bds-ease-out);
   @starting-style { opacity: 0; transform: translateY(100%); }
 }
 ```

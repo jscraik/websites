@@ -109,10 +109,10 @@ One row per surviving suggestion, ordered by leverage:
 
 | # | Location | Today | Purpose | Frequency | Suggested motion |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `Toast.tsx:41` | New toasts appear instantly | Preventing a jarring change | Occasional | Enter via `@starting-style`: `opacity: 0; translateY(100%)` → settled, `transition: 400ms ease`, exit same edge |
+| 1 | `Toast.tsx:41` | New toasts appear instantly | Preventing a jarring change | Occasional | Enter via `@starting-style`: `opacity: 0; translateY(100%)` → settled, `transition: transform var(--bds-motion-normal) var(--bds-ease-out), opacity var(--bds-motion-normal) var(--bds-ease-out)`, exit same edge |
 | 2 | `Button.tsx:18` | No press feedback | Feedback | Tens/day | `:active { transform: scale(0.97) }`, `transition: transform 160ms ease-out` — subtle enough for the frequency tier |
 
-Every "Suggested motion" cell carries exact values — the curve, the duration, the properties — pulled from this repo's shared vocabulary (`--ease-out: cubic-bezier(0.23, 1, 0.32, 1)`, `--ease-in-out: cubic-bezier(0.77, 0, 0.175, 1)`, `--ease-drawer: cubic-bezier(0.32, 0.72, 0, 1)`), never approximated. Animate `transform` and `opacity` only; include reduced-motion handling (gentler, not zero) and `@media (hover: hover) and (pointer: fine)` gating when the suggestion involves hover.
+Every "Suggested motion" cell carries exact values — the curve, the duration, the properties — pulled from the repository's discovered token surface, never approximated. In this portfolio, use `--bds-motion-fast` (150ms), `--bds-motion-normal` (250ms), `--bds-motion-slow` (400ms), and `--bds-ease-out`; do not invent parallel `--ease-*` tokens. Animate `transform` and `opacity` by default. An explicit layout-transition exception is allowed only when the finding is an accordion/collapse (for example, a height + opacity transition) and the report names why that layout change is required. Include reduced-motion handling (gentler, not zero) and `@media (hover: hover) and (pointer: fine)` gating when the suggestion involves hover.
 
 ### Part 2 — Rejected candidates (REQUIRED)
 
