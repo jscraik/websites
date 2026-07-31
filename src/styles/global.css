@@ -17,6 +17,8 @@
   --surface-nav: color-mix(in srgb, var(--bds-color-portfolio-nav) 86%, transparent);
   --surface-card: var(--color-jose-soft);
   --surface-feature: color-mix(in srgb, var(--bds-color-portfolio-surface) 72%, var(--bds-color-blue) 8%);
+  --surface-image-outline-light: rgba(0, 0, 0, 0.1);
+  --surface-image-outline-dark: rgba(255, 255, 255, 0.1);
   --text-primary: var(--color-jose-text);
   --text-muted: rgba(61, 64, 60, 0.72);
   --text-subtle: var(--color-jose-muted);
@@ -7057,6 +7059,15 @@ body:not(.skillsbar-demo) :is(h3, h4, .latest-article h2, .work-mini-card h3, .f
 
 :is(img, .u-img-cover, .about-portrait, .contact-photo, .blog-about-card img, .case-gallery-frame, .work-preview__image) {
   border-radius: var(--radius-image);
+}
+
+img {
+  outline: 1px solid var(--surface-image-outline-light);
+  outline-offset: -1px;
+}
+
+body.skillsbar-demo img {
+  outline-color: var(--surface-image-outline-dark);
 }
 
 :is(.brand-word span, .nav-link--brand .brand-word span) {
