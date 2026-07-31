@@ -45,7 +45,7 @@ When reviewing UI code, you MUST use a markdown table with Before/After columns.
 | `transform: scale(0)` | `transform: scale(0.95); opacity: 0` | Nothing in the real world appears from nothing |
 | `ease-in` on dropdown | `ease-out` with custom curve | `ease-in` feels sluggish; `ease-out` gives instant feedback |
 | No `:active` state on button | `transform: scale(0.97)` on `:active` | Buttons must feel responsive to press |
-| `transform-origin: center` on popover | `transform-origin: var(--radix-popover-content-transform-origin)` | Popovers should scale from their trigger (not modals — modals stay centered) |
+| `transform-origin: center` on popover | `transform-origin: var(--transform-origin)` | Popovers should scale from their trigger (not modals — modals stay centered) |
 
 Wrong format (never do this):
 
@@ -132,14 +132,14 @@ Is the element entering or exiting?
 | Modals, drawers          | 200-500ms     |
 | Marketing/explanatory    | Can be longer |
 
-**Rule: Most UI animations should stay under 300ms.** Modals and drawers may run longer when the interaction warrants it. A 180ms dropdown feels more responsive than a slower, heavier interaction. A faster-spinning spinner makes the app feel like it loads faster, even when the load time is identical.
+**Rule: UI animations should stay under 300ms.** A 180ms dropdown feels more responsive than a 400ms one. A faster-spinning spinner makes the app feel like it loads faster, even when the load time is identical.
 
 ### Perceived performance
 
 Speed in animation is not just about feeling snappy — it directly affects how users perceive your app's performance:
 
 - A **fast-spinning spinner** makes loading feel faster (same load time, different perception)
-- A **180ms select** animation feels more responsive than a slow one
+- A **180ms select** animation feels more responsive than a **400ms** one
 - **Instant tooltips** after the first one is open (skip delay + skip animation) make the whole toolbar feel faster
 
 The perception of speed matters as much as actual speed. Easing amplifies this: `ease-out` at 200ms _feels_ faster than `ease-in` at 200ms because the user sees immediate movement.
@@ -236,11 +236,6 @@ Start from `scale(0.9)` or higher, combined with opacity. Even a barely-visible 
 Popovers should scale in from their trigger, not from center. The default `transform-origin: center` is wrong for almost every popover. **Exception: modals.** Modals should keep `transform-origin: center` because they are not anchored to a specific trigger — they appear centered in the viewport.
 
 ```css
-/* Radix UI */
-.popover {
-  transform-origin: var(--radix-popover-content-transform-origin);
-}
-
 /* Base UI */
 .popover {
   transform-origin: var(--transform-origin);
@@ -278,7 +273,7 @@ CSS transitions can be interrupted and retargeted mid-animation. Keyframes resta
 ```css
 /* Interruptible - good for UI */
 .toast {
-  transition: transform 200ms ease-out;
+  transition: transform 400ms ease;
 }
 
 /* Not interruptible - avoid for dynamic UI */
@@ -329,7 +324,7 @@ The modern CSS way to animate element entry without JavaScript:
 .toast {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 200ms ease-out, transform 200ms ease-out;
+  transition: opacity 400ms ease, transform 400ms ease;
 
   @starting-style {
     opacity: 0;
@@ -669,7 +664,7 @@ When reviewing UI code, check for:
 | `transition: all`                          | Specify exact properties: `transition: transform 200ms ease-out` |
 | `scale(0)` entry animation                 | Start from `scale(0.95)` with `opacity: 0`                       |
 | `ease-in` on UI element                    | Switch to `ease-out` or custom curve                             |
-| `transform-origin: center` on popover      | Set to trigger location or use Radix/Base UI CSS variable (modals are exempt — keep centered) |
+| `transform-origin: center` on popover      | Set to trigger location or use Base UI's `var(--transform-origin)` (modals are exempt — keep centered) |
 | Animation on keyboard action               | Remove animation entirely                                        |
 | Duration > 300ms on UI element             | Reduce to 150-250ms                                              |
 | Hover animation without media query        | Add `@media (hover: hover) and (pointer: fine)`                  |

@@ -80,7 +80,7 @@ Sweep for these seams — each is a known class of genuine opportunity:
 - List items added/removed with no bridge (and the list isn't high-frequency) → enter/exit transitions; CSS transitions, not keyframes, so rapid triggers retarget smoothly
 
 **Missing spatial story**
-- Panels, popovers, menus that appear with no connection to their trigger → scale in with `transform-origin` at the trigger (Radix: `var(--radix-popover-content-transform-origin)`; Base UI: `var(--transform-origin)`); modals are exempt — they stay centered
+- Panels, popovers, menus that appear with no connection to their trigger → scale in with `transform-origin` at the trigger (Base UI: `var(--transform-origin)`); modals are exempt — they stay centered
 - Dismissable surfaces (toasts, sheets) that exit a different way than they entered → symmetric paths; `translateY(100%)` percentages, not hardcoded pixels
 
 **Group entrances**
@@ -109,10 +109,10 @@ One row per surviving suggestion, ordered by leverage:
 
 | # | Location | Today | Purpose | Frequency | Suggested motion |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `Toast.tsx:41` | New toasts appear instantly | Preventing a jarring change | Occasional | Enter via `@starting-style`: `opacity: 0; translateY(100%)` → settled, `transition: 400ms ease`, exit same edge |
+| 1 | `Toast.tsx:41` | New toasts appear instantly | Preventing a jarring change | Occasional | Enter via `@starting-style`: `opacity: 0; translateY(100%)` → settled, `transition: transform var(--bds-motion-normal) var(--bds-ease-out), opacity var(--bds-motion-normal) var(--bds-ease-out)`, exit same edge |
 | 2 | `Button.tsx:18` | No press feedback | Feedback | Tens/day | `:active { transform: scale(0.97) }`, `transition: transform 160ms ease-out` — subtle enough for the frequency tier |
 
-Every "Suggested motion" cell carries exact values from the shared vocabulary, including `--bds-ease-out: cubic-bezier(0.22, 0.61, 0.36, 1)` and `--bds-motion-fast`, `--bds-motion-normal`, or `--bds-motion-slow`. Prefer `transform` and `opacity`; document an explicit approved exception where a layout transition is necessary. For nonessential motion require instant or static behavior under reduced motion, permitting motion only when it is necessary to communicate state. Include `@media (hover: hover) and (pointer: fine)` gating when the suggestion involves hover.
+Every "Suggested motion" cell carries exact values — the curve, the duration, the properties — pulled from the repository's discovered token surface, never approximated. In this portfolio, use `--bds-motion-fast` (150ms), `--bds-motion-normal` (250ms), `--bds-motion-slow` (400ms), and `--bds-ease-out`; do not invent parallel `--ease-*` tokens. Animate `transform` and `opacity` by default. An explicit layout-transition exception is allowed only when the finding is an accordion/collapse (for example, a height + opacity transition) and the report names why that layout change is required. Include reduced-motion handling (gentler, not zero) and `@media (hover: hover) and (pointer: fine)` gating when the suggestion involves hover.
 
 ### Part 2 — Rejected candidates (REQUIRED)
 
