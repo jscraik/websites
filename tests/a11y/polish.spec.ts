@@ -39,11 +39,15 @@ test.describe("UI polish contracts", () => {
 
     const portfolioShell = await page.evaluate(() => ({
       activeNav: getComputedStyle(document.querySelector('.site-header .nav-link[aria-current="page"]')!).color,
-      footerBackground: getComputedStyle(document.querySelector(".site-footer")!).backgroundColor
+      footerBackground: getComputedStyle(document.querySelector(".site-footer")!).backgroundColor,
+      profileBackground: getComputedStyle(document.querySelector(".site-footer .footer-profile-card")!).backgroundColor,
+      socialBackground: getComputedStyle(document.querySelector(".site-footer .footer-social-links a")!).backgroundColor
     }));
 
     expect(portfolioShell.activeNav).toBe("rgb(79, 86, 77)");
     expect(portfolioShell.footerBackground).toBe("rgb(213, 214, 208)");
+    expect(portfolioShell.profileBackground).toBe("rgb(251, 250, 245)");
+    expect(portfolioShell.socialBackground).toBe("rgb(251, 250, 245)");
 
     await preparePage(page, "/demos/skillsbar/");
 
@@ -174,7 +178,7 @@ test.describe("UI polish contracts", () => {
           return { height, width };
         };
 
-        const smallTargets = [...document.querySelectorAll(selector)]
+        const smallTargets = Array.from(document.querySelectorAll(selector))
           .filter(isVisible)
           .map((element) => {
             const rect = element.getBoundingClientRect();
@@ -189,7 +193,7 @@ test.describe("UI polish contracts", () => {
           })
           .filter(({ width, height }) => width < minimum || height < minimum);
 
-        const unbalancedHeadings = [...document.querySelectorAll("h1, h2, h3")]
+        const unbalancedHeadings = Array.from(document.querySelectorAll("h1, h2, h3"))
           .filter(isVisible)
           .filter((heading) => getComputedStyle(heading).textWrap !== "balance")
           .map(labelFor);
@@ -303,6 +307,20 @@ test.describe("UI polish contracts", () => {
       });
     };
 
+    const belowBreakpoint = await measureAbout(767, 964);
+    expect(belowBreakpoint.columns, "767px About remains one track").toBe(1);
+    expect(Math.abs(belowBreakpoint.sidebarX - belowBreakpoint.copyX), "767px About sidebar stays below the copy").toBeLessThan(1);
+
+    const atBreakpoint = await measureAbout(768, 964);
+    expect(atBreakpoint.columns, "768px About switches to two tracks").toBe(2);
+    expect(atBreakpoint.sidebarX, "768px About sidebar moves beside the copy").toBeGreaterThan(
+      atBreakpoint.copyX + atBreakpoint.copyWidth - 1
+    );
+    expect(atBreakpoint.sidebarY, "768px About sidebar starts near the intro").toBeLessThan(240);
+    expect(atBreakpoint.titleFontSize, "768px About title stays a compact route label").toBeLessThanOrEqual(24);
+    expect(atBreakpoint.titleFontFamily, "768px About title uses the sans contract").toContain("Geist");
+    expect(atBreakpoint.spacerDisplay, "768px About spacer stays structural and hidden").toBe("none");
+
     const intermediate = await measureAbout(857, 964);
     expect(intermediate.columns, "857px About keeps two tracks").toBe(2);
     expect(intermediate.sidebarX, "857px About sidebar stays beside the copy").toBeGreaterThan(
@@ -312,6 +330,19 @@ test.describe("UI polish contracts", () => {
     expect(intermediate.titleFontSize, "857px About title stays a compact route label").toBeLessThanOrEqual(24);
     expect(intermediate.titleFontFamily, "857px About title uses the sans contract").toContain("Geist");
     expect(intermediate.spacerDisplay, "857px About spacer stays structural and hidden").toBe("none");
+
+    const beforeUpperBreakpoint = await measureAbout(921, 964);
+    expect(beforeUpperBreakpoint.columns, "921px About keeps two tracks").toBe(2);
+    expect(beforeUpperBreakpoint.sidebarX, "921px About sidebar stays beside the copy").toBeGreaterThan(
+      beforeUpperBreakpoint.copyX + beforeUpperBreakpoint.copyWidth - 1
+    );
+    expect(beforeUpperBreakpoint.sidebarY, "921px About sidebar starts near the intro").toBeLessThan(240);
+
+    const afterUpperBreakpoint = await measureAbout(922, 964);
+    expect(afterUpperBreakpoint.columns, "922px About keeps two tracks").toBe(2);
+    expect(afterUpperBreakpoint.sidebarX, "922px About sidebar stays beside the copy").toBeGreaterThan(
+      afterUpperBreakpoint.copyX + afterUpperBreakpoint.copyWidth - 1
+    );
 
     const mobile = await measureAbout(390, 844);
     expect(mobile.columns, "390px About remains one track").toBe(1);
