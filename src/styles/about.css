@@ -28,6 +28,8 @@ html body:not(.skillsbar-demo) .about-page.about-hero-shell {
   }
 
   .about-page.about-hero-shell .about-copy-block {
+    display: flex;
+    flex-direction: column;
     grid-column: 1;
     gap: clamp(24px, 3vw, 34px);
   }
@@ -83,7 +85,7 @@ html body:not(.skillsbar-demo) .about-page.about-hero-shell {
 }
 
 /* Stored Jose mobile About contract: full-bleed surface and editorial intro rhythm. */
-@media (max-width: 40rem) {
+@media (max-width: 47.9999rem) {
   html body:not(.skillsbar-demo) .about-page.about-hero-shell {
     box-sizing: border-box;
     width: 100%;

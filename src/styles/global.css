@@ -11886,6 +11886,10 @@ html body:not(.skillsbar-demo) .site-header .nav-link[aria-current="page"] {
   color: var(--bds-color-portfolio-muted);
 }
 
+body:not(.skillsbar-demo) .site-header .icon-box[aria-current="page"] {
+  color: var(--bds-color-portfolio-muted);
+}
+
 .footer-profile-card.profile-row {
   width: fit-content;
   min-width: 0;

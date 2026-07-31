@@ -39,15 +39,17 @@ test.describe("UI polish contracts", () => {
 
     const portfolioShell = await page.evaluate(() => ({
       activeNav: getComputedStyle(document.querySelector('.site-header .nav-link[aria-current="page"]')!).color,
+      activeHomeIcon: getComputedStyle(document.querySelector('.site-header .icon-box[aria-current="page"]')!).color,
       footerBackground: getComputedStyle(document.querySelector(".site-footer")!).backgroundColor,
       profileBackground: getComputedStyle(document.querySelector(".site-footer .footer-profile-card")!).backgroundColor,
       socialBackground: getComputedStyle(document.querySelector(".site-footer .footer-social-links a")!).backgroundColor
     }));
 
     expect(portfolioShell.activeNav).toBe("rgb(79, 86, 77)");
+    expect(portfolioShell.activeHomeIcon).toBe("rgb(79, 86, 77)");
     expect(portfolioShell.footerBackground).toBe("rgb(213, 214, 208)");
-    expect(portfolioShell.profileBackground).toBe("rgb(251, 250, 245)");
-    expect(portfolioShell.socialBackground).toBe("rgb(251, 250, 245)");
+    expect(portfolioShell.profileBackground).toBe("rgba(251, 250, 245, 0.88)");
+    expect(portfolioShell.socialBackground).toBe("rgba(251, 250, 245, 0.42)");
 
     await preparePage(page, "/demos/skillsbar/");
 
@@ -339,7 +341,7 @@ test.describe("UI polish contracts", () => {
     expect(beforeUpperBreakpoint.sidebarY, "921px About sidebar starts near the intro").toBeLessThan(240);
 
     const afterUpperBreakpoint = await measureAbout(922, 964);
-    expect(afterUpperBreakpoint.columns, "922px About keeps two tracks").toBe(2);
+    expect(afterUpperBreakpoint.columns, "922px About enters the desktop three-track contract").toBe(3);
     expect(afterUpperBreakpoint.sidebarX, "922px About sidebar stays beside the copy").toBeGreaterThan(
       afterUpperBreakpoint.copyX + afterUpperBreakpoint.copyWidth - 1
     );
