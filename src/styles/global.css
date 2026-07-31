@@ -72,6 +72,7 @@
   font-family: var(--body-sans);
   font-kerning: normal;
   font-optical-sizing: auto;
+  font-synthesis: none;
   background: var(--surface-page);
   color: var(--text-muted);
 }
@@ -6689,9 +6690,9 @@ body {
   }
 }
 
-/* Keep the About navigation and hero on one Jose neutral-01 field. */
+/* Keep the About route on the Jose neutral-03 page canvas; the hero owns the gradient. */
 body:has(.about-page) {
-  background: var(--surface-card);
+  background: var(--paper);
 }
 
 body:has(.about-page) main {
@@ -6700,6 +6701,10 @@ body:has(.about-page) main {
 
 body:has(.about-page) .site-footer {
   background: var(--paper);
+}
+
+body:has(.about-page) .site-header {
+  background: linear-gradient(180deg, var(--surface-card), transparent);
 }
 
 .about-page.about-hero-shell {
@@ -6969,6 +6974,12 @@ body:not(.skillsbar-demo) :is(h1, h2, .h1-name, .section-heading, .blog-title-bl
   font-family: var(--body-serif);
   font-weight: 100;
   letter-spacing: 0;
+}
+
+@media (min-width: 57.5626rem) {
+  html body:not(.skillsbar-demo) .home-hero .h1-name {
+    letter-spacing: var(--bds-type-display-xl-letter-spacing);
+  }
 }
 
 body:not(.skillsbar-demo) :is(h3, h4, .latest-article h2, .work-mini-card h3, .feature-block h3, .proof-card h3, .about-fact-card h3, .about-skill-list h3, .about-history h3) {
