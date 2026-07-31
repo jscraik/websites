@@ -53,6 +53,13 @@ function scalarValue(frontmatter, key) {
   return stringValue(frontmatter, key);
 }
 
+function requirePublicationState(file, frontmatter) {
+  const state = scalarValue(frontmatter, "publicationState");
+  if (!["draft", "unlisted", "published"].includes(state)) {
+    failures.push(file + ": publicationState must be draft, unlisted, or published.");
+  }
+}
+
 function contentFiles(dir) {
   return readdirSync(dir).filter((file) => file.endsWith(".md")).sort();
 }
@@ -102,13 +109,14 @@ for (const fileName of contentFiles(collectionDirs.work)) {
   const file = join(collectionDirs.work, fileName);
   const frontmatter = readFrontmatter(file);
   workEntries.push({ file, frontmatter });
+  requirePublicationState(file, frontmatter);
   const workSlug = fileName.replace(/\.md$/, "");
   const workHrefPath = localHrefToPath("/work/" + workSlug + "/");
   if (!workHrefPath || !existsSync(workHrefPath)) {
     failures.push(file + ": generated work href /work/" + workSlug + "/ does not resolve to collection content.");
   }
 
-  for (const key of ["title", "shortTitle", "subtitle", "date", "order", "overview", "organization", "work", "role", "tone"]) {
+  for (const key of ["title", "shortTitle", "subtitle", "date", "order", "publicationState", "overview", "organization", "work", "role", "tone"]) {
     requirePattern(file, frontmatter, new RegExp("^" + key + ":", "m"), key);
   }
 
@@ -120,6 +128,12 @@ for (const fileName of contentFiles(collectionDirs.work)) {
   requirePattern(file, frontmatter, /^\s+evidence:\s+/m, "proof evidence");
   requirePattern(file, frontmatter, /^\s+caveat:\s+/m, "proof caveat");
   requirePattern(file, frontmatter, /^frames:\n(?:\s+-\s+\[.+\]\n?)+/m, "proof frames");
+
+  const directHref = stringValue(frontmatter, "href");
+  const directPath = localHrefToPath(directHref);
+  if (directPath && !existsSync(directPath)) {
+    failures.push(file + ": href " + directHref + " does not resolve to " + directPath + ".");
+  }
 }
 
 requireUniqueOrders("work", workEntries);
@@ -127,12 +141,21 @@ if (!workEntries.some((entry) => scalarValue(entry.frontmatter, "isFeatured") ==
   failures.push(collectionDirs.work + ": collection must include at least one featured work entry.");
 }
 
+const firstPublishedFeatured = workEntries
+  .filter((entry) => scalarValue(entry.frontmatter, "publicationState") === "published")
+  .filter((entry) => scalarValue(entry.frontmatter, "isFeatured") === "true")
+  .sort((a, b) => Number(scalarValue(a.frontmatter, "order")) - Number(scalarValue(b.frontmatter, "order")))[0];
+if (!firstPublishedFeatured?.file.endsWith("/skillsbar.md")) {
+  failures.push(collectionDirs.work + ": SkillsBar must be the first published featured work entry.");
+}
+
 const blogEntries = [];
 for (const fileName of contentFiles(collectionDirs.blog)) {
   const file = join(collectionDirs.blog, fileName);
   const frontmatter = readFrontmatter(file);
   blogEntries.push({ file, frontmatter });
-  for (const key of ["title", "date", "order", "summary", "href", "featured"]) {
+  requirePublicationState(file, frontmatter);
+  for (const key of ["title", "date", "order", "publicationState", "summary", "href", "featured"]) {
     requirePattern(file, frontmatter, new RegExp("^" + key + ":", "m"), key);
   }
 
@@ -157,7 +180,8 @@ for (const fileName of contentFiles(collectionDirs.proof)) {
   const file = join(collectionDirs.proof, fileName);
   const frontmatter = readFrontmatter(file);
   proofEntries.push({ file, frontmatter });
-  for (const key of ["title", "status", "order", "href", "claim", "evidence", "caveat", "nextState"]) {
+  requirePublicationState(file, frontmatter);
+  for (const key of ["title", "status", "order", "publicationState", "href", "claim", "evidence", "caveat", "nextState"]) {
     requirePattern(file, frontmatter, new RegExp("^" + key + ":", "m"), key);
   }
 

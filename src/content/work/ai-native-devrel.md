@@ -3,7 +3,8 @@ title: "AI-native DevRel"
 shortTitle: "AI DevRel"
 subtitle: "Building trust surfaces for agentic developer tools"
 date: "June 2026"
-order: 1
+order: 2
+publicationState: "published"
 isFeatured: true
 overview: "This case study frames the first public article and proof log as one artifact: a position, a receipt, and a boundary."
 organization: "brAInwav is Jamie's public proof surface for AI-native DevRel writing, demos, CLI work, and validation notes."

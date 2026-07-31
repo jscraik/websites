@@ -8,7 +8,7 @@ const source = readFileSync("src/lib/portfolio.ts", "utf8")
   .replace(/export type WorkCard = \{[\s\S]*?\};\n\n/, "")
   .replace(/const byOrder = <[^>]+>\(/, "const byOrder = (")
   .replace(/\(([^()]*):\s*[^,()]+,\s*([^()]*):\s*[^,()]+\)\s*=>/g, "($1, $2) =>")
-  .replace(/function workRoute\(entry: Pick<WorkEntry, "id">\)/, "function workRoute(entry)")
+  .replace(/function workRoute\(entry: Pick<WorkEntry, "id" \| "data">\)/, "function workRoute(entry)")
   .replace(/function featuredWorkCards\(workEntries: WorkEntry\[\]\)/, "function featuredWorkCards(workEntries)")
   .replace(/function proofWorkCards\(workEntries: WorkEntry\[\], proofEntries: ProofEntry\[\]\): WorkCard\[\]/, "function proofWorkCards(workEntries, proofEntries)")
   .replace(/export const /g, "const ")
@@ -34,6 +34,7 @@ function workEntry(id, data) {
       frames: [["A", "B", "C"], ["D", "E", "F"], ["G", "H", "I"], ["J", "K", "L"]],
       isFeatured: false,
       order: 1,
+      publicationState: "published",
       shortTitle: id,
       subtitle: "Subtitle",
       tags: ["One", "Two", "Three", "Four"],
@@ -51,6 +52,7 @@ function proofEntry(id, data) {
       claim: "Claim",
       href: "/proof/",
       order: 1,
+      publicationState: "published",
       status: "Planned",
       title: id,
       ...data
@@ -58,7 +60,11 @@ function proofEntry(id, data) {
   };
 }
 
-assert.equal(workRoute({ id: "cli-proof-series" }), "/work/cli-proof-series/");
+assert.equal(workRoute({ id: "cli-proof-series", data: {} }), "/work/cli-proof-series/");
+assert.equal(
+  workRoute({ id: "skillsbar", data: { href: "/demos/skillsbar/" } }),
+  "/demos/skillsbar/"
+);
 assert.equal(byOrder(workEntry("b", { order: 2 }), workEntry("a", { order: 1 })), 1);
 assert.deepEqual(featuredWorkCards([]), []);
 assert.deepEqual(proofWorkCards([], []), []);
@@ -66,6 +72,7 @@ assert.deepEqual(proofWorkCards([], []), []);
 const featuredCards = featuredWorkCards([
   workEntry("later", { isFeatured: true, order: 2, title: "Later" }),
   workEntry("earlier", { isFeatured: true, order: 1, title: "Earlier" }),
+  workEntry("draft", { isFeatured: true, order: 0, publicationState: "draft", title: "Draft" }),
   workEntry("plain", { isFeatured: false, order: 3, title: "Plain" })
 ]);
 assert.deepEqual(featuredCards.map((card) => card.title), ["Earlier", "Later"]);
@@ -79,7 +86,8 @@ assert.deepEqual(malformedFeatured[0].frames, []);
 const proofCards = proofWorkCards(
   [
     workEntry("second", { order: 2, shortTitle: "Second" }),
-    workEntry("first", { order: 1, shortTitle: "First" })
+    workEntry("first", { order: 1, shortTitle: "First" }),
+    workEntry("draft", { order: 3, publicationState: "draft", shortTitle: "Draft" })
   ],
   [proofEntry("other-proof", { order: 1 })]
 );
@@ -93,5 +101,11 @@ const withAgentSkills = proofWorkCards(
 assert.deepEqual(withAgentSkills.map((card) => card.title), ["Work", "Agent skills notes"]);
 assert.equal(withAgentSkills[1].summary, "From content");
 assert.equal(withAgentSkills[1].index, 2);
+
+const withoutDraftProof = proofWorkCards(
+  [workEntry("work", { order: 1, shortTitle: "Work" })],
+  [proofEntry("agent-skills-notes", { publicationState: "draft", title: "Hidden draft" })]
+);
+assert.deepEqual(withoutDraftProof.map((card) => card.title), ["Work"]);
 
 console.log("Portfolio helper tests passed.");

@@ -46,12 +46,12 @@ const pages = [
     route: "/work/brainwav-io/",
     file: "work/brainwav-io/index.html",
     includes: ["jscraik.com", "proof-led AI work"]
-  },
-  {
-    route: "/work/cli-proof-series/",
-    file: "work/cli-proof-series/index.html",
-    includes: ["CLI proof series", "developer-facing artifacts"]
   }
+];
+
+const absentPages = [
+  { route: "/work/cli-proof-series/", file: "work/cli-proof-series/index.html" },
+  { route: "/work/skillsbar/", file: "work/skillsbar/index.html" }
 ];
 
 const failures = [];
@@ -69,6 +69,13 @@ for (const page of pages) {
     if (!html.includes(expected)) {
       failures.push(`${page.route}: expected text not found: ${expected}`);
     }
+  }
+}
+
+for (const page of absentPages) {
+  const path = join("dist", page.file);
+  if (existsSync(path)) {
+    failures.push(`${page.route}: unpublished or externally routed work must not generate ${path}`);
   }
 }
 

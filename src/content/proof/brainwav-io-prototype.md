@@ -2,6 +2,7 @@
 title: "brAInwav prototype"
 status: "Build"
 order: 2
+publicationState: "published"
 href: "/"
 claim: "The site can act as Jamie's public proof surface."
 evidence: "Astro repo and prototype pages."

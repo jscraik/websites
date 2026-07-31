@@ -2,6 +2,7 @@
 title: "Agent skills notes"
 status: "Planned"
 order: 4
+publicationState: "draft"
 href: "/now/"
 claim: "Skills can teach repeatable AI workflow practice."
 evidence: "Installed project skills and future notes."

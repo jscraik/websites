@@ -9,3 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Bootstrap release/changelog pipeline scaffolding via `harness init`.
+- Add publication-aware portfolio surfaces with SkillsBar as the first featured proof, clearer case-study evidence boundaries, and a keyboard skip link.
+
+### Changed
+- Simplify the public Blog, Proof, brAInwav, and mobile featured-work presentation while preserving the Jose-derived layout system.

@@ -3,7 +3,8 @@ title: "brAInwav"
 shortTitle: "Proof Log"
 subtitle: "A personal site for proof-led AI work"
 date: "Current"
-order: 2
+order: 3
+publicationState: "published"
 isFeatured: true
 overview: "The site turns private learning and local build evidence into a public reader journey without exposing private machinery."
 organization: "The site exists to make Jamie's AI-native DevRel direction legible to developers, reviewers, and community contacts."
