@@ -202,7 +202,7 @@ const requiredPaperRules = [
   },
   {
     name: "About header and page surfaces",
-    pattern: /body:has\(\.about-page\)\s*{\s*\n\s*background:\s*var\(--surface-card\);\s*\n}\s*\n\s*body:has\(\.about-page\) main\s*{\s*\n\s*background:\s*var\(--paper\);/m
+    pattern: /body:has\(\.about-page\)\s*{\s*\n\s*background:\s*var\(--paper\);\s*\n}\s*\n\s*body:has\(\.about-page\) main\s*{\s*\n\s*background:\s*var\(--paper\);/m
   },
   {
     name: "About Jose header gradient",

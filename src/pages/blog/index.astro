@@ -104,6 +104,13 @@ const showArticleIndex = articles.length > 1;
 </BaseLayout>
 
 <style>
+  :global(body:has(.blog-index)) {
+    --blog-header-gradient-height: 1038px;
+    background:
+      linear-gradient(180deg, var(--surface-card), var(--paper)) top / 100% var(--blog-header-gradient-height) no-repeat,
+      var(--paper);
+  }
+
   .blog-index {
     display: grid;
     width: min(1100px, calc(100% - var(--space-6)));
@@ -414,7 +421,7 @@ const showArticleIndex = articles.length > 1;
     .blog-index,
     .article-list,
     .blog-about-card {
-      width: calc(100% - var(--space-5));
+      width: min(100%, calc(100% - var(--space-4) - var(--space-4)));
     }
 
     .blog-index,
@@ -425,15 +432,76 @@ const showArticleIndex = articles.length > 1;
 
     .blog-index {
       gap: var(--space-5);
+      padding-top: 84px;
+    }
+
+    .blog-index .blog-heading-lockup {
+      padding-top: calc(var(--space-4) - 1px);
     }
 
     .blog-title-block h1 {
-      margin-bottom: var(--space-5);
-      font-size: clamp(62px, 19vw, 96px);
+      margin-bottom: var(--space-3);
+      font-size: clamp(3.25rem, 14vw, 3.5rem);
+      line-height: 0.95;
     }
 
-    .latest-article h2 {
-      font-size: 24px;
+    .blog-index .draft-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding: 0;
+      border: 0;
+    }
+
+    .blog-index .draft-links .eyebrow {
+      margin: 0 0 var(--space-1);
+    }
+
+    .blog-index .draft-links span {
+      grid-template-columns: var(--space-2) minmax(0, 1fr);
+      gap: var(--space-2);
+      padding: 0;
+      font-size: clamp(0.9375rem, 4vw, 1rem);
+      line-height: 1.625;
+    }
+
+    .blog-index .draft-links span:first-of-type {
+      margin-top: var(--space-2);
+      padding-top: 0;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .blog-index .draft-links span + span {
+      margin-top: var(--space-1);
+    }
+
+    .blog-index .draft-links span:last-of-type {
+      margin-bottom: var(--space-2);
+      padding-bottom: 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .blog-index .draft-links span :global(.sm-icon) {
+      width: var(--space-2);
+      height: var(--space-2);
+    }
+
+    .blog-index.blog-index .latest-article h2 {
+      font-size: clamp(1.125rem, 4.86vw, 1.25rem);
+      line-height: 1.4;
+      font-family: var(--body-sans);
+      font-weight: 600;
+    }
+
+    .latest-article article > div:first-child .eyebrow {
+      display: block;
+      width: fit-content;
+      margin: 0 0 var(--space-2);
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      line-height: 1.4;
     }
 
     .latest-article p:not(.eyebrow, .article-date) {
@@ -462,11 +530,16 @@ const showArticleIndex = articles.length > 1;
     }
 
     .blog-about-card img {
-      aspect-ratio: 1;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
     }
   }
 
   @media (min-width: 57.5626rem) {
+    :global(body:has(.blog-index)) {
+      --blog-header-gradient-height: 913px;
+    }
+
     .blog-index.section-shell {
       display: grid;
       grid-template-columns: 3fr 1fr 4fr;

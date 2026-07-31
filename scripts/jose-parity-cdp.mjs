@@ -104,7 +104,6 @@ try {
 
       if (diff) {
         await writeJson(path.join(outputRoot, "metrics", pairName + "-pixel.json"), diff.metrics);
-        assertPixelBudget(pairName, diff.metrics);
       }
 
       if (capture.name === "home-top") {
@@ -116,6 +115,10 @@ try {
 
       if (referenceSurface && candidateSurface) {
         assertSurfaceParity(pairName, capture.name, viewport.name, referenceSurface, candidateSurface);
+      }
+
+      if (diff) {
+        assertPixelBudget(pairName, diff.metrics);
       }
 
       rows.push(renderRow(pairName, reference.relativePath, candidate.relativePath, diff?.relativePath));
@@ -273,6 +276,11 @@ async function measureSurface(activePage, baseURL, capture) {
       }
       return visibleRect(panel);
     };
+    const mediaRect = (element) => {
+      const rect = element?.getBoundingClientRect();
+      if (!rect || rect.width <= 1 || rect.height <= 1) return null;
+      return { ...toRect(rect), aspectRatio: rect.width / rect.height };
+    };
     const byText = (selector, text) =>
       [...document.querySelectorAll(selector)].find((element) => element.textContent?.trim() === text) ?? null;
     const containsText = (selector, text) =>
@@ -311,6 +319,14 @@ async function measureSurface(activePage, baseURL, capture) {
                 containsText("h2, h3", "creative direction") ??
                 document.querySelector("article h2, article h3")
             )
+          : null,
+      draftRows:
+        captureName === "blog-top"
+          ? [...document.querySelectorAll(".icon-link-item, .draft-links span")].map(visibleRect).filter(Boolean).slice(0, 3)
+          : [],
+      authorImage:
+        captureName === "blog-top"
+          ? mediaRect(document.querySelector(".blog-about-card img") ?? document.querySelector(".u-img-cover"))
           : null,
       copy:
         captureName === "about-top"
@@ -434,6 +450,33 @@ function assertSurfaceParity(pairName, captureName, viewportName, reference, can
     checkDelta("lead.y", candidate.lead.y, reference.lead.y, 96);
     checkDelta("lead.width", candidate.lead.width, reference.lead.width, 90);
     checkDelta("lead.fontSize", candidate.lead.fontSize, reference.lead.fontSize, 5);
+    if (viewportName === "mobile") {
+      checkDelta("lead.fontWeight", candidate.lead.fontWeight, reference.lead.fontWeight, 50);
+    }
+  }
+
+  if (captureName === "blog-top" && viewportName === "mobile") {
+    if (requireRect("blog heading", reference.h1, candidate.h1)) {
+      checkDelta("heading.x", candidate.h1.x, reference.h1.x, 12);
+      checkDelta("heading.y", candidate.h1.y, reference.h1.y, 12);
+      checkDelta("heading.width", candidate.h1.width, reference.h1.width, 12);
+      checkDelta("heading.height", candidate.h1.height, reference.h1.height, 8);
+    }
+
+    if (reference.draftRows.length < 3) failures.push("draft rows: expected at least three reference rows");
+    if (candidate.draftRows.length < 3) failures.push("draft rows: expected at least three candidate rows");
+    if (reference.draftRows.length >= 3 && candidate.draftRows.length >= 3) {
+      for (const index of [0, 1, 2]) {
+        checkDelta("draft[" + index + "].x", candidate.draftRows[index].x, reference.draftRows[index].x, 12);
+        checkDelta("draft[" + index + "].width", candidate.draftRows[index].width, reference.draftRows[index].width, 16);
+        checkDelta("draft[" + index + "].height", candidate.draftRows[index].height, reference.draftRows[index].height, 8);
+        checkDelta("draft[" + index + "].y", candidate.draftRows[index].y, reference.draftRows[index].y, 18);
+      }
+    }
+
+    if (requireRect("blog author image", reference.authorImage, candidate.authorImage)) {
+      checkDelta("authorImage.aspectRatio", candidate.authorImage.aspectRatio, reference.authorImage.aspectRatio, 0.05);
+    }
   }
 
   if (captureName === "about-top") {
