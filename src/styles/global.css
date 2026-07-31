@@ -4097,6 +4097,7 @@ body {
 .start-links a,
 .draft-links span,
 .about-jump a {
+  transition-property: color, background-color, border-color, box-shadow, opacity, transform;
   transition-duration: 160ms;
   transition-timing-function: var(--ease-out);
 }
@@ -4912,15 +4913,6 @@ body {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .feature-block,
-  .work-mini-card,
-  .small-button,
-  .start-links a,
-  .about-jump a,
-  .web-table a {
-    will-change: transform;
-  }
-
   .feature-block:hover {
     transform: translateY(-3px);
   }
@@ -7028,6 +7020,7 @@ body:not(.skillsbar-demo) :is(h3, h4, .latest-article h2, .work-mini-card h3, .f
 
 :is(.small-button, button, .carousel-button) {
   border-radius: var(--radius-button);
+  transition-property: color, background-color, border-color, box-shadow, opacity, transform;
   transition-duration: var(--bds-motion-fast);
   transition-timing-function: var(--ease-out);
 }
@@ -8300,6 +8293,7 @@ body:not(.skillsbar-demo) :is(h3, h4, .latest-article h2, .work-mini-card h3, .f
 .feature-proof-panel,
 .brainwav-bridge,
 .brainwav-resource-card {
+  transition-property: color, background-color, border-color, box-shadow, opacity, transform, filter;
   transition-duration: var(--jp-motion-fast);
   transition-timing-function: var(--jp-motion-ease);
 }
@@ -8441,6 +8435,7 @@ body:not(.skillsbar-demo) :is(h3, h4, .latest-article h2, .work-mini-card h3, .f
   .small-button:active {
     box-shadow: inset 0 1px 0 color-mix(in srgb, currentColor 14%, transparent);
     transform: translateY(0) scale(0.975);
+    transition-property: box-shadow, transform;
     transition-duration: var(--bds-motion-fast);
   }
 
@@ -11856,66 +11851,5 @@ html body:not(.skillsbar-demo) .blog-index .latest-article .eyebrow {
 
   .contact-links a {
     min-inline-size: 44px;
-  }
-}
-
-html body:not(.skillsbar-demo) .about-page.about-hero-shell {
-  background: linear-gradient(180deg, var(--surface-card), var(--paper));
-}
-
-/* Stored Jose mobile About contract: full-bleed surface and editorial intro rhythm. */
-@media (max-width: 40rem) {
-  html body:not(.skillsbar-demo) .about-page.about-hero-shell {
-    box-sizing: border-box;
-    width: 100%;
-    max-width: none;
-    margin: 0;
-    padding: 115px 0 96px;
-  }
-
-  .about-page.about-hero-shell .about-intro {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 38px;
-    width: min(calc(100% - 61px), 329px);
-    max-width: none;
-    margin-inline: auto;
-    padding: 0;
-  }
-
-  .about-page.about-hero-shell .about-copy-block {
-    display: flex;
-    flex-direction: column;
-    gap: 23px;
-    width: 100%;
-  }
-
-  .about-page.about-hero-shell .about-copy-block > h1#about-title {
-    margin: 0;
-    color: var(--neutral-07);
-    font-family: var(--body-sans);
-    font-size: var(--bds-type-body-lg-size);
-    font-weight: 600;
-    line-height: 1.4;
-    letter-spacing: 0;
-  }
-
-  .about-page.about-hero-shell .about-copy {
-    display: grid;
-    gap: 0;
-  }
-
-  .about-page.about-hero-shell .about-copy p {
-    margin: 0 0 15px;
-    color: var(--neutral-07);
-    font-family: var(--body-serif);
-    font-size: var(--bds-type-body-lg-size);
-    font-weight: 300;
-    line-height: 1.6;
-    letter-spacing: 0;
-  }
-
-  .about-page.about-hero-shell .about-copy p:last-child {
-    margin-bottom: 0;
   }
 }

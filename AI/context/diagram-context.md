@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-07-31T16:50:04Z
+Generated: 2026-07-31T17:49:24Z
 
 ## Table of Contents
 
@@ -31,14 +31,12 @@ Generated: 2026-07-31T16:50:04Z
 - These architecture-sensitive paths changed on the current branch and may be compacted out of Mermaid diagrams.
 - `package.json`
 - `src/brand/social-profile-assets.json`
-- `src/components/CarouselControls.astro`
+- `src/brand/source/jamie-profile.png`
 - `src/components/SiteFooter.astro`
 - `src/pages/blog/index.astro`
-- `src/pages/contact.astro`
 - `src/pages/demos/skillsbar.astro`
-- `src/pages/index.astro`
 - `src/pages/now.astro`
-- `src/styles/brand-tokens.css`
+- `src/styles/about.css`
 - `src/styles/brand-tokens.json`
 - `src/styles/global.css`
 
@@ -143,6 +141,7 @@ graph LR
   node_pr_readiness_boundaries_621e369e_7f0b2de9["pr_readiness_boundaries_621e369e"]
   node_setup_git_hooks_70750d40_b4ca2cf9["setup_git_hooks_70750d40"]
   node_smoke_pages_9a92b30d_72f6805f["smoke_pages_9a92b30d"]
+  node_test_astro_anti_patterns_88db0377_401e86a9["test_astro_anti_patterns_88db0377"]
   node_test_branch_transition_preflight_1665655e_acac1534["test_branch_transition_preflight_1665655e"]
   node_test_code_quality_debt_contract_569cff13_2953095a["test_code_quality_debt_contract_569cff13"]
   node_test_codex_preflight_receipt_200ab781_029a12e8["test_codex_preflight_receipt_200ab781"]
@@ -178,6 +177,7 @@ graph LR
   ext_playwright_test_4b02302d["@playwright/test"] --> node_jose_parity_runner_50cc4344_e9555b02
   ext_astro_90c9d7bd["astro"] --> node_content_config_a9a9d2e1_05943ac5
   ext_astro_content_2110f121["astro:content"] --> node_content_config_a9a9d2e1_05943ac5
+  ext_node_assert_f1a93ba5["node:assert"] --> node_test_astro_anti_patterns_88db0377_401e86a9
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_branch_transition_preflight_1665655e_acac1534
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
@@ -196,6 +196,7 @@ graph LR
   ext_node_child_process_f62b7d19["node:child_process"] --> node_check_public_api_docs_a9604f1b_f824853c
   ext_node_child_process_f62b7d19["node:child_process"] --> node_jose_parity_runner_50cc4344_e9555b02
   ext_node_child_process_f62b7d19["node:child_process"] --> node_setup_git_hooks_70750d40_b4ca2cf9
+  ext_node_child_process_f62b7d19["node:child_process"] --> node_test_astro_anti_patterns_88db0377_401e86a9
   ext_node_child_process_f62b7d19["node:child_process"] --> node_test_branch_transition_preflight_1665655e_acac1534
   ext_node_child_process_f62b7d19["node:child_process"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_child_process_f62b7d19["node:child_process"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
@@ -226,6 +227,7 @@ graph LR
   ext_node_fs_a15b7d96["node:fs"] --> node_pr_readiness_boundaries_621e369e_7f0b2de9
   ext_node_fs_a15b7d96["node:fs"] --> node_setup_git_hooks_70750d40_b4ca2cf9
   ext_node_fs_a15b7d96["node:fs"] --> node_smoke_pages_9a92b30d_72f6805f
+  ext_node_fs_a15b7d96["node:fs"] --> node_test_astro_anti_patterns_88db0377_401e86a9
   ext_node_fs_a15b7d96["node:fs"] --> node_test_branch_transition_preflight_1665655e_acac1534
   ext_node_fs_a15b7d96["node:fs"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_fs_a15b7d96["node:fs"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
@@ -255,6 +257,7 @@ graph LR
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_render_flow_2f64be63_a84870b9
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_social_profile_assets_a023937b_aed15edb
   ext_node_http_e4ddf53f["node:http"] --> node_validate_render_flow_2f64be63_a84870b9
+  ext_node_os_d93fe73a["node:os"] --> node_test_astro_anti_patterns_88db0377_401e86a9
   ext_node_os_d93fe73a["node:os"] --> node_test_branch_transition_preflight_1665655e_acac1534
   ext_node_os_d93fe73a["node:os"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_os_d93fe73a["node:os"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
@@ -273,6 +276,7 @@ graph LR
   ext_node_path_78811c13["node:path"] --> node_pr_readiness_boundaries_621e369e_7f0b2de9
   ext_node_path_78811c13["node:path"] --> node_setup_git_hooks_70750d40_b4ca2cf9
   ext_node_path_78811c13["node:path"] --> node_smoke_pages_9a92b30d_72f6805f
+  ext_node_path_78811c13["node:path"] --> node_test_astro_anti_patterns_88db0377_401e86a9
   ext_node_path_78811c13["node:path"] --> node_test_branch_transition_preflight_1665655e_acac1534
   ext_node_path_78811c13["node:path"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_path_78811c13["node:path"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
@@ -300,6 +304,7 @@ graph LR
   ext_node_url_d0cb3ad7["node:url"] --> node_check_git_worktree_authority_940ab26d_54e5636e
   ext_node_url_d0cb3ad7["node:url"] --> node_check_node_engine_217689bf_3e5964b2
   ext_node_url_d0cb3ad7["node:url"] --> node_generate_social_profile_assets_f4f94011_2a983f29
+  ext_node_url_d0cb3ad7["node:url"] --> node_test_astro_anti_patterns_88db0377_401e86a9
   ext_node_url_d0cb3ad7["node:url"] --> node_test_branch_transition_preflight_1665655e_acac1534
   ext_node_url_d0cb3ad7["node:url"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_url_d0cb3ad7["node:url"] --> node_test_codex_preflight_receipt_200ab781_029a12e8

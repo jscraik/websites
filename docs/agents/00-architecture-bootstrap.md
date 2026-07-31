@@ -25,6 +25,11 @@ architecture evidence. Refresh them with the repository diagram workflow and
 keep `AI/context/diagram-context.md` aligned; generated runtime receipts remain
 evidence rather than canonical source.
 
+The Astro anti-pattern validator is part of the source-quality architecture:
+`scripts/test-astro-anti-patterns.mjs` exercises the production validator with
+fixture CSS, while `npm run validate:fast` keeps that focused regression test
+adjacent to the full source-policy lane.
+
 The tracked environment projection and code-quality debt validator are part of
 the operator workflow architecture. When either changes, refresh the diagram
 context after `npm run test:code-quality-debt`, `npm run quality:debt`, and an

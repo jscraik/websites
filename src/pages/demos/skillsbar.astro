@@ -286,7 +286,7 @@ const gates = [
         if (score) score.textContent = String(activeScenario.score);
         if (readiness) readiness.setAttribute("aria-label", `${activeScenario.score} out of 100 pipeline readiness`);
         if (fill instanceof HTMLElement) {
-          fill.style.width = `${activeScenario.score}%`;
+          fill.style.scale = `${activeScenario.score / 100} 1`;
           fill.dataset.tone = key;
         }
         if (actionIndex) actionIndex.textContent = String(activeScenario.action + 1).padStart(2, "0");
@@ -416,7 +416,7 @@ const gates = [
   .readiness > span { color: var(--skillsbar-muted); font-size: .75rem; }
   .readiness small { grid-column: 1 / -1; color: var(--skillsbar-muted); font-size: .625rem; }
   .readiness-track { height: .3125rem; margin: 1.375rem 0 1.5rem; overflow: hidden; border-radius: .1875rem; background: #292d29; }
-  .readiness-track span { display: block; width: 11%; height: 100%; background: var(--skillsbar-orange); transition: width 350ms var(--bds-ease-out), background-color 200ms ease; }
+  .readiness-track span { display: block; width: 100%; height: 100%; scale: .11 1; transform-origin: left; background: var(--skillsbar-orange); transition: scale 350ms var(--bds-ease-out), background-color 200ms ease; }
   .readiness-track span[data-tone="security"] { background: var(--skillsbar-red); }
   .readiness-track span[data-tone="ready"] { background: var(--skillsbar-green); }
   .next-action { display: grid; grid-template-columns: 2.5rem 1fr auto; align-items: center; gap: .75rem; padding: .8125rem; border: 1px solid var(--skillsbar-orange); border-radius: .5rem; background: rgba(255, 122, 0, .04); }

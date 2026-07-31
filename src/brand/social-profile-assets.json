@@ -3,7 +3,7 @@
   "contract": "jamie-social-profile-assets/v1",
   "design_system_version": "1.1.0",
   "owner": "Jamie Scott Craik",
-  "avatar_source": "public/jamie-profile.png",
+  "avatar_source": "src/brand/source/jamie-profile.png",
   "brand_promise": "Making AI-assisted developer work inspectable.",
   "brand_promise_lines": [
     "Making AI-assisted",

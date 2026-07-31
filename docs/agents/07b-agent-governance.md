@@ -45,6 +45,10 @@ the linked architecture and governance documentation before push. Generated
 diagram evidence informs the change; it does not replace the documented
 workflow contract or hosted review evidence.
 
+When a source-quality validator or focused regression fixture adds a node to
+the tracked architecture projections, keep `AGENTS.md` and the architecture
+bootstrap guidance aligned with the validator entrypoint and its proof scope.
+
 For Jose parity work, the stored bundle and its accepted decision record are
 the design authority. Current-live comparisons remain advisory evidence, and
 agents must not silently refresh the bundle, weaken mismatch budgets, or turn

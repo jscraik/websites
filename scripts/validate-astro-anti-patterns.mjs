@@ -84,6 +84,40 @@ function validateCssSource(relativePath, source, isAstroFile) {
       fail(relativePath, source, block.startIndex + match.index, "transition: all is forbidden; transition only the properties that should animate.");
     }
 
+    for (const match of block.source.matchAll(/\btransition(?:-property)?\s*:[^;{}]*\b(?:width|height|padding|margin|top|right|bottom|left)\b/gi)) {
+      fail(
+        relativePath,
+        source,
+        block.startIndex + match.index,
+        "layout-bound transitions are forbidden; animate compositor-friendly transform or opacity instead.",
+      );
+    }
+
+    for (const match of block.source.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+      const declarations = match[2];
+      const hasDuration = /\btransition-duration\s*:/i.test(declarations);
+      const hasExplicitProperty = /\btransition-property\s*:/i.test(declarations) || /\btransition\s*:/i.test(declarations);
+      const isReducedMotionOverride = /\btransition-duration\s*:\s*(?:0|0?\.0*1ms|1ms)\b/i.test(declarations);
+
+      if (hasDuration && !hasExplicitProperty && !isReducedMotionOverride) {
+        fail(
+          relativePath,
+          source,
+          block.startIndex + match.index,
+          "transition-duration without transition-property defaults to all; name the properties that should animate in the same rule.",
+        );
+      }
+    }
+
+    for (const match of block.source.matchAll(/\bwill-change\s*:/gi)) {
+      fail(
+        relativePath,
+        source,
+        block.startIndex + match.index,
+        "persistent will-change is forbidden without measured first-frame evidence; let the browser promote routine hover effects on demand.",
+      );
+    }
+
     for (const match of block.source.matchAll(/!important\b/g)) {
       fail(relativePath, source, block.startIndex + match.index, "!important is forbidden; fix the cascade or use a more explicit scoped selector.");
     }

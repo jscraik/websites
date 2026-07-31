@@ -566,7 +566,7 @@
   "social_profile": {
     "contract": "jamie-social-profile-assets/v1",
     "source_manifest": "src/brand/social-profile-assets.json",
-    "avatar_source": "public/jamie-profile.png",
+    "avatar_source": "src/brand/source/jamie-profile.png",
     "promise": "Making AI-assisted developer work inspectable.",
     "composition": {
       "grid_columns": 12,

@@ -2,15 +2,15 @@
   "schema_version": "jamie-social-profile-assets-receipt/v1",
   "contract": "jamie-social-profile-assets/v1",
   "design_system_version": "1.1.0",
-  "source_digest": "8ca6f358e1a28c05a5cc306accac3857ef5008cf318b8f3de0187680eb04c16f",
+  "source_digest": "79f5fbb7bcbe17d403ef1c55ec3de3c37222fe84d2995718dbdf5f3417c30826",
   "sources": {
     "public/brand/fonts/geist-mono-variable.woff2": "afaacc4c5fbba89d2ebf7a02dc4070208540874592a5504d57175782fe893101",
     "public/brand/fonts/geist-variable.woff2": "2ffebe993e969069a9789d15164b7715d42491b5835516c5e3b935d5f81b05f1",
     "public/brand/fonts/newsreader-variable.woff2": "1faa3380ac0e87e057b180e03fd94bd708a612afb67d2590677be4508909fae9",
-    "public/jamie-profile.png": "daf30bfa63cab49c77f109da04089ccd74c0f4c574cccea67fd2d27579f250bc",
     "scripts/generate-social-profile-assets.mjs": "df7a686298752437b7209b8eb5967b6d664911997558c5ffc0fbf2b3ca574cf1",
-    "src/brand/social-profile-assets.json": "ab65206cafaf66b5720be64a7c59d3ddd2e3b749e8a3461296c4ec19b66ba066",
-    "src/styles/brand-tokens.json": "ae1d5e91d2e3b343b70b4699338d74abb8315041a6390910c3f384eee399e271"
+    "src/brand/social-profile-assets.json": "28e1ec4f8600ba8f1ac9f2333a182b9eb975635c132400ee594821452bf64376",
+    "src/brand/source/jamie-profile.png": "daf30bfa63cab49c77f109da04089ccd74c0f4c574cccea67fd2d27579f250bc",
+    "src/styles/brand-tokens.json": "d1d02b42cb9b924f434d1d014330a89431897bee85f1238eea2463611a1b47ed"
   },
   "outputs": {
     "public/brand/social/jamie-avatar-linkedin-400x400.png": {
