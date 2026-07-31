@@ -6704,10 +6704,15 @@ body:has(.about-page) .site-footer {
 }
 
 body:has(.about-page) .site-header {
-  background: linear-gradient(180deg, var(--surface-card), transparent);
+  background: linear-gradient(180deg, var(--surface-card), var(--paper));
 }
 
 .about-page.about-hero-shell {
+  background: linear-gradient(180deg, var(--surface-card), var(--paper));
+}
+
+/* Extend the stored Jose gradient through the full About main canvas. */
+body:has(.about-page) main {
   background: linear-gradient(180deg, var(--surface-card), var(--paper));
 }
 
@@ -11895,4 +11900,11 @@ html body:not(.skillsbar-demo) .site-header .nav-link[aria-current="page"] {
     width: fit-content;
     max-width: 100%;
   }
+}
+
+/* Preserve the square source ratio at every responsive contact width. */
+.contact-photo {
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
 }

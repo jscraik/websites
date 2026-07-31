@@ -58,6 +58,42 @@ test.describe("UI polish contracts", () => {
     expect(technicalShell.socialBackground).toBe("rgb(27, 34, 48)");
   });
 
+  test("About keeps the stored full-bleed neutral gradient", async ({ page }) => {
+    await page.setViewportSize({ width: 645, height: 964 });
+    await preparePage(page, "/now/");
+
+    const shell = await page.evaluate(() => ({
+      viewportWidth: window.innerWidth,
+      mainWidth: document.querySelector("main")!.getBoundingClientRect().width,
+      headerBackground: getComputedStyle(document.querySelector(".site-header")!).backgroundImage,
+      mainBackground: getComputedStyle(document.querySelector("main")!).backgroundImage
+    }));
+
+    expect(shell.mainWidth).toBe(shell.viewportWidth);
+    expect(shell.headerBackground).toBe("linear-gradient(rgb(251, 250, 245), rgb(213, 214, 208))");
+    expect(shell.mainBackground).toBe("linear-gradient(rgb(251, 250, 245), rgb(213, 214, 208))");
+  });
+
+  test("contact portrait preserves its square source ratio", async ({ page }) => {
+    await page.setViewportSize({ width: 1151, height: 964 });
+    await preparePage(page, "/contact/");
+
+    const image = await page.locator(".contact-photo").evaluate((element) => {
+      const style = getComputedStyle(element);
+      const rect = element.getBoundingClientRect();
+      return {
+        width: rect.width,
+        height: rect.height,
+        objectFit: style.objectFit,
+        aspectRatio: style.aspectRatio
+      };
+    });
+
+    expect(Math.abs(image.width - image.height)).toBeLessThanOrEqual(1);
+    expect(image.objectFit).toBe("cover");
+    expect(image.aspectRatio).toBe("1 / 1");
+  });
+
   test("portfolio images carry the surface outline treatment", async ({ page }) => {
     const imageRoutes = [
       ...coreRoutes,
