@@ -54,10 +54,19 @@ for (const capability of requiredParityRunnerCapabilities) {
   }
 }
 
-if (!parityRunnerScript.includes("--remote-debugging-port=9223") || parityRunnerScript.includes("--remote-debugging-port=9222")) {
-  failures.push("scripts/jose-parity-runner.mjs: the managed-browser fallback must print the approved Portfolio 9223 route, not the stale 9222 launch command.");
-}
+const parityRunnerScript = readFileSync("scripts/jose-parity-runner.mjs", "utf8");
+const parityCdpScript = readFileSync("scripts/jose-parity-cdp.mjs", "utf8");
 
+for (const [path, source] of [
+  ["scripts/jose-parity-runner.mjs", parityRunnerScript],
+  ["scripts/jose-parity-cdp.mjs", parityCdpScript],
+]) {
+  if (!source.includes("--remote-debugging-port=9223") ||
+      source.includes("--remote-debugging-port=9222") ||
+      !source.includes("--user-data-dir=/tmp/portfolio-chrome-cdp")) {
+    failures.push(`${path}: recovery guidance must use the approved Portfolio 9223 route and dedicated profile.`);
+  }
+}
 const requiredCaptureCapabilities = [
   "JOSE_REFERENCE_RENDERED_ARTIFACTS",
   "screenshots",
