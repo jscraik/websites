@@ -48,5 +48,6 @@ artifacts/visual-audit/
 .lighthouseci/
 .cache/prek/
 .harness/runtime/
+.harness/runs/
 .playwright-cache/
 .playwright-tmp/
