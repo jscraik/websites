@@ -28,7 +28,7 @@ const workCount = String(workCards.length).padStart(2, "0");
 
 <BaseLayout title="Jamie Scott Craik | AI-native DevRel">
   <header class="header-inner section-shell" aria-labelledby="home-title">
-    <div class="home-hero" data-reveal>
+    <div class="home-hero" data-entry>
       <div class="home-hero__intro v-stack cc-lg">
         <h1 id="home-title" class="h1-name" aria-label="Jamie Scott Craik">
           <span>Jamie</span>
@@ -65,7 +65,7 @@ const workCount = String(workCards.length).padStart(2, "0");
     </div>
     <div class="featured-list">
       {featuredCards.map((card, index) => (
-        <article class="feature-block" data-reveal>
+        <article class="feature-block" data-entry>
           <div class="feature-block-inner">
             <div class="feature-block__content">
               <h2 id={index === 0 ? "featured-title" : undefined}>
@@ -136,7 +136,7 @@ const workCount = String(workCards.length).padStart(2, "0");
         </article>
       ))}
     </div>
-    <section id="brainwav" class="brainwav-bridge section-shell" aria-labelledby="brainwav-title" data-reveal>
+    <section id="brainwav" class="brainwav-bridge section-shell" aria-labelledby="brainwav-title" data-entry>
       <div class="brainwav-bridge__intro">
         <p class="eyebrow">Powered by <BrandWord /></p>
         <h2 id="brainwav-title">The identity behind the portfolio.</h2>
@@ -163,7 +163,7 @@ const workCount = String(workCards.length).padStart(2, "0");
     </section>
   </section>
 
-  <section id="work" class="work-carousel section-shell" aria-labelledby="work-carousel-title" data-reveal>
+  <section id="work" class="work-carousel section-shell" aria-labelledby="work-carousel-title" data-entry>
     <h2 id="work-carousel-title">All work <sup>{workCount}</sup></h2>
     <div class="work-row" aria-label="Curated proof cards" data-work-row>
       {workCards.map((item: WorkCard, index: number) => (
@@ -192,7 +192,7 @@ const workCount = String(workCards.length).padStart(2, "0");
     <CarouselControls />
   </section>
 
-  <section class="blog-preview section-shell" aria-labelledby="blog-preview-title" data-reveal>
+  <section class="blog-preview section-shell" aria-labelledby="blog-preview-title" data-entry>
     <div class="blog-title-block">
       <div class="blog-heading-lockup">
         <h2 id="blog-preview-title">Blog</h2>
