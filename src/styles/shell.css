@@ -1,0 +1,64 @@
+/* Shared shell parity: route state stays quiet while technical surfaces own their theme. */
+html body:not(.skillsbar-demo) .site-header,
+html body:not(.skillsbar-demo) .header {
+  background: linear-gradient(180deg, var(--surface-card), var(--paper));
+}
+
+html body:not(.skillsbar-demo) .site-header .nav-inner {
+  background: transparent;
+}
+
+.site-header .nav-inner {
+  isolation: isolate;
+}
+
+.site-header .nav-inner .nav-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.site-header .nav-inner > :not(.nav-bg) {
+  position: relative;
+  z-index: 1;
+}
+
+html body:not(.skillsbar-demo) .site-header .nav-inner .nav-bg {
+  background: var(--bds-color-portfolio-nav);
+}
+
+html body:not(.skillsbar-demo) .site-footer {
+  background: linear-gradient(180deg, var(--paper), var(--surface-card));
+}
+
+html body:not(.skillsbar-demo) .site-header .nav-link[aria-current="page"] {
+  color: var(--bds-color-portfolio-muted);
+}
+
+body:not(.skillsbar-demo) .site-header .icon-box[aria-current="page"] {
+  color: var(--bds-color-portfolio-muted);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  html body:not(.skillsbar-demo) .site-header .nav-inner {
+    backdrop-filter: none;
+  }
+}
+
+.footer-profile-card.profile-row {
+  width: fit-content;
+  min-width: 0;
+}
+
+.footer-profile-card .profile-row-meta {
+  min-width: 0;
+}
+
+@media (max-width: 57.5625rem) {
+  .footer-profile-card.profile-row {
+    width: fit-content;
+    max-width: 100%;
+  }
+}

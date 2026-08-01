@@ -105,10 +105,7 @@ const showArticleIndex = articles.length > 1;
 
 <style>
   :global(body:has(.blog-index)) {
-    --blog-header-gradient-height: 1038px;
-    background:
-      linear-gradient(180deg, var(--surface-card), var(--paper)) top / 100% var(--blog-header-gradient-height) no-repeat,
-      var(--paper);
+    background: var(--paper);
   }
 
   .blog-index {
@@ -536,10 +533,6 @@ const showArticleIndex = articles.length > 1;
   }
 
   @media (min-width: 57.5626rem) {
-    :global(body:has(.blog-index)) {
-      --blog-header-gradient-height: 913px;
-    }
-
     .blog-index.section-shell {
       display: grid;
       grid-template-columns: 3fr 1fr 4fr;

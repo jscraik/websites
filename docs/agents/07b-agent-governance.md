@@ -56,3 +56,10 @@ For Jose parity work, the stored bundle and its accepted decision record are
 the design authority. Current-live comparisons remain advisory evidence, and
 agents must not silently refresh the bundle, weaken mismatch budgets, or turn
 identity-specific copy and imagery into the structural comparison oracle.
+
+The shared portfolio shell is a route-independent governance boundary:
+`src/styles/shell.css` owns the header, navigation background, and footer
+surfaces, while route-local styles keep each page canvas on the neutral paper
+token. Rendered proof may attach through the approved disposable external
+Chrome/CDP route only after the exact candidate artifact is served; the app HTTP
+port and the CDP endpoint are separate evidence lanes.

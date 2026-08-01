@@ -38,6 +38,7 @@ const gitignore = read(".gitignore");
 const codestyleValidator = read("scripts/validate-codestyle.sh");
 const preCommitHook = read("scripts/hook-pre-commit.sh");
 const prePushHook = read("scripts/hook-pre-push.sh");
+const renderFlow = read("scripts/validate-render-flow.mjs");
 const contract = JSON.parse(read("harness.contract.json"));
 const contributing = read("CONTRIBUTING.md");
 const codexEnforced = read("scripts/codex-enforced");
@@ -97,6 +98,32 @@ check("pre-push validation uses the npm and Astro contract", () => {
   assert.match(prePushHook, /npm run check/);
   assert.match(prePushHook, /npm run build/);
   assert.doesNotMatch(prePushHook, /tooling-audit|check-environment\.sh|semgrep-changed/);
+});
+
+check("aggregate source validation reuses its single Astro build", () => {
+  const validateSource = packageJson.scripts["validate:source"];
+  const validateRendered = packageJson.scripts["validate:rendered"];
+  assert.match(validateSource, /ASTRO_TELEMETRY_DISABLED=1 npm run build && node scripts\/smoke-pages\.mjs/);
+  assert.equal((validateSource.match(/npm run build/g) ?? []).length, 1);
+  assert.equal((validateSource.match(/node scripts\/smoke-pages\.mjs/g) ?? []).length, 1);
+  assert.doesNotMatch(validateSource, /npm run test:smoke/);
+  assert.equal(
+    packageJson.scripts["test:smoke"],
+    "ASTRO_TELEMETRY_DISABLED=1 npm run build && node scripts/smoke-pages.mjs",
+  );
+  assert.match(validateRendered, /node scripts\/validate-js-budget\.mjs/);
+  assert.match(validateRendered, /node scripts\/validate-render-flow\.mjs/);
+  assert.doesNotMatch(validateRendered, /npm run validate:(?:js-budget|render-flow)/);
+});
+
+check("render-flow validation protects route shell landmarks", () => {
+  assert.match(renderFlow, /header\.demo-nav/);
+  assert.match(renderFlow, /header\.site-header/);
+  assert.match(renderFlow, /footer\.site-footer/);
+  assert.match(renderFlow, /missing route shell header landmark/);
+  assert.match(renderFlow, /missing shared footer landmark/);
+  assert.match(renderFlow, /CHROME_CDP_URL/);
+  assert.match(renderFlow, /connectOverCDP/);
 });
 
 check("Linear branch policy uses the supported single-segment prefix", () => {

@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-08-01T13:15:04Z
+Generated: 2026-08-01T18:51:50Z
 
 ## Table of Contents
 
@@ -30,7 +30,12 @@ Generated: 2026-08-01T13:15:04Z
 
 - These architecture-sensitive paths changed on the current branch and may be compacted out of Mermaid diagrams.
 - `package.json`
+- `src/components/SiteNav.astro`
+- `src/layouts/BaseLayout.astro`
+- `src/pages/blog/index.astro`
+- `src/styles/about.css`
 - `src/styles/global.css`
+- `src/styles/shell.css`
 
 ## agent
 
@@ -169,6 +174,7 @@ graph LR
   ext_playwright_test_4b02302d["@playwright/test"] --> node_generate_social_profile_assets_f4f94011_2a983f29
   ext_playwright_test_4b02302d["@playwright/test"] --> node_jose_parity_cdp_bdcde21d_edb59c81
   ext_playwright_test_4b02302d["@playwright/test"] --> node_jose_parity_runner_50cc4344_e9555b02
+  ext_ext_81f836ce["\\.\\.\\"] --> node_test_css_simplification_05516724_6f0b8da9
   ext_astro_90c9d7bd["astro"] --> node_content_config_a9a9d2e1_05943ac5
   ext_astro_content_2110f121["astro:content"] --> node_content_config_a9a9d2e1_05943ac5
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_astro_anti_patterns_88db0377_401e86a9
@@ -321,6 +327,7 @@ graph LR
   ext_typescript_fb9da861["typescript"] --> node_check_public_api_docs_a9604f1b_f824853c
   style ext_astro_90c9d7bd fill:#f59e0b,color:#fff
   style ext_astro_content_2110f121 fill:#f59e0b,color:#fff
+  style ext_ext_81f836ce fill:#f59e0b,color:#fff
   style ext_node_assert_f1a93ba5 fill:#f59e0b,color:#fff
   style ext_node_child_process_f62b7d19 fill:#f59e0b,color:#fff
   style ext_node_constants_cc38fbc2 fill:#f59e0b,color:#fff

@@ -54,6 +54,19 @@ for (const capability of requiredParityRunnerCapabilities) {
   }
 }
 
+for (const [path, source] of [
+  ["scripts/jose-parity-runner.mjs", parityRunnerScript],
+  ["scripts/jose-parity-cdp.mjs", cdpParityScript],
+]) {
+  if (!source.includes("--remote-debugging-port=9223") ||
+      source.includes("--remote-debugging-port=9222") ||
+      !source.includes("mktemp -d") ||
+      !source.includes("portfolio-chrome-cdp") ||
+      !source.includes("--user-data-dir=") ||
+      !source.includes("$profile_dir")) {
+    failures.push(`${path}: recovery guidance must use the approved Portfolio 9223 route and dedicated profile.`);
+  }
+}
 const requiredCaptureCapabilities = [
   "JOSE_REFERENCE_RENDERED_ARTIFACTS",
   "screenshots",
@@ -71,8 +84,14 @@ const requiredBoundaryStatements = [
   "capture/reference pipeline is not visual parity proof",
   "Do not claim the Jamie prototype matches the stored Jose contract unless",
   "REFERENCE_BASE_URL=https://www.joseocando.com CANDIDATE_BASE_URL=<local-url> npm run test:jose-parity",
-  "CHROME_CDP_URL=http://127.0.0.1:9222 REFERENCE_BASE_URL=https://www.joseocando.com CANDIDATE_BASE_URL=<local-url> npm run test:jose-parity",
-  "CHROME_CDP_URL=http://127.0.0.1:9222 REFERENCE_BASE_URL=https://www.joseocando.com CANDIDATE_BASE_URL=<local-url> npm run test:jose-parity:cdp",
+  "CHROME_CDP_URL=http://127.0.0.1:9223 REFERENCE_BASE_URL=https://www.joseocando.com CANDIDATE_BASE_URL=<local-url> npm run test:jose-parity",
+  "CHROME_CDP_URL=http://127.0.0.1:9223 REFERENCE_BASE_URL=https://www.joseocando.com CANDIDATE_BASE_URL=<local-url> npm run test:jose-parity:cdp",
+  "Approved macOS external-CDP recovery",
+  "--remote-debugging-port=9223",
+  "mktemp -d",
+  "--user-data-dir=\"$profile_dir\"",
+  "rm -rf -- \"$profile_dir\"",
+  "scripts/jose-parity-cdp.mjs` closes the connected Playwright browser object",
   "workspace-net and filesystem grants can provide network access, local binding, cache access, and profile-directory writes",
   "Command: cd /Users/jamiecraik/dev/brainwav.io && REFERENCE_BASE_URL=https://www.joseocando.com npm run test:jose-parity -> blocked"
 ];

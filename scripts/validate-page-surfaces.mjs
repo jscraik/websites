@@ -2,6 +2,9 @@ import { readFileSync } from "node:fs";
 
 const cssPath = process.env.PAGE_SURFACE_CSS_PATH ?? "src/styles/global.css";
 const css = readFileSync(cssPath, "utf8");
+const shellCssPath = process.env.PAGE_SURFACE_SHELL_CSS_PATH ?? "src/styles/shell.css";
+const shellCss = readFileSync(shellCssPath, "utf8");
+const surfaceCss = `${css}\n${shellCss}`;
 const tokensPath = "src/styles/brand-tokens.json";
 const tokens = JSON.parse(readFileSync(tokensPath, "utf8"));
 const tokensCssPath = "src/styles/brand-tokens.css";
@@ -189,16 +192,16 @@ if (!/class=["']text-lg\s+w-richtext["']/.test(blogPageSource)) {
 
 const requiredPaperRules = [
   {
-    name: "Homepage Jose header gradient",
-    pattern: /body:has\(\.home-hero\)\s*{[\s\S]*?linear-gradient\(180deg,\s*var\(--surface-card\),\s*var\(--paper\)\)[\s\S]*?var\(--paper\);[\s\S]*?}/m
+    name: "Homepage neutral route canvas",
+    pattern: /body:has\(\.home-hero\)\s*{[\s\S]*?background:\s*var\(--paper\);[\s\S]*?}/m
   },
   {
-    name: "About header and page surfaces",
-    pattern: /body:has\(\.about-page\)\s*{\s*\n\s*background:\s*var\(--paper\);\s*\n}\s*\n\s*body:has\(\.about-page\) main\s*{\s*\n\s*background:\s*var\(--paper\);/m
+    name: "About neutral route canvas",
+    pattern: /body:has\(\.about-page\) main\s*{\s*\n\s*background:\s*var\(--paper\);/m
   },
   {
-    name: "About Jose header gradient",
-    pattern: /\.about-page\.about-hero-shell\s*{[\s\S]*?background:\s*linear-gradient\(180deg,\s*var\(--surface-card\),\s*var\(--paper\)\);[\s\S]*?}/m
+    name: "About hero neutral route canvas",
+    pattern: /\.about-page\.about-hero-shell\s*{[\s\S]*?background:\s*var\(--paper\);[\s\S]*?}/m
   },
   {
     name: "Footer Jose gradient",
@@ -211,9 +214,13 @@ const requiredPaperRules = [
 ];
 
 for (const rule of requiredPaperRules) {
-  if (!rule.pattern.test(css)) {
-    failures.push(cssPath + ": missing required var(--paper) surface rule for " + rule.name + ".");
+  if (!rule.pattern.test(surfaceCss)) {
+    failures.push(`${cssPath} or ${shellCssPath}: missing required var(--paper) surface rule for ${rule.name}.`);
   }
+}
+
+if (!/:global\(body:has\(\.blog-index\)\)\s*{[\s\S]*?background:\s*var\(--paper\);[\s\S]*?}/m.test(blogPageSource)) {
+  failures.push(`${blogPagePath}: Blog route canvas must use the neutral var(--paper) surface.`);
 }
 
 if (failures.length > 0) {

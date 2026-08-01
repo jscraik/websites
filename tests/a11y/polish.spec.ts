@@ -40,6 +40,7 @@ test.describe("UI polish contracts", () => {
     const portfolioShell = await page.evaluate(() => ({
       activeNav: getComputedStyle(document.querySelector('.site-header .nav-link[aria-current="page"]')!).color,
       activeHomeIcon: getComputedStyle(document.querySelector('.site-header .icon-box[aria-current="page"]')!).color,
+      footerBackgroundImage: getComputedStyle(document.querySelector(".site-footer")!).backgroundImage,
       footerBackground: getComputedStyle(document.querySelector(".site-footer")!).backgroundColor,
       profileBackground: getComputedStyle(document.querySelector(".site-footer .footer-profile-card")!).backgroundColor,
       socialBackground: getComputedStyle(document.querySelector(".site-footer .footer-social-links a")!).backgroundColor
@@ -47,7 +48,8 @@ test.describe("UI polish contracts", () => {
 
     expect(portfolioShell.activeNav).toBe("rgb(79, 86, 77)");
     expect(portfolioShell.activeHomeIcon).toBe("rgb(79, 86, 77)");
-    expect(portfolioShell.footerBackground).toBe("rgb(213, 214, 208)");
+    expect(portfolioShell.footerBackgroundImage).toBe("linear-gradient(rgb(213, 214, 208), rgb(251, 250, 245))");
+    expect(portfolioShell.footerBackground).toBe("rgba(0, 0, 0, 0)");
     expect(portfolioShell.profileBackground).toBe("rgba(251, 250, 245, 0.88)");
     expect(portfolioShell.socialBackground).toBe("rgba(251, 250, 245, 0.42)");
 
@@ -62,9 +64,30 @@ test.describe("UI polish contracts", () => {
     expect(technicalShell.footerBackground).toBe("rgb(11, 15, 23)");
     expect(technicalShell.profileBackground).toBe("rgb(20, 26, 35)");
     expect(technicalShell.socialBackground).toBe("rgb(27, 34, 48)");
+
+    const technicalNav = await page.evaluate(() => {
+      const header = document.querySelector(".site-header")!;
+      const layer = document.querySelector(".site-header .nav-bg")!;
+      const content = document.querySelector(".site-header .nav-flip")!;
+      const layerStyle = getComputedStyle(layer);
+      const contentStyle = getComputedStyle(content);
+      return {
+        headerDisplay: getComputedStyle(header).display,
+        layerPosition: layerStyle.position,
+        layerPointerEvents: layerStyle.pointerEvents,
+        layerZIndex: layerStyle.zIndex,
+        contentZIndex: contentStyle.zIndex
+      };
+    });
+
+    expect(technicalNav.headerDisplay).toBe("none");
+    expect(technicalNav.layerPosition).toBe("absolute");
+    expect(technicalNav.layerPointerEvents).toBe("none");
+    expect(technicalNav.layerZIndex).toBe("0");
+    expect(technicalNav.contentZIndex).toBe("1");
   });
 
-  test("About keeps the stored full-bleed neutral gradient", async ({ page }) => {
+  test("About keeps the shared shell gradient and neutral page canvas", async ({ page }) => {
     await page.setViewportSize({ width: 645, height: 964 });
     await preparePage(page, "/now/");
 
@@ -72,12 +95,92 @@ test.describe("UI polish contracts", () => {
       viewportWidth: window.innerWidth,
       mainWidth: document.querySelector("main")!.getBoundingClientRect().width,
       headerBackground: getComputedStyle(document.querySelector(".site-header")!).backgroundImage,
-      mainBackground: getComputedStyle(document.querySelector("main")!).backgroundImage
+      mainBackground: getComputedStyle(document.querySelector("main")!).backgroundImage,
+      mainBackgroundColor: getComputedStyle(document.querySelector("main")!).backgroundColor
     }));
 
     expect(shell.mainWidth).toBe(shell.viewportWidth);
     expect(shell.headerBackground).toBe("linear-gradient(rgb(251, 250, 245), rgb(213, 214, 208))");
-    expect(shell.mainBackground).toBe("linear-gradient(rgb(251, 250, 245), rgb(213, 214, 208))");
+    expect(shell.mainBackground).toBe("none");
+    expect(shell.mainBackgroundColor).toBe("rgb(213, 214, 208)");
+  });
+
+  test("portfolio routes share one header and footer surface", async ({ page }) => {
+    const routes = [
+      "/",
+      "/now/",
+      "/blog/",
+      "/contact/",
+      "/articles/why-ai-native-devrel/",
+      "/proof/",
+      "/work/ai-native-devrel/",
+      "/work/brainwav-io/"
+    ];
+    let reference:
+      | {
+          header: string;
+          nav: string;
+          navInner: string;
+          navLayerPointerEvents: string;
+          navLayerZIndex: string;
+          navContentZIndex: string;
+          footer: string;
+          footerProfile: string;
+          footerSocial: string;
+        }
+      | undefined;
+
+    for (const route of routes) {
+      await preparePage(page, route);
+      const surfaces = await page.evaluate(() => ({
+        header: getComputedStyle(document.querySelector(".site-header")!).backgroundImage,
+        nav: getComputedStyle(document.querySelector(".site-header .nav-bg")!).backgroundColor,
+        navInner: getComputedStyle(document.querySelector(".site-header .nav-inner")!).backgroundColor,
+        navLayerPointerEvents: getComputedStyle(document.querySelector(".site-header .nav-bg")!).pointerEvents,
+        navLayerZIndex: getComputedStyle(document.querySelector(".site-header .nav-bg")!).zIndex,
+        navContentZIndex: getComputedStyle(document.querySelector(".site-header .nav-flip")!).zIndex,
+        footer: getComputedStyle(document.querySelector(".site-footer")!).backgroundImage,
+        footerProfile: getComputedStyle(document.querySelector(".site-footer .footer-profile-card")!).backgroundColor,
+        footerSocial: getComputedStyle(document.querySelector(".site-footer .footer-social-links a")!).backgroundColor
+      }));
+
+      reference ??= surfaces;
+      expect(surfaces, `${route}: shared shell surface`).toEqual(reference);
+    }
+  });
+
+  test("portfolio route canvases stay neutral beneath the shared shell", async ({ page }) => {
+    const routes = [
+      "/",
+      "/now/",
+      "/blog/",
+      "/contact/",
+      "/articles/why-ai-native-devrel/",
+      "/proof/",
+      "/work/ai-native-devrel/",
+      "/work/brainwav-io/"
+    ];
+
+    for (const route of routes) {
+      await preparePage(page, route);
+      const canvas = await page.evaluate(() => {
+        const body = getComputedStyle(document.body);
+        const main = getComputedStyle(document.querySelector("main")!);
+        const transparent = "rgba(0, 0, 0, 0)";
+        return {
+          bodyBackgroundImage: body.backgroundImage,
+          bodyBackgroundColor: body.backgroundColor,
+          mainBackgroundImage: main.backgroundImage,
+          mainBackgroundColor: main.backgroundColor,
+          effectiveMainBackgroundColor: main.backgroundColor === transparent ? body.backgroundColor : main.backgroundColor
+        };
+      });
+
+      expect(canvas.bodyBackgroundImage, `${route}: body canvas gradient`).toBe("none");
+      expect(canvas.mainBackgroundImage, `${route}: main canvas gradient`).toBe("none");
+      expect(canvas.bodyBackgroundColor, `${route}: body canvas color`).toBe("rgb(213, 214, 208)");
+      expect(canvas.effectiveMainBackgroundColor, `${route}: effective main canvas color`).toBe("rgb(213, 214, 208)");
+    }
   });
 
   test("contact portrait preserves its square source ratio", async ({ page }) => {

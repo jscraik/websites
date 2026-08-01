@@ -78,6 +78,18 @@ for (const scriptPath of ["tests/screenshots/jose-jamie.spec.ts", "scripts/jose-
   );
   assert.match(source, /"about-fun-facts-mobile": 0\.23/);
   assert.match(source, /reference\.sampleColor\.entries\(\)/);
+  if (scriptPath === "scripts/jose-parity-cdp.mjs") {
+    assert.match(
+      source,
+      /assertCandidateShellSurfaces\(page, candidateBaseURL, viewport\.name\)/,
+      "CDP parity must check route-independent shell and canvas surfaces before pixel comparisons",
+    );
+    assert.match(
+      source,
+      /if \(browser\) \{\s+await browser\.close\(\)\.catch\(\(\) => \{\}\);\s+\}/,
+      "CDP parity must close its external browser connection so the command terminates",
+    );
+  }
 }
 
 console.log("Jose parity measurement contract passed.");

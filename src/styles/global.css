@@ -137,10 +137,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Route canvases stay on the neutral Jose paper surface; the shared shell
+   owns the only top-level gradient so every route enters the page identically. */
 body:has(.home-hero) {
-  background:
-    linear-gradient(180deg, var(--surface-card), var(--paper)) top / 100% min(100vh, 62rem) no-repeat,
-    var(--paper);
+  background: var(--paper);
 }
 
 a {
@@ -208,7 +208,6 @@ main { min-height: 70vh; }
   padding: calc(var(--space-1) / 2) var(--bds-type-display);
   border: 1px solid rgba(0, 11, 0, 0.11);
   border-radius: var(--radius-pill);
-  background: rgba(232, 232, 227, 0.78);
   backdrop-filter: blur(16px);
   box-shadow: 0 18px 42px rgba(0, 11, 0, 0.035);
   transition: border-color var(--bds-motion-fast) ease, background-color var(--bds-motion-fast) ease, box-shadow var(--bds-motion-fast) ease;
@@ -301,92 +300,6 @@ main [data-entry]:nth-child(5) { animation-delay: 160ms; }
 .icon-box.cc-nav {
   border-color: transparent;
   color: var(--blue);
-}
-
-.brand-mark.icon-box.cc-nav {
-  width: 50px;
-  height: 28px;
-}
-
-.brand-mark {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  color: rgba(0, 11, 0, 0.6);
-}
-
-.brand-mark__icon-shell {
-  display: grid;
-  place-items: center;
-  width: 42px;
-  height: 42px;
-  border: 1px solid rgba(0, 11, 0, 0.12);
-  border-radius: 10px;
-  background: rgba(251, 250, 245, 0.74);
-}
-
-.brand-mark__svg {
-  display: block;
-  width: 76px;
-  height: 38px;
-  overflow: visible;
-}
-
-.brand-mark__line {
-  fill: none;
-  stroke: currentcolor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 3.2;
-}
-
-.brand-mark__dot {
-  fill: currentcolor;
-}
-
-.brand-mark__letters {
-  fill: currentcolor;
-  font-family: var(--body-sans);
-  font-size: 44px;
-  font-weight: 600;
-  letter-spacing: -0.08em;
-}
-
-.brand-mark.icon-box {
-  gap: 0;
-}
-
-.brand-mark.icon-box .brand-mark__icon-shell {
-  width: 42px;
-  height: 20px;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-}
-
-.brand-mark.icon-box .brand-mark__svg {
-  width: 42px;
-  height: 20px;
-}
-
-.brand-mark.icon-box .brand-mark__line {
-  stroke-width: 2.4;
-}
-
-.brand-mark.icon-box .brand-mark__letters {
-  font-size: 34px;
-  letter-spacing: -0.1em;
-}
-
-.brand-mark__copy {
-  display: grid;
-  gap: 1px;
-  font-family: var(--body-mono);
-  font-size: 10px;
-  font-weight: 700;
-  line-height: 1.6;
-  letter-spacing: 0;
-  text-transform: uppercase;
 }
 
 .sm-icon {
@@ -2077,31 +1990,6 @@ main [data-entry]:nth-child(5) { animation-delay: 160ms; }
   box-shadow: none;
 }
 
-.footer-profile-card.brand-mark {
-  color: rgba(0, 11, 0, 0.58);
-}
-
-.footer-profile-card .brand-mark__icon-shell {
-  width: 74px;
-  height: 34px;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-}
-
-.footer-profile-card .brand-mark__svg {
-  width: 74px;
-  height: 34px;
-}
-
-.footer-profile-card .brand-mark__line {
-  stroke-width: 2.8;
-}
-
-.footer-profile-card .brand-mark__letters {
-  font-size: 40px;
-}
-
 .footer-links,
 .footer-social-links {
   font-family: var(--body-mono);
@@ -2559,7 +2447,6 @@ body {
 .nav-inner {
   min-height: 38px;
   padding: 4px 46px;
-  background: rgba(232, 232, 227, 0.84);
   box-shadow: 0 12px 34px rgba(0, 11, 0, 0.032);
 }
 
@@ -3076,7 +2963,6 @@ body {
   min-height: 48px;
   padding: 4px 34px;
   border-color: color-mix(in srgb, var(--text-primary) 7%, transparent);
-  background: var(--surface-nav);
   box-shadow: 0 10px 28px rgba(45, 50, 45, 0.035);
 }
 
@@ -3085,21 +2971,6 @@ body {
 .icon-box[aria-current="page"],
 .icon-box.cc-nav {
   color: rgba(75, 84, 77, 0.88);
-}
-
-.brand-mark.icon-box.cc-nav {
-  width: 28px;
-  height: 28px;
-}
-
-.brand-mark.icon-box .brand-mark__icon-shell {
-  width: 28px;
-  height: 28px;
-}
-
-.brand-mark.icon-box .brand-mark__svg {
-  width: 28px;
-  height: 28px;
 }
 
 .home-hero {
@@ -3437,7 +3308,6 @@ body {
   gap: 0;
   padding: 0 56px;
   border-color: color-mix(in srgb, var(--text-primary) 8%, transparent);
-  background: var(--surface-nav);
   box-shadow: none;
 }
 
@@ -3449,18 +3319,6 @@ body {
   font-weight: 500;
   line-height: 44.8px;
   letter-spacing: 0.72px;
-}
-
-.brand-mark.icon-box.cc-nav,
-.brand-mark.icon-box .brand-mark__icon-shell,
-.brand-mark.icon-box .brand-mark__svg {
-  width: 32px;
-  height: 32px;
-}
-
-.brand-mark.icon-box.cc-nav {
-  font-size: 16px;
-  font-weight: 500;
 }
 
 .header-inner {
@@ -3644,18 +3502,6 @@ body {
     font-weight: 600;
     line-height: 40.1px;
     letter-spacing: 0.573px;
-  }
-
-  .brand-mark.icon-box.cc-nav,
-  .brand-mark.icon-box .brand-mark__icon-shell,
-  .brand-mark.icon-box .brand-mark__svg {
-    width: 30.55px;
-    height: 30.55px;
-  }
-
-  .brand-mark.icon-box.cc-nav {
-    font-size: 15.28px;
-    font-weight: 500;
   }
 
   .header-inner {
@@ -5045,52 +4891,6 @@ body {
     background-color 180ms ease;
 }
 
-.footer-profile-card.brand-mark {
-  color: rgba(0, 11, 0, 0.56);
-}
-
-.footer-profile-card .brand-mark__icon-shell {
-  width: 126px;
-  height: 36px;
-  flex: 0 0 126px;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-}
-
-.footer-profile-card .brand-mark__svg {
-  width: 126px;
-  height: 36px;
-}
-
-.footer-profile-card .brand-mark__line {
-  stroke-width: 2.4;
-}
-
-.footer-profile-card .brand-mark__letters {
-  font-size: 41px;
-  letter-spacing: -0.075em;
-}
-
-.footer-profile-card .brand-mark__dot {
-  fill: #6b7f6b;
-}
-
-.footer-profile-card .brand-mark__copy {
-  display: grid;
-  gap: 3px;
-  width: 126px;
-  max-width: 126px;
-  color: rgba(0, 11, 0, 0.52);
-  font-family: var(--body-mono);
-  font-size: 10.5px;
-  font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: 1.35px;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
 .footer-links {
   display: grid;
   grid-template-columns: repeat(4, minmax(72px, 1fr));
@@ -6336,7 +6136,8 @@ body {
   }
 }
 
-/* Keep the About route on the Jose neutral-03 page canvas; the hero owns the gradient. */
+/* Keep the About route on the Jose neutral-03 page canvas; the shared shell
+   owns the only top-level gradient so route canvases remain interchangeable. */
 body:has(.about-page) {
   background: var(--paper);
 }
@@ -6346,12 +6147,7 @@ body:has(.about-page) main {
 }
 
 .about-page.about-hero-shell {
-  background: linear-gradient(180deg, var(--surface-card), var(--paper));
-}
-
-/* Extend the stored Jose gradient through the full About main canvas. */
-body:has(.about-page) main {
-  background: linear-gradient(180deg, var(--surface-card), var(--paper));
+  background: var(--paper);
 }
 
 /* Phase 1 portfolio refinement: editorial maturity without turning the page into brAInwav product UI. */
@@ -6660,19 +6456,6 @@ body:not(.skillsbar-demo) :is(h3, h4, .latest-article h2, .work-mini-card h3, .f
   stroke-width: var(--icon-stroke);
 }
 
-.brand-mark--tiny .brand-mark__letters {
-  font-size: 25px;
-  letter-spacing: -0.12em;
-}
-
-.brand-mark--tiny .brand-mark__line {
-  stroke-width: 1.8;
-}
-
-.brand-mark--tiny .brand-mark__dot {
-  fill: currentcolor;
-}
-
 :is(.feature-block-inner, .work-mini-card, .proof-card, .about-fact-card, .about-object, .case-window, .case-sidebar, .article-receipt) {
   border-radius: var(--radius-card);
 }
@@ -6741,13 +6524,6 @@ body.skillsbar-demo img {
     padding: 0 var(--space-2);
     font-size: 10px;
     line-height: var(--jose-nav-mobile-height);
-  }
-
-  .brand-mark.icon-box.cc-nav,
-  .brand-mark.icon-box .brand-mark__icon-shell,
-  .brand-mark.icon-box .brand-mark__svg {
-    width: var(--space-4);
-    height: var(--space-4);
   }
 
   .header-inner,
@@ -6896,11 +6672,6 @@ body.skillsbar-demo img {
   height: 44px;
   font-size: 11.75px;
   line-height: 44px;
-}
-
-.brand-mark.icon-box.cc-nav {
-  width: 31px;
-  height: 31px;
 }
 
 .header-inner,
@@ -7060,11 +6831,6 @@ body.skillsbar-demo img {
     padding: 0 5px;
     font-size: 9.5px;
     line-height: 40px;
-  }
-
-  .brand-mark.icon-box.cc-nav {
-    width: 31px;
-    height: 31px;
   }
 
   .header-inner,
@@ -7235,7 +7001,6 @@ body.skillsbar-demo img {
   --jp-display-line: 87.04px;
   --jp-display-track: -4.096px;
   --jp-muted: rgb(61, 64, 60);
-  --jp-surface: rgb(232, 232, 227);
   --jp-signature-shadow: rgba(0, 0, 0, 0.03) -5px 5px 3px 0px, rgba(0, 0, 0, 0.1) -3px 3px 3px 0px, rgba(0, 0, 0, 0.17) -1px 1px 2px 0px, rgba(0, 0, 0, 0.19) 0px 0px 1px 0px;
 }
 
@@ -7270,7 +7035,6 @@ body.skillsbar-demo img {
   min-height: 47px;
   padding: 0 var(--jp-nav-pad-x);
   border: 0;
-  background: var(--jp-surface);
   box-shadow: none;
   backdrop-filter: none;
 }
@@ -7288,8 +7052,6 @@ body.skillsbar-demo img {
   color: var(--muted);
 }
 
-.brand-mark.icon-box,
-.brand-mark--tiny,
 .site-header .icon-box {
   width: 31.3281px;
   height: 31.3281px;
@@ -7297,12 +7059,6 @@ body.skillsbar-demo img {
   border-radius: 4.89594px;
   background: transparent;
   box-shadow: none;
-}
-
-.brand-mark.icon-box .brand-mark__icon-shell,
-.brand-mark--tiny .brand-mark__icon-shell {
-  width: 16px;
-  height: 16px;
 }
 
 .header-inner {
@@ -9037,7 +8793,6 @@ body:not(.skillsbar-demo) :is(
     padding-left: var(--jp-nav-pad-x);
     border: 0;
     border-radius: calc(var(--jp-fluid-rem) * 4);
-    background: var(--jp-surface);
     box-shadow: none;
     backdrop-filter: none;
   }
@@ -9634,9 +9389,9 @@ body:not(.skillsbar-demo) :is(
     min-height: calc(var(--jp-fluid-rem) * 2.61);
     padding: calc(var(--jp-fluid-rem) * 0.25) calc(var(--jp-fluid-rem) * 0.19)
       calc(var(--jp-fluid-rem) * 0.25) calc(var(--jp-fluid-rem) * 1.5);
-    border-color: var(--jp-surface);
+    border-color: var(--bds-color-portfolio-nav);
     border-radius: calc(var(--jp-fluid-rem) * 2);
-    background: var(--jp-surface);
+    background: var(--bds-color-portfolio-nav);
     gap: calc(var(--jp-fluid-rem) * 0.75);
   }
 
@@ -11084,14 +10839,7 @@ body:not(.skillsbar-demo) :is(
 }
 
 /* Presentation-preference refinements: preserve the existing palette and layout,
-   while giving users a firmer navigation surface and focus cue when requested. */
-@media (prefers-reduced-transparency: reduce) {
-  .nav-inner {
-    background: var(--jp-surface);
-    backdrop-filter: none;
-  }
-}
-
+   while giving users a firmer focus cue when requested. */
 @media (prefers-contrast: more) {
   .nav-inner {
     border: 1px solid var(--text-primary);
@@ -11360,6 +11108,13 @@ html body:not(.skillsbar-demo) .case-sidebar > div > p:not(.input-label) {
   color: var(--bds-color-portfolio-muted);
 }
 
+/* Preserve the square source ratio at every responsive contact width. */
+.contact-photo {
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
 html body:not(.skillsbar-demo) .blog-index .latest-article .eyebrow {
   color: var(--bds-color-portfolio-muted);
 }
@@ -11411,45 +11166,4 @@ html body:not(.skillsbar-demo) .blog-index .latest-article .eyebrow {
   .contact-links a {
     min-inline-size: 44px;
   }
-}
-
-/* Shared shell parity: route state stays quiet while technical surfaces own their theme. */
-html body:not(.skillsbar-demo) .site-header,
-html body:not(.skillsbar-demo) .header {
-  background: linear-gradient(180deg, var(--surface-card), var(--paper));
-}
-
-html body:not(.skillsbar-demo) .site-footer {
-  background: linear-gradient(180deg, var(--paper), var(--surface-card));
-}
-
-html body:not(.skillsbar-demo) .site-header .nav-link[aria-current="page"] {
-  color: var(--bds-color-portfolio-muted);
-}
-
-body:not(.skillsbar-demo) .site-header .icon-box[aria-current="page"] {
-  color: var(--bds-color-portfolio-muted);
-}
-
-.footer-profile-card.profile-row {
-  width: fit-content;
-  min-width: 0;
-}
-
-.footer-profile-card .profile-row-meta {
-  min-width: 0;
-}
-
-@media (max-width: 57.5625rem) {
-  .footer-profile-card.profile-row {
-    width: fit-content;
-    max-width: 100%;
-  }
-}
-
-/* Preserve the square source ratio at every responsive contact width. */
-.contact-photo {
-  height: auto;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
 }

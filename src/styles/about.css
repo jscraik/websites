@@ -1,5 +1,5 @@
 html body:not(.skillsbar-demo) .about-page.about-hero-shell {
-  background: linear-gradient(180deg, var(--surface-card), var(--paper));
+  background: var(--paper);
 }
 
 /* Intermediate About contract: retain Jose's centered two-column rhythm for

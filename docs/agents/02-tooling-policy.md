@@ -18,6 +18,15 @@ The repository may use the public `@brainwav/coding-harness` package through
 tooling. Public package resolution must not require an npm authentication
 precheck; private registry failures remain explicit command failures.
 
+This portfolio does not define a credential-bearing Codex or 1Password
+consumer. If a future workflow needs one, use only the centrally reviewed
+exact auth-backed wrapper and its value-blind canary; do not prefix Codex
+commands with `CODEX_AUTH_ENVIRONMENT_ID`, pass an ad hoc `--environment`, or
+add a broad auth exception. MCP names-only discovery and browser-extension
+connectivity are separate evidence lanes from CLI subprocess injection. After
+central runtime or rule projections change, restart Desktop and create a fresh
+task before relying on the new policy.
+
 ## Validation routing
 
 Use the narrowest npm script that proves the change, then widen by risk:
@@ -28,6 +37,33 @@ Use the narrowest npm script that proves the change, then widen by risk:
 - `npm run check` for Astro type and integration diagnostics.
 - `npm run validate:source` or rendered validation only when affected output
   or browser behavior requires that proof.
+
+## Browser/CDP boundary
+
+Keep source, build, static, and HTML checks inside the managed runtime. When
+Chromium reports `bootstrap_check_in` or `Permission denied (1100)`, use the
+approved external route documented in
+`docs/implementation-notes/jose-parity-guardrail.md`: start a dedicated
+disposable Chrome profile on `127.0.0.1:9223`, keep the candidate app on its
+HTTP port (normally `127.0.0.1:4323`), and bind
+`CHROME_CDP_URL=http://127.0.0.1:9223` to the exact candidate URL before
+running `npm run test:jose-parity:cdp`. The app port is not a CDP endpoint.
+Never add `--no-sandbox`, reinstall Playwright, widen filesystem roots, host-
+execute a dirty checkout, enumerate browser tabs, or reuse an authenticated
+profile for a private claim without separate approval. The CDP script closes
+its connected Playwright object so the command terminates; it does not make
+the in-app browser or an MCP/browser-extension connection equivalent to CLI
+authentication or provider credentials.
+
+The built-output render-flow gate supports the same approved endpoint when the
+managed Chromium launch is blocked. After building the exact candidate
+artifact, run `CHROME_CDP_URL=http://127.0.0.1:9223 npm run
+validate:render-flow:artifact`. The artifact-only script does not rebuild
+`dist/`, so the result remains bound to the artifact that was built and
+inspected. That proves route flow, shell landmarks, overflow, target sizes, and
+image dimensions for the served artifact; it does not prove Jose visual parity
+or hosted deployment. Use `npm run validate:render-flow` when a fresh build is
+intentionally part of the gate.
 
 The pre-push hook is deliberately limited to the portfolio contract: operator
 validation, Git worktree authority, `validate:fast`, `check`, and `build`.
