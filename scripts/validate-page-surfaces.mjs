@@ -103,14 +103,6 @@ for (const match of css.matchAll(inflatedHeroIntroPattern)) {
   );
 }
 
-const footerGradientPattern = /\.site-footer\s*{[^}]*background:\s*linear-gradient/g;
-for (const match of css.matchAll(footerGradientPattern)) {
-  const line = css.slice(0, match.index).split("\n").length;
-  failures.push(
-    cssPath + ":" + line + ": forbidden .site-footer gradient found. Footer should stay on the shared var(--paper) page surface."
-  );
-}
-
 if (/class=["']about-page\s+section-shell["']/.test(aboutPageSource)) {
   failures.push(
     aboutPagePath + ": forbidden About wrapper found. The About intro should be a header-height .about-page section, not a page-wide section-shell around every About section."
@@ -209,8 +201,12 @@ const requiredPaperRules = [
     pattern: /\.about-page\.about-hero-shell\s*{[\s\S]*?background:\s*linear-gradient\(180deg,\s*var\(--surface-card\),\s*var\(--paper\)\);[\s\S]*?}/m
   },
   {
-    name: "Footer",
-    pattern: /\.site-footer\s*{[\s\S]*?background:\s*var\(--paper\);[\s\S]*?}/m
+    name: "Footer Jose gradient",
+    pattern: /html body:not\(\.skillsbar-demo\) \.site-footer\s*{[\s\S]*?background:\s*linear-gradient\(180deg,\s*var\(--paper\),\s*var\(--surface-card\)\);[\s\S]*?}/m
+  },
+  {
+    name: "Shared header gradient",
+    pattern: /html body:not\(\.skillsbar-demo\) \.site-header,[\s\S]*?html body:not\(\.skillsbar-demo\) \.header\s*{[\s\S]*?background:\s*linear-gradient\(180deg,\s*var\(--surface-card\),\s*var\(--paper\)\);[\s\S]*?}/m
   }
 ];
 

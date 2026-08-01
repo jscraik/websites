@@ -359,7 +359,7 @@ async function measureSurface(page: Page, baseURL: string, capture: (typeof capt
         : [];
     const blocks =
       captureName === "about-skills" || captureName === "about-work-history" || captureName === "about-on-web"
-        ? [...surfaceRoot.querySelectorAll("article, .about-skill-list article, .about-history article, .web-table a, li, h3")]
+        ? [...surfaceRoot.querySelectorAll("article, .about-skill-list article, .about-history article, .recognition-list a, li, h3")]
             .map(visibleRect)
             .filter((rect): rect is RectMetrics => Boolean(rect))
             .filter((rect) => rect.y >= -20 && rect.width >= 80 && rect.height >= 16)
