@@ -3,9 +3,10 @@ import Icon from "./Icon.astro";
 
 const links = [
   {
-    href: "/now/",
-    label: "Learn fun facts about me",
-    icon: "person"
+    href: "/demos/skillsbar/",
+    label: "Start with SkillsBar",
+    icon: "bookmark",
+    primary: true
   },
   {
     href: "/now/#current-focus",
@@ -32,7 +33,11 @@ const links = [
     {
       links.map((link) => (
         <li class="icon-link-item">
-          <a href={link.href} class="icon-link">
+          <a
+            href={link.href}
+            class="icon-link"
+            data-primary-start={link.primary ? "true" : undefined}
+          >
             <span class="icon-box start-links__icon" aria-hidden="true">
               <Icon name={link.icon} />
             </span>

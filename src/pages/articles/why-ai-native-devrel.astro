@@ -41,13 +41,19 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
         <figure class="pullquote-wrap">
           <div>
             <p class="input-label">Fig 1.1</p>
-            <blockquote>
+            <blockquote data-pullquote>
               "Capability is not trust. Developer education has to carry the proof."
             </blockquote>
           </div>
           <figcaption>
             <p>Copy this pullquote and the article link for easy sharing</p>
-            <button type="button" class="pullquote-button">
+            <button
+              type="button"
+              class="pullquote-button"
+              data-copy-pullquote
+              data-copy-label="Fig 1.1 pullquote and article link"
+              aria-label="Copy Fig 1.1 pullquote and article link"
+            >
               <span>Copy</span>
             </button>
           </figcaption>
@@ -55,17 +61,24 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
         <figure class="pullquote-wrap">
           <div>
             <p class="input-label">Fig 1.2</p>
-            <blockquote>
+            <blockquote data-pullquote>
               "The scaffolding around AI work matters as much as the capability curve."
             </blockquote>
           </div>
           <figcaption>
             <p>Copy this pullquote and the article link for easy sharing</p>
-            <button type="button" class="pullquote-button">
+            <button
+              type="button"
+              class="pullquote-button"
+              data-copy-pullquote
+              data-copy-label="Fig 1.2 pullquote and article link"
+              aria-label="Copy Fig 1.2 pullquote and article link"
+            >
               <span>Copy</span>
             </button>
           </figcaption>
         </figure>
+        <p class="u-visually-hidden" data-copy-status role="status" aria-live="polite" aria-atomic="true"></p>
       </aside>
     </aside>
 
@@ -140,4 +153,38 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
       </section>
     </div>
   </article>
+  <script>
+    const copyButtons = document.querySelectorAll<HTMLButtonElement>("[data-copy-pullquote]");
+    const copyStatus = document.querySelector<HTMLElement>("[data-copy-status]");
+
+    copyButtons.forEach((button) => {
+      let resetTimer: number | undefined;
+      const label = button.dataset.copyLabel ?? "pullquote and article link";
+      const labelText = button.querySelector("span");
+
+      const setFeedback = (text: string, status: string) => {
+        if (labelText) labelText.textContent = text;
+        if (copyStatus) copyStatus.textContent = status;
+
+        window.clearTimeout(resetTimer);
+        resetTimer = window.setTimeout(() => {
+          if (labelText) labelText.textContent = "Copy";
+          if (copyStatus) copyStatus.textContent = "";
+        }, 2400);
+      };
+
+      button.addEventListener("click", async () => {
+        const quote = button.closest(".pullquote-wrap")?.querySelector("[data-pullquote]")?.textContent?.trim();
+        if (!quote) return;
+
+        try {
+          if (!navigator.clipboard?.writeText) throw new Error("Clipboard unavailable");
+          await navigator.clipboard.writeText(`${quote}\n\n${window.location.href}`);
+          setFeedback("Copied", `Copied ${label}.`);
+        } catch {
+          setFeedback("Copy unavailable", "Copy unavailable. Select the pullquote and article URL manually.");
+        }
+      });
+    });
+  </script>
 </BaseLayout>
