@@ -43,3 +43,10 @@ deterministic color-resolution and identity-region masking primitives verified
 by `npm run test:jose-parity-measurements`. Refreshing the stored reference is
 an explicit design-contract change; a comparison with the current live site is
 advisory evidence and does not replace that authority.
+
+The shared portfolio shell and CSS simplification boundary are also executable
+contracts. `src/styles/global.css` owns the canonical header/footer gradients
+and current dynamic variants, while `scripts/test-css-simplification.mjs`
+guards the removal of selector families with no current producers. The José
+About measurements target the current `.recognition-list a` markup; update that
+selector and its focused contract together when the source structure changes.
