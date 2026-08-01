@@ -22,6 +22,7 @@ flowchart LR
   LLMNode -. "implemented by" .-> DetectedLLM
   subgraph DetectedTools["Agentic tool calls"]
     det_detectedtools_jose_parity_cdp_bdcde21d["🔧 jose-parity-cdp"]
+    det_detectedtools_test_css_simplification_05516724["🔧 test-css-simplification"]
   end
   LLMNode -->|tool use| DetectedTools
   DetectedTools -->|result| LLMNode
@@ -30,4 +31,4 @@ flowchart LR
   classDef llmNode fill:#555,color:#fff
   class LLMNode,Embed llmNode
   classDef toolNode fill:#555,color:#fff
-  class det_detectedtools_jose_parity_cdp_bdcde21d toolNode
+  class det_detectedtools_jose_parity_cdp_bdcde21d,det_detectedtools_test_css_simplification_05516724 toolNode
