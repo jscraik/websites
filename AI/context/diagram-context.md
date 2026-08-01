@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-07-31T17:49:24Z
+Generated: 2026-08-01T13:15:04Z
 
 ## Table of Contents
 
@@ -30,14 +30,6 @@ Generated: 2026-07-31T17:49:24Z
 
 - These architecture-sensitive paths changed on the current branch and may be compacted out of Mermaid diagrams.
 - `package.json`
-- `src/brand/social-profile-assets.json`
-- `src/brand/source/jamie-profile.png`
-- `src/components/SiteFooter.astro`
-- `src/pages/blog/index.astro`
-- `src/pages/demos/skillsbar.astro`
-- `src/pages/now.astro`
-- `src/styles/about.css`
-- `src/styles/brand-tokens.json`
 - `src/styles/global.css`
 
 ## agent
@@ -56,6 +48,7 @@ flowchart TD
   end
   subgraph ToolLayer["🔧 Tool Layer"]
     jose_parity_cdp_bdcde21d["🔧 jose-parity-cdp"]
+    test_css_simplification_05516724["🔧 test-css-simplification"]
   end
   subgraph MemoryLayer["📚 Memory / Vector Layer"]
     normalize_mermaid_artifact_9dba7231[("📚 normalize-mermaid-artifact")]
@@ -66,7 +59,7 @@ flowchart TD
   classDef llmNode fill:#555,color:#fff
   class generate_social_profile_assets_f4f94011,validate_social_profile_assets_a023937b llmNode
   classDef toolNode fill:#555,color:#fff
-  class jose_parity_cdp_bdcde21d toolNode
+  class jose_parity_cdp_bdcde21d,test_css_simplification_05516724 toolNode
   classDef memNode fill:#555,color:#fff
   class normalize_mermaid_artifact_9dba7231,validate_operational_telemetry_cb447bde memNode
 
@@ -145,6 +138,7 @@ graph LR
   node_test_branch_transition_preflight_1665655e_acac1534["test_branch_transition_preflight_1665655e"]
   node_test_code_quality_debt_contract_569cff13_2953095a["test_code_quality_debt_contract_569cff13"]
   node_test_codex_preflight_receipt_200ab781_029a12e8["test_codex_preflight_receipt_200ab781"]
+  node_test_css_simplification_05516724_6f0b8da9["test_css_simplification_05516724"]
   node_test_diagram_freshness_opt_in_96293749_08c46e10["test_diagram_freshness_opt_in_96293749"]
   node_test_git_worktree_authority_e031ba7e_d149c121["test_git_worktree_authority_e031ba7e"]
   node_test_harness_cli_public_fallback_ad793eff_5fbe4aa9["test_harness_cli_public_fallback_ad793eff"]
@@ -181,6 +175,7 @@ graph LR
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_branch_transition_preflight_1665655e_acac1534
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
+  ext_node_assert_f1a93ba5["node:assert"] --> node_test_css_simplification_05516724_6f0b8da9
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_diagram_freshness_opt_in_96293749_08c46e10
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_git_worktree_authority_e031ba7e_d149c121
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_harness_cli_public_fallback_ad793eff_5fbe4aa9
@@ -231,6 +226,7 @@ graph LR
   ext_node_fs_a15b7d96["node:fs"] --> node_test_branch_transition_preflight_1665655e_acac1534
   ext_node_fs_a15b7d96["node:fs"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_fs_a15b7d96["node:fs"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
+  ext_node_fs_a15b7d96["node:fs"] --> node_test_css_simplification_05516724_6f0b8da9
   ext_node_fs_a15b7d96["node:fs"] --> node_test_diagram_freshness_opt_in_96293749_08c46e10
   ext_node_fs_a15b7d96["node:fs"] --> node_test_git_worktree_authority_e031ba7e_d149c121
   ext_node_fs_a15b7d96["node:fs"] --> node_test_harness_cli_public_fallback_ad793eff_5fbe4aa9
@@ -419,6 +415,7 @@ flowchart LR
   LLMNode -. "implemented by" .-> DetectedLLM
   subgraph DetectedTools["Agentic tool calls"]
     det_detectedtools_jose_parity_cdp_bdcde21d["🔧 jose-parity-cdp"]
+    det_detectedtools_test_css_simplification_05516724["🔧 test-css-simplification"]
   end
   LLMNode -->|tool use| DetectedTools
   DetectedTools -->|result| LLMNode
@@ -427,7 +424,7 @@ flowchart LR
   classDef llmNode fill:#555,color:#fff
   class LLMNode,Embed llmNode
   classDef toolNode fill:#555,color:#fff
-  class det_detectedtools_jose_parity_cdp_bdcde21d toolNode
+  class det_detectedtools_jose_parity_cdp_bdcde21d,det_detectedtools_test_css_simplification_05516724 toolNode
 
 ```
 
@@ -477,6 +474,10 @@ flowchart LR
   User --> jose_parity_cdp_bdcde21d
   smoke_pages_9a92b30d["smoke-pages"]
   User --> smoke_pages_9a92b30d
+  test_css_simplification_05516724["test-css-simplification"]
+  User --> test_css_simplification_05516724
+  test_jose_parity_measurements_2477824f["test-jose-parity-measurements"]
+  User --> test_jose_parity_measurements_2477824f
   test_operator_workflow_contract_b4a152d7["test-operator-workflow-contract"]
   User --> test_operator_workflow_contract_b4a152d7
   validate_coding_policy_29976175["validate-coding-policy"]
@@ -495,10 +496,10 @@ flowchart LR
   User --> validate_portfolio_content_6d36990e
   check_public_api_docs_a9604f1b --> changed_files_4c0102f6
   jose_parity_cdp_bdcde21d --> jose_parity_measurements_afc7a199
-  check_code_size_9c5efc3a --> changed_files_4c0102f6
   test_jose_parity_measurements_2477824f --> jose_parity_measurements_afc7a199
+  check_code_size_9c5efc3a --> changed_files_4c0102f6
   classDef userNode fill:#16a34a,color:#fff
-  class capture_jose_reference_e7b66705,check_public_api_docs_a9604f1b,jose_parity_cdp_bdcde21d,smoke_pages_9a92b30d,test_operator_workflow_contract_b4a152d7,validate_coding_policy_29976175,validate_content_source_boundary_8a6f121b,validate_css_policy_1c5ec854,validate_design_system_b8a5f37c,validate_operator_contract_f777ed78,validate_page_surfaces_078ef6b6,validate_portfolio_content_6d36990e userNode
+  class capture_jose_reference_e7b66705,check_public_api_docs_a9604f1b,jose_parity_cdp_bdcde21d,smoke_pages_9a92b30d,test_css_simplification_05516724,test_jose_parity_measurements_2477824f,test_operator_workflow_contract_b4a152d7,validate_coding_policy_29976175,validate_content_source_boundary_8a6f121b,validate_css_policy_1c5ec854,validate_design_system_b8a5f37c,validate_operator_contract_f777ed78,validate_page_surfaces_078ef6b6,validate_portfolio_content_6d36990e userNode
 
 ```
 

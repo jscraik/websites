@@ -61,6 +61,8 @@ for (const scriptPath of ["tests/screenshots/jose-jamie.spec.ts", "scripts/jose-
     "About identity copy must be masked without weakening its geometry assertions",
   );
   assert.match(source, /copy\s*(?:=|:)\s*captureName === "about-top"/);
+  assert.match(source, /\.recognition-list a/);
+  assert.doesNotMatch(source, /\.web-table a/);
   assert.match(source, /requireRect\("about copy", reference\.copy, candidate\.copy\)/);
   assert.match(source, /card\[0\]\.height/);
   assert.doesNotMatch(
