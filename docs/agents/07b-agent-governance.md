@@ -48,6 +48,9 @@ workflow contract or hosted review evidence.
 When a source-quality validator or focused regression fixture adds a node to
 the tracked architecture projections, keep `AGENTS.md` and the architecture
 bootstrap guidance aligned with the validator entrypoint and its proof scope.
+The CSS simplification fixture follows the same rule: its selector-removal
+assertions and the shared shell gradient contract must remain named in both
+surfaces when the stylesheet or route markup changes.
 
 For Jose parity work, the stored bundle and its accepted decision record are
 the design authority. Current-live comparisons remain advisory evidence, and
