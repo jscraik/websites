@@ -16,3 +16,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Make article pullquote sharing actionable, clarify homepage entry motion, and promote SkillsBar as the first portfolio route.
 - Simplify the public Blog, Proof, brAInwav, and mobile featured-work presentation while preserving the Jose-derived layout system.
+- Centralize the shared header, navigation, and footer surfaces so the portfolio routes use one neutral paper canvas and consistent shell gradients.

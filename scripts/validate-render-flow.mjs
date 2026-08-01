@@ -5,6 +5,7 @@ import path from "node:path";
 const repoRoot = process.cwd();
 const distRoot = path.join(repoRoot, "dist");
 const failures = [];
+const cdpEndpoint = process.env.CHROME_CDP_URL ?? process.env.CDP_ENDPOINT;
 const viewports = [
   { width: 375, height: 812 },
   { width: 390, height: 844 },
@@ -29,17 +30,26 @@ const routes = builtRoutes();
 const server = await startStaticServer(distRoot);
 const baseUrl = "http://127.0.0.1:" + server.port;
 let browser;
+let context;
 try {
-  browser = await chromium.launch();
+  if (cdpEndpoint) {
+    browser = await chromium.connectOverCDP(cdpEndpoint);
+    context = browser.contexts()[0] ?? await browser.newContext();
+  } else {
+    browser = await chromium.launch();
+    context = await browser.newContext();
+  }
 } catch (error) {
   await new Promise((resolve) => server.instance.close(resolve));
-  console.error("Render-flow validation blocked: Chromium could not launch in this environment: " + cleanError(error));
+  const mode = cdpEndpoint ? "connect to Chrome over CDP at " + cdpEndpoint : "launch in this environment";
+  console.error("Render-flow validation blocked: Chromium could not " + mode + ": " + cleanError(error));
   process.exit(1);
 }
 
 try {
   for (const viewport of viewports) {
-    const page = await browser.newPage({ viewport });
+    const page = await context.newPage();
+    await page.setViewportSize(viewport);
     for (const route of routes) await validateRoute(page, baseUrl, route, viewport);
     await page.close();
   }
@@ -54,7 +64,15 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log("Render-flow validation passed: " + routes.length + " routes across " + viewports.length + " viewports.");
+console.log(
+  "Render-flow validation passed: " +
+    routes.length +
+    " routes across " +
+    viewports.length +
+    " viewports" +
+    (cdpEndpoint ? " via " + cdpEndpoint : "") +
+    ".",
+);
 
 function builtRoutes() {
   return listFiles(distRoot)
@@ -76,6 +94,10 @@ async function validateRoute(page, baseUrl, route, viewport) {
     const body = document.body;
     const doc = document.documentElement;
     const main = document.querySelector("main");
+    const shellHeader = body.classList.contains("skillsbar-demo")
+      ? document.querySelector("header.demo-nav")
+      : document.querySelector("header.site-header");
+    const shellFooter = document.querySelector("footer.site-footer");
     const linksAndButtons = [...document.querySelectorAll("a, button")].map((element) => {
       const rect = element.getBoundingClientRect();
       return {
@@ -109,6 +131,12 @@ async function validateRoute(page, baseUrl, route, viewport) {
       clientWidth: doc.clientWidth,
       bodyTextLength: (body.innerText || "").trim().length,
       mainTop: main ? main.getBoundingClientRect().top : null,
+      shellHeader: shellHeader
+        ? { width: shellHeader.getBoundingClientRect().width, height: shellHeader.getBoundingClientRect().height }
+        : null,
+      shellFooter: shellFooter
+        ? { width: shellFooter.getBoundingClientRect().width, height: shellFooter.getBoundingClientRect().height }
+        : null,
       linksAndButtons,
       images,
       overflowingElements
@@ -122,6 +150,10 @@ async function validateRoute(page, baseUrl, route, viewport) {
   if (metrics.bodyTextLength < 120) failures.push(label + ": rendered body text is nearly blank.");
   if (metrics.mainTop === null) failures.push(label + ": missing main landmark.");
   if (metrics.mainTop !== null && metrics.mainTop > viewport.height * 0.85) failures.push(label + ": main content starts too low in the viewport.");
+  if (metrics.shellHeader === null) failures.push(label + ": missing route shell header landmark.");
+  if (metrics.shellHeader && (metrics.shellHeader.width === 0 || metrics.shellHeader.height === 0)) failures.push(label + ": route shell header rendered at zero size.");
+  if (metrics.shellFooter === null) failures.push(label + ": missing shared footer landmark.");
+  if (metrics.shellFooter && (metrics.shellFooter.width === 0 || metrics.shellFooter.height === 0)) failures.push(label + ": shared footer rendered at zero size.");
 
   for (const item of metrics.linksAndButtons) {
     if (item.tag === "button" && (item.width > 0 || item.height > 0) && (item.width < 24 || item.height < 24)) failures.push(label + ": small button target for \"" + item.text + "\" (" + Math.round(item.width) + "x" + Math.round(item.height) + ").");

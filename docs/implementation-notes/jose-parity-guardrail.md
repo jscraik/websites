@@ -101,11 +101,34 @@ The npm run test:jose-parity command now routes through scripts/jose-parity-runn
 
 For raw Playwright Chromium launch, bootstrap_check_in ... Permission denied (1100) is a managed macOS process/Mach bootstrap restriction. workspace-net and filesystem grants can provide network access, local binding, cache access, and profile-directory writes, but they cannot grant Chromium the host process entitlement it needs when launched inside the managed Codex sandbox.
 
-When Playwright cannot launch managed Chromium in the current environment, use the CDP attach lane instead of reducing the claim. Start a separate Chrome process with remote debugging, then run: CHROME_CDP_URL=http://127.0.0.1:9222 REFERENCE_BASE_URL=https://www.joseocando.com CANDIDATE_BASE_URL=<local-url> npm run test:jose-parity.
+When Playwright cannot launch managed Chromium in the current environment, use the CDP attach lane instead of reducing the claim. Use an existing approved external Chrome/CDP endpoint from an immutable trusted base, bind it to the exact candidate artifact, then run: CHROME_CDP_URL=http://127.0.0.1:9222 REFERENCE_BASE_URL=https://www.joseocando.com CANDIDATE_BASE_URL=<local-url> npm run test:jose-parity. Do not host-execute a dirty/current checkout, add `--no-sandbox`, reinstall Playwright/Chromium, or widen filesystem roots.
+
+The `9222` examples above are generic endpoint placeholders. On this macOS Portfolio workstation, use the approved disposable `9223` route in the next section; do not infer the CDP port from the candidate HTTP server port.
 
 The explicit CDP-only command is also available as: CHROME_CDP_URL=http://127.0.0.1:9222 REFERENCE_BASE_URL=https://www.joseocando.com CANDIDATE_BASE_URL=<local-url> npm run test:jose-parity:cdp.
 
-The CDP attach lane writes rendered artifacts under artifacts/screenshots-cdp/, including compare.html, per-capture screenshots, diffs, metrics, and run-summary.json. It proves rendered browser parity only when that command passes for the current candidate URL. A missing CDP endpoint is a browser-bridge blocker, not visual parity evidence.
+### Approved macOS external-CDP recovery
+
+When the managed browser cannot bootstrap, the runtime owner may start a dedicated disposable Chrome profile outside the managed sandbox:
+
+```sh
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome \
+  --remote-debugging-port=9223 \
+  --user-data-dir=/tmp/portfolio-chrome-cdp
+```
+
+The candidate app may remain on `http://127.0.0.1:4323`; that HTTP port is not a CDP endpoint. Where host policy permits, verify the listener once with `curl -fsS --max-time 3 http://127.0.0.1:9223/json/version` and require a `webSocketDebuggerUrl`. If the managed runtime rejects raw endpoint probes, use the repository-owned CDP client below instead. Never enumerate `/json/list`, add `--no-sandbox`, reuse an authenticated profile for a private claim, or point the client at `4323` unless the app explicitly exposes a CDP websocket.
+
+Bind the exact candidate URL and run:
+
+```sh
+CHROME_CDP_URL=http://127.0.0.1:9223 \
+REFERENCE_BASE_URL=https://www.joseocando.com \
+CANDIDATE_BASE_URL=http://127.0.0.1:4323 \
+npm run test:jose-parity:cdp
+```
+
+The CDP attach lane first checks the candidate's shared shell and neutral route canvas across the portfolio routes at desktop and mobile, then writes rendered artifacts under `artifacts/screenshots-cdp/`, including `compare.html`, per-capture screenshots, diffs, metrics, and `run-summary.json`. That route-surface check proves only candidate-internal shell consistency; it does not waive the Jose pixel budgets. `scripts/jose-parity-cdp.mjs` closes the connected Playwright browser object in `finally`; for a connected browser this clears contexts created by the client and disconnects from the browser server, allowing the command to terminate without closing the external Chrome application. It proves rendered browser parity only when the command exits with status 0 for the current candidate URL. A missing CDP endpoint is a browser-bridge blocker, not visual parity evidence. Browser-extension or MCP connectivity remains separate from CLI authentication and provider-credential proof.
 
 If browser-rendered capture is blocked, the strongest supported claim is pipeline readiness or partial reference validation, not visual match.
 

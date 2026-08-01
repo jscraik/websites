@@ -39,6 +39,17 @@ const captures = [
   { name: "footer", path: "/", selector: ".site-footer" },
 ];
 
+const candidateSurfaceRoutes = [
+  "/",
+  "/now/",
+  "/blog/",
+  "/contact/",
+  "/articles/why-ai-native-devrel/",
+  "/proof/",
+  "/work/ai-native-devrel/",
+  "/work/brainwav-io/",
+];
+
 const pixelRatioBudgets = {
   "home-top-desktop": 0.34,
   "home-top-mobile": 0.3,
@@ -72,17 +83,22 @@ if (!referenceBaseURL) {
   process.exit(2);
 }
 
+let browser;
 let page;
 
 try {
-  const browser = await connectToChrome();
+  browser = await connectToChrome();
   const context = browser.contexts()[0] ?? await browser.newContext();
   page = await context.newPage();
   const rows = [];
 
   for (const viewport of viewports) {
     await page.setViewportSize({ width: viewport.width, height: viewport.height });
+    await assertCandidateShellSurfaces(page, candidateBaseURL, viewport.name);
+  }
 
+  for (const viewport of viewports) {
+    await page.setViewportSize({ width: viewport.width, height: viewport.height });
     for (const capture of captures) {
       const pairName = capture.name + "-" + viewport.name;
       const reference = await captureFrame(page, referenceBaseURL, capture, "jose/" + pairName + ".png");
@@ -150,6 +166,9 @@ try {
 } finally {
   if (page) {
     await page.close().catch(() => {});
+  }
+  if (browser) {
+    await browser.close().catch(() => {});
   }
 }
 
@@ -234,6 +253,53 @@ async function measureTopbar(activePage, baseURL, capture) {
       items,
     };
   });
+}
+
+async function assertCandidateShellSurfaces(activePage, baseURL, viewportName) {
+  let reference;
+
+  for (const route of candidateSurfaceRoutes) {
+    const url = new URL(route, baseURL).toString();
+    await activePage.goto(url);
+    const surfaces = await activePage.evaluate(() => {
+      const transparent = "rgba(0, 0, 0, 0)";
+      const body = getComputedStyle(document.body);
+      const main = getComputedStyle(document.querySelector("main"));
+      const header = getComputedStyle(document.querySelector(".site-header"));
+      const nav = getComputedStyle(document.querySelector(".site-header .nav-bg"));
+      const navInner = getComputedStyle(document.querySelector(".site-header .nav-inner"));
+      const footer = getComputedStyle(document.querySelector(".site-footer"));
+
+      return {
+        header: header.backgroundImage,
+        nav: nav.backgroundColor,
+        navInner: navInner.backgroundColor,
+        footer: footer.backgroundImage,
+        bodyImage: body.backgroundImage,
+        bodyColor: body.backgroundColor,
+        mainImage: main.backgroundImage,
+        effectiveMainColor: main.backgroundColor === transparent ? body.backgroundColor : main.backgroundColor,
+      };
+    });
+
+    reference ??= surfaces;
+    if (JSON.stringify(surfaces) !== JSON.stringify(reference)) {
+      throw new Error("Candidate shell/canvas surface mismatch at " + route + " for " + viewportName + ".");
+    }
+    if (
+      surfaces.bodyImage !== "none" ||
+      surfaces.mainImage !== "none" ||
+      surfaces.bodyColor !== "rgb(213, 214, 208)" ||
+      surfaces.effectiveMainColor !== "rgb(213, 214, 208)"
+    ) {
+      throw new Error(
+        "Candidate route canvas is not the neutral paper surface at " + route + " for " + viewportName +
+        ": " + JSON.stringify(surfaces) + "."
+      );
+    }
+  }
+
+  console.log("Candidate shell/canvas parity passed for " + candidateSurfaceRoutes.length + " routes at " + viewportName + ".");
 }
 
 async function measureSurface(activePage, baseURL, capture) {

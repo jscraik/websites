@@ -1,15 +1,20 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 
 const packageJson = JSON.parse(readFileSync("package.json", "utf8"));
 const cssPath = "src/styles/global.css";
 const css = readFileSync(cssPath, "utf8");
+const shell = readFileSync("src/styles/shell.css", "utf8");
+const layout = readFileSync("src/layouts/BaseLayout.astro", "utf8");
 const source = [
   "src/pages/index.astro",
   "src/pages/blog/index.astro",
   "src/pages/now.astro",
-  "src/pages/work/[slug].astro"
+  "src/pages/work/[slug].astro",
+  "src/components/SiteNav.astro",
+  "src/components/SiteFooter.astro"
 ].map((path) => readFileSync(path, "utf8")).join("\n");
+const combinedSource = css + "\n" + source;
 
 assert.equal(
   packageJson.scripts["test:css-simplification"],
@@ -20,6 +25,26 @@ assert.match(
   packageJson.scripts["validate:fast"],
   /npm run test:css-simplification/,
   "validate:fast must run the simplification contract",
+);
+assert.equal(
+  existsSync("src/components/BrandMark.astro"),
+  false,
+  "the unused BrandMark component must stay removed",
+);
+assert.doesNotMatch(
+  css,
+  /\.brand-mark\b/,
+  "the unused BrandMark styling must stay removed",
+);
+assert.doesNotMatch(
+  source,
+  /brand-mark/i,
+  "current Astro source must not emit the removed BrandMark contract",
+);
+assert.match(
+  layout,
+  /import "\.\.\/styles\/global\.css";\nimport "\.\.\/styles\/shell\.css";/,
+  "the shared shell stylesheet must load after the global stylesheet",
 );
 
 for (const className of [
@@ -56,14 +81,45 @@ assert.match(source, /about-object about-object--\$\{fact\.visual\}/);
 assert.match(source, /skill-icon skill-icon--\$\{skill\.icon\}/);
 assert.match(source, /work-thumbnail work-thumbnail--/);
 assert.equal(
-  (css.match(/html body:not\(\.skillsbar-demo\) \.site-header,/g) ?? []).length,
+  (shell.match(/html body:not\(\.skillsbar-demo\) \.site-header,/g) ?? []).length,
   1,
   "the shared header gradient must have one canonical rule",
 );
 assert.equal(
-  (css.match(/html body:not\(\.skillsbar-demo\) \.site-footer\s*{/g) ?? []).length,
+  (shell.match(/html body:not\(\.skillsbar-demo\) \.site-footer\s*{/g) ?? []).length,
   1,
   "the shared footer gradient must have one canonical rule",
+);
+assert.equal(
+  (shell.match(/html body:not\(\.skillsbar-demo\) \.site-header \.nav-inner\s*{\s*background:\s*transparent;/g) ?? []).length,
+  1,
+  "the portfolio navigation surface must have one canonical rule",
+);
+assert.match(
+  shell,
+  /html body:not\(\.skillsbar-demo\) \.site-header \.nav-inner\s*{[\s\S]*?background:\s*transparent;/,
+  "the navigation content layer must stay transparent",
+);
+assert.equal(
+  (shell.match(/html body:not\(\.skillsbar-demo\) \.site-header \.nav-inner \.nav-bg\s*{/g) ?? []).length,
+  1,
+  "the portfolio navigation background must have one canonical rule",
+);
+assert.match(
+  shell,
+  /html body:not\(\.skillsbar-demo\) \.site-header \.nav-inner \.nav-bg\s*{[\s\S]*?background:\s*var\(--bds-color-portfolio-nav\);/,
+  "the navigation background layer must use the portfolio navigation token",
+);
+assert.match(
+  shell,
+  /@media \(prefers-reduced-transparency: reduce\)[\s\S]*?\.site-header \.nav-inner\s*{[\s\S]*?backdrop-filter:\s*none;/,
+  "the extracted shell must preserve the reduced-transparency preference",
+);
+assert.match(source, /<div class="nav-bg" aria-hidden="true"><\/div>/);
+assert.doesNotMatch(
+  css,
+  /--jp-surface\b/,
+  "the removed duplicate Jose surface alias must stay absent",
 );
 assert.doesNotMatch(
   css,
@@ -74,6 +130,26 @@ assert.doesNotMatch(
   css,
   /body:has\(\.about-page\) \.site-footer\s*{/,
   "About must not reintroduce a route-specific footer override",
+);
+assert.match(
+  css,
+  /body:has\(\.home-hero\)\s*{[\s\S]*?background:\s*var\(--paper\);/,
+  "the home route canvas must use the neutral paper surface",
+);
+assert.match(
+  css,
+  /body:has\(\.about-page\) main\s*{[\s\S]*?background:\s*var\(--paper\);/,
+  "the About route canvas must use the neutral paper surface",
+);
+assert.match(
+  source,
+  /:global\(body:has\(\.blog-index\)\)\s*{[\s\S]*?background:\s*var\(--paper\);/,
+  "the Blog route canvas must use the neutral paper surface",
+);
+assert.doesNotMatch(
+  combinedSource,
+  /body:has\(\.(?:home-hero|about-page|blog-index)\)[\s\S]*?linear-gradient\(180deg,\s*var\(--surface-card\),\s*var\(--paper\)\)/,
+  "route canvases must not add a competing top-level Jose gradient",
 );
 
 for (const variant of ["army", "agents", "terminal", "receipt"]) {

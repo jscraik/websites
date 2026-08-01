@@ -54,6 +54,10 @@ for (const capability of requiredParityRunnerCapabilities) {
   }
 }
 
+if (!parityRunnerScript.includes("--remote-debugging-port=9223") || parityRunnerScript.includes("--remote-debugging-port=9222")) {
+  failures.push("scripts/jose-parity-runner.mjs: the managed-browser fallback must print the approved Portfolio 9223 route, not the stale 9222 launch command.");
+}
+
 const requiredCaptureCapabilities = [
   "JOSE_REFERENCE_RENDERED_ARTIFACTS",
   "screenshots",
@@ -73,6 +77,11 @@ const requiredBoundaryStatements = [
   "REFERENCE_BASE_URL=https://www.joseocando.com CANDIDATE_BASE_URL=<local-url> npm run test:jose-parity",
   "CHROME_CDP_URL=http://127.0.0.1:9222 REFERENCE_BASE_URL=https://www.joseocando.com CANDIDATE_BASE_URL=<local-url> npm run test:jose-parity",
   "CHROME_CDP_URL=http://127.0.0.1:9222 REFERENCE_BASE_URL=https://www.joseocando.com CANDIDATE_BASE_URL=<local-url> npm run test:jose-parity:cdp",
+  "The `9222` examples above are generic endpoint placeholders",
+  "Approved macOS external-CDP recovery",
+  "--remote-debugging-port=9223",
+  "--user-data-dir=/tmp/portfolio-chrome-cdp",
+  "scripts/jose-parity-cdp.mjs` closes the connected Playwright browser object",
   "workspace-net and filesystem grants can provide network access, local binding, cache access, and profile-directory writes",
   "Command: cd /Users/jamiecraik/dev/brainwav.io && REFERENCE_BASE_URL=https://www.joseocando.com npm run test:jose-parity -> blocked"
 ];
