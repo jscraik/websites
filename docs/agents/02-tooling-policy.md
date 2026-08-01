@@ -57,10 +57,13 @@ authentication or provider credentials.
 
 The built-output render-flow gate supports the same approved endpoint when the
 managed Chromium launch is blocked. After building the exact candidate
-artifact, run `CHROME_CDP_URL=http://127.0.0.1:9223 node scripts/validate-render-flow.mjs`.
-That proves route flow, shell landmarks, overflow, target sizes, and image
-dimensions for the served artifact; it does not prove Jose visual parity or
-hosted deployment.
+artifact, run `CHROME_CDP_URL=http://127.0.0.1:9223 npm run
+validate:render-flow:artifact`. The artifact-only script does not rebuild
+`dist/`, so the result remains bound to the artifact that was built and
+inspected. That proves route flow, shell landmarks, overflow, target sizes, and
+image dimensions for the served artifact; it does not prove Jose visual parity
+or hosted deployment. Use `npm run validate:render-flow` when a fresh build is
+intentionally part of the gate.
 
 The pre-push hook is deliberately limited to the portfolio contract: operator
 validation, Git worktree authority, `validate:fast`, `check`, and `build`.

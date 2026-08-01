@@ -64,6 +64,27 @@ test.describe("UI polish contracts", () => {
     expect(technicalShell.footerBackground).toBe("rgb(11, 15, 23)");
     expect(technicalShell.profileBackground).toBe("rgb(20, 26, 35)");
     expect(technicalShell.socialBackground).toBe("rgb(27, 34, 48)");
+
+    const technicalNav = await page.evaluate(() => {
+      const header = document.querySelector(".site-header")!;
+      const layer = document.querySelector(".site-header .nav-bg")!;
+      const content = document.querySelector(".site-header .nav-flip")!;
+      const layerStyle = getComputedStyle(layer);
+      const contentStyle = getComputedStyle(content);
+      return {
+        headerDisplay: getComputedStyle(header).display,
+        layerPosition: layerStyle.position,
+        layerPointerEvents: layerStyle.pointerEvents,
+        layerZIndex: layerStyle.zIndex,
+        contentZIndex: contentStyle.zIndex
+      };
+    });
+
+    expect(technicalNav.headerDisplay).toBe("none");
+    expect(technicalNav.layerPosition).toBe("absolute");
+    expect(technicalNav.layerPointerEvents).toBe("none");
+    expect(technicalNav.layerZIndex).toBe("0");
+    expect(technicalNav.contentZIndex).toBe("1");
   });
 
   test("About keeps the shared shell gradient and neutral page canvas", async ({ page }) => {
@@ -100,6 +121,9 @@ test.describe("UI polish contracts", () => {
           header: string;
           nav: string;
           navInner: string;
+          navLayerPointerEvents: string;
+          navLayerZIndex: string;
+          navContentZIndex: string;
           footer: string;
           footerProfile: string;
           footerSocial: string;
@@ -112,6 +136,9 @@ test.describe("UI polish contracts", () => {
         header: getComputedStyle(document.querySelector(".site-header")!).backgroundImage,
         nav: getComputedStyle(document.querySelector(".site-header .nav-bg")!).backgroundColor,
         navInner: getComputedStyle(document.querySelector(".site-header .nav-inner")!).backgroundColor,
+        navLayerPointerEvents: getComputedStyle(document.querySelector(".site-header .nav-bg")!).pointerEvents,
+        navLayerZIndex: getComputedStyle(document.querySelector(".site-header .nav-bg")!).zIndex,
+        navContentZIndex: getComputedStyle(document.querySelector(".site-header .nav-flip")!).zIndex,
         footer: getComputedStyle(document.querySelector(".site-footer")!).backgroundImage,
         footerProfile: getComputedStyle(document.querySelector(".site-footer .footer-profile-card")!).backgroundColor,
         footerSocial: getComputedStyle(document.querySelector(".site-footer .footer-social-links a")!).backgroundColor

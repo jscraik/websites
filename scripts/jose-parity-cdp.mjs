@@ -7,7 +7,7 @@ import { maskPixelRegions, resolveEffectiveBackgroundRgb } from "./jose-parity-m
 
 const referenceBaseURL = process.env.REFERENCE_BASE_URL;
 const candidateBaseURL = process.env.CANDIDATE_BASE_URL ?? "http://127.0.0.1:4321";
-const cdpEndpoint = process.env.CHROME_CDP_URL ?? process.env.CDP_ENDPOINT ?? "http://127.0.0.1:9222";
+const cdpEndpoint = process.env.CHROME_CDP_URL ?? process.env.CDP_ENDPOINT ?? "http://127.0.0.1:9223";
 const outputRoot = process.env.SCREENSHOT_OUTPUT_DIR ?? "artifacts/screenshots-cdp";
 
 const stableScreenshotStyle = [
@@ -181,7 +181,8 @@ async function connectToChrome() {
         "Could not connect to Chrome over CDP at " + cdpEndpoint + ".",
         "Start a separate debug Chrome first, then rerun this command.",
         "Example:",
-        "  /Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --remote-debugging-port=9222 --user-data-dir=/tmp/brainwav-cdp-chrome --no-first-run",
+        "  profile_dir=\"$(mktemp -d \\\"${TMPDIR:-/tmp}/portfolio-chrome-cdp.XXXXXX\\\")\"",
+        "  /Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --remote-debugging-port=9223 --user-data-dir=\"$profile_dir\" --no-first-run",
         "Original error: " + (error?.message ?? error),
       ].join("\n")
     );

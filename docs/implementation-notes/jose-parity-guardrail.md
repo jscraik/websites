@@ -101,23 +101,42 @@ The npm run test:jose-parity command now routes through scripts/jose-parity-runn
 
 For raw Playwright Chromium launch, bootstrap_check_in ... Permission denied (1100) is a managed macOS process/Mach bootstrap restriction. workspace-net and filesystem grants can provide network access, local binding, cache access, and profile-directory writes, but they cannot grant Chromium the host process entitlement it needs when launched inside the managed Codex sandbox.
 
-When Playwright cannot launch managed Chromium in the current environment, use the CDP attach lane instead of reducing the claim. Use an existing approved external Chrome/CDP endpoint from an immutable trusted base, bind it to the exact candidate artifact, then run: CHROME_CDP_URL=http://127.0.0.1:9222 REFERENCE_BASE_URL=https://www.joseocando.com CANDIDATE_BASE_URL=<local-url> npm run test:jose-parity. Do not host-execute a dirty/current checkout, add `--no-sandbox`, reinstall Playwright/Chromium, or widen filesystem roots.
+When Playwright cannot launch managed Chromium in the current environment, use the CDP attach lane instead of reducing the claim. Use an existing approved external Chrome/CDP endpoint from an immutable trusted base, bind it to the exact candidate artifact, then run: `CHROME_CDP_URL=http://127.0.0.1:9223 REFERENCE_BASE_URL=https://www.joseocando.com CANDIDATE_BASE_URL=<local-url> npm run test:jose-parity`. Do not host-execute a dirty/current checkout, add `--no-sandbox`, reinstall Playwright/Chromium, or widen filesystem roots.
 
-The `9222` examples above are generic endpoint placeholders. On this macOS Portfolio workstation, use the approved disposable `9223` route in the next section; do not infer the CDP port from the candidate HTTP server port.
-
-The explicit CDP-only command is also available as: CHROME_CDP_URL=http://127.0.0.1:9222 REFERENCE_BASE_URL=https://www.joseocando.com CANDIDATE_BASE_URL=<local-url> npm run test:jose-parity:cdp.
+The explicit CDP-only command is also available as: `CHROME_CDP_URL=http://127.0.0.1:9223 REFERENCE_BASE_URL=https://www.joseocando.com CANDIDATE_BASE_URL=<local-url> npm run test:jose-parity:cdp`. Keep the CDP port distinct from the candidate HTTP server port.
 
 ### Approved macOS external-CDP recovery
 
 When the managed browser cannot bootstrap, the runtime owner may start a dedicated disposable Chrome profile outside the managed sandbox:
 
 ```sh
+set -euo pipefail
+profile_dir="$(mktemp -d "${TMPDIR:-/tmp}/portfolio-chrome-cdp.XXXXXX")"
+chrome_pid=""
+cleanup() {
+  if [[ -n "$chrome_pid" ]]; then
+    kill "$chrome_pid" 2>/dev/null || true
+    wait "$chrome_pid" 2>/dev/null || true
+  fi
+  rm -rf -- "$profile_dir"
+}
+trap cleanup EXIT
+
 /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome \
   --remote-debugging-port=9223 \
-  --user-data-dir=/tmp/portfolio-chrome-cdp
+  --user-data-dir="$profile_dir" \
+  --no-first-run \
+  --no-default-browser-check &
+chrome_pid="$!"
+
+curl -fsS --max-time 3 http://127.0.0.1:9223/json/version | grep -q 'webSocketDebuggerUrl'
+CHROME_CDP_URL=http://127.0.0.1:9223 \
+REFERENCE_BASE_URL=https://www.joseocando.com \
+CANDIDATE_BASE_URL=http://127.0.0.1:4323 \
+npm run test:jose-parity:cdp
 ```
 
-The candidate app may remain on `http://127.0.0.1:4323`; that HTTP port is not a CDP endpoint. Where host policy permits, verify the listener once with `curl -fsS --max-time 3 http://127.0.0.1:9223/json/version` and require a `webSocketDebuggerUrl`. If the managed runtime rejects raw endpoint probes, use the repository-owned CDP client below instead. Never enumerate `/json/list`, add `--no-sandbox`, reuse an authenticated profile for a private claim, or point the client at `4323` unless the app explicitly exposes a CDP websocket.
+The candidate app may remain on `http://127.0.0.1:4323`; that HTTP port is not a CDP endpoint. The `mktemp -d` directory is unique to this run and the trap removes only that directory after Chrome exits. Where host policy permits, the listener check must expose a `webSocketDebuggerUrl`. If the managed runtime rejects raw endpoint probes, use the repository-owned CDP client below instead. Never enumerate `/json/list`, add `--no-sandbox`, reuse an authenticated profile for a private claim, or point the client at `4323` unless the app explicitly exposes a CDP websocket.
 
 Bind the exact candidate URL and run:
 

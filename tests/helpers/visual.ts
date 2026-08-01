@@ -28,5 +28,6 @@ export const coreRoutes = [
   { name: "skillsbar-demo", path: "/demos/skillsbar/" },
   { name: "article-ai-native-devrel", path: "/articles/why-ai-native-devrel/" },
   { name: "proof", path: "/proof/" },
-  { name: "work-ai-native-devrel", path: "/work/ai-native-devrel/" }
+  { name: "work-ai-native-devrel", path: "/work/ai-native-devrel/" },
+  { name: "work-brainwav-io", path: "/work/brainwav-io/" }
 ] as const;
