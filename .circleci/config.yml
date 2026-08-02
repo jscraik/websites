@@ -144,10 +144,14 @@ jobs:
             ln -sf "$uv_path" "$HOME/.local/bin/uv"
             uv --version
       - run:
+          name: Inject npm auth
+          command: |
+            if [[ -n "${NPM_TOKEN:-}" ]]; then
+              printf '%s\n' "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> "$HOME/.npmrc"
+            fi
+      - run:
           name: Install dependencies
-          # All project dependencies are public. Ignore runner-level auth/config
-          # so a stale NPM_TOKEN cannot turn a public package into an E404.
-          command: NPM_CONFIG_USERCONFIG=/dev/null npm ci
+          command: npm ci
 
 
       - run:
@@ -185,8 +189,14 @@ jobs:
             fi
             npm --version
       - run:
+          name: Inject npm auth
+          command: |
+            if [[ -n "${NPM_TOKEN:-}" ]]; then
+              printf '%s\n' "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> "$HOME/.npmrc"
+            fi
+      - run:
           name: Install dependencies for Snyk package graph
-          command: NPM_CONFIG_USERCONFIG=/dev/null npm ci
+          command: npm ci
       - run:
           name: Run report-only Snyk dependency scan
           command: |
@@ -218,8 +228,14 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Inject npm auth
+          command: |
+            if [[ -n "${NPM_TOKEN:-}" ]]; then
+              printf '%s\n' "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> "$HOME/.npmrc"
+            fi
+      - run:
           name: Install dependencies
-          command: NPM_CONFIG_USERCONFIG=/dev/null npm ci
+          command: npm ci
       - run:
           name: Validate and build production artifact
           command: ASTRO_TELEMETRY_DISABLED=1 npm run validate:source
