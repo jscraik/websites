@@ -158,7 +158,7 @@ for tool in "${required_mise_tools[@]}"; do
 done
 
 if [[ -f "$TOOLING_DOC_PATH" ]]; then
-	required_tooling_doc_terms=("node" "pnpm" "python" "uv" "make" "rg" "fd" "jq" "prek" "diagram" "mise" "vale" "argos" "cosign" "cloudflared" "vitest" "ruff" "eslint" "agent-browser" "agentation" "ctx7" "mermaid-cli" "markdownlint-cli2" "wrangler" "semgrep" "semver" "trivy" "rsearch" "wsearch")
+	required_tooling_doc_terms=("node" "pnpm" "python" "uv" "make" "rg" "fd" "jq" "prek" "diagram" "mise" "vale" "argos" "cosign" "cloudflared" "vitest" "ruff" "eslint" "agent-browser" "agentation" "ctx7" "mermaid-cli" "markdownlint-cli2" "wrangler" "semgrep" "semver" "trivy" "gitleaks" "rsearch" "wsearch")
 	for term in "${required_tooling_doc_terms[@]}"; do
 		if ! rg -qi "(^|[^A-Za-z0-9_-])${term}([^A-Za-z0-9_-]|$)" "$TOOLING_DOC_PATH"; then
 			echo "Error: tooling doc missing expected term '$term': $TOOLING_DOC_PATH"
