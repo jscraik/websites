@@ -138,3 +138,4 @@ Playwright commands use .playwright-tmp/, .playwright-cache/, test-results/, and
 - When visual changes touch page backgrounds, section surfaces, spacing bands, or Blog card layout, run npm run validate:page-surfaces before claiming the surface is ready for review.
 - When copy references Jose, reference capture, screenshots, or parity, run npm run validate:jose-claim-boundary before closeout.
 - Read AGENTS.md before agent-driven changes; it records repo-specific validation and evidence boundaries.
+- CircleCI is the hosted validation authority; its main-only Cloudflare Pages Direct Upload job publishes only after the required checks pass.

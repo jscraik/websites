@@ -12,15 +12,46 @@ const read = (relativePath) =>
 
 const debtValidator = read("scripts/check-code-quality-debt.mjs");
 const environment = read(".codex/environments/environment.toml");
+const environmentCheck = read("scripts/check-environment.sh");
 const packageJson = JSON.parse(read("package.json"));
+const harnessContract = JSON.parse(read("harness.contract.json"));
 const debtValidatorPath = path.join(repoRoot, "scripts/check-code-quality-debt.mjs");
 
+function createFixtureRoot(prefix) {
+	const candidates = [
+		tmpdir(),
+		process.env.RUNNER_TEMP,
+		path.join(repoRoot, ".playwright-tmp"),
+	].filter(Boolean);
+	for (const candidate of [...new Set(candidates)]) {
+		try {
+			mkdirSync(candidate, { recursive: true });
+			return mkdtempSync(path.join(candidate, prefix));
+		} catch {
+			// CI images can expose a non-writable TMPDIR; try the next owned root.
+		}
+	}
+	throw new Error(`Unable to create a writable fixture directory for ${prefix}`);
+}
+
+function fixtureEnvironment(overrides = {}) {
+	return {
+		...Object.fromEntries(
+			Object.entries(process.env).filter(
+				([name]) =>
+					name !== "HARNESS_CODE_QUALITY_DEBT_BASELINE" &&
+					!name.startsWith("GIT_"),
+			),
+		),
+		...overrides,
+	};
+}
+
 function runDebtValidator(cwd) {
-	const { HARNESS_CODE_QUALITY_DEBT_BASELINE: _ignoredBaseline, ...fixtureEnv } = process.env;
 	const result = spawnSync(process.execPath, [debtValidatorPath, "--json"], {
 		cwd,
 		encoding: "utf8",
-		env: fixtureEnv,
+		env: fixtureEnvironment(),
 	});
 	assert.equal(result.error, undefined, "the debt validator must start");
 	assert.notEqual(result.stdout.trim(), "", "the debt validator must emit JSON");
@@ -43,7 +74,7 @@ function baseline(entries) {
 }
 
 function assertDuplicateOccurrenceContract() {
-	const fixtureRoot = mkdtempSync(path.join(tmpdir(), "portfolio-debt-contract-"));
+	const fixtureRoot = createFixtureRoot("portfolio-debt-contract-");
 	const repeatedBlock = Array.from(
 		{ length: 24 },
 		(_, index) => `const duplicateFixtureLine${index} = ${index};`,
@@ -97,6 +128,7 @@ function assertDuplicateOccurrenceContract() {
 		const initialized = spawnSync("git", ["init", "--quiet"], {
 			cwd: fixtureRoot,
 			encoding: "utf8",
+			env: fixtureEnvironment(),
 		});
 		assert.equal(initialized.status, 0, initialized.stderr);
 
@@ -168,8 +200,20 @@ function assertEnvironmentSetupContract() {
 	assert.match(setupScript, /mise install cargo:prek/);
 	assert.match(setupScript, /node scripts\/setup-git-hooks\.js/);
 	assert.doesNotMatch(setupScript, /prepare-worktree/);
+	assert.match(setupScript, /UV_CACHE_DIR=.*\$\{TMPDIR:-\/tmp\}\/codex-uv-cache-/);
+	assert.doesNotMatch(setupScript, /UV_CACHE_DIR=.*\/private\/tmp\/codex-uv-cache-/);
 
-	const fixtureRoot = mkdtempSync(path.join(tmpdir(), "portfolio-environment-contract-"));
+	// Validate the full environment file beyond just the setup script
+	const uvCacheDirMatches = environment.match(/UV_CACHE_DIR=[^\n]*/g) || [];
+	assert.ok(uvCacheDirMatches.length > 0, "environment must contain UV_CACHE_DIR assignments");
+	for (const match of uvCacheDirMatches) {
+		assert.match(match, /UV_CACHE_DIR=.*\$\{TMPDIR:-\/tmp\}\/codex-uv-cache-/,
+			`every UV_CACHE_DIR assignment must use the TMPDIR fallback pattern: ${match}`);
+	}
+	assert.doesNotMatch(environment, /\/private\/tmp\/codex-uv-cache-/,
+		"environment must not contain any /private/tmp/codex-uv-cache- occurrence");
+
+	const fixtureRoot = createFixtureRoot("portfolio-environment-contract-");
 	const binDirectory = path.join(fixtureRoot, "bin");
 	const logPath = path.join(fixtureRoot, "setup.log");
 	const writeExecutable = (name, content) => {
@@ -229,6 +273,35 @@ assert.ok(
 );
 assertDuplicateOccurrenceContract();
 assertEnvironmentSetupContract();
+const uvCacheAssignments = [...environment.matchAll(/UV_CACHE_DIR=.*$/gm)].map(
+	([assignment]) => assignment,
+);
+assert.ok(uvCacheAssignments.length > 0, "environment actions must declare a UV cache");
+assert.ok(
+	uvCacheAssignments.every((assignment) =>
+		assignment.includes("${TMPDIR:-/tmp}/codex-uv-cache-"),
+	),
+	"every environment UV cache must use the portable TMPDIR fallback",
+);
+assert.doesNotMatch(
+	environment,
+	/\/private\/tmp\/codex-uv-cache-/,
+	"environment actions must not use a private temporary cache path",
+);
+assert.ok(
+	harnessContract.toolingPolicy.requiredBinaries.includes("gitleaks"),
+	"harness required binaries must include the security scanner",
+);
+assert.match(
+	environmentCheck,
+	/required_tooling_doc_terms=.*"gitleaks"/,
+	"environment documentation checks must include the security scanner",
+);
+assert.equal(
+	harnessContract.toolingPolicy.requiredBinaries.includes("beautiful-mermaid"),
+	false,
+	"harness required binaries must not require the package without a standalone CLI",
+);
 assert.match(
 	packageJson.scripts["validate:fast"],
 	/^npm run test:code-quality-debt &&/,
@@ -249,6 +322,11 @@ assert.doesNotMatch(
 	environment,
 	/codex\/scripts\//,
 	"environment actions must not point at nonexistent codex/scripts helpers",
+);
+assert.doesNotMatch(
+	environment,
+	/name = "Beautiful Mermaid"|command -v beautiful-mermaid|beautiful-mermaid --help/,
+	"the Codex environment must not advertise a dead Beautiful Mermaid CLI action",
 );
 assert.match(
 	environment,

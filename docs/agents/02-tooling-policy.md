@@ -87,3 +87,11 @@ It does not attach, switch, fetch, merge, or fast-forward the requested Git
 revision. Its test actions use `npm run test:smoke`, its run actions use `npm run
 dev`, and its Codex actions may only advertise helpers that exist under this
 repository's `scripts/` directory.
+
+## Hosted validation and publication
+
+CircleCI runs the required repository checks from the pinned `package-lock.json`
+and `.mise.toml` toolchain. The production workflow is main-only: its Cloudflare
+Pages Direct Upload job may publish `dist/` only after the required checks pass,
+using the restricted `cloudflare-pages-production` context. Local validation and
+the hosted Pages deployment remain separate evidence lanes.

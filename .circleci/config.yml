@@ -217,6 +217,37 @@ jobs:
             fi
             snyk test --severity-threshold=high --file=package.json --package-manager=npm || true
 
+  publish-pages:
+    docker:
+      # Match the repository's Node engine and build contract.
+      - image: cimg/node:26.3.0
+    resource_class: small
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm ci
+      - run:
+          name: Validate and build production artifact
+          command: ASTRO_TELEMETRY_DISABLED=1 npm run validate:source
+      - run:
+          name: Publish main artifact to Cloudflare Pages
+          command: |
+            set -euo pipefail
+            for variable in CLOUDFLARE_ACCOUNT_ID CLOUDFLARE_API_TOKEN CLOUDFLARE_PAGES_PROJECT; do
+              if [[ -z "${!variable:-}" ]]; then
+                echo "Required CircleCI context variable is missing: ${variable}" >&2
+                exit 1
+              fi
+            done
+            test -d dist
+            commit_hash="$(git rev-parse HEAD)"
+            npx --yes wrangler@4.69.0 pages deploy dist \
+              --project-name="$CLOUDFLARE_PAGES_PROJECT" \
+              --branch=main \
+              --commit-hash="$commit_hash" \
+              --commit-message="CircleCI main publish $commit_hash"
+
 workflows:
   pr-pipeline:
     jobs:
@@ -229,6 +260,8 @@ workflows:
             PR_TEMPLATE_BODY="$(GH_BIN="$GH_BIN" bash scripts/read-circleci-pr-metadata.sh "$pr_ref" | jq -r '.body // ""')"
             bash scripts/run-harness-gate.sh pr-template-gate --json
           filters:
+            branches:
+              ignore: main
             tags:
               ignore: /.*/
 
@@ -250,6 +283,8 @@ workflows:
               --pr-body "$pr_body" \
               --json
           filters:
+            branches:
+              ignore: main
             tags:
               ignore: /.*/
 
@@ -263,6 +298,8 @@ workflows:
           command: bash scripts/run-harness-gate.sh policy-gate --max-tier medium --json
 
           filters:
+            branches:
+              ignore: main
             tags:
               ignore: /.*/
       - run-governance-check:
@@ -329,9 +366,11 @@ workflows:
               node pnpm python uv cargo:prek \
               npm:@brainwav/diagram npm:@argos-ci/cli cosign cloudflared npm:vitest \
               ruff npm:eslint npm:agent-browser npm:agentation npm:agentation-mcp \
-              npm:@mermaid-js/mermaid-cli npm:@brainwav/rsearch npm:@brainwav/wsearch-cli \
-              npm:beautiful-mermaid npm:markdownlint-cli2 npm:semver npm:wrangler \
-              trivy vale
+              npm:ctx7 npm:@mermaid-js/mermaid-cli npm:@brainwav/rsearch npm:@brainwav/wsearch-cli \
+              npm:markdownlint-cli2 npm:semver npm:wrangler \
+              trivy gitleaks vale
+            retry_cmd 3 uv tool install --python 3.12 --force \
+              "git+https://github.com/jscraik/ralph-gold.git@5d4b57537a29c3edb566665c9482ae5ca1d49eed"
             semgrep --version
             bash scripts/check-environment.sh
           filters:
@@ -386,13 +425,40 @@ workflows:
           filters:
             tags:
               ignore: /.*/
-
-  security-scan:
-    jobs:
       - run-governance-check:
           name: security-scan
           check_name: security-scan
           command: |
+            retry_cmd() {
+              local max_attempts="${1:-3}"
+              shift
+              local attempt=1
+              until "$@"; do
+                if (( attempt >= max_attempts )); then
+                  return 1
+                fi
+                local sleep_seconds=$(( attempt * 5 ))
+                echo "Command failed (attempt ${attempt}/${max_attempts}): $*"
+                echo "Retrying in ${sleep_seconds}s..."
+                sleep "${sleep_seconds}"
+                attempt=$(( attempt + 1 ))
+              done
+            }
+            install_mise_without_github_tokens() {
+              (
+                unset GH_TOKEN GITHUB_TOKEN GITHUB_PERSONAL_ACCESS_TOKEN
+                mise install "$@"
+              )
+            }
+            mkdir -p "$HOME/.local/bin"
+            export PATH="$HOME/.local/bin:$PATH"
+            echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$BASH_ENV"
+            retry_cmd 3 install_mise_without_github_tokens gitleaks trivy
+            for tool in gitleaks trivy; do
+              tool_path="$(mise which "$tool")"
+              test -x "$tool_path"
+              ln -sf "$tool_path" "$HOME/.local/bin/$tool"
+            done
             if [ -f .gitleaks.toml ]; then gitleaks detect --source . --config .gitleaks.toml --redact --no-banner; else gitleaks detect --source . --redact --no-banner; fi
             trivy fs --scanners vuln --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 .
             bash scripts/check-semgrep-full.sh
@@ -402,5 +468,23 @@ workflows:
       - snyk-dependency-scan:
           name: snyk-dependency-scan
           filters:
+            tags:
+              ignore: /.*/
+      - publish-pages:
+          context: cloudflare-pages-production
+          requires:
+            - dependency-scan
+            - orb-pinning
+            - docs-gate
+            - lint
+            - typecheck
+            - test
+            - audit
+            - check
+            - memory
+            - security-scan
+          filters:
+            branches:
+              only: main
             tags:
               ignore: /.*/
