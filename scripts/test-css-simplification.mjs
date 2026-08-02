@@ -134,7 +134,7 @@ assert.match(source, /<div class="nav-bg" aria-hidden="true"><\/div>/);
 assert.match(source, /highlight\.dataset\.active = "true"/);
 assert.match(source, /highlight\.style\.setProperty\("--nav-highlight-x"/);
 assert.match(source, /highlight\.style\.setProperty\("--nav-highlight-scale"/);
-assert.match(source, /navShell\.querySelector\("\.nav-flip:focus-visible"\) \?\? navShell\.querySelector\("\.nav-flip:hover"\)/);
+assert.match(source, /navShell\.querySelector\("a:focus-visible"\)\?\.closest\("\.nav-flip"\)/);
 assert.match(source, /source === "pointer"\s*\? navShell\.querySelector\("\.nav-flip:hover"\)/);
 assert.match(source, /else\s*\{\s*resetHighlight\(\);\s*\}/);
 assert.match(source, /prefers-reduced-motion: reduce/);

@@ -82,10 +82,11 @@ const currentFor = (href: string): "page" | undefined => {
     };
 
     const syncHighlight = (source: "focus" | "pointer" = "focus") => {
+      const focusedTarget = navShell.querySelector("a:focus-visible")?.closest(".nav-flip");
       const activeTarget =
         source === "pointer"
           ? navShell.querySelector(".nav-flip:hover")
-          : navShell.querySelector(".nav-flip:focus-visible") ?? navShell.querySelector(".nav-flip:hover");
+          : focusedTarget ?? navShell.querySelector(".nav-flip:hover");
       if (activeTarget instanceof HTMLElement) {
         moveHighlight(activeTarget);
       } else {
