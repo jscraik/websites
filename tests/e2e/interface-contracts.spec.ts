@@ -110,11 +110,12 @@ test.describe("portfolio interface contracts", () => {
     const nav = page.locator(".site-header .nav-inner");
     const highlight = nav.locator(".nav-bg");
     const aboutLink = nav.getByRole("link", { name: "About" });
+    const initialTransform = await highlight.evaluate((element) => getComputedStyle(element).transform);
 
     await aboutLink.focus();
     await expect(highlight).toHaveAttribute("data-active", "true");
     const focusTransform = await highlight.evaluate((element) => getComputedStyle(element).transform);
-    expect(focusTransform).not.toBe(pointerTransform.transform);
+    expect(focusTransform).not.toBe(initialTransform);
 
     await aboutLink.blur();
     await expect(highlight).not.toHaveAttribute("data-active");
