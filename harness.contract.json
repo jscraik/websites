@@ -76,10 +76,10 @@
       "mermaid-cli",
       "markdownlint-cli2",
       "wrangler",
-      "beautiful-mermaid",
       "semgrep",
       "semver",
       "trivy",
+      "gitleaks",
       "rsearch",
       "wsearch"
     ],
@@ -213,6 +213,10 @@
       {
         "tool": "trivy",
         "version": "0.69.3"
+      },
+      {
+        "tool": "gitleaks",
+        "version": "8.30.0"
       },
       {
         "tool": "vale",

@@ -37,3 +37,11 @@ The code-quality debt baseline records accepted existing debt only. When the
 validator expands a source surface, inspect newly visible findings first, then
 update the baseline only for pre-existing findings rather than using it to hide
 debt introduced by the delivery.
+
+## Hosted CI and Pages boundary
+
+CircleCI is the hosted authority for required checks. Cloudflare Pages Direct
+Upload is restricted to the main branch and the `cloudflare-pages-production`
+context; a local build, preview URL, or passing pull-request check does not by
+itself prove a production publication. Record the Pages deployment result
+separately from local and review evidence.

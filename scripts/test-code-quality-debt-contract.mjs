@@ -198,6 +198,8 @@ function assertEnvironmentSetupContract() {
 	assert.match(setupScript, /mise install cargo:prek/);
 	assert.match(setupScript, /node scripts\/setup-git-hooks\.js/);
 	assert.doesNotMatch(setupScript, /prepare-worktree/);
+	assert.match(setupScript, /UV_CACHE_DIR=.*\$\{TMPDIR:-\/tmp\}\/codex-uv-cache-/);
+	assert.doesNotMatch(setupScript, /UV_CACHE_DIR=.*\/private\/tmp\/codex-uv-cache-/);
 
 	const fixtureRoot = createFixtureRoot("portfolio-environment-contract-");
 	const binDirectory = path.join(fixtureRoot, "bin");

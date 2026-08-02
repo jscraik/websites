@@ -24,6 +24,7 @@
 "npm:wrangler" = "4.69.0"
 "semgrep" = "1.153.1"
 "trivy" = "0.69.3"
+"gitleaks" = "8.30.0"
 "vale" = "3.13.1"
 
 [env]
