@@ -81,9 +81,11 @@ const currentFor = (href: string): "page" | undefined => {
       highlight.dataset.active = "true";
     };
 
-    const syncHighlight = () => {
+    const syncHighlight = (source: "focus" | "pointer" = "focus") => {
       const activeTarget =
-        navShell.querySelector(".nav-flip:focus-within") ?? navShell.querySelector(".nav-flip:hover");
+        source === "pointer"
+          ? navShell.querySelector(".nav-flip:hover")
+          : navShell.querySelector(".nav-flip:focus-visible") ?? navShell.querySelector(".nav-flip:hover");
       if (activeTarget instanceof HTMLElement) {
         moveHighlight(activeTarget);
       } else {
@@ -91,15 +93,21 @@ const currentFor = (href: string): "page" | undefined => {
       }
     };
 
+    const resyncHighlight = () => syncHighlight();
+
     navShell.addEventListener("pointerover", (event) => {
       if (!finePointer.matches || !(event.target instanceof Element)) return;
       const target = event.target.closest(".nav-flip");
-      if (target && navShell.contains(target)) syncHighlight();
+      if (target && navShell.contains(target)) {
+        syncHighlight("pointer");
+      } else {
+        resetHighlight();
+      }
     });
-    navShell.addEventListener("pointerleave", syncHighlight);
-    navShell.addEventListener("focusin", syncHighlight);
-    navShell.addEventListener("focusout", () => window.requestAnimationFrame(syncHighlight));
-    window.addEventListener("resize", syncHighlight, { passive: true });
-    reducedMotion.addEventListener("change", syncHighlight);
+    navShell.addEventListener("pointerleave", resyncHighlight);
+    navShell.addEventListener("focusin", resyncHighlight);
+    navShell.addEventListener("focusout", () => window.requestAnimationFrame(resyncHighlight));
+    window.addEventListener("resize", resyncHighlight, { passive: true });
+    reducedMotion.addEventListener("change", resyncHighlight);
   });
 </script>

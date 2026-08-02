@@ -104,6 +104,56 @@ test.describe("portfolio interface contracts", () => {
     expect(pointerTransform.transitionProperty).toBe("transform");
   });
 
+  test("the shared nav highlight clears when the pointer enters a nav gap", async ({ page }) => {
+    await preparePage(page, "/");
+
+    const nav = page.locator(".site-header .nav-inner");
+    const highlight = nav.locator(".nav-bg");
+    const workTarget = nav.locator(".nav-flip").filter({ hasText: "Work" });
+    const aboutTarget = nav.locator(".nav-flip").filter({ hasText: "About" });
+    const supportsFinePointer = await page.evaluate(() => window.matchMedia("(hover: hover) and (pointer: fine)").matches);
+    test.skip(!supportsFinePointer, "pointer highlight is only available for fine-pointer projects");
+
+    const workBox = await workTarget.boundingBox();
+    const aboutBox = await aboutTarget.boundingBox();
+    if (!workBox || !aboutBox || aboutBox.x <= workBox.x + workBox.width) {
+      test.skip(true, "the current navigation has no measurable gap between Work and About");
+      return;
+    }
+
+    await workTarget.hover();
+    await expect(highlight).toHaveAttribute("data-active", "true");
+
+    const gapX = workBox.x + workBox.width + (aboutBox.x - (workBox.x + workBox.width)) / 2;
+    const navBox = await nav.boundingBox();
+    if (!navBox) {
+      test.skip(true, "navigation bounds are unavailable");
+      return;
+    }
+    await page.mouse.move(gapX, navBox.y + navBox.height / 2);
+
+    await expect(highlight).not.toHaveAttribute("data-active");
+  });
+
+  test("the shared nav highlight follows pointer hover after a pointer click", async ({ page }) => {
+    await preparePage(page, "/");
+
+    const nav = page.locator(".site-header .nav-inner");
+    const highlight = nav.locator(".nav-bg");
+    const workTarget = nav.locator(".nav-flip").filter({ hasText: "Work" });
+    const contactTarget = nav.locator(".nav-flip").filter({ hasText: "Contact" });
+    const supportsFinePointer = await page.evaluate(() => window.matchMedia("(hover: hover) and (pointer: fine)").matches);
+    test.skip(!supportsFinePointer, "pointer highlight is only available for fine-pointer projects");
+
+    await workTarget.click();
+    const clickedTransform = await highlight.evaluate((element) => getComputedStyle(element).transform);
+
+    await contactTarget.hover();
+    await expect(highlight).toHaveAttribute("data-active", "true");
+    const hoveredTransform = await highlight.evaluate((element) => getComputedStyle(element).transform);
+    expect(hoveredTransform).not.toBe(clickedTransform);
+  });
+
   test("the shared nav highlight follows keyboard focus", async ({ page }) => {
     await preparePage(page, "/");
 
