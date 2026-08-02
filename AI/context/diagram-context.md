@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-08-01T18:51:50Z
+Generated: 2026-08-02T15:57:32Z
 
 ## Table of Contents
 
@@ -30,12 +30,6 @@ Generated: 2026-08-01T18:51:50Z
 
 - These architecture-sensitive paths changed on the current branch and may be compacted out of Mermaid diagrams.
 - `package.json`
-- `src/components/SiteNav.astro`
-- `src/layouts/BaseLayout.astro`
-- `src/pages/blog/index.astro`
-- `src/styles/about.css`
-- `src/styles/global.css`
-- `src/styles/shell.css`
 
 ## agent
 
@@ -43,6 +37,7 @@ Generated: 2026-08-01T18:51:50Z
 flowchart TD
   subgraph Orchestration["🎯 Orchestration Layer"]
     jose_parity_runner_50cc4344["🤖 jose-parity-runner"]
+    test_code_quality_debt_contract_569cff13["🤖 test-code-quality-debt-contract"]
     test_operator_workflow_contract_b4a152d7["🤖 test-operator-workflow-contract"]
     validate_design_system_b8a5f37c["🤖 validate-design-system"]
     validate_jose_claim_boundary_01082824["🤖 validate-jose-claim-boundary"]
@@ -60,7 +55,7 @@ flowchart TD
     validate_operational_telemetry_cb447bde[("📚 validate-operational-telemetry")]
   end
   classDef agentNode fill:#555,color:#fff
-  class jose_parity_runner_50cc4344,test_operator_workflow_contract_b4a152d7,validate_design_system_b8a5f37c,validate_jose_claim_boundary_01082824 agentNode
+  class jose_parity_runner_50cc4344,test_code_quality_debt_contract_569cff13,test_operator_workflow_contract_b4a152d7,validate_design_system_b8a5f37c,validate_jose_claim_boundary_01082824 agentNode
   classDef llmNode fill:#555,color:#fff
   class generate_social_profile_assets_f4f94011,validate_social_profile_assets_a023937b llmNode
   classDef toolNode fill:#555,color:#fff

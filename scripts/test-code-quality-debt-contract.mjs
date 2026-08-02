@@ -15,12 +15,41 @@ const environment = read(".codex/environments/environment.toml");
 const packageJson = JSON.parse(read("package.json"));
 const debtValidatorPath = path.join(repoRoot, "scripts/check-code-quality-debt.mjs");
 
+function createFixtureRoot(prefix) {
+	const candidates = [
+		tmpdir(),
+		process.env.RUNNER_TEMP,
+		path.join(repoRoot, ".playwright-tmp"),
+	].filter(Boolean);
+	for (const candidate of [...new Set(candidates)]) {
+		try {
+			mkdirSync(candidate, { recursive: true });
+			return mkdtempSync(path.join(candidate, prefix));
+		} catch {
+			// CI images can expose a non-writable TMPDIR; try the next owned root.
+		}
+	}
+	throw new Error(`Unable to create a writable fixture directory for ${prefix}`);
+}
+
+function fixtureEnvironment(overrides = {}) {
+	return {
+		...Object.fromEntries(
+			Object.entries(process.env).filter(
+				([name]) =>
+					name !== "HARNESS_CODE_QUALITY_DEBT_BASELINE" &&
+					!name.startsWith("GIT_"),
+			),
+		),
+		...overrides,
+	};
+}
+
 function runDebtValidator(cwd) {
-	const { HARNESS_CODE_QUALITY_DEBT_BASELINE: _ignoredBaseline, ...fixtureEnv } = process.env;
 	const result = spawnSync(process.execPath, [debtValidatorPath, "--json"], {
 		cwd,
 		encoding: "utf8",
-		env: fixtureEnv,
+		env: fixtureEnvironment(),
 	});
 	assert.equal(result.error, undefined, "the debt validator must start");
 	assert.notEqual(result.stdout.trim(), "", "the debt validator must emit JSON");
@@ -43,7 +72,7 @@ function baseline(entries) {
 }
 
 function assertDuplicateOccurrenceContract() {
-	const fixtureRoot = mkdtempSync(path.join(tmpdir(), "portfolio-debt-contract-"));
+	const fixtureRoot = createFixtureRoot("portfolio-debt-contract-");
 	const repeatedBlock = Array.from(
 		{ length: 24 },
 		(_, index) => `const duplicateFixtureLine${index} = ${index};`,
@@ -97,6 +126,7 @@ function assertDuplicateOccurrenceContract() {
 		const initialized = spawnSync("git", ["init", "--quiet"], {
 			cwd: fixtureRoot,
 			encoding: "utf8",
+			env: fixtureEnvironment(),
 		});
 		assert.equal(initialized.status, 0, initialized.stderr);
 
@@ -169,7 +199,7 @@ function assertEnvironmentSetupContract() {
 	assert.match(setupScript, /node scripts\/setup-git-hooks\.js/);
 	assert.doesNotMatch(setupScript, /prepare-worktree/);
 
-	const fixtureRoot = mkdtempSync(path.join(tmpdir(), "portfolio-environment-contract-"));
+	const fixtureRoot = createFixtureRoot("portfolio-environment-contract-");
 	const binDirectory = path.join(fixtureRoot, "bin");
 	const logPath = path.join(fixtureRoot, "setup.log");
 	const writeExecutable = (name, content) => {
