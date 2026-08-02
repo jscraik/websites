@@ -82,14 +82,16 @@ test.describe("portfolio interface contracts", () => {
     expect(animationNames).toEqual(["none", "none", "none", "none", "none", "none", "none"]);
   });
 
-  test("the shared nav highlight follows pointer and keyboard focus", async ({ page }) => {
+  test("the shared nav highlight follows fine-pointer hover", async ({ page }) => {
     await preparePage(page, "/");
 
     const nav = page.locator(".site-header .nav-inner");
     const highlight = nav.locator(".nav-bg");
     const workTarget = nav.locator(".nav-flip").filter({ hasText: "Work" });
-    const aboutLink = nav.getByRole("link", { name: "About" });
     const initialTransform = await highlight.evaluate((element) => getComputedStyle(element).transform);
+
+    const supportsFinePointer = await page.evaluate(() => window.matchMedia("(hover: hover) and (pointer: fine)").matches);
+    test.skip(!supportsFinePointer, "pointer highlight is only available for fine-pointer projects");
 
     await workTarget.hover();
     await expect(highlight).toHaveAttribute("data-active", "true");
@@ -100,8 +102,15 @@ test.describe("portfolio interface contracts", () => {
 
     expect(pointerTransform.transform).not.toBe(initialTransform);
     expect(pointerTransform.transitionProperty).toBe("transform");
+  });
 
-    await page.mouse.move(0, 0);
+  test("the shared nav highlight follows keyboard focus", async ({ page }) => {
+    await preparePage(page, "/");
+
+    const nav = page.locator(".site-header .nav-inner");
+    const highlight = nav.locator(".nav-bg");
+    const aboutLink = nav.getByRole("link", { name: "About" });
+
     await aboutLink.focus();
     await expect(highlight).toHaveAttribute("data-active", "true");
     const focusTransform = await highlight.evaluate((element) => getComputedStyle(element).transform);

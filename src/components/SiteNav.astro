@@ -58,8 +58,8 @@ const currentFor = (href: string): "page" | undefined => {
     if (!(highlight instanceof HTMLElement)) return;
 
     const resetHighlight = () => {
-      navShell.style.removeProperty("--nav-highlight-x");
-      navShell.style.removeProperty("--nav-highlight-scale");
+      highlight.style.removeProperty("--nav-highlight-x");
+      highlight.style.removeProperty("--nav-highlight-scale");
       highlight.removeAttribute("data-active");
     };
 
@@ -76,13 +76,14 @@ const currentFor = (href: string): "page" | undefined => {
         return;
       }
 
-      navShell.style.setProperty("--nav-highlight-x", `${targetRect.left - navRect.left}px`);
-      navShell.style.setProperty("--nav-highlight-scale", String(targetRect.width / navRect.width));
+      highlight.style.setProperty("--nav-highlight-x", `${targetRect.left - navRect.left}px`);
+      highlight.style.setProperty("--nav-highlight-scale", String(targetRect.width / navRect.width));
       highlight.dataset.active = "true";
     };
 
     const syncHighlight = () => {
-      const activeTarget = navShell.querySelector(".nav-flip:hover, .nav-flip:focus-within");
+      const activeTarget =
+        navShell.querySelector(".nav-flip:focus-within") ?? navShell.querySelector(".nav-flip:hover");
       if (activeTarget instanceof HTMLElement) {
         moveHighlight(activeTarget);
       } else {
@@ -93,7 +94,7 @@ const currentFor = (href: string): "page" | undefined => {
     navShell.addEventListener("pointerover", (event) => {
       if (!finePointer.matches || !(event.target instanceof Element)) return;
       const target = event.target.closest(".nav-flip");
-      if (target && navShell.contains(target)) moveHighlight(target);
+      if (target && navShell.contains(target)) syncHighlight();
     });
     navShell.addEventListener("pointerleave", syncHighlight);
     navShell.addEventListener("focusin", syncHighlight);
