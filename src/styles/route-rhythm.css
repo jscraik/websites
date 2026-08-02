@@ -1,0 +1,143 @@
+/*
+ * Route-owned editorial rhythm.
+ *
+ * The shared shell (header, navigation, footer, and surface gradients) stays
+ * in global.css/shell.css. These rules only give each narrative surface a
+ * little more breathing room and let long copy wrap at deliberate word
+ * boundaries, keeping the first fold readable without changing Jamie's
+ * content or the measured shell geometry.
+ */
+
+:where(
+  .home-hero__position,
+  .home-hero__body,
+  .latest-article p:not(.eyebrow, .article-date),
+  .blog-preview p:not(.article-date),
+  .blog-list-item > span,
+  .blog-about-card .text-lg p,
+  .about-copy p,
+  .contact-panel > p,
+  .proof-index header > p,
+  .case-work-header > p,
+  .case-copy p,
+  .article-body p,
+  .lede
+) {
+  text-wrap: pretty;
+}
+
+@media (min-width: 57.5626rem) {
+  /* Keep the home hero and nav on one Jose-style paper fade. */
+  html body:not(.skillsbar-demo):has(.home-hero) .site-header {
+    background-size: 100% 57.152rem;
+    background-repeat: no-repeat;
+    background-color: var(--paper);
+  }
+
+  html body:not(.skillsbar-demo):has(.home-hero) .header-inner {
+    background-image: linear-gradient(180deg, var(--surface-card), var(--paper));
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: 100% 52.3rem;
+  }
+
+  /* Keep the Blog masthead and article lead on the same Jose fade. */
+  html body:not(.skillsbar-demo):has(.blog-index) .site-header {
+    background-size: 100% 57.042rem;
+    background-repeat: no-repeat;
+    background-color: var(--paper);
+  }
+
+  html body:not(.skillsbar-demo):has(.blog-index) {
+    --jp-blog-index-height: 45rem;
+  }
+
+  html body:not(.skillsbar-demo):has(.blog-index) .blog-index {
+    background-image: linear-gradient(180deg, var(--surface-card), var(--paper));
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: 100% 52.25rem;
+  }
+
+  html body:not(.skillsbar-demo):has(.blog-index) .blog-page-main {
+    background-image: linear-gradient(180deg, var(--surface-card), var(--paper));
+    background-position: 0 calc(-1 * var(--jp-blog-index-height));
+    background-repeat: no-repeat;
+    background-size: 100% 52.25rem;
+  }
+
+  /* Keep the article masthead visually separate from the reading column. */
+  .article-layout.section-shell {
+    row-gap: calc(var(--jp-fluid-rem) * 4);
+  }
+
+  /* Give the Blog's lower list and author note the same quiet editorial pace. */
+  .blog-page-main {
+    row-gap: calc(var(--jp-fluid-rem) * 8.5);
+  }
+
+  .blog-about-card .blog-author-copy {
+    gap: calc(var(--jp-fluid-rem) * 2.25);
+  }
+
+  /* About uses a compact sans heading but still benefits from paragraph-led spacing. */
+  .about-page.about-hero-shell .about-copy {
+    gap: calc(var(--jp-fluid-rem) * 1.5);
+  }
+}
+
+@media (max-width: 57.5625rem) {
+  /* The mobile home hero is taller, so extend the same shared fade through it. */
+  html body:not(.skillsbar-demo):has(.home-hero) .site-header {
+    background-size: 100% 53.8296rem;
+    background-repeat: no-repeat;
+    background-color: var(--paper);
+  }
+
+  html body:not(.skillsbar-demo):has(.home-hero) .header-inner {
+    background-image: linear-gradient(180deg, var(--surface-card), var(--paper));
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: 100% 50.125rem;
+  }
+
+  /* Continue the Blog fade through the taller mobile masthead. */
+  html body:not(.skillsbar-demo):has(.blog-index) .site-header {
+    background-size: 100% 64.85rem;
+    background-repeat: no-repeat;
+    background-color: var(--paper);
+  }
+
+  html body:not(.skillsbar-demo):has(.blog-index) {
+    --jp-blog-index-height: 56.172rem;
+  }
+
+  html body:not(.skillsbar-demo):has(.blog-index) .blog-index {
+    background-image: linear-gradient(180deg, var(--surface-card), var(--paper));
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: 100% 61.2rem;
+  }
+
+  html body:not(.skillsbar-demo):has(.blog-index) .blog-page-main {
+    background-image: linear-gradient(180deg, var(--surface-card), var(--paper));
+    background-position: 0 calc(-1 * var(--jp-blog-index-height));
+    background-repeat: no-repeat;
+    background-size: 100% 61.2rem;
+  }
+
+  .article-layout.section-shell {
+    row-gap: 2.5rem;
+  }
+
+  .blog-about-card .blog-author-copy {
+    gap: 2.25rem;
+  }
+}
+
+@media (max-width: 47.9999rem) {
+  /* Keep the About sidebar below the editorial first fold on narrow screens. */
+  .about-page.about-hero-shell .about-copy {
+    min-block-size: clamp(48rem, 220vw, 54.25rem);
+  }
+}

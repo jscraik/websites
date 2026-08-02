@@ -143,10 +143,7 @@ jobs:
             mkdir -p "$HOME/.local/bin"
             ln -sf "$uv_path" "$HOME/.local/bin/uv"
             uv --version
-
-
       - run:
-
           name: Inject npm auth
           command: |
             if [[ -n "${NPM_TOKEN:-}" ]]; then
@@ -192,6 +189,12 @@ jobs:
             fi
             npm --version
       - run:
+          name: Inject npm auth
+          command: |
+            if [[ -n "${NPM_TOKEN:-}" ]]; then
+              printf '%s\n' "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> "$HOME/.npmrc"
+            fi
+      - run:
           name: Install dependencies for Snyk package graph
           command: npm ci
       - run:
@@ -224,6 +227,12 @@ jobs:
     resource_class: small
     steps:
       - checkout
+      - run:
+          name: Inject npm auth
+          command: |
+            if [[ -n "${NPM_TOKEN:-}" ]]; then
+              printf '%s\n' "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> "$HOME/.npmrc"
+            fi
       - run:
           name: Install dependencies
           command: npm ci

@@ -9678,12 +9678,15 @@ body:not(.skillsbar-demo) :is(
 
   .about-page.about-hero-shell .about-intro {
     display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 1fr) minmax(0, 2fr);
+    grid-template-columns:
+      minmax(0, calc(var(--jp-fluid-rem) * 34.375))
+      minmax(0, calc(var(--jp-fluid-rem) * 8.6875))
+      minmax(0, calc(var(--jp-fluid-rem) * 12.875));
     column-gap: 0;
     row-gap: 0;
     align-items: stretch;
-    width: min(66.6667vw, calc(var(--jp-fluid-rem) * 67.6667));
-    max-width: calc(var(--jp-fluid-rem) * 67.6667);
+    width: min(66.7%, calc(var(--jp-fluid-rem) * 55.9375));
+    max-width: calc(var(--jp-fluid-rem) * 55.9375);
     height: calc(var(--jp-fluid-rem) * 41.8333);
     margin: 0 auto;
     padding: 0;

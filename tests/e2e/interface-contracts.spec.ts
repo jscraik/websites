@@ -214,4 +214,48 @@ test.describe("portfolio interface contracts", () => {
       "Jamie Scott Craik on AI-native DevRel, trust, evaluation, and visible proof."
     );
   });
+
+  test("editorial routes keep the route rhythm and critical font hints", async ({ page }) => {
+    const routeExpectations = [
+      { path: "/", selector: ".home-hero__body" },
+      { path: "/now/", selector: ".about-copy p" },
+      { path: "/blog/", selector: ".latest-article p:not(.eyebrow, .article-date)" },
+      { path: "/contact/", selector: ".contact-panel > p" },
+      { path: "/proof/", selector: ".proof-index header > p" },
+      { path: "/articles/why-ai-native-devrel/", selector: ".lede" },
+      { path: "/work/ai-native-devrel/", selector: ".case-work-header > p" },
+      { path: "/work/brainwav-io/", selector: ".case-work-header > p" }
+    ];
+
+    for (const route of routeExpectations) {
+      await preparePage(page, route.path);
+
+      const contract = await page.evaluate((selector) => {
+        const copy = document.querySelector(selector);
+        const style = copy ? getComputedStyle(copy) : null;
+        const preloads = Array.from(document.querySelectorAll('link[rel="preload"][as="font"]'))
+          .map((link) => link.getAttribute("href"))
+          .filter((href): href is string => Boolean(href));
+
+        return {
+          copyFound: Boolean(copy),
+          textWrap: style?.textWrap ?? "",
+          preloads
+        };
+      }, route.selector);
+
+      expect(contract.copyFound, `${route.path}: editorial copy selector`).toBe(true);
+      expect(contract.textWrap, `${route.path}: editorial copy wrapping`).toBe("pretty");
+      expect(contract.preloads, `${route.path}: critical font preloads`).toEqual([
+        "/brand/fonts/geist-variable.woff2",
+        "/brand/fonts/newsreader-variable.woff2"
+      ]);
+    }
+
+    await preparePage(page, "/articles/why-ai-native-devrel/");
+    const articleGap = await page.locator(".article-layout").evaluate((element) =>
+      Number.parseFloat(getComputedStyle(element).rowGap)
+    );
+    expect(articleGap, "article masthead-to-body rhythm").toBeGreaterThan(0);
+  });
 });
