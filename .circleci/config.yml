@@ -1,5 +1,20 @@
 version: 2.1
 
+commands:
+  configure-npm-auth:
+    steps:
+      - run:
+          name: Configure npm registry access
+          command: |
+            set -euo pipefail
+            if [[ -z "${NPM_TOKEN:-}" ]]; then
+              echo "NPM_TOKEN is required to install @brainwav/coding-harness." >&2
+              exit 1
+            fi
+            npm config set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
+            harness_version="$(node -p "require('./package.json').devDependencies['@brainwav/coding-harness']")"
+            npm view "@brainwav/coding-harness@${harness_version}" version --json
+
 jobs:
   run-governance-check:
     docker:
@@ -143,12 +158,7 @@ jobs:
             mkdir -p "$HOME/.local/bin"
             ln -sf "$uv_path" "$HOME/.local/bin/uv"
             uv --version
-      - run:
-          name: Inject npm auth
-          command: |
-            if [[ -n "${NPM_TOKEN:-}" ]]; then
-              printf '%s\n' "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> "$HOME/.npmrc"
-            fi
+      - configure-npm-auth
       - run:
           name: Install dependencies
           command: npm ci
@@ -188,12 +198,7 @@ jobs:
               npm install --global --prefix "$NPM_CONFIG_PREFIX" "pnpm@10.33.0"
             fi
             npm --version
-      - run:
-          name: Inject npm auth
-          command: |
-            if [[ -n "${NPM_TOKEN:-}" ]]; then
-              printf '%s\n' "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> "$HOME/.npmrc"
-            fi
+      - configure-npm-auth
       - run:
           name: Install dependencies for Snyk package graph
           command: npm ci
@@ -227,12 +232,7 @@ jobs:
     resource_class: small
     steps:
       - checkout
-      - run:
-          name: Inject npm auth
-          command: |
-            if [[ -n "${NPM_TOKEN:-}" ]]; then
-              printf '%s\n' "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> "$HOME/.npmrc"
-            fi
+      - configure-npm-auth
       - run:
           name: Install dependencies
           command: npm ci
