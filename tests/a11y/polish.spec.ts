@@ -76,6 +76,7 @@ test.describe("UI polish contracts", () => {
         layerPosition: layerStyle.position,
         layerPointerEvents: layerStyle.pointerEvents,
         layerZIndex: layerStyle.zIndex,
+        layerTransitionProperty: layerStyle.transitionProperty,
         contentZIndex: contentStyle.zIndex
       };
     });
@@ -84,6 +85,7 @@ test.describe("UI polish contracts", () => {
     expect(technicalNav.layerPosition).toBe("absolute");
     expect(technicalNav.layerPointerEvents).toBe("none");
     expect(technicalNav.layerZIndex).toBe("0");
+    expect(technicalNav.layerTransitionProperty).toBe("transform");
     expect(technicalNav.contentZIndex).toBe("1");
   });
 
@@ -123,6 +125,7 @@ test.describe("UI polish contracts", () => {
           navInner: string;
           navLayerPointerEvents: string;
           navLayerZIndex: string;
+          navLayerTransitionProperty: string;
           navContentZIndex: string;
           footer: string;
           footerProfile: string;
@@ -138,6 +141,7 @@ test.describe("UI polish contracts", () => {
         navInner: getComputedStyle(document.querySelector(".site-header .nav-inner")!).backgroundColor,
         navLayerPointerEvents: getComputedStyle(document.querySelector(".site-header .nav-bg")!).pointerEvents,
         navLayerZIndex: getComputedStyle(document.querySelector(".site-header .nav-bg")!).zIndex,
+        navLayerTransitionProperty: getComputedStyle(document.querySelector(".site-header .nav-bg")!).transitionProperty,
         navContentZIndex: getComputedStyle(document.querySelector(".site-header .nav-flip")!).zIndex,
         footer: getComputedStyle(document.querySelector(".site-footer")!).backgroundImage,
         footerProfile: getComputedStyle(document.querySelector(".site-footer .footer-profile-card")!).backgroundColor,
@@ -146,6 +150,7 @@ test.describe("UI polish contracts", () => {
 
       reference ??= surfaces;
       expect(surfaces, `${route}: shared shell surface`).toEqual(reference);
+      expect(surfaces.navLayerTransitionProperty, `${route}: nav highlight transition`).toBe("transform");
     }
   });
 

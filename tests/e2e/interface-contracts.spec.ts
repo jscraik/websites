@@ -82,6 +82,53 @@ test.describe("portfolio interface contracts", () => {
     expect(animationNames).toEqual(["none", "none", "none", "none", "none", "none", "none"]);
   });
 
+  test("the shared nav highlight follows pointer and keyboard focus", async ({ page }) => {
+    await preparePage(page, "/");
+
+    const nav = page.locator(".site-header .nav-inner");
+    const highlight = nav.locator(".nav-bg");
+    const workTarget = nav.locator(".nav-flip").filter({ hasText: "Work" });
+    const aboutLink = nav.getByRole("link", { name: "About" });
+    const initialTransform = await highlight.evaluate((element) => getComputedStyle(element).transform);
+
+    await workTarget.hover();
+    await expect(highlight).toHaveAttribute("data-active", "true");
+    const pointerTransform = await highlight.evaluate((element) => {
+      const style = getComputedStyle(element);
+      return { transform: style.transform, transitionProperty: style.transitionProperty };
+    });
+
+    expect(pointerTransform.transform).not.toBe(initialTransform);
+    expect(pointerTransform.transitionProperty).toBe("transform");
+
+    await page.mouse.move(0, 0);
+    await aboutLink.focus();
+    await expect(highlight).toHaveAttribute("data-active", "true");
+    const focusTransform = await highlight.evaluate((element) => getComputedStyle(element).transform);
+    expect(focusTransform).not.toBe(pointerTransform.transform);
+
+    await page.mouse.move(0, 0);
+    await expect(highlight).not.toHaveAttribute("data-active");
+  });
+
+  test("the shared nav highlight remains still when reduced motion is requested", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await preparePage(page, "/now/");
+
+    const nav = page.locator(".site-header .nav-inner");
+    const highlight = nav.locator(".nav-bg");
+    await nav.locator(".nav-flip").filter({ hasText: "Work" }).hover();
+
+    await expect(highlight).not.toHaveAttribute("data-active");
+    const style = await highlight.evaluate((element) => {
+      const computed = getComputedStyle(element);
+      return { transform: computed.transform, transitionProperty: computed.transitionProperty };
+    });
+
+    expect(style.transform).toBe("none");
+    expect(style.transitionProperty).toBe("none");
+  });
+
   test("the shared layout publishes canonical and share-text metadata", async ({ page }) => {
     await preparePage(page, "/articles/why-ai-native-devrel/");
 

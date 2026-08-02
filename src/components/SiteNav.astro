@@ -45,3 +45,60 @@ const currentFor = (href: string): "page" | undefined => {
     </div>
   </div>
 </header>
+
+<script>
+  const navShells = document.querySelectorAll(".site-header .nav-inner");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+
+  navShells.forEach((navShell) => {
+    if (!(navShell instanceof HTMLElement)) return;
+
+    const highlight = navShell.querySelector(".nav-bg");
+    if (!(highlight instanceof HTMLElement)) return;
+
+    const resetHighlight = () => {
+      navShell.style.removeProperty("--nav-highlight-x");
+      navShell.style.removeProperty("--nav-highlight-scale");
+      highlight.removeAttribute("data-active");
+    };
+
+    const moveHighlight = (target: Element) => {
+      if (reducedMotion.matches || !(target instanceof HTMLElement)) {
+        resetHighlight();
+        return;
+      }
+
+      const navRect = navShell.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+      if (navRect.width === 0 || targetRect.width === 0) {
+        resetHighlight();
+        return;
+      }
+
+      navShell.style.setProperty("--nav-highlight-x", `${targetRect.left - navRect.left}px`);
+      navShell.style.setProperty("--nav-highlight-scale", String(targetRect.width / navRect.width));
+      highlight.dataset.active = "true";
+    };
+
+    const syncHighlight = () => {
+      const activeTarget = navShell.querySelector(".nav-flip:hover, .nav-flip:focus-within");
+      if (activeTarget instanceof HTMLElement) {
+        moveHighlight(activeTarget);
+      } else {
+        resetHighlight();
+      }
+    };
+
+    navShell.addEventListener("pointerover", (event) => {
+      if (!finePointer.matches || !(event.target instanceof Element)) return;
+      const target = event.target.closest(".nav-flip");
+      if (target && navShell.contains(target)) moveHighlight(target);
+    });
+    navShell.addEventListener("pointerleave", syncHighlight);
+    navShell.addEventListener("focusin", syncHighlight);
+    navShell.addEventListener("focusout", () => window.requestAnimationFrame(syncHighlight));
+    window.addEventListener("resize", syncHighlight, { passive: true });
+    reducedMotion.addEventListener("change", syncHighlight);
+  });
+</script>
