@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-08-02T15:57:32Z
+Generated: 2026-08-02T17:23:34Z
 
 ## Table of Contents
 
@@ -312,6 +312,7 @@ graph LR
   ext_node_url_d0cb3ad7["node:url"] --> node_test_setup_git_hooks_syntax_c035405d_68ddd381
   ext_node_url_d0cb3ad7["node:url"] --> node_validate_operator_contract_f777ed78_83e6297e
   ext_node_url_d0cb3ad7["node:url"] --> node_validate_social_profile_assets_a023937b_aed15edb
+  ext_node_vm_e83aa31f["node:vm"] --> node_test_portfolio_helpers_88b404c3_859ed297
   ext_node_zlib_bb6e132b["node:zlib"] --> node_validate_js_budget_3d3908ce_dabf96a0
   ext_pixelmatch_09ac8ff1["pixelmatch"] --> node_jose_parity_cdp_bdcde21d_edb59c81
   ext_playwright_7cbdd1eb["playwright"] --> node_validate_render_flow_2f64be63_a84870b9
@@ -320,6 +321,7 @@ graph LR
   ext_typescript_fb9da861["typescript"] --> node_check_code_quality_debt_cba04f67_104c73f4
   ext_typescript_fb9da861["typescript"] --> node_check_code_size_9c5efc3a_154124ae
   ext_typescript_fb9da861["typescript"] --> node_check_public_api_docs_a9604f1b_f824853c
+  ext_typescript_fb9da861["typescript"] --> node_test_portfolio_helpers_88b404c3_859ed297
   style ext_astro_90c9d7bd fill:#f59e0b,color:#fff
   style ext_astro_content_2110f121 fill:#f59e0b,color:#fff
   style ext_ext_81f836ce fill:#f59e0b,color:#fff
@@ -333,6 +335,7 @@ graph LR
   style ext_node_path_78811c13 fill:#f59e0b,color:#fff
   style ext_node_test_a8c66a4f fill:#f59e0b,color:#fff
   style ext_node_url_d0cb3ad7 fill:#f59e0b,color:#fff
+  style ext_node_vm_e83aa31f fill:#f59e0b,color:#fff
   style ext_node_zlib_bb6e132b fill:#f59e0b,color:#fff
   style ext_pixelmatch_09ac8ff1 fill:#f59e0b,color:#fff
   style ext_playwright_7cbdd1eb fill:#f59e0b,color:#fff

@@ -13,6 +13,7 @@ const read = (relativePath) =>
 const debtValidator = read("scripts/check-code-quality-debt.mjs");
 const environment = read(".codex/environments/environment.toml");
 const packageJson = JSON.parse(read("package.json"));
+const harnessContract = JSON.parse(read("harness.contract.json"));
 const debtValidatorPath = path.join(repoRoot, "scripts/check-code-quality-debt.mjs");
 
 function createFixtureRoot(prefix) {
@@ -261,6 +262,30 @@ assert.ok(
 );
 assertDuplicateOccurrenceContract();
 assertEnvironmentSetupContract();
+const uvCacheAssignments = [...environment.matchAll(/UV_CACHE_DIR=.*$/gm)].map(
+	([assignment]) => assignment,
+);
+assert.ok(uvCacheAssignments.length > 0, "environment actions must declare a UV cache");
+assert.ok(
+	uvCacheAssignments.every((assignment) =>
+		assignment.includes("${TMPDIR:-/tmp}/codex-uv-cache-"),
+	),
+	"every environment UV cache must use the portable TMPDIR fallback",
+);
+assert.doesNotMatch(
+	environment,
+	/\/private\/tmp\/codex-uv-cache-/,
+	"environment actions must not use a private temporary cache path",
+);
+assert.ok(
+	harnessContract.toolingPolicy.requiredBinaries.includes("gitleaks"),
+	"harness required binaries must include the security scanner",
+);
+assert.equal(
+	harnessContract.toolingPolicy.requiredBinaries.includes("beautiful-mermaid"),
+	false,
+	"harness required binaries must not require the package without a standalone CLI",
+);
 assert.match(
 	packageJson.scripts["validate:fast"],
 	/^npm run test:code-quality-debt &&/,

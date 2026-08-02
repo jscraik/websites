@@ -260,6 +260,8 @@ workflows:
             PR_TEMPLATE_BODY="$(GH_BIN="$GH_BIN" bash scripts/read-circleci-pr-metadata.sh "$pr_ref" | jq -r '.body // ""')"
             bash scripts/run-harness-gate.sh pr-template-gate --json
           filters:
+            branches:
+              ignore: main
             tags:
               ignore: /.*/
 
@@ -281,6 +283,8 @@ workflows:
               --pr-body "$pr_body" \
               --json
           filters:
+            branches:
+              ignore: main
             tags:
               ignore: /.*/
 
@@ -294,6 +298,8 @@ workflows:
           command: bash scripts/run-harness-gate.sh policy-gate --max-tier medium --json
 
           filters:
+            branches:
+              ignore: main
             tags:
               ignore: /.*/
       - run-governance-check:
@@ -363,6 +369,8 @@ workflows:
               npm:ctx7 npm:@mermaid-js/mermaid-cli npm:@brainwav/rsearch npm:@brainwav/wsearch-cli \
               npm:beautiful-mermaid npm:markdownlint-cli2 npm:semver npm:wrangler \
               trivy gitleaks vale
+            retry_cmd 3 uv tool install --python 3.12 --force \
+              "git+https://github.com/jscraik/ralph-gold.git@5d4b57537a29c3edb566665c9482ae5ca1d49eed"
             semgrep --version
             bash scripts/check-environment.sh
           filters:
@@ -417,9 +425,6 @@ workflows:
           filters:
             tags:
               ignore: /.*/
-
-  security-scan:
-    jobs:
       - run-governance-check:
           name: security-scan
           check_name: security-scan
@@ -465,11 +470,20 @@ workflows:
           filters:
             tags:
               ignore: /.*/
-
-  pages-production:
-    jobs:
       - publish-pages:
           context: cloudflare-pages-production
+          requires:
+            - dependency-scan
+            - orb-pinning
+            - docs-gate
+            - lint
+            - typecheck
+            - test
+            - audit
+            - check
+            - memory
+            - security-scan
+            - snyk-dependency-scan
           filters:
             branches:
               only: main

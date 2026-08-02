@@ -30,8 +30,12 @@ Use **CircleCI-controlled Cloudflare Pages Direct Upload**:
   `CLOUDFLARE_PAGES_PROJECT`; values are never stored in source or echoed.
 - Wrangler is invoked at the repository-pinned version (`4.69.0`) and receives
   `--branch=main` plus the checked-out Git SHA as `--commit-hash` metadata.
-- The existing `pr-pipeline` and `security-scan` workflows remain validation
-  workflows and do not publish.
+- The `pr-pipeline` workflow remains the validation authority. Its
+  `publish-pages` job is restricted to `main` and requires the applicable
+  source, audit, security, and dependency jobs to finish successfully before
+  it can publish. Pull-request-only metadata gates are excluded from the
+  `main` path, so a branch push cannot satisfy a production publication by
+  accident.
 - The missing CircleCI command contracts are repaired in `package.json`:
   `test:ci` delegates to the repository's route smoke test, `audit` checks
   runtime dependencies, and `audit:strict` applies a high-severity threshold to
@@ -56,6 +60,12 @@ account, DNS, or hosted-state setup.
 
 ## Operator setup outside Git
 
+The portfolio maintainer owns the repository and CircleCI workflow contract.
+The Cloudflare account owner owns the Pages project, account token, and
+`jscraik.com` custom-domain/DNS association. A CircleCI project administrator
+owns the restricted context and should make the following setup changes
+without committing any secret values:
+
 Configure the `cloudflare-pages-production` CircleCI context with:
 
 1. `CLOUDFLARE_ACCOUNT_ID` — the Cloudflare account containing the Pages
@@ -68,13 +78,28 @@ Associate the Pages project with `jscraik.com` in Cloudflare's Pages dashboard.
 Do not add these values to `.circleci/config.yml`, `.env` files, or the Git
 history.
 
+After setup, the CircleCI administrator should confirm that the context is
+attached to the project and that all three variable names are present. A
+missing variable must fail the `publish-pages` job before Wrangler is invoked;
+add the missing value to the restricted context and rerun the `main` workflow.
+An invalid or over-scoped API token must be revoked, replaced with a
+least-privilege Pages Edit token, and rerun—never print the token in a job log.
+If the Pages project is absent, create it with Direct Upload and set `main` as
+its production branch before retrying. If custom-domain association fails,
+correct the Pages custom-domain/DNS record in Cloudflare, then rerun the
+hosted publication only after the domain reports active.
+
 ## Validation
 
-- `npm run test:ci`
-- `npm run audit`
-- `npm run audit:strict`
-- `ASTRO_TELEMETRY_DISABLED=1 npm run validate:source`
-- `git diff --check`
+- `npm run test:ci` — exits 0 and reports the repository smoke routes.
+- `npm run audit` — exits 0 with no production dependency audit findings.
+- `npm run audit:strict` — exits 0 with no high-severity production findings.
+- `ASTRO_TELEMETRY_DISABLED=1 npm run validate:source` — exits 0 and leaves a
+  validated `dist/` artifact.
+- `git diff --check` — exits 0 with no whitespace errors.
+- CircleCI `pr-pipeline` on `main` — the required validation jobs finish green,
+  then `publish-pages` uploads the exact checked-out SHA using the restricted
+  context.
 
 These checks prove local command and artifact contracts only. They do not prove
 CircleCI context configuration, a successful hosted upload, custom-domain DNS,

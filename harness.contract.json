@@ -106,10 +106,10 @@
       "mmdc",
       "markdownlint-cli2",
       "wrangler",
-      "beautiful-mermaid",
       "semgrep",
       "semver",
       "trivy",
+      "gitleaks",
       "rsearch",
       "wsearch"
     ],

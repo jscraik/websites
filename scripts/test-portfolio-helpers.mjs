@@ -1,22 +1,27 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import vm from "node:vm";
+import ts from "typescript";
 
-const source = readFileSync("src/lib/portfolio.ts", "utf8")
-  .replace(/^import type .*\n/gm, "")
-  .replace(/export type WorkEntry = .*\n/g, "")
-  .replace(/export type ProofEntry = .*\n/g, "")
-  .replace(/export type WorkCard = \{[\s\S]*?\};\n\n/, "")
-  .replace(/const byOrder = <[^>]+>\(/, "const byOrder = (")
-  .replace(/\(([^()]*):\s*[^,()]+,\s*([^()]*):\s*[^,()]+\)\s*=>/g, "($1, $2) =>")
-  .replace(/function workRoute\(entry: Pick<WorkEntry, "id" \| "data">\)/, "function workRoute(entry)")
-  .replace(/function featuredWorkCards\(workEntries: WorkEntry\[\]\)/, "function featuredWorkCards(workEntries)")
-  .replace(/function proofWorkCards\(workEntries: WorkEntry\[\], proofEntries: ProofEntry\[\]\): WorkCard\[\]/, "function proofWorkCards(workEntries, proofEntries)")
-  .replace(/export const /g, "const ")
-  .replace(/export function /g, "function ");
+const source = readFileSync("src/lib/portfolio.ts", "utf8");
+const transpiled = ts.transpileModule(source, {
+  compilerOptions: {
+    module: ts.ModuleKind.CommonJS,
+    target: ts.ScriptTarget.ES2022,
+    isolatedModules: true
+  },
+  fileName: "src/lib/portfolio.ts"
+}).outputText;
+const module = { exports: {} };
+vm.runInNewContext(transpiled, { module, exports: module.exports }, {
+  filename: "src/lib/portfolio.ts"
+});
+const { byOrder, featuredWorkCards, proofWorkCards, workRoute } = module.exports;
 
-const { byOrder, featuredWorkCards, proofWorkCards, workRoute } = new Function(
-  source + "\nreturn { byOrder, featuredWorkCards, proofWorkCards, workRoute };"
-)();
+// Functions evaluated in the isolated VM return arrays from that VM's realm.
+// Normalize assertion values so this fixture tests portfolio behavior rather
+// than JavaScript realm identity.
+const nativeValue = (value) => JSON.parse(JSON.stringify(value));
 
 function workEntry(id, data) {
   return {
@@ -66,8 +71,8 @@ assert.equal(
   "/demos/skillsbar/"
 );
 assert.equal(byOrder(workEntry("b", { order: 2 }), workEntry("a", { order: 1 })), 1);
-assert.deepEqual(featuredWorkCards([]), []);
-assert.deepEqual(proofWorkCards([], []), []);
+assert.deepEqual(nativeValue(featuredWorkCards([])), []);
+assert.deepEqual(nativeValue(proofWorkCards([], [])), []);
 
 const featuredCards = featuredWorkCards([
   workEntry("later", { isFeatured: true, order: 2, title: "Later" }),
@@ -75,13 +80,13 @@ const featuredCards = featuredWorkCards([
   workEntry("draft", { isFeatured: true, order: 0, publicationState: "draft", title: "Draft" }),
   workEntry("plain", { isFeatured: false, order: 3, title: "Plain" })
 ]);
-assert.deepEqual(featuredCards.map((card) => card.title), ["Earlier", "Later"]);
+assert.deepEqual(nativeValue(featuredCards.map((card) => card.title)), ["Earlier", "Later"]);
 assert.equal(featuredCards[0].frames.length, 4);
 
 const malformedFeatured = featuredWorkCards([
   workEntry("no-frames", { frames: undefined, isFeatured: true, order: 1, title: "No frames" })
 ]);
-assert.deepEqual(malformedFeatured[0].frames, []);
+assert.deepEqual(nativeValue(malformedFeatured[0].frames), []);
 
 const proofCards = proofWorkCards(
   [
@@ -91,14 +96,14 @@ const proofCards = proofWorkCards(
   ],
   [proofEntry("other-proof", { order: 1 })]
 );
-assert.deepEqual(proofCards.map((card) => card.title), ["First", "Second"]);
+assert.deepEqual(nativeValue(proofCards.map((card) => card.title)), ["First", "Second"]);
 assert.equal(proofCards[0].tags.length, 4);
 
 const withAgentSkills = proofWorkCards(
   [workEntry("work", { order: 1, shortTitle: "Work" })],
   [proofEntry("agent-skills-notes", { claim: "From content", order: 1, status: "Planned", title: "Agent skills notes" })]
 );
-assert.deepEqual(withAgentSkills.map((card) => card.title), ["Work", "Agent skills notes"]);
+assert.deepEqual(nativeValue(withAgentSkills.map((card) => card.title)), ["Work", "Agent skills notes"]);
 assert.equal(withAgentSkills[1].summary, "From content");
 assert.equal(withAgentSkills[1].index, 2);
 
@@ -106,6 +111,6 @@ const withoutDraftProof = proofWorkCards(
   [workEntry("work", { order: 1, shortTitle: "Work" })],
   [proofEntry("agent-skills-notes", { publicationState: "draft", title: "Hidden draft" })]
 );
-assert.deepEqual(withoutDraftProof.map((card) => card.title), ["Work"]);
+assert.deepEqual(nativeValue(withoutDraftProof.map((card) => card.title)), ["Work"]);
 
 console.log("Portfolio helper tests passed.");
