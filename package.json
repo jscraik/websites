@@ -70,7 +70,7 @@
     "validate:site": "npm run validate:rendered && npm run lhci",
     "test:ci": "npm run test:smoke",
     "test:smoke": "ASTRO_TELEMETRY_DISABLED=1 npm run build && node scripts/smoke-pages.mjs",
-    "test:e2e": "mkdir -p .playwright-tmp && TMPDIR=$PWD/.playwright-tmp PWTEST_CACHE_DIR=.playwright-cache playwright test tests/e2e",
+    "test:e2e": "mkdir -p .playwright-tmp && TMPDIR=$PWD/.playwright-tmp PWTEST_CACHE_DIR=.playwright-cache playwright test",
     "test:visual": "mkdir -p .playwright-tmp && TMPDIR=$PWD/.playwright-tmp PWTEST_CACHE_DIR=.playwright-cache playwright test tests/visual",
     "test:visual:update": "mkdir -p .playwright-tmp && TMPDIR=$PWD/.playwright-tmp PWTEST_CACHE_DIR=.playwright-cache playwright test tests/visual --update-snapshots",
     "test:a11y": "mkdir -p .playwright-tmp && TMPDIR=$PWD/.playwright-tmp PWTEST_CACHE_DIR=.playwright-cache playwright test tests/a11y",
