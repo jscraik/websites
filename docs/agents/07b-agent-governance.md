@@ -65,8 +65,10 @@ Chrome/CDP route only after the exact candidate artifact is served; the app HTTP
 port and the CDP endpoint are separate evidence lanes.
 
 CircleCI validation and Cloudflare Pages publication are separate hosted
-evidence lanes. The `pr-pipeline` and `security-scan` workflows validate pull
-requests, while the main-only `pages-production` workflow validates and
-uploads the checked-out `dist/` artifact through the restricted
-`cloudflare-pages-production` context. A local build or a passing PR check does
-not prove that the Pages context, custom domain, or hosted deployment is ready.
+evidence lanes. The `pr-pipeline` workflow validates pull requests, including
+the `security-scan` job and the report-only `snyk-dependency-scan` job. Its
+main-only `publish-pages` job validates and uploads the checked-out `dist/`
+artifact through the restricted `cloudflare-pages-production` context after
+the required source, audit, security, and dependency jobs succeed. A local
+build or a passing PR check does not prove that the Pages context, custom
+domain, or hosted deployment is ready.

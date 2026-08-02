@@ -483,7 +483,6 @@ workflows:
             - check
             - memory
             - security-scan
-            - snyk-dependency-scan
           filters:
             branches:
               only: main

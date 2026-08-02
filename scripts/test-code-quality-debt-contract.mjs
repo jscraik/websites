@@ -12,6 +12,7 @@ const read = (relativePath) =>
 
 const debtValidator = read("scripts/check-code-quality-debt.mjs");
 const environment = read(".codex/environments/environment.toml");
+const environmentCheck = read("scripts/check-environment.sh");
 const packageJson = JSON.parse(read("package.json"));
 const harnessContract = JSON.parse(read("harness.contract.json"));
 const debtValidatorPath = path.join(repoRoot, "scripts/check-code-quality-debt.mjs");
@@ -290,6 +291,11 @@ assert.doesNotMatch(
 assert.ok(
 	harnessContract.toolingPolicy.requiredBinaries.includes("gitleaks"),
 	"harness required binaries must include the security scanner",
+);
+assert.match(
+	environmentCheck,
+	/required_tooling_doc_terms=.*"gitleaks"/,
+	"environment documentation checks must include the security scanner",
 );
 assert.equal(
 	harnessContract.toolingPolicy.requiredBinaries.includes("beautiful-mermaid"),
