@@ -35,6 +35,11 @@ schema_version: 2
 - scripts/validate-no-prototype-slop.mjs blocks placeholder copy, empty links, local machine paths, debug logging, and patch-status comments from source/public files.
 - scripts/validate-jose-claim-boundary.mjs protects claim wording around Jose reference capture versus parity proof.
 - scripts/smoke-pages.mjs and tests/** cover route smoke, visual, screenshot, and accessibility lanes.
+- `.circleci/config.yml` owns pull-request validation and the main-only
+  `pages-production` publication workflow; pair that contract with
+  `docs/decisions/2026-08-02-circleci-cloudflare-pages-direct-upload.md` and
+  keep CircleCI context, Cloudflare custom-domain, and local artifact claims
+  separate.
 - `.codex/skills/` contains explicitly pinned workflow skills; review their source
   commit before treating a skill addition as project governance.
 

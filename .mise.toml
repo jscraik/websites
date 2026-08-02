@@ -18,12 +18,12 @@
 "npm:@mermaid-js/mermaid-cli" = "11.12.0"
 "npm:@brainwav/rsearch" = "0.1.6"
 "npm:@brainwav/wsearch-cli" = "0.1.9"
-"npm:beautiful-mermaid" = "1.1.3"
 "npm:markdownlint-cli2" = "0.21.0"
 "npm:semver" = "7.7.4"
 "npm:wrangler" = "4.69.0"
 "semgrep" = "1.153.1"
 "trivy" = "0.69.3"
+"gitleaks" = "8.30.0"
 "vale" = "3.13.1"
 
 [env]
