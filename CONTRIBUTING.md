@@ -76,7 +76,6 @@ Harness-managed repositories should keep this baseline available locally before 
 - `mermaid-cli` (via the `mmdc` CLI)
 - `markdownlint-cli2`
 - `wrangler`
-- `beautiful-mermaid` (library; no standalone CLI)
 - `gitleaks`
 - `semgrep`
 - `semver`

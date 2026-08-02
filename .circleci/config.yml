@@ -367,7 +367,7 @@ workflows:
               npm:@brainwav/diagram npm:@argos-ci/cli cosign cloudflared npm:vitest \
               ruff npm:eslint npm:agent-browser npm:agentation npm:agentation-mcp \
               npm:ctx7 npm:@mermaid-js/mermaid-cli npm:@brainwav/rsearch npm:@brainwav/wsearch-cli \
-              npm:beautiful-mermaid npm:markdownlint-cli2 npm:semver npm:wrangler \
+              npm:markdownlint-cli2 npm:semver npm:wrangler \
               trivy gitleaks vale
             retry_cmd 3 uv tool install --python 3.12 --force \
               "git+https://github.com/jscraik/ralph-gold.git@5d4b57537a29c3edb566665c9482ae5ca1d49eed"

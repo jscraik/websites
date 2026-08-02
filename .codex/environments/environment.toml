@@ -1212,33 +1212,6 @@ op --version
 '''
 
 [[actions]]
-name = "Beautiful Mermaid"
-icon = "tool"
-command = '''
-set -euo pipefail
-
-export UV_CACHE_DIR="${UV_CACHE_DIR:-${TMPDIR:-/tmp}/codex-uv-cache-${USER:-codex}}"
-mkdir -p "$UV_CACHE_DIR"
-
-export PATH="/opt/homebrew/bin:/usr/local/bin:$HOME/.local/share/mise/shims:$HOME/.local/bin:$PATH"
-export UV_MALWARE_CHECK="${UV_MALWARE_CHECK:-1}"
-
-if command -v mise >/dev/null 2>&1; then
-  [ -f .mise.toml ] && mise trust --yes .mise.toml >/dev/null 2>&1 || true
-  [ -f mise.toml ] && mise trust --yes mise.toml >/dev/null 2>&1 || true
-  [ -f mise/config.toml ] && mise trust --yes mise/config.toml >/dev/null 2>&1 || true
-  mise_env_file="${TMPDIR:-/tmp}/codex-mise-activate-$$.sh"
-  if mise activate bash >"$mise_env_file" 2>/dev/null; then
-    . "$mise_env_file" >/dev/null 2>&1 || true
-  fi
-  rm -f "$mise_env_file"
-fi
-
-command -v beautiful-mermaid >/dev/null 2>&1
-beautiful-mermaid --help
-'''
-
-[[actions]]
 name = "Auth0"
 icon = "tool"
 command = '''

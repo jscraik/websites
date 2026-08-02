@@ -317,6 +317,11 @@ assert.doesNotMatch(
 	/codex\/scripts\//,
 	"environment actions must not point at nonexistent codex/scripts helpers",
 );
+assert.doesNotMatch(
+	environment,
+	/name = "Beautiful Mermaid"|command -v beautiful-mermaid|beautiful-mermaid --help/,
+	"the Codex environment must not advertise a dead Beautiful Mermaid CLI action",
+);
 assert.match(
 	environment,
 	/bash scripts\/codex-preflight\.sh --mode optional/,

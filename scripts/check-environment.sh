@@ -147,7 +147,7 @@ fi
 	fi
 	export CLAUDE_APPROVAL_POSTURE="${CLAUDE_APPROVAL_POSTURE:-require}"
 
-required_mise_tools=("node" "pnpm" "python" "uv" "cargo:prek" "npm:@brainwav/diagram" "npm:@argos-ci/cli" "cosign" "cloudflared" "npm:vitest" "ruff" "npm:eslint" "npm:agent-browser" "npm:agentation" "npm:agentation-mcp" "npm:ctx7" "npm:@mermaid-js/mermaid-cli" "npm:@brainwav/rsearch" "npm:@brainwav/wsearch-cli" "npm:beautiful-mermaid" "npm:markdownlint-cli2" "npm:semver" "npm:wrangler" "semgrep" "trivy" "gitleaks" "vale")
+required_mise_tools=("node" "pnpm" "python" "uv" "cargo:prek" "npm:@brainwav/diagram" "npm:@argos-ci/cli" "cosign" "cloudflared" "npm:vitest" "ruff" "npm:eslint" "npm:agent-browser" "npm:agentation" "npm:agentation-mcp" "npm:ctx7" "npm:@mermaid-js/mermaid-cli" "npm:@brainwav/rsearch" "npm:@brainwav/wsearch-cli" "npm:markdownlint-cli2" "npm:semver" "npm:wrangler" "semgrep" "trivy" "gitleaks" "vale")
 for tool in "${required_mise_tools[@]}"; do
 	tool_pattern="$(printf '%s' "$tool" | sed 's/[][(){}.^$*+?|\\]/\\&/g')"
 	if ! rg -q "^[[:space:]]*(\"${tool_pattern}\"|${tool_pattern})[[:space:]]*=" "$MISE_PATH"; then
@@ -158,7 +158,7 @@ for tool in "${required_mise_tools[@]}"; do
 done
 
 if [[ -f "$TOOLING_DOC_PATH" ]]; then
-	required_tooling_doc_terms=("node" "pnpm" "python" "uv" "make" "rg" "fd" "jq" "prek" "diagram" "mise" "vale" "argos" "cosign" "cloudflared" "vitest" "ruff" "eslint" "agent-browser" "agentation" "ctx7" "mermaid-cli" "markdownlint-cli2" "wrangler" "beautiful-mermaid" "semgrep" "semver" "trivy" "rsearch" "wsearch")
+	required_tooling_doc_terms=("node" "pnpm" "python" "uv" "make" "rg" "fd" "jq" "prek" "diagram" "mise" "vale" "argos" "cosign" "cloudflared" "vitest" "ruff" "eslint" "agent-browser" "agentation" "ctx7" "mermaid-cli" "markdownlint-cli2" "wrangler" "semgrep" "semver" "trivy" "rsearch" "wsearch")
 	for term in "${required_tooling_doc_terms[@]}"; do
 		if ! rg -qi "(^|[^A-Za-z0-9_-])${term}([^A-Za-z0-9_-]|$)" "$TOOLING_DOC_PATH"; then
 			echo "Error: tooling doc missing expected term '$term': $TOOLING_DOC_PATH"
@@ -193,7 +193,7 @@ fi
 			exit 1
 		fi
 	fi
-	required_codex_actions=("Tools|tool" "Run|run" "Debug|debug" "Test|test" "Prek|test" "Release Finalize|tool" "Diagram|tool" "Mise|tool" "Vale|debug" "Argos|test" "Cosign|debug" "Cloudflared|run" "Vitest|test" "Ruff|debug" "ESLint|debug" "Agent Browser|tool" "Agentation|tool" "Context7|tool" "Mermaid CLI|tool" "MarkdownLint|debug" "Wrangler|run" "1Password|tool" "Beautiful Mermaid|tool" "Auth0|tool" "Semgrep|debug" "Semver|tool" "Trivy|debug" "Gitleaks|debug" "Research|tool" "WSearch|tool")
+	required_codex_actions=("Tools|tool" "Run|run" "Debug|debug" "Test|test" "Prek|test" "Release Finalize|tool" "Diagram|tool" "Mise|tool" "Vale|debug" "Argos|test" "Cosign|debug" "Cloudflared|run" "Vitest|test" "Ruff|debug" "ESLint|debug" "Agent Browser|tool" "Agentation|tool" "Context7|tool" "Mermaid CLI|tool" "MarkdownLint|debug" "Wrangler|run" "1Password|tool" "Auth0|tool" "Semgrep|debug" "Semver|tool" "Trivy|debug" "Gitleaks|debug" "Research|tool" "WSearch|tool")
 	for action in "${required_codex_actions[@]}"; do
 		name="${action%%|*}"
 		icon="${action##*|}"
