@@ -110,6 +110,7 @@
       "semgrep",
       "semver",
       "trivy",
+      "gitleaks",
       "rsearch",
       "wsearch"
     ],
