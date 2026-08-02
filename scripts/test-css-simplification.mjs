@@ -112,12 +112,12 @@ assert.match(
 );
 assert.match(
   shell,
-  /\.site-header \.nav-inner \.nav-bg\s*{[\s\S]*?transform:\s*translate3d\(var\(--nav-highlight-x, 0px\), 0, 0\) scaleX\(var\(--nav-highlight-scale, 1\)\);/,
+  /\.site-header \.nav-inner \.nav-bg\s*{[^}]*transform:\s*translate3d\(var\(--nav-highlight-x, 0px\), 0, 0\) scaleX\(var\(--nav-highlight-scale, 1\)\);/,
   "the navigation highlight must move with a compositor-friendly transform",
 );
 assert.match(
   shell,
-  /\.site-header \.nav-inner \.nav-bg\s*{[\s\S]*?transition-property:\s*transform;[\s\S]*?transition-duration:\s*var\(--jp-motion-standard\);/,
+  /\.site-header \.nav-inner \.nav-bg\s*{[^}]*transition-property:\s*transform;[^}]*transition-duration:\s*var\(--jp-motion-standard\);/,
   "the navigation highlight must constrain its transition to transform",
 );
 assert.match(
@@ -127,7 +127,7 @@ assert.match(
 );
 assert.match(
   shell,
-  /@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.site-header \.nav-inner \.nav-bg\s*{[\s\S]*?transform:\s*none;[\s\S]*?transition:\s*none;/,
+  /@media \(prefers-reduced-motion: reduce\)\s*{\s*\.site-header \.nav-inner \.nav-bg\s*{\s*transform:\s*none;\s*transition:\s*none;\s*}\s*}/,
   "the navigation highlight must stay still when reduced motion is requested",
 );
 assert.match(source, /<div class="nav-bg" aria-hidden="true"><\/div>/);

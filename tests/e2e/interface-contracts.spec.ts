@@ -107,7 +107,7 @@ test.describe("portfolio interface contracts", () => {
     const focusTransform = await highlight.evaluate((element) => getComputedStyle(element).transform);
     expect(focusTransform).not.toBe(pointerTransform.transform);
 
-    await page.mouse.move(0, 0);
+    await aboutLink.blur();
     await expect(highlight).not.toHaveAttribute("data-active");
   });
 
