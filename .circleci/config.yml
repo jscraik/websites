@@ -7,11 +7,12 @@ commands:
           name: Configure npm registry access
           command: |
             set -euo pipefail
-            if [[ -z "${NPM_TOKEN:-}" ]]; then
-              echo "NPM_TOKEN is required to install @brainwav/coding-harness." >&2
-              exit 1
+            if [[ -n "${NPM_TOKEN:-}" ]]; then
+              npm config set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
+              echo "NPM_TOKEN detected; npm registry auth configured (value hidden)."
+            else
+              echo "NPM_TOKEN not set; using the public npm registry."
             fi
-            npm config set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
             harness_version="$(node -p "require('./package.json').devDependencies['@brainwav/coding-harness']")"
             npm view "@brainwav/coding-harness@${harness_version}" version --json
 
