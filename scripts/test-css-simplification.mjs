@@ -112,10 +112,32 @@ assert.match(
 );
 assert.match(
   shell,
+  /\.site-header \.nav-inner \.nav-bg\s*{[^}]*transform:\s*translate3d\(var\(--nav-highlight-x, 0px\), 0, 0\) scaleX\(var\(--nav-highlight-scale, 1\)\);/,
+  "the navigation highlight must move with a compositor-friendly transform",
+);
+assert.match(
+  shell,
+  /\.site-header \.nav-inner \.nav-bg\s*{[^}]*transition-property:\s*transform;[^}]*transition-duration:\s*var\(--jp-motion-standard\);/,
+  "the navigation highlight must constrain its transition to transform",
+);
+assert.match(
+  shell,
   /@media \(prefers-reduced-transparency: reduce\)[\s\S]*?\.site-header \.nav-inner\s*{[\s\S]*?backdrop-filter:\s*none;/,
   "the extracted shell must preserve the reduced-transparency preference",
 );
+assert.match(
+  shell,
+  /@media \(prefers-reduced-motion: reduce\)\s*{\s*\.site-header \.nav-inner \.nav-bg\s*{\s*transform:\s*none;\s*transition:\s*none;\s*}\s*}/,
+  "the navigation highlight must stay still when reduced motion is requested",
+);
 assert.match(source, /<div class="nav-bg" aria-hidden="true"><\/div>/);
+assert.match(source, /highlight\.dataset\.active = "true"/);
+assert.match(source, /highlight\.style\.setProperty\("--nav-highlight-x"/);
+assert.match(source, /highlight\.style\.setProperty\("--nav-highlight-scale"/);
+assert.match(source, /navShell\.querySelector\("a:focus-visible"\)\?\.closest\("\.nav-flip"\)/);
+assert.match(source, /source === "pointer"\s*\? navShell\.querySelector\("\.nav-flip:hover"\)/);
+assert.match(source, /else\s*\{\s*resetHighlight\(\);\s*\}/);
+assert.match(source, /prefers-reduced-motion: reduce/);
 assert.doesNotMatch(
   css,
   /--jp-surface\b/,
