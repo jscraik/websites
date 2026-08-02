@@ -145,7 +145,9 @@ jobs:
             uv --version
       - run:
           name: Install dependencies
-          command: npm ci
+          # All project dependencies are public. Ignore runner-level auth/config
+          # so a stale NPM_TOKEN cannot turn a public package into an E404.
+          command: NPM_CONFIG_USERCONFIG=/dev/null npm ci
 
 
       - run:
@@ -184,7 +186,7 @@ jobs:
             npm --version
       - run:
           name: Install dependencies for Snyk package graph
-          command: npm ci
+          command: NPM_CONFIG_USERCONFIG=/dev/null npm ci
       - run:
           name: Run report-only Snyk dependency scan
           command: |
@@ -217,7 +219,7 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: npm ci
+          command: NPM_CONFIG_USERCONFIG=/dev/null npm ci
       - run:
           name: Validate and build production artifact
           command: ASTRO_TELEMETRY_DISABLED=1 npm run validate:source
