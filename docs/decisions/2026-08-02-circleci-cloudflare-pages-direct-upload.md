@@ -60,11 +60,11 @@ account, DNS, or hosted-state setup.
 
 ## Operator setup outside Git
 
-The portfolio maintainer owns the repository and CircleCI workflow contract.
-The Cloudflare account owner owns the Pages project, account token, and
-`jscraik.com` custom-domain/DNS association. A CircleCI project administrator
-owns the restricted context and should make the following setup changes
-without committing any secret values:
+**Owners**: The portfolio maintainer owns the repository and CircleCI workflow
+contract. The Cloudflare account owner owns the Pages project, account token,
+and `jscraik.com` custom-domain/DNS association. A CircleCI project
+administrator or designated DevOps operator owns the restricted context and
+should make the following setup changes without committing any secret values.
 
 Configure the `cloudflare-pages-production` CircleCI context with:
 
@@ -89,17 +89,36 @@ its production branch before retrying. If custom-domain association fails,
 correct the Pages custom-domain/DNS record in Cloudflare, then rerun the
 hosted publication only after the domain reports active.
 
+**Operator actions when issues occur**:
+
+- **Missing context variables**: Access CircleCI organization settings, navigate
+  to the `cloudflare-pages-production` context, and add the missing environment
+  variables. Escalate to the Cloudflare account administrator if account ID or
+  project name is unknown.
+- **Invalid API token**: Regenerate a Cloudflare API token with Cloudflare Pages
+  Edit permission, update the `CLOUDFLARE_API_TOKEN` value in the CircleCI
+  context, and retry the failed job.
+- **Pages project absent**: Create the Cloudflare Pages project using Direct
+  Upload mode, set `main` as the production branch, and update the
+  `CLOUDFLARE_PAGES_PROJECT` context variable with the project name.
+- **Custom-domain setup fails**: In the Cloudflare Pages dashboard, navigate to
+  the project's custom domain settings, add `jscraik.com`, and verify the DNS
+  CNAME record points to the Pages project. Escalate to the DNS administrator if
+  DNS changes are restricted.
+
 ## Validation
 
-- `npm run test:ci` — exits 0 and reports the repository smoke routes.
-- `npm run audit` — exits 0 with no production dependency audit findings.
-- `npm run audit:strict` — exits 0 with no high-severity production findings.
-- `ASTRO_TELEMETRY_DISABLED=1 npm run validate:source` — exits 0 and leaves a
-  validated `dist/` artifact.
-- `git diff --check` — exits 0 with no whitespace errors.
-- CircleCI `pr-pipeline` on `main` — the required validation jobs finish green,
-  then `publish-pages` uploads the exact checked-out SHA using the restricted
-  context.
+- `npm run test:ci` — **Expected**: Exit code 0, successful route smoke test.
+- `npm run audit` — **Expected**: Exit code 0, no runtime vulnerabilities.
+- `npm run audit:strict` — **Expected**: Exit code 0, no high-severity runtime
+  vulnerabilities.
+- `ASTRO_TELEMETRY_DISABLED=1 npm run validate:source` — **Expected**: Exit code
+  0, successful static build with `dist/` artifact present.
+- `git diff --check` — **Expected**: Exit code 0, no trailing whitespace or
+  conflict markers.
+- CircleCI `pr-pipeline` on `main` — **Expected**: required validation jobs
+  finish green, then `publish-pages` uploads the exact checked-out SHA using the
+  restricted context.
 
 These checks prove local command and artifact contracts only. They do not prove
 CircleCI context configuration, a successful hosted upload, custom-domain DNS,

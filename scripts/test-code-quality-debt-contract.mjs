@@ -202,6 +202,16 @@ function assertEnvironmentSetupContract() {
 	assert.match(setupScript, /UV_CACHE_DIR=.*\$\{TMPDIR:-\/tmp\}\/codex-uv-cache-/);
 	assert.doesNotMatch(setupScript, /UV_CACHE_DIR=.*\/private\/tmp\/codex-uv-cache-/);
 
+	// Validate the full environment file beyond just the setup script
+	const uvCacheDirMatches = environment.match(/UV_CACHE_DIR=[^\n]*/g) || [];
+	assert.ok(uvCacheDirMatches.length > 0, "environment must contain UV_CACHE_DIR assignments");
+	for (const match of uvCacheDirMatches) {
+		assert.match(match, /UV_CACHE_DIR=.*\$\{TMPDIR:-\/tmp\}\/codex-uv-cache-/,
+			`every UV_CACHE_DIR assignment must use the TMPDIR fallback pattern: ${match}`);
+	}
+	assert.doesNotMatch(environment, /\/private\/tmp\/codex-uv-cache-/,
+		"environment must not contain any /private/tmp/codex-uv-cache- occurrence");
+
 	const fixtureRoot = createFixtureRoot("portfolio-environment-contract-");
 	const binDirectory = path.join(fixtureRoot, "bin");
 	const logPath = path.join(fixtureRoot, "setup.log");
