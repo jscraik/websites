@@ -18,6 +18,7 @@ Options:
   --base <ref>            Start the branch from this ref (default: main)
   --branch-prefix <name>  Branch prefix (default: jscraik)
   --path <dir>            Worktree path (default: ../wt-<issue-key>-<slug>)
+  --standalone            Allow a Linear-free review-remediation slug under jscraik/
   --allow-stale-base      Continue from local refs when default remote-base fetch fails
   --prepare               Run worktree bootstrap immediately after creation
   --bootstrap             Backward-compatible alias for --prepare
@@ -41,6 +42,7 @@ branch_prefix="jscraik"
 worktree_path=""
 explicit_worktree_path=0
 allow_stale_base=0
+standalone=0
 bootstrap=0
 slug=""
 
@@ -61,6 +63,10 @@ while (( $# > 0 )); do
 			worktree_path="${2:-}"
 			explicit_worktree_path=1
 			shift 2
+			;;
+		--standalone)
+			standalone=1
+			shift
 			;;
 		--allow-stale-base)
 			allow_stale_base=1
@@ -106,8 +112,18 @@ if [[ ! "$branch_prefix" =~ ^[A-Za-z0-9._/-]+$ ]]; then
 	exit 2
 fi
 
+if [[ "$standalone" -eq 1 && "$branch_prefix" != "jscraik" ]]; then
+	echo "[new-task] --standalone requires the jscraik branch prefix" >&2
+	exit 2
+fi
+
 if [[ "$branch_prefix" == "jscraik" ]]; then
-	if [[ ! "$slug" =~ ^jsc-[0-9]+-[a-z0-9][a-z0-9-]*$ ]]; then
+	if [[ "$standalone" -eq 1 ]]; then
+		if [[ ! "$slug" =~ ^[a-z0-9][a-z0-9-]*$ ]]; then
+			echo "[new-task] standalone slugs must be lower-case kebab-case: $slug" >&2
+			exit 2
+		fi
+	elif [[ ! "$slug" =~ ^jsc-[0-9]+-[a-z0-9][a-z0-9-]*$ ]]; then
 		echo "[new-task] for Linear-tracked branches, slug must start with a lower-case issue key (example: jsc-123-my-task): $slug" >&2
 		exit 2
 	fi

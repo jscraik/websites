@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -38,10 +39,12 @@ const gitignore = read(".gitignore");
 const codestyleValidator = read("scripts/validate-codestyle.sh");
 const preCommitHook = read("scripts/hook-pre-commit.sh");
 const prePushHook = read("scripts/hook-pre-push.sh");
+const circleciConfig = read(".circleci/config.yml");
 const renderFlow = read("scripts/validate-render-flow.mjs");
 const contract = JSON.parse(read("harness.contract.json"));
 const contributing = read("CONTRIBUTING.md");
 const codexEnforced = read("scripts/codex-enforced");
+const standaloneRemediationPolicy = /standalone review-remediation PRs may use\s+`jscraik\/<short-description>`\s+when the body records a concrete Linear `n\/a`\s+reason/i;
 
 check("portfolio instructions identify the npm package authority", () => {
   assert.equal(packageJson.name, "brainwav-io");
@@ -53,8 +56,49 @@ check("portfolio instructions identify the npm package authority", () => {
 check("worktree instructions and parser support --prepare", () => {
   assert.match(newTask, /--prepare/);
   assert.match(newTask, /--bootstrap\|--prepare\)|--prepare\|--bootstrap\)/);
+  assert.match(newTask, /--standalone/);
   const help = command("bash", ["scripts/new-task.sh", "--prepare", "--help"]);
   assert.match(help, /--prepare/);
+  assert.match(help, /--standalone/);
+
+  const tempRoot = mkdtempSync(`${tmpdir()}/portfolio-new-task-contract-`);
+  const standaloneSlug = `standalone-contract-${process.pid}`;
+  const standaloneBranch = `jscraik/${standaloneSlug}`;
+  const standalonePath = path.join(tempRoot, "worktree");
+  try {
+    const output = command("bash", [
+      "scripts/new-task.sh",
+      "--standalone",
+      "--branch-prefix",
+      "jscraik",
+      "--base",
+      "HEAD",
+      "--path",
+      standalonePath,
+      standaloneSlug,
+    ]);
+    assert.match(output, new RegExp(`branch: ${standaloneBranch}`));
+  } finally {
+    if (existsSync(standalonePath)) {
+      execFileSync("git", ["worktree", "remove", "--force", standalonePath], {
+        cwd: repoRoot,
+        stdio: "ignore",
+      });
+    }
+    try {
+      execFileSync("git", ["show-ref", "--verify", "--quiet", `refs/heads/${standaloneBranch}`], {
+        cwd: repoRoot,
+        stdio: "ignore",
+      });
+      execFileSync("git", ["branch", "-D", standaloneBranch], {
+        cwd: repoRoot,
+        stdio: "ignore",
+      });
+    } catch {
+      // The helper may have rejected before creating the branch.
+    }
+    rmSync(tempRoot, { force: true, recursive: true });
+  }
 });
 
 check("the Makefile parses before bootstrap selection", () => {
@@ -100,6 +144,11 @@ check("pre-push validation uses the npm and Astro contract", () => {
   assert.doesNotMatch(prePushHook, /tooling-audit|check-environment\.sh|semgrep-changed/);
 });
 
+check("CircleCI npm auth does not expose the token in process arguments", () => {
+  assert.match(circleciConfig, /printf '%s\\n' "\/\/registry\.npmjs\.org\/:_authToken=\$\{NPM_TOKEN\}"/);
+  assert.doesNotMatch(circleciConfig, /npm config set[^\n]*NPM_TOKEN/);
+});
+
 check("aggregate source validation reuses its single Astro build", () => {
   const validateSource = packageJson.scripts["validate:source"];
   const validateRendered = packageJson.scripts["validate:rendered"];
@@ -132,8 +181,13 @@ check("Linear branch policy uses the supported single-segment prefix", () => {
   assert.doesNotMatch(contract.issueTrackingPolicy?.branchPrefix ?? "", /\//);
   assert.match(workflow, /Linear issue/i);
   assert.match(contributing, /jscraik\/<linear-key>-<short-description>/);
+  assert.match(contributing, standaloneRemediationPolicy);
+  assert.match(workflow, standaloneRemediationPolicy);
+  assert.match(workflow, /new-task\.sh --prepare --standalone --branch-prefix jscraik/);
+  assert.match(contributing, /new-task\.sh --prepare --standalone --branch-prefix jscraik/);
   assert.match(codexEnforced, /WORKTREE_BRANCH_PREFIX="\$\{WORKTREE_BRANCH_PREFIX:-jscraik\}"/);
   assert.match(pullRequestTemplate, /jscraik\/<linear-key>-<short-description>/);
+  assert.match(pullRequestTemplate, standaloneRemediationPolicy);
   assert.doesNotMatch(pullRequestTemplate, /jscraik\/feature\/\*/);
 });
 

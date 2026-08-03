@@ -449,6 +449,7 @@
   },
   "issueTrackingPolicy": {
     "provider": "linear",
+    "projectUrl": "https://linear.app/jscraik/project/harness-cockpit-routing-7e06204c08ff",
     "requirePackageBugsUrl": true,
     "disableGitHubIssues": true,
     "requireBranchIssueKey": true,

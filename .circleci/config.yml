@@ -1,5 +1,22 @@
 version: 2.1
 
+commands:
+  configure-npm-auth:
+    steps:
+      - run:
+          name: Configure npm registry access
+          command: |
+            set -euo pipefail
+            if [[ -n "${NPM_TOKEN:-}" ]]; then
+              umask 077
+              printf '%s\n' "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> "$HOME/.npmrc"
+              echo "NPM_TOKEN detected; npm registry auth configured (value hidden)."
+            else
+              echo "NPM_TOKEN not set; using the public npm registry."
+            fi
+            harness_version="$(node -p "require('./package.json').devDependencies['@brainwav/coding-harness']")"
+            npm view "@brainwav/coding-harness@${harness_version}" version --json
+
 jobs:
   run-governance-check:
     docker:
@@ -143,12 +160,7 @@ jobs:
             mkdir -p "$HOME/.local/bin"
             ln -sf "$uv_path" "$HOME/.local/bin/uv"
             uv --version
-      - run:
-          name: Inject npm auth
-          command: |
-            if [[ -n "${NPM_TOKEN:-}" ]]; then
-              printf '%s\n' "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> "$HOME/.npmrc"
-            fi
+      - configure-npm-auth
       - run:
           name: Install dependencies
           command: npm ci
@@ -188,12 +200,7 @@ jobs:
               npm install --global --prefix "$NPM_CONFIG_PREFIX" "pnpm@10.33.0"
             fi
             npm --version
-      - run:
-          name: Inject npm auth
-          command: |
-            if [[ -n "${NPM_TOKEN:-}" ]]; then
-              printf '%s\n' "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> "$HOME/.npmrc"
-            fi
+      - configure-npm-auth
       - run:
           name: Install dependencies for Snyk package graph
           command: npm ci
@@ -227,12 +234,7 @@ jobs:
     resource_class: small
     steps:
       - checkout
-      - run:
-          name: Inject npm auth
-          command: |
-            if [[ -n "${NPM_TOKEN:-}" ]]; then
-              printf '%s\n' "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> "$HOME/.npmrc"
-            fi
+      - configure-npm-auth
       - run:
           name: Install dependencies
           command: npm ci

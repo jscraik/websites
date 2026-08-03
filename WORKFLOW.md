@@ -19,8 +19,15 @@ fetches the requested base, creates one branch/worktree pair, and runs the
 repository bootstrap. If bootstrap fails, it removes only the worktree and
 branch it just created.
 
-Do not link a pull request to an unrelated or closed issue. The branch and PR
-must carry the Linear issue identifier for the work actually being delivered.
+Do not link a pull request to an unrelated or closed issue. Normal issue-linked
+delivery branches and PRs must carry the Linear issue identifier for the work
+actually being delivered. Standalone review-remediation PRs may use
+`jscraik/<short-description>` when the body records a concrete Linear `n/a`
+reason. Pass `--standalone` to the task helper for this explicit workflow:
+
+```sh
+bash scripts/new-task.sh --prepare --standalone --branch-prefix jscraik standalone-remediation
+```
 
 Before switching, merging, or fast-forwarding a checkout, inspect collisions:
 

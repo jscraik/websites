@@ -22,10 +22,12 @@ const packageJson = JSON.parse(read("package.json"));
 const agents = read("AGENTS.md");
 const workflow = read("WORKFLOW.md");
 const pullRequestTemplate = read(".github/PULL_REQUEST_TEMPLATE.md");
+const contributing = read("CONTRIBUTING.md");
 const newTask = read("scripts/new-task.sh");
 const gitignore = read(".gitignore");
 const prePushHook = read("scripts/hook-pre-push.sh");
 const contract = JSON.parse(read("harness.contract.json"));
+const standaloneRemediationPolicy = /standalone review-remediation PRs may use\s+`jscraik\/<short-description>`\s+when the body records a concrete Linear `n\/a`\s+reason/i;
 
 if (packageJson.name !== "brainwav-io") errors.push("package.json must identify the brainwav-io site package");
 if (!existsSync(path.join(repoRoot, "package-lock.json"))) errors.push("package-lock.json must exist for this npm repository");
@@ -33,11 +35,15 @@ requireMatch(agents, /package\.json is the source of truth/i, "AGENTS.md must id
 rejectMatch(agents, /There was no repo-local AGENTS\.md or CODESTYLE\.md/i, "AGENTS.md must describe the current root instruction surfaces");
 requireMatch(newTask, /--prepare/, "new-task must support the documented --prepare alias");
 requireMatch(newTask, /--bootstrap\|--prepare\)|--prepare\|--bootstrap\)/, "new-task parser must bind --prepare to bootstrap behavior");
+requireMatch(newTask, /--standalone/, "new-task must support explicit standalone remediation branches");
 if (contract.issueTrackingPolicy?.provider !== "linear") errors.push("harness contract must retain Linear as the issue authority");
 if (contract.issueTrackingPolicy?.branchPrefix !== "jscraik") errors.push("Linear branch prefix must use the supported jscraik segment");
 requireMatch(workflow, /# Portfolio workflow/i, "WORKFLOW.md must identify the portfolio workflow");
 requireMatch(workflow, /npm run validate:fast/, "WORKFLOW.md must name the repository validation entrypoint");
+requireMatch(workflow, standaloneRemediationPolicy, "WORKFLOW.md must document the standalone remediation branch exception");
+requireMatch(contributing, standaloneRemediationPolicy, "CONTRIBUTING.md must document the standalone remediation branch exception");
 requireMatch(pullRequestTemplate, /jscraik\/<linear-key>-<short-description>/, "PR template must use the Linear-linked branch policy");
+requireMatch(pullRequestTemplate, /standalone review-remediation PRs may use `jscraik\/<short-description>`/, "PR template must document the standalone remediation branch exception");
 rejectMatch(pullRequestTemplate, /jscraik\/feature\/\*/, "PR template must not retain the retired agent branch prefix");
 rejectMatch(workflow, /Symphony Workflow Configuration/i, "WORKFLOW.md must not carry an unconfigured Symphony template");
 rejectMatch(workflow, /\$LINEAR_API_KEY|\$SYMPHONY_WORKSPACE_ROOT|<your-project-slug>|<owner>|<escalation-path>/, "WORKFLOW.md must not contain unresolved operational placeholders");
