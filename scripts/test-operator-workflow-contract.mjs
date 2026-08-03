@@ -43,6 +43,7 @@ const renderFlow = read("scripts/validate-render-flow.mjs");
 const contract = JSON.parse(read("harness.contract.json"));
 const contributing = read("CONTRIBUTING.md");
 const codexEnforced = read("scripts/codex-enforced");
+const standaloneRemediationPolicy = /standalone review-remediation PRs may use\s+`jscraik\/<short-description>`\s+when the body records a concrete Linear `n\/a`\s+reason/i;
 
 check("portfolio instructions identify the npm package authority", () => {
   assert.equal(packageJson.name, "brainwav-io");
@@ -138,9 +139,11 @@ check("Linear branch policy uses the supported single-segment prefix", () => {
   assert.doesNotMatch(contract.issueTrackingPolicy?.branchPrefix ?? "", /\//);
   assert.match(workflow, /Linear issue/i);
   assert.match(contributing, /jscraik\/<linear-key>-<short-description>/);
+  assert.match(contributing, standaloneRemediationPolicy);
+  assert.match(workflow, standaloneRemediationPolicy);
   assert.match(codexEnforced, /WORKTREE_BRANCH_PREFIX="\$\{WORKTREE_BRANCH_PREFIX:-jscraik\}"/);
   assert.match(pullRequestTemplate, /jscraik\/<linear-key>-<short-description>/);
-  assert.match(pullRequestTemplate, /standalone review-remediation PRs may use `jscraik\/<short-description>`/);
+  assert.match(pullRequestTemplate, standaloneRemediationPolicy);
   assert.doesNotMatch(pullRequestTemplate, /jscraik\/feature\/\*/);
 });
 

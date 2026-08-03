@@ -22,10 +22,12 @@ const packageJson = JSON.parse(read("package.json"));
 const agents = read("AGENTS.md");
 const workflow = read("WORKFLOW.md");
 const pullRequestTemplate = read(".github/PULL_REQUEST_TEMPLATE.md");
+const contributing = read("CONTRIBUTING.md");
 const newTask = read("scripts/new-task.sh");
 const gitignore = read(".gitignore");
 const prePushHook = read("scripts/hook-pre-push.sh");
 const contract = JSON.parse(read("harness.contract.json"));
+const standaloneRemediationPolicy = /standalone review-remediation PRs may use\s+`jscraik\/<short-description>`\s+when the body records a concrete Linear `n\/a`\s+reason/i;
 
 if (packageJson.name !== "brainwav-io") errors.push("package.json must identify the brainwav-io site package");
 if (!existsSync(path.join(repoRoot, "package-lock.json"))) errors.push("package-lock.json must exist for this npm repository");
@@ -37,6 +39,8 @@ if (contract.issueTrackingPolicy?.provider !== "linear") errors.push("harness co
 if (contract.issueTrackingPolicy?.branchPrefix !== "jscraik") errors.push("Linear branch prefix must use the supported jscraik segment");
 requireMatch(workflow, /# Portfolio workflow/i, "WORKFLOW.md must identify the portfolio workflow");
 requireMatch(workflow, /npm run validate:fast/, "WORKFLOW.md must name the repository validation entrypoint");
+requireMatch(workflow, standaloneRemediationPolicy, "WORKFLOW.md must document the standalone remediation branch exception");
+requireMatch(contributing, standaloneRemediationPolicy, "CONTRIBUTING.md must document the standalone remediation branch exception");
 requireMatch(pullRequestTemplate, /jscraik\/<linear-key>-<short-description>/, "PR template must use the Linear-linked branch policy");
 requireMatch(pullRequestTemplate, /standalone review-remediation PRs may use `jscraik\/<short-description>`/, "PR template must document the standalone remediation branch exception");
 rejectMatch(pullRequestTemplate, /jscraik\/feature\/\*/, "PR template must not retain the retired agent branch prefix");

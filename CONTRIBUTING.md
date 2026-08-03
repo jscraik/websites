@@ -37,6 +37,7 @@ This workflow keeps delivery auditable, reversible, and consistent even for solo
 1. Create a dedicated branch/worktree for each task:
    - Agent-created branch: `git switch -c jscraik/<linear-key>-<short-description>`
    - Agent-created worktree: `git worktree add ../tmp-worktree -b jscraik/<linear-key>-<short-description>`
+   - Standalone review-remediation PRs may use `jscraik/<short-description>` when the body records a concrete Linear `n/a` reason.
    - Human-authored branch prefixes (when not using the Linear-linked `jscraik/` prefix): `feat/`, `fix/`, `docs/`, `refactor/`, `chore/`, `test/`
 2. Keep commits small and focused.
 3. Open a PR to merge into `main`.
@@ -46,7 +47,8 @@ This workflow keeps delivery auditable, reversible, and consistent even for solo
 ## Branch name policy
 
 - Use lower-case, kebab-case slugs.
-- Agent-created branches must use `jscraik/<linear-key>-<short-description>` with a lower-case Linear key such as `jsc-123`.
+- Issue-linked agent-created branches must use `jscraik/<linear-key>-<short-description>` with a lower-case Linear key such as `jsc-123`.
+- Standalone review-remediation PRs may use `jscraik/<short-description>` when the body records a concrete Linear `n/a` reason.
 - Human-authored branches may use: `feat/`, `fix/`, `docs/`, `refactor/`, `chore/`, `test/`.
 - Avoid `main`-like names and do not include secrets or issue-pii.
 
