@@ -35,6 +35,7 @@ requireMatch(agents, /package\.json is the source of truth/i, "AGENTS.md must id
 rejectMatch(agents, /There was no repo-local AGENTS\.md or CODESTYLE\.md/i, "AGENTS.md must describe the current root instruction surfaces");
 requireMatch(newTask, /--prepare/, "new-task must support the documented --prepare alias");
 requireMatch(newTask, /--bootstrap\|--prepare\)|--prepare\|--bootstrap\)/, "new-task parser must bind --prepare to bootstrap behavior");
+requireMatch(newTask, /--standalone/, "new-task must support explicit standalone remediation branches");
 if (contract.issueTrackingPolicy?.provider !== "linear") errors.push("harness contract must retain Linear as the issue authority");
 if (contract.issueTrackingPolicy?.branchPrefix !== "jscraik") errors.push("Linear branch prefix must use the supported jscraik segment");
 requireMatch(workflow, /# Portfolio workflow/i, "WORKFLOW.md must identify the portfolio workflow");

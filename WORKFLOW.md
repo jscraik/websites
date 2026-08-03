@@ -23,7 +23,11 @@ Do not link a pull request to an unrelated or closed issue. Normal issue-linked
 delivery branches and PRs must carry the Linear issue identifier for the work
 actually being delivered. Standalone review-remediation PRs may use
 `jscraik/<short-description>` when the body records a concrete Linear `n/a`
-reason.
+reason. Pass `--standalone` to the task helper for this explicit workflow:
+
+```sh
+bash scripts/new-task.sh --prepare --standalone --branch-prefix jscraik standalone-remediation
+```
 
 Before switching, merging, or fast-forwarding a checkout, inspect collisions:
 

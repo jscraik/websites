@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -55,8 +56,49 @@ check("portfolio instructions identify the npm package authority", () => {
 check("worktree instructions and parser support --prepare", () => {
   assert.match(newTask, /--prepare/);
   assert.match(newTask, /--bootstrap\|--prepare\)|--prepare\|--bootstrap\)/);
+  assert.match(newTask, /--standalone/);
   const help = command("bash", ["scripts/new-task.sh", "--prepare", "--help"]);
   assert.match(help, /--prepare/);
+  assert.match(help, /--standalone/);
+
+  const tempRoot = mkdtempSync(`${tmpdir()}/portfolio-new-task-contract-`);
+  const standaloneSlug = `standalone-contract-${process.pid}`;
+  const standaloneBranch = `jscraik/${standaloneSlug}`;
+  const standalonePath = path.join(tempRoot, "worktree");
+  try {
+    const output = command("bash", [
+      "scripts/new-task.sh",
+      "--standalone",
+      "--branch-prefix",
+      "jscraik",
+      "--base",
+      "HEAD",
+      "--path",
+      standalonePath,
+      standaloneSlug,
+    ]);
+    assert.match(output, new RegExp(`branch: ${standaloneBranch}`));
+  } finally {
+    if (existsSync(standalonePath)) {
+      execFileSync("git", ["worktree", "remove", "--force", standalonePath], {
+        cwd: repoRoot,
+        stdio: "ignore",
+      });
+    }
+    try {
+      execFileSync("git", ["show-ref", "--verify", "--quiet", `refs/heads/${standaloneBranch}`], {
+        cwd: repoRoot,
+        stdio: "ignore",
+      });
+      execFileSync("git", ["branch", "-D", standaloneBranch], {
+        cwd: repoRoot,
+        stdio: "ignore",
+      });
+    } catch {
+      // The helper may have rejected before creating the branch.
+    }
+    rmSync(tempRoot, { force: true, recursive: true });
+  }
 });
 
 check("the Makefile parses before bootstrap selection", () => {
@@ -141,6 +183,8 @@ check("Linear branch policy uses the supported single-segment prefix", () => {
   assert.match(contributing, /jscraik\/<linear-key>-<short-description>/);
   assert.match(contributing, standaloneRemediationPolicy);
   assert.match(workflow, standaloneRemediationPolicy);
+  assert.match(workflow, /new-task\.sh --prepare --standalone --branch-prefix jscraik/);
+  assert.match(contributing, /new-task\.sh --prepare --standalone --branch-prefix jscraik/);
   assert.match(codexEnforced, /WORKTREE_BRANCH_PREFIX="\$\{WORKTREE_BRANCH_PREFIX:-jscraik\}"/);
   assert.match(pullRequestTemplate, /jscraik\/<linear-key>-<short-description>/);
   assert.match(pullRequestTemplate, standaloneRemediationPolicy);

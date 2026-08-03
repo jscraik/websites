@@ -38,6 +38,7 @@ This workflow keeps delivery auditable, reversible, and consistent even for solo
    - Agent-created branch: `git switch -c jscraik/<linear-key>-<short-description>`
    - Agent-created worktree: `git worktree add ../tmp-worktree -b jscraik/<linear-key>-<short-description>`
    - Standalone review-remediation PRs may use `jscraik/<short-description>` when the body records a concrete Linear `n/a` reason.
+     Use `bash scripts/new-task.sh --prepare --standalone --branch-prefix jscraik <short-description>` for that workflow.
    - Human-authored branch prefixes (when not using the Linear-linked `jscraik/` prefix): `feat/`, `fix/`, `docs/`, `refactor/`, `chore/`, `test/`
 2. Keep commits small and focused.
 3. Open a PR to merge into `main`.
