@@ -15,6 +15,12 @@ readiness phase for the current branch and HEAD. Local tests, a clean isolated
 worktree, or a prior review do not prove current hosted checks, current-head
 review, resolved conversations, or merge state.
 
+The Linear project URL is synchronized across the Harness contract, package
+metadata, and GitHub issue intake. A standalone review-remediation PR may keep
+the `jscraik/` branch prefix without an issue key when its body records a
+concrete Linear `n/a` reason; issue-linked delivery still uses the generated
+`jscraik/<linear-key>-<short-description>` branch.
+
 For a solo-maintainer waiver, record an explicit policy exception. It does not
 become an independent approval. Keep current local validation, hosted checks,
 review artifacts, Linear linkage, and merge readiness as distinct evidence
