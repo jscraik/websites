@@ -14,11 +14,13 @@ ownership decision, not a cleanup command.
 
 ## Linear authority
 
-Linear is the portfolio issue tracker. Every agent-created delivery branch
-uses `jscraik/<lower-case-linear-key>-<short-description>`, for example
+Linear is the portfolio issue tracker. Issue-linked agent-created delivery
+branches use `jscraik/<lower-case-linear-key>-<short-description>`, for example
 `jscraik/jsc-469-harden-portfolio-operator-workflow`. Use the issue's generated
-branch name where Linear provides one. Do not attach work to an unrelated or
-closed issue.
+branch name where Linear provides one. Standalone review-remediation PRs may
+use the `jscraik/` prefix without an issue key only when the PR body records a
+concrete Linear `n/a` reason. Do not attach work to an unrelated or closed
+issue.
 
 The Harness contract stores the single-segment `jscraik` prefix because its
 schema rejects multi-segment values such as `jscraik/feature`.
