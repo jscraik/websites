@@ -38,6 +38,7 @@ const gitignore = read(".gitignore");
 const codestyleValidator = read("scripts/validate-codestyle.sh");
 const preCommitHook = read("scripts/hook-pre-commit.sh");
 const prePushHook = read("scripts/hook-pre-push.sh");
+const circleciConfig = read(".circleci/config.yml");
 const renderFlow = read("scripts/validate-render-flow.mjs");
 const contract = JSON.parse(read("harness.contract.json"));
 const contributing = read("CONTRIBUTING.md");
@@ -100,6 +101,11 @@ check("pre-push validation uses the npm and Astro contract", () => {
   assert.doesNotMatch(prePushHook, /tooling-audit|check-environment\.sh|semgrep-changed/);
 });
 
+check("CircleCI npm auth does not expose the token in process arguments", () => {
+  assert.match(circleciConfig, /printf '%s\\n' "\/\/registry\.npmjs\.org\/:_authToken=\$\{NPM_TOKEN\}"/);
+  assert.doesNotMatch(circleciConfig, /npm config set[^\n]*NPM_TOKEN/);
+});
+
 check("aggregate source validation reuses its single Astro build", () => {
   const validateSource = packageJson.scripts["validate:source"];
   const validateRendered = packageJson.scripts["validate:rendered"];
@@ -134,6 +140,7 @@ check("Linear branch policy uses the supported single-segment prefix", () => {
   assert.match(contributing, /jscraik\/<linear-key>-<short-description>/);
   assert.match(codexEnforced, /WORKTREE_BRANCH_PREFIX="\$\{WORKTREE_BRANCH_PREFIX:-jscraik\}"/);
   assert.match(pullRequestTemplate, /jscraik\/<linear-key>-<short-description>/);
+  assert.match(pullRequestTemplate, /standalone review-remediation PRs may use `jscraik\/<short-description>`/);
   assert.doesNotMatch(pullRequestTemplate, /jscraik\/feature\/\*/);
 });
 

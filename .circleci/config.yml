@@ -8,7 +8,8 @@ commands:
           command: |
             set -euo pipefail
             if [[ -n "${NPM_TOKEN:-}" ]]; then
-              npm config set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
+              umask 077
+              printf '%s\n' "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> "$HOME/.npmrc"
               echo "NPM_TOKEN detected; npm registry auth configured (value hidden)."
             else
               echo "NPM_TOKEN not set; using the public npm registry."

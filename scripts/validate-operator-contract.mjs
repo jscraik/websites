@@ -38,6 +38,7 @@ if (contract.issueTrackingPolicy?.branchPrefix !== "jscraik") errors.push("Linea
 requireMatch(workflow, /# Portfolio workflow/i, "WORKFLOW.md must identify the portfolio workflow");
 requireMatch(workflow, /npm run validate:fast/, "WORKFLOW.md must name the repository validation entrypoint");
 requireMatch(pullRequestTemplate, /jscraik\/<linear-key>-<short-description>/, "PR template must use the Linear-linked branch policy");
+requireMatch(pullRequestTemplate, /standalone review-remediation PRs may use `jscraik\/<short-description>`/, "PR template must document the standalone remediation branch exception");
 rejectMatch(pullRequestTemplate, /jscraik\/feature\/\*/, "PR template must not retain the retired agent branch prefix");
 rejectMatch(workflow, /Symphony Workflow Configuration/i, "WORKFLOW.md must not carry an unconfigured Symphony template");
 rejectMatch(workflow, /\$LINEAR_API_KEY|\$SYMPHONY_WORKSPACE_ROOT|<your-project-slug>|<owner>|<escalation-path>/, "WORKFLOW.md must not contain unresolved operational placeholders");

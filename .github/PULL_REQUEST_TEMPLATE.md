@@ -98,7 +98,7 @@ transcripts, bulky telemetry, or local absolute paths.
 ## Checklist
 
 - [ ] I did not push directly to `main`; this PR is from a dedicated branch.
-- [ ] Branch name follows policy (`jscraik/<linear-key>-<short-description>` for agent-created branches).
+- [ ] Branch name follows policy (`jscraik/<linear-key>-<short-description>` for issue-linked delivery; standalone review-remediation PRs may use `jscraik/<short-description>` when the body records a concrete Linear `n/a` reason).
 - [ ] Required local gates run: `bash scripts/validate-codestyle.sh`, `npm run check`, `test -f memory.json && jq -e '.meta.version == "1.0" and (.preamble.bootstrap | type == "boolean") and (.preamble.search | type == "boolean") and (.entries | type == "array")' memory.json >/dev/null`.
 - [ ] **(Pending)** CodeRabbit review completed and findings handled (or explicitly waived).
 - [ ] **(Pending)** CodeRabbit review was performed by an independent reviewer (not the coding agent).

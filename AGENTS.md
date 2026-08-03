@@ -44,7 +44,10 @@ schema_version: 2
   synchronized across `harness.contract.json`, `package.json` (`bugs.url`),
   and `.github/ISSUE_TEMPLATE/config.yml`; standalone review-remediation PRs
   may use the `jscraik/` prefix without an issue key only when their body
-  records a concrete Linear `n/a` reason.
+  records a concrete Linear `n/a` reason. The Harness contract keeps branch
+  and PR issue-key enforcement enabled for normal delivery; `linear-gate`
+  skips those linkage checks only after the PR body explicitly classifies the
+  work as standalone/untracked with that concrete reason.
 - `.codex/skills/` contains explicitly pinned workflow skills; review their source
   commit before treating a skill addition as project governance.
 
