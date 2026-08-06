@@ -15,7 +15,6 @@
   .blog-preview p:not(.article-date),
   .blog-list-item > span,
   .blog-about-card .text-lg p,
-  .about-copy p,
   .contact-panel > p,
   .proof-index header > p,
   .case-work-header > p,
@@ -48,11 +47,8 @@
     background-color: var(--paper);
   }
 
-  html body:not(.skillsbar-demo):has(.blog-index) {
-    --jp-blog-index-height: 45rem;
-  }
-
   html body:not(.skillsbar-demo):has(.blog-index) .blog-index {
+    --jp-blog-index-height: 45rem;
     background-image: linear-gradient(180deg, var(--surface-card), var(--paper));
     background-position: top;
     background-repeat: no-repeat;
@@ -108,11 +104,8 @@
     background-color: var(--paper);
   }
 
-  html body:not(.skillsbar-demo):has(.blog-index) {
-    --jp-blog-index-height: 56.172rem;
-  }
-
   html body:not(.skillsbar-demo):has(.blog-index) .blog-index {
+    --jp-blog-index-height: 56.172rem;
     background-image: linear-gradient(180deg, var(--surface-card), var(--paper));
     background-position: top;
     background-repeat: no-repeat;
