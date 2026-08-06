@@ -61,3 +61,8 @@ contracts guard both boundaries and the removal of selector families with no
 current producers. The José About measurements target the current
 `.recognition-list a` markup; update that selector and its focused contract
 together when the source structure changes.
+
+Route-specific editorial rhythm belongs in `src/styles/route-rhythm.css` rather
+than the shared shell. Keep its selectors limited to the route that owns the
+spacing, and refresh the checked-in diagram projections when that stylesheet
+changes.
