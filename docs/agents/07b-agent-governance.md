@@ -58,6 +58,10 @@ The CSS simplification fixture follows the same rule: its selector-removal
 assertions and the shared shell gradient contract must remain named in both
 surfaces when the stylesheet or route markup changes.
 
+Route-specific editorial rhythm belongs in `src/styles/route-rhythm.css`, not
+the shared shell. Keep its selectors scoped to the owning route and refresh the
+tracked diagram projections when that stylesheet changes.
+
 For Jose parity work, the stored bundle and its accepted decision record are
 the design authority. Current-live comparisons remain advisory evidence, and
 agents must not silently refresh the bundle, weaken mismatch budgets, or turn

@@ -27,6 +27,7 @@ schema_version: 2
 - docs/reference/jose-ocando/README.md describes the stored Jose reference bundle. Static capture proves reference availability, not visual parity.
 - scripts/validate-page-surfaces.mjs protects repeated page-surface regressions such as grey section bands, hidden full-bleed band patterns, and leaked Blog author-card layout rules.
 - scripts/test-css-simplification.mjs protects the shared shell gradient and dynamic CSS variant boundary while keeping removed legacy selectors out of current Astro source.
+- src/styles/route-rhythm.css owns route-specific editorial spacing; keep its selectors route-scoped and refresh tracked diagram projections when it changes.
 - scripts/validate-astro-anti-patterns.mjs protects AI-prone Astro regressions: fake controls, missing image alt text, careless hydration, component-level global styles, transition-all, important/overflow masking, pixel breakpoints, and heading-outline jumps; `scripts/test-astro-anti-patterns.mjs` is its focused fixture contract.
 - scripts/validate-css-policy.mjs protects token usage, rem breakpoints, selector specificity, z-index scale, and type-scale discipline.
 - scripts/validate-html-output.mjs validates built HTML semantics, duplicate IDs, landmarks, headings, links, buttons, images, and ARIA references.
