@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-08-02T17:23:34Z
+Generated: 2026-08-06T17:25:09Z
 
 ## Table of Contents
 
@@ -29,7 +29,7 @@ Generated: 2026-08-02T17:23:34Z
 ## Changed source focus
 
 - These architecture-sensitive paths changed on the current branch and may be compacted out of Mermaid diagrams.
-- `package.json`
+- `src/styles/route-rhythm.css`
 
 ## agent
 
@@ -261,6 +261,7 @@ graph LR
   ext_node_os_d93fe73a["node:os"] --> node_test_diagram_freshness_opt_in_96293749_08c46e10
   ext_node_os_d93fe73a["node:os"] --> node_test_git_worktree_authority_e031ba7e_d149c121
   ext_node_os_d93fe73a["node:os"] --> node_test_harness_cli_public_fallback_ad793eff_5fbe4aa9
+  ext_node_os_d93fe73a["node:os"] --> node_test_operator_workflow_contract_b4a152d7_c294797c
   ext_node_os_d93fe73a["node:os"] --> node_test_pr_readiness_fbe81eba_0ec78421
   ext_node_path_78811c13["node:path"] --> node_capture_jose_reference_e7b66705_7f5ac43a
   ext_node_path_78811c13["node:path"] --> node_check_code_quality_debt_cba04f67_104c73f4
