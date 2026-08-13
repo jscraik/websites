@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-08-06T17:25:09Z
+Generated: 2026-08-13T18:01:19Z
 
 ## Table of Contents
 
@@ -131,6 +131,7 @@ graph LR
   node_generate_social_profile_assets_f4f94011_2a983f29["generate_social_profile_assets_f4f94011"]
   node_jose_parity_cdp_bdcde21d_edb59c81["jose_parity_cdp_bdcde21d"]
   node_jose_parity_runner_50cc4344_e9555b02["jose_parity_runner_50cc4344"]
+  node_lapse_dev_f2526c24_d04b45a0["lapse_dev_f2526c24"]
   node_pr_readiness_boundaries_621e369e_7f0b2de9["pr_readiness_boundaries_621e369e"]
   node_setup_git_hooks_70750d40_b4ca2cf9["setup_git_hooks_70750d40"]
   node_smoke_pages_9a92b30d_72f6805f["smoke_pages_9a92b30d"]
@@ -162,9 +163,11 @@ graph LR
   node_validate_page_surfaces_078ef6b6_3d64ee9f["validate_page_surfaces_078ef6b6"]
   node_validate_portfolio_content_6d36990e_d04a79b1["validate_portfolio_content_6d36990e"]
   node_validate_pr_readiness_dfa3c61c_8978de80["validate_pr_readiness_dfa3c61c"]
+  node_validate_pr_template_1fc39e13_503b878b["validate_pr_template_1fc39e13"]
   node_validate_release_source_boundary_43d40a1f_0405b813["validate_release_source_boundary_43d40a1f"]
   node_validate_render_flow_2f64be63_a84870b9["validate_render_flow_2f64be63"]
   node_validate_social_profile_assets_a023937b_aed15edb["validate_social_profile_assets_a023937b"]
+  ext_aiforui_lapse_8332b6cc["@aiforui/lapse"] --> node_lapse_dev_f2526c24_d04b45a0
   ext_playwright_test_4b02302d["@playwright/test"] --> node_capture_jose_reference_e7b66705_7f5ac43a
   ext_playwright_test_4b02302d["@playwright/test"] --> node_generate_social_profile_assets_f4f94011_2a983f29
   ext_playwright_test_4b02302d["@playwright/test"] --> node_jose_parity_cdp_bdcde21d_edb59c81
@@ -250,6 +253,7 @@ graph LR
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_page_surfaces_078ef6b6_3d64ee9f
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_portfolio_content_6d36990e_d04a79b1
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_pr_readiness_dfa3c61c_8978de80
+  ext_node_fs_a15b7d96["node:fs"] --> node_validate_pr_template_1fc39e13_503b878b
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_release_source_boundary_43d40a1f_0405b813
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_render_flow_2f64be63_a84870b9
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_social_profile_assets_a023937b_aed15edb
@@ -295,6 +299,7 @@ graph LR
   ext_node_path_78811c13["node:path"] --> node_validate_operational_telemetry_cb447bde_70262920
   ext_node_path_78811c13["node:path"] --> node_validate_operator_contract_f777ed78_83e6297e
   ext_node_path_78811c13["node:path"] --> node_validate_portfolio_content_6d36990e_d04a79b1
+  ext_node_path_78811c13["node:path"] --> node_validate_pr_template_1fc39e13_503b878b
   ext_node_path_78811c13["node:path"] --> node_validate_release_source_boundary_43d40a1f_0405b813
   ext_node_path_78811c13["node:path"] --> node_validate_render_flow_2f64be63_a84870b9
   ext_node_path_78811c13["node:path"] --> node_validate_social_profile_assets_a023937b_aed15edb
@@ -312,6 +317,7 @@ graph LR
   ext_node_url_d0cb3ad7["node:url"] --> node_test_operator_workflow_contract_b4a152d7_c294797c
   ext_node_url_d0cb3ad7["node:url"] --> node_test_setup_git_hooks_syntax_c035405d_68ddd381
   ext_node_url_d0cb3ad7["node:url"] --> node_validate_operator_contract_f777ed78_83e6297e
+  ext_node_url_d0cb3ad7["node:url"] --> node_validate_pr_template_1fc39e13_503b878b
   ext_node_url_d0cb3ad7["node:url"] --> node_validate_social_profile_assets_a023937b_aed15edb
   ext_node_vm_e83aa31f["node:vm"] --> node_test_portfolio_helpers_88b404c3_859ed297
   ext_node_zlib_bb6e132b["node:zlib"] --> node_validate_js_budget_3d3908ce_dabf96a0
@@ -323,6 +329,7 @@ graph LR
   ext_typescript_fb9da861["typescript"] --> node_check_code_size_9c5efc3a_154124ae
   ext_typescript_fb9da861["typescript"] --> node_check_public_api_docs_a9604f1b_f824853c
   ext_typescript_fb9da861["typescript"] --> node_test_portfolio_helpers_88b404c3_859ed297
+  style ext_aiforui_lapse_8332b6cc fill:#f59e0b,color:#fff
   style ext_astro_90c9d7bd fill:#f59e0b,color:#fff
   style ext_astro_content_2110f121 fill:#f59e0b,color:#fff
   style ext_ext_81f836ce fill:#f59e0b,color:#fff
@@ -449,6 +456,9 @@ flowchart TD
   Untrusted --> test_operator_workflow_contract_b4a152d7
   validate_operator_contract_f777ed78["validate-operator-contract"]
   Untrusted --> validate_operator_contract_f777ed78
+  test_operator_workflow_contract_b4a152d7 --> pr_template_contract_4fa69502
+  validate_operator_contract_f777ed78 --> pr_template_contract_4fa69502
+  validate_pr_template_1fc39e13 --> pr_template_contract_4fa69502
   classDef securityNode fill:#dc2626,color:#fff
   class validate_coding_policy_29976175,validate_css_policy_1c5ec854,setup_git_hooks_70750d40,test_operator_workflow_contract_b4a152d7,validate_operator_contract_f777ed78 securityNode
 
@@ -500,12 +510,17 @@ flowchart LR
   User --> validate_page_surfaces_078ef6b6
   validate_portfolio_content_6d36990e["validate-portfolio-content"]
   User --> validate_portfolio_content_6d36990e
+  validate_pr_template_1fc39e13["validate-pr-template"]
+  User --> validate_pr_template_1fc39e13
   check_public_api_docs_a9604f1b --> changed_files_4c0102f6
   jose_parity_cdp_bdcde21d --> jose_parity_measurements_afc7a199
   test_jose_parity_measurements_2477824f --> jose_parity_measurements_afc7a199
+  test_operator_workflow_contract_b4a152d7 --> pr_template_contract_4fa69502
+  validate_operator_contract_f777ed78 --> pr_template_contract_4fa69502
+  validate_pr_template_1fc39e13 --> pr_template_contract_4fa69502
   check_code_size_9c5efc3a --> changed_files_4c0102f6
   classDef userNode fill:#16a34a,color:#fff
-  class capture_jose_reference_e7b66705,check_public_api_docs_a9604f1b,jose_parity_cdp_bdcde21d,smoke_pages_9a92b30d,test_css_simplification_05516724,test_jose_parity_measurements_2477824f,test_operator_workflow_contract_b4a152d7,validate_coding_policy_29976175,validate_content_source_boundary_8a6f121b,validate_css_policy_1c5ec854,validate_design_system_b8a5f37c,validate_operator_contract_f777ed78,validate_page_surfaces_078ef6b6,validate_portfolio_content_6d36990e userNode
+  class capture_jose_reference_e7b66705,check_public_api_docs_a9604f1b,jose_parity_cdp_bdcde21d,smoke_pages_9a92b30d,test_css_simplification_05516724,test_jose_parity_measurements_2477824f,test_operator_workflow_contract_b4a152d7,validate_coding_policy_29976175,validate_content_source_boundary_8a6f121b,validate_css_policy_1c5ec854,validate_design_system_b8a5f37c,validate_operator_contract_f777ed78,validate_page_surfaces_078ef6b6,validate_portfolio_content_6d36990e,validate_pr_template_1fc39e13 userNode
 
 ```
 

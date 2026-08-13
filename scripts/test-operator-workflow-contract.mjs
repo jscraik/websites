@@ -5,6 +5,8 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { collectPrTemplateContractErrors } from "./lib/pr-template-contract.mjs";
+
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
 
@@ -128,6 +130,23 @@ check("operator contract validator accepts the repository", () => {
   command("node", ["scripts/validate-operator-contract.mjs"]);
 });
 
+check("PR template follows the current maintainer evidence contract", () => {
+  assert.equal(packageJson.scripts["validate:pr-template"], "node scripts/validate-pr-template.mjs");
+  assert.deepEqual(collectPrTemplateContractErrors(pullRequestTemplate), []);
+  assert.match(pullRequestTemplate, /## Summary/);
+  assert.match(pullRequestTemplate, /## Change details/);
+  assert.match(pullRequestTemplate, /## Validation/);
+  assert.match(pullRequestTemplate, /## Review and closeout/);
+  assert.doesNotMatch(pullRequestTemplate, /## Work performed/);
+  assert.doesNotMatch(pullRequestTemplate, /## Testing/);
+
+  const retiredSchemaErrors = collectPrTemplateContractErrors(
+    pullRequestTemplate.replace("## Summary", "## Work performed"),
+  );
+  assert.match(retiredSchemaErrors.join("\n"), /missing required section: ## Summary/i);
+  assert.match(retiredSchemaErrors.join("\n"), /retired section: ## Work performed/i);
+});
+
 check("pre-commit validation uses portfolio package contracts", () => {
   assert.match(codestyleValidator, /run_required_script "validate:fast"/);
   assert.doesNotMatch(preCommitHook, /npm run lint/);
@@ -146,7 +165,9 @@ check("pre-push validation uses the npm and Astro contract", () => {
 
 check("CircleCI npm auth does not expose the token in process arguments", () => {
   assert.match(circleciConfig, /printf '%s\\n' "\/\/registry\.npmjs\.org\/:_authToken=\$\{NPM_TOKEN\}"/);
+  assert.match(circleciConfig, /printf '%s\\n' "\/\/aiforui\.dev\/npm\/:_authToken=\$\{AIFORUI_NPM_TOKEN\}"/);
   assert.doesNotMatch(circleciConfig, /npm config set[^\n]*NPM_TOKEN/);
+  assert.doesNotMatch(circleciConfig, /npm config set[^\n]*AIFORUI_NPM_TOKEN/);
 });
 
 check("aggregate source validation reuses its single Astro build", () => {

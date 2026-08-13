@@ -97,3 +97,5 @@ schema_version: 2
 - Root: Astro portfolio purpose, dirty-worktree preservation, artifact hygiene, codestyle fallback, validation routing, Jose parity claim boundary, and compact subagent coordination rules.
 - Context pointers: package.json, docs/decisions/2026-07-31-freeze-jose-reference-authority.md, docs/implementation-notes/jose-parity-guardrail.md, docs/reference/jose-ocando/README.md, scripts/jose-parity-measurements.mjs, scripts/validate-page-surfaces.mjs, scripts/validate-jose-claim-boundary.mjs, scripts/smoke-pages.mjs, and tests/**.
 - Supplemental: generated screenshots, recordings, runtime cards, Playwright reports, and ad hoc artifacts unless the user explicitly asks to promote them.
+
+- When explaining something to the user, use the [$visualize:visualize](/Users/jamiecraik/.codex/plugins/cache/openai-bundled/visualize/1.0.20/skills/visualize/SKILL.md) skill

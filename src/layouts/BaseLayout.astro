@@ -17,6 +17,7 @@ const {
   bodyClass
 } = Astro.props;
 const canonicalUrl = Astro.url.href;
+const isDevelopment = import.meta.env.DEV;
 ---
 
 <!doctype html>
@@ -40,6 +41,7 @@ const canonicalUrl = Astro.url.href;
   </head>
   <body class={bodyClass}>
     <a class="skip-link" href="#main-content">Skip to main content</a>
+    {isDevelopment && <script is:inline type="module" src="/src/scripts/lapse-dev.ts"></script>}
     <SiteNav />
     <main id="main-content" tabindex="-1">
       <slot />
