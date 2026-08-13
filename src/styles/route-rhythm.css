@@ -4,8 +4,8 @@
  * The shared shell (header, navigation, footer, and surface gradients) stays
  * in global.css/shell.css. These rules only give each narrative surface a
  * little more breathing room and let long copy wrap at deliberate word
- * boundaries, keeping the first fold readable without changing Jamie's
- * content or the measured shell geometry.
+ * boundaries. Route-specific measured geometry belongs here when it cannot
+ * be expressed safely through the older global cascade.
  */
 
 :where(
@@ -26,40 +26,77 @@
 }
 
 @media (min-width: 57.5626rem) {
-  /* Keep the home hero and nav on one Jose-style paper fade. */
-  html body:not(.skillsbar-demo):has(.home-hero) .site-header {
-    background-size: 100% 57.152rem;
-    background-repeat: no-repeat;
+  /*
+   * The desktop reference paints the navigation and hero as one full-width
+   * surface. Keep that gradient on the route canvas so separate DOM wrappers
+   * cannot introduce a seam or inset side gutters.
+   */
+  html body:not(.skillsbar-demo):has(.home-hero) {
     background-color: var(--paper);
+    background-image: linear-gradient(180deg, var(--surface-card), var(--paper));
+    background-repeat: no-repeat;
+    background-size: 100% calc(var(--jp-fluid-rem) * 55.0375);
+  }
+
+  html body:not(.skillsbar-demo):has(.home-hero) .site-header {
+    background: transparent;
   }
 
   html body:not(.skillsbar-demo):has(.home-hero) .header-inner {
-    background-image: linear-gradient(180deg, var(--surface-card), var(--paper));
-    background-position: top;
-    background-repeat: no-repeat;
-    background-size: 100% 52.3rem;
+    width: 100%;
+    max-width: none;
+    margin-inline: 0;
+    padding-top: calc(var(--jp-fluid-rem) * 8.73125);
+    padding-bottom: calc(var(--jp-fluid-rem) * 10.20625);
+    background: transparent;
   }
 
-  /* Keep the Blog masthead and article lead on the same Jose fade. */
-  html body:not(.skillsbar-demo):has(.blog-index) .site-header {
-    background-size: 100% 57.042rem;
-    background-repeat: no-repeat;
-    background-color: var(--paper);
+  html body:not(.skillsbar-demo):has(.home-hero) .home-hero {
+    width: min(calc(94% + var(--jp-col-gap)), calc(1800px + var(--jp-col-gap)));
+    max-width: none;
+    margin-inline: auto;
+  }
+
+  html body:not(.skillsbar-demo):has(.home-hero) .home-hero__intro {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+    padding-inline: var(--jp-half-gap);
+  }
+
+  html body:not(.skillsbar-demo):has(.home-hero) .home-hero h1 {
+    font-size: calc(var(--jp-fluid-rem) * 6.46);
+    line-height: 0.85;
+  }
+
+  /* Jose keeps the Blog masthead on one uninterrupted paper canvas. The older
+     inset gradient painted only inside the content column and exposed darker
+     side gutters, making the route look like a page nested inside a page. */
+  html body:not(.skillsbar-demo):has(.blog-index),
+  html body:not(.skillsbar-demo):has(.blog-index) main,
+  html body:not(.skillsbar-demo):has(.blog-index) .site-header,
+  html body:not(.skillsbar-demo):has(.blog-index) .blog-page-main {
+    background: var(--paper);
   }
 
   html body:not(.skillsbar-demo):has(.blog-index) .blog-index {
-    --jp-blog-index-height: 45rem;
-    background-image: linear-gradient(180deg, var(--surface-card), var(--paper));
-    background-position: top;
-    background-repeat: no-repeat;
-    background-size: 100% 52.25rem;
+    width: min(62.12vw, calc(var(--jp-fluid-rem) * 62.12));
+    max-width: calc(var(--jp-fluid-rem) * 62.12);
+    min-height: calc(var(--jp-fluid-rem) * 52.83);
+    background: transparent;
   }
 
-  html body:not(.skillsbar-demo):has(.blog-index) .blog-page-main {
-    background-image: linear-gradient(180deg, var(--surface-card), var(--paper));
-    background-position: 0 calc(-1 * var(--jp-blog-index-height));
-    background-repeat: no-repeat;
-    background-size: 100% 52.25rem;
+  html body:not(.skillsbar-demo):has(.blog-index) .latest-article article {
+    justify-content: space-between;
+    min-height: calc(var(--jp-fluid-rem) * 31.25);
+  }
+
+  html body:not(.skillsbar-demo):has(.blog-index) .latest-article h2 {
+    color: var(--neutral-07);
+    font-family: var(--body-sans);
+    font-size: calc(var(--jp-fluid-rem) * 1.25);
+    font-weight: 600;
+    line-height: 1.4;
   }
 
   /* Keep the article masthead visually separate from the reading column. */
@@ -97,26 +134,17 @@
     background-size: 100% 50.125rem;
   }
 
-  /* Continue the Blog fade through the taller mobile masthead. */
+  /* Keep the compact Blog route on the same uninterrupted paper canvas. */
   html body:not(.skillsbar-demo):has(.blog-index) .site-header {
-    background-size: 100% 64.85rem;
-    background-repeat: no-repeat;
-    background-color: var(--paper);
+    background: var(--paper);
   }
 
   html body:not(.skillsbar-demo):has(.blog-index) .blog-index {
-    --jp-blog-index-height: 56.172rem;
-    background-image: linear-gradient(180deg, var(--surface-card), var(--paper));
-    background-position: top;
-    background-repeat: no-repeat;
-    background-size: 100% 61.2rem;
+    background: transparent;
   }
 
   html body:not(.skillsbar-demo):has(.blog-index) .blog-page-main {
-    background-image: linear-gradient(180deg, var(--surface-card), var(--paper));
-    background-position: 0 calc(-1 * var(--jp-blog-index-height));
-    background-repeat: no-repeat;
-    background-size: 100% 61.2rem;
+    background: var(--paper);
   }
 
   .article-layout.section-shell {
@@ -132,5 +160,184 @@
   /* Keep the About sidebar below the editorial first fold on narrow screens. */
   .about-page.about-hero-shell .about-copy {
     min-block-size: clamp(48rem, 220vw, 54.25rem);
+  }
+}
+
+/*
+ * Homepage Jose parity contract.
+ *
+ * The reference keeps its tablet viewport on the 10-of-12 editorial grid.
+ * Earlier mobile overrides widened the nav and narrowed Featured work between
+ * 48rem and the desktop breakpoint, which made the first fold drift even when
+ * the desktop and phone layouts remained correct. Keep the measured tablet
+ * family together here, after the legacy global cascade.
+ */
+@media (min-width: 48rem) and (max-width: 57.5625rem) {
+  html {
+    --jp-fluid-rem: clamp(14.6667px, calc(10px + 0.5833vw), 16px);
+  }
+
+  html body:not(.skillsbar-demo) .site-header {
+    padding-top: calc(var(--jp-fluid-rem) * 2);
+  }
+
+  html body:not(.skillsbar-demo) .site-header .container {
+    width: 94%;
+    margin-inline: auto;
+  }
+
+  html body:not(.skillsbar-demo) .site-header .row {
+    width: calc(100% + var(--jp-fluid-rem) * 1.5);
+    margin-inline: calc(var(--jp-fluid-rem) * -0.75);
+  }
+
+  html body:not(.skillsbar-demo) .site-header .col-md-10 {
+    flex-basis: 83.3333%;
+    max-width: 83.3333%;
+    padding-inline: calc(var(--jp-fluid-rem) * 0.75);
+  }
+
+  html body:not(.skillsbar-demo) .site-header .nav-menu {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+
+  html body:not(.skillsbar-demo) .site-header .nav-inner {
+    width: 100%;
+    height: calc(var(--jp-fluid-rem) * 2.8);
+    min-height: calc(var(--jp-fluid-rem) * 2.8);
+    padding-inline: calc(var(--jp-fluid-rem) * 3.28);
+  }
+
+  html body:not(.skillsbar-demo) .site-header .icon-box {
+    width: calc(var(--jp-fluid-rem) * 1.875);
+    height: calc(var(--jp-fluid-rem) * 1.875);
+  }
+
+  html body:not(.skillsbar-demo) .site-header .nav-link {
+    display: inline-flex;
+    align-items: center;
+    height: calc(var(--jp-fluid-rem) * 2.8);
+    padding: 0 calc(var(--jp-fluid-rem) * 1.25);
+    font-size: calc(var(--jp-fluid-rem) * 0.7);
+    line-height: 1.4;
+  }
+
+  html body:not(.skillsbar-demo):has(.home-hero) .header-inner {
+    width: 94%;
+    min-height: calc(var(--jp-fluid-rem) * 45.18);
+    margin-inline: auto;
+    padding-top: calc(var(--jp-fluid-rem) * 7.5);
+    padding-bottom: calc(var(--jp-fluid-rem) * 1.05);
+  }
+
+  .home-hero {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    width: 100%;
+    max-width: none;
+    gap: 0;
+  }
+
+  .home-hero__intro,
+  .home-hero .start-links {
+    grid-column: 2 / 12;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+    padding-inline: calc(var(--jp-fluid-rem) * 0.125);
+  }
+
+  .home-hero__intro {
+    display: grid;
+  }
+
+  .home-hero .start-links {
+    justify-self: stretch;
+    margin-top: calc(var(--jp-fluid-rem) * 2.25);
+  }
+
+  .home-hero .start-links > * {
+    max-width: calc(var(--jp-fluid-rem) * 30);
+  }
+
+  .h1-name,
+  .home-hero h1 {
+    width: 100%;
+    max-width: none;
+    min-height: 0;
+    margin-bottom: calc(var(--jp-fluid-rem) * 2.34);
+    font-size: calc(var(--jp-fluid-rem) * 4.5);
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+    text-wrap: nowrap;
+  }
+
+  .h1-name span,
+  .home-hero h1 span {
+    display: inline;
+    white-space: normal;
+  }
+
+  .h1-name span:first-child::after,
+  .home-hero h1 span:first-child::after {
+    content: " ";
+  }
+
+  .home-hero__position {
+    max-width: 34rem;
+    margin-bottom: var(--jp-fluid-rem);
+    font-size: calc(var(--jp-fluid-rem) * 1.285);
+    line-height: 1.6;
+  }
+
+  .home-hero__body {
+    max-width: 34rem;
+    margin-bottom: var(--jp-fluid-rem);
+    font-size: var(--jp-fluid-rem);
+    line-height: 1.625;
+  }
+
+  #featured-work {
+    width: 94%;
+    margin-inline: auto;
+  }
+
+  #featured-work .section-label {
+    margin-bottom: calc(var(--jp-fluid-rem) * 2.5);
+  }
+
+  .featured-list {
+    gap: calc(var(--jp-fluid-rem) * 1.405);
+  }
+
+  .feature-block {
+    width: 100%;
+    padding: calc(var(--jp-fluid-rem) * 0.47);
+    border: 0;
+    border-radius: calc(var(--jp-fluid-rem) * 1.405);
+  }
+
+  .feature-block-inner,
+  .feature-block:nth-child(even) .feature-block-inner {
+    flex-direction: column;
+    width: 100%;
+    min-height: calc(var(--jp-fluid-rem) * 61.88);
+    height: auto;
+  }
+
+  .feature-block__content {
+    flex: 1 1 auto;
+    width: 100%;
+    min-height: 0;
+    height: auto;
+    padding: calc(var(--jp-fluid-rem) * 2.5) calc(var(--jp-fluid-rem) * 2);
+  }
+
+  .feature-block-img {
+    flex: 0 0 calc(var(--jp-fluid-rem) * 35.53);
+    width: 100%;
+    height: calc(var(--jp-fluid-rem) * 35.53);
+    min-height: 0;
   }
 }

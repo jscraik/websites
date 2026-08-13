@@ -1,0 +1,89 @@
+---
+interface Props {
+  class?: string;
+  href: string;
+  label: string;
+}
+
+const { class: className, href, label } = Astro.props;
+---
+
+<a class:list={["small-button", className]} href={href} data-animated-button>
+  <span class="small-button__fill" data-button-fill></span>
+  <span class="small-button__text">{label}</span>
+  <span class="small-button__arrow" data-button-arrow aria-hidden="true">
+    <svg viewBox="0 0 16 16" fill="none">
+      <path d="M0 8h14m0 0L9 3m5 5-5 5" stroke="currentColor" stroke-width="1.5"></path>
+    </svg>
+  </span>
+</a>
+
+<script>
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+  const activeAnimations = new WeakMap<HTMLElement, Animation>();
+
+  const cancelAnimation = (fill: HTMLElement) => {
+    activeAnimations.get(fill)?.cancel();
+    activeAnimations.delete(fill);
+  };
+
+  const animateFrom = (fill: HTMLElement, previousRect: DOMRect) => {
+    if (reducedMotion.matches || previousRect.width === 0 || previousRect.height === 0) return;
+
+    const settledRect = fill.getBoundingClientRect();
+    if (settledRect.width === 0 || settledRect.height === 0) return;
+
+    const animation = fill.animate(
+      [
+        {
+          transform: `translate3d(${previousRect.left - settledRect.left}px, ${previousRect.top - settledRect.top}px, 0) scale(${previousRect.width / settledRect.width}, ${previousRect.height / settledRect.height})`
+        },
+        { transform: "none" }
+      ],
+      {
+        duration: 400,
+        easing: "cubic-bezier(0.165, 0.84, 0.44, 1)"
+      }
+    );
+
+    activeAnimations.set(fill, animation);
+    animation.addEventListener(
+      "finish",
+      () => {
+        if (activeAnimations.get(fill) === animation) activeAnimations.delete(fill);
+      },
+      { once: true }
+    );
+  };
+
+  document.querySelectorAll<HTMLElement>("[data-animated-button]").forEach((button) => {
+    if (button.dataset.buttonReady === "true") return;
+
+    const fill = button.querySelector<HTMLElement>("[data-button-fill]");
+    const arrow = button.querySelector<HTMLElement>("[data-button-arrow]");
+    if (!fill || !arrow) return;
+
+    button.dataset.buttonReady = "true";
+
+    button.addEventListener("mouseenter", () => {
+      if (!finePointer.matches || fill.parentElement === arrow) return;
+
+      const previousRect = fill.getBoundingClientRect();
+      cancelAnimation(fill);
+      arrow.append(fill);
+      button.dataset.active = "true";
+      animateFrom(fill, previousRect);
+    });
+
+    button.addEventListener("mouseleave", () => {
+      if (!finePointer.matches || fill.parentElement === button) return;
+
+      const previousRect = fill.getBoundingClientRect();
+      cancelAnimation(fill);
+      button.prepend(fill);
+      button.removeAttribute("data-active");
+      animateFrom(fill, previousRect);
+    });
+  });
+</script>

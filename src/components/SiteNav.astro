@@ -57,10 +57,38 @@ const currentFor = (href: string): "page" | undefined => {
     const highlight = navShell.querySelector(".nav-bg");
     if (!(highlight instanceof HTMLElement)) return;
 
+    const navStyle = getComputedStyle(navShell);
+    const navFlipDuration = Number.parseFloat(navStyle.getPropertyValue("--nav-flip-duration-ms")) || 400;
+    const navFlipEasing = navStyle.getPropertyValue("--nav-flip-ease").trim() || "cubic-bezier(0.165, 0.84, 0.44, 1)";
+
+    const animateHighlightFrom = (highlightRect: DOMRect) => {
+      if (reducedMotion.matches || highlightRect.width === 0 || highlightRect.height === 0) return;
+      const settledRect = highlight.getBoundingClientRect();
+      if (settledRect.width === 0 || settledRect.height === 0) return;
+
+      const translateX = highlightRect.left - settledRect.left;
+      const translateY = highlightRect.top - settledRect.top;
+      const scaleX = highlightRect.width / settledRect.width;
+      const scaleY = highlightRect.height / settledRect.height;
+
+      highlight.animate(
+        [
+          { transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${scaleX}, ${scaleY})` },
+          { transform: "none" }
+        ],
+        {
+          duration: navFlipDuration,
+          easing: navFlipEasing
+        }
+      );
+    };
+
     const resetHighlight = () => {
-      highlight.style.removeProperty("--nav-highlight-x");
-      highlight.style.removeProperty("--nav-highlight-scale");
+      const highlightRect = highlight.getBoundingClientRect();
+      highlight.getAnimations().forEach((animation) => animation.cancel());
+      navShell.prepend(highlight);
       highlight.removeAttribute("data-active");
+      animateHighlightFrom(highlightRect);
     };
 
     const moveHighlight = (target: Element) => {
@@ -69,16 +97,17 @@ const currentFor = (href: string): "page" | undefined => {
         return;
       }
 
-      const navRect = navShell.getBoundingClientRect();
+      const highlightRect = highlight.getBoundingClientRect();
       const targetRect = target.getBoundingClientRect();
-      if (navRect.width === 0 || targetRect.width === 0) {
+      if (targetRect.width === 0 || targetRect.height === 0) {
         resetHighlight();
         return;
       }
 
-      highlight.style.setProperty("--nav-highlight-x", `${targetRect.left - navRect.left}px`);
-      highlight.style.setProperty("--nav-highlight-scale", String(targetRect.width / navRect.width));
+      highlight.getAnimations().forEach((animation) => animation.cancel());
+      target.append(highlight);
       highlight.dataset.active = "true";
+      animateHighlightFrom(highlightRect);
     };
 
     const syncHighlight = (source: "focus" | "pointer" = "focus") => {

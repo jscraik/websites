@@ -104,6 +104,51 @@ test.describe("portfolio interface contracts", () => {
     expect(pointerTransform.transitionProperty).toBe("transform");
   });
 
+  test("the shared nav highlight adopts the hovered target geometry", async ({ page }) => {
+    await preparePage(page, "/");
+
+    const nav = page.locator(".site-header .nav-inner");
+    const highlight = nav.locator(".nav-bg");
+    const homeTarget = nav.locator(".nav-flip").first();
+    const supportsFinePointer = await page.evaluate(() => window.matchMedia("(hover: hover) and (pointer: fine)").matches);
+    test.skip(!supportsFinePointer, "pointer highlight is only available for fine-pointer projects");
+
+    await homeTarget.hover();
+    await expect(highlight).toHaveAttribute("data-active", "true");
+    const animationTiming = await highlight.evaluate((element) => {
+      const timing = element.getAnimations()[0]?.effect?.getTiming();
+      return timing ? { duration: timing.duration, easing: timing.easing } : null;
+    });
+    expect(animationTiming).toEqual({
+      duration: 400,
+      easing: "cubic-bezier(0.165, 0.84, 0.44, 1)"
+    });
+    await page.waitForTimeout(450);
+
+    const [highlightBox, targetBox] = await Promise.all([highlight.boundingBox(), homeTarget.boundingBox()]);
+    expect(highlightBox).not.toBeNull();
+    expect(targetBox).not.toBeNull();
+    expect(highlightBox!.x).toBeCloseTo(targetBox!.x, 0);
+    expect(highlightBox!.y).toBeCloseTo(targetBox!.y, 0);
+    expect(highlightBox!.width).toBeCloseTo(targetBox!.width, 0);
+    expect(highlightBox!.height).toBeCloseTo(targetBox!.height, 0);
+
+    const homeStyle = await homeTarget.evaluate((element) => {
+      const highlight = element.querySelector<HTMLElement>(".nav-bg");
+      const link = element.querySelector<HTMLElement>("a");
+      return {
+        highlightRadius: highlight ? Number.parseFloat(getComputedStyle(highlight).borderRadius) : 0,
+        highlightZIndex: highlight ? getComputedStyle(highlight).zIndex : "missing",
+        linkTransform: link ? getComputedStyle(link).transform : "missing",
+        linkZIndex: link ? getComputedStyle(link).zIndex : "missing"
+      };
+    });
+    expect(homeStyle.highlightRadius).toBeGreaterThanOrEqual(targetBox!.height / 2);
+    expect(homeStyle.highlightZIndex).toBe("0");
+    expect(homeStyle.linkTransform).toBe("none");
+    expect(homeStyle.linkZIndex).toBe("1");
+  });
+
   test("the shared nav highlight clears when the pointer enters a nav gap", async ({ page }) => {
     await preparePage(page, "/");
 
@@ -187,6 +232,124 @@ test.describe("portfolio interface contracts", () => {
 
     expect(style.transform).toBe("none");
     expect(style.transitionProperty).toBe("none");
+  });
+
+  test("the homepage keeps Jose-derived tablet geometry at the first fold", async ({ page }) => {
+    await page.setViewportSize({ width: 805, height: 964 });
+    await preparePage(page, "/");
+
+    const geometry = await page.evaluate(() => {
+      const rect = (selector: string) => {
+        const element = document.querySelector(selector);
+        if (!(element instanceof HTMLElement)) return null;
+        const bounds = element.getBoundingClientRect();
+        return {
+          x: bounds.x,
+          y: bounds.y,
+          width: bounds.width,
+          height: bounds.height
+        };
+      };
+
+      const title = document.querySelector(".home-hero h1");
+      return {
+        nav: rect(".site-header .nav-inner"),
+        title: rect(".home-hero h1"),
+        firstProject: rect("#featured-work .feature-block"),
+        titleFontSize: title ? Number.parseFloat(getComputedStyle(title).fontSize) : 0
+      };
+    });
+
+    expect(geometry.nav).not.toBeNull();
+    expect(geometry.nav!.width / 805).toBeGreaterThan(0.76);
+    expect(geometry.nav!.width / 805).toBeLessThan(0.8);
+    expect(geometry.nav!.y).toBeGreaterThanOrEqual(28);
+    expect(geometry.nav!.y).toBeLessThanOrEqual(31);
+
+    expect(geometry.title).not.toBeNull();
+    expect(geometry.title!.height).toBeLessThan(70);
+    expect(geometry.title!.x).toBeGreaterThanOrEqual(87);
+    expect(geometry.title!.x).toBeLessThanOrEqual(91);
+    expect(geometry.title!.width).toBeGreaterThanOrEqual(624);
+    expect(geometry.title!.width).toBeLessThanOrEqual(632);
+    expect(geometry.title!.y).toBeGreaterThanOrEqual(175);
+    expect(geometry.title!.y).toBeLessThanOrEqual(185);
+    expect(geometry.titleFontSize).toBeGreaterThanOrEqual(64);
+    expect(geometry.titleFontSize).toBeLessThanOrEqual(68);
+
+    expect(geometry.firstProject).not.toBeNull();
+    expect(geometry.firstProject!.width / 805).toBeGreaterThan(0.92);
+    expect(geometry.firstProject!.height).toBeGreaterThanOrEqual(940);
+    expect(geometry.firstProject!.height).toBeLessThanOrEqual(970);
+    expect(geometry.firstProject!.y).toBeGreaterThanOrEqual(770);
+    expect(geometry.firstProject!.y).toBeLessThanOrEqual(815);
+  });
+
+  test("the homepage keeps Jose-derived desktop surface and first-fold geometry", async ({ page }) => {
+    await page.setViewportSize({ width: 1292, height: 964 });
+    await preparePage(page, "/");
+
+    const geometry = await page.evaluate(() => {
+      const rect = (selector: string) => {
+        const element = document.querySelector(selector);
+        if (!(element instanceof HTMLElement)) return null;
+        const bounds = element.getBoundingClientRect();
+        return {
+          x: bounds.x,
+          y: bounds.y,
+          width: bounds.width,
+          height: bounds.height
+        };
+      };
+
+      const title = document.querySelector(".home-hero h1");
+      const body = getComputedStyle(document.body);
+      const siteHeader = document.querySelector(".site-header");
+      const heroHeader = document.querySelector(".header-inner");
+      return {
+        nav: rect(".site-header .nav-inner"),
+        heroHeader: rect(".header-inner"),
+        title: rect(".home-hero h1"),
+        intro: rect(".home-hero__intro"),
+        featuredWork: rect("#featured-work"),
+        titleFontSize: title ? Number.parseFloat(getComputedStyle(title).fontSize) : 0,
+        bodyBackgroundImage: body.backgroundImage,
+        siteHeaderBackgroundImage: siteHeader ? getComputedStyle(siteHeader).backgroundImage : "",
+        heroHeaderBackgroundImage: heroHeader ? getComputedStyle(heroHeader).backgroundImage : ""
+      };
+    });
+
+    expect(geometry.nav).not.toBeNull();
+    expect(geometry.nav!.x).toBeGreaterThanOrEqual(244);
+    expect(geometry.nav!.x).toBeLessThanOrEqual(247);
+    expect(geometry.nav!.width).toBeGreaterThanOrEqual(800);
+    expect(geometry.nav!.width).toBeLessThanOrEqual(804);
+    expect(geometry.nav!.y).toBeGreaterThanOrEqual(30);
+    expect(geometry.nav!.y).toBeLessThanOrEqual(33);
+
+    expect(geometry.heroHeader).not.toBeNull();
+    expect(geometry.heroHeader!.x).toBe(0);
+    expect(geometry.heroHeader!.width).toBe(1292);
+
+    expect(geometry.title).not.toBeNull();
+    expect(geometry.title!.x).toBeGreaterThanOrEqual(243);
+    expect(geometry.title!.x).toBeLessThanOrEqual(247);
+    expect(geometry.title!.y).toBeGreaterThanOrEqual(212);
+    expect(geometry.title!.y).toBeLessThanOrEqual(220);
+    expect(geometry.titleFontSize).toBeGreaterThanOrEqual(101);
+    expect(geometry.titleFontSize).toBeLessThanOrEqual(105);
+
+    expect(geometry.intro).not.toBeNull();
+    expect(geometry.intro!.width).toBeGreaterThanOrEqual(411);
+    expect(geometry.intro!.width).toBeLessThanOrEqual(414);
+
+    expect(geometry.featuredWork).not.toBeNull();
+    expect(geometry.featuredWork!.y).toBeGreaterThanOrEqual(875);
+    expect(geometry.featuredWork!.y).toBeLessThanOrEqual(887);
+
+    expect(geometry.bodyBackgroundImage).toContain("linear-gradient");
+    expect(geometry.siteHeaderBackgroundImage).toBe("none");
+    expect(geometry.heroHeaderBackgroundImage).toBe("none");
   });
 
   test("the shared layout publishes canonical and share-text metadata", async ({ page }) => {

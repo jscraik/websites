@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Icon from "../../components/Icon.astro";
+import AnimatedButton from "../../components/AnimatedButton.astro";
 import { getCollection } from "astro:content";
 import { byOrder } from "../../lib/portfolio";
 import type { CollectionEntry } from "astro:content";
@@ -45,10 +46,11 @@ const showArticleIndex = articles.length > 1;
           <p>{latestArticle.data.summary}</p>
         </div>
         <div>
-          <a class="small-button small-button--light" href={latestArticle.data.href}>
-            <span>Keep reading</span>
-            <span aria-hidden="true">-&gt;</span>
-          </a>
+          <AnimatedButton
+            class="small-button--light"
+            href={latestArticle.data.href}
+            label="Keep reading"
+          />
         </div>
       </article>
     </section>

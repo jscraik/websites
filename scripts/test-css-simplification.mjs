@@ -5,6 +5,7 @@ const packageJson = JSON.parse(readFileSync("package.json", "utf8"));
 const cssPath = "src/styles/global.css";
 const css = readFileSync(cssPath, "utf8");
 const shell = readFileSync("src/styles/shell.css", "utf8");
+const routeRhythm = readFileSync("src/styles/route-rhythm.css", "utf8");
 const layout = readFileSync("src/layouts/BaseLayout.astro", "utf8");
 const source = [
   "src/pages/index.astro",
@@ -43,8 +44,63 @@ assert.doesNotMatch(
 );
 assert.match(
   layout,
-  /import "\.\.\/styles\/global\.css";\nimport "\.\.\/styles\/shell\.css";/,
-  "the shared shell stylesheet must load after the global stylesheet",
+  /import "\.\.\/styles\/global\.css";\nimport "\.\.\/styles\/shell\.css";\nimport "\.\.\/styles\/route-rhythm\.css";/,
+  "the shared shell and route-rhythm stylesheets must load after the global stylesheet",
+);
+assert.match(
+  routeRhythm,
+  /@media \(min-width: 48rem\) and \(max-width: 57\.5625rem\)[\s\S]*?\.site-header \.container\s*{[\s\S]*?width:\s*94%;/,
+  "the tablet shell must preserve the Jose 94% container instead of falling back to the full-width mobile grid",
+);
+assert.match(
+  routeRhythm,
+  /@media \(min-width: 48rem\) and \(max-width: 57\.5625rem\)[\s\S]*?--jp-fluid-rem:\s*clamp\(/,
+  "the tablet contract must define the fluid token used by its measured geometry",
+);
+assert.match(
+  routeRhythm,
+  /@media \(min-width: 48rem\) and \(max-width: 57\.5625rem\)[\s\S]*?\.site-header \.col-md-10\s*{[\s\S]*?flex-basis:\s*83\.3333%;[\s\S]*?max-width:\s*83\.3333%;/,
+  "the tablet navigation must retain its 10-of-12 Jose grid column",
+);
+assert.match(
+  routeRhythm,
+  /@media \(min-width: 48rem\) and \(max-width: 57\.5625rem\)[\s\S]*?#featured-work\s*{[\s\S]*?width:\s*94%;/,
+  "the tablet featured-work slab must use the same wide Jose container as the shell",
+);
+assert.match(
+  routeRhythm,
+  /@media \(min-width: 48rem\) and \(max-width: 57\.5625rem\)[\s\S]*?\.feature-block\s*{[\s\S]*?border:\s*0;/,
+  "the tablet project cards must not reintroduce the legacy eight-pixel border",
+);
+assert.match(
+  routeRhythm,
+  /@media \(min-width: 57\.5626rem\)[\s\S]*?body:not\(\.skillsbar-demo\):has\(\.home-hero\)\s*{[\s\S]*?background-image:\s*linear-gradient\(180deg,\s*var\(--surface-card\),\s*var\(--paper\)\);/,
+  "the desktop homepage must paint one full-width Jose gradient behind the nav and hero",
+);
+assert.match(
+  routeRhythm,
+  /@media \(min-width: 57\.5626rem\)[\s\S]*?:has\(\.home-hero\) \.header-inner\s*{[\s\S]*?width:\s*100%;[\s\S]*?background:\s*transparent;/,
+  "the desktop hero wrapper must not create an inset competing surface",
+);
+assert.match(
+  routeRhythm,
+  /@media \(min-width: 57\.5626rem\)[\s\S]*?\.home-hero__intro\s*{[\s\S]*?padding-inline:\s*var\(--jp-half-gap\);/,
+  "the desktop hero copy must retain Jose's half-gutter inset inside its grid column",
+);
+assert.match(
+  routeRhythm,
+  /:has\(\.blog-index\) \.blog-index\s*{[\s\S]*?width:\s*min\(62\.12vw,[\s\S]*?background:\s*transparent;/,
+  "the desktop Blog masthead must use Jose's measured column without an inset canvas",
+);
+assert.match(
+  routeRhythm,
+  /:has\(\.blog-index\) \.latest-article article\s*{[\s\S]*?justify-content:\s*space-between;[\s\S]*?min-height:\s*calc\(var\(--jp-fluid-rem\) \* 31\.25\);/,
+  "the latest Blog article must preserve the measured vertical rhythm",
+);
+assert.match(
+  routeRhythm,
+  /:has\(\.blog-index\) \.latest-article h2\s*{[\s\S]*?font-family:\s*var\(--body-sans\);[\s\S]*?font-weight:\s*600;/,
+  "the latest Blog title must retain Jose's compact sans treatment",
 );
 
 for (const className of [
@@ -54,6 +110,10 @@ for (const className of [
   "web-table-header",
   "brainwav-resource-grid",
   "brainwav-resource-card",
+  "brainwav-bridge",
+  "brainwav-bridge__intro",
+  "brainwav-bridge__cta",
+  "brainwav-resource-links",
   "case-gallery",
   "case-gallery-frame",
   "feature-stack",
@@ -112,13 +172,33 @@ assert.match(
 );
 assert.match(
   shell,
-  /\.site-header \.nav-inner \.nav-bg\s*{[^}]*transform:\s*translate3d\(var\(--nav-highlight-x, 0px\), 0, 0\) scaleX\(var\(--nav-highlight-scale, 1\)\);/,
-  "the navigation highlight must move with a compositor-friendly transform",
+  /\.site-header \.nav-inner \.nav-bg\s*{[^}]*position:\s*absolute;[^}]*inset:\s*0;[^}]*pointer-events:\s*none;/,
+  "the navigation highlight must remain a non-interactive absolute layer while it moves between nav targets",
 );
 assert.match(
   shell,
-  /\.site-header \.nav-inner \.nav-bg\s*{[^}]*transition-property:\s*transform;[^}]*transition-duration:\s*var\(--jp-motion-standard\);/,
-  "the navigation highlight must constrain its transition to transform",
+  /\.site-header \.nav-inner \.nav-flip\s*{[^}]*border-radius:\s*inherit;/,
+  "each navigation target must pass the shell radius to its reparented highlight",
+);
+assert.match(
+  shell,
+  /\.site-header \.nav-inner \.nav-flip > :not\(\.nav-bg\)\s*{[^}]*position:\s*relative;[^}]*z-index:\s*1;/,
+  "each navigation label must remain above the reparented highlight",
+);
+assert.match(
+  shell,
+  /@media \(hover: hover\) and \(pointer: fine\)[\s\S]*?\.site-header :is\(\.nav-link, \.icon-box\.cc-nav\):hover\s*{[^}]*transform:\s*none;/,
+  "navigation controls must stay fixed while the shared highlight moves",
+);
+assert.match(
+  shell,
+  /\.site-header \.nav-inner\s*{[^}]*--nav-flip-duration-ms:\s*400;[^}]*--nav-flip-ease:\s*cubic-bezier\(0\.165, 0\.84, 0\.44, 1\);/,
+  "the navigation shell must expose Jose's 400ms power4-out-equivalent timing",
+);
+assert.match(
+  shell,
+  /\.site-header \.nav-inner \.nav-bg\s*{[^}]*transition-property:\s*transform;[^}]*transition-duration:\s*calc\(var\(--nav-flip-duration-ms\) \* 1ms\);[^}]*transition-timing-function:\s*var\(--nav-flip-ease\);/,
+  "the navigation highlight must use the shared Jose timing contract",
 );
 assert.match(
   shell,
@@ -132,8 +212,13 @@ assert.match(
 );
 assert.match(source, /<div class="nav-bg" aria-hidden="true"><\/div>/);
 assert.match(source, /highlight\.dataset\.active = "true"/);
-assert.match(source, /highlight\.style\.setProperty\("--nav-highlight-x"/);
-assert.match(source, /highlight\.style\.setProperty\("--nav-highlight-scale"/);
+assert.match(source, /target\.append\(highlight\)/);
+assert.match(source, /navShell\.prepend\(highlight\)/);
+assert.match(source, /animateHighlightFrom\(highlightRect\)/);
+assert.match(source, /highlight\.animate\(\s*\[/);
+assert.match(source, /scale\(\$\{scaleX\}, \$\{scaleY\}\)/);
+assert.match(source, /duration:\s*navFlipDuration/);
+assert.match(source, /easing:\s*navFlipEasing/);
 assert.match(source, /navShell\.querySelector\("a:focus-visible"\)\?\.closest\("\.nav-flip"\)/);
 assert.match(source, /source === "pointer"\s*\? navShell\.querySelector\("\.nav-flip:hover"\)/);
 assert.match(source, /else\s*\{\s*resetHighlight\(\);\s*\}/);

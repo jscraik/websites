@@ -9,7 +9,14 @@ html body:not(.skillsbar-demo) .site-header .nav-inner {
 }
 
 .site-header .nav-inner {
+  --nav-flip-duration-ms: 400;
+  --nav-flip-ease: cubic-bezier(0.165, 0.84, 0.44, 1);
+
   isolation: isolate;
+}
+
+.site-header .nav-inner .nav-flip {
+  border-radius: inherit;
 }
 
 .site-header .nav-inner .nav-bg {
@@ -18,14 +25,17 @@ html body:not(.skillsbar-demo) .site-header .nav-inner {
   z-index: 0;
   border-radius: inherit;
   pointer-events: none;
-  transform: translate3d(var(--nav-highlight-x, 0px), 0, 0) scaleX(var(--nav-highlight-scale, 1));
-  transform-origin: left center;
   transition-property: transform;
-  transition-duration: var(--jp-motion-standard);
-  transition-timing-function: var(--jp-motion-ease);
+  transition-duration: calc(var(--nav-flip-duration-ms) * 1ms);
+  transition-timing-function: var(--nav-flip-ease);
 }
 
 .site-header .nav-inner > :not(.nav-bg) {
+  position: relative;
+  z-index: 1;
+}
+
+.site-header .nav-inner .nav-flip > :not(.nav-bg) {
   position: relative;
   z-index: 1;
 }
@@ -43,7 +53,13 @@ html body:not(.skillsbar-demo) .site-header .nav-link[aria-current="page"] {
 }
 
 body:not(.skillsbar-demo) .site-header .icon-box[aria-current="page"] {
-  color: var(--bds-color-portfolio-muted);
+  color: var(--bds-color-portfolio-ink);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .site-header :is(.nav-link, .icon-box.cc-nav):hover {
+    transform: none;
+  }
 }
 
 @media (prefers-reduced-transparency: reduce) {
