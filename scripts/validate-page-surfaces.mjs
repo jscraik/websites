@@ -4,7 +4,9 @@ const cssPath = process.env.PAGE_SURFACE_CSS_PATH ?? "src/styles/global.css";
 const css = readFileSync(cssPath, "utf8");
 const shellCssPath = process.env.PAGE_SURFACE_SHELL_CSS_PATH ?? "src/styles/shell.css";
 const shellCss = readFileSync(shellCssPath, "utf8");
-const surfaceCss = `${css}\n${shellCss}`;
+const routeRhythmPath = process.env.PAGE_SURFACE_ROUTE_RHYTHM_PATH ?? "src/styles/route-rhythm.css";
+const routeRhythmCss = readFileSync(routeRhythmPath, "utf8");
+const surfaceCss = `${css}\n${shellCss}\n${routeRhythmCss}`;
 const tokensPath = "src/styles/brand-tokens.json";
 const tokens = JSON.parse(readFileSync(tokensPath, "utf8"));
 const tokensCssPath = "src/styles/brand-tokens.css";
@@ -46,6 +48,62 @@ for (const pattern of forbiddenFullBleedPatterns) {
     const line = css.slice(0, match.index).split("\n").length;
     failures.push(
       cssPath + ":" + line + ": forbidden full-bleed section background pattern found. Page sections must not create hidden viewport-wide bands."
+    );
+  }
+}
+
+const homeRouteCanvasRules = [...routeRhythmCss.matchAll(
+  /html body:not\(\.skillsbar-demo\):has\(\.home-hero\)\s*\{([^}]*)}/g,
+)];
+
+if (homeRouteCanvasRules.length !== 2) {
+  failures.push(
+    routeRhythmPath +
+      ": expected one desktop and one mobile homepage canvas rule so the Jose fade has an explicit responsive owner.",
+  );
+}
+
+for (const [index, match] of homeRouteCanvasRules.entries()) {
+  const declarationBlock = match[1];
+  const viewport = index === 0 ? "desktop" : "mobile";
+  const requiredDeclarations = [
+    ["paper fallback", /background-color:\s*var\(--paper\);/],
+    [
+      "Jose fade",
+      /background-image:\s*linear-gradient\(180deg,\s*var\(--surface-card\),\s*var\(--paper\)\);/,
+    ],
+    ["top alignment", /background-position:\s*top;/],
+    ["single paint", /background-repeat:\s*no-repeat;/],
+    ["viewport-wide sizing", /background-size:\s*100%\s+[^;]+;/],
+  ];
+
+  for (const [label, pattern] of requiredDeclarations) {
+    if (!pattern.test(declarationBlock)) {
+      failures.push(
+        routeRhythmPath +
+          `: homepage ${viewport} canvas must declare ${label}; one continuous fade must span navigation and hero.`,
+      );
+    }
+  }
+}
+
+const transparentHomepageShellRules = [...routeRhythmCss.matchAll(
+  /html body:not\(\.skillsbar-demo\):has\(\.home-hero\) \.site-header,\s*html body:not\(\.skillsbar-demo\):has\(\.home-hero\) \.header-inner\s*\{([^}]*)}/g,
+)];
+
+if (transparentHomepageShellRules.length !== 2) {
+  failures.push(
+    routeRhythmPath +
+      ": expected one desktop and one mobile transparent homepage shell rule; nested header gradients create inset side rails.",
+  );
+}
+
+for (const [index, match] of transparentHomepageShellRules.entries()) {
+  if (!/background:\s*transparent;/.test(match[1])) {
+    const viewport = index === 0 ? "desktop" : "mobile";
+    failures.push(
+      routeRhythmPath +
+        `: homepage ${viewport} navigation and hero shells must be transparent so they cannot restart or inset the route fade.`,
     );
   }
 }

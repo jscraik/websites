@@ -6,6 +6,7 @@ const cssPath = "src/styles/global.css";
 const css = readFileSync(cssPath, "utf8");
 const shell = readFileSync("src/styles/shell.css", "utf8");
 const layout = readFileSync("src/layouts/BaseLayout.astro", "utf8");
+const flipMotion = readFileSync("src/scripts/flip-motion.ts", "utf8");
 const source = [
   "src/pages/index.astro",
   "src/pages/blog/index.astro",
@@ -112,13 +113,13 @@ assert.match(
 );
 assert.match(
   shell,
-  /\.site-header \.nav-inner \.nav-bg\s*{[^}]*transform:\s*translate3d\(var\(--nav-highlight-x, 0px\), 0, 0\) scaleX\(var\(--nav-highlight-scale, 1\)\);/,
-  "the navigation highlight must move with a compositor-friendly transform",
+  /\.site-header \.nav-inner \.nav-bg\s*{[^}]*transform:\s*none;[^}]*transform-origin:\s*top left;/,
+  "the navigation background must expose one transform-only layer for native FLIP movement",
 );
 assert.match(
   shell,
-  /\.site-header \.nav-inner \.nav-bg\s*{[^}]*transition-property:\s*transform;[^}]*transition-duration:\s*var\(--jp-motion-standard\);/,
-  "the navigation highlight must constrain its transition to transform",
+  /\.site-header \.nav-flip\s*{[^}]*isolation:\s*isolate;[^}]*border-radius:\s*inherit;/,
+  "each navigation target must preserve the background layer's pill geometry",
 );
 assert.match(
   shell,
@@ -127,17 +128,23 @@ assert.match(
 );
 assert.match(
   shell,
-  /@media \(prefers-reduced-motion: reduce\)\s*{\s*\.site-header \.nav-inner \.nav-bg\s*{\s*transform:\s*none;\s*transition:\s*none;\s*}\s*}/,
+  /@media \(prefers-reduced-motion: reduce\)\s*{\s*\.site-header \.nav-inner \.nav-bg\s*{\s*transform:\s*none;\s*}\s*}/,
   "the navigation highlight must stay still when reduced motion is requested",
 );
 assert.match(source, /<div class="nav-bg" aria-hidden="true"><\/div>/);
 assert.match(source, /highlight\.dataset\.active = "true"/);
-assert.match(source, /highlight\.style\.setProperty\("--nav-highlight-x"/);
-assert.match(source, /highlight\.style\.setProperty\("--nav-highlight-scale"/);
-assert.match(source, /navShell\.querySelector\("a:focus-visible"\)\?\.closest\("\.nav-flip"\)/);
-assert.match(source, /source === "pointer"\s*\? navShell\.querySelector\("\.nav-flip:hover"\)/);
-assert.match(source, /else\s*\{\s*resetHighlight\(\);\s*\}/);
+assert.match(source, /moveLayerWithFlip\(highlight, target\)/);
+assert.match(source, /navShell\.addEventListener\("pointerleave", resetHighlight\)/);
 assert.match(source, /prefers-reduced-motion: reduce/);
+assert.doesNotMatch(source, /--nav-highlight-(?:x|scale)/);
+assert.match(layout, /moveLayerWithFlip\(background, arrow\)/);
+assert.match(layout, /button\.dataset\.flipActive = "true"/);
+assert.match(flipMotion, /joseFlipDuration = 400/);
+assert.match(flipMotion, /joseFlipEasing = "cubic-bezier\(0\.165, 0\.84, 0\.44, 1\)"/);
+assert.match(flipMotion, /layer\.animate\(/);
+assert.match(css, /\.small-button__bg\s*{[^}]*transform:\s*none;[^}]*transform-origin:\s*top left;/);
+assert.match(css, /\.small-button__arrow > \.small-button__bg\s*{[^}]*z-index:\s*0;/);
+assert.match(source, /class="small-button__bg" aria-hidden="true"/);
 assert.doesNotMatch(
   css,
   /--jp-surface\b/,

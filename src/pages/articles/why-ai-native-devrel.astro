@@ -1,21 +1,22 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import PullquoteStack from "../../components/PullquoteStack.astro";
 ---
 
 <BaseLayout
-  title="Why AI-Native DevRel | brAInwav"
-  description="Jamie Scott Craik on AI-native DevRel, trust, evaluation, and visible proof."
+  title="Capability Is Not Trust | brAInwav"
+  description="Jamie Scott Craik on the gap between AI capability, trustworthy adoption, evaluation, and visible proof."
 >
   <article class="article-layout section-shell">
     <header class="article-layout__mast">
       <p class="eyebrow">Article</p>
-      <h1>Why AI-Native DevRel?</h1>
+      <h1>Capability Is Not Trust</h1>
       <p class="article-date">June 2026</p>
       <div class="draft-list" aria-label="Article sections">
         <p>In This Thread</p>
         <a href="#capable-trusted">The gap between capable and trusted</a>
         <a href="#why-here">Why I am here for this</a>
-        <a href="#requires">What AI-native DevRel requires</a>
+        <a href="#requires">What trustworthy adoption requires</a>
       </div>
     </header>
 
@@ -25,7 +26,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
         <dl>
           <div>
             <dt>Claim</dt>
-            <dd>AI-native DevRel needs visible trust loops.</dd>
+            <dd>Trustworthy AI adoption needs visible trust loops.</dd>
           </div>
           <div>
             <dt>Evidence</dt>
@@ -33,53 +34,14 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
           </div>
           <div>
             <dt>Caveat</dt>
-            <dd>This is a live prototype, not a finished portfolio archive.</dd>
+            <dd>This is a position piece, not evidence of production adoption or external outcomes.</dd>
           </div>
         </dl>
       </aside>
-      <aside class="pullquote-stack" aria-label="Shareable pullquotes">
-        <figure class="pullquote-wrap">
-          <div>
-            <p class="input-label">Fig 1.1</p>
-            <blockquote data-pullquote>
-              "Capability is not trust. Developer education has to carry the proof."
-            </blockquote>
-          </div>
-          <figcaption>
-            <p>Copy this pullquote and the article link for easy sharing</p>
-            <button
-              type="button"
-              class="pullquote-button"
-              data-copy-pullquote
-              data-copy-label="Fig 1.1 pullquote and article link"
-              aria-label="Copy Fig 1.1 pullquote and article link"
-            >
-              <span>Copy</span>
-            </button>
-          </figcaption>
-        </figure>
-        <figure class="pullquote-wrap">
-          <div>
-            <p class="input-label">Fig 1.2</p>
-            <blockquote data-pullquote>
-              "The scaffolding around AI work matters as much as the capability curve."
-            </blockquote>
-          </div>
-          <figcaption>
-            <p>Copy this pullquote and the article link for easy sharing</p>
-            <button
-              type="button"
-              class="pullquote-button"
-              data-copy-pullquote
-              data-copy-label="Fig 1.2 pullquote and article link"
-              aria-label="Copy Fig 1.2 pullquote and article link"
-            >
-              <span>Copy</span>
-            </button>
-          </figcaption>
-        </figure>
-        <p class="u-visually-hidden" data-copy-status role="status" aria-live="polite" aria-atomic="true"></p>
-      </aside>
+      <PullquoteStack quotes={[
+        { figure: "Fig 1.1", text: "Capability is not trust. The path to adoption has to carry the proof." },
+        { figure: "Fig 1.2", text: "The scaffolding around AI work matters as much as the capability curve." }
+      ]} />
     </aside>
 
     <div class="article-body">
@@ -116,21 +78,19 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
           involved taking complex processes and making them executable under pressure.
         </p>
         <p>
-          A service-related accident in 2023 interrupted the immediate route forward.
-          It did not interrupt the underlying skills: teaching, structure, systematic
-          thinking, and evaluation under pressure.
+          After a life-changing injury changed how I learn and work, AI became
+          practical leverage for rebuilding agency. I now direct, inspect, and explain
+          human-led AI workflows that are useful, accountable, and inspectable.
         </p>
         <p>
-          During recovery I went deep on AI systems, not casually, but methodically. I
-          wanted to understand how they worked and, more specifically, how they failed.
-          I spent time in Codex workflows long enough to build a strong opinion: the
-          claim that an agent completed a task and the verifiable evidence that it did
-          are two very different things.
+          Working with Codex sharpened a strong opinion: the claim that an agent
+          completed a task and the verifiable evidence that it did are two very
+          different things.
         </p>
       </section>
 
       <section id="requires">
-        <h2>What AI-native DevRel requires</h2>
+        <h2>What trustworthy adoption requires</h2>
         <p>
           The developer audience for AI tools is changing. The early adopters who
           wanted "write code faster" are already there. The wave coming next wants to
@@ -144,47 +104,13 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
           terms that transfer.
         </p>
         <p>
-          brAInwav is the public record of that work. Articles, technical write-ups,
-          demos, and the reasoning behind design decisions. The transition from Army
-          Warrant Officer to AI-native DevRel is not the story. How you close the gap
-          between "this tool is capable" and "I can trust this tool in production" is
-          the story.
+          brAInwav is the public record of that work: articles, technical write-ups,
+          demos, and the reasoning behind design decisions. I am building toward
+          customer-facing AI deployment and developer experience. DevRel remains one
+          useful teaching and translation layer, but the durable problem is how to
+          close the gap between "this tool is capable" and "I can safely rely on it."
         </p>
       </section>
     </div>
   </article>
-  <script>
-    const copyButtons = document.querySelectorAll<HTMLButtonElement>("[data-copy-pullquote]");
-    const copyStatus = document.querySelector<HTMLElement>("[data-copy-status]");
-
-    copyButtons.forEach((button) => {
-      let resetTimer: number | undefined;
-      const label = button.dataset.copyLabel ?? "pullquote and article link";
-      const labelText = button.querySelector("span");
-
-      const setFeedback = (text: string, status: string) => {
-        if (labelText) labelText.textContent = text;
-        if (copyStatus) copyStatus.textContent = status;
-
-        window.clearTimeout(resetTimer);
-        resetTimer = window.setTimeout(() => {
-          if (labelText) labelText.textContent = "Copy";
-          if (copyStatus) copyStatus.textContent = "";
-        }, 2400);
-      };
-
-      button.addEventListener("click", async () => {
-        const quote = button.closest(".pullquote-wrap")?.querySelector("[data-pullquote]")?.textContent?.trim();
-        if (!quote) return;
-
-        try {
-          if (!navigator.clipboard?.writeText) throw new Error("Clipboard unavailable");
-          await navigator.clipboard.writeText(`${quote}\n\n${window.location.href}`);
-          setFeedback("Copied", `Copied ${label}.`);
-        } catch {
-          setFeedback("Copy unavailable", "Copy unavailable. Select the pullquote and article URL manually.");
-        }
-      });
-    });
-  </script>
 </BaseLayout>

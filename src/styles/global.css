@@ -6708,10 +6708,8 @@ body.skillsbar-demo img {
     color var(--bds-motion-fast) ease;
 }
 
-/* Jose animated button transfer.
-   The reference uses .btn-text, .arrow-wrap, and .btn-bg. Our markup already
-   has two spans, so the text span becomes the label, the final span becomes
-   the arrow wrap, and ::before carries the animated background layer. */
+/* Jose animated button transfer. The background remains one real layer so it
+   can move between the complete control and its arrow without cross-fading. */
 .small-button {
   position: relative;
   isolation: isolate;
@@ -6728,29 +6726,31 @@ body.skillsbar-demo img {
 }
 
 .small-button::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  background: var(--surface-nav);
-  transform: translateX(0) scaleX(1);
-  transform-origin: right center;
-  transition:
-    transform var(--jp-motion-standard) var(--jp-motion-ease),
-    background-color var(--jp-motion-fast) ease;
+  content: none;
 }
 
-.small-button > span:first-child {
+.small-button__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: var(--surface-nav);
+  pointer-events: none;
+  transform: none;
+  transform-origin: top left;
+}
+
+.small-button__label {
   position: relative;
   z-index: 1;
   flex: 1 1 0%;
   transition: color var(--jp-motion-fast) ease;
 }
 
-.small-button > span:last-child {
+.small-button__arrow {
   position: relative;
   z-index: 1;
+  isolation: isolate;
   display: inline-flex;
   width: 42px;
   height: 42px;
@@ -6763,7 +6763,16 @@ body.skillsbar-demo img {
     transform var(--bds-motion-fast) var(--jp-motion-ease);
 }
 
-.small-button--light::before {
+.small-button__arrow > .small-button__bg {
+  z-index: 0;
+}
+
+.small-button__arrow > :not(.small-button__bg) {
+  position: relative;
+  z-index: 1;
+}
+
+.small-button--light > .small-button__bg {
   background: color-mix(in srgb, var(--surface-card) 78%, transparent);
 }
 
@@ -6778,7 +6787,7 @@ body.skillsbar-demo img {
   margin-top: clamp(28px, 3vw, 42px);
 }
 
-.feature-block .small-button::before {
+.feature-block .small-button__bg {
   background: var(--surface-nav);
 }
 
@@ -6791,14 +6800,21 @@ body.skillsbar-demo img {
   .feature-block .small-button:hover {
     border-color: var(--colors--hr-light, rgba(251, 250, 245, 0.16));
   }
+
+  .feature-block .small-button:hover .small-button__label {
+    color: var(--text-inverse);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .small-button,
-  .small-button::before,
-  .small-button > span,
-  .small-button > span:last-child {
+  .small-button__label,
+  .small-button__arrow {
     transition: none;
+  }
+
+  .small-button__bg {
+    transform: none;
   }
 }
 
@@ -8324,6 +8340,183 @@ body.skillsbar-demo img {
   line-height: 1.45;
 }
 
+.case-story,
+.case-role-boundary,
+.case-evidence {
+  width: min(100% - var(--space-6), 1100px);
+  margin-inline: auto;
+}
+
+.case-story {
+  display: grid;
+  grid-template-columns: minmax(14rem, 0.7fr) minmax(0, 1.6fr);
+  gap: clamp(var(--space-5), 6vw, var(--space-8));
+  padding-block: clamp(72px, 9vw, 132px);
+  border-top: 1px solid var(--bds-color-portfolio-border);
+}
+
+.case-story__heading :is(p, h2),
+.case-story__body :is(p, h3, ul) {
+  margin: 0;
+}
+
+.case-story__heading {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+}
+
+.case-story__heading h2,
+.case-role-boundary h2,
+.case-evidence h2 {
+  font-family: var(--body-serif);
+  font-size: clamp(40px, 4.5vw, 64px);
+  font-weight: var(--bds-type-display-lg-weight);
+  line-height: 1.03;
+}
+
+.case-story__body {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--bds-color-portfolio-border);
+  border-radius: var(--bds-radius-card);
+  background: var(--bds-color-portfolio-border);
+}
+
+.case-story__body article {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  min-height: 18rem;
+  padding: clamp(24px, 3vw, 36px);
+  background: var(--bds-color-portfolio-surface);
+}
+
+.case-story__body article:last-child {
+  grid-column: 1 / -1;
+  min-height: 0;
+}
+
+.case-story__body h3 {
+  color: var(--bds-color-portfolio-ink);
+  font-family: var(--body-sans);
+  font-size: clamp(18px, 1.6vw, 24px);
+  line-height: 1.25;
+}
+
+.case-story__body :is(article > p:last-child, li) {
+  color: var(--bds-color-portfolio-text);
+  font-family: var(--body-serif);
+  font-size: clamp(16px, 1.25vw, 19px);
+  line-height: 1.55;
+}
+
+.case-story__body ul {
+  display: grid;
+  gap: var(--space-2);
+  padding-left: var(--space-4);
+}
+
+.case-role-boundary {
+  display: grid;
+  grid-template-columns: minmax(14rem, 0.8fr) minmax(0, 1.4fr);
+  gap: clamp(var(--space-5), 6vw, var(--space-8));
+  padding: clamp(36px, 6vw, 72px);
+  border: 1px solid var(--bds-color-brainwav-border);
+  border-radius: var(--bds-radius-card);
+  background: var(--bds-color-brainwav-bg);
+  color: var(--bds-color-brainwav-text);
+}
+
+.case-role-boundary > div,
+.case-role-boundary dl,
+.case-role-boundary dl div {
+  display: grid;
+  align-content: start;
+}
+
+.case-role-boundary > div {
+  gap: var(--space-3);
+}
+
+.case-role-boundary :is(p, h2, dl, dd) {
+  margin: 0;
+}
+
+.case-role-boundary .eyebrow,
+.case-role-boundary dt {
+  color: var(--bds-color-blue);
+}
+
+.case-role-boundary h2 {
+  color: var(--bds-color-brainwav-text);
+}
+
+.case-role-boundary dl {
+  gap: var(--space-5);
+}
+
+.case-role-boundary dl div {
+  grid-template-columns: 5rem minmax(0, 1fr);
+  gap: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--bds-color-brainwav-border);
+}
+
+.case-role-boundary dt {
+  font-family: var(--body-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.case-role-boundary dd {
+  color: var(--bds-color-brainwav-text-secondary);
+  font-family: var(--body-serif);
+  font-size: clamp(16px, 1.25vw, 19px);
+  line-height: 1.55;
+}
+
+.case-evidence {
+  display: grid;
+  grid-template-columns: minmax(14rem, 1fr) minmax(0, 1fr);
+  gap: clamp(var(--space-5), 6vw, var(--space-8));
+  padding-block: clamp(72px, 9vw, 132px);
+}
+
+.case-evidence > div:first-child {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+}
+
+.case-evidence :is(p, h2) {
+  margin: 0;
+}
+
+.case-evidence__links {
+  display: grid;
+  align-content: center;
+  gap: var(--space-3);
+}
+
+.case-evidence__links > a:not(.small-button) {
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--bds-color-portfolio-border);
+  color: var(--bds-color-portfolio-text);
+  font-family: var(--body-mono);
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.case-evidence__links .small-button {
+  width: min(100%, 26rem);
+}
+
 body:not(.skillsbar-demo) :is(
   .home-hero__position,
   .home-hero__body,
@@ -8370,6 +8563,28 @@ body:not(.skillsbar-demo) :is(
 
   .case-proof-summary dl div {
     min-height: 0;
+  }
+
+  .case-story,
+  .case-role-boundary,
+  .case-evidence {
+    width: min(100% - var(--space-5), 640px);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .case-story__body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .case-story__body article,
+  .case-story__body article:last-child {
+    grid-column: auto;
+    min-height: 0;
+  }
+
+  .case-role-boundary dl div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2);
   }
 }
 
@@ -10853,11 +11068,9 @@ body:not(.skillsbar-demo) :is(
   }
 }
 
-/* The Jose motion reference uses the CSS ease curve for navigation and primary
-   calls to action. Keep these measured controls aligned without flattening the
-   more expressive easing used by cards and decorative surfaces. */
+/* Keep the quiet foreground transitions separate from the native FLIP layer
+   motion used by navigation and primary calls to action. */
 .site-header .nav-inner a,
-.small-button,
 .start-links a {
   transition-timing-function: ease;
 }
@@ -10874,13 +11087,19 @@ body:not(.skillsbar-demo) :is(
   .feature-block .small-button:hover,
   .small-button--light:hover,
   .brainwav-bridge__cta:hover {
+    background: transparent;
     color: var(--text-primary);
+    transform: none;
   }
 
-  .feature-block .small-button:hover > span:last-child,
-  .small-button--light:hover > span:last-child,
-  .brainwav-bridge__cta:hover > span:last-child {
+  .feature-block .small-button:hover .small-button__arrow,
+  .small-button--light:hover .small-button__arrow,
+  .brainwav-bridge__cta:hover .small-button__arrow {
     color: currentColor;
+  }
+
+  .feature-block .small-button:hover .small-button__label {
+    color: var(--text-inverse);
   }
 }
 

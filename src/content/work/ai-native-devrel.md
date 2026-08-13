@@ -7,9 +7,9 @@ order: 2
 publicationState: "published"
 isFeatured: true
 overview: "This case study frames the first public article and proof log as one artifact: a position, a receipt, and a boundary."
-organization: "brAInwav is Jamie's public proof surface for AI-native DevRel writing, demos, CLI work, and validation notes."
+organization: "This earlier position piece explores AI-native DevRel as one lens on Jamie's writing, demos, CLI work, and validation practice; it is not a fixed job-title claim."
 work: "I am shaping the reader journey, writing the anchor article, and making evidence visible through proof cards, caveats, and command receipts."
-role: "AI-native DevRel builder"
+role: "Technical writing and developer education"
 tags:
   - "Article"
   - "Proof log"

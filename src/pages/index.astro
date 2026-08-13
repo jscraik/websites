@@ -13,9 +13,9 @@ type BlogEntry = CollectionEntry<"blog">;
 
 const workEntries: WorkEntry[] = (await getCollection("work")).sort(byOrder);
 const proofEntries: ProofEntry[] = (await getCollection("proof")).sort(byOrder);
-const blogEntries: BlogEntry[] = (await getCollection("blog"))
-  .filter((entry: BlogEntry) => entry.data.publicationState === "published")
-  .sort(byOrder);
+const allBlogEntries: BlogEntry[] = (await getCollection("blog")).sort(byOrder);
+const blogEntries = allBlogEntries.filter((entry) => entry.data.publicationState === "published");
+const draftBlogEntries = allBlogEntries.filter((entry) => entry.data.publicationState === "draft");
 const featuredBlog = blogEntries.find((entry) => entry.data.featured) ?? blogEntries[0];
 if (!featuredBlog) {
   throw new Error("No blog entries found in the 'blog' content collection");
@@ -26,7 +26,7 @@ const workCards = proofWorkCards(workEntries, proofEntries);
 const workCount = String(workCards.length).padStart(2, "0");
 ---
 
-<BaseLayout title="Jamie Scott Craik | AI-native DevRel">
+<BaseLayout title="Jamie Scott Craik | Inspectable AI workflows">
   <header class="header-inner section-shell" aria-labelledby="home-title">
     <div class="home-hero" data-entry>
       <div class="home-hero__intro v-stack cc-lg">
@@ -36,19 +36,19 @@ const workCount = String(workCards.length).padStart(2, "0");
         </h1>
         <div>
           <p class="home-hero__position">
-            AI-native Developer Relations focused on trustworthy AI-assisted software engineering.
+            AI workflow delivery and developer experience, focused on trustworthy AI-assisted software engineering.
           </p>
           <p class="home-hero__body">
-            I help technical teams turn agentic workflows into inspected,
-            teachable systems with clear claims, command evidence, and honest
-            proof boundaries.
+            I turn ambiguous agent-workflow problems into inspected, teachable
+            systems with clear claims, command evidence, and honest proof
+            boundaries.
           </p>
           <div class="profile-row cc-home-hero" aria-label="Jamie Scott Craik">
             <div class="pfp-img-wrap">
               <img src="/jamie-profile-96.webp" alt="Jamie Scott Craik" class="u-img-cover" width="96" height="96" />
             </div>
             <div class="profile-row-meta">
-              <div class="input-label">AI-native DevRel</div>
+              <div class="input-label">AI workflow delivery</div>
               <div class="input-label">Former Army Warrant Officer</div>
             </div>
           </div>
@@ -78,8 +78,9 @@ const workCount = String(workCards.length).padStart(2, "0");
                 <p class="feature-quote">"{card.quote}"</p>
               </div>
               <a class="small-button" href={card.href}>
-                <span>{card.cta}</span>
-                <span aria-hidden="true">-&gt;</span>
+                <span class="small-button__bg" aria-hidden="true"></span>
+                <span class="small-button__label">{card.cta}</span>
+                <span class="small-button__arrow" aria-hidden="true"><span>-&gt;</span></span>
               </a>
             </div>
             <div class={"feature-block-img feature-block-img--" + card.visual}>
@@ -146,8 +147,9 @@ const workCount = String(workCards.length).padStart(2, "0");
           public products, writing, and proof. SkillsBar is the first concrete demonstration.
         </p>
         <a class="small-button small-button--light brainwav-bridge__cta" href="/demos/skillsbar/">
-          <span>See SkillsBar in action</span>
-          <span aria-hidden="true">-&gt;</span>
+          <span class="small-button__bg" aria-hidden="true"></span>
+          <span class="small-button__label">See SkillsBar in action</span>
+          <span class="small-button__arrow" aria-hidden="true"><span>-&gt;</span></span>
         </a>
       </div>
       <nav class="brainwav-resource-links" aria-label="Explore brAInwav">
@@ -202,18 +204,24 @@ const workCount = String(workCards.length).padStart(2, "0");
       </div>
       <div class="blog-preview__drafts" aria-label="In my drafts">
         <p class="eyebrow">In my drafts</p>
-        <a href="/proof/">How I review agent output</a>
-        <a href="/proof/">How to present proof surfaces</a>
-        <a href="/now/">The Army-to-AI DevRel bridge</a>
+        {draftBlogEntries.map((draft) => (
+          <a
+            href={draft.data.proofLink}
+            aria-label={`Inspect evidence related to draft: ${draft.data.title}`}
+          >
+            {draft.data.title}
+          </a>
+        ))}
       </div>
     </div>
     <article>
       <h3>{featuredBlog.data.title}</h3>
       <p class="article-date">{featuredBlog.data.date}</p>
       <p>{featuredBlog.data.summary}</p>
-      <a class="small-button small-button--light" href={featuredBlog.data.href}>
-        <span>Keep reading</span>
-        <span aria-hidden="true">-&gt;</span>
+      <a class="small-button small-button--light" href={featuredBlog.data.href!}>
+        <span class="small-button__bg" aria-hidden="true"></span>
+        <span class="small-button__label">Keep reading</span>
+        <span class="small-button__arrow" aria-hidden="true"><span>-&gt;</span></span>
       </a>
     </article>
   </section>

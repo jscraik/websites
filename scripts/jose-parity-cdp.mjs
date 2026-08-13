@@ -283,24 +283,38 @@ async function assertCandidateShellSurfaces(activePage, baseURL, viewportName) {
       };
     });
 
-    reference ??= surfaces;
-    if (JSON.stringify(surfaces) !== JSON.stringify(reference)) {
-      throw new Error("Candidate shell/canvas surface mismatch at " + route + " for " + viewportName + ".");
+    const sharedSurfaces = {
+      nav: surfaces.nav,
+      navInner: surfaces.navInner,
+      footer: surfaces.footer,
+      bodyColor: surfaces.bodyColor,
+      mainImage: surfaces.mainImage,
+      effectiveMainColor: surfaces.effectiveMainColor,
+    };
+
+    reference ??= sharedSurfaces;
+    if (JSON.stringify(sharedSurfaces) !== JSON.stringify(reference)) {
+      throw new Error("Candidate navigation/footer surface mismatch at " + route + " for " + viewportName + ".");
     }
+
+    const expectedFade = "linear-gradient(rgb(251, 250, 245), rgb(213, 214, 208))";
+    const expectedBodyImage = route === "/" ? expectedFade : "none";
+    const expectedHeaderImage = route === "/" ? "none" : expectedFade;
     if (
-      surfaces.bodyImage !== "none" ||
+      surfaces.bodyImage !== expectedBodyImage ||
+      surfaces.header !== expectedHeaderImage ||
       surfaces.mainImage !== "none" ||
       surfaces.bodyColor !== "rgb(213, 214, 208)" ||
       surfaces.effectiveMainColor !== "rgb(213, 214, 208)"
     ) {
       throw new Error(
-        "Candidate route canvas is not the neutral paper surface at " + route + " for " + viewportName +
+        "Candidate route fade ownership is incorrect at " + route + " for " + viewportName +
         ": " + JSON.stringify(surfaces) + "."
       );
     }
   }
 
-  console.log("Candidate shell/canvas parity passed for " + candidateSurfaceRoutes.length + " routes at " + viewportName + ".");
+  console.log("Candidate shell/canvas ownership passed for " + candidateSurfaceRoutes.length + " routes at " + viewportName + ".");
 }
 
 async function measureSurface(activePage, baseURL, capture) {
@@ -382,7 +396,7 @@ async function measureSurface(activePage, baseURL, capture) {
       lead:
         captureName === "blog-top"
           ? withType(
-              containsText("h2, h3", "Why AI-native DevRel") ??
+              containsText("h2, h3", "When Evidence Goes Stale") ??
                 containsText("h2, h3", "creative direction") ??
                 document.querySelector("article h2, article h3")
             )

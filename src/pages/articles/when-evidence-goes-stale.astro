@@ -1,0 +1,189 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PullquoteStack from "../../components/PullquoteStack.astro";
+---
+
+<BaseLayout
+  title="When Evidence Goes Stale | brAInwav"
+  description="Jamie Scott Craik on candidate-bound release evidence, the SkillsBar delivery process, and the limits of local proof."
+>
+  <article class="article-layout section-shell">
+    <header class="article-layout__mast">
+      <p class="eyebrow">Deployment note</p>
+      <h1>When Evidence Goes Stale</h1>
+      <p class="article-date">August 2026</p>
+      <div class="draft-list" aria-label="Article sections">
+        <p>In This Thread</p>
+        <a href="#candidate">When proof outlives the candidate</a>
+        <a href="#identity">Identity before readiness</a>
+        <a href="#ownership">Human ownership stays visible</a>
+        <a href="#correction">The correction that made it honest</a>
+        <a href="#proof">What the current evidence proves</a>
+      </div>
+    </header>
+
+    <aside class="article-sidebar" aria-label="Article proof and pullquotes">
+      <aside class="article-receipt" aria-label="Article proof boundary">
+        <p class="eyebrow">Proof boundary</p>
+        <dl>
+          <div>
+            <dt>Claim</dt>
+            <dd>Release confidence should bind to the exact candidate under review.</dd>
+          </div>
+          <div>
+            <dt>Evidence</dt>
+            <dd>SkillsBar case study, public source, safe-data demo, merged pull request 6, and its recorded build and test result.</dd>
+          </div>
+          <div>
+            <dt>Caveat</dt>
+            <dd>This does not prove notarized distribution, production registry integration, or external adoption.</dd>
+          </div>
+        </dl>
+      </aside>
+      <PullquoteStack quotes={[
+        { figure: "Fig 2.1", text: "A changed candidate should not inherit proof that belongs to an older package." },
+        { figure: "Fig 2.2", text: "A release score without candidate identity is context, not confidence." }
+      ]} />
+    </aside>
+
+    <div class="article-body">
+      <p class="lede">
+        Release evidence expires quietly. A local check can be green, an evaluation
+        can look strong, and a registry observation can still belong to a package that
+        is no longer the candidate in front of you. SkillsBar began with a simple
+        question: how should a maintainer see that before acting on a release?
+      </p>
+
+      <section id="candidate">
+        <h2>When proof outlives the candidate</h2>
+        <p>
+          The failure mode was not a broken test. It was a plausible interface telling
+          the wrong story. Validation, security, evaluation, registry, runtime, review,
+          and release observations could all exist while referring to different
+          package states.
+        </p>
+        <p>
+          Blending those observations into one readiness score would hide the most
+          important fact: whether the evidence still belonged to the candidate. The
+          interface therefore had to preserve each evidence lane instead of treating
+          every green result as interchangeable.
+        </p>
+      </section>
+
+      <section id="identity">
+        <h2>Identity before readiness</h2>
+        <p>
+          SkillsBar models the release journey as nine gates. Candidate identity comes
+          first. When the canonical package digest is missing or stale, downstream
+          evidence remains visible as historical context, but it does not count toward
+          the current candidate.
+        </p>
+        <p>
+          The interface then exposes one next corrective command. That matters more
+          than a decorative score: the maintainer can see why the candidate is held,
+          what evidence is current, and which action can strengthen the weakest gate.
+        </p>
+      </section>
+
+      <section id="ownership">
+        <h2>Human ownership stays visible</h2>
+        <p>
+          I framed the stale-evidence problem, chose the nine-gate model, made the
+          product and interaction decisions, inspected failures, and own the public
+          claims. Codex proposed implementation options, wrote Swift and web code
+          within that direction, and added fixtures and tests.
+        </p>
+        <p>
+          That boundary is part of the work. Model assistance can accelerate delivery;
+          it cannot decide whether the evidence is sufficient, approve a release, or
+          make an external outcome true.
+        </p>
+      </section>
+
+      <section id="correction">
+        <h2>The correction that made it honest</h2>
+        <p>
+          The first presentation treated the focused gate too rigidly. It made the
+          product easier to describe, but less faithful to receipt state. The merged
+          adaptive pipeline work derived the active section from the available
+          evidence instead.
+        </p>
+        <p>
+          The same change added light and dark coverage, moved scanning off the main
+          actor, and constrained inherited shell configuration. The correction was not
+          cosmetic. It aligned what the interface emphasized with what the candidate
+          could actually prove.
+        </p>
+      </section>
+
+      <section id="proof">
+        <h2>What the current evidence proves</h2>
+        <p>
+          A maintainer can inspect why a candidate is held, distinguish current proof
+          from historical context, and copy the next corrective command. Merged pull
+          request 6 records a passing Swift build and 80 executed tests for the
+          adaptive delivery slice.
+        </p>
+        <p>
+          That is useful implementation evidence. It is not proof of notarized
+          distribution, production registry integration, or external adoption. Those
+          claims stay open until their own evidence exists.
+        </p>
+      </section>
+
+      <nav class="article-evidence-callout" aria-label="Inspect the SkillsBar evidence">
+        <p class="eyebrow">Continue with evidence</p>
+        <h2>Inspect the work behind the article</h2>
+        <p>The case study carries the complete role boundary, delivery sequence, links, and caveats.</p>
+        <div>
+          <a class="small-button small-button--light" href="/work/skillsbar/">
+            <span class="small-button__bg" aria-hidden="true"></span>
+            <span class="small-button__label">Read the SkillsBar case study</span>
+            <span class="small-button__arrow" aria-hidden="true"><span>-&gt;</span></span>
+          </a>
+          <a href="https://github.com/jscraik/skillsbar/pull/6" rel="noopener noreferrer">Inspect merged pull request 6</a>
+        </div>
+      </nav>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .article-evidence-callout {
+    display: grid;
+    gap: var(--space-3);
+    margin-top: clamp(4rem, 8vw, 7rem);
+    padding-top: clamp(2rem, 4vw, 3.5rem);
+    border-top: 1px solid var(--bds-color-portfolio-border);
+  }
+
+  .article-evidence-callout :is(p, h2) {
+    margin: 0;
+  }
+
+  .article-evidence-callout > p:not(.eyebrow) {
+    color: var(--bds-color-portfolio-text);
+  }
+
+  .article-evidence-callout > div {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+
+  .article-evidence-callout :global(.small-button) {
+    width: min(100%, 24rem);
+  }
+
+  .article-evidence-callout > div > a:not(.small-button) {
+    padding-bottom: 3px;
+    border-bottom: 1px solid currentcolor;
+    color: var(--bds-color-portfolio-muted);
+    font-family: var(--body-mono);
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+</style>

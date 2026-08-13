@@ -18,14 +18,25 @@ html body:not(.skillsbar-demo) .site-header .nav-inner {
   z-index: 0;
   border-radius: inherit;
   pointer-events: none;
-  transform: translate3d(var(--nav-highlight-x, 0px), 0, 0) scaleX(var(--nav-highlight-scale, 1));
-  transform-origin: left center;
-  transition-property: transform;
-  transition-duration: var(--jp-motion-standard);
-  transition-timing-function: var(--jp-motion-ease);
+  transform: none;
+  transform-origin: top left;
 }
 
 .site-header .nav-inner > :not(.nav-bg) {
+  position: relative;
+  z-index: 1;
+}
+
+.site-header .nav-flip {
+  isolation: isolate;
+  border-radius: inherit;
+}
+
+.site-header .nav-flip > .nav-bg {
+  z-index: 0;
+}
+
+.site-header .nav-flip > :not(.nav-bg) {
   position: relative;
   z-index: 1;
 }
@@ -55,7 +66,6 @@ body:not(.skillsbar-demo) .site-header .icon-box[aria-current="page"] {
 @media (prefers-reduced-motion: reduce) {
   .site-header .nav-inner .nav-bg {
     transform: none;
-    transition: none;
   }
 }
 

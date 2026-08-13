@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-08-06T17:25:09Z
+Generated: 2026-08-13T00:10:07Z
 
 ## Table of Contents
 
@@ -29,7 +29,35 @@ Generated: 2026-08-06T17:25:09Z
 ## Changed source focus
 
 - These architecture-sensitive paths changed on the current branch and may be compacted out of Mermaid diagrams.
+- `package.json`
+- `src/components/PullquoteStack.astro`
+- `src/components/SiteFooter.astro`
+- `src/components/SiteNav.astro`
+- `src/components/StartLinks.astro`
+- `src/content.config.ts`
+- `src/content/blog/army-to-ai-delivery-bridge.md`
+- `src/content/blog/how-i-direct-codex.md`
+- `src/content/blog/how-to-present-proof-surfaces.md`
+- `src/content/blog/when-evidence-goes-stale.md`
+- `src/content/blog/why-ai-native-devrel.md`
+- `src/content/proof/why-ai-native-devrel.md`
+- `src/content/work/ai-native-devrel.md`
+- `src/content/work/brainwav-io.md`
+- `src/content/work/skillsbar.md`
+- `src/layouts/BaseLayout.astro`
+- `src/pages/articles/when-evidence-goes-stale.astro`
+- `src/pages/articles/why-ai-native-devrel.astro`
+- `src/pages/blog/index.astro`
+- `src/pages/blog/rss.xml.ts`
+- `src/pages/contact.astro`
+- `src/pages/index.astro`
+- `src/pages/now.astro`
+- `src/pages/work/[slug].astro`
+- `src/scripts/flip-motion.ts`
+- `src/styles/global.css`
 - `src/styles/route-rhythm.css`
+- `src/styles/shell.css`
+- `tsconfig.json`
 
 ## agent
 
@@ -132,6 +160,7 @@ graph LR
   node_jose_parity_cdp_bdcde21d_edb59c81["jose_parity_cdp_bdcde21d"]
   node_jose_parity_runner_50cc4344_e9555b02["jose_parity_runner_50cc4344"]
   node_pr_readiness_boundaries_621e369e_7f0b2de9["pr_readiness_boundaries_621e369e"]
+  node_rss_xml_b85d02db_61029d19["rss_xml_b85d02db"]
   node_setup_git_hooks_70750d40_b4ca2cf9["setup_git_hooks_70750d40"]
   node_smoke_pages_9a92b30d_72f6805f["smoke_pages_9a92b30d"]
   node_test_astro_anti_patterns_88db0377_401e86a9["test_astro_anti_patterns_88db0377"]
@@ -172,6 +201,7 @@ graph LR
   ext_ext_81f836ce["\\.\\.\\"] --> node_test_css_simplification_05516724_6f0b8da9
   ext_astro_90c9d7bd["astro"] --> node_content_config_a9a9d2e1_05943ac5
   ext_astro_content_2110f121["astro:content"] --> node_content_config_a9a9d2e1_05943ac5
+  ext_astro_content_2110f121["astro:content"] --> node_rss_xml_b85d02db_61029d19
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_astro_anti_patterns_88db0377_401e86a9
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_branch_transition_preflight_1665655e_acac1534
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_code_quality_debt_contract_569cff13_2953095a
@@ -500,12 +530,15 @@ flowchart LR
   User --> validate_page_surfaces_078ef6b6
   validate_portfolio_content_6d36990e["validate-portfolio-content"]
   User --> validate_portfolio_content_6d36990e
+  rss_xml_b85d02db["rss.xml"]
+  User --> rss_xml_b85d02db
   check_public_api_docs_a9604f1b --> changed_files_4c0102f6
   jose_parity_cdp_bdcde21d --> jose_parity_measurements_afc7a199
   test_jose_parity_measurements_2477824f --> jose_parity_measurements_afc7a199
+  rss_xml_b85d02db --> portfolio_0e6a8e0b
   check_code_size_9c5efc3a --> changed_files_4c0102f6
   classDef userNode fill:#16a34a,color:#fff
-  class capture_jose_reference_e7b66705,check_public_api_docs_a9604f1b,jose_parity_cdp_bdcde21d,smoke_pages_9a92b30d,test_css_simplification_05516724,test_jose_parity_measurements_2477824f,test_operator_workflow_contract_b4a152d7,validate_coding_policy_29976175,validate_content_source_boundary_8a6f121b,validate_css_policy_1c5ec854,validate_design_system_b8a5f37c,validate_operator_contract_f777ed78,validate_page_surfaces_078ef6b6,validate_portfolio_content_6d36990e userNode
+  class capture_jose_reference_e7b66705,check_public_api_docs_a9604f1b,jose_parity_cdp_bdcde21d,smoke_pages_9a92b30d,test_css_simplification_05516724,test_jose_parity_measurements_2477824f,test_operator_workflow_contract_b4a152d7,validate_coding_policy_29976175,validate_content_source_boundary_8a6f121b,validate_css_policy_1c5ec854,validate_design_system_b8a5f37c,validate_operator_contract_f777ed78,validate_page_surfaces_078ef6b6,validate_portfolio_content_6d36990e,rss_xml_b85d02db userNode
 
 ```
 
