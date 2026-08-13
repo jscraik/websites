@@ -6,7 +6,7 @@ test.describe("animated CTA contract", () => {
     test.skip(testInfo.project.name !== "chromium-desktop", "Hover transfer is a fine-pointer contract.");
     await preparePage(page, "/");
 
-    const button = page.getByRole("link", { name: "Explore SkillsBar" });
+    const button = page.locator("[data-animated-button]").first();
     const fill = button.locator("[data-button-fill]");
 
     await expect(fill).toHaveCount(1);
@@ -16,6 +16,7 @@ test.describe("animated CTA contract", () => {
 
     await expect(button).toHaveAttribute("data-active", "true");
     await expect(fill.locator("xpath=..")).toHaveClass(/small-button__arrow/);
+    await expect.poll(() => fill.evaluate((element) => element.getAnimations().length)).toBeGreaterThan(0);
 
     await page.mouse.move(0, 0);
 
@@ -28,7 +29,7 @@ test.describe("animated CTA contract", () => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await preparePage(page, "/");
 
-    const button = page.getByRole("link", { name: "Explore SkillsBar" });
+    const button = page.locator("[data-animated-button]").first();
     await button.hover();
 
     const animationCount = await button.locator("[data-button-fill]").evaluate((fill) =>

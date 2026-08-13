@@ -6630,11 +6630,11 @@ body.skillsbar-demo img {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  min-height: calc(var(--jp-fluid-rem) * 2.61);
-  min-width: calc(var(--jp-fluid-rem) * 10.49);
-  padding: calc(var(--jp-fluid-rem) * 0.25) calc(var(--jp-fluid-rem) * 0.19)
-    calc(var(--jp-fluid-rem) * 0.25) calc(var(--jp-fluid-rem) * 1.5);
-  gap: calc(var(--jp-fluid-rem) * 0.75);
+  min-height: calc(var(--jp-fluid-rem, 1rem) * 2.61);
+  min-width: calc(var(--jp-fluid-rem, 1rem) * 10.49);
+  padding: calc(var(--jp-fluid-rem, 1rem) * 0.25) calc(var(--jp-fluid-rem, 1rem) * 0.19)
+    calc(var(--jp-fluid-rem, 1rem) * 0.25) calc(var(--jp-fluid-rem, 1rem) * 1.5);
+  gap: calc(var(--jp-fluid-rem, 1rem) * 0.75);
   border-radius: var(--radius-pill);
   background: transparent;
   transition:
@@ -6668,9 +6668,9 @@ body.skillsbar-demo img {
   position: relative;
   z-index: 1;
   display: inline-flex;
-  width: calc(var(--jp-fluid-rem) * 2);
-  height: calc(var(--jp-fluid-rem) * 2);
-  flex: 0 0 calc(var(--jp-fluid-rem) * 2);
+  width: calc(var(--jp-fluid-rem, 1rem) * 2);
+  height: calc(var(--jp-fluid-rem, 1rem) * 2);
+  flex: 0 0 calc(var(--jp-fluid-rem, 1rem) * 2);
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-pill);
@@ -6680,8 +6680,8 @@ body.skillsbar-demo img {
 }
 
 .small-button__arrow svg {
-  width: var(--jp-fluid-rem);
-  height: var(--jp-fluid-rem);
+  width: var(--jp-fluid-rem, 1rem);
+  height: var(--jp-fluid-rem, 1rem);
 }
 
 .small-button--light .small-button__fill {
@@ -10943,6 +10943,7 @@ html body:not(.skillsbar-demo) .blog-index .latest-article .eyebrow {
 .work-thumbnail__cursor {
   --work-cursor-x: 0px;
   --work-cursor-y: 0px;
+
   position: absolute;
   top: 50%;
   left: 50%;

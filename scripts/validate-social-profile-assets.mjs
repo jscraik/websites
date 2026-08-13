@@ -111,14 +111,28 @@ try {
 
 check(
   "approved live-banner status",
-  approvedLiveBanners.contract === "jamie-approved-live-banners/v1" &&
+  approvedLiveBanners.schema_version === 1 &&
+    approvedLiveBanners.contract === "jamie-approved-live-banners/v1" &&
     approvedLiveBanners.status === "approved_for_platform_upload" &&
+    approvedLiveBanners.approved_on === "2026-08-12" &&
     approvedLiveBanners.profile_descriptor === "AI Workflows · Agent Skills · Evals" &&
-    approvedLiveBanners.brand_promise === manifest.brand_promise,
-  "expected the reviewed 2026-08-12 platform-upload pair and descriptor"
+    approvedLiveBanners.brand_promise === manifest.brand_promise &&
+    JSON.stringify(Object.keys(approvedLiveBanners.platforms || {}).sort()) === JSON.stringify(["linkedin", "x"]) &&
+    approvedLiveBanners.platforms?.x?.width === 1500 &&
+    approvedLiveBanners.platforms?.x?.height === 500 &&
+    approvedLiveBanners.platforms?.linkedin?.width === 1584 &&
+    approvedLiveBanners.platforms?.linkedin?.height === 396,
+  "expected the reviewed 2026-08-12 platform-upload pair, schema, dimensions, and exact platform set"
 );
 
 for (const [platform, specification] of Object.entries(approvedLiveBanners.platforms || {})) {
+  check(
+    `${platform} approved live-banner paths are distinct and canonical`,
+    specification.source !== specification.output &&
+      specification.source === `src/brand/source/approved/${path.basename(specification.source)}` &&
+      specification.output === `public/brand/social/approved/${path.basename(specification.output)}`,
+    "approved source and public output paths must remain distinct and under the canonical directories"
+  );
   await checkPng(
     `${platform} approved live-banner source`,
     specification.source,

@@ -25,6 +25,16 @@ Do not add OpenAI or Tessl marks, product screenshots, fake platform controls, U
 
 The approved Newsreader + Geist + Geist Mono stack is now self-hosted. The generator embeds the matching variable WOFF2 file from `public/brand/fonts/` into its isolated render document and records each source digest in the generation receipt. The OFL licence texts are kept beside those files. Regenerate every PNG after an admitted font or renderer change; do not treat a locally installed font as delivery evidence.
 
+To restore the reviewed upload pair without invoking the renderer, copy the approved source files byte-for-byte and verify them:
+
+    mkdir -p public/brand/social/approved
+    cp src/brand/source/approved/jamie-x-header-1500x500.png public/brand/social/approved/jamie-x-header-1500x500.png
+    cp src/brand/source/approved/jamie-linkedin-background-1584x396.png public/brand/social/approved/jamie-linkedin-background-1584x396.png
+    cmp src/brand/source/approved/jamie-x-header-1500x500.png public/brand/social/approved/jamie-x-header-1500x500.png
+    cmp src/brand/source/approved/jamie-linkedin-background-1584x396.png public/brand/social/approved/jamie-linkedin-background-1584x396.png
+
+This restore path is separate from `npm run generate:social-assets`, which owns the regenerable base set and receipt.
+
 ## Regeneration
 
 Run:

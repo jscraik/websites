@@ -98,4 +98,4 @@ schema_version: 2
 - Context pointers: package.json, docs/decisions/2026-07-31-freeze-jose-reference-authority.md, docs/implementation-notes/jose-parity-guardrail.md, docs/reference/jose-ocando/README.md, scripts/jose-parity-measurements.mjs, scripts/validate-page-surfaces.mjs, scripts/validate-jose-claim-boundary.mjs, scripts/smoke-pages.mjs, and tests/**.
 - Supplemental: generated screenshots, recordings, runtime cards, Playwright reports, and ad hoc artifacts unless the user explicitly asks to promote them.
 
-- When explaining something to the user, use the [$visualize:visualize](/Users/jamiecraik/.codex/plugins/cache/openai-bundled/visualize/1.0.20/skills/visualize/SKILL.md) skill
+- When explaining something to the user, use the `visualize` skill when a diagram materially improves the explanation.

@@ -145,6 +145,9 @@ check("PR template follows the current maintainer evidence contract", () => {
   );
   assert.match(retiredSchemaErrors.join("\n"), /missing required section: ## Summary/i);
   assert.match(retiredSchemaErrors.join("\n"), /retired section: ## Work performed/i);
+
+  const prependedTextErrors = collectPrTemplateContractErrors(`Context before template\n${pullRequestTemplate}`);
+  assert.match(prependedTextErrors.join("\n"), /must start with '# Pull request'/i);
 });
 
 check("pre-commit validation uses portfolio package contracts", () => {

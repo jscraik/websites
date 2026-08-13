@@ -84,6 +84,59 @@ body:not(.skillsbar-demo) .site-header .icon-box[aria-current="page"] {
   min-width: 0;
 }
 
+@media (min-width: 48rem) and (max-width: 57.5625rem) {
+  html body:not(.skillsbar-demo) {
+    --jp-fluid-rem: clamp(14.6667px, calc(10px + 0.5833vw), 16px);
+  }
+
+  html body:not(.skillsbar-demo) .site-header {
+    padding-top: calc(var(--jp-fluid-rem) * 2);
+  }
+
+  html body:not(.skillsbar-demo) .site-header .container {
+    width: 94%;
+    margin-inline: auto;
+  }
+
+  html body:not(.skillsbar-demo) .site-header .row {
+    width: calc(100% + var(--jp-fluid-rem) * 1.5);
+    margin-inline: calc(var(--jp-fluid-rem) * -0.75);
+  }
+
+  html body:not(.skillsbar-demo) .site-header .col-md-10 {
+    flex-basis: 83.3333%;
+    max-width: 83.3333%;
+    padding-inline: calc(var(--jp-fluid-rem) * 0.75);
+  }
+
+  html body:not(.skillsbar-demo) .site-header .nav-menu {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+
+  html body:not(.skillsbar-demo) .site-header .nav-inner {
+    width: 100%;
+    height: calc(var(--jp-fluid-rem) * 2.8);
+    min-height: calc(var(--jp-fluid-rem) * 2.8);
+    padding-inline: calc(var(--jp-fluid-rem) * 3.28);
+  }
+
+  html body:not(.skillsbar-demo) .site-header .icon-box {
+    width: calc(var(--jp-fluid-rem) * 1.875);
+    height: calc(var(--jp-fluid-rem) * 1.875);
+  }
+
+  html body:not(.skillsbar-demo) .site-header .nav-link {
+    display: inline-flex;
+    align-items: center;
+    height: calc(var(--jp-fluid-rem) * 2.8);
+    padding: 0 calc(var(--jp-fluid-rem) * 1.25);
+    font-size: calc(var(--jp-fluid-rem) * 0.7);
+    line-height: 1.4;
+  }
+}
+
 @media (max-width: 57.5625rem) {
   .footer-profile-card.profile-row {
     width: fit-content;

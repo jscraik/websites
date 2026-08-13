@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { hasPrimarySkillsBarLink } from "./lib/design-system-contract.mjs";
 
 const repoRoot = process.cwd();
 
@@ -139,9 +140,7 @@ addCheck(
 addCheck(
   "homepage exposes SkillsBar as the primary starting point",
   homepage.includes("<StartLinks />") &&
-    startLinks.includes('href: "/demos/skillsbar/"') &&
-    startLinks.includes('label: "Start with SkillsBar"') &&
-    startLinks.includes("primary: true"),
+    hasPrimarySkillsBarLink(startLinks),
   "expected the homepage start links to make SkillsBar the primary route"
 );
 

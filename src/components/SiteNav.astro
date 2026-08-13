@@ -47,6 +47,8 @@ const currentFor = (href: string): "page" | undefined => {
 </header>
 
 <script>
+  import { getFlipTransform } from "../scripts/flip";
+
   const navShells = document.querySelectorAll(".site-header .nav-inner");
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
@@ -62,20 +64,16 @@ const currentFor = (href: string): "page" | undefined => {
     const navFlipEasing = navStyle.getPropertyValue("--nav-flip-ease").trim() || "cubic-bezier(0.165, 0.84, 0.44, 1)";
 
     const animateHighlightFrom = (highlightRect: DOMRect) => {
-      if (reducedMotion.matches || highlightRect.width === 0 || highlightRect.height === 0) return;
       const settledRect = highlight.getBoundingClientRect();
-      if (settledRect.width === 0 || settledRect.height === 0) return;
+      const inverse = getFlipTransform(highlightRect, settledRect);
+      if (!inverse || reducedMotion.matches) return;
 
-      const translateX = highlightRect.left - settledRect.left;
-      const translateY = highlightRect.top - settledRect.top;
-      const scaleX = highlightRect.width / settledRect.width;
-      const scaleY = highlightRect.height / settledRect.height;
-
+      const keyframes: Keyframe[] = [
+        { transform: inverse },
+        { transform: "none" }
+      ];
       highlight.animate(
-        [
-          { transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${scaleX}, ${scaleY})` },
-          { transform: "none" }
-        ],
+        keyframes,
         {
           duration: navFlipDuration,
           easing: navFlipEasing
@@ -92,7 +90,7 @@ const currentFor = (href: string): "page" | undefined => {
     };
 
     const moveHighlight = (target: Element) => {
-      if (reducedMotion.matches || !(target instanceof HTMLElement)) {
+      if (!(target instanceof HTMLElement)) {
         resetHighlight();
         return;
       }

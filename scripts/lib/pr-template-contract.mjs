@@ -50,7 +50,7 @@ function hasField(section, label) {
 /** Return actionable contract violations for the repository PR template. */
 export function collectPrTemplateContractErrors(content) {
   const errors = [];
-  if (!/^# Pull request\s*$/m.test(content)) errors.push("PR template must start with '# Pull request'.");
+  if (!content.startsWith("# Pull request")) errors.push("PR template must start with '# Pull request'.");
   if (!/Write for maintainers\./.test(content)) errors.push("PR template must address maintainers.");
   if (!/Use `n\.a\.` with a reason/.test(content)) errors.push("PR template must define the n.a. reason convention.");
 

@@ -224,12 +224,15 @@ const workCount = String(workCards.length).padStart(2, "0");
 
       thumbnail.addEventListener("pointermove", updateTarget);
 
-      thumbnail.addEventListener("pointerleave", () => {
+      const resetPointer = () => {
         delete thumbnail.dataset.pointerActive;
         targetX = 0;
         targetY = 0;
         requestRender();
-      });
+      };
+
+      thumbnail.addEventListener("pointerleave", resetPointer);
+      thumbnail.addEventListener("pointercancel", resetPointer);
     });
   </script>
 

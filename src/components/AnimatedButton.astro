@@ -3,12 +3,13 @@ interface Props {
   class?: string;
   href: string;
   label: string;
+  [key: string]: unknown;
 }
 
-const { class: className, href, label } = Astro.props;
+const { class: className, href, label, ...rest } = Astro.props;
 ---
 
-<a class:list={["small-button", className]} href={href} data-animated-button>
+<a class:list={["small-button", className]} href={href} data-animated-button {...rest}>
   <span class="small-button__fill" data-button-fill></span>
   <span class="small-button__text">{label}</span>
   <span class="small-button__arrow" data-button-arrow aria-hidden="true">
@@ -19,6 +20,8 @@ const { class: className, href, label } = Astro.props;
 </a>
 
 <script>
+  import { getFlipTransform } from "../scripts/flip";
+
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
   const activeAnimations = new WeakMap<HTMLElement, Animation>();
@@ -29,18 +32,16 @@ const { class: className, href, label } = Astro.props;
   };
 
   const animateFrom = (fill: HTMLElement, previousRect: DOMRect) => {
-    if (reducedMotion.matches || previousRect.width === 0 || previousRect.height === 0) return;
-
     const settledRect = fill.getBoundingClientRect();
-    if (settledRect.width === 0 || settledRect.height === 0) return;
+    const inverse = getFlipTransform(previousRect, settledRect);
+    if (!inverse || reducedMotion.matches) return;
 
+    const keyframes: Keyframe[] = [
+      { transform: inverse },
+      { transform: "none" }
+    ];
     const animation = fill.animate(
-      [
-        {
-          transform: `translate3d(${previousRect.left - settledRect.left}px, ${previousRect.top - settledRect.top}px, 0) scale(${previousRect.width / settledRect.width}, ${previousRect.height / settledRect.height})`
-        },
-        { transform: "none" }
-      ],
+      keyframes,
       {
         duration: 400,
         easing: "cubic-bezier(0.165, 0.84, 0.44, 1)"

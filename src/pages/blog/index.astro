@@ -760,4 +760,25 @@ const showArticleIndex = articles.length > 1;
       line-height: 1.45;
     }
   }
+
+  @media (min-width: 72.0001rem) {
+    .blog-index {
+      width: min(62.12vw, calc(var(--jp-fluid-rem) * 62.12));
+      max-width: calc(var(--jp-fluid-rem) * 62.12);
+      min-height: calc(var(--jp-fluid-rem) * 52.83);
+    }
+
+    .latest-article article {
+      justify-content: space-between;
+      min-height: calc(var(--jp-fluid-rem) * 31.25);
+    }
+
+    .latest-article h2 {
+      color: var(--neutral-07);
+      font-family: var(--body-sans);
+      font-size: calc(var(--jp-fluid-rem) * 1.25);
+      font-weight: 600;
+      line-height: 1.4;
+    }
+  }
 </style>

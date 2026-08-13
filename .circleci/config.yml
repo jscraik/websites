@@ -7,6 +7,8 @@ commands:
           name: Configure npm registry access
           command: |
             set -euo pipefail
+            touch "$HOME/.npmrc"
+            chmod 600 "$HOME/.npmrc"
             if [[ -n "${NPM_TOKEN:-}" ]]; then
               umask 077
               printf '%s\n' "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> "$HOME/.npmrc"

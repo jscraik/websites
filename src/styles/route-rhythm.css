@@ -15,6 +15,7 @@
   .blog-preview p:not(.article-date),
   .blog-list-item > span,
   .blog-about-card .text-lg p,
+  .about-copy p,
   .contact-panel > p,
   .proof-index header > p,
   .case-work-header > p,
@@ -173,57 +174,6 @@
  * family together here, after the legacy global cascade.
  */
 @media (min-width: 48rem) and (max-width: 57.5625rem) {
-  html {
-    --jp-fluid-rem: clamp(14.6667px, calc(10px + 0.5833vw), 16px);
-  }
-
-  html body:not(.skillsbar-demo) .site-header {
-    padding-top: calc(var(--jp-fluid-rem) * 2);
-  }
-
-  html body:not(.skillsbar-demo) .site-header .container {
-    width: 94%;
-    margin-inline: auto;
-  }
-
-  html body:not(.skillsbar-demo) .site-header .row {
-    width: calc(100% + var(--jp-fluid-rem) * 1.5);
-    margin-inline: calc(var(--jp-fluid-rem) * -0.75);
-  }
-
-  html body:not(.skillsbar-demo) .site-header .col-md-10 {
-    flex-basis: 83.3333%;
-    max-width: 83.3333%;
-    padding-inline: calc(var(--jp-fluid-rem) * 0.75);
-  }
-
-  html body:not(.skillsbar-demo) .site-header .nav-menu {
-    width: 100%;
-    max-width: none;
-    margin: 0;
-  }
-
-  html body:not(.skillsbar-demo) .site-header .nav-inner {
-    width: 100%;
-    height: calc(var(--jp-fluid-rem) * 2.8);
-    min-height: calc(var(--jp-fluid-rem) * 2.8);
-    padding-inline: calc(var(--jp-fluid-rem) * 3.28);
-  }
-
-  html body:not(.skillsbar-demo) .site-header .icon-box {
-    width: calc(var(--jp-fluid-rem) * 1.875);
-    height: calc(var(--jp-fluid-rem) * 1.875);
-  }
-
-  html body:not(.skillsbar-demo) .site-header .nav-link {
-    display: inline-flex;
-    align-items: center;
-    height: calc(var(--jp-fluid-rem) * 2.8);
-    padding: 0 calc(var(--jp-fluid-rem) * 1.25);
-    font-size: calc(var(--jp-fluid-rem) * 0.7);
-    line-height: 1.4;
-  }
-
   html body:not(.skillsbar-demo):has(.home-hero) .header-inner {
     width: 94%;
     min-height: calc(var(--jp-fluid-rem) * 45.18);
@@ -232,15 +182,15 @@
     padding-bottom: calc(var(--jp-fluid-rem) * 1.05);
   }
 
-  .home-hero {
+  html body:not(.skillsbar-demo):has(.home-hero) .home-hero {
     grid-template-columns: repeat(12, minmax(0, 1fr));
     width: 100%;
     max-width: none;
     gap: 0;
   }
 
-  .home-hero__intro,
-  .home-hero .start-links {
+  html body:not(.skillsbar-demo):has(.home-hero) .home-hero__intro,
+  html body:not(.skillsbar-demo):has(.home-hero) .home-hero .start-links {
     grid-column: 2 / 12;
     box-sizing: border-box;
     width: 100%;
@@ -248,21 +198,21 @@
     padding-inline: calc(var(--jp-fluid-rem) * 0.125);
   }
 
-  .home-hero__intro {
+  html body:not(.skillsbar-demo):has(.home-hero) .home-hero__intro {
     display: grid;
   }
 
-  .home-hero .start-links {
+  html body:not(.skillsbar-demo):has(.home-hero) .home-hero .start-links {
     justify-self: stretch;
     margin-top: calc(var(--jp-fluid-rem) * 2.25);
   }
 
-  .home-hero .start-links > * {
+  html body:not(.skillsbar-demo):has(.home-hero) .home-hero .start-links > * {
     max-width: calc(var(--jp-fluid-rem) * 30);
   }
 
-  .h1-name,
-  .home-hero h1 {
+  html body:not(.skillsbar-demo):has(.home-hero) .h1-name,
+  html body:not(.skillsbar-demo):has(.home-hero) .home-hero h1 {
     width: 100%;
     max-width: none;
     min-height: 0;
@@ -273,60 +223,60 @@
     text-wrap: nowrap;
   }
 
-  .h1-name span,
-  .home-hero h1 span {
+  html body:not(.skillsbar-demo):has(.home-hero) .h1-name span,
+  html body:not(.skillsbar-demo):has(.home-hero) .home-hero h1 span {
     display: inline;
     white-space: normal;
   }
 
-  .h1-name span:first-child::after,
-  .home-hero h1 span:first-child::after {
+  html body:not(.skillsbar-demo):has(.home-hero) .h1-name span:first-child::after,
+  html body:not(.skillsbar-demo):has(.home-hero) .home-hero h1 span:first-child::after {
     content: " ";
   }
 
-  .home-hero__position {
+  html body:not(.skillsbar-demo):has(.home-hero) .home-hero__position {
     max-width: 34rem;
     margin-bottom: var(--jp-fluid-rem);
     font-size: calc(var(--jp-fluid-rem) * 1.285);
     line-height: 1.6;
   }
 
-  .home-hero__body {
+  html body:not(.skillsbar-demo):has(.home-hero) .home-hero__body {
     max-width: 34rem;
     margin-bottom: var(--jp-fluid-rem);
     font-size: var(--jp-fluid-rem);
     line-height: 1.625;
   }
 
-  #featured-work {
+  html body:not(.skillsbar-demo):has(.home-hero) #featured-work {
     width: 94%;
     margin-inline: auto;
   }
 
-  #featured-work .section-label {
+  html body:not(.skillsbar-demo):has(.home-hero) #featured-work .section-label {
     margin-bottom: calc(var(--jp-fluid-rem) * 2.5);
   }
 
-  .featured-list {
+  html body:not(.skillsbar-demo):has(.home-hero) .featured-list {
     gap: calc(var(--jp-fluid-rem) * 1.405);
   }
 
-  .feature-block {
+  html body:not(.skillsbar-demo):has(.home-hero) .feature-block {
     width: 100%;
     padding: calc(var(--jp-fluid-rem) * 0.47);
     border: 0;
     border-radius: calc(var(--jp-fluid-rem) * 1.405);
   }
 
-  .feature-block-inner,
-  .feature-block:nth-child(even) .feature-block-inner {
+  html body:not(.skillsbar-demo):has(.home-hero) .feature-block-inner,
+  html body:not(.skillsbar-demo):has(.home-hero) .feature-block:nth-child(even) .feature-block-inner {
     flex-direction: column;
     width: 100%;
     min-height: calc(var(--jp-fluid-rem) * 61.88);
     height: auto;
   }
 
-  .feature-block__content {
+  html body:not(.skillsbar-demo):has(.home-hero) .feature-block__content {
     flex: 1 1 auto;
     width: 100%;
     min-height: 0;
@@ -334,7 +284,7 @@
     padding: calc(var(--jp-fluid-rem) * 2.5) calc(var(--jp-fluid-rem) * 2);
   }
 
-  .feature-block-img {
+  html body:not(.skillsbar-demo):has(.home-hero) .feature-block-img {
     flex: 0 0 calc(var(--jp-fluid-rem) * 35.53);
     width: 100%;
     height: calc(var(--jp-fluid-rem) * 35.53);

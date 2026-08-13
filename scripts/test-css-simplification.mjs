@@ -6,7 +6,11 @@ const cssPath = "src/styles/global.css";
 const css = readFileSync(cssPath, "utf8");
 const shell = readFileSync("src/styles/shell.css", "utf8");
 const routeRhythm = readFileSync("src/styles/route-rhythm.css", "utf8");
+const desktopRouteRhythm = routeRhythm.match(
+  /@media \(min-width: 57\.5626rem\) \{([\s\S]*?)\n\}\n\n@media \(max-width: 57\.5625rem\)/,
+)?.[1] ?? "";
 const layout = readFileSync("src/layouts/BaseLayout.astro", "utf8");
+const flip = readFileSync("src/scripts/flip.ts", "utf8");
 const source = [
   "src/pages/index.astro",
   "src/pages/blog/index.astro",
@@ -48,17 +52,17 @@ assert.match(
   "the shared shell and route-rhythm stylesheets must load after the global stylesheet",
 );
 assert.match(
-  routeRhythm,
+  shell,
   /@media \(min-width: 48rem\) and \(max-width: 57\.5625rem\)[\s\S]*?\.site-header \.container\s*{[\s\S]*?width:\s*94%;/,
   "the tablet shell must preserve the Jose 94% container instead of falling back to the full-width mobile grid",
 );
 assert.match(
-  routeRhythm,
+  shell,
   /@media \(min-width: 48rem\) and \(max-width: 57\.5625rem\)[\s\S]*?--jp-fluid-rem:\s*clamp\(/,
   "the tablet contract must define the fluid token used by its measured geometry",
 );
 assert.match(
-  routeRhythm,
+  shell,
   /@media \(min-width: 48rem\) and \(max-width: 57\.5625rem\)[\s\S]*?\.site-header \.col-md-10\s*{[\s\S]*?flex-basis:\s*83\.3333%;[\s\S]*?max-width:\s*83\.3333%;/,
   "the tablet navigation must retain its 10-of-12 Jose grid column",
 );
@@ -88,17 +92,17 @@ assert.match(
   "the desktop hero copy must retain Jose's half-gutter inset inside its grid column",
 );
 assert.match(
-  routeRhythm,
+  desktopRouteRhythm,
   /:has\(\.blog-index\) \.blog-index\s*{[\s\S]*?width:\s*min\(62\.12vw,[\s\S]*?background:\s*transparent;/,
   "the desktop Blog masthead must use Jose's measured column without an inset canvas",
 );
 assert.match(
-  routeRhythm,
+  desktopRouteRhythm,
   /:has\(\.blog-index\) \.latest-article article\s*{[\s\S]*?justify-content:\s*space-between;[\s\S]*?min-height:\s*calc\(var\(--jp-fluid-rem\) \* 31\.25\);/,
   "the latest Blog article must preserve the measured vertical rhythm",
 );
 assert.match(
-  routeRhythm,
+  desktopRouteRhythm,
   /:has\(\.blog-index\) \.latest-article h2\s*{[\s\S]*?font-family:\s*var\(--body-sans\);[\s\S]*?font-weight:\s*600;/,
   "the latest Blog title must retain Jose's compact sans treatment",
 );
@@ -215,8 +219,10 @@ assert.match(source, /highlight\.dataset\.active = "true"/);
 assert.match(source, /target\.append\(highlight\)/);
 assert.match(source, /navShell\.prepend\(highlight\)/);
 assert.match(source, /animateHighlightFrom\(highlightRect\)/);
-assert.match(source, /highlight\.animate\(\s*\[/);
-assert.match(source, /scale\(\$\{scaleX\}, \$\{scaleY\}\)/);
+assert.match(source, /highlight\.animate\(\s*keyframes/);
+assert.match(source, /getFlipTransform\(highlightRect, settledRect\)/);
+assert.match(flip, /translate3d\(\$\{from\.left - to\.left\}px/);
+assert.match(flip, /scale\(\$\{from\.width \/ to\.width\}, \$\{from\.height \/ to\.height\}\)/);
 assert.match(source, /duration:\s*navFlipDuration/);
 assert.match(source, /easing:\s*navFlipEasing/);
 assert.match(source, /navShell\.querySelector\("a:focus-visible"\)\?\.closest\("\.nav-flip"\)/);

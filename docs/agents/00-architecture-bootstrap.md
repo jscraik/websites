@@ -21,9 +21,15 @@ When the project adopts checked-in diagram projections, add the manifest and the
 Use the narrowest deterministic test first. For operator-contract changes, run the relevant `test:*` script, `npm run validate:operator-contract`, and the hook path that the change affects. Local results establish only local behavior; hosted checks, reviews, and merge readiness remain separate lanes.
 
 The checked-in `.diagram/manifest.json` and Mermaid projections are intentional
-architecture evidence. Refresh them with the repository diagram workflow and
-keep `AI/context/diagram-context.md` aligned; generated runtime receipts remain
-evidence rather than canonical source.
+architecture evidence. From the repository root, refresh them with
+`bash scripts/refresh-diagram-context.sh --force`, then write the changed-path
+list to a temporary file and run
+`bash scripts/check-diagram-freshness.sh --changed-files <path-list-file>`.
+The expected result is `Diagram freshness check passed`. A cooldown skip is
+not a refresh proof; rerun with `--force`. Any generation or freshness failure
+belongs to the portfolio maintainer and blocks the architecture-sensitive
+change until the projections and `AI/context/diagram-context.md` are aligned.
+Generated runtime receipts remain evidence rather than canonical source.
 
 CircleCI owns the repository's pull-request validation workflows, while the
 `pages-production` workflow is the only production publication path. It runs

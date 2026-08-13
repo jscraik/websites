@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-08-13T18:01:19Z
+Generated: 2026-08-13T19:34:39Z
 
 ## Table of Contents
 
@@ -29,7 +29,20 @@ Generated: 2026-08-13T18:01:19Z
 ## Changed source focus
 
 - These architecture-sensitive paths changed on the current branch and may be compacted out of Mermaid diagrams.
+- `package.json`
+- `src/brand/approved-live-banners.json`
+- `src/brand/source/approved/jamie-linkedin-background-1584x396.png`
+- `src/brand/source/approved/jamie-x-header-1500x500.png`
+- `src/components/AnimatedButton.astro`
+- `src/components/SiteNav.astro`
+- `src/layouts/BaseLayout.astro`
+- `src/pages/blog/index.astro`
+- `src/pages/index.astro`
+- `src/scripts/flip.ts`
+- `src/scripts/lapse-dev.ts`
+- `src/styles/global.css`
 - `src/styles/route-rhythm.css`
+- `src/styles/shell.css`
 
 ## agent
 
@@ -140,6 +153,7 @@ graph LR
   node_test_code_quality_debt_contract_569cff13_2953095a["test_code_quality_debt_contract_569cff13"]
   node_test_codex_preflight_receipt_200ab781_029a12e8["test_codex_preflight_receipt_200ab781"]
   node_test_css_simplification_05516724_6f0b8da9["test_css_simplification_05516724"]
+  node_test_design_system_contract_2b5439cd_a676eb9e["test_design_system_contract_2b5439cd"]
   node_test_diagram_freshness_opt_in_96293749_08c46e10["test_diagram_freshness_opt_in_96293749"]
   node_test_git_worktree_authority_e031ba7e_d149c121["test_git_worktree_authority_e031ba7e"]
   node_test_harness_cli_public_fallback_ad793eff_5fbe4aa9["test_harness_cli_public_fallback_ad793eff"]
@@ -180,6 +194,7 @@ graph LR
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_css_simplification_05516724_6f0b8da9
+  ext_node_assert_f1a93ba5["node:assert"] --> node_test_design_system_contract_2b5439cd_a676eb9e
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_diagram_freshness_opt_in_96293749_08c46e10
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_git_worktree_authority_e031ba7e_d149c121
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_harness_cli_public_fallback_ad793eff_5fbe4aa9
@@ -303,6 +318,7 @@ graph LR
   ext_node_path_78811c13["node:path"] --> node_validate_release_source_boundary_43d40a1f_0405b813
   ext_node_path_78811c13["node:path"] --> node_validate_render_flow_2f64be63_a84870b9
   ext_node_path_78811c13["node:path"] --> node_validate_social_profile_assets_a023937b_aed15edb
+  ext_node_test_a8c66a4f["node:test"] --> node_test_design_system_contract_2b5439cd_a676eb9e
   ext_node_test_a8c66a4f["node:test"] --> node_test_pr_readiness_fbe81eba_0ec78421
   ext_node_url_d0cb3ad7["node:url"] --> node_check_git_worktree_authority_940ab26d_54e5636e
   ext_node_url_d0cb3ad7["node:url"] --> node_check_node_engine_217689bf_3e5964b2
@@ -369,7 +385,11 @@ erDiagram
 flowchart TD
   subgraph Channels["Event channels / queues"]
     validate_design_system_b8a5f37c{{"validate-design-system"}}
+    design_system_contract_744a00f2["design-system-contract"]
+    test_design_system_contract_2b5439cd["test-design-system-contract"]
   end
+  validate_design_system_b8a5f37c -->|emit| design_system_contract_744a00f2
+  test_design_system_contract_2b5439cd -->|consume| design_system_contract_744a00f2
   classDef eventNode fill:#db2777,color:#fff
   class validate_design_system_b8a5f37c eventNode
 
@@ -516,9 +536,11 @@ flowchart LR
   jose_parity_cdp_bdcde21d --> jose_parity_measurements_afc7a199
   test_jose_parity_measurements_2477824f --> jose_parity_measurements_afc7a199
   test_operator_workflow_contract_b4a152d7 --> pr_template_contract_4fa69502
+  validate_design_system_b8a5f37c --> design_system_contract_744a00f2
   validate_operator_contract_f777ed78 --> pr_template_contract_4fa69502
   validate_pr_template_1fc39e13 --> pr_template_contract_4fa69502
   check_code_size_9c5efc3a --> changed_files_4c0102f6
+  test_design_system_contract_2b5439cd --> design_system_contract_744a00f2
   classDef userNode fill:#16a34a,color:#fff
   class capture_jose_reference_e7b66705,check_public_api_docs_a9604f1b,jose_parity_cdp_bdcde21d,smoke_pages_9a92b30d,test_css_simplification_05516724,test_jose_parity_measurements_2477824f,test_operator_workflow_contract_b4a152d7,validate_coding_policy_29976175,validate_content_source_boundary_8a6f121b,validate_css_policy_1c5ec854,validate_design_system_b8a5f37c,validate_operator_contract_f777ed78,validate_page_surfaces_078ef6b6,validate_portfolio_content_6d36990e,validate_pr_template_1fc39e13 userNode
 
