@@ -476,11 +476,13 @@ flowchart TD
   Untrusted --> test_operator_workflow_contract_b4a152d7
   validate_operator_contract_f777ed78["validate-operator-contract"]
   Untrusted --> validate_operator_contract_f777ed78
+  validate_pr_template_1fc39e13["validate-pr-template"]
+  Untrusted --> validate_pr_template_1fc39e13
   test_operator_workflow_contract_b4a152d7 --> pr_template_contract_4fa69502
   validate_operator_contract_f777ed78 --> pr_template_contract_4fa69502
   validate_pr_template_1fc39e13 --> pr_template_contract_4fa69502
   classDef securityNode fill:#dc2626,color:#fff
-  class validate_coding_policy_29976175,validate_css_policy_1c5ec854,setup_git_hooks_70750d40,test_operator_workflow_contract_b4a152d7,validate_operator_contract_f777ed78 securityNode
+  class validate_coding_policy_29976175,validate_css_policy_1c5ec854,setup_git_hooks_70750d40,test_operator_workflow_contract_b4a152d7,validate_operator_contract_f777ed78,validate_pr_template_1fc39e13 securityNode
 
 ```
 
