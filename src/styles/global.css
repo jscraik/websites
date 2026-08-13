@@ -4828,7 +4828,7 @@ body {
   min-width: 178px;
   min-height: 42px;
   border-radius: 999px;
-  background: rgba(251, 250, 245, 0.7);
+  background: transparent;
 }
 
 .blog-preview .small-button span {

@@ -155,6 +155,11 @@ check("PR template follows the current maintainer evidence contract", () => {
     .replace("## __SUMMARY__", "## Change details");
   const reorderedSectionErrors = collectPrTemplateContractErrors(reorderedSections);
   assert.match(reorderedSectionErrors.join("\n"), /required sections must remain in the declared order/i);
+
+  const hiddenRequiredFieldErrors = collectPrTemplateContractErrors(
+    pullRequestTemplate.replace("- Problem:", "<!--\n- Problem:\n-->")
+  );
+  assert.match(hiddenRequiredFieldErrors.join("\n"), /Summary is missing field: Problem/i);
 });
 
 check("pre-commit validation uses portfolio package contracts", () => {

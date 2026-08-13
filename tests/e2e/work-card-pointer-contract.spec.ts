@@ -35,6 +35,6 @@ test.describe("work-card pointer contract", () => {
     await expect(thumbnail).toHaveAttribute("data-pointer-active", "true");
     await expect(cursor).toHaveCSS("--work-cursor-x", "0px");
     await expect(cursor).toHaveCSS("--work-cursor-y", "0px");
-    await expect(cursor.locator(".work-thumbnail__arrow")).toHaveCSS("transition-duration", "0s");
+    await expect(cursor.locator(".work-thumbnail__arrow")).toHaveCSS("transition-property", "none");
   });
 });

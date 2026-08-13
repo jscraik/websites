@@ -34,13 +34,22 @@ function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-function sectionBody(content, heading) {
+function stripHtmlComments(content) {
+  const requiredFieldLabels = [...new Set([...REQUIRED_FIELDS.values()].flat())].map(escapeRegExp).join("|");
+  const hiddenField = new RegExp("^\\s*-[\\t ]+(?:" + requiredFieldLabels + "):[^\\n]*", "gmi");
+  const hiddenHeading = /^##? .+$/gmi;
+  return content.replace(/<!--([\s\S]*?)-->/g, (_match, body) =>
+    body.replace(hiddenField, "").replace(hiddenHeading, ""),
+  );
+}
+
+function sectionBody(visibleContent, heading) {
   const headingPattern = new RegExp(`^${escapeRegExp(heading)}[ \\t]*$`, "im");
-  const match = headingPattern.exec(content);
+  const match = headingPattern.exec(visibleContent);
   if (!match) return null;
   const start = match.index + match[0].length;
-  const nextHeading = content.slice(start).search(/^##? /m);
-  return content.slice(start, nextHeading < 0 ? content.length : start + nextHeading);
+  const nextHeading = visibleContent.slice(start).search(/^##? /m);
+  return visibleContent.slice(start, nextHeading < 0 ? visibleContent.length : start + nextHeading);
 }
 
 function hasField(section, label) {
@@ -50,12 +59,13 @@ function hasField(section, label) {
 /** Return actionable contract violations for the repository PR template. */
 export function collectPrTemplateContractErrors(content) {
   const errors = [];
-  if (!content.startsWith("# Pull request")) errors.push("PR template must start with '# Pull request'.");
-  if (!/Write for maintainers\./.test(content)) errors.push("PR template must address maintainers.");
-  if (!/Use `n\.a\.` with a reason/.test(content)) errors.push("PR template must define the n.a. reason convention.");
+  const visibleContent = stripHtmlComments(content);
+  if (!visibleContent.startsWith("# Pull request")) errors.push("PR template must start with '# Pull request'.");
+  if (!/Write for maintainers\./.test(visibleContent)) errors.push("PR template must address maintainers.");
+  if (!/Use `n\.a\.` with a reason/.test(visibleContent)) errors.push("PR template must define the n.a. reason convention.");
 
   const sectionPositions = REQUIRED_SECTIONS.map((section) =>
-    content.search(new RegExp(`^${escapeRegExp(section)}[ \t]*$`, "im")),
+    visibleContent.search(new RegExp(`^${escapeRegExp(section)}[ \t]*$`, "im")),
   );
   if (sectionPositions.every((position) => position >= 0)) {
     for (let index = 1; index < sectionPositions.length; index += 1) {
@@ -67,7 +77,7 @@ export function collectPrTemplateContractErrors(content) {
   }
 
   for (const section of REQUIRED_SECTIONS) {
-    const body = sectionBody(content, section);
+    const body = sectionBody(visibleContent, section);
     if (body === null) {
       errors.push(`PR template is missing required section: ${section}`);
       continue;
@@ -78,22 +88,22 @@ export function collectPrTemplateContractErrors(content) {
   }
 
   for (const section of RETIRED_SECTIONS) {
-    if (new RegExp(`^${escapeRegExp(section)}[ \\t]*$`, "m").test(content)) {
+    if (new RegExp(`^${escapeRegExp(section)}[ \\t]*$`, "m").test(visibleContent)) {
       errors.push(`PR template must not retain retired section: ${section}`);
     }
   }
 
-  if (!/`jscraik\/<linear-key>-<short-description>`/.test(content)) {
+  if (!/`jscraik\/<linear-key>-<short-description>`/.test(visibleContent)) {
     errors.push("PR template must use the Linear-linked branch policy.");
   }
-  if (!STANDALONE_REMEDIATION_POLICY.test(content)) {
+  if (!STANDALONE_REMEDIATION_POLICY.test(visibleContent)) {
     errors.push("PR template must document the standalone remediation branch exception.");
   }
-  if (/jscraik\/feature\/\*/.test(content)) {
+  if (/jscraik\/feature\/\*/.test(visibleContent)) {
     errors.push("PR template must not retain the retired agent branch prefix.");
   }
 
-  const checklist = sectionBody(content, "## Checklist") ?? "";
+  const checklist = sectionBody(visibleContent, "## Checklist") ?? "";
   for (const marker of ["**(Pending)** CodeRabbit", "**(Pending)** An independent reviewer", "**(Pending)** Codex"]) {
     if (!checklist.includes(marker)) errors.push(`PR template checklist is missing status marker: ${marker}`);
   }
@@ -111,7 +121,7 @@ export function collectPrTemplateContractErrors(content) {
   if (!/- Command: `npm run check` -> blocked \(reason\)/.test(validation)) {
     errors.push("PR template validation guidance must show blocked command evidence with a reason.");
   }
-  if (!/\| Artifact \| Durable reference \| Schema \/ version \| Producer command \| Digest \| Replay command \| Authority \|/.test(content)) {
+  if (!/\| Artifact \| Durable reference \| Schema \/ version \| Producer command \| Digest \| Replay command \| Authority \|/.test(visibleContent)) {
     errors.push("PR template must retain the durable evidence map columns.");
   }
 
