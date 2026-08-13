@@ -1,5 +1,5 @@
 export function extractStartLinkRecords(source) {
-  return extractObjectBlocks(source)
+  return extractObjectBlocks(stripJavaScriptComments(source))
     .map(parseDirectProperties)
     .filter(({ primary }) => primary === true)
     .filter(({ href, label }) => typeof href === "string" && typeof label === "string")
@@ -10,6 +10,58 @@ export function hasPrimarySkillsBarLink(source) {
   return extractStartLinkRecords(source).some(
     ({ href, label }) => href === "/demos/skillsbar/" && label === "Start with SkillsBar"
   );
+}
+
+function stripJavaScriptComments(source) {
+  let output = "";
+  let quote = null;
+  let escaped = false;
+  let index = 0;
+
+  while (index < source.length) {
+    const character = source[index];
+    const next = source[index + 1];
+    if (quote) {
+      output += character;
+      if (escaped) escaped = false;
+      else if (character === "\\") escaped = true;
+      else if (character === quote) quote = null;
+      index += 1;
+      continue;
+    }
+    if (character === '"' || character === "'" || character === "`") {
+      quote = character;
+      output += character;
+      index += 1;
+      continue;
+    }
+    if (character === "/" && next === "/") {
+      output += "  ";
+      index += 2;
+      while (index < source.length && source[index] !== "\\n") {
+        output += " ";
+        index += 1;
+      }
+      continue;
+    }
+    if (character === "/" && next === "*") {
+      output += "  ";
+      index += 2;
+      while (index < source.length && !(source[index] === "*" && source[index + 1] === "/")) {
+        output += source[index] === "\\n" ? "\\n" : " ";
+        index += 1;
+      }
+      if (index < source.length) {
+        output += "  ";
+        index += 2;
+      }
+      continue;
+    }
+    output += character;
+    index += 1;
+  }
+
+  return output;
 }
 
 function extractObjectBlocks(source) {

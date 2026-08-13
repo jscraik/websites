@@ -148,6 +148,13 @@ check("PR template follows the current maintainer evidence contract", () => {
 
   const prependedTextErrors = collectPrTemplateContractErrors(`Context before template\n${pullRequestTemplate}`);
   assert.match(prependedTextErrors.join("\n"), /must start with '# Pull request'/i);
+
+  const reorderedSections = pullRequestTemplate
+    .replace("## Summary", "## __SUMMARY__")
+    .replace("## Change details", "## Summary")
+    .replace("## __SUMMARY__", "## Change details");
+  const reorderedSectionErrors = collectPrTemplateContractErrors(reorderedSections);
+  assert.match(reorderedSectionErrors.join("\n"), /required sections must remain in the declared order/i);
 });
 
 check("pre-commit validation uses portfolio package contracts", () => {

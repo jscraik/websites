@@ -54,6 +54,18 @@ export function collectPrTemplateContractErrors(content) {
   if (!/Write for maintainers\./.test(content)) errors.push("PR template must address maintainers.");
   if (!/Use `n\.a\.` with a reason/.test(content)) errors.push("PR template must define the n.a. reason convention.");
 
+  const sectionPositions = REQUIRED_SECTIONS.map((section) =>
+    content.search(new RegExp(`^${escapeRegExp(section)}[ \t]*$`, "im")),
+  );
+  if (sectionPositions.every((position) => position >= 0)) {
+    for (let index = 1; index < sectionPositions.length; index += 1) {
+      if (sectionPositions[index] <= sectionPositions[index - 1]) {
+        errors.push("PR template required sections must remain in the declared order.");
+        break;
+      }
+    }
+  }
+
   for (const section of REQUIRED_SECTIONS) {
     const body = sectionBody(content, section);
     if (body === null) {

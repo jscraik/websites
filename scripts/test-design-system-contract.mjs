@@ -33,3 +33,10 @@ test("keeps primary metadata bound to one link object", () => {
   `;
   assert.equal(hasPrimarySkillsBarLink(splitAcrossObjects), false);
 });
+
+test("ignores commented primary metadata", () => {
+  const commentedPrimary = validFixture
+    .replace("primary: true", "// primary: true")
+    .replace("  }];", "    primary: false\n  }];");
+  assert.equal(hasPrimarySkillsBarLink(commentedPrimary), false);
+});

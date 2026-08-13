@@ -6630,7 +6630,7 @@ body.skillsbar-demo img {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  min-height: calc(var(--jp-fluid-rem, 1rem) * 2.61);
+  min-height: max(44px, calc(var(--jp-fluid-rem, 1rem) * 2.61));
   min-width: calc(var(--jp-fluid-rem, 1rem) * 10.49);
   padding: calc(var(--jp-fluid-rem, 1rem) * 0.25) calc(var(--jp-fluid-rem, 1rem) * 0.19)
     calc(var(--jp-fluid-rem, 1rem) * 0.25) calc(var(--jp-fluid-rem, 1rem) * 1.5);
