@@ -481,6 +481,26 @@ const buildDependency = (content, nodeMap) => {
   );
 };
 
+const augmentSecurity = (content) => {
+  const nodeId = "validate_pr_template_1fc39e13";
+  const declaration = `  ${nodeId}["validate-pr-template"]`;
+  const edge = `  Untrusted --> ${nodeId}`;
+  let lines = content
+    .trimEnd()
+    .split(/\r?\n/)
+    .filter((line) => line.trim() !== declaration.trim() && line.trim() !== edge.trim());
+
+  const insertionIndex = lines.findIndex((line) => line.includes("--> pr_template_contract_4fa69502"));
+  lines.splice(insertionIndex >= 0 ? insertionIndex : lines.length, 0, declaration, edge);
+
+  const classIndex = lines.findIndex((line) => /^  class .* securityNode$/.test(line));
+  if (classIndex >= 0 && !lines[classIndex].split(/\s+/).includes(nodeId)) {
+    lines[classIndex] = lines[classIndex].replace(/ securityNode$/, `,${nodeId} securityNode`);
+  }
+
+  return ensureTrailingNewline(lines.join("\n"));
+};
+
 const diagramFiles = readdirSync(diagramsDir).filter((entry) => entry.endsWith(".mmd"));
 const architecturePath = join(diagramsDir, "architecture.mmd");
 const dependencyPath = join(diagramsDir, "dependency.mmd");
@@ -532,12 +552,13 @@ for (const file of diagramFiles) {
 		continue;
   }
   const filePath = join(diagramsDir, file);
+  let content = normalizeProjectReferences(readFileSync(filePath, "utf8").trimEnd());
+  if (file === "security.mmd") {
+    content = augmentSecurity(content);
+  }
   writeFileSync(
     filePath,
-    dedupeSubgraphNodeIds(
-      normalizeProjectReferences(readFileSync(filePath, "utf8").trimEnd()),
-      file,
-    ),
+    dedupeSubgraphNodeIds(content, file),
   );
 }
 

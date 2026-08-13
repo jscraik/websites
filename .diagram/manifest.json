@@ -1,5 +1,5 @@
 {
-	"generatedAt": "2026-08-13T20:01:06.107Z",
+	"generatedAt": "2026-08-13T20:20:26.332Z",
 	"schemaVersion": "1.0",
 	"rootPath": ".",
 	"diagramDir": ".diagram",
@@ -110,8 +110,8 @@
 			"type": "security",
 			"file": "security.mmd",
 			"outputPath": ".diagram/security.mmd",
-			"lines": 18,
-			"bytes": 1040,
+			"lines": 20,
+			"bytes": 1172,
 			"isPlaceholder": false
 		},
 		{

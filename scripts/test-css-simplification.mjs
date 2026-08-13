@@ -6,6 +6,7 @@ const cssPath = "src/styles/global.css";
 const css = readFileSync(cssPath, "utf8");
 const shell = readFileSync("src/styles/shell.css", "utf8");
 const routeRhythm = readFileSync("src/styles/route-rhythm.css", "utf8");
+const blogPage = readFileSync("src/pages/blog/index.astro", "utf8");
 const desktopRouteRhythm = routeRhythm.match(
   /@media \(min-width: 57\.5626rem\) \{([\s\S]*?)\n\}\n\n@media \(max-width: 57\.5625rem\)/,
 )?.[1] ?? "";
@@ -92,19 +93,19 @@ assert.match(
   "the desktop hero copy must retain Jose's half-gutter inset inside its grid column",
 );
 assert.match(
-  desktopRouteRhythm,
-  /:has\(\.blog-index\) \.blog-index\s*{[\s\S]*?width:\s*min\(62\.12vw,[\s\S]*?background:\s*transparent;/,
-  "the desktop Blog masthead must use Jose's measured column without an inset canvas",
+  blogPage,
+  /@media \(min-width: 72\.0001rem\)[\s\S]*?\.blog-index\s*{[\s\S]*?width:\s*min\(62\.12vw,[\s\S]*?min-height:\s*calc\(var\(--jp-fluid-rem\) \* 52\.83\);/,
+  "the desktop Blog masthead must use Jose's measured column in its owning page stylesheet",
 );
 assert.match(
-  desktopRouteRhythm,
-  /:has\(\.blog-index\) \.latest-article article\s*{[\s\S]*?justify-content:\s*space-between;[\s\S]*?min-height:\s*calc\(var\(--jp-fluid-rem\) \* 31\.25\);/,
-  "the latest Blog article must preserve the measured vertical rhythm",
+  blogPage,
+  /@media \(min-width: 72\.0001rem\)[\s\S]*?\.latest-article article\s*{[\s\S]*?justify-content:\s*space-between;[\s\S]*?min-height:\s*calc\(var\(--jp-fluid-rem\) \* 31\.25\);/,
+  "the latest Blog article must preserve the measured vertical rhythm in its owning page stylesheet",
 );
 assert.match(
-  desktopRouteRhythm,
-  /:has\(\.blog-index\) \.latest-article h2\s*{[\s\S]*?font-family:\s*var\(--body-sans\);[\s\S]*?font-weight:\s*600;/,
-  "the latest Blog title must retain Jose's compact sans treatment",
+  blogPage,
+  /@media \(min-width: 72\.0001rem\)[\s\S]*?\.latest-article h2\s*{[\s\S]*?font-family:\s*var\(--body-sans\);[\s\S]*?font-weight:\s*600;/,
+  "the latest Blog title must retain Jose's compact sans treatment in its owning page stylesheet",
 );
 
 for (const className of [

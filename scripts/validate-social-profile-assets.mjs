@@ -153,6 +153,11 @@ for (const [platform, specification] of Object.entries(approvedLiveBanners.platf
       sha256(source) === sha256(output),
       "public upload artifact must exactly match its approved source bytes"
     );
+    check(
+      `${platform} approved live-banner digest`,
+      specification.sha256 === sha256(source) && specification.sha256 === sha256(output),
+      "approved live-banner bytes must match the reviewed SHA-256 digest"
+    );
   } catch (error) {
     check(`${platform} approved live-banner bytes`, false, error.message);
   }

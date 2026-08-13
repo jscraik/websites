@@ -95,6 +95,11 @@ const currentFor = (href: string): "page" | undefined => {
         return;
       }
 
+      if (reducedMotion.matches) {
+        resetHighlight();
+        return;
+      }
+
       const highlightRect = highlight.getBoundingClientRect();
       const targetRect = target.getBoundingClientRect();
       if (targetRect.width === 0 || targetRect.height === 0) {

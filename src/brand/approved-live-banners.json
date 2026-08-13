@@ -12,13 +12,15 @@
       "width": 1500,
       "height": 500,
       "source": "src/brand/source/approved/jamie-x-header-1500x500.png",
-      "output": "public/brand/social/approved/jamie-x-header-1500x500.png"
+      "output": "public/brand/social/approved/jamie-x-header-1500x500.png",
+      "sha256": "d3a32adc4b7a0d1127d7b7dda85171dc883a02a59d79f0a17b3d0e4bb3701243"
     },
     "linkedin": {
       "width": 1584,
       "height": 396,
       "source": "src/brand/source/approved/jamie-linkedin-background-1584x396.png",
-      "output": "public/brand/social/approved/jamie-linkedin-background-1584x396.png"
+      "output": "public/brand/social/approved/jamie-linkedin-background-1584x396.png",
+      "sha256": "fa076f992e9ea8e9a755bddadd141491c0885bb91af4768f0eea0add50d766fa"
     }
   }
 }

@@ -790,7 +790,7 @@ main [data-entry]:nth-child(5) { animation-delay: 160ms; }
   align-items: center;
   justify-content: space-between;
   gap: 32px;
-  min-height: 42px;
+  min-height: 44px;
   min-width: 220px;
   padding: 0 18px 0 22px;
   border-radius: 999px;

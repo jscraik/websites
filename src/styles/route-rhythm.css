@@ -80,25 +80,8 @@
     background: var(--paper);
   }
 
-  html body:not(.skillsbar-demo):has(.blog-index) .blog-index {
-    width: min(62.12vw, calc(var(--jp-fluid-rem) * 62.12));
-    max-width: calc(var(--jp-fluid-rem) * 62.12);
-    min-height: calc(var(--jp-fluid-rem) * 52.83);
-    background: transparent;
-  }
-
-  html body:not(.skillsbar-demo):has(.blog-index) .latest-article article {
-    justify-content: space-between;
-    min-height: calc(var(--jp-fluid-rem) * 31.25);
-  }
-
-  html body:not(.skillsbar-demo):has(.blog-index) .latest-article h2 {
-    color: var(--neutral-07);
-    font-family: var(--body-sans);
-    font-size: calc(var(--jp-fluid-rem) * 1.25);
-    font-weight: 600;
-    line-height: 1.4;
-  }
+  /* Blog geometry is owned by src/pages/blog/index.astro so Astro's scoped
+     rules cannot be shadowed by a later shared stylesheet. */
 
   /* Keep the article masthead visually separate from the reading column. */
   .article-layout.section-shell {

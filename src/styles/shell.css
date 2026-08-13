@@ -25,6 +25,7 @@ html body:not(.skillsbar-demo) .site-header .nav-inner {
   z-index: 0;
   border-radius: inherit;
   pointer-events: none;
+  transform-origin: top left;
   transition-property: transform;
   transition-duration: calc(var(--nav-flip-duration-ms) * 1ms);
   transition-timing-function: var(--nav-flip-ease);

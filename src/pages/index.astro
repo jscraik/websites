@@ -187,6 +187,8 @@ const workCount = String(workCards.length).padStart(2, "0");
         if (reducedMotion.matches) {
           currentX = 0;
           currentY = 0;
+          targetX = 0;
+          targetY = 0;
         } else {
           currentX += (targetX - currentX) * 0.22;
           currentY += (targetY - currentY) * 0.22;
@@ -233,6 +235,9 @@ const workCount = String(workCards.length).padStart(2, "0");
 
       thumbnail.addEventListener("pointerleave", resetPointer);
       thumbnail.addEventListener("pointercancel", resetPointer);
+      reducedMotion.addEventListener("change", () => {
+        if (reducedMotion.matches) resetPointer();
+      });
     });
   </script>
 
