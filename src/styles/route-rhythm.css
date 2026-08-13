@@ -47,8 +47,11 @@
     background-color: var(--paper);
   }
 
-  html body:not(.skillsbar-demo):has(.blog-index) .blog-index {
+  html body:not(.skillsbar-demo):has(.blog-index) .blog-page-main {
     --jp-blog-index-height: 45rem;
+  }
+
+  html body:not(.skillsbar-demo):has(.blog-index) .blog-index {
     background-image: linear-gradient(180deg, var(--surface-card), var(--paper));
     background-position: top;
     background-repeat: no-repeat;
@@ -104,8 +107,11 @@
     background-color: var(--paper);
   }
 
-  html body:not(.skillsbar-demo):has(.blog-index) .blog-index {
+  html body:not(.skillsbar-demo):has(.blog-index) .blog-page-main {
     --jp-blog-index-height: 56.172rem;
+  }
+
+  html body:not(.skillsbar-demo):has(.blog-index) .blog-index {
     background-image: linear-gradient(180deg, var(--surface-card), var(--paper));
     background-position: top;
     background-repeat: no-repeat;
