@@ -382,6 +382,11 @@ workflows:
             ln -sf "$SEMGREP_VENV/bin/semgrep" "$HOME/.local/bin/semgrep"
             export MISE_CARGO_BINSTALL=false
             export MISE_NODE_VERIFY=false
+            # CircleCI's small Docker executor was compiling Python from source
+            # and exhausting the orb-pinning job window. Use mise's verified
+            # python-build-standalone artifact instead.
+            export MISE_PYTHON_COMPILE=0
+            export MISE_PYTHON_PRECOMPILED_ARCH=x86_64
             retry_cmd 3 install_mise_without_github_tokens \
               node pnpm python uv cargo:prek \
               npm:@brainwav/diagram npm:@argos-ci/cli cosign cloudflared npm:vitest \

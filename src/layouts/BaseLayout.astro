@@ -41,7 +41,7 @@ const isDevelopment = import.meta.env.DEV;
   </head>
   <body class={bodyClass}>
     <a class="skip-link" href="#main-content">Skip to main content</a>
-    {isDevelopment && <script src="/src/scripts/lapse-dev.ts"></script>}
+    {isDevelopment && <script type="module" src="/src/scripts/lapse-dev.ts"></script>}
     <SiteNav />
     <main id="main-content" tabindex="-1">
       <slot />
