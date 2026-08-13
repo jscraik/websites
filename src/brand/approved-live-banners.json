@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "contract": "jamie-approved-live-banners/v1",
+  "status": "approved_for_platform_upload",
+  "approved_on": "2026-08-12",
+  "profile_descriptor": "AI Workflows · Agent Skills · Evals",
+  "brand_promise": "Making AI-assisted developer work inspectable.",
+  "visual_direction": "Warm editorial identity field with a dark inspectable network.",
+  "claims_boundary": "These exact files are Jamie-approved profile backgrounds. They do not change the wider portfolio positioning contract or authorize future publication.",
+  "platforms": {
+    "x": {
+      "width": 1500,
+      "height": 500,
+      "source": "src/brand/source/approved/jamie-x-header-1500x500.png",
+      "output": "public/brand/social/approved/jamie-x-header-1500x500.png"
+    },
+    "linkedin": {
+      "width": 1584,
+      "height": 396,
+      "source": "src/brand/source/approved/jamie-linkedin-background-1584x396.png",
+      "output": "public/brand/social/approved/jamie-linkedin-background-1584x396.png"
+    }
+  }
+}
