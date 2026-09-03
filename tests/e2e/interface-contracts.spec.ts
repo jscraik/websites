@@ -93,20 +93,17 @@ test.describe("portfolio interface contracts", () => {
     test.skip(!supportsFinePointer, "pointer highlight is only available for fine-pointer projects");
 
     await workTarget.hover();
+    await expect
+      .poll(() => highlight.evaluate((element) => {
+        const timing = element.getAnimations()[0]?.effect?.getTiming();
+        return {
+          parentText: element.parentElement?.textContent?.trim(),
+          duration: timing?.duration,
+          easing: timing?.easing
+        };
+      }))
+      .toEqual({ parentText: "Work", duration: 400, easing: "cubic-bezier(0.165, 0.84, 0.44, 1)" });
     await expect(highlight).toHaveAttribute("data-active", "true");
-    const motion = await highlight.evaluate((element) => {
-      const animation = element.getAnimations()[0];
-      const timing = animation?.effect?.getTiming();
-      return {
-        parentText: element.parentElement?.textContent?.trim(),
-        duration: timing?.duration,
-        easing: timing?.easing
-      };
-    });
-
-    expect(motion.parentText).toBe("Work");
-    expect(motion.duration).toBe(400);
-    expect(motion.easing).toBe("cubic-bezier(0.165, 0.84, 0.44, 1)");
   });
 
   test("the shared nav highlight holds through a gap and returns when leaving the nav", async ({ page }) => {
@@ -200,28 +197,42 @@ test.describe("portfolio interface contracts", () => {
   });
 
   test("case-study buttons transfer their existing background to the arrow", async ({ page }) => {
+    await page.addInitScript(() => {
+      const animate = Element.prototype.animate;
+      Element.prototype.animate = function (keyframes, options) {
+        const animation = animate.call(this, keyframes, options);
+        if (this instanceof HTMLElement && this.classList.contains("small-button__bg")) {
+          const timing = animation.effect?.getTiming();
+          this.dataset.testAnimationDuration = String(timing?.duration ?? "");
+          this.dataset.testAnimationEasing = timing?.easing ?? "";
+        }
+        return animation;
+      };
+    });
     await preparePage(page, "/");
+
 
     const button = page.locator(".feature-block .small-button").first();
     const background = button.locator(".small-button__bg");
     const supportsFinePointer = await page.evaluate(() => window.matchMedia("(hover: hover) and (pointer: fine)").matches);
     test.skip(!supportsFinePointer, "button background transfer is only available for fine-pointer projects");
 
-    await button.hover();
-    await expect(button).toHaveAttribute("data-flip-active", "true");
-    const motion = await background.evaluate((element) => {
-      const animation = element.getAnimations()[0];
-      const timing = animation?.effect?.getTiming();
-      return {
-        parentIsArrow: element.parentElement?.classList.contains("small-button__arrow"),
-        duration: timing?.duration,
-        easing: timing?.easing
-      };
-    });
 
-    expect(motion.parentIsArrow).toBe(true);
-    expect(motion.duration).toBe(400);
-    expect(motion.easing).toBe("cubic-bezier(0.165, 0.84, 0.44, 1)");
+    await button.hover();
+    await expect
+      .poll(() =>
+        background.evaluate((element) => ({
+          parentIsArrow: element.parentElement?.classList.contains("small-button__arrow"),
+          duration: Number(element.dataset.testAnimationDuration),
+          easing: element.dataset.testAnimationEasing
+        }))
+      )
+      .toEqual({
+        parentIsArrow: true,
+        duration: 400,
+        easing: "cubic-bezier(0.165, 0.84, 0.44, 1)"
+      });
+    await expect(button).toHaveAttribute("data-flip-active", "true");
 
     const box = await button.boundingBox();
     if (!box) throw new Error("case-study button bounds are unavailable");

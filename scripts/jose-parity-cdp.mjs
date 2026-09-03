@@ -44,10 +44,12 @@ const candidateSurfaceRoutes = [
   "/now/",
   "/blog/",
   "/contact/",
+  "/articles/when-evidence-goes-stale/",
   "/articles/why-ai-native-devrel/",
   "/proof/",
   "/work/ai-native-devrel/",
   "/work/brainwav-io/",
+  "/work/skillsbar/",
 ];
 
 const pixelRatioBudgets = {

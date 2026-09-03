@@ -113,10 +113,12 @@ test.describe("UI polish contracts", () => {
       "/now/",
       "/blog/",
       "/contact/",
+      "/articles/when-evidence-goes-stale/",
       "/articles/why-ai-native-devrel/",
       "/proof/",
       "/work/ai-native-devrel/",
-      "/work/brainwav-io/"
+      "/work/brainwav-io/",
+      "/work/skillsbar/"
     ];
     let reference:
       | {
@@ -173,10 +175,12 @@ test.describe("UI polish contracts", () => {
       "/now/",
       "/blog/",
       "/contact/",
+      "/articles/when-evidence-goes-stale/",
       "/articles/why-ai-native-devrel/",
       "/proof/",
       "/work/ai-native-devrel/",
-      "/work/brainwav-io/"
+      "/work/brainwav-io/",
+      "/work/skillsbar/"
     ];
 
     for (const route of routes) {

@@ -8454,6 +8454,19 @@ body.skillsbar-demo img {
   color: var(--bds-color-brainwav-text);
 }
 
+html body:not(.skillsbar-demo) .case-role-boundary #case-role-title {
+  color: var(--bds-color-brainwav-text);
+}
+
+html body:not(.skillsbar-demo) .case-role-boundary > div > .eyebrow,
+html body:not(.skillsbar-demo) .case-role-boundary dl dt {
+  color: var(--bds-color-blue);
+}
+
+html body:not(.skillsbar-demo) .case-role-boundary dl dd {
+  color: var(--bds-color-brainwav-text-secondary);
+}
+
 .case-role-boundary dl {
   gap: var(--space-5);
 }

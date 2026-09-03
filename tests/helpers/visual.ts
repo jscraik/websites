@@ -26,8 +26,10 @@ export const coreRoutes = [
   { name: "blog", path: "/blog/" },
   { name: "contact", path: "/contact/" },
   { name: "skillsbar-demo", path: "/demos/skillsbar/" },
+  { name: "article-when-evidence-goes-stale", path: "/articles/when-evidence-goes-stale/" },
   { name: "article-ai-native-devrel", path: "/articles/why-ai-native-devrel/" },
   { name: "proof", path: "/proof/" },
   { name: "work-ai-native-devrel", path: "/work/ai-native-devrel/" },
-  { name: "work-brainwav-io", path: "/work/brainwav-io/" }
+  { name: "work-brainwav-io", path: "/work/brainwav-io/" },
+  { name: "work-skillsbar", path: "/work/skillsbar/" }
 ] as const;
