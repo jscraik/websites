@@ -103,6 +103,10 @@ if (!existsSync(rssPath)) {
       failures.push(`/blog/rss.xml: draft title must not appear in feed: ${excluded}`);
     }
   }
+  const itemCount = (rss.match(/<item>/g) ?? []).length;
+  if (itemCount !== 2) {
+    failures.push(`/blog/rss.xml: expected 2 published items, found ${itemCount}`);
+  }
 }
 
 if (failures.length > 0) {
