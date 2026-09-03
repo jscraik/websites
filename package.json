@@ -87,7 +87,7 @@
     "test:jose-parity:cdp": "node scripts/jose-parity-cdp.mjs",
     "playwright:install": "playwright install chromium",
     "lhci": "lhci autorun",
-    "test:fieldcraft-contracts": "node scripts/test-fieldcraft-contracts.mjs && node scripts/test-fieldcraft-blind-build.mjs",
+    "test:fieldcraft-contracts": "node scripts/validate-fieldcraft-scene-contract.mjs && node scripts/validate-fieldcraft-internal-region-contract.mjs && node scripts/test-fieldcraft-contracts.mjs && node scripts/test-fieldcraft-blind-build.mjs",
     "test:social-profile-assets-contract": "node scripts/test-social-profile-assets-contract.mjs"
   },
   "dependencies": {

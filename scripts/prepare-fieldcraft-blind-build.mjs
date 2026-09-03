@@ -36,6 +36,18 @@ if (canonicalParent === root || canonicalParent.startsWith(`${root}${path.sep}`)
   throw new Error("Blind-build output must be outside the repository");
 }
 
+const workspace = [
+  ".npmrc",
+  "AGENTS.md",
+  "CODESTYLE.md",
+  "WORKFLOW.md",
+  "astro.config.mjs",
+  "package.json",
+  "package-lock.json",
+  "public",
+  "src",
+];
+
 const inputs = [
   "docs/specifications/fieldcraft-fde-blind-build-agent-prompt.md",
   "docs/specifications/fieldcraft-fde-blind-build-brief.md",
@@ -44,15 +56,16 @@ const inputs = [
 ];
 
 await mkdir(output, { recursive: true });
-for (const source of inputs) {
+for (const source of [...workspace, ...inputs]) {
   const destination = path.join(output, source);
   await mkdir(path.dirname(destination), { recursive: true });
-  await cp(path.join(root, source), destination);
+  await cp(path.join(root, source), destination, { recursive: true });
 }
 
 const manifest = {
   schemaVersion: 1,
-  authority: "builder-clean-room-input",
+  authority: "builder-clean-room-workspace",
+  workspace,
   inputs,
   exclusions: [
     "docs/reference/fieldcraft-fde/**",

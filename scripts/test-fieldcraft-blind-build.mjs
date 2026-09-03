@@ -10,6 +10,23 @@ try {
   const result = spawnSync(process.execPath, ["scripts/prepare-fieldcraft-blind-build.mjs", output], { encoding: "utf8" });
   assert.equal(result.status, 0, result.stderr);
   const manifest = JSON.parse(await readFile(path.join(output, "blind-build-manifest.json"), "utf8"));
+  assert.deepEqual(manifest.workspace, [
+    ".npmrc",
+    "AGENTS.md",
+    "CODESTYLE.md",
+    "WORKFLOW.md",
+    "astro.config.mjs",
+    "package.json",
+    "package-lock.json",
+    "public",
+    "src",
+  ]);
+  const exportedPackage = JSON.parse(await readFile(path.join(output, "package.json"), "utf8"));
+  assert.equal(exportedPackage.scripts.build, "astro build");
+  assert.match(await readFile(path.join(output, "src/pages/index.astro"), "utf8"), /<BaseLayout/);
+  assert.match(await readFile(path.join(output, "public/favicon.svg"), "utf8"), /<svg/);
+  await assert.rejects(() => readFile(path.join(output, "docs/reference/fieldcraft-fde/v3/manifest.json"), "utf8"), /ENOENT/);
+  await assert.rejects(() => readFile(path.join(output, "scripts/evaluate-fieldcraft-scenes.mjs"), "utf8"), /ENOENT/);
   assert.deepEqual(manifest.exclusions, [
     "docs/reference/fieldcraft-fde/**",
     "artifacts/**",

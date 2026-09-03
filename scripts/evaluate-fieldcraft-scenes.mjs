@@ -116,15 +116,6 @@ const measurements = await page.evaluate((sceneContract) => {
           localBox: { x: box.x - sectionBox.x, y: box.y - sectionBox.y, width: box.width, height: box.height },
         };
       });
-    const fixedShells = [...document.querySelectorAll("[data-fixed-shell], .hud, .pager, .rail")]
-      .filter(visible)
-      .map((element) => ({ key: element.id || element.className || element.tagName, box: rect(element) }));
-    const shellTargets = [{ key: "heading", box: headingBox }, ...regions];
-    const fixedShellOverlaps = fixedShells.flatMap((shell) =>
-      shellTargets
-        .filter((target) => intersectionArea(shell.box, target.box) > 0)
-        .map((target) => ({ shell: String(shell.key), target: target.key }))
-    );
     const allowed = new Set(
       [...section.querySelectorAll("[data-contains-region]")].map(
         (element) => `${element.dataset.sceneRegion}>${element.dataset.containsRegion}`,
@@ -161,7 +152,6 @@ const measurements = await page.evaluate((sceneContract) => {
       regions,
       collisions,
       hiddenStateViolations,
-      fixedShellOverlaps,
     };
   }) };
 }, contract);
@@ -170,6 +160,48 @@ if (measurements.sectionCount !== contract.scenes.length) {
   throw new Error(`Fieldcraft scene count mismatch: expected ${contract.scenes.length}, observed ${measurements.sectionCount}`);
 }
 const measuredScenes = measurements.scenes;
+
+const activeSceneFixedShellOverlaps = [];
+for (const scene of contract.scenes) {
+  await page.evaluate((index) => {
+    const section = document.querySelectorAll("main section")[index];
+    section.scrollIntoView({ behavior: "instant", block: "start" });
+  }, scene.index);
+  await page.waitForTimeout(50);
+  activeSceneFixedShellOverlaps[scene.index] = await page.evaluate((index) => {
+    const section = document.querySelectorAll("main section")[index];
+    const heading = section?.querySelector(index === 0 ? "h1" : "h2");
+    if (!section || !heading) return [];
+    const rect = (element) => {
+      const box = element.getBoundingClientRect();
+      return { x: box.x, y: box.y, width: box.width, height: box.height };
+    };
+    const visible = (element) => {
+      const style = getComputedStyle(element);
+      const box = element.getBoundingClientRect();
+      return style.display !== "none" && style.visibility !== "hidden" && Number(style.opacity) > 0 && box.width > 0 && box.height > 0;
+    };
+    const intersectionArea = (a, b) => {
+      const width = Math.max(0, Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x));
+      const height = Math.max(0, Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y));
+      return width * height;
+    };
+    const targets = [
+      { key: "heading", box: rect(heading) },
+      ...[...section.querySelectorAll("[data-scene-region]")]
+        .filter(visible)
+        .map((element) => ({ key: element.dataset.sceneRegion, box: rect(element) })),
+    ];
+    return [...document.querySelectorAll("[data-fixed-shell], .hud, .pager, .rail")]
+      .filter(visible)
+      .flatMap((element) => {
+        const shell = { key: element.id || element.className || element.tagName, box: rect(element) };
+        return targets
+          .filter((target) => intersectionArea(shell.box, target.box) > 0)
+          .map((target) => ({ shell: String(shell.key), target: target.key }));
+      });
+  }, scene.index);
+}
 
 const near = (actual, expected, tolerance) => Math.abs(actual - expected) <= tolerance;
 const normalizeAlign = (value) => ({ left: "start", right: "end" })[value] ?? value;
@@ -203,7 +235,8 @@ const results = measuredScenes.map((actual) => {
   if (actual.sceneOverflow) failures.push("scene has horizontal overflow");
   if (actual.collisions.length) failures.push(`undeclared collisions: ${JSON.stringify(actual.collisions)}`);
   if (actual.hiddenStateViolations.length) failures.push(`hidden state violations: ${actual.hiddenStateViolations.join(", ")}`);
-  if (actual.fixedShellOverlaps.length) failures.push(`fixed-shell clearance violations: ${JSON.stringify(actual.fixedShellOverlaps)}`);
+  const fixedShellOverlaps = activeSceneFixedShellOverlaps[actual.index] ?? [];
+  if (fixedShellOverlaps.length) failures.push(`fixed-shell clearance violations: ${JSON.stringify(fixedShellOverlaps)}`);
   const internalScene = internalContract.scenes.find((scene) => scene.index === actual.index);
   if (internalScene) {
     const observed = new Map(actual.regions.map((region) => [region.key, region.localBox]));
