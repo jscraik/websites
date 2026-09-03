@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-14T01:04:35.240Z",
+  "authority": "independent-evaluator-only",
+  "policySha256": "ca01b90e2ac47f344b0429dd7f936b2010ea5c9b22011e24cf058fc6376659af",
+  "captureCount": 25,
+  "captures": [
+    {
+      "path": "screenshots/1280x720/scene-00.png",
+      "bytes": 54261,
+      "sha256": "41a1021c78841d3e5316719f16b593d7b6e404c40ff57e79913355b94eb05348"
+    },
+    {
+      "path": "screenshots/1280x720/scene-01.png",
+      "bytes": 43032,
+      "sha256": "3bd6c46ac948c8f15051f8defe7e4156333e25bddfa8d93e690e6b1d5fd4d3f0"
+    },
+    {
+      "path": "screenshots/1280x720/scene-02.png",
+      "bytes": 43398,
+      "sha256": "5d50554b45206c0e147daad1856233ea2325fb004f086d66be90c60b1a01b377"
+    },
+    {
+      "path": "screenshots/1280x720/scene-03.png",
+      "bytes": 40676,
+      "sha256": "d7bdd3c3442dc4f523426efb6f88863f463b83efb7f5b47b4281ffbcd35c3dbb"
+    },
+    {
+      "path": "screenshots/1280x720/scene-04.png",
+      "bytes": 62017,
+      "sha256": "fc7908b1bf2040fa820a1b6d857bd00b0c9f2fb6fc98b56aafe144accf6b876b"
+    },
+    {
+      "path": "screenshots/1280x720/scene-05.png",
+      "bytes": 50911,
+      "sha256": "7becb401f4f8e79ec1018bc6494705d29b7f270bc26211a6e90fad273af7da1e"
+    },
+    {
+      "path": "screenshots/1280x720/scene-06.png",
+      "bytes": 53327,
+      "sha256": "70775fde5506617e532e866b4b77af899f8a817d0e4d7ee0d38b13d858121eb6"
+    },
+    {
+      "path": "screenshots/1280x720/scene-07.png",
+      "bytes": 61510,
+      "sha256": "d8f0b5bf2098c431b4ec35274f95e4ba35abcf0f281513bfbde8edcc6fea959c"
+    },
+    {
+      "path": "screenshots/1280x720/scene-08.png",
+      "bytes": 42626,
+      "sha256": "d17823d48fb55e906800f9185f22afbea3828f7b26b762a9683c21a545b63e6f"
+    },
+    {
+      "path": "screenshots/1280x720/scene-09.png",
+      "bytes": 39518,
+      "sha256": "a5a60852f6d95516c1534e660d07304db89af3002f5de025769eed55d26fabc3"
+    },
+    {
+      "path": "screenshots/1280x720/scene-10.png",
+      "bytes": 72076,
+      "sha256": "87085ad8319a8724d5469680c66efb0a310a25501bbd3769dc1678aa3cd2bed8"
+    },
+    {
+      "path": "screenshots/1280x720/scene-11.png",
+      "bytes": 57196,
+      "sha256": "5e3afc6f6889384dce1296fa1bbfd81e0fbea252c275b1cacabeb3b99aa5f2b7"
+    },
+    {
+      "path": "screenshots/1280x720/scene-12.png",
+      "bytes": 74086,
+      "sha256": "8cc090175ab5a976d4054baa9bb4041deb9b44f12bc823db89559d6617dc6bc3"
+    },
+    {
+      "path": "screenshots/1280x720/scene-13.png",
+      "bytes": 67019,
+      "sha256": "9eb2c7aa67ed88376b014f7890458024f81d36916d0937706d32fd6589e4f75f"
+    },
+    {
+      "path": "screenshots/1280x720/scene-14.png",
+      "bytes": 48761,
+      "sha256": "e7ffd636bf10f33afef79fdea77f4fb22524de3de3d569ac65a18723220ace22"
+    },
+    {
+      "path": "screenshots/1280x720/scene-15.png",
+      "bytes": 53737,
+      "sha256": "825f729b3a2d9449aac5d3926d7435707aaddc5b63fc314147576fd08540672d"
+    },
+    {
+      "path": "screenshots/1280x720/scene-16.png",
+      "bytes": 72449,
+      "sha256": "1fd2581026427d04ec80fb5ceb10f851086f53852ea3cd9df82a05844b8b5529"
+    },
+    {
+      "path": "screenshots/1280x720/scene-17.png",
+      "bytes": 81231,
+      "sha256": "293106165ca189fe7116959695dabf60a36e3e4a48419bfc602b2fc469a65991"
+    },
+    {
+      "path": "screenshots/1280x720/scene-18.png",
+      "bytes": 94551,
+      "sha256": "7f10dae6c8e88aecd7557ff75617ad1fc51ab829990807ef04570b6208a74f17"
+    },
+    {
+      "path": "screenshots/1280x720/scene-19.png",
+      "bytes": 86444,
+      "sha256": "d7e92122bcb698d00c619077659c3e33dd47d9769664e5c2731239a2f0d74a24"
+    },
+    {
+      "path": "screenshots/1280x720/states/modal-01.png",
+      "bytes": 61875,
+      "sha256": "41641176cde2cb8fd4ec918913643fb49b5d378fd1f0a6d1bee1c7639d8765bb"
+    },
+    {
+      "path": "screenshots/1280x720/states/modal-02.png",
+      "bytes": 62030,
+      "sha256": "757f593300271e3fcafd3ce4e46137a551b68e90560073615c7694240f8336ab"
+    },
+    {
+      "path": "screenshots/1280x720/states/modal-03.png",
+      "bytes": 56779,
+      "sha256": "5a547401c722253076107bce9ec491aa3bcd91487e6b09fd35cbe6d917e9df06"
+    },
+    {
+      "path": "screenshots/1280x720/states/modal-04.png",
+      "bytes": 59169,
+      "sha256": "5205146e9a64ce980656a31e1bbc719bfdc7a63de72ca15a6b90c05b10a9bea9"
+    },
+    {
+      "path": "screenshots/1280x720/states/modal-05.png",
+      "bytes": 59526,
+      "sha256": "858e48d9e71f4473d7c0fc2e8df7cead4e5f44dd28d7696ab575d2c464cff73b"
+    }
+  ],
+  "claimsBoundary": {
+    "proves": "The listed protected images existed and were hash-bound when this manifest was generated.",
+    "doesNotProve": "Candidate parity, uncaptured state parity, responsive parity, interaction correctness, or runtime cleanliness."
+  }
+}

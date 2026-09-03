@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "viewport": { "width": 1280, "height": 720 },
+  "tolerancePx": 6,
+  "coordinateSystem": "scene-local CSS pixels at 1280x720 after fonts settle and animations are disabled",
+  "regionRule": "Every named region must be a visible data-scene-region element in its declared state. Bounds are x, y, width, height. Unrelated named regions in collisionPairs must have zero intersection area.",
+  "scenes": [
+    { "index": 1, "name": "capability", "regions": { "copy": [90, 250, 340, 90], "stage": [420, 150, 720, 420], "foundation": [635, 185, 120, 82], "company-row": [425, 420, 700, 72], "stage-caption": [620, 535, 180, 22] }, "collisionPairs": [["copy", "stage"], ["copy", "company-row"]] },
+    { "index": 2, "name": "moat", "regions": { "statement": [218, 105, 845, 176], "stage": [155, 360, 970, 135], "company-row": [220, 410, 840, 70], "caption": [515, 555, 250, 24] }, "collisionPairs": [["statement", "stage"], ["statement", "company-row"]] },
+    { "index": 3, "name": "deployment-answer", "regions": { "lead": [435, 90, 410, 26], "statement": [301, 185, 678, 95], "stage": [85, 290, 1110, 230], "roi-node": [1020, 285, 96, 98], "closing": [420, 565, 440, 32] }, "collisionPairs": [["statement", "stage"], ["stage", "closing"]] },
+    { "index": 4, "name": "role", "regions": { "lead": [90, 90, 450, 26], "statement": [90, 221, 789, 117], "stages": [90, 382, 1100, 145], "closing": [90, 565, 720, 32] }, "collisionPairs": [["statement", "stages"], ["stages", "closing"]] },
+    { "index": 5, "name": "judgments", "regions": { "statement": [208, 119, 864, 81], "commercial-world": [170, 285, 330, 180], "fde-node": [595, 340, 90, 80], "technical-world": [780, 285, 330, 180], "closing": [330, 555, 620, 32] }, "collisionPairs": [["statement", "commercial-world"], ["statement", "technical-world"], ["commercial-world", "fde-node"], ["fde-node", "technical-world"]] },
+    { "index": 6, "name": "current-workflow", "regions": { "copy": [90, 235, 470, 28], "cards": [132, 299, 1018, 132], "instruction": [470, 500, 340, 24], "label": [90, 555, 270, 24] }, "collisionPairs": [["copy", "cards"], ["cards", "instruction"], ["cards", "label"]] },
+    { "index": 7, "name": "ai-workflow", "regions": { "diagram": [205, 330, 870, 150], "exception": [420, 485, 440, 34], "evidence-rail": [90, 550, 1100, 32], "closing": [90, 610, 930, 42] }, "collisionPairs": [["diagram", "exception"], ["diagram", "evidence-rail"], ["evidence-rail", "closing"]] },
+    { "index": 8, "name": "deployment-run", "regions": { "statement": [240, 164, 800, 96], "phase-rail": [180, 315, 920, 30], "run-panel": [360, 365, 560, 170], "approval": [560, 555, 160, 38] }, "collisionPairs": [["statement", "phase-rail"], ["phase-rail", "run-panel"], ["run-panel", "approval"]] },
+    { "index": 9, "name": "three-parts", "regions": { "statement": [354, 245, 572, 59], "chain": [235, 390, 810, 122], "closing": [450, 570, 380, 24] }, "collisionPairs": [["statement", "chain"], ["chain", "closing"]] },
+    { "index": 10, "name": "audit", "regions": { "copy": [90, 150, 545, 48], "context-column": [90, 203, 298, 358], "findings-column": [452, 203, 267, 358], "artifact-column": [784, 203, 407, 390], "artifact-header": [784, 260, 407, 42], "artifact-table": [784, 302, 407, 346], "bottom-rail": [28, 674, 230, 24] }, "collisionPairs": [["copy", "context-column"], ["copy", "findings-column"], ["copy", "artifact-column"], ["context-column", "findings-column"], ["findings-column", "artifact-column"], ["artifact-column", "bottom-rail"]] },
+    { "index": 11, "name": "automation", "regions": { "root": [555, 245, 170, 32], "branches": [210, 355, 860, 116], "closing": [350, 565, 580, 32] }, "collisionPairs": [["root", "branches"], ["branches", "closing"]] },
+    { "index": 12, "name": "evals", "regions": { "evaluation-table": [90, 210, 700, 270], "evaluation-header": [90, 260, 700, 42], "report": [835, 260, 355, 325], "legend": [90, 515, 700, 24], "bottom-rail": [28, 674, 230, 24] }, "collisionPairs": [["evaluation-table", "report"], ["evaluation-table", "legend"], ["report", "bottom-rail"]] },
+    { "index": 13, "name": "deployment", "regions": { "architecture": [150, 250, 980, 230], "principles": [90, 555, 1100, 68], "closing": [330, 645, 620, 22] }, "collisionPairs": [["architecture", "principles"], ["principles", "closing"]] },
+    { "index": 14, "name": "loop", "regions": { "loop": [385, 245, 510, 55], "statement": [161, 413, 957, 117], "prompt": [555, 615, 180, 24] }, "collisionPairs": [["loop", "statement"], ["statement", "prompt"]] },
+    { "index": 15, "name": "roadmap", "regions": { "copy": [90, 165, 480, 70], "instruction": [90, 250, 560, 24], "timeline": [110, 365, 1055, 66], "case-study": [975, 435, 185, 22], "project-note": [90, 625, 650, 24], "project-tags": [90, 652, 502, 28] }, "collisionPairs": [["copy", "timeline"], ["instruction", "timeline"], ["timeline", "project-note"], ["case-study", "project-note"], ["project-note", "project-tags"]] },
+    { "index": 16, "name": "week-1", "regions": { "copy": [90, 165, 670, 40], "calendar": [90, 250, 700, 150], "system-rail": [90, 480, 1000, 24], "project-tags": [90, 520, 502, 28] }, "collisionPairs": [["copy", "calendar"], ["calendar", "system-rail"], ["system-rail", "project-tags"]] },
+    { "index": 17, "name": "week-2", "regions": { "copy": [90, 165, 670, 40], "calendar": [90, 250, 1080, 150], "system-rail": [90, 480, 1000, 24], "project-tags": [90, 520, 502, 28] }, "collisionPairs": [["copy", "calendar"], ["calendar", "system-rail"], ["system-rail", "project-tags"]] },
+    { "index": 18, "name": "week-3", "regions": { "copy": [90, 215, 670, 40], "calendar": [90, 285, 700, 150], "system-rail": [90, 510, 1000, 24], "project-tags": [90, 550, 502, 28] }, "collisionPairs": [["copy", "calendar"], ["calendar", "system-rail"], ["system-rail", "project-tags"]] },
+    { "index": 19, "name": "week-4", "regions": { "copy": [90, 165, 670, 40], "calendar": [90, 250, 1075, 150], "system-rail": [90, 480, 1000, 24], "project-tags": [90, 520, 502, 28] }, "collisionPairs": [["copy", "calendar"], ["calendar", "system-rail"], ["system-rail", "project-tags"]] }
+  ],
+  "modalShell": {
+    "backdrop": [0, 0, 1280, 720],
+    "panel": [392, 86, 496, 548],
+    "tag": [424, 116, 270, 18],
+    "title": [424, 146, 390, 35],
+    "punch": [424, 190, 390, 22],
+    "bullets": [424, 230, 416, 180],
+    "closing-label": [424, 438, 210, 16],
+    "closing": [424, 463, 416, 112],
+    "close": [850, 100, 24, 24],
+    "tolerancePx": 8,
+    "collisionPairs": [["title", "punch"], ["punch", "bullets"], ["bullets", "closing-label"], ["closing-label", "closing"], ["close", "title"]]
+  },
+  "modalVariants": [
+    { "modal": 1, "bulletLines": 9, "closingLines": 5 },
+    { "modal": 2, "bulletLines": 10, "closingLines": 5 },
+    { "modal": 3, "bulletLines": 10, "closingLines": 5 },
+    { "modal": 4, "bulletLines": 10, "closingLines": 5 },
+    { "modal": 5, "bulletLines": 8, "closingLines": 5 }
+  ]
+}

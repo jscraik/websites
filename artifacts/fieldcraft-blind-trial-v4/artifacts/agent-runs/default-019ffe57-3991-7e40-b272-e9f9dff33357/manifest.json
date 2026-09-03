@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "agent_id": "019ffe57-3991-7e40-b272-e9f9dff33357",
+  "run_id": "019ffe57-3991-7e40-b272-e9f9dff33357",
+  "artifact_root": "artifacts/fieldcraft-blind-trial-v4",
+  "manifest_path": "artifacts/fieldcraft-blind-trial-v4/artifacts/agent-runs/default-019ffe57-3991-7e40-b272-e9f9dff33357/manifest.json",
+  "delivery_mode": "local static candidate; no deployment",
+  "candidate_identifier": "sha256:82305033b2c1bd5880148afd6b556035d8bd8f199245f6467afeace67bd27993 (dist/index.html)",
+  "authorized_write_scope": "artifacts/fieldcraft-blind-trial-v4",
+  "clean_room_inputs": [
+    "docs/specifications/fieldcraft-fde-blind-build-agent-prompt.md",
+    "docs/specifications/fieldcraft-fde-blind-build-brief.md",
+    "docs/specifications/fieldcraft-fde-measured-scene-contract.md",
+    "docs/specifications/fieldcraft-fde-internal-region-contract.json",
+    "CODESTYLE.md and generic local project tooling"
+  ],
+  "validation": [
+    {
+      "command": "npm run build",
+      "outcome": "pass"
+    },
+    {
+      "command": "npm run validate:structure",
+      "outcome": "pass"
+    },
+    {
+      "command": "npm run validate:syntax",
+      "outcome": "pass"
+    },
+    {
+      "command": "npm run validate:http",
+      "outcome": "pass"
+    },
+    {
+      "command": "browser-rendered candidate validation",
+      "outcome": "blocked",
+      "reason": "The current managed Chromium route is not authorized for a direct launch against this mutable local artifact, and no approved CDP endpoint was admitted. No browser workaround was used."
+    }
+  ],
+  "accountability_receipt": {
+    "manifest_path": "artifacts/fieldcraft-blind-trial-v4/artifacts/agent-runs/default-019ffe57-3991-7e40-b272-e9f9dff33357/manifest.json",
+    "report_path": "artifacts/fieldcraft-blind-trial-v4/REPORT.md",
+    "scope_status": "writes confined to the candidate artifact directory"
+  }
+}

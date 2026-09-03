@@ -1,0 +1,242 @@
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import path from "node:path";
+import process from "node:process";
+import { chromium } from "playwright";
+import pixelmatch from "pixelmatch";
+import { PNG } from "pngjs";
+
+const candidateUrl = process.env.CANDIDATE_BASE_URL;
+if (!candidateUrl) {
+  throw new Error("CANDIDATE_BASE_URL is required");
+}
+
+const contract = JSON.parse(
+  await readFile("docs/specifications/fieldcraft-fde-scene-contract.json", "utf8"),
+);
+const internalContract = JSON.parse(
+  await readFile("docs/specifications/fieldcraft-fde-internal-region-contract.json", "utf8"),
+);
+const outputRoot = process.env.FIELDCRAFT_EVIDENCE_DIR ?? "artifacts/fieldcraft-scene-evaluation";
+const referenceRoot = process.env.FIELDCRAFT_REFERENCE_SCREENSHOTS;
+const mismatchLimit = Number(process.env.FIELDCRAFT_PIXEL_MISMATCH_LIMIT ?? "0.01");
+const browser = await chromium.launch({ headless: true });
+const page = await browser.newPage({ viewport: contract.viewport, reducedMotion: "reduce" });
+const consoleFindings = [];
+const requestFailures = [];
+
+page.on("console", (message) => {
+  if (["warning", "error"].includes(message.type())) {
+    consoleFindings.push({ type: message.type(), text: message.text() });
+  }
+});
+page.on("requestfailed", (request) => {
+  requestFailures.push({ url: request.url(), error: request.failure()?.errorText ?? "unknown" });
+});
+
+await page.goto(candidateUrl, { waitUntil: "networkidle" });
+await page.evaluate(async () => document.fonts.ready);
+await page.emulateMedia({ reducedMotion: "reduce" });
+await mkdir(outputRoot, { recursive: true });
+
+const measurements = await page.evaluate((sceneContract) => {
+  const sections = [...document.querySelectorAll("main section")];
+  const rect = (element) => {
+    const box = element.getBoundingClientRect();
+    return { x: box.x, y: box.y, width: box.width, height: box.height };
+  };
+  const renderedLines = (element) => {
+    const range = document.createRange();
+    const lines = [];
+    for (const node of element.childNodes) {
+      if (node.nodeType !== Node.TEXT_NODE && node.nodeType !== Node.ELEMENT_NODE) continue;
+      range.selectNodeContents(node);
+      for (const box of range.getClientRects()) {
+        if (box.width > 0 && box.height > 0) lines.push({ x: box.x, y: box.y, width: box.width, height: box.height });
+      }
+    }
+    const distinct = [];
+    for (const line of lines.sort((a, b) => a.y - b.y || a.x - b.x)) {
+      if (!distinct.some((existing) => Math.abs(existing.y - line.y) < 2)) distinct.push(line);
+    }
+    return distinct;
+  };
+  const intersectionArea = (a, b) => {
+    const width = Math.max(0, Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x));
+    const height = Math.max(0, Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y));
+    return width * height;
+  };
+  const visible = (element) => {
+    const style = getComputedStyle(element);
+    const box = element.getBoundingClientRect();
+    return style.display !== "none" && style.visibility !== "hidden" && Number(style.opacity) > 0 && box.width > 0 && box.height > 0;
+  };
+
+  return sceneContract.scenes.map((expected, index) => {
+    const section = sections[index];
+    const heading = section?.querySelector(index === 0 ? "h1" : "h2");
+    if (!section || !heading) return { index, missing: true };
+    const sectionBox = rect(section);
+    const headingBox = rect(heading);
+    const style = getComputedStyle(heading);
+    const regions = [...section.querySelectorAll("[data-scene-region]")]
+      .filter(visible)
+      .map((element) => {
+        const box = rect(element);
+        return {
+          key: element.dataset.sceneRegion,
+          box,
+          localBox: { x: box.x - sectionBox.x, y: box.y - sectionBox.y, width: box.width, height: box.height },
+        };
+      });
+    const allowed = new Set(
+      [...section.querySelectorAll("[data-contains-region]")].map(
+        (element) => `${element.dataset.sceneRegion}>${element.dataset.containsRegion}`,
+      ),
+    );
+    const collisions = [];
+    for (let left = 0; left < regions.length; left += 1) {
+      for (let right = left + 1; right < regions.length; right += 1) {
+        const a = regions[left];
+        const b = regions[right];
+        if (allowed.has(`${a.key}>${b.key}`) || allowed.has(`${b.key}>${a.key}`)) continue;
+        const area = intersectionArea(a.box, b.box);
+        if (area > 0) collisions.push({ a: a.key, b: b.key, area });
+      }
+    }
+    const hiddenStateViolations = [...section.querySelectorAll("[data-state-hidden='true']")]
+      .filter((element) => visible(element) || getComputedStyle(element).pointerEvents !== "none")
+      .map((element) => element.id || element.dataset.sceneRegion || element.tagName);
+    return {
+      index,
+      name: expected.name,
+      sectionBox,
+      heading: {
+        box: headingBox,
+        localY: headingBox.y - sectionBox.y,
+        fontSize: parseFloat(style.fontSize),
+        lineHeight: parseFloat(style.lineHeight),
+        align: style.textAlign,
+        color: style.color,
+        lines: renderedLines(heading),
+        clipped: heading.scrollWidth > heading.clientWidth || heading.scrollHeight > heading.clientHeight,
+      },
+      sceneOverflow: section.scrollWidth > section.clientWidth,
+      regions,
+      collisions,
+      hiddenStateViolations,
+    };
+  });
+}, contract);
+
+const near = (actual, expected, tolerance) => Math.abs(actual - expected) <= tolerance;
+const normalizeAlign = (value) => ({ left: "start", right: "end" })[value] ?? value;
+const results = measurements.map((actual) => {
+  const expected = contract.scenes[actual.index];
+  if (actual.missing) return { index: actual.index, name: expected.name, pass: false, failures: ["missing scene or heading"] };
+  const failures = [];
+  const expectedHeading = expected.heading;
+  const checks = [
+    ["x", actual.heading.box.x, expectedHeading.x, contract.tolerances.anchorPx],
+    ["localY", actual.heading.localY, expectedHeading.localY, contract.tolerances.anchorPx],
+    ["width", actual.heading.box.width, expectedHeading.width, contract.tolerances.boxPx],
+    ["height", actual.heading.box.height, expectedHeading.height, contract.tolerances.boxPx],
+    ["fontSize", actual.heading.fontSize, expectedHeading.fontSize, 0.1],
+    ["lineHeight", actual.heading.lineHeight, expectedHeading.lineHeight, 0.1],
+  ];
+  for (const [key, observed, wanted, tolerance] of checks) {
+    if (!near(observed, wanted, tolerance)) failures.push(`${key}: expected ${wanted}±${tolerance}, observed ${observed}`);
+  }
+  if (normalizeAlign(actual.heading.align) !== expectedHeading.align) {
+    failures.push(`align: expected ${expectedHeading.align}, observed ${actual.heading.align}`);
+  }
+  if (actual.heading.color !== contract.colors[expectedHeading.color]) {
+    failures.push(`color: expected ${contract.colors[expectedHeading.color]}, observed ${actual.heading.color}`);
+  }
+  if (expectedHeading.lines && actual.heading.lines.length !== expectedHeading.lines) {
+    failures.push(`lines: expected ${expectedHeading.lines}, observed ${actual.heading.lines.length}`);
+  }
+  if (actual.heading.clipped) failures.push("heading is internally clipped");
+  if (actual.sceneOverflow) failures.push("scene has horizontal overflow");
+  if (actual.collisions.length) failures.push(`undeclared collisions: ${JSON.stringify(actual.collisions)}`);
+  if (actual.hiddenStateViolations.length) failures.push(`hidden state violations: ${actual.hiddenStateViolations.join(", ")}`);
+  const internalScene = internalContract.scenes.find((scene) => scene.index === actual.index);
+  if (internalScene) {
+    const observed = new Map(actual.regions.map((region) => [region.key, region.localBox]));
+    for (const [key, bounds] of Object.entries(internalScene.regions)) {
+      const box = observed.get(key);
+      if (!box) {
+        failures.push(`missing internal region: ${key}`);
+        continue;
+      }
+      for (const [dimension, value, wanted] of [["x", box.x, bounds[0]], ["y", box.y, bounds[1]], ["width", box.width, bounds[2]], ["height", box.height, bounds[3]]]) {
+        if (!near(value, wanted, internalContract.tolerancePx)) {
+          failures.push(`region ${key}.${dimension}: expected ${wanted}±${internalContract.tolerancePx}, observed ${value}`);
+        }
+      }
+    }
+    const intersect = (a, b) => Math.max(0, Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x)) * Math.max(0, Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y));
+    for (const [left, right] of internalScene.collisionPairs) {
+      const a = observed.get(left);
+      const b = observed.get(right);
+      if (a && b && intersect(a, b) > 0) failures.push(`contract collision: ${left}/${right}`);
+    }
+  }
+  return { index: actual.index, name: expected.name, pass: failures.length === 0, failures };
+});
+
+const visualResults = [];
+for (const scene of contract.scenes) {
+  await page.evaluate((index) => {
+    const section = document.querySelectorAll("main section")[index];
+    section.scrollIntoView({ behavior: "instant", block: "start" });
+  }, scene.index);
+  await page.waitForTimeout(50);
+  const candidatePath = path.join(outputRoot, `scene-${String(scene.index).padStart(2, "0")}-candidate.png`);
+  await page.screenshot({ path: candidatePath, animations: "disabled" });
+  if (!referenceRoot) {
+    visualResults.push({ index: scene.index, status: "blocked", reason: "FIELDCRAFT_REFERENCE_SCREENSHOTS is not set" });
+    continue;
+  }
+  const referencePath = path.join(referenceRoot, `scene-${String(scene.index).padStart(2, "0")}.png`);
+  let reference;
+  try {
+    reference = PNG.sync.read(await readFile(referencePath));
+  } catch {
+    visualResults.push({ index: scene.index, status: "blocked", reason: `missing ${referencePath}` });
+    continue;
+  }
+  const candidate = PNG.sync.read(await readFile(candidatePath));
+  if (reference.width !== candidate.width || reference.height !== candidate.height) {
+    visualResults.push({ index: scene.index, status: "fail", reason: "image dimensions differ" });
+    continue;
+  }
+  const diff = new PNG({ width: reference.width, height: reference.height });
+  const mismatched = pixelmatch(reference.data, candidate.data, diff.data, reference.width, reference.height, { threshold: 0.1 });
+  const ratio = mismatched / (reference.width * reference.height);
+  await writeFile(path.join(outputRoot, `scene-${String(scene.index).padStart(2, "0")}-diff.png`), PNG.sync.write(diff));
+  visualResults.push({ index: scene.index, status: ratio <= mismatchLimit ? "pass" : "fail", ratio, limit: mismatchLimit });
+}
+
+const report = {
+  schemaVersion: 1,
+  candidateUrl,
+  viewport: contract.viewport,
+  geometry: results,
+  visual: visualResults,
+  consoleFindings,
+  requestFailures,
+  pass:
+    results.every((result) => result.pass) &&
+    visualResults.every((result) => result.status === "pass") &&
+    consoleFindings.length === 0 &&
+    requestFailures.length === 0,
+};
+await writeFile(path.join(outputRoot, "report.json"), `${JSON.stringify(report, null, 2)}\n`);
+await browser.close();
+
+if (!report.pass) {
+  console.error(`FAIL Fieldcraft rendered scene evaluation; see ${outputRoot}/report.json`);
+  process.exitCode = 1;
+} else {
+  console.log(`PASS Fieldcraft rendered scene evaluation; see ${outputRoot}/report.json`);
+}

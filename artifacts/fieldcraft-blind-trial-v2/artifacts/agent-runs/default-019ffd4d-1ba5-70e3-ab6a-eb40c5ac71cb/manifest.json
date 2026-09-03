@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "run_id": "019ffd4d-1ba5-70e3-ab6a-eb40c5ac71cb",
+  "candidate_id": "fieldcraft-blind-trial-v2-local-2026-08-13",
+  "candidate_root": "artifacts/fieldcraft-blind-trial-v2",
+  "report_path": "artifacts/fieldcraft-blind-trial-v2/REPORT.md",
+  "review_path": "artifacts/fieldcraft-blind-trial-v2/artifacts/reviews/default.md",
+  "status": "completed_with_browser_validation_blocked",
+  "writes_outside_candidate": false,
+  "deployed": false
+}

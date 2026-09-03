@@ -1,0 +1,15 @@
+{
+  "name": "fieldcraft-blind-trial-v3",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/server.mjs --source",
+    "preview": "node scripts/server.mjs",
+    "test:structure": "node scripts/test-structure.mjs",
+    "test:http": "node scripts/test-http.mjs",
+    "test:runtime": "node scripts/test-runtime.mjs",
+    "test": "npm run build && npm run test:structure && npm run test:http && npm run test:runtime"
+  }
+}

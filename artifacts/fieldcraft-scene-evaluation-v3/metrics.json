@@ -1,0 +1,322 @@
+[
+  {
+    "align": "center",
+    "box": {
+      "height": 395.09375,
+      "width": 1100.796875,
+      "x": 89.59375,
+      "y": 158.796875
+    },
+    "clientWidth": 1280,
+    "color": "rgb(2, 43, 114)",
+    "fontSize": "134.4px",
+    "heading": "AI Forward\nDeployed\nEngineering",
+    "index": 0,
+    "lineHeight": "131.712px",
+    "scrollWidth": 1280
+  },
+  {
+    "align": "start",
+    "box": {
+      "height": 117.09375,
+      "width": 619.5,
+      "x": 89.59375,
+      "y": 119.59375
+    },
+    "clientWidth": 1280,
+    "color": "rgb(23, 26, 34)",
+    "fontSize": "56.32px",
+    "heading": "Every company can now\nbuy intelligence.",
+    "index": 1,
+    "lineHeight": "58.5728px",
+    "scrollWidth": 1280
+  },
+  {
+    "align": "center",
+    "box": {
+      "height": 175.6953125,
+      "width": 844.796875,
+      "x": 217.59375,
+      "y": 105.1953125
+    },
+    "clientWidth": 1280,
+    "color": "rgb(23, 26, 34)",
+    "fontSize": "56.32px",
+    "heading": "If everyone can access it,\nintelligence alone cannot\nbe the moat.",
+    "index": 2,
+    "lineHeight": "58.5728px",
+    "scrollWidth": 1280
+  },
+  {
+    "align": "center",
+    "box": {
+      "height": 94.6953125,
+      "width": 678,
+      "x": 301,
+      "y": 185.296875
+    },
+    "clientWidth": 1280,
+    "color": "rgb(23, 26, 34)",
+    "fontSize": "94.72px",
+    "heading": "Into deployment.",
+    "index": 3,
+    "lineHeight": "94.72px",
+    "scrollWidth": 1280
+  },
+  {
+    "align": "start",
+    "box": {
+      "height": 117.09375,
+      "width": 788.5,
+      "x": 89.59375,
+      "y": 220.8984375
+    },
+    "clientWidth": 1280,
+    "color": "rgb(243, 246, 251)",
+    "fontSize": "56.32px",
+    "heading": "That person is the forward\ndeployed engineer.",
+    "index": 4,
+    "lineHeight": "58.5728px",
+    "scrollWidth": 1280
+  },
+  {
+    "align": "center",
+    "box": {
+      "height": 80.59375,
+      "width": 864,
+      "x": 208,
+      "y": 118.5
+    },
+    "clientWidth": 1280,
+    "color": "rgb(23, 26, 34)",
+    "fontSize": "36px",
+    "heading": "The role requires two kinds of judgment\nthat rarely exist in one person.",
+    "index": 5,
+    "lineHeight": "40.32px",
+    "scrollWidth": 1280
+  },
+  {
+    "align": "start",
+    "box": {
+      "height": 117.09375,
+      "width": 1100.796875,
+      "x": 89.59375,
+      "y": 98
+    },
+    "clientWidth": 1280,
+    "color": "rgb(23, 26, 34)",
+    "fontSize": "56.32px",
+    "heading": "First, understand how the work is\nreally being done.",
+    "index": 6,
+    "lineHeight": "58.5728px",
+    "scrollWidth": 1280
+  },
+  {
+    "align": "start",
+    "box": {
+      "height": 175.6953125,
+      "width": 901.1171875,
+      "x": 89.59375,
+      "y": 98
+    },
+    "clientWidth": 1280,
+    "color": "rgb(23, 26, 34)",
+    "fontSize": "56.32px",
+    "heading": "Then decide how the work should\noperate when intelligence is built\ninto it.",
+    "index": 7,
+    "lineHeight": "58.5728px",
+    "scrollWidth": 1280
+  },
+  {
+    "align": "center",
+    "box": {
+      "height": 95.796875,
+      "width": 800,
+      "x": 240,
+      "y": 163.8984375
+    },
+    "clientWidth": 1280,
+    "color": "rgb(243, 246, 251)",
+    "fontSize": "42px",
+    "heading": "Finally, the agent can be deployed\nover the existing systems.",
+    "index": 8,
+    "lineHeight": "47.88px",
+    "scrollWidth": 1280
+  },
+  {
+    "align": "center",
+    "box": {
+      "height": 58.59375,
+      "width": 572.3984375,
+      "x": 353.796875,
+      "y": 245
+    },
+    "clientWidth": 1280,
+    "color": "rgb(243, 246, 251)",
+    "fontSize": "56.32px",
+    "heading": "The job has three parts.",
+    "index": 9,
+    "lineHeight": "58.5728px",
+    "scrollWidth": 1280
+  },
+  {
+    "align": "start",
+    "box": {
+      "height": 58.59375,
+      "width": 1100.796875,
+      "x": 89.59375,
+      "y": 96
+    },
+    "clientWidth": 1280,
+    "color": "rgb(23, 26, 34)",
+    "fontSize": "56.32px",
+    "heading": "Audit: Find the workflow worth rebuilding.",
+    "index": 10,
+    "lineHeight": "58.5728px",
+    "scrollWidth": 1280
+  },
+  {
+    "align": "center",
+    "box": {
+      "height": 117.09375,
+      "width": 901.1171875,
+      "x": 189.4375,
+      "y": 98
+    },
+    "clientWidth": 1280,
+    "color": "rgb(23, 26, 34)",
+    "fontSize": "56.32px",
+    "heading": "Decide what should be automated —\nand what should not.",
+    "index": 11,
+    "lineHeight": "58.5728px",
+    "scrollWidth": 1280
+  },
+  {
+    "align": "start",
+    "box": {
+      "height": 58.59375,
+      "width": 1100.796875,
+      "x": 89.59375,
+      "y": 96
+    },
+    "clientWidth": 1280,
+    "color": "rgb(23, 26, 34)",
+    "fontSize": "56.32px",
+    "heading": "Evals: Turn non-determinism into evidence.",
+    "index": 12,
+    "lineHeight": "58.5728px",
+    "scrollWidth": 1280
+  },
+  {
+    "align": "start",
+    "box": {
+      "height": 117.09375,
+      "width": 1100.796875,
+      "x": 89.59375,
+      "y": 96
+    },
+    "clientWidth": 1280,
+    "color": "rgb(23, 26, 34)",
+    "fontSize": "56.32px",
+    "heading": "Deployment: Make it work\ninside the business.",
+    "index": 13,
+    "lineHeight": "58.5728px",
+    "scrollWidth": 1280
+  },
+  {
+    "align": "center",
+    "box": {
+      "height": 117.09375,
+      "width": 957.4375,
+      "x": 161.2734375,
+      "y": 413.5
+    },
+    "clientWidth": 1280,
+    "color": "rgb(23, 26, 34)",
+    "fontSize": "56.32px",
+    "heading": "An FDE owns the path from messy workflow\nto trusted production system.",
+    "index": 14,
+    "lineHeight": "58.5728px",
+    "scrollWidth": 1280
+  },
+  {
+    "align": "start",
+    "box": {
+      "height": 58.59375,
+      "width": 1100.796875,
+      "x": 89.59375,
+      "y": 107.5
+    },
+    "clientWidth": 1280,
+    "color": "rgb(23, 26, 34)",
+    "fontSize": "56.32px",
+    "heading": "How to become an FDE in 30 days.",
+    "index": 15,
+    "lineHeight": "58.5728px",
+    "scrollWidth": 1280
+  },
+  {
+    "align": "start",
+    "box": {
+      "height": 46.09375,
+      "width": 1100.796875,
+      "x": 89.59375,
+      "y": 101.8984375
+    },
+    "clientWidth": 1280,
+    "color": "rgb(23, 26, 34)",
+    "fontSize": "43.52px",
+    "heading": "Week 1: Build an agent that can complete a real loop.",
+    "index": 16,
+    "lineHeight": "46.131px",
+    "scrollWidth": 1280
+  },
+  {
+    "align": "start",
+    "box": {
+      "height": 46.09375,
+      "width": 1100.796875,
+      "x": 89.59375,
+      "y": 101.8984375
+    },
+    "clientWidth": 1280,
+    "color": "rgb(23, 26, 34)",
+    "fontSize": "43.52px",
+    "heading": "Week 2: Turn the demo into a system that can recover.",
+    "index": 17,
+    "lineHeight": "46.131px",
+    "scrollWidth": 1280
+  },
+  {
+    "align": "start",
+    "box": {
+      "height": 92.296875,
+      "width": 1100.796875,
+      "x": 89.59375,
+      "y": 101.8984375
+    },
+    "clientWidth": 1280,
+    "color": "rgb(23, 26, 34)",
+    "fontSize": "43.52px",
+    "heading": "Week 3: Make the system measurable\nand economically viable.",
+    "index": 18,
+    "lineHeight": "46.131px",
+    "scrollWidth": 1280
+  },
+  {
+    "align": "start",
+    "box": {
+      "height": 46.09375,
+      "width": 1100.796875,
+      "x": 89.59375,
+      "y": 101.8984375
+    },
+    "clientWidth": 1280,
+    "color": "rgb(23, 26, 34)",
+    "fontSize": "43.52px",
+    "heading": "Final week: Defend the system like an FDE.",
+    "index": 19,
+    "lineHeight": "46.131px",
+    "scrollWidth": 1280
+  }
+]

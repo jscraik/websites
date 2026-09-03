@@ -1,0 +1,219 @@
+[
+  {
+    "index": 0,
+    "pass": true,
+    "failures": []
+  },
+  {
+    "index": 1,
+    "pass": false,
+    "failures": [
+      "y",
+      "copy.y",
+      "stage.y",
+      "foundation.y",
+      "company-row.y",
+      "stage-caption.y"
+    ]
+  },
+  {
+    "index": 2,
+    "pass": false,
+    "failures": [
+      "y",
+      "statement.y",
+      "stage.y",
+      "company-row.y",
+      "caption.y"
+    ]
+  },
+  {
+    "index": 3,
+    "pass": false,
+    "failures": [
+      "y",
+      "lead.y",
+      "statement.y",
+      "stage.y",
+      "roi-node.y",
+      "closing.y"
+    ]
+  },
+  {
+    "index": 4,
+    "pass": false,
+    "failures": [
+      "y",
+      "lead.y",
+      "statement.y",
+      "stages.y",
+      "closing.y"
+    ]
+  },
+  {
+    "index": 5,
+    "pass": false,
+    "failures": [
+      "y",
+      "statement.y",
+      "commercial-world.y",
+      "fde-node.y",
+      "technical-world.y",
+      "closing.y"
+    ]
+  },
+  {
+    "index": 6,
+    "pass": false,
+    "failures": [
+      "y",
+      "copy.y",
+      "cards.y",
+      "instruction.y",
+      "label.y"
+    ]
+  },
+  {
+    "index": 7,
+    "pass": false,
+    "failures": [
+      "y",
+      "diagram.y",
+      "exception.y",
+      "evidence-rail.y",
+      "closing.y"
+    ]
+  },
+  {
+    "index": 8,
+    "pass": false,
+    "failures": [
+      "y",
+      "statement.y",
+      "phase-rail.y",
+      "run-panel.y",
+      "approval.y"
+    ]
+  },
+  {
+    "index": 9,
+    "pass": false,
+    "failures": [
+      "y",
+      "statement.y",
+      "chain.y",
+      "closing.y"
+    ]
+  },
+  {
+    "index": 10,
+    "pass": false,
+    "failures": [
+      "y",
+      "context-column.y",
+      "findings-column.y",
+      "artifact-column.y",
+      "artifact-header.y",
+      "artifact-table.y",
+      "bottom-rail.y"
+    ]
+  },
+  {
+    "index": 11,
+    "pass": false,
+    "failures": [
+      "y",
+      "root.y",
+      "branches.y",
+      "closing.y"
+    ]
+  },
+  {
+    "index": 12,
+    "pass": false,
+    "failures": [
+      "y",
+      "evaluation-table.y",
+      "evaluation-header.y",
+      "report.y",
+      "legend.y",
+      "bottom-rail.y"
+    ]
+  },
+  {
+    "index": 13,
+    "pass": false,
+    "failures": [
+      "y",
+      "architecture.y",
+      "principles.y"
+    ]
+  },
+  {
+    "index": 14,
+    "pass": false,
+    "failures": [
+      "y",
+      "loop.y",
+      "statement.y",
+      "prompt.y"
+    ]
+  },
+  {
+    "index": 15,
+    "pass": false,
+    "failures": [
+      "y",
+      "copy.y",
+      "instruction.y",
+      "timeline.y",
+      "case-study.y",
+      "project-note.y",
+      "project-tags.y"
+    ]
+  },
+  {
+    "index": 16,
+    "pass": false,
+    "failures": [
+      "y",
+      "copy.y",
+      "calendar.y",
+      "system-rail.y",
+      "project-tags.y"
+    ]
+  },
+  {
+    "index": 17,
+    "pass": false,
+    "failures": [
+      "y",
+      "copy.y",
+      "calendar.y",
+      "system-rail.y",
+      "project-tags.y"
+    ]
+  },
+  {
+    "index": 18,
+    "pass": false,
+    "failures": [
+      "y",
+      "copy.y",
+      "calendar.y",
+      "system-rail.y",
+      "project-tags.y"
+    ]
+  },
+  {
+    "index": 19,
+    "pass": false,
+    "failures": [
+      "y",
+      "copy.y",
+      "calendar.y",
+      "system-rail.y",
+      "project-tags.y"
+    ]
+  }
+]

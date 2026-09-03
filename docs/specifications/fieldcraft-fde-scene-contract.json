@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "viewport": { "width": 1280, "height": 720 },
+  "sectionHeight": 720,
+  "tolerances": { "anchorPx": 2, "boxPx": 3, "diagramPx": 4 },
+  "colors": {
+    "paper": "rgb(255, 255, 255)",
+    "ink": "rgb(23, 26, 34)",
+    "navy": "rgb(2, 43, 114)",
+    "reverse": "rgb(243, 246, 251)"
+  },
+  "scenes": [
+    { "index": 0, "name": "hero", "heading": { "x": 89.6, "localY": 158.8, "width": 1100.8, "height": 395.1, "fontSize": 134.4, "lineHeight": 131.712, "align": "center", "color": "navy", "lines": 3 } },
+    { "index": 1, "name": "capability", "heading": { "x": 89.6, "localY": 119.6, "width": 619.5, "height": 117.1, "fontSize": 56.32, "lineHeight": 58.573, "align": "start", "color": "ink" } },
+    { "index": 2, "name": "moat", "heading": { "x": 217.6, "localY": 105.2, "width": 844.8, "height": 175.7, "fontSize": 56.32, "lineHeight": 58.573, "align": "center", "color": "ink" } },
+    { "index": 3, "name": "deployment-answer", "heading": { "x": 301, "localY": 185.3, "width": 678, "height": 94.7, "fontSize": 94.72, "lineHeight": 94.72, "align": "center", "color": "ink" } },
+    { "index": 4, "name": "role", "heading": { "x": 89.6, "localY": 220.9, "width": 788.5, "height": 117.1, "fontSize": 56.32, "lineHeight": 58.573, "align": "start", "color": "reverse" } },
+    { "index": 5, "name": "judgments", "heading": { "x": 208, "localY": 118.5, "width": 864, "height": 80.6, "fontSize": 36, "lineHeight": 40.32, "align": "center", "color": "ink" } },
+    { "index": 6, "name": "current-workflow", "heading": { "x": 89.6, "localY": 98, "width": 1100.8, "height": 117.1, "fontSize": 56.32, "lineHeight": 58.573, "align": "start", "color": "ink" } },
+    { "index": 7, "name": "ai-workflow", "heading": { "x": 89.6, "localY": 98, "width": 901.1, "height": 175.7, "fontSize": 56.32, "lineHeight": 58.573, "align": "start", "color": "ink" } },
+    { "index": 8, "name": "deployment-run", "heading": { "x": 240, "localY": 163.9, "width": 800, "height": 95.8, "fontSize": 42, "lineHeight": 47.88, "align": "center", "color": "reverse" } },
+    { "index": 9, "name": "three-parts", "heading": { "x": 353.8, "localY": 245, "width": 572.4, "height": 58.6, "fontSize": 56.32, "lineHeight": 58.573, "align": "center", "color": "reverse" } },
+    { "index": 10, "name": "audit", "heading": { "x": 89.6, "localY": 96, "width": 1100.8, "height": 58.6, "fontSize": 56.32, "lineHeight": 58.573, "align": "start", "color": "ink" } },
+    { "index": 11, "name": "automation", "heading": { "x": 189.4, "localY": 98, "width": 901.1, "height": 117.1, "fontSize": 56.32, "lineHeight": 58.573, "align": "center", "color": "ink" } },
+    { "index": 12, "name": "evals", "heading": { "x": 89.6, "localY": 96, "width": 1100.8, "height": 58.6, "fontSize": 56.32, "lineHeight": 58.573, "align": "start", "color": "ink" } },
+    { "index": 13, "name": "deployment", "heading": { "x": 89.6, "localY": 96, "width": 1100.8, "height": 117.1, "fontSize": 56.32, "lineHeight": 58.573, "align": "start", "color": "ink" } },
+    { "index": 14, "name": "loop", "heading": { "x": 161.3, "localY": 413.5, "width": 957.4, "height": 117.1, "fontSize": 56.32, "lineHeight": 58.573, "align": "center", "color": "ink" } },
+    { "index": 15, "name": "roadmap", "heading": { "x": 89.6, "localY": 107.5, "width": 1100.8, "height": 58.6, "fontSize": 56.32, "lineHeight": 58.573, "align": "start", "color": "ink" } },
+    { "index": 16, "name": "week-1", "heading": { "x": 89.6, "localY": 101.9, "width": 1100.8, "height": 46.1, "fontSize": 43.52, "lineHeight": 46.131, "align": "start", "color": "ink" } },
+    { "index": 17, "name": "week-2", "heading": { "x": 89.6, "localY": 101.9, "width": 1100.8, "height": 46.1, "fontSize": 43.52, "lineHeight": 46.131, "align": "start", "color": "ink" } },
+    { "index": 18, "name": "week-3", "heading": { "x": 89.6, "localY": 101.9, "width": 1100.8, "height": 92.3, "fontSize": 43.52, "lineHeight": 46.131, "align": "start", "color": "ink" } },
+    { "index": 19, "name": "week-4", "heading": { "x": 89.6, "localY": 101.9, "width": 1100.8, "height": 46.1, "fontSize": 43.52, "lineHeight": 46.131, "align": "start", "color": "ink" } }
+  ],
+  "requiredStates": [
+    "section-initial:0-19",
+    "workflow-modal:1-5",
+    "deployment:initial",
+    "deployment:approval",
+    "deployment:posted",
+    "deployment:reset",
+    "deployment:re-entry",
+    "deployment:reduced-motion",
+    "roadmap:introduction",
+    "roadmap:week-1",
+    "roadmap:week-2",
+    "roadmap:week-3",
+    "roadmap:week-4",
+    "roadmap:complete-month",
+    "roadmap:backward-from-complete",
+    "roadmap:final-disabled"
+  ],
+  "requiredVisualMatrix": {
+    "viewport": "1280x720",
+    "initialScenes": 20,
+    "workflowModals": 5,
+    "deploymentCheckpoints": 4,
+    "roadmapStates": 6
+  }
+}
