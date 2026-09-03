@@ -145,6 +145,16 @@ assert.match(flipMotion, /layer\.animate\(/);
 assert.match(css, /\.small-button__bg\s*{[^}]*transform:\s*none;[^}]*transform-origin:\s*top left;/);
 assert.match(css, /\.small-button__arrow > \.small-button__bg\s*{[^}]*z-index:\s*0;/);
 assert.match(source, /class="small-button__bg" aria-hidden="true"/);
+assert.match(
+  css,
+  /\.small-button--light \.small-button__bg\s*{[^}]*background:/,
+  "light button surfaces must survive FLIP reparenting into the arrow",
+);
+assert.doesNotMatch(
+  css,
+  /\.small-button--light > \.small-button__bg/,
+  "light button surfaces must not depend on the background remaining a direct child",
+);
 assert.doesNotMatch(
   css,
   /--jp-surface\b/,

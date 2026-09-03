@@ -6772,7 +6772,7 @@ body.skillsbar-demo img {
   z-index: 1;
 }
 
-.small-button--light > .small-button__bg {
+.small-button--light .small-button__bg {
   background: color-mix(in srgb, var(--surface-card) 78%, transparent);
 }
 
