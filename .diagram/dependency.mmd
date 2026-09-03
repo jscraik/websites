@@ -7,11 +7,13 @@ graph LR
   node_check_node_engine_217689bf_3e5964b2["check_node_engine_217689bf"]
   node_check_public_api_docs_a9604f1b_f824853c["check_public_api_docs_a9604f1b"]
   node_content_config_a9a9d2e1_05943ac5["content_config_a9a9d2e1"]
+  node_evaluate_fieldcraft_scenes_d6258bc6_1eab3e75["evaluate_fieldcraft_scenes_d6258bc6"]
   node_generate_social_profile_assets_f4f94011_2a983f29["generate_social_profile_assets_f4f94011"]
   node_jose_parity_cdp_bdcde21d_edb59c81["jose_parity_cdp_bdcde21d"]
   node_jose_parity_runner_50cc4344_e9555b02["jose_parity_runner_50cc4344"]
   node_lapse_dev_f2526c24_d04b45a0["lapse_dev_f2526c24"]
   node_pr_readiness_boundaries_621e369e_7f0b2de9["pr_readiness_boundaries_621e369e"]
+  node_seal_fieldcraft_reference_8652aaa2_c54b3f46["seal_fieldcraft_reference_8652aaa2"]
   node_setup_git_hooks_70750d40_b4ca2cf9["setup_git_hooks_70750d40"]
   node_smoke_pages_9a92b30d_72f6805f["smoke_pages_9a92b30d"]
   node_test_astro_anti_patterns_88db0377_401e86a9["test_astro_anti_patterns_88db0377"]
@@ -34,6 +36,8 @@ graph LR
   node_validate_content_source_boundary_8a6f121b_b79b7423["validate_content_source_boundary_8a6f121b"]
   node_validate_css_policy_1c5ec854_8f6d9474["validate_css_policy_1c5ec854"]
   node_validate_design_system_b8a5f37c_d69ca690["validate_design_system_b8a5f37c"]
+  node_validate_fieldcraft_internal_region_contract_a12_d8f43689["validate_fieldcraft_internal_region_contract_a1266d61"]
+  node_validate_fieldcraft_scene_contract_186745c2_38a27626["validate_fieldcraft_scene_contract_186745c2"]
   node_validate_html_output_736c5b7a_1b91e628["validate_html_output_736c5b7a"]
   node_validate_jose_claim_boundary_01082824_d7b27144["validate_jose_claim_boundary_01082824"]
   node_validate_js_budget_3d3908ce_dabf96a0["validate_js_budget_3d3908ce"]
@@ -69,6 +73,8 @@ graph LR
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_portfolio_helpers_88b404c3_859ed297
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_pr_readiness_fbe81eba_0ec78421
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_setup_git_hooks_syntax_c035405d_68ddd381
+  ext_node_assert_f1a93ba5["node:assert"] --> node_validate_fieldcraft_internal_region_contract_a12_d8f43689
+  ext_node_assert_f1a93ba5["node:assert"] --> node_validate_fieldcraft_scene_contract_186745c2_38a27626
   ext_node_child_process_f62b7d19["node:child_process"] --> node_changed_files_4c0102f6_bfd165bc
   ext_node_child_process_f62b7d19["node:child_process"] --> node_check_code_quality_debt_cba04f67_104c73f4
   ext_node_child_process_f62b7d19["node:child_process"] --> node_check_git_worktree_authority_940ab26d_54e5636e
@@ -93,6 +99,7 @@ graph LR
   ext_node_constants_cc38fbc2["node:constants"] --> node_check_git_worktree_authority_940ab26d_54e5636e
   ext_node_crypto_c7dfc512["node:crypto"] --> node_check_code_quality_debt_cba04f67_104c73f4
   ext_node_crypto_c7dfc512["node:crypto"] --> node_generate_social_profile_assets_f4f94011_2a983f29
+  ext_node_crypto_c7dfc512["node:crypto"] --> node_seal_fieldcraft_reference_8652aaa2_c54b3f46
   ext_node_crypto_c7dfc512["node:crypto"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_crypto_c7dfc512["node:crypto"] --> node_validate_social_profile_assets_a023937b_aed15edb
   ext_node_fs_a15b7d96["node:fs"] --> node_capture_jose_reference_e7b66705_7f5ac43a
@@ -101,10 +108,12 @@ graph LR
   ext_node_fs_a15b7d96["node:fs"] --> node_check_git_worktree_authority_940ab26d_54e5636e
   ext_node_fs_a15b7d96["node:fs"] --> node_check_node_engine_217689bf_3e5964b2
   ext_node_fs_a15b7d96["node:fs"] --> node_check_public_api_docs_a9604f1b_f824853c
+  ext_node_fs_a15b7d96["node:fs"] --> node_evaluate_fieldcraft_scenes_d6258bc6_1eab3e75
   ext_node_fs_a15b7d96["node:fs"] --> node_generate_social_profile_assets_f4f94011_2a983f29
   ext_node_fs_a15b7d96["node:fs"] --> node_jose_parity_cdp_bdcde21d_edb59c81
   ext_node_fs_a15b7d96["node:fs"] --> node_jose_parity_runner_50cc4344_e9555b02
   ext_node_fs_a15b7d96["node:fs"] --> node_pr_readiness_boundaries_621e369e_7f0b2de9
+  ext_node_fs_a15b7d96["node:fs"] --> node_seal_fieldcraft_reference_8652aaa2_c54b3f46
   ext_node_fs_a15b7d96["node:fs"] --> node_setup_git_hooks_70750d40_b4ca2cf9
   ext_node_fs_a15b7d96["node:fs"] --> node_smoke_pages_9a92b30d_72f6805f
   ext_node_fs_a15b7d96["node:fs"] --> node_test_astro_anti_patterns_88db0377_401e86a9
@@ -125,6 +134,8 @@ graph LR
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_content_source_boundary_8a6f121b_b79b7423
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_css_policy_1c5ec854_8f6d9474
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_design_system_b8a5f37c_d69ca690
+  ext_node_fs_a15b7d96["node:fs"] --> node_validate_fieldcraft_internal_region_contract_a12_d8f43689
+  ext_node_fs_a15b7d96["node:fs"] --> node_validate_fieldcraft_scene_contract_186745c2_38a27626
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_html_output_736c5b7a_1b91e628
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_jose_claim_boundary_01082824_d7b27144
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_js_budget_3d3908ce_dabf96a0
@@ -154,9 +165,11 @@ graph LR
   ext_node_path_78811c13["node:path"] --> node_check_git_worktree_authority_940ab26d_54e5636e
   ext_node_path_78811c13["node:path"] --> node_check_node_engine_217689bf_3e5964b2
   ext_node_path_78811c13["node:path"] --> node_check_public_api_docs_a9604f1b_f824853c
+  ext_node_path_78811c13["node:path"] --> node_evaluate_fieldcraft_scenes_d6258bc6_1eab3e75
   ext_node_path_78811c13["node:path"] --> node_generate_social_profile_assets_f4f94011_2a983f29
   ext_node_path_78811c13["node:path"] --> node_jose_parity_cdp_bdcde21d_edb59c81
   ext_node_path_78811c13["node:path"] --> node_pr_readiness_boundaries_621e369e_7f0b2de9
+  ext_node_path_78811c13["node:path"] --> node_seal_fieldcraft_reference_8652aaa2_c54b3f46
   ext_node_path_78811c13["node:path"] --> node_setup_git_hooks_70750d40_b4ca2cf9
   ext_node_path_78811c13["node:path"] --> node_smoke_pages_9a92b30d_72f6805f
   ext_node_path_78811c13["node:path"] --> node_test_astro_anti_patterns_88db0377_401e86a9
@@ -184,6 +197,7 @@ graph LR
   ext_node_path_78811c13["node:path"] --> node_validate_release_source_boundary_43d40a1f_0405b813
   ext_node_path_78811c13["node:path"] --> node_validate_render_flow_2f64be63_a84870b9
   ext_node_path_78811c13["node:path"] --> node_validate_social_profile_assets_a023937b_aed15edb
+  ext_node_process_00cdf119["node:process"] --> node_evaluate_fieldcraft_scenes_d6258bc6_1eab3e75
   ext_node_test_a8c66a4f["node:test"] --> node_test_design_system_contract_2b5439cd_a676eb9e
   ext_node_test_a8c66a4f["node:test"] --> node_test_pr_readiness_fbe81eba_0ec78421
   ext_node_url_d0cb3ad7["node:url"] --> node_check_git_worktree_authority_940ab26d_54e5636e
@@ -203,8 +217,11 @@ graph LR
   ext_node_url_d0cb3ad7["node:url"] --> node_validate_social_profile_assets_a023937b_aed15edb
   ext_node_vm_e83aa31f["node:vm"] --> node_test_portfolio_helpers_88b404c3_859ed297
   ext_node_zlib_bb6e132b["node:zlib"] --> node_validate_js_budget_3d3908ce_dabf96a0
+  ext_pixelmatch_09ac8ff1["pixelmatch"] --> node_evaluate_fieldcraft_scenes_d6258bc6_1eab3e75
   ext_pixelmatch_09ac8ff1["pixelmatch"] --> node_jose_parity_cdp_bdcde21d_edb59c81
+  ext_playwright_7cbdd1eb["playwright"] --> node_evaluate_fieldcraft_scenes_d6258bc6_1eab3e75
   ext_playwright_7cbdd1eb["playwright"] --> node_validate_render_flow_2f64be63_a84870b9
+  ext_pngjs_3cfe9260["pngjs"] --> node_evaluate_fieldcraft_scenes_d6258bc6_1eab3e75
   ext_pngjs_3cfe9260["pngjs"] --> node_jose_parity_cdp_bdcde21d_edb59c81
   ext_pngjs_3cfe9260["pngjs"] --> node_validate_social_profile_assets_a023937b_aed15edb
   ext_typescript_fb9da861["typescript"] --> node_check_code_quality_debt_cba04f67_104c73f4
@@ -223,6 +240,7 @@ graph LR
   style ext_node_http_e4ddf53f fill:#f59e0b,color:#fff
   style ext_node_os_d93fe73a fill:#f59e0b,color:#fff
   style ext_node_path_78811c13 fill:#f59e0b,color:#fff
+  style ext_node_process_00cdf119 fill:#f59e0b,color:#fff
   style ext_node_test_a8c66a4f fill:#f59e0b,color:#fff
   style ext_node_url_d0cb3ad7 fill:#f59e0b,color:#fff
   style ext_node_vm_e83aa31f fill:#f59e0b,color:#fff
