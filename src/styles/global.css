@@ -11095,7 +11095,7 @@ body:not(.skillsbar-demo) :is(
   .feature-block .small-button:hover .small-button__arrow,
   .small-button--light:hover .small-button__arrow,
   .brainwav-bridge__cta:hover .small-button__arrow {
-    color: currentColor;
+    color: currentcolor;
   }
 
   .feature-block .small-button:hover .small-button__label {
