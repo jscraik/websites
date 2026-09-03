@@ -42,6 +42,15 @@ try {
   const repositoryChild = spawnSync(process.execPath, ["scripts/prepare-fieldcraft-blind-build.mjs", ".fieldcraft-builder-output"], { encoding: "utf8" });
   assert.notEqual(repositoryChild.status, 0, "repository-child output must be rejected");
 
+  const missingParentOutput = path.join(parent, "missing", "export");
+  const missingParent = spawnSync(
+    process.execPath,
+    ["scripts/prepare-fieldcraft-blind-build.mjs", missingParentOutput],
+    { encoding: "utf8" },
+  );
+  assert.notEqual(missingParent.status, 0, "an output with a missing direct parent must be rejected");
+  assert.match(missingParent.stderr, /direct parent must already exist/);
+
   const link = path.join(parent, "repo-link");
   await symlink(process.cwd(), link);
   const symlinked = spawnSync(process.execPath, ["scripts/prepare-fieldcraft-blind-build.mjs", path.join(link, "export")], { encoding: "utf8" });

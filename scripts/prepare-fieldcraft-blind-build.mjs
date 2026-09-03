@@ -15,23 +15,18 @@ try {
   if (error.code !== "ENOENT") throw error;
 }
 
-async function canonicalExistingParent(candidate) {
-  let current = path.dirname(candidate);
-  while (true) {
-    try {
-      const metadata = await lstat(current);
-      if (!metadata.isDirectory()) throw new Error("Blind-build output parent must be a real directory, not a symlink");
-      return await realpath(current);
-    } catch (error) {
-      if (error.code !== "ENOENT") throw error;
-      const parent = path.dirname(current);
-      if (parent === current) throw new Error("Blind-build output has no existing parent");
-      current = parent;
-    }
-  }
+const directParent = path.dirname(output);
+let parentMetadata;
+try {
+  parentMetadata = await lstat(directParent);
+} catch (error) {
+  if (error.code === "ENOENT") throw new Error("Blind-build output direct parent must already exist");
+  throw error;
 }
-
-const canonicalParent = await canonicalExistingParent(output);
+if (!parentMetadata.isDirectory()) {
+  throw new Error("Blind-build output parent must be a real directory, not a symlink");
+}
+const canonicalParent = await realpath(directParent);
 if (canonicalParent === root || canonicalParent.startsWith(`${root}${path.sep}`)) {
   throw new Error("Blind-build output must be outside the repository");
 }
@@ -55,7 +50,7 @@ const inputs = [
   "docs/specifications/fieldcraft-fde-internal-region-contract.json",
 ];
 
-await mkdir(output, { recursive: true });
+await mkdir(output);
 for (const source of [...workspace, ...inputs]) {
   const destination = path.join(output, source);
   await mkdir(path.dirname(destination), { recursive: true });

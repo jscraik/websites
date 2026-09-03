@@ -498,7 +498,7 @@ const augmentAgent = (content) => {
     lines
       .filter((line) => line !== llmDeclaration)
       .map((line) => {
-        if (llmId && /^\s*class\s+/.test(line)) line = removeClassIds(line, new Set([llmId]));
+        if (llmId && /\sllmNode\s*$/.test(line)) line = removeClassIds(line, new Set([llmId]));
         if (orchestrationId && /\sllmNode\s*$/.test(line)) line = removeClassIds(line, new Set([orchestrationId]));
         return line;
       })
@@ -661,15 +661,16 @@ SOURCE_FOCUS_FILE="$TMP_DIR/source-focus.txt"
 {
 	base_ref="$(git -C "$ROOT_DIR" merge-base HEAD origin/main 2>/dev/null || true)"
 	if [[ -n "$base_ref" ]]; then
-		git -C "$ROOT_DIR" diff --name-only --diff-filter=ACMR "$base_ref"...HEAD -- src scripts tests docs package.json tsconfig.json .diagramrc .npmrc .circleci/config.yml 2>/dev/null || true
+		git -C "$ROOT_DIR" diff --name-only --diff-filter=ACMR "$base_ref"...HEAD -- AGENTS.md README.md .github/PULL_REQUEST_TEMPLATE.md src scripts tests docs package.json tsconfig.json .diagramrc .npmrc .circleci/config.yml 2>/dev/null || true
 	fi
-	git -C "$ROOT_DIR" diff --name-only --diff-filter=ACMR HEAD -- src scripts tests docs package.json tsconfig.json .diagramrc .npmrc .circleci/config.yml 2>/dev/null || true
-	git -C "$ROOT_DIR" ls-files --others --exclude-standard -- src scripts tests docs package.json tsconfig.json .diagramrc .npmrc .circleci/config.yml 2>/dev/null || true
+	git -C "$ROOT_DIR" diff --name-only --diff-filter=ACMR HEAD -- AGENTS.md README.md .github/PULL_REQUEST_TEMPLATE.md src scripts tests docs package.json tsconfig.json .diagramrc .npmrc .circleci/config.yml 2>/dev/null || true
+	git -C "$ROOT_DIR" ls-files --others --exclude-standard -- AGENTS.md README.md .github/PULL_REQUEST_TEMPLATE.md src scripts tests docs package.json tsconfig.json .diagramrc .npmrc .circleci/config.yml 2>/dev/null || true
 } | awk '
+	$0 == "AGENTS.md" || $0 == "README.md" || $0 == ".github/PULL_REQUEST_TEMPLATE.md" { print }
 	$0 ~ /^src\// { print }
 	$0 ~ /^scripts\// { print }
 	$0 ~ /^tests\// { print }
-	$0 ~ /^docs\/(agents\/linear-templates|specifications|reference\/fieldcraft-fde)\// { print }
+	$0 ~ /^docs\/(agents|specifications|reference\/fieldcraft-fde)\// { print }
 	$0 == "package.json" || $0 == "tsconfig.json" || $0 == ".diagramrc" || $0 == ".npmrc" || $0 == ".circleci/config.yml" { print }
 ' | sort -u > "$SOURCE_FOCUS_FILE"
 

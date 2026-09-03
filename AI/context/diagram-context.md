@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-09-03T15:43:13Z
+Generated: 2026-09-03T16:06:58Z
 
 ## Table of Contents
 
@@ -30,7 +30,12 @@ Generated: 2026-09-03T15:43:13Z
 
 - These architecture-sensitive paths changed on the current branch and may be compacted out of Mermaid diagrams.
 - `.circleci/config.yml`
+- `.github/PULL_REQUEST_TEMPLATE.md`
 - `.npmrc`
+- `AGENTS.md`
+- `README.md`
+- `docs/agents/00-architecture-bootstrap.md`
+- `docs/agents/07b-agent-governance.md`
 - `docs/reference/fieldcraft-fde/v2/README.md`
 - `docs/reference/fieldcraft-fde/v2/manifest.json`
 - `docs/reference/fieldcraft-fde/v3/manifest.json`
@@ -131,7 +136,7 @@ flowchart TD
     validate_operational_telemetry_cb447bde[("📚 validate-operational-telemetry")]
   end
   classDef agentNode fill:#555,color:#fff
-  class jose_parity_runner_50cc4344,test_code_quality_debt_contract_569cff13,test_operator_workflow_contract_b4a152d7,validate_design_system_b8a5f37c,validate_jose_claim_boundary_01082824 agentNode
+  class jose_parity_runner_50cc4344,prepare_fieldcraft_blind_build_8ab85212,test_code_quality_debt_contract_569cff13,test_operator_workflow_contract_b4a152d7,validate_design_system_b8a5f37c,validate_jose_claim_boundary_01082824 agentNode
   classDef llmNode fill:#555,color:#fff
   class generate_social_profile_assets_f4f94011,validate_social_profile_assets_a023937b llmNode
   classDef toolNode fill:#555,color:#fff

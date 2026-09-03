@@ -1136,7 +1136,8 @@ source quirks while claiming exact replication.
 
 ## Asset contract
 
-Required assets:
+When the owner-authorization record permits reuse, storage, and publication,
+the required source-faithful assets are:
 
 1. `assets/varick-icon.data-uri.txt`: the exact source data URI.
 2. `assets/varick-icon.png`: the decoded 64 × 64 PNG displayed at 26 × 26.
@@ -1145,8 +1146,14 @@ Required assets:
 4. `assets/hashes.json`: SHA-256, byte size, media type, dimensions or
    `viewBox`, and provenance for every asset representation.
 
-The complete icon source string has SHA-256
-`44fa88e9f611cf6ddf82ae3f06ec78e065d42ab6355c4b612da85728d31d6b83`.
+In that authorized mode, the complete icon source string has SHA-256
+`44fa88e9f611cf6ddf82ae3f06ec78e065d42ab6355c4b612da85728d31d6b83`,
+and the packaged bytes must match it.
+
+When that authorization is absent, the required asset set is only the approved
+replacement plus its recorded provenance and permission. The exact source data
+URI, PNG, wordmark, and source-hash metadata are neither required inputs nor
+permitted outputs.
 
 All other visual systems are built from HTML, CSS borders, text, and transforms. Do not introduce stock photos, icon libraries, background textures, or decorative gradients.
 
