@@ -17,6 +17,7 @@ flowchart LR
   VecDB -. "implemented by" .-> DetectedMemory
   subgraph DetectedLLM["Detected LLM clients"]
     det_detectedllm_generate_social_profile_assets_f4f94011["generate-social-profile-assets"]
+    det_detectedllm_prepare_fieldcraft_blind_build_8ab85212["prepare-fieldcraft-blind-build"]
     det_detectedllm_validate_social_profile_assets_a023937b["validate-social-profile-assets"]
   end
   LLMNode -. "implemented by" .-> DetectedLLM

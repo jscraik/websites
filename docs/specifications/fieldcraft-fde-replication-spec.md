@@ -114,14 +114,14 @@ least one live or stored reference can be inspected. Then inventory the
 available evidence. Missing optional evidence creates acquisition and
 validation work; it does not prevent the candidate from being built.
 
-| Evidence artifact | Expected location | Desired proof | Current status and effect |
-| --- | --- | --- | --- |
-| Immutable version-2 source archive | `../reference/fieldcraft-fde/v2/source/` | Archive hash equals `8c1971868fe6a6e3c37010980ab169cc006bf1fe8fc19d7d43c8eda2c3d3496e` | Optional accelerator absent; implement from the live oracle and record the archive gap |
-| Machine-readable manifest | `../reference/fieldcraft-fde/v2/manifest.json` | Manifest parses and binds the Sites version, commit, archive hash, fingerprints, and claims boundary | Present; validate before using its fingerprints |
-| Exact brand assets | `../reference/fieldcraft-fde/v2/assets/` | Icon source and decoded PNG hashes pass; wordmark SVG hash and `viewBox` pass | Acquire from the live document before finalizing the brand lockup |
-| Desktop reference matrix | `../reference/fieldcraft-fde/v2/screenshots/1280x720/` | All 14 required states exist with hashes and capture metadata | Generate during desktop comparison |
-| Mobile reference matrix | `../reference/fieldcraft-fde/v2/screenshots/390x844/` | All 14 required states exist with hashes and capture metadata | Generate during mobile comparison |
-| State geometry and timing evidence | `../reference/fieldcraft-fde/v2/states/` | Stage, calendar, modal, and deployment-run state records bind DOM classes, transforms, and timings | Measure from the live reference while implementing the affected states |
+| Evidence artifact                  | Expected location                                      | Desired proof                                                                                        | Current status and effect                                                              |
+| ---------------------------------- | ------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| Immutable version-2 source archive | `../reference/fieldcraft-fde/v2/source/`               | Archive hash equals `8c1971868fe6a6e3c37010980ab169cc006bf1fe8fc19d7d43c8eda2c3d3496e`               | Optional accelerator absent; implement from the live oracle and record the archive gap |
+| Machine-readable manifest          | `../reference/fieldcraft-fde/v2/manifest.json`         | Manifest parses and binds the Sites version, commit, archive hash, fingerprints, and claims boundary | Present; validate before using its fingerprints                                        |
+| Exact brand assets                 | `../reference/fieldcraft-fde/v2/assets/`               | Icon source and decoded PNG hashes pass; wordmark SVG hash and `viewBox` pass                        | Acquire from the live document before finalizing the brand lockup                      |
+| Desktop reference matrix           | `../reference/fieldcraft-fde/v2/screenshots/1280x720/` | All 14 required states exist with hashes and capture metadata                                        | Generate during desktop comparison                                                     |
+| Mobile reference matrix            | `../reference/fieldcraft-fde/v2/screenshots/390x844/`  | All 14 required states exist with hashes and capture metadata                                        | Generate during mobile comparison                                                      |
+| State geometry and timing evidence | `../reference/fieldcraft-fde/v2/states/`               | Stage, calendar, modal, and deployment-run state records bind DOM classes, transforms, and timings   | Measure from the live reference while implementing the affected states                 |
 
 Readiness returns one of these outcomes:
 
@@ -245,10 +245,10 @@ static-serving adapter that can.
 Preserve the original head contract:
 
 ```html
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="icon" type="image/png" href="/favicon.png">
-<link rel="apple-touch-icon" href="/favicon.png">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" type="image/png" href="/favicon.png" />
+<link rel="apple-touch-icon" href="/favicon.png" />
 <title>Varick — Forward Deployed Engineering</title>
 ```
 
@@ -279,10 +279,11 @@ Use these values exactly:
   --hud-mut: rgb(23 26 34 / 55%);
   --hud-line: rgb(2 43 114 / 20%);
   --fail: #b23a2e;
-  --ease: cubic-bezier(.22, .61, .21, 1);
-  --sans: "Neue Haas Grotesk Display Pro", "Neue Haas Grotesk",
-    "Suisse Int'l", "Suisse Intl", Graphik, "ABC Diatype",
-    "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --ease: cubic-bezier(0.22, 0.61, 0.21, 1);
+  --sans:
+    "Neue Haas Grotesk Display Pro", "Neue Haas Grotesk", "Suisse Int'l",
+    "Suisse Intl", Graphik, "ABC Diatype", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
 }
 ```
 
@@ -338,7 +339,9 @@ Content marked `.r` begins at opacity 0 and `translateY(26px)`.
 .r {
   opacity: 0;
   transform: translateY(26px);
-  transition: opacity .7s ease, transform .95s var(--ease);
+  transition:
+    opacity 0.7s ease,
+    transform 0.95s var(--ease);
 }
 
 .sec.on .r {
@@ -354,7 +357,7 @@ Additional reveal primitives:
 ```css
 .sr {
   opacity: 0;
-  transition: opacity .75s;
+  transition: opacity 0.75s;
 }
 
 .draw {
@@ -366,15 +369,15 @@ Additional reveal primitives:
 
 Use these exact stagger delays:
 
-| Class | Delay | Class | Delay |
-| --- | ---: | --- | ---: |
-| `.dl1` | 120ms | `.dl8` | 1300ms |
-| `.dl2` | 240ms | `.dl9` | 1600ms |
-| `.dl3` | 380ms | `.dl10` | 1900ms |
-| `.dl4` | 520ms | `.dl11` | 2250ms |
-| `.dl5` | 680ms | `.dl12` | 2600ms |
-| `.dl6` | 850ms | `.dl13` | 3000ms |
-| `.dl7` | 1050ms |  |  |
+| Class  |  Delay | Class   |  Delay |
+| ------ | -----: | ------- | -----: |
+| `.dl1` |  120ms | `.dl8`  | 1300ms |
+| `.dl2` |  240ms | `.dl9`  | 1600ms |
+| `.dl3` |  380ms | `.dl10` | 1900ms |
+| `.dl4` |  520ms | `.dl11` | 2250ms |
+| `.dl5` |  680ms | `.dl12` | 2600ms |
+| `.dl6` |  850ms | `.dl13` | 3000ms |
+| `.dl7` | 1050ms |         |        |
 
 ## Fixed shell
 
@@ -401,14 +404,14 @@ Use these exact stagger delays:
 
 The navigation has `aria-label="Chapters"`, a 4px gap, and these buttons:
 
-| Label | `data-go` section index |
-| --- | ---: |
-| Why the role exists | 1 |
-| What an FDE is | 5 |
-| Audit | 10 |
-| Evals | 12 |
-| Deployment | 13 |
-| 30 Days | 15 |
+| Label               | `data-go` section index |
+| ------------------- | ----------------------: |
+| Why the role exists |                       1 |
+| What an FDE is      |                       5 |
+| Audit               |                      10 |
+| Evals               |                      12 |
+| Deployment          |                      13 |
+| 30 Days             |                      15 |
 
 Desktop button rules:
 
@@ -473,9 +476,10 @@ Mobile, at 960px wide or less:
 - Use an ease-in-out quadratic interpolation:
 
 ```js
-const eased = progress < 0.5
-  ? 2 * progress * progress
-  : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+const eased =
+  progress < 0.5
+    ? 2 * progress * progress
+    : 1 - Math.pow(-2 * progress + 2, 2) / 2;
 ```
 
 - Retarget the current animation rather than queuing independent animations.
@@ -514,38 +518,38 @@ While already on section 19, one further manual forward action changes the calen
 
 ### Required transition behavior
 
-| Given | Action | Required result |
-| --- | --- | --- |
-| A 450ms deck transition is active | Another navigation input arrives | Retarget the in-flight animation; do not queue a second independent animation. |
-| Section 8 is running or waiting | Navigate to any other section | Clear run and auto-advance timers and reset all run visuals. |
-| Section 8 has been left | Return to section 8 | Start a new run from the initial state, or show the landed state immediately under reduced motion. |
-| The run is waiting | Activate Approve once | Enter the final sequence and hide Approve. |
-| The run is no longer waiting | Activate Approve | Do nothing. |
-| Post-approval auto-advance is pending | Leave section 8 | Cancel the pending advance. |
-| A workflow modal is open | Use deck wheel or navigation keys | Keep the current section and leave the modal open. |
-| A workflow modal is open | Press Escape | Close the modal and restore focus to its invoking card. |
-| Section 19 shows the final week | Navigate forward | Reveal the complete-month state without changing section index. |
-| Section 19 shows the complete month | Navigate backward | Restore the final-week state without changing section index. |
-| Section 19 shows the restored final week | Navigate backward again | Move to section 18. |
-| Reduced motion is active | Enter section 8 | Render the complete landed run with no timed wait. |
+| Given                                    | Action                            | Required result                                                                                    |
+| ---------------------------------------- | --------------------------------- | -------------------------------------------------------------------------------------------------- |
+| A 450ms deck transition is active        | Another navigation input arrives  | Retarget the in-flight animation; do not queue a second independent animation.                     |
+| Section 8 is running or waiting          | Navigate to any other section     | Clear run and auto-advance timers and reset all run visuals.                                       |
+| Section 8 has been left                  | Return to section 8               | Start a new run from the initial state, or show the landed state immediately under reduced motion. |
+| The run is waiting                       | Activate Approve once             | Enter the final sequence and hide Approve.                                                         |
+| The run is no longer waiting             | Activate Approve                  | Do nothing.                                                                                        |
+| Post-approval auto-advance is pending    | Leave section 8                   | Cancel the pending advance.                                                                        |
+| A workflow modal is open                 | Use deck wheel or navigation keys | Keep the current section and leave the modal open.                                                 |
+| A workflow modal is open                 | Press Escape                      | Close the modal and restore focus to its invoking card.                                            |
+| Section 19 shows the final week          | Navigate forward                  | Reveal the complete-month state without changing section index.                                    |
+| Section 19 shows the complete month      | Navigate backward                 | Restore the final-week state without changing section index.                                       |
+| Section 19 shows the restored final week | Navigate backward again           | Move to section 18.                                                                                |
+| Reduced motion is active                 | Enter section 8                   | Render the complete landed run with no timed wait.                                                 |
 
 ### Chapter mapping
 
 Use this section-to-chapter map exactly:
 
 ```js
-[-1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 3, 4, 4, 5, 5, 5, 5, 5]
+[-1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 3, 4, 4, 5, 5, 5, 5, 5];
 ```
 
 ## Persistent scene layer
 
 The `#stage` layer is fixed to the viewport at z-index 2, is non-interactive, begins at opacity 0, and fades over 600ms. It is visible only on section indices 1, 2, and 3.
 
-| Section index | `data-scene` | Purpose |
-| ---: | --- | --- |
-| 1 | `spread` | Show one foundational model distributing the same capability to five companies. |
-| 2 | `flatten` | Flatten the capability advantage and foreground the loss of model-only differentiation. |
-| 3 | `deploy` | Shift attention to ROI and deployment as the differentiating layer. |
+| Section index | `data-scene` | Purpose                                                                                 |
+| ------------: | ------------ | --------------------------------------------------------------------------------------- |
+|             1 | `spread`     | Show one foundational model distributing the same capability to five companies.         |
+|             2 | `flatten`    | Flatten the capability advantage and foreground the loss of model-only differentiation. |
+|             3 | `deploy`     | Shift attention to ROI and deployment as the differentiating layer.                     |
 
 The persistent scene contains this exact copy:
 
@@ -642,13 +646,13 @@ Every section is exactly one viewport high. Preserve all line-break intent and p
 - Copy: `The documented process is rarely the real process.`
 - Five clickable step cards, joined by arrows on desktop:
 
-| Step | Title | Detail | Modal key |
-| ---: | --- | --- | --- |
-| 01 | An email arrives | the trigger | `email` |
-| 02 | Copied into a spreadsheet | re-keyed by hand | `sheet` |
-| 03 | Checked in an internal system | tribal knowledge | `system` |
-| 04 | Approved in Slack | waits on a reply | `slack` |
-| 05 | Entered into the ERP | 40 required fields | `erp` |
+| Step | Title                         | Detail             | Modal key |
+| ---: | ----------------------------- | ------------------ | --------- |
+|   01 | An email arrives              | the trigger        | `email`   |
+|   02 | Copied into a spreadsheet     | re-keyed by hand   | `sheet`   |
+|   03 | Checked in an internal system | tribal knowledge   | `system`  |
+|   04 | Approved in Slack             | waits on a reply   | `slack`   |
+|   05 | Entered into the ERP          | 40 required fields | `erp`     |
 
 - Each card has a visible `+` affordance.
 - Hover and keyboard focus change the border to `--navy`, add
@@ -700,24 +704,24 @@ Every section is exactly one viewport high. Preserve all line-break intent and p
 
 Script the sequence exactly:
 
-| Relative time | Action |
-| ---: | --- |
-| 1500ms | Document begins flying into the drop zone. |
-| 2850ms | Drop zone disappears; document is absorbed; H2 appears; first log line appears. |
-| 3500ms | Phase 1 becomes current; second log line appears; progress bar animates to 58% over 3000ms. |
-| 4400ms | Phase 1 completes; phase 2 becomes current; third log line appears. |
-| 5100ms | Fourth log line appears. |
-| 5800ms | Fifth log line appears. |
-| 6500ms | Phase 2 completes; phase 3 enters waiting state; sixth log line appears; Approve becomes visible. |
+| Relative time | Action                                                                                            |
+| ------------: | ------------------------------------------------------------------------------------------------- |
+|        1500ms | Document begins flying into the drop zone.                                                        |
+|        2850ms | Drop zone disappears; document is absorbed; H2 appears; first log line appears.                   |
+|        3500ms | Phase 1 becomes current; second log line appears; progress bar animates to 58% over 3000ms.       |
+|        4400ms | Phase 1 completes; phase 2 becomes current; third log line appears.                               |
+|        5100ms | Fourth log line appears.                                                                          |
+|        5800ms | Fifth log line appears.                                                                           |
+|        6500ms | Phase 2 completes; phase 3 enters waiting state; sixth log line appears; Approve becomes visible. |
 
 On Approve:
 
-| Relative time | Action |
-| ---: | --- |
-| 0ms | Seventh log line appears; phase 3 completes; progress animates to 100% over 1500ms. |
-| 450ms | Phase 4 becomes current; eighth log line appears. |
-| 1300ms | Phase 4 completes; ninth log line and final result appear. |
-| 2900ms | Advance automatically to section 9 if the user is still on section 8. |
+| Relative time | Action                                                                              |
+| ------------: | ----------------------------------------------------------------------------------- |
+|           0ms | Seventh log line appears; phase 3 completes; progress animates to 100% over 1500ms. |
+|         450ms | Phase 4 becomes current; eighth log line appears.                                   |
+|        1300ms | Phase 4 completes; ninth log line and final result appear.                          |
+|        2900ms | Advance automatically to section 9 if the user is still on section 8.               |
 
 The timing tables define event boundaries, but they do not define the visual
 motion by themselves. Use the live reference, the source controller when
@@ -788,13 +792,13 @@ When reduced motion is active, skip the theater and show the complete landed sta
 - Columns: `RIGHT DATA`, `REQUIRED STEPS`, `MATCHES EXPERT`, `SAFE TO ACT`
 - Rows:
 
-| Case | Right data | Required steps | Matches expert | Safe to act |
-| --- | --- | --- | --- | --- |
-| The normal case | ✓ | ✓ | ✓ | ✓ |
-| The edge case | ✓ | ✓ | ✗ | ✗ |
-| Incomplete information | ✗ | — | — | → human |
-| An ambiguous request | ✓ | ✗ | — | → human |
-| A high-risk action | ✓ | ✓ | ✓ | → human |
+| Case                   | Right data | Required steps | Matches expert | Safe to act |
+| ---------------------- | ---------- | -------------- | -------------- | ----------- |
+| The normal case        | ✓          | ✓              | ✓              | ✓           |
+| The edge case          | ✓          | ✓              | ✗              | ✗           |
+| Incomplete information | ✗          | —              | —              | → human     |
+| An ambiguous request   | ✓          | ✗              | —              | → human     |
+| A high-risk action     | ✓          | ✓              | ✓              | → human     |
 
 - Legend: `✓ expected behavior · ✗ failure, with the evidence kept · → human escalated by rule`
 - Report label: `THE EVALUATION REPORT`
@@ -866,7 +870,7 @@ When reduced motion is active, skip the theater and show the complete landed sta
 - Label: `FINAL WEEK · DAYS 22–30`
 - H2: `Final week: Defend the system like an FDE.`
 - Copy: `By Day 30, you should be able to explain the system to both an engineer and a non-technical executive.`
-- Closing H2: `Do the job before you have the title.`
+- Closing statement: `Do the job before you have the title.`
 - Closing copy: `On Day 30, you should not merely understand forward deployed engineering. You should have evidence that you can do it.`
 - Milestones:
   - `DAY 7` — `Working agent`
@@ -901,38 +905,38 @@ then validate the candidate against fresh captures.
 
 ### Day content
 
-| Day | Title | Description |
-| ---: | --- | --- |
-| 1 | Agent loop | prompt → model → response → next step, until the task completes or a max-step limit hits |
-| 2 | Tool use | one API call + one web search — the agent decides when to call them |
-| 3 | Guardrails | input validation · max-step limit · output filtering |
-| 4 | Context & memory | context window by default; external memory only when state must outlive the run |
-| 5 | Audit trail | log every prompt, response, tool call, result, error, and timestamp |
-| 6 | Real workflow | run it on one process that used to be manual — tie it to a portfolio project |
-| 7 | Checkpoint | a working agent with tools, guardrails, deliberate memory, and a full audit trail |
-| 8 | Structured outputs | a defined JSON schema, not free-form text |
-| 9 | Schema validation | validate every response; retry or escalate when the structure is invalid |
-| 10 | Failure modes | missing data · malformed responses · dead APIs · timeouts · duplicates · partial completion |
-| 11 | Checkpointing | save state every few steps: task, actions, tool results, pending work, errors |
-| 12 | Resume | stop the agent deliberately; restart it from the last checkpoint |
-| 13 | Failure handling | explicit behavior for tool failure, bad output, incomplete state, unsafe continuation |
-| 14 | Checkpoint | a resumable agent with structured outputs, state recovery, and explicit failure behavior |
-| 15 | Retry logic | exponential backoff on every external call: 1s · 2s · 4s · 8s · cap at 16s |
-| 16 | Failure categories | missing context · wrong tool · wrong record · invalid output · unsafe action · timeout |
-| 17 | Golden dataset | 20 real queries with hand-labeled ideal outputs — normal, edge, ambiguous, high-risk |
-| 18 | Run evals | correctness · format · tool selection · required steps · escalation behavior |
-| 19 | Optimize cost | cheaper models for simple subtasks · caching · token limits · cost per query |
-| 20 | Multi-agent | only when decomposition helps: one plans → several execute → one synthesizes |
-| 21 | Checkpoint | an evaluated agent with known failure modes, measured cost, and a golden dataset |
-| 22 | The pain point | who does the work, what takes time, where errors occur, what it costs |
-| 23 | Why AI belongs | why not just software · what stays human · where autonomy stops |
-| 24 | Architecture | stack, tools, models, data, memory, guardrails — and why each exists |
-| 25 | Iterations | what v1 got wrong, what failed, what changed, how it improved |
-| 26 | The evals | dataset, pass rate, failure categories, thresholds, open risks |
-| 27 | Economics | time saved, errors reduced, risk, revenue, cost per query |
-| 28 | Rehearse: engineer | architecture, decisions, failures, tradeoffs |
-| 29 | Rehearse: VP | problem, outcome, evidence, risk — plain language |
-| 30 | Final checkpoint | a complete FDE case study for engineers and executives alike |
+| Day | Title              | Description                                                                                 |
+| --: | ------------------ | ------------------------------------------------------------------------------------------- |
+|   1 | Agent loop         | prompt → model → response → next step, until the task completes or a max-step limit hits    |
+|   2 | Tool use           | one API call + one web search — the agent decides when to call them                         |
+|   3 | Guardrails         | input validation · max-step limit · output filtering                                        |
+|   4 | Context & memory   | context window by default; external memory only when state must outlive the run             |
+|   5 | Audit trail        | log every prompt, response, tool call, result, error, and timestamp                         |
+|   6 | Real workflow      | run it on one process that used to be manual — tie it to a portfolio project                |
+|   7 | Checkpoint         | a working agent with tools, guardrails, deliberate memory, and a full audit trail           |
+|   8 | Structured outputs | a defined JSON schema, not free-form text                                                   |
+|   9 | Schema validation  | validate every response; retry or escalate when the structure is invalid                    |
+|  10 | Failure modes      | missing data · malformed responses · dead APIs · timeouts · duplicates · partial completion |
+|  11 | Checkpointing      | save state every few steps: task, actions, tool results, pending work, errors               |
+|  12 | Resume             | stop the agent deliberately; restart it from the last checkpoint                            |
+|  13 | Failure handling   | explicit behavior for tool failure, bad output, incomplete state, unsafe continuation       |
+|  14 | Checkpoint         | a resumable agent with structured outputs, state recovery, and explicit failure behavior    |
+|  15 | Retry logic        | exponential backoff on every external call: 1s · 2s · 4s · 8s · cap at 16s                  |
+|  16 | Failure categories | missing context · wrong tool · wrong record · invalid output · unsafe action · timeout      |
+|  17 | Golden dataset     | 20 real queries with hand-labeled ideal outputs — normal, edge, ambiguous, high-risk        |
+|  18 | Run evals          | correctness · format · tool selection · required steps · escalation behavior                |
+|  19 | Optimize cost      | cheaper models for simple subtasks · caching · token limits · cost per query                |
+|  20 | Multi-agent        | only when decomposition helps: one plans → several execute → one synthesizes                |
+|  21 | Checkpoint         | an evaluated agent with known failure modes, measured cost, and a golden dataset            |
+|  22 | The pain point     | who does the work, what takes time, where errors occur, what it costs                       |
+|  23 | Why AI belongs     | why not just software · what stays human · where autonomy stops                             |
+|  24 | Architecture       | stack, tools, models, data, memory, guardrails — and why each exists                        |
+|  25 | Iterations         | what v1 got wrong, what failed, what changed, how it improved                               |
+|  26 | The evals          | dataset, pass rate, failure categories, thresholds, open risks                              |
+|  27 | Economics          | time saved, errors reduced, risk, revenue, cost per query                                   |
+|  28 | Rehearse: engineer | architecture, decisions, failures, tradeoffs                                                |
+|  29 | Rehearse: VP       | problem, outcome, evidence, risk — plain language                                           |
+|  30 | Final checkpoint   | a complete FDE case study for engineers and executives alike                                |
 
 ### Complete-month close
 
@@ -1147,9 +1151,12 @@ All other visual systems are built from HTML, CSS borders, text, and transforms.
 
 Before finalizing the brand lockup, verify the packaged or freshly extracted
 asset hashes and verify that the icon data URI decodes byte-for-byte to the PNG.
-Asset acquisition from the named production site is an ordinary implementation
-step. Persist the acquired bytes and provenance so later agents do not have to
-extract them again.
+Public availability is not permission to reuse, store, or publish these assets.
+Before extraction, record explicit owner authorization covering all three actions.
+If that authorization is absent, the acquisition gate is blocked: use an approved
+replacement with its own provenance and permission record. When authorization is
+present, persist the acquired bytes, authorization reference, and provenance so
+later agents do not have to extract them again.
 
 ## Implementation sequence for the receiving agent
 
@@ -1185,9 +1192,9 @@ extract them again.
     geometry, then intermediate breakpoints. Iterate on material differences
     rather than stopping at the first comparison.
 13. Run the deterministic proof protocol and acceptance matrix below before
-   publishing. Publish only the exact candidate commit and build archive bound
-   to the report. Complete the site even when some forensic evidence remains
-   unavailable; label those lanes unverified and do not overstate parity.
+    publishing. Publish only the exact candidate commit and build archive bound
+    to the report. Complete the site even when some forensic evidence remains
+    unavailable; label those lanes unverified and do not overstate parity.
 
 ## Deterministic proof protocol
 
@@ -1252,7 +1259,7 @@ At minimum, the report schema must include `reference`, `candidate`,
 - [ ] All 30 calendar entries and five modal payloads match exactly.
 - [ ] The page title is `Varick — Forward Deployed Engineering`.
 - [ ] No specification headings, implementation labels, loading messages, host
-  interstitial copy, or other candidate-authored visible text is present.
+      interstitial copy, or other candidate-authored visible text is present.
 
 ### Structural identity
 
@@ -1261,11 +1268,11 @@ At minimum, the report schema must include `reference`, `candidate`,
 - [ ] Fixed HUD, pager, stage, calendar, rail, and modal layer have the specified stacking order.
 - [ ] The page contains no unexpected links, forms, external imagery, or additional routes.
 - [ ] The exact Varick icon and wordmark bytes match the source or live document
-  and are persisted with hashes; no CSS, text, font, or substitute logo is used.
+      and are persisted with hashes; no CSS, text, font, or substitute logo is used.
 - [ ] The initial, pre-interaction DOM contains the hidden modal and approval
-  controls and matches the declared semantic inventory.
+      controls and matches the declared semantic inventory.
 - [ ] The hosting adapter introduces no client hydration, framework runtime,
-  wrapper DOM, or additional visible state.
+      wrapper DOM, or additional visible state.
 
 ### Navigation identity
 
@@ -1293,36 +1300,36 @@ At minimum, the report schema must include `reference`, `candidate`,
 ### Runtime health
 
 - [ ] No uncaught page errors or site-authored console warnings occur during
-  load, navigation, card/modal interaction, approval, or final-slide
-  transitions.
+      load, navigation, card/modal interaction, approval, or final-slide
+      transitions.
 - [ ] No required first-party asset or network request fails.
 - [ ] No unexpected client hydration or framework runtime is introduced.
 - [ ] There is no horizontal document overflow at any required viewport.
 - [ ] Repeatedly entering and leaving section 8 creates no duplicate timer or
-  observer activity and always returns to the documented initial state.
+      observer activity and always returns to the documented initial state.
 - [ ] The built semantic inventory matches the source: one H1, twenty H2s, one
-  H3, 15 buttons, 10 SVGs, four `role="img"` elements, one dialog, zero
-  anchors, and zero forms.
+      H3, 15 buttons, 10 SVGs, four `role="img"` elements, one dialog, zero
+      anchors, and zero forms.
 - [ ] Source CSS, JavaScript, complete visible text, embedded icon, and all 20
-  section fingerprints match the reference manifest, or the candidate-bound
-  report records an approved, intentional deviation for every mismatch.
+      section fingerprints match the reference manifest, or the candidate-bound
+      report records an approved, intentional deviation for every mismatch.
 - [ ] The production route is publicly reachable without ChatGPT sign-in,
-  workspace membership, owner access, or another authentication interstitial.
+      workspace membership, owner access, or another authentication interstitial.
 - [ ] The deployed canonical route and any root redirect match the declared
-  access and route contract.
+      access and route contract.
 
 ### Responsive identity
 
 - [ ] Desktop 1280 × 720 matches the measured reference.
 - [ ] Mobile 390 × 844 matches the measured reference.
 - [ ] Desktop 1440 × 900 matches a stored reference capture; until that
-  capture exists, treat this as a responsive robustness lane rather than a
-  pixel-parity lane.
+      capture exists, treat this as a responsive robustness lane rather than a
+      pixel-parity lane.
 - [ ] Tablet 820 × 1180 uses chapter dots and wrapped cards; until a stored
-  reference capture exists, treat this as a responsive robustness lane.
+      reference capture exists, treat this as a responsive robustness lane.
 - [ ] Mobile 360 × 800 has no horizontal overflow, clipped primary headings,
-  or unreachable content; until a stored reference capture exists, treat this
-  as a responsive robustness lane.
+      or unreachable content; until a stored reference capture exists, treat this
+      as a responsive robustness lane.
 - [ ] The calendar is hidden at 960px and below.
 - [ ] The audit rail is hidden at 960px and below.
 

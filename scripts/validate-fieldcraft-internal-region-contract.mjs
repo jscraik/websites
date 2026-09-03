@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+import { parseFieldcraftJson, parseInternalRegionContract } from "./lib/fieldcraft-contracts.mjs";
 
-const contract = JSON.parse(
-  await readFile("docs/specifications/fieldcraft-fde-internal-region-contract.json", "utf8"),
-);
+const contractText = await readFile("docs/specifications/fieldcraft-fde-internal-region-contract.json", "utf8");
+const contract = parseInternalRegionContract(parseFieldcraftJson(contractText, "internal-region contract"));
 
 assert.equal(contract.schemaVersion, 1);
 assert.deepEqual(contract.viewport, { width: 1280, height: 720 });
@@ -28,7 +28,7 @@ for (const scene of contract.scenes) {
   }
 }
 
-const modalKeys = ["backdrop", "panel", "tag", "title", "punch", "bullets", "closing-label", "closing", "close"];
+const modalKeys = ["modal-backdrop", "modal-panel", "modal-tag", "modal-title", "modal-punch", "modal-bullets", "modal-closing-label", "modal-closing", "modal-close"];
 for (const key of modalKeys) {
   const bounds = contract.modalShell[key];
   assert.equal(bounds.length, 4, `modal ${key} must have four bounds`);

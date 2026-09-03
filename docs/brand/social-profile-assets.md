@@ -6,10 +6,10 @@ The high-resolution portrait at `src/brand/source/jamie-profile.png` is a genera
 
 ## Required Uploads
 
-| Platform | Profile photo                                           | Current approved banner                                                                        |
-| -------- | ------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| X        | `public/brand/social/jamie-avatar-x-400x400.png`        | `public/brand/social/approved/jamie-x-header-1500x500.png`                                    |
-| LinkedIn | `public/brand/social/jamie-avatar-linkedin-400x400.png` | `public/brand/social/approved/jamie-linkedin-background-1584x396.png`                          |
+| Platform | Profile photo                                           | Current approved banner                                               |
+| -------- | ------------------------------------------------------- | --------------------------------------------------------------------- |
+| X        | `public/brand/social/jamie-avatar-x-400x400.png`        | `public/brand/social/approved/jamie-x-header-1500x500.png`            |
+| LinkedIn | `public/brand/social/jamie-avatar-linkedin-400x400.png` | `public/brand/social/approved/jamie-linkedin-background-1584x396.png` |
 
 The `approved/` banner pair is the exact Jamie-reviewed 2026-08-12 upload set. It uses the descriptor `AI Workflows · Agent Skills · Evals`, removes the old DevRel and brAInwav labels from the artwork, and keeps the canonical promise `Making AI-assisted developer work inspectable.` `src/brand/approved-live-banners.json` binds each public file to an identical private source byte-for-byte so later generation work cannot be mistaken for the reviewed live-platform artifact.
 
@@ -32,6 +32,8 @@ To restore the reviewed upload pair without invoking the renderer, copy the appr
     cp src/brand/source/approved/jamie-linkedin-background-1584x396.png public/brand/social/approved/jamie-linkedin-background-1584x396.png
     cmp src/brand/source/approved/jamie-x-header-1500x500.png public/brand/social/approved/jamie-x-header-1500x500.png
     cmp src/brand/source/approved/jamie-linkedin-background-1584x396.png public/brand/social/approved/jamie-linkedin-background-1584x396.png
+
+Both `cmp` commands exit with status 0 and no output on success. A nonzero exit blocks upload: restore the affected approved source/output pair, then run `npm run validate:social-assets` before continuing.
 
 This restore path is separate from `npm run generate:social-assets`, which owns the regenerable base set and receipt.
 

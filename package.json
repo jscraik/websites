@@ -70,7 +70,7 @@
     "validate:js-budget": "ASTRO_TELEMETRY_DISABLED=1 npm run build && node scripts/validate-js-budget.mjs",
     "validate:render-flow": "ASTRO_TELEMETRY_DISABLED=1 npm run build && node scripts/validate-render-flow.mjs",
     "validate:render-flow:artifact": "node scripts/validate-render-flow.mjs",
-    "validate:fast": "npm run test:code-quality-debt && npm run test:astro-anti-patterns && npm run test:design-system-contract && npm run test:css-simplification && npm run test:flip && npm run test:jose-parity-measurements && npm run validate:operational-telemetry && npm run validate:astro-anti-patterns && npm run validate:css-policy && npm run validate:design-system && npm run validate:social-assets && npm run validate:content-source-boundary && npm run validate:portfolio-content && npm run validate:page-surfaces && npm run validate:no-prototype-slop && npm run validate:pr-template",
+    "validate:fast": "npm run test:code-quality-debt && npm run test:astro-anti-patterns && npm run test:design-system-contract && npm run test:fieldcraft-contracts && npm run test:social-profile-assets-contract && npm run test:css-simplification && npm run test:flip && npm run test:jose-parity-measurements && npm run validate:operational-telemetry && npm run validate:astro-anti-patterns && npm run validate:css-policy && npm run validate:design-system && npm run validate:social-assets && npm run validate:content-source-boundary && npm run validate:portfolio-content && npm run validate:page-surfaces && npm run validate:no-prototype-slop && npm run validate:pr-template",
     "validate:source": "npm run validate:fast && ASTRO_TELEMETRY_DISABLED=1 npm run check && ASTRO_TELEMETRY_DISABLED=1 npm run build && node scripts/smoke-pages.mjs && node scripts/validate-html-output.mjs",
     "validate:rendered": "npm run validate:source && node scripts/validate-js-budget.mjs && node scripts/validate-render-flow.mjs && npm run test:a11y && npm run test:visual",
     "validate:site": "npm run validate:rendered && npm run lhci",
@@ -86,7 +86,9 @@
     "test:jose-parity": "node scripts/jose-parity-runner.mjs",
     "test:jose-parity:cdp": "node scripts/jose-parity-cdp.mjs",
     "playwright:install": "playwright install chromium",
-    "lhci": "lhci autorun"
+    "lhci": "lhci autorun",
+    "test:fieldcraft-contracts": "node scripts/test-fieldcraft-contracts.mjs && node scripts/test-fieldcraft-blind-build.mjs",
+    "test:social-profile-assets-contract": "node scripts/test-social-profile-assets-contract.mjs"
   },
   "dependencies": {
     "@hugeicons/core-free-icons": "^4.2.2",

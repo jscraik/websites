@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { PNG } from "pngjs";
+import { approvedBannerPathsMatch } from "./lib/social-profile-assets-contract.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const manifestBuffer = await readFile(path.join(ROOT, "src/brand/social-profile-assets.json"));
@@ -129,8 +130,7 @@ for (const [platform, specification] of Object.entries(approvedLiveBanners.platf
   check(
     `${platform} approved live-banner paths are distinct and canonical`,
     specification.source !== specification.output &&
-      specification.source === `src/brand/source/approved/${path.basename(specification.source)}` &&
-      specification.output === `public/brand/social/approved/${path.basename(specification.output)}`,
+      approvedBannerPathsMatch(platform, specification),
     "approved source and public output paths must remain distinct and under the canonical directories"
   );
   await checkPng(

@@ -40,3 +40,13 @@ test("ignores commented primary metadata", () => {
     .replace("  }];", "    primary: false\n  }];");
   assert.equal(hasPrimarySkillsBarLink(commentedPrimary), false);
 });
+
+test("continues parsing after unrelated line and block comments", () => {
+  const commentedFixture = `
+    // Unrelated explanation before the data.
+    /* Another comment spanning
+       multiple lines. */
+    ${validFixture}
+  `;
+  assert.equal(hasPrimarySkillsBarLink(commentedFixture), true);
+});

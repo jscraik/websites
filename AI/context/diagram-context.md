@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-09-03T13:21:30Z
+Generated: 2026-09-03T14:06:52Z
 
 ## Table of Contents
 
@@ -29,8 +29,56 @@ Generated: 2026-09-03T13:21:30Z
 ## Changed source focus
 
 - These architecture-sensitive paths changed on the current branch and may be compacted out of Mermaid diagrams.
+- `docs/reference/fieldcraft-fde/v2/README.md`
+- `docs/reference/fieldcraft-fde/v2/manifest.json`
+- `docs/reference/fieldcraft-fde/v3/manifest.json`
+- `docs/reference/fieldcraft-fde/v3/policy.json`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-00.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-01.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-02.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-03.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-04.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-05.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-06.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-07.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-08.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-09.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-10.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-11.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-12.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-13.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-14.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-15.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-16.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-17.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-18.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-19.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/states/modal-01.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/states/modal-02.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/states/modal-03.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/states/modal-04.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/states/modal-05.png`
+- `docs/specifications/fieldcraft-fde-blind-build-agent-prompt.md`
+- `docs/specifications/fieldcraft-fde-blind-build-brief.md`
+- `docs/specifications/fieldcraft-fde-internal-region-contract.json`
+- `docs/specifications/fieldcraft-fde-measured-scene-contract.md`
+- `docs/specifications/fieldcraft-fde-replication-spec.md`
+- `docs/specifications/fieldcraft-fde-scene-contract.json`
 - `package.json`
+- `scripts/evaluate-fieldcraft-scenes.mjs`
+- `scripts/lib/design-system-contract.mjs`
+- `scripts/lib/pr-template-contract.mjs`
 - `scripts/refresh-diagram-context.sh`
+- `scripts/seal-fieldcraft-reference.mjs`
+- `scripts/test-css-simplification.mjs`
+- `scripts/test-design-system-contract.mjs`
+- `scripts/test-operator-workflow-contract.mjs`
+- `scripts/validate-design-system.mjs`
+- `scripts/validate-fieldcraft-internal-region-contract.mjs`
+- `scripts/validate-fieldcraft-scene-contract.mjs`
+- `scripts/validate-operator-contract.mjs`
+- `scripts/validate-pr-template.mjs`
+- `scripts/validate-social-profile-assets.mjs`
 - `src/brand/approved-live-banners.json`
 - `src/brand/source/approved/jamie-linkedin-background-1584x396.png`
 - `src/brand/source/approved/jamie-x-header-1500x500.png`
@@ -39,7 +87,9 @@ Generated: 2026-09-03T13:21:30Z
 - `src/layouts/BaseLayout.astro`
 - `src/pages/blog/index.astro`
 - `src/pages/index.astro`
+- `src/scripts/flip.test.ts`
 - `src/scripts/flip.ts`
+- `src/scripts/lapse-dev.test.ts`
 - `src/scripts/lapse-dev.ts`
 - `src/styles/global.css`
 - `src/styles/route-rhythm.css`
@@ -51,6 +101,7 @@ Generated: 2026-09-03T13:21:30Z
 flowchart TD
   subgraph Orchestration["🎯 Orchestration Layer"]
     jose_parity_runner_50cc4344["🤖 jose-parity-runner"]
+    node_agent_mmd_orchestration_layer_orchestration_prep_a847af26["🤖 prepare-fieldcraft-blind-build"]
     test_code_quality_debt_contract_569cff13["🤖 test-code-quality-debt-contract"]
     test_operator_workflow_contract_b4a152d7["🤖 test-operator-workflow-contract"]
     validate_design_system_b8a5f37c["🤖 validate-design-system"]
@@ -58,6 +109,7 @@ flowchart TD
   end
   subgraph LLMLayer["🧠 LLM / Model Layer"]
     generate_social_profile_assets_f4f94011["💡 generate-social-profile-assets"]
+    node_agent_mmd_llm_model_layer_llmlayer_prepare_field_7524fdcf["💡 prepare-fieldcraft-blind-build"]
     validate_social_profile_assets_a023937b["💡 validate-social-profile-assets"]
   end
   subgraph ToolLayer["🔧 Tool Layer"]
@@ -69,9 +121,9 @@ flowchart TD
     validate_operational_telemetry_cb447bde[("📚 validate-operational-telemetry")]
   end
   classDef agentNode fill:#555,color:#fff
-  class jose_parity_runner_50cc4344,test_code_quality_debt_contract_569cff13,test_operator_workflow_contract_b4a152d7,validate_design_system_b8a5f37c,validate_jose_claim_boundary_01082824 agentNode
+  class jose_parity_runner_50cc4344,node_agent_mmd_orchestration_layer_orchestration_prep_a847af26,node_agent_mmd_llm_model_layer_llmlayer_prepare_field_7524fdcf,test_code_quality_debt_contract_569cff13,test_operator_workflow_contract_b4a152d7,validate_design_system_b8a5f37c,validate_jose_claim_boundary_01082824 agentNode
   classDef llmNode fill:#555,color:#fff
-  class generate_social_profile_assets_f4f94011,validate_social_profile_assets_a023937b llmNode
+  class generate_social_profile_assets_f4f94011,node_agent_mmd_orchestration_layer_orchestration_prep_a847af26,node_agent_mmd_llm_model_layer_llmlayer_prepare_field_7524fdcf,validate_social_profile_assets_a023937b llmNode
   classDef toolNode fill:#555,color:#fff
   class jose_parity_cdp_bdcde21d,test_css_simplification_05516724 toolNode
   classDef memNode fill:#555,color:#fff
@@ -148,6 +200,7 @@ graph LR
   node_jose_parity_runner_50cc4344_e9555b02["jose_parity_runner_50cc4344"]
   node_lapse_dev_f2526c24_d04b45a0["lapse_dev_f2526c24"]
   node_pr_readiness_boundaries_621e369e_7f0b2de9["pr_readiness_boundaries_621e369e"]
+  node_prepare_fieldcraft_blind_build_8ab85212_153447eb["prepare_fieldcraft_blind_build_8ab85212"]
   node_seal_fieldcraft_reference_8652aaa2_c54b3f46["seal_fieldcraft_reference_8652aaa2"]
   node_setup_git_hooks_70750d40_b4ca2cf9["setup_git_hooks_70750d40"]
   node_smoke_pages_9a92b30d_72f6805f["smoke_pages_9a92b30d"]
@@ -158,6 +211,8 @@ graph LR
   node_test_css_simplification_05516724_6f0b8da9["test_css_simplification_05516724"]
   node_test_design_system_contract_2b5439cd_a676eb9e["test_design_system_contract_2b5439cd"]
   node_test_diagram_freshness_opt_in_96293749_08c46e10["test_diagram_freshness_opt_in_96293749"]
+  node_test_fieldcraft_blind_build_ec0e094c_11c1ac7a["test_fieldcraft_blind_build_ec0e094c"]
+  node_test_fieldcraft_contracts_82274efa_2a3f2205["test_fieldcraft_contracts_82274efa"]
   node_test_git_worktree_authority_e031ba7e_d149c121["test_git_worktree_authority_e031ba7e"]
   node_test_harness_cli_public_fallback_ad793eff_5fbe4aa9["test_harness_cli_public_fallback_ad793eff"]
   node_test_jose_parity_measurements_2477824f_5f030e16["test_jose_parity_measurements_2477824f"]
@@ -165,6 +220,7 @@ graph LR
   node_test_portfolio_helpers_88b404c3_859ed297["test_portfolio_helpers_88b404c3"]
   node_test_pr_readiness_fbe81eba_0ec78421["test_pr_readiness_fbe81eba"]
   node_test_setup_git_hooks_syntax_c035405d_68ddd381["test_setup_git_hooks_syntax_c035405d"]
+  node_test_social_profile_assets_contract_21d9ea77_0cbbd736["test_social_profile_assets_contract_21d9ea77"]
   node_validate_astro_anti_patterns_c2656e62_cf436b7a["validate_astro_anti_patterns_c2656e62"]
   node_validate_coding_policy_29976175_c710e9cd["validate_coding_policy_29976175"]
   node_validate_commit_msg_43b008fe_f9560ef9["validate_commit_msg_43b008fe"]
@@ -201,6 +257,8 @@ graph LR
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_css_simplification_05516724_6f0b8da9
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_design_system_contract_2b5439cd_a676eb9e
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_diagram_freshness_opt_in_96293749_08c46e10
+  ext_node_assert_f1a93ba5["node:assert"] --> node_test_fieldcraft_blind_build_ec0e094c_11c1ac7a
+  ext_node_assert_f1a93ba5["node:assert"] --> node_test_fieldcraft_contracts_82274efa_2a3f2205
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_git_worktree_authority_e031ba7e_d149c121
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_harness_cli_public_fallback_ad793eff_5fbe4aa9
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_jose_parity_measurements_2477824f_5f030e16
@@ -208,6 +266,7 @@ graph LR
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_portfolio_helpers_88b404c3_859ed297
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_pr_readiness_fbe81eba_0ec78421
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_setup_git_hooks_syntax_c035405d_68ddd381
+  ext_node_assert_f1a93ba5["node:assert"] --> node_test_social_profile_assets_contract_21d9ea77_0cbbd736
   ext_node_assert_f1a93ba5["node:assert"] --> node_validate_fieldcraft_internal_region_contract_a12_d8f43689
   ext_node_assert_f1a93ba5["node:assert"] --> node_validate_fieldcraft_scene_contract_186745c2_38a27626
   ext_node_child_process_f62b7d19["node:child_process"] --> node_changed_files_4c0102f6_bfd165bc
@@ -222,6 +281,7 @@ graph LR
   ext_node_child_process_f62b7d19["node:child_process"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_child_process_f62b7d19["node:child_process"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
   ext_node_child_process_f62b7d19["node:child_process"] --> node_test_diagram_freshness_opt_in_96293749_08c46e10
+  ext_node_child_process_f62b7d19["node:child_process"] --> node_test_fieldcraft_blind_build_ec0e094c_11c1ac7a
   ext_node_child_process_f62b7d19["node:child_process"] --> node_test_git_worktree_authority_e031ba7e_d149c121
   ext_node_child_process_f62b7d19["node:child_process"] --> node_test_harness_cli_public_fallback_ad793eff_5fbe4aa9
   ext_node_child_process_f62b7d19["node:child_process"] --> node_test_operator_workflow_contract_b4a152d7_c294797c
@@ -233,6 +293,7 @@ graph LR
   ext_node_child_process_f62b7d19["node:child_process"] --> node_validate_release_source_boundary_43d40a1f_0405b813
   ext_node_constants_cc38fbc2["node:constants"] --> node_check_git_worktree_authority_940ab26d_54e5636e
   ext_node_crypto_c7dfc512["node:crypto"] --> node_check_code_quality_debt_cba04f67_104c73f4
+  ext_node_crypto_c7dfc512["node:crypto"] --> node_evaluate_fieldcraft_scenes_d6258bc6_1eab3e75
   ext_node_crypto_c7dfc512["node:crypto"] --> node_generate_social_profile_assets_f4f94011_2a983f29
   ext_node_crypto_c7dfc512["node:crypto"] --> node_seal_fieldcraft_reference_8652aaa2_c54b3f46
   ext_node_crypto_c7dfc512["node:crypto"] --> node_test_code_quality_debt_contract_569cff13_2953095a
@@ -248,6 +309,7 @@ graph LR
   ext_node_fs_a15b7d96["node:fs"] --> node_jose_parity_cdp_bdcde21d_edb59c81
   ext_node_fs_a15b7d96["node:fs"] --> node_jose_parity_runner_50cc4344_e9555b02
   ext_node_fs_a15b7d96["node:fs"] --> node_pr_readiness_boundaries_621e369e_7f0b2de9
+  ext_node_fs_a15b7d96["node:fs"] --> node_prepare_fieldcraft_blind_build_8ab85212_153447eb
   ext_node_fs_a15b7d96["node:fs"] --> node_seal_fieldcraft_reference_8652aaa2_c54b3f46
   ext_node_fs_a15b7d96["node:fs"] --> node_setup_git_hooks_70750d40_b4ca2cf9
   ext_node_fs_a15b7d96["node:fs"] --> node_smoke_pages_9a92b30d_72f6805f
@@ -257,6 +319,8 @@ graph LR
   ext_node_fs_a15b7d96["node:fs"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
   ext_node_fs_a15b7d96["node:fs"] --> node_test_css_simplification_05516724_6f0b8da9
   ext_node_fs_a15b7d96["node:fs"] --> node_test_diagram_freshness_opt_in_96293749_08c46e10
+  ext_node_fs_a15b7d96["node:fs"] --> node_test_fieldcraft_blind_build_ec0e094c_11c1ac7a
+  ext_node_fs_a15b7d96["node:fs"] --> node_test_fieldcraft_contracts_82274efa_2a3f2205
   ext_node_fs_a15b7d96["node:fs"] --> node_test_git_worktree_authority_e031ba7e_d149c121
   ext_node_fs_a15b7d96["node:fs"] --> node_test_harness_cli_public_fallback_ad793eff_5fbe4aa9
   ext_node_fs_a15b7d96["node:fs"] --> node_test_jose_parity_measurements_2477824f_5f030e16
@@ -290,6 +354,7 @@ graph LR
   ext_node_os_d93fe73a["node:os"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_os_d93fe73a["node:os"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
   ext_node_os_d93fe73a["node:os"] --> node_test_diagram_freshness_opt_in_96293749_08c46e10
+  ext_node_os_d93fe73a["node:os"] --> node_test_fieldcraft_blind_build_ec0e094c_11c1ac7a
   ext_node_os_d93fe73a["node:os"] --> node_test_git_worktree_authority_e031ba7e_d149c121
   ext_node_os_d93fe73a["node:os"] --> node_test_harness_cli_public_fallback_ad793eff_5fbe4aa9
   ext_node_os_d93fe73a["node:os"] --> node_test_operator_workflow_contract_b4a152d7_c294797c
@@ -304,6 +369,7 @@ graph LR
   ext_node_path_78811c13["node:path"] --> node_generate_social_profile_assets_f4f94011_2a983f29
   ext_node_path_78811c13["node:path"] --> node_jose_parity_cdp_bdcde21d_edb59c81
   ext_node_path_78811c13["node:path"] --> node_pr_readiness_boundaries_621e369e_7f0b2de9
+  ext_node_path_78811c13["node:path"] --> node_prepare_fieldcraft_blind_build_8ab85212_153447eb
   ext_node_path_78811c13["node:path"] --> node_seal_fieldcraft_reference_8652aaa2_c54b3f46
   ext_node_path_78811c13["node:path"] --> node_setup_git_hooks_70750d40_b4ca2cf9
   ext_node_path_78811c13["node:path"] --> node_smoke_pages_9a92b30d_72f6805f
@@ -312,6 +378,7 @@ graph LR
   ext_node_path_78811c13["node:path"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_path_78811c13["node:path"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
   ext_node_path_78811c13["node:path"] --> node_test_diagram_freshness_opt_in_96293749_08c46e10
+  ext_node_path_78811c13["node:path"] --> node_test_fieldcraft_blind_build_ec0e094c_11c1ac7a
   ext_node_path_78811c13["node:path"] --> node_test_git_worktree_authority_e031ba7e_d149c121
   ext_node_path_78811c13["node:path"] --> node_test_harness_cli_public_fallback_ad793eff_5fbe4aa9
   ext_node_path_78811c13["node:path"] --> node_test_operator_workflow_contract_b4a152d7_c294797c
@@ -333,8 +400,11 @@ graph LR
   ext_node_path_78811c13["node:path"] --> node_validate_render_flow_2f64be63_a84870b9
   ext_node_path_78811c13["node:path"] --> node_validate_social_profile_assets_a023937b_aed15edb
   ext_node_process_00cdf119["node:process"] --> node_evaluate_fieldcraft_scenes_d6258bc6_1eab3e75
+  ext_node_process_00cdf119["node:process"] --> node_prepare_fieldcraft_blind_build_8ab85212_153447eb
   ext_node_test_a8c66a4f["node:test"] --> node_test_design_system_contract_2b5439cd_a676eb9e
+  ext_node_test_a8c66a4f["node:test"] --> node_test_fieldcraft_contracts_82274efa_2a3f2205
   ext_node_test_a8c66a4f["node:test"] --> node_test_pr_readiness_fbe81eba_0ec78421
+  ext_node_test_a8c66a4f["node:test"] --> node_test_social_profile_assets_contract_21d9ea77_0cbbd736
   ext_node_url_d0cb3ad7["node:url"] --> node_check_git_worktree_authority_940ab26d_54e5636e
   ext_node_url_d0cb3ad7["node:url"] --> node_check_node_engine_217689bf_3e5964b2
   ext_node_url_d0cb3ad7["node:url"] --> node_generate_social_profile_assets_f4f94011_2a983f29
@@ -462,6 +532,7 @@ flowchart LR
   VecDB -. "implemented by" .-> DetectedMemory
   subgraph DetectedLLM["Detected LLM clients"]
     det_detectedllm_generate_social_profile_assets_f4f94011["generate-social-profile-assets"]
+    det_detectedllm_prepare_fieldcraft_blind_build_8ab85212["prepare-fieldcraft-blind-build"]
     det_detectedllm_validate_social_profile_assets_a023937b["validate-social-profile-assets"]
   end
   LLMNode -. "implemented by" .-> DetectedLLM
@@ -563,7 +634,9 @@ flowchart LR
   check_code_size_9c5efc3a --> changed_files_4c0102f6
   test_design_system_contract_2b5439cd --> design_system_contract_744a00f2
   classDef userNode fill:#16a34a,color:#fff
-  class capture_jose_reference_e7b66705,check_public_api_docs_a9604f1b,jose_parity_cdp_bdcde21d,smoke_pages_9a92b30d,test_css_simplification_05516724,test_jose_parity_measurements_2477824f,test_operator_workflow_contract_b4a152d7,validate_coding_policy_29976175,validate_content_source_boundary_8a6f121b,validate_css_policy_1c5ec854,validate_design_system_b8a5f37c,validate_operator_contract_f777ed78,validate_page_surfaces_078ef6b6,validate_portfolio_content_6d36990e,validate_pr_template_1fc39e13 userNode
+  test_design_system_contract_2b5439cd["test-design-system-contract"]
+  User --> test_design_system_contract_2b5439cd
+  class capture_jose_reference_e7b66705,check_public_api_docs_a9604f1b,jose_parity_cdp_bdcde21d,smoke_pages_9a92b30d,test_css_simplification_05516724,test_jose_parity_measurements_2477824f,test_operator_workflow_contract_b4a152d7,validate_coding_policy_29976175,validate_content_source_boundary_8a6f121b,validate_css_policy_1c5ec854,validate_design_system_b8a5f37c,validate_operator_contract_f777ed78,validate_page_surfaces_078ef6b6,validate_portfolio_content_6d36990e,validate_pr_template_1fc39e13,test_design_system_contract_2b5439cd userNode
 
 ```
 

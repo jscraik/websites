@@ -1,5 +1,16 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Locator } from "@playwright/test";
 import { preparePage } from "../helpers/visual";
+
+async function waitForTransformToSettle(locator: Locator) {
+  let previous = "";
+  let stableSamples = 0;
+  await expect.poll(async () => {
+    const current = await locator.evaluate((element) => getComputedStyle(element).transform);
+    stableSamples = current !== "none" && current === previous ? stableSamples + 1 : 0;
+    previous = current;
+    return stableSamples;
+  }).toBeGreaterThanOrEqual(2);
+}
 
 test.describe("work-card pointer contract", () => {
   test("reveals a dimming layer and a pointer-following arrow", async ({ page }, testInfo) => {
@@ -13,10 +24,11 @@ test.describe("work-card pointer contract", () => {
     await thumbnail.hover({ position: { x: 40, y: 60 } });
     await expect(thumbnail).toHaveAttribute("data-pointer-active", "true");
 
-    await expect.poll(() => cursor.evaluate((element) => getComputedStyle(element).transform)).not.toBe("none");
+    await waitForTransformToSettle(cursor);
     const firstTransform = await cursor.evaluate((element) => getComputedStyle(element).transform);
     await thumbnail.hover({ position: { x: 180, y: 220 } });
-    await expect.poll(() => cursor.evaluate((element) => getComputedStyle(element).transform)).not.toBe(firstTransform);
+    await waitForTransformToSettle(cursor);
+    await expect(cursor).not.toHaveCSS("transform", firstTransform);
 
     await page.mouse.move(0, 0);
     await expect(thumbnail).not.toHaveAttribute("data-pointer-active", "true");

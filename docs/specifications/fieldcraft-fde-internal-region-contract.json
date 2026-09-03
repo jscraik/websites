@@ -26,17 +26,17 @@
     { "index": 19, "name": "week-4", "regions": { "copy": [90, 165, 670, 40], "calendar": [90, 250, 1075, 150], "system-rail": [90, 480, 1000, 24], "project-tags": [90, 520, 502, 28] }, "collisionPairs": [["copy", "calendar"], ["calendar", "system-rail"], ["system-rail", "project-tags"]] }
   ],
   "modalShell": {
-    "backdrop": [0, 0, 1280, 720],
-    "panel": [392, 86, 496, 548],
-    "tag": [424, 116, 270, 18],
-    "title": [424, 146, 390, 35],
-    "punch": [424, 190, 390, 22],
-    "bullets": [424, 230, 416, 180],
-    "closing-label": [424, 438, 210, 16],
-    "closing": [424, 463, 416, 112],
-    "close": [850, 100, 24, 24],
+    "modal-backdrop": [0, 0, 1280, 720],
+    "modal-panel": [392, 86, 496, 548],
+    "modal-tag": [424, 116, 270, 18],
+    "modal-title": [424, 146, 390, 35],
+    "modal-punch": [424, 190, 390, 22],
+    "modal-bullets": [424, 230, 416, 180],
+    "modal-closing-label": [424, 438, 210, 16],
+    "modal-closing": [424, 463, 416, 112],
+    "modal-close": [850, 100, 24, 24],
     "tolerancePx": 8,
-    "collisionPairs": [["title", "punch"], ["punch", "bullets"], ["bullets", "closing-label"], ["closing-label", "closing"], ["close", "title"]]
+    "collisionPairs": [["modal-title", "modal-punch"], ["modal-punch", "modal-bullets"], ["modal-bullets", "modal-closing-label"], ["modal-closing-label", "modal-closing"], ["modal-close", "modal-title"]]
   },
   "modalVariants": [
     { "modal": 1, "bulletLines": 9, "closingLines": 5 },

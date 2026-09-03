@@ -12,6 +12,12 @@ page. Do not use internet search to identify the reference. Network access to
 ordinary package registries is permitted only when the repository's canonical
 install process requires it.
 
+The evaluator must prepare a separate builder workspace with
+`node scripts/prepare-fieldcraft-blind-build.mjs <isolated-output-directory>`.
+Run the builder from that exported workspace only; repository-level evaluator
+references, screenshots, manifests, artifacts, and evaluator scripts are not
+builder inputs.
+
 Use only:
 
 1. The blind-build brief.
@@ -54,7 +60,7 @@ Your final report must include:
 - Design decisions made where the brief intentionally left freedom.
 - Confirmation that no hidden reference or prior implementation was accessed.
 - The precise claim: `Implemented and locally verified from the blind-build
-  brief; independent visual evaluation remains.`
+brief; independent visual evaluation remains.`
 
 Do not claim source identity or pixel parity. Do not deploy unless production
 delivery is explicitly authorized in the task.

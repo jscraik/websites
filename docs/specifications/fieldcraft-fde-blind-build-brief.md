@@ -93,7 +93,7 @@ The following inventory is a diagnostic completeness check, not visual proof:
   --line: rgb(2 43 114 / 16%);
   --line-d: rgb(214 226 244 / 24%);
   --fail: #b23a2e;
-  --ease: cubic-bezier(.22, .61, .21, 1);
+  --ease: cubic-bezier(0.22, 0.61, 0.21, 1);
 }
 ```
 
@@ -108,9 +108,10 @@ hover/focus; the modal is the only principal elevated surface.
 Use this fallback stack without loading a network font:
 
 ```css
-font-family: "Neue Haas Grotesk Display Pro", "Neue Haas Grotesk",
-  "Suisse Int'l", "Suisse Intl", Graphik, "ABC Diatype",
-  "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-family:
+  "Neue Haas Grotesk Display Pro", "Neue Haas Grotesk", "Suisse Int'l",
+  "Suisse Intl", Graphik, "ABC Diatype", "Helvetica Neue", Helvetica, Arial,
+  sans-serif;
 ```
 
 - Default weight 400; display headings 500.
@@ -199,7 +200,7 @@ Chapter destinations are 1, 5, 10, 12, 13, and 15. The chapter map for sections
 0–19 is:
 
 ```js
-[-1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 3, 4, 4, 5, 5, 5, 5, 5]
+[-1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 3, 4, 4, 5, 5, 5, 5, 5];
 ```
 
 ## Exact section content and composition
@@ -375,13 +376,13 @@ starts again. Reduced motion shows the landed state immediately.
 - Table label: `THE EVALUATION CASES`
 - Columns: `RIGHT DATA`, `REQUIRED STEPS`, `MATCHES EXPERT`, `SAFE TO ACT`
 
-| Case | Right data | Required steps | Matches expert | Safe to act |
-| --- | --- | --- | --- | --- |
-| The normal case | ✓ | ✓ | ✓ | ✓ |
-| The edge case | ✓ | ✓ | ✗ | ✗ |
-| Incomplete information | ✗ | — | — | → human |
-| An ambiguous request | ✓ | ✗ | — | → human |
-| A high-risk action | ✓ | ✓ | ✓ | → human |
+| Case                   | Right data | Required steps | Matches expert | Safe to act |
+| ---------------------- | ---------- | -------------- | -------------- | ----------- |
+| The normal case        | ✓          | ✓              | ✓              | ✓           |
+| The edge case          | ✓          | ✓              | ✗              | ✗           |
+| Incomplete information | ✗          | —              | —              | → human     |
+| An ambiguous request   | ✓          | ✗              | —              | → human     |
+| A high-risk action     | ✓          | ✓              | ✓              | → human     |
 
 - Legend: `✓ expected behavior · ✗ failure, with the evidence kept · → human escalated by rule`
 - Report label: `THE EVALUATION REPORT`
@@ -457,7 +458,7 @@ monochromatic blue/white; never invent app chrome.
 - Label: `FINAL WEEK · DAYS 22–30`
 - H2: `Final week: Defend the system like an FDE.`
 - Copy: `By Day 30, you should be able to explain the system to both an engineer and a non-technical executive.`
-- Closing H2: `Do the job before you have the title.`
+- Closing statement: `Do the job before you have the title.`
 - Closing: `On Day 30, you should not merely understand forward deployed engineering. You should have evidence that you can do it.`
 - Milestones: `DAY 7 — Working agent`, `DAY 14 — Recoverable system`, `DAY 21 — Evaluated system`, `DAY 30 — Complete FDE case study`.
 - Initial state shows the fourth week in focus while weeks 1–3 are complete.
@@ -484,38 +485,38 @@ state with an overlay card.
 
 Use this exact day content:
 
-| Day | Title | Description |
-| ---: | --- | --- |
-| 1 | Agent loop | prompt → model → response → next step, until the task completes or a max-step limit hits |
-| 2 | Tool use | one API call + one web search — the agent decides when to call them |
-| 3 | Guardrails | input validation · max-step limit · output filtering |
-| 4 | Context & memory | context window by default; external memory only when state must outlive the run |
-| 5 | Audit trail | log every prompt, response, tool call, result, error, and timestamp |
-| 6 | Real workflow | run it on one process that used to be manual — tie it to a portfolio project |
-| 7 | Checkpoint | a working agent with tools, guardrails, deliberate memory, and a full audit trail |
-| 8 | Structured outputs | a defined JSON schema, not free-form text |
-| 9 | Schema validation | validate every response; retry or escalate when the structure is invalid |
-| 10 | Failure modes | missing data · malformed responses · dead APIs · timeouts · duplicates · partial completion |
-| 11 | Checkpointing | save state every few steps: task, actions, tool results, pending work, errors |
-| 12 | Resume | stop the agent deliberately; restart it from the last checkpoint |
-| 13 | Failure handling | explicit behavior for tool failure, bad output, incomplete state, unsafe continuation |
-| 14 | Checkpoint | a resumable agent with structured outputs, state recovery, and explicit failure behavior |
-| 15 | Retry logic | exponential backoff on every external call: 1s · 2s · 4s · 8s · cap at 16s |
-| 16 | Failure categories | missing context · wrong tool · wrong record · invalid output · unsafe action · timeout |
-| 17 | Golden dataset | 20 real queries with hand-labeled ideal outputs — normal, edge, ambiguous, high-risk |
-| 18 | Run evals | correctness · format · tool selection · required steps · escalation behavior |
-| 19 | Optimize cost | cheaper models for simple subtasks · caching · token limits · cost per query |
-| 20 | Multi-agent | only when decomposition helps: one plans → several execute → one synthesizes |
-| 21 | Checkpoint | an evaluated agent with known failure modes, measured cost, and a golden dataset |
-| 22 | The pain point | who does the work, what takes time, where errors occur, what it costs |
-| 23 | Why AI belongs | why not just software · what stays human · where autonomy stops |
-| 24 | Architecture | stack, tools, models, data, memory, guardrails — and why each exists |
-| 25 | Iterations | what v1 got wrong, what failed, what changed, how it improved |
-| 26 | The evals | dataset, pass rate, failure categories, thresholds, open risks |
-| 27 | Economics | time saved, errors reduced, risk, revenue, cost per query |
-| 28 | Rehearse: engineer | architecture, decisions, failures, tradeoffs |
-| 29 | Rehearse: VP | problem, outcome, evidence, risk — plain language |
-| 30 | Final checkpoint | a complete FDE case study for engineers and executives alike |
+| Day | Title              | Description                                                                                 |
+| --: | ------------------ | ------------------------------------------------------------------------------------------- |
+|   1 | Agent loop         | prompt → model → response → next step, until the task completes or a max-step limit hits    |
+|   2 | Tool use           | one API call + one web search — the agent decides when to call them                         |
+|   3 | Guardrails         | input validation · max-step limit · output filtering                                        |
+|   4 | Context & memory   | context window by default; external memory only when state must outlive the run             |
+|   5 | Audit trail        | log every prompt, response, tool call, result, error, and timestamp                         |
+|   6 | Real workflow      | run it on one process that used to be manual — tie it to a portfolio project                |
+|   7 | Checkpoint         | a working agent with tools, guardrails, deliberate memory, and a full audit trail           |
+|   8 | Structured outputs | a defined JSON schema, not free-form text                                                   |
+|   9 | Schema validation  | validate every response; retry or escalate when the structure is invalid                    |
+|  10 | Failure modes      | missing data · malformed responses · dead APIs · timeouts · duplicates · partial completion |
+|  11 | Checkpointing      | save state every few steps: task, actions, tool results, pending work, errors               |
+|  12 | Resume             | stop the agent deliberately; restart it from the last checkpoint                            |
+|  13 | Failure handling   | explicit behavior for tool failure, bad output, incomplete state, unsafe continuation       |
+|  14 | Checkpoint         | a resumable agent with structured outputs, state recovery, and explicit failure behavior    |
+|  15 | Retry logic        | exponential backoff on every external call: 1s · 2s · 4s · 8s · cap at 16s                  |
+|  16 | Failure categories | missing context · wrong tool · wrong record · invalid output · unsafe action · timeout      |
+|  17 | Golden dataset     | 20 real queries with hand-labeled ideal outputs — normal, edge, ambiguous, high-risk        |
+|  18 | Run evals          | correctness · format · tool selection · required steps · escalation behavior                |
+|  19 | Optimize cost      | cheaper models for simple subtasks · caching · token limits · cost per query                |
+|  20 | Multi-agent        | only when decomposition helps: one plans → several execute → one synthesizes                |
+|  21 | Checkpoint         | an evaluated agent with known failure modes, measured cost, and a golden dataset            |
+|  22 | The pain point     | who does the work, what takes time, where errors occur, what it costs                       |
+|  23 | Why AI belongs     | why not just software · what stays human · where autonomy stops                             |
+|  24 | Architecture       | stack, tools, models, data, memory, guardrails — and why each exists                        |
+|  25 | Iterations         | what v1 got wrong, what failed, what changed, how it improved                               |
+|  26 | The evals          | dataset, pass rate, failure categories, thresholds, open risks                              |
+|  27 | Economics          | time saved, errors reduced, risk, revenue, cost per query                                   |
+|  28 | Rehearse: engineer | architecture, decisions, failures, tradeoffs                                                |
+|  29 | Rehearse: VP       | problem, outcome, evidence, risk — plain language                                           |
+|  30 | Final checkpoint   | a complete FDE case study for engineers and executives alike                                |
 
 Complete-month content:
 
@@ -644,31 +645,31 @@ compare the candidate with withheld reference evidence after delivery.
 - [ ] The canonical repository route renders the candidate.
 - [ ] Exactly 20 sections exist in the required order.
 - [ ] Every supplied line of exact copy appears without extra placeholder,
-  debug, documentation, loading, or host-interstitial text.
+      debug, documentation, loading, or host-interstitial text.
 - [ ] Fixed header, chapter navigation, pager, conditional rail, persistent
-  stage, modal, deployment run, and calendar states work.
+      stage, modal, deployment run, and calendar states work.
 - [ ] Pointer, keyboard, wheel, native-scroll, focus, reset, cancellation,
-  re-entry, rapid-input, and reduced-motion behaviors pass.
+      re-entry, rapid-input, and reduced-motion behaviors pass.
 - [ ] Final section preserves its two distinct states and backward behavior.
 - [ ] Semantic inventory and metadata pass as completeness diagnostics.
 - [ ] Every scene passes the measured geometry, computed typography, rendered
-  line-box, clipping, and fixed-shell-clearance contract.
+      line-box, clipping, and fixed-shell-clearance contract.
 - [ ] Every declared collision pair has zero intersection area, and every
-  hidden state layer is visually hidden, non-focusable, and non-hit-testable.
+      hidden state layer is visually hidden, non-focusable, and non-hit-testable.
 - [ ] Every required modal, deployment, roadmap, chapter, pager, reset,
-  re-entry, and reduced-motion state has a candidate-bound state record.
+      re-entry, and reduced-motion state has a candidate-bound state record.
 - [ ] The evaluator-owned screenshot matrix produces candidate, diff, mismatch,
-  and verdict artifacts for every admitted reference scene. Missing reference
-  images block visual parity rather than passing it.
+      and verdict artifacts for every admitted reference scene. Missing reference
+      images block visual parity rather than passing it.
 - [ ] No uncaught errors, site-authored console warnings, failed required
-  requests, duplicate timers, leaked observers, or horizontal overflow occur.
+      requests, duplicate timers, leaked observers, or horizontal overflow occur.
 - [ ] The declared viewports pass their responsive requirements.
 - [ ] The candidate uses no hidden reference, historical URL, copied source,
-  screenshot, or prior implementation.
+      screenshot, or prior implementation.
 - [ ] The brand icon is the declared placeholder, uses no remote asset, and can
-  be replaced without changing header geometry.
+      be replaced without changing header geometry.
 - [ ] The report names every design choice made where this brief deliberately
-  leaves visual detail open.
+      leaves visual detail open.
 
 ## Stop condition
 

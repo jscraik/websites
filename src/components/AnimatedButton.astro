@@ -25,10 +25,12 @@ const { class: className, href, label, ...rest } = Astro.props;
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
   const activeAnimations = new WeakMap<HTMLElement, Animation>();
+  const activeFills = new Set<HTMLElement>();
 
   const cancelAnimation = (fill: HTMLElement) => {
     activeAnimations.get(fill)?.cancel();
     activeAnimations.delete(fill);
+    activeFills.delete(fill);
   };
 
   const animateFrom = (fill: HTMLElement, previousRect: DOMRect) => {
@@ -49,14 +51,28 @@ const { class: className, href, label, ...rest } = Astro.props;
     );
 
     activeAnimations.set(fill, animation);
+    activeFills.add(fill);
     animation.addEventListener(
       "finish",
       () => {
-        if (activeAnimations.get(fill) === animation) activeAnimations.delete(fill);
+        if (activeAnimations.get(fill) === animation) {
+          activeAnimations.delete(fill);
+          activeFills.delete(fill);
+        }
       },
       { once: true }
     );
   };
+
+  const cancelForReducedMotion = () => {
+    if (reducedMotion.matches) {
+      for (const fill of activeFills) cancelAnimation(fill);
+    }
+  };
+  reducedMotion.addEventListener("change", cancelForReducedMotion);
+  window.addEventListener("pagehide", () => {
+    reducedMotion.removeEventListener("change", cancelForReducedMotion);
+  }, { once: true });
 
   document.querySelectorAll<HTMLElement>("[data-animated-button]").forEach((button) => {
     if (button.dataset.buttonReady === "true") return;

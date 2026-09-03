@@ -1,10 +1,12 @@
 import { createHash } from "node:crypto";
 import { readdir, readFile, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { parseEvaluationPolicy, parseFieldcraftJson } from "./lib/fieldcraft-contracts.mjs";
 
 const root = path.resolve("docs/reference/fieldcraft-fde/v3");
 const policyPath = path.join(root, "policy.json");
-const policy = JSON.parse(await readFile(policyPath, "utf8"));
+const policyText = await readFile(policyPath, "utf8");
+const policy = parseEvaluationPolicy(parseFieldcraftJson(policyText, "evaluation policy"));
 
 async function filesBelow(directory) {
   const output = [];

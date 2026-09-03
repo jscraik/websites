@@ -24,6 +24,20 @@ test.describe("animated CTA contract", () => {
     await expect(fill.locator("xpath=..")).toHaveClass(/(^|\s)small-button(\s|$)/);
   });
 
+  test("cancels an active fill animation when reduced motion turns on", async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== "chromium-desktop", "Hover transfer is a fine-pointer contract.");
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await preparePage(page, "/");
+
+    const button = page.locator("[data-animated-button]").first();
+    const fill = button.locator("[data-button-fill]");
+    await button.hover();
+    await expect.poll(() => fill.evaluate((element) => element.getAnimations().length)).toBeGreaterThan(0);
+
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await expect.poll(() => fill.evaluate((element) => element.getAnimations().length)).toBe(0);
+  });
+
   test("keeps reduced-motion interaction immediate", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "chromium-desktop", "Hover transfer is a fine-pointer contract.");
     await page.emulateMedia({ reducedMotion: "reduce" });

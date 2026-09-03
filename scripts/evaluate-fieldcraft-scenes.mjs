@@ -1,4 +1,14 @@
+import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
+import {
+  assertReferenceBinding,
+  parseEvaluationPolicy,
+  parseFieldcraftJson,
+  parseInternalRegionContract,
+  parseReferenceManifest,
+  parseSceneContract,
+  requiredEvidencePasses,
+} from "./lib/fieldcraft-contracts.mjs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
@@ -10,17 +20,29 @@ if (!candidateUrl) {
   throw new Error("CANDIDATE_BASE_URL is required");
 }
 
-const contract = JSON.parse(
-  await readFile("docs/specifications/fieldcraft-fde-scene-contract.json", "utf8"),
-);
-const internalContract = JSON.parse(
-  await readFile("docs/specifications/fieldcraft-fde-internal-region-contract.json", "utf8"),
-);
+const referenceBundleRoot = path.resolve("docs/reference/fieldcraft-fde/v3");
+const policyPath = path.join(referenceBundleRoot, "policy.json");
+const manifestPath = path.join(referenceBundleRoot, "manifest.json");
+const sceneContractText = await readFile("docs/specifications/fieldcraft-fde-scene-contract.json", "utf8");
+const internalContractText = await readFile("docs/specifications/fieldcraft-fde-internal-region-contract.json", "utf8");
+const policyBytes = await readFile(policyPath);
+const manifestText = await readFile(manifestPath, "utf8");
+const contract = parseSceneContract(parseFieldcraftJson(sceneContractText, "scene contract"));
+const internalContract = parseInternalRegionContract(parseFieldcraftJson(internalContractText, "internal-region contract"));
+const policy = parseEvaluationPolicy(parseFieldcraftJson(policyBytes.toString("utf8"), "evaluation policy"));
+const manifest = parseReferenceManifest(parseFieldcraftJson(manifestText, "reference manifest"));
+const policyDigest = createHash("sha256").update(policyBytes).digest("hex");
+assertReferenceBinding(policyDigest, policy, manifest);
+if (JSON.stringify(policy.viewport) !== JSON.stringify(contract.viewport)) {
+  throw new Error("Fieldcraft evaluation policy viewport does not match the scene contract");
+}
 const outputRoot = process.env.FIELDCRAFT_EVIDENCE_DIR ?? "artifacts/fieldcraft-scene-evaluation";
-const referenceRoot = process.env.FIELDCRAFT_REFERENCE_SCREENSHOTS;
-const mismatchLimit = Number(process.env.FIELDCRAFT_PIXEL_MISMATCH_LIMIT ?? "0.01");
+const referenceRoot = process.env.FIELDCRAFT_REFERENCE_SCREENSHOTS
+  ? path.resolve(process.env.FIELDCRAFT_REFERENCE_SCREENSHOTS)
+  : path.join(referenceBundleRoot, "screenshots/1280x720");
+const mismatchLimit = policy.pixelMismatchLimit;
 const browser = await chromium.launch({ headless: true });
-const page = await browser.newPage({ viewport: contract.viewport, reducedMotion: "reduce" });
+const page = await browser.newPage({ viewport: contract.viewport, reducedMotion: "no-preference" });
 const consoleFindings = [];
 const requestFailures = [];
 
@@ -35,7 +57,10 @@ page.on("requestfailed", (request) => {
 
 await page.goto(candidateUrl, { waitUntil: "networkidle" });
 await page.evaluate(async () => document.fonts.ready);
-await page.emulateMedia({ reducedMotion: "reduce" });
+await page.emulateMedia({ reducedMotion: "no-preference" });
+await page.evaluate(async () => {
+  await Promise.all(document.getAnimations().map((animation) => animation.finished.catch(() => undefined)));
+});
 await mkdir(outputRoot, { recursive: true });
 
 const measurements = await page.evaluate((sceneContract) => {
@@ -71,7 +96,10 @@ const measurements = await page.evaluate((sceneContract) => {
     return style.display !== "none" && style.visibility !== "hidden" && Number(style.opacity) > 0 && box.width > 0 && box.height > 0;
   };
 
-  return sceneContract.scenes.map((expected, index) => {
+  if (sections.length !== sceneContract.scenes.length) {
+    return { sectionCount: sections.length, scenes: [] };
+  }
+  return { sectionCount: sections.length, scenes: sceneContract.scenes.map((expected, index) => {
     const section = sections[index];
     const heading = section?.querySelector(index === 0 ? "h1" : "h2");
     if (!section || !heading) return { index, missing: true };
@@ -125,12 +153,17 @@ const measurements = await page.evaluate((sceneContract) => {
       collisions,
       hiddenStateViolations,
     };
-  });
+  }) };
 }, contract);
+
+if (measurements.sectionCount !== contract.scenes.length) {
+  throw new Error(`Fieldcraft scene count mismatch: expected ${contract.scenes.length}, observed ${measurements.sectionCount}`);
+}
+const measuredScenes = measurements.scenes;
 
 const near = (actual, expected, tolerance) => Math.abs(actual - expected) <= tolerance;
 const normalizeAlign = (value) => ({ left: "start", right: "end" })[value] ?? value;
-const results = measurements.map((actual) => {
+const results = measuredScenes.map((actual) => {
   const expected = contract.scenes[actual.index];
   if (actual.missing) return { index: actual.index, name: expected.name, pass: false, failures: ["missing scene or heading"] };
   const failures = [];
@@ -193,16 +226,24 @@ for (const scene of contract.scenes) {
   await page.waitForTimeout(50);
   const candidatePath = path.join(outputRoot, `scene-${String(scene.index).padStart(2, "0")}-candidate.png`);
   await page.screenshot({ path: candidatePath, animations: "disabled" });
-  if (!referenceRoot) {
-    visualResults.push({ index: scene.index, status: "blocked", reason: "FIELDCRAFT_REFERENCE_SCREENSHOTS is not set" });
+  const referenceName = `scene-${String(scene.index).padStart(2, "0")}.png`;
+  const manifestPathForScene = `screenshots/1280x720/${referenceName}`;
+  const sealedCapture = manifest.captures.find((capture) => capture.path === manifestPathForScene);
+  if (!sealedCapture) {
+    visualResults.push({ index: scene.index, status: "blocked", reason: `manifest omits ${manifestPathForScene}` });
     continue;
   }
-  const referencePath = path.join(referenceRoot, `scene-${String(scene.index).padStart(2, "0")}.png`);
+  const referencePath = path.join(referenceRoot, referenceName);
   let reference;
   try {
-    reference = PNG.sync.read(await readFile(referencePath));
-  } catch {
-    visualResults.push({ index: scene.index, status: "blocked", reason: `missing ${referencePath}` });
+    const referenceBytes = await readFile(referencePath);
+    const digest = createHash("sha256").update(referenceBytes).digest("hex");
+    if (digest !== sealedCapture.sha256 || referenceBytes.byteLength !== sealedCapture.bytes) {
+      throw new Error("digest or byte length differs from sealed manifest");
+    }
+    reference = PNG.sync.read(referenceBytes);
+  } catch (error) {
+    visualResults.push({ index: scene.index, status: "blocked", reason: `${referenceName}: ${error.message}` });
     continue;
   }
   const candidate = PNG.sync.read(await readFile(candidatePath));
@@ -211,12 +252,28 @@ for (const scene of contract.scenes) {
     continue;
   }
   const diff = new PNG({ width: reference.width, height: reference.height });
-  const mismatched = pixelmatch(reference.data, candidate.data, diff.data, reference.width, reference.height, { threshold: 0.1 });
+  const mismatched = pixelmatch(reference.data, candidate.data, diff.data, reference.width, reference.height, { threshold: policy.pixelmatchThreshold });
   const ratio = mismatched / (reference.width * reference.height);
   await writeFile(path.join(outputRoot, `scene-${String(scene.index).padStart(2, "0")}-diff.png`), PNG.sync.write(diff));
   visualResults.push({ index: scene.index, status: ratio <= mismatchLimit ? "pass" : "fail", ratio, limit: mismatchLimit });
 }
 
+const laneEvidence = {
+  geometry: results.every((result) => result.pass) ? "pass" : "fail",
+  typography: results.every((result) => result.pass) ? "pass" : "fail",
+  "rendered-line-boxes": results.every((result) => result.pass) ? "pass" : "fail",
+  collision: results.every((result) => result.pass) ? "pass" : "fail",
+  "visibility-state": results.every((result) => result.pass) ? "pass" : "fail",
+  interaction: "blocked",
+  "runtime-cleanliness": consoleFindings.length === 0 && requestFailures.length === 0 ? "pass" : "fail",
+  "visual-difference": visualResults.every((result) => result.status === "pass") ? "pass" : "fail",
+};
+const stateCoverage = {
+  initialScenes: { expected: contract.requiredVisualMatrix.initialScenes, observed: results.length, status: results.length === contract.requiredVisualMatrix.initialScenes ? "pass" : "blocked" },
+  workflowModals: { expected: contract.requiredVisualMatrix.workflowModals, observed: 0, status: "blocked" },
+  deploymentCheckpoints: { expected: contract.requiredVisualMatrix.deploymentCheckpoints, observed: policy.capturedStates.deploymentCheckpoints, status: "blocked" },
+  roadmapStates: { expected: contract.requiredVisualMatrix.roadmapStates, observed: policy.capturedStates.advancedRoadmapStates, status: "blocked" },
+};
 const report = {
   schemaVersion: 1,
   candidateUrl,
@@ -225,11 +282,10 @@ const report = {
   visual: visualResults,
   consoleFindings,
   requestFailures,
-  pass:
-    results.every((result) => result.pass) &&
-    visualResults.every((result) => result.status === "pass") &&
-    consoleFindings.length === 0 &&
-    requestFailures.length === 0,
+  policy: { authority: policy.authority, sha256: policyDigest, mismatchLimit, pixelmatchThreshold: policy.pixelmatchThreshold },
+  laneEvidence,
+  stateCoverage,
+  pass: requiredEvidencePasses(policy.requiredLanes, laneEvidence, stateCoverage),
 };
 await writeFile(path.join(outputRoot, "report.json"), `${JSON.stringify(report, null, 2)}\n`);
 await browser.close();

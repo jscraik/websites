@@ -481,6 +481,21 @@ const buildDependency = (content, nodeMap) => {
   );
 };
 
+const augmentUser = (content) => {
+  const nodeId = "test_design_system_contract_2b5439cd";
+  const declaration = `  ${nodeId}["test-design-system-contract"]`;
+  const userEdge = `  User --> ${nodeId}`;
+  let lines = content.trimEnd().split(/\r?\n/);
+  const classIndex = lines.findIndex((line) => /^  class .* userNode$/.test(line));
+  const insertionIndex = classIndex >= 0 ? classIndex : lines.length;
+  if (!lines.includes(declaration)) lines.splice(insertionIndex, 0, declaration, userEdge);
+  const updatedClassIndex = lines.findIndex((line) => /^  class .* userNode$/.test(line));
+  if (updatedClassIndex >= 0 && !lines[updatedClassIndex].split(/[ ,]/).includes(nodeId)) {
+    lines[updatedClassIndex] = lines[updatedClassIndex].replace(/ userNode$/, `,${nodeId} userNode`);
+  }
+  return ensureTrailingNewline(lines.join("\n"));
+};
+
 const augmentSecurity = (content) => {
   const nodeId = "validate_pr_template_1fc39e13";
   const declaration = `  ${nodeId}["validate-pr-template"]`;
@@ -556,6 +571,9 @@ for (const file of diagramFiles) {
   if (file === "security.mmd") {
     content = augmentSecurity(content);
   }
+  if (file === "user.mmd") {
+    content = augmentUser(content);
+  }
   writeFileSync(
     filePath,
     dedupeSubgraphNodeIds(content, file),
@@ -602,16 +620,14 @@ SOURCE_FOCUS_FILE="$TMP_DIR/source-focus.txt"
 {
 	base_ref="$(git -C "$ROOT_DIR" merge-base HEAD origin/main 2>/dev/null || true)"
 	if [[ -n "$base_ref" ]]; then
-		git -C "$ROOT_DIR" diff --name-only --diff-filter=ACMR "$base_ref"...HEAD -- src scripts docs/agents/linear-templates package.json tsconfig.json .diagramrc 2>/dev/null || true
-	else
-		git -C "$ROOT_DIR" diff --name-only --diff-filter=ACMR HEAD -- src scripts docs/agents/linear-templates package.json tsconfig.json .diagramrc 2>/dev/null || true
+		git -C "$ROOT_DIR" diff --name-only --diff-filter=ACMR "$base_ref"...HEAD -- src scripts docs package.json tsconfig.json .diagramrc 2>/dev/null || true
 	fi
+	git -C "$ROOT_DIR" diff --name-only --diff-filter=ACMR HEAD -- src scripts docs package.json tsconfig.json .diagramrc 2>/dev/null || true
+	git -C "$ROOT_DIR" ls-files --others --exclude-standard -- src scripts docs package.json tsconfig.json .diagramrc 2>/dev/null || true
 } | awk '
-	$0 ~ /^src\// && $0 !~ /\.(test|spec)\.(ts|js)$/ { print }
-	$0 ~ /^docs\/agents\/linear-templates\// { print }
-	$0 ~ /^scripts\/refresh-diagram-context\.sh$/ { print }
-	$0 ~ /^scripts\/check-diagram-freshness\.sh$/ { print }
-	$0 ~ /^scripts\/lib\/normalize-mermaid-artifact\.cjs$/ { print }
+	$0 ~ /^src\// { print }
+	$0 ~ /^scripts\// { print }
+	$0 ~ /^docs\/(agents\/linear-templates|specifications|reference\/fieldcraft-fde)\// { print }
 	$0 == "package.json" || $0 == "tsconfig.json" || $0 == ".diagramrc" { print }
 ' | sort -u > "$SOURCE_FOCUS_FILE"
 

@@ -1,11 +1,13 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+import { parseFieldcraftJson, parseSceneContract } from "./lib/fieldcraft-contracts.mjs";
 
 const contractPath = new URL(
   "../docs/specifications/fieldcraft-fde-scene-contract.json",
   import.meta.url,
 );
-const contract = JSON.parse(await readFile(contractPath, "utf8"));
+const contractText = await readFile(contractPath, "utf8");
+const contract = parseSceneContract(parseFieldcraftJson(contractText, "scene contract"));
 
 assert.equal(contract.schemaVersion, 1, "scene contract schema must be v1");
 assert.deepEqual(contract.viewport, { width: 1280, height: 720 });

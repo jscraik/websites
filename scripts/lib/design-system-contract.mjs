@@ -38,7 +38,7 @@ function stripJavaScriptComments(source) {
     if (character === "/" && next === "/") {
       output += "  ";
       index += 2;
-      while (index < source.length && source[index] !== "\\n") {
+      while (index < source.length && source[index] !== "\n") {
         output += " ";
         index += 1;
       }
@@ -48,7 +48,7 @@ function stripJavaScriptComments(source) {
       output += "  ";
       index += 2;
       while (index < source.length && !(source[index] === "*" && source[index + 1] === "/")) {
-        output += source[index] === "\\n" ? "\\n" : " ";
+        output += source[index] === "\n" ? "\n" : " ";
         index += 1;
       }
       if (index < source.length) {
