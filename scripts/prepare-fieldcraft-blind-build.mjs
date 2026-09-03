@@ -51,13 +51,22 @@ const inputs = [
 ];
 
 await mkdir(output);
+const canonicalParentAfterCreate = await realpath(directParent);
+const canonicalOutput = await realpath(output);
+if (canonicalParentAfterCreate !== canonicalParent || path.dirname(canonicalOutput) !== canonicalParent) {
+  throw new Error("Blind-build output parent changed during creation");
+}
+if (canonicalOutput === root || canonicalOutput.startsWith(`${root}${path.sep}`)) {
+  throw new Error("Blind-build output resolved inside the repository");
+}
+
 for (const source of [...workspace, ...inputs]) {
-  const destination = path.join(output, source);
+  const destination = path.join(canonicalOutput, source);
   await mkdir(path.dirname(destination), { recursive: true });
   await cp(path.join(root, source), destination, { recursive: true });
 }
 
-const exportedPackagePath = path.join(output, "package.json");
+const exportedPackagePath = path.join(canonicalOutput, "package.json");
 const exportedPackage = JSON.parse(await readFile(exportedPackagePath, "utf8"));
 exportedPackage.scripts = {
   dev: "astro dev",
@@ -68,7 +77,7 @@ exportedPackage.scripts = {
 };
 await writeFile(exportedPackagePath, `${JSON.stringify(exportedPackage, null, 2)}\n`);
 await writeFile(
-  path.join(output, "WORKFLOW.md"),
+  path.join(canonicalOutput, "WORKFLOW.md"),
   `# Fieldcraft clean-room workflow
 
 Run \u0060npm ci\u0060, then \u0060npm run validate:fast\u0060. The exported validation surface is intentionally limited to Astro check and build commands that are present in this workspace.
@@ -86,5 +95,5 @@ const manifest = {
     "scripts/**/*fieldcraft*",
   ],
 };
-await writeFile(path.join(output, "blind-build-manifest.json"), `${JSON.stringify(manifest, null, 2)}\n`);
-console.log(`PASS prepared isolated Fieldcraft blind-build input at ${output}`);
+await writeFile(path.join(canonicalOutput, "blind-build-manifest.json"), `${JSON.stringify(manifest, null, 2)}\n`);
+console.log(`PASS prepared isolated Fieldcraft blind-build input at ${canonicalOutput}`);

@@ -7,6 +7,10 @@ import { spawnSync } from "node:child_process";
 const parent = await mkdtemp(path.join(os.tmpdir(), "fieldcraft-blind-build-"));
 const output = path.join(parent, "export");
 try {
+  const exporterSource = await readFile("scripts/prepare-fieldcraft-blind-build.mjs", "utf8");
+  assert.match(exporterSource, /canonicalParentAfterCreate !== canonicalParent/);
+  assert.match(exporterSource, /path\.join\(canonicalOutput, source\)/);
+  assert.doesNotMatch(exporterSource, /path\.join\(output, source\)/);
   const result = spawnSync(process.execPath, ["scripts/prepare-fieldcraft-blind-build.mjs", output], { encoding: "utf8" });
   assert.equal(result.status, 0, result.stderr);
   const manifest = JSON.parse(await readFile(path.join(output, "blind-build-manifest.json"), "utf8"));

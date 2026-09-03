@@ -38,6 +38,9 @@ test("the evaluator binds sealed thresholds, exact sections, and required state 
   const source = await readFile("scripts/evaluate-fieldcraft-scenes.mjs", "utf8");
   assert.equal(source.includes("FIELDCRAFT_PIXEL_MISMATCH_LIMIT"), false);
   assert.match(source, /threshold: policy\.pixelmatchThreshold/);
+  assert.match(source, /policy\.geometryTolerances/);
+  assert.match(source, /scene tolerances do not match the sealed evaluation policy/);
+  assert.doesNotMatch(source, /contract\.tolerances\.(?:anchorPx|boxPx)/);
   assert.match(source, /sections\.length !== sceneContract\.scenes\.length/);
   assert.match(source, /fixed-shell clearance violations/);
   assert.match(source, /\[data-fixed-shell\], \.site-header, \.shell-header, \.hud, \.pager, \.rail/);

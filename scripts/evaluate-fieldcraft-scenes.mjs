@@ -36,6 +36,10 @@ assertReferenceBinding(policyDigest, policy, manifest);
 if (JSON.stringify(policy.viewport) !== JSON.stringify(contract.viewport)) {
   throw new Error("Fieldcraft evaluation policy viewport does not match the scene contract");
 }
+if (JSON.stringify(policy.geometryTolerances) !== JSON.stringify(contract.tolerances)) {
+  throw new Error("Fieldcraft scene tolerances do not match the sealed evaluation policy");
+}
+const geometryTolerances = policy.geometryTolerances;
 const outputRoot = process.env.FIELDCRAFT_EVIDENCE_DIR ?? "artifacts/fieldcraft-scene-evaluation";
 const referenceRoot = process.env.FIELDCRAFT_REFERENCE_SCREENSHOTS
   ? path.resolve(process.env.FIELDCRAFT_REFERENCE_SCREENSHOTS)
@@ -232,11 +236,11 @@ const results = measuredScenes.map((actual) => {
   const failures = [];
   const expectedHeading = expected.heading;
   const checks = [
-    ["x", actual.heading.box.x, expectedHeading.x, contract.tolerances.anchorPx],
-    ["localY", actual.heading.localY, expectedHeading.localY, contract.tolerances.anchorPx],
-    ["width", actual.heading.box.width, expectedHeading.width, contract.tolerances.boxPx],
-    ["height", actual.heading.box.height, expectedHeading.height, contract.tolerances.boxPx],
-    ["sectionHeight", actual.sectionBox.height, contract.sectionHeight, contract.tolerances.boxPx],
+    ["x", actual.heading.box.x, expectedHeading.x, geometryTolerances.anchorPx],
+    ["localY", actual.heading.localY, expectedHeading.localY, geometryTolerances.anchorPx],
+    ["width", actual.heading.box.width, expectedHeading.width, geometryTolerances.boxPx],
+    ["height", actual.heading.box.height, expectedHeading.height, geometryTolerances.boxPx],
+    ["sectionHeight", actual.sectionBox.height, contract.sectionHeight, geometryTolerances.boxPx],
     ["fontSize", actual.heading.fontSize, expectedHeading.fontSize, 0.1],
     ["lineHeight", actual.heading.lineHeight, expectedHeading.lineHeight, 0.1],
   ];

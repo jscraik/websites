@@ -9169,7 +9169,7 @@ body:not(.skillsbar-demo) :is(
       calc(var(--jp-fluid-rem) * 0.25) calc(var(--jp-fluid-rem) * 1.5);
     border-color: var(--bds-color-portfolio-nav);
     border-radius: calc(var(--jp-fluid-rem) * 2);
-    background: var(--bds-color-portfolio-nav);
+    background: transparent;
     gap: calc(var(--jp-fluid-rem) * 0.75);
   }
 
