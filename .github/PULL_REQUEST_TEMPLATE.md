@@ -92,11 +92,11 @@ run, state the blocker and the nearest fallback.
 ## Validation
 
 - Regression coverage:
-<!-- Add one evidence line for each command:
+<!-- Add one evidence line for each command. Keep the examples visible so maintainers can copy the required format. -->
 - Command: `bash scripts/validate-codestyle.sh` -> pass
 - Command: `npm run check` -> blocked (reason)
 - Command: `npm run validate:fast` -> n.a. (reason)
--->
+
 - Untested or blocked paths:
 
 ## Review and closeout

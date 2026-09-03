@@ -117,8 +117,12 @@ const measurements = await page.evaluate((sceneContract) => {
         };
       });
     const allowed = new Set(
-      [...section.querySelectorAll("[data-contains-region]")].map(
-        (element) => `${element.dataset.sceneRegion}>${element.dataset.containsRegion}`,
+      [...section.querySelectorAll("[data-contains-region]")].flatMap((element) =>
+        (element.dataset.containsRegion ?? "")
+          .trim()
+          .split(/\s+/)
+          .filter(Boolean)
+          .map((containedRegion) => `${element.dataset.sceneRegion}>${containedRegion}`),
       ),
     );
     const collisions = [];
@@ -192,7 +196,7 @@ for (const scene of contract.scenes) {
         .filter(visible)
         .map((element) => ({ key: element.dataset.sceneRegion, box: rect(element) })),
     ];
-    return [...document.querySelectorAll("[data-fixed-shell], .hud, .pager, .rail")]
+    return [...document.querySelectorAll("[data-fixed-shell], .site-header, .shell-header, .hud, .pager, .rail")]
       .filter(visible)
       .flatMap((element) => {
         const shell = { key: element.id || element.className || element.tagName, box: rect(element) };

@@ -170,6 +170,22 @@ check("PR template follows the current maintainer evidence contract", () => {
     pullRequestTemplate.replace("standalone review-remediation PRs may use `jscraik/<short-description>` when the body records a concrete Linear `n/a` reason", "<!-- standalone review-remediation PRs may use `jscraik/<short-description>` when the body records a concrete Linear `n/a` reason -->")
   );
   assert.match(hiddenBranchPolicyErrors.join("\n"), /standalone remediation branch exception/i);
+
+  const hiddenCodestyleEvidenceErrors = collectPrTemplateContractErrors(
+    pullRequestTemplate.replace(
+      "- Command: `bash scripts/validate-codestyle.sh` -> pass",
+      "<!-- - Command: `bash scripts/validate-codestyle.sh` -> pass -->",
+    ),
+  );
+  assert.match(hiddenCodestyleEvidenceErrors.join("\n"), /codestyle command evidence/i);
+
+  const hiddenBlockedEvidenceErrors = collectPrTemplateContractErrors(
+    pullRequestTemplate.replace(
+      "- Command: `npm run check` -> blocked (reason)",
+      "<!-- - Command: `npm run check` -> blocked (reason) -->",
+    ),
+  );
+  assert.match(hiddenBlockedEvidenceErrors.join("\n"), /blocked command evidence with a reason/i);
 });
 
 check("pre-commit validation uses portfolio package contracts", () => {

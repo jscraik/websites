@@ -40,8 +40,11 @@ test("the evaluator binds sealed thresholds, exact sections, and required state 
   assert.match(source, /threshold: policy\.pixelmatchThreshold/);
   assert.match(source, /sections\.length !== sceneContract\.scenes\.length/);
   assert.match(source, /fixed-shell clearance violations/);
+  assert.match(source, /\[data-fixed-shell\], \.site-header, \.shell-header, \.hud, \.pager, \.rail/);
   assert.match(source, /activeSceneFixedShellOverlaps\[scene\.index\] = await page\.evaluate/);
   assert.match(source, /section\.scrollIntoView\(\{ behavior: "instant", block: "start" \}\)/);
+  assert.match(source, /\.split\(\/\\s\+\/\)/);
+  assert.match(source, /`\$\{element\.dataset\.sceneRegion\}>\$\{containedRegion\}`/);
   assert.match(source, /contract\.sectionHeight/);
   for (const state of ["workflowModals", "deploymentCheckpoints", "roadmapStates"]) {
     assert.match(source, new RegExp(`${state}: \\{`));

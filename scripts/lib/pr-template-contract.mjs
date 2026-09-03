@@ -109,7 +109,7 @@ export function collectPrTemplateContractErrors(content) {
     errors.push("PR template checklist must keep merge blocked until required checks pass.");
   }
 
-  const validation = sectionBody(content, "## Validation") ?? "";
+  const validation = sectionBody(visibleContent, "## Validation") ?? "";
   if (!/- Command: `bash scripts\/validate-codestyle\.sh` -> pass/.test(validation)) {
     errors.push("PR template validation guidance must show codestyle command evidence.");
   }
