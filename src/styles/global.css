@@ -912,7 +912,7 @@ main [data-entry]:nth-child(5) { animation-delay: 160ms; }
   filter: blur(14px);
 }
 
-.work-thumbnail span:last-child {
+.work-thumbnail > span:nth-of-type(2) {
   bottom: 22px;
   width: 62%;
   height: 9px;

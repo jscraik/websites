@@ -35,12 +35,7 @@ function escapeRegExp(value) {
 }
 
 function stripHtmlComments(content) {
-  const requiredFieldLabels = [...new Set([...REQUIRED_FIELDS.values()].flat())].map(escapeRegExp).join("|");
-  const hiddenField = new RegExp("^\\s*-[\\t ]+(?:" + requiredFieldLabels + "):[^\\n]*", "gmi");
-  const hiddenHeading = /^##? .+$/gmi;
-  return content.replace(/<!--([\s\S]*?)-->/g, (_match, body) =>
-    body.replace(hiddenField, "").replace(hiddenHeading, ""),
-  );
+  return content.replace(/<!--[\s\S]*?-->/g, "");
 }
 
 function sectionBody(visibleContent, heading) {

@@ -160,6 +160,16 @@ check("PR template follows the current maintainer evidence contract", () => {
     pullRequestTemplate.replace("- Problem:", "<!--\n- Problem:\n-->")
   );
   assert.match(hiddenRequiredFieldErrors.join("\n"), /Summary is missing field: Problem/i);
+
+  const hiddenChecklistErrors = collectPrTemplateContractErrors(
+    pullRequestTemplate.replace("- [ ] **(Pending)** Codex review completed and findings handled or explicitly waived.", "<!--\n- [ ] **(Pending)** Codex review completed and findings handled or explicitly waived.\n-->")
+  );
+  assert.match(hiddenChecklistErrors.join("\n"), /checklist is missing status marker: \*\*\(Pending\)\*\* Codex/i);
+
+  const hiddenBranchPolicyErrors = collectPrTemplateContractErrors(
+    pullRequestTemplate.replace("standalone review-remediation PRs may use `jscraik/<short-description>` when the body records a concrete Linear `n/a` reason", "<!-- standalone review-remediation PRs may use `jscraik/<short-description>` when the body records a concrete Linear `n/a` reason -->")
+  );
+  assert.match(hiddenBranchPolicyErrors.join("\n"), /standalone remediation branch exception/i);
 });
 
 check("pre-commit validation uses portfolio package contracts", () => {

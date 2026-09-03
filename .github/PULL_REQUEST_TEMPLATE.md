@@ -70,12 +70,11 @@ run, state the blocker and the nearest fallback.
 - Meta-behavior proof:
 - Repeated-error research:
 - Durable evidence map:
-<!-- For evidence-heavy PRs, use a compact index. Use repo-relative paths.
+<!-- For evidence-heavy PRs, use a compact index. Use repo-relative paths. -->
 
 | Artifact | Durable reference | Schema / version | Producer command | Digest | Replay command | Authority |
 | --- | --- | --- | --- | --- | --- | --- |
 |  |  |  |  |  |  | `source-of-truth` / `retained context` |
--->
 - Learning / reinforcement:
 
 ## Checklist
