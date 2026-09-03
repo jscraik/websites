@@ -143,6 +143,15 @@ assert.match(flipMotion, /joseFlipDuration = 400/);
 assert.match(flipMotion, /joseFlipEasing = "cubic-bezier\(0\.165, 0\.84, 0\.44, 1\)"/);
 assert.match(flipMotion, /layer\.animate\(/);
 assert.match(css, /\.small-button__bg\s*{[^}]*transform:\s*none;[^}]*transform-origin:\s*top left;/);
+assert.match(
+  css,
+  /\.small-button > span:not\(\.small-button__bg\)\s*\{/,
+  "the legacy content-layer rule must exclude the FLIP background",
+);
+assert.doesNotMatch(
+  css,
+  /\.small-button > span\s*\{/,
+);
 assert.match(css, /\.small-button__arrow > \.small-button__bg\s*{[^}]*z-index:\s*0;/);
 assert.match(source, /class="small-button__bg" aria-hidden="true"/);
 assert.match(

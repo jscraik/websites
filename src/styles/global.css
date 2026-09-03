@@ -819,7 +819,7 @@ main [data-entry]:nth-child(5) { animation-delay: 160ms; }
     background-color 200ms ease;
 }
 
-.small-button > span {
+.small-button > span:not(.small-button__bg) {
   position: relative;
   z-index: 1;
 }
