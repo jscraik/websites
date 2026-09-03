@@ -15,7 +15,6 @@
   .blog-preview p:not(.article-date),
   .blog-list-item > span,
   .blog-about-card .text-lg p,
-  .about-copy p,
   .contact-panel > p,
   .proof-index header > p,
   .case-work-header > p,
@@ -48,7 +47,7 @@
     background-color: var(--paper);
   }
 
-  html body:not(.skillsbar-demo):has(.blog-index) {
+  html body:not(.skillsbar-demo):has(.blog-index) .blog-page-main {
     --jp-blog-index-height: 45rem;
   }
 
@@ -108,7 +107,7 @@
     background-color: var(--paper);
   }
 
-  html body:not(.skillsbar-demo):has(.blog-index) {
+  html body:not(.skillsbar-demo):has(.blog-index) .blog-page-main {
     --jp-blog-index-height: 56.172rem;
   }
 
