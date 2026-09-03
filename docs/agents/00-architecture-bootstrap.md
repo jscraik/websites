@@ -70,9 +70,9 @@ new public article and work paths in smoke, accessibility, visual, and Jose CDP
 surfaces before those routes are treated as covered.
 
 Browser motion belongs to shared, testable helpers such as
-`src/scripts/flip-motion.ts`. Production output must not require private
-development tooling: the optional Lapse panel is mounted only through
-`src/scripts/lapse-dev.js` when Astro is running in development mode.
+`src/scripts/flip-motion.ts`. Production output and committed dependency
+metadata must not require private development tooling or unauthenticated
+registries.
 
 Route-specific editorial rhythm belongs in `src/styles/route-rhythm.css` rather
 than the shared shell. Keep its selectors limited to the route that owns the
