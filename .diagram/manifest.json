@@ -1,5 +1,5 @@
 {
-	"generatedAt": "2026-09-03T16:07:30.023Z",
+	"generatedAt": "2026-09-03T16:20:01.602Z",
 	"schemaVersion": "1.0",
 	"rootPath": ".",
 	"diagramDir": ".diagram",
@@ -126,8 +126,8 @@
 			"type": "user",
 			"file": "user.mmd",
 			"outputPath": ".diagram/user.mmd",
-			"lines": 48,
-			"bytes": 3088,
+			"lines": 55,
+			"bytes": 3619,
 			"isPlaceholder": false
 		}
 	]

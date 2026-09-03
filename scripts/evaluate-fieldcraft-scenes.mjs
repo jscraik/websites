@@ -54,6 +54,15 @@ page.on("console", (message) => {
 page.on("requestfailed", (request) => {
   requestFailures.push({ url: request.url(), error: request.failure()?.errorText ?? "unknown" });
 });
+page.on("response", (response) => {
+  if (response.status() >= 400) {
+    requestFailures.push({
+      url: response.url(),
+      status: response.status(),
+      error: `HTTP ${response.status()}`,
+    });
+  }
+});
 
 await page.goto(candidateUrl, { waitUntil: "networkidle" });
 await page.evaluate(async () => document.fonts.ready);
@@ -95,6 +104,13 @@ const measurements = await page.evaluate((sceneContract) => {
     const box = element.getBoundingClientRect();
     return style.display !== "none" && style.visibility !== "hidden" && Number(style.opacity) > 0 && box.width > 0 && box.height > 0;
   };
+  const focusableSelector =
+    'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [contenteditable="true"], [tabindex]:not([tabindex="-1"])';
+  const keyboardReachable = (element) =>
+    !element.closest("[inert]") &&
+    !element.hidden &&
+    (element.matches(focusableSelector) || [...element.querySelectorAll(focusableSelector)].some((candidate) => !candidate.closest("[inert]") && !candidate.hidden));
+  const documentOverflow = Math.max(document.documentElement.scrollWidth, document.body?.scrollWidth ?? 0) > window.innerWidth;
 
   if (sections.length !== sceneContract.scenes.length) {
     return { sectionCount: sections.length, scenes: [] };
@@ -136,7 +152,7 @@ const measurements = await page.evaluate((sceneContract) => {
       }
     }
     const hiddenStateViolations = [...section.querySelectorAll("[data-state-hidden='true']")]
-      .filter((element) => visible(element) || getComputedStyle(element).pointerEvents !== "none")
+      .filter((element) => visible(element) || getComputedStyle(element).pointerEvents !== "none" || keyboardReachable(element))
       .map((element) => element.id || element.dataset.sceneRegion || element.tagName);
     return {
       index,
@@ -153,6 +169,7 @@ const measurements = await page.evaluate((sceneContract) => {
         clipped: heading.scrollWidth > heading.clientWidth || heading.scrollHeight > heading.clientHeight,
       },
       sceneOverflow: section.scrollWidth > section.clientWidth,
+      documentOverflow,
       regions,
       collisions,
       hiddenStateViolations,
@@ -237,6 +254,7 @@ const results = measuredScenes.map((actual) => {
   }
   if (actual.heading.clipped) failures.push("heading is internally clipped");
   if (actual.sceneOverflow) failures.push("scene has horizontal overflow");
+  if (actual.documentOverflow) failures.push("document has horizontal overflow");
   if (actual.collisions.length) failures.push(`undeclared collisions: ${JSON.stringify(actual.collisions)}`);
   if (actual.hiddenStateViolations.length) failures.push(`hidden state violations: ${actual.hiddenStateViolations.join(", ")}`);
   const fixedShellOverlaps = activeSceneFixedShellOverlaps[actual.index] ?? [];

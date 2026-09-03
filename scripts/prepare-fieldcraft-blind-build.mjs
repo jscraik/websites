@@ -1,4 +1,4 @@
-import { cp, lstat, mkdir, realpath, writeFile } from "node:fs/promises";
+import { cp, lstat, mkdir, readFile, realpath, writeFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 
@@ -56,6 +56,24 @@ for (const source of [...workspace, ...inputs]) {
   await mkdir(path.dirname(destination), { recursive: true });
   await cp(path.join(root, source), destination, { recursive: true });
 }
+
+const exportedPackagePath = path.join(output, "package.json");
+const exportedPackage = JSON.parse(await readFile(exportedPackagePath, "utf8"));
+exportedPackage.scripts = {
+  dev: "astro dev",
+  check: "astro check",
+  build: "astro build",
+  preview: "astro preview",
+  "validate:fast": "npm run check && npm run build",
+};
+await writeFile(exportedPackagePath, `${JSON.stringify(exportedPackage, null, 2)}\n`);
+await writeFile(
+  path.join(output, "WORKFLOW.md"),
+  `# Fieldcraft clean-room workflow
+
+Run \u0060npm ci\u0060, then \u0060npm run validate:fast\u0060. The exported validation surface is intentionally limited to Astro check and build commands that are present in this workspace.
+`,
+);
 
 const manifest = {
   schemaVersion: 1,

@@ -43,6 +43,12 @@ test("the evaluator binds sealed thresholds, exact sections, and required state 
   assert.match(source, /\[data-fixed-shell\], \.site-header, \.shell-header, \.hud, \.pager, \.rail/);
   assert.match(source, /activeSceneFixedShellOverlaps\[scene\.index\] = await page\.evaluate/);
   assert.match(source, /section\.scrollIntoView\(\{ behavior: "instant", block: "start" \}\)/);
+  assert.match(source, /page\.on\("response"/);
+  assert.match(source, /response\.status\(\) >= 400/);
+  assert.match(source, /keyboardReachable\(element\)/);
+  assert.match(source, /\[tabindex\]:not\(\[tabindex="-1"\]\)/);
+  assert.match(source, /Math\.max\(document\.documentElement\.scrollWidth, document\.body\?\.scrollWidth \?\? 0\) > window\.innerWidth/);
+  assert.match(source, /document has horizontal overflow/);
   assert.match(source, /\.split\(\/\\s\+\/\)/);
   assert.match(source, /`\$\{element\.dataset\.sceneRegion\}>\$\{containedRegion\}`/);
   assert.match(source, /contract\.sectionHeight/);

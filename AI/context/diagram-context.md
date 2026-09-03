@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-09-03T16:06:58Z
+Generated: 2026-09-03T16:20:01Z
 
 ## Table of Contents
 
@@ -620,6 +620,8 @@ flowchart LR
   User --> test_css_simplification_05516724
   test_fieldcraft_blind_build_ec0e094c["test-fieldcraft-blind-build"]
   User --> test_fieldcraft_blind_build_ec0e094c
+  test_fieldcraft_contracts_82274efa["test-fieldcraft-contracts"]
+  User --> test_fieldcraft_contracts_82274efa
   test_jose_parity_measurements_2477824f["test-jose-parity-measurements"]
   User --> test_jose_parity_measurements_2477824f
   test_operator_workflow_contract_b4a152d7["test-operator-workflow-contract"]
@@ -642,17 +644,22 @@ flowchart LR
   User --> validate_pr_template_1fc39e13
   check_public_api_docs_a9604f1b --> changed_files_4c0102f6
   jose_parity_cdp_bdcde21d --> jose_parity_measurements_afc7a199
+  test_fieldcraft_contracts_82274efa --> fieldcraft_contracts_8c3b3237
   test_jose_parity_measurements_2477824f --> jose_parity_measurements_afc7a199
   test_operator_workflow_contract_b4a152d7 --> pr_template_contract_4fa69502
   validate_design_system_b8a5f37c --> design_system_contract_744a00f2
   validate_operator_contract_f777ed78 --> pr_template_contract_4fa69502
   validate_pr_template_1fc39e13 --> pr_template_contract_4fa69502
   check_code_size_9c5efc3a --> changed_files_4c0102f6
+  evaluate_fieldcraft_scenes_d6258bc6 --> fieldcraft_contracts_8c3b3237
+  seal_fieldcraft_reference_8652aaa2 --> fieldcraft_contracts_8c3b3237
+  validate_fieldcraft_internal_region_contract_a1266d61 --> fieldcraft_contracts_8c3b3237
+  validate_fieldcraft_scene_contract_186745c2 --> fieldcraft_contracts_8c3b3237
   test_design_system_contract_2b5439cd --> design_system_contract_744a00f2
   classDef userNode fill:#16a34a,color:#fff
   test_design_system_contract_2b5439cd["test-design-system-contract"]
   User --> test_design_system_contract_2b5439cd
-  class capture_jose_reference_e7b66705,check_public_api_docs_a9604f1b,jose_parity_cdp_bdcde21d,smoke_pages_9a92b30d,test_css_simplification_05516724,test_fieldcraft_blind_build_ec0e094c,test_jose_parity_measurements_2477824f,test_operator_workflow_contract_b4a152d7,validate_coding_policy_29976175,validate_content_source_boundary_8a6f121b,validate_css_policy_1c5ec854,validate_design_system_b8a5f37c,validate_operator_contract_f777ed78,validate_page_surfaces_078ef6b6,validate_portfolio_content_6d36990e,validate_pr_template_1fc39e13,test_design_system_contract_2b5439cd userNode
+  class capture_jose_reference_e7b66705,check_public_api_docs_a9604f1b,jose_parity_cdp_bdcde21d,smoke_pages_9a92b30d,test_css_simplification_05516724,test_fieldcraft_blind_build_ec0e094c,test_fieldcraft_contracts_82274efa,test_jose_parity_measurements_2477824f,test_operator_workflow_contract_b4a152d7,validate_coding_policy_29976175,validate_content_source_boundary_8a6f121b,validate_css_policy_1c5ec854,validate_design_system_b8a5f37c,validate_operator_contract_f777ed78,validate_page_surfaces_078ef6b6,validate_portfolio_content_6d36990e,validate_pr_template_1fc39e13,test_design_system_contract_2b5439cd userNode
 
 ```
 

@@ -23,6 +23,16 @@ try {
   ]);
   const exportedPackage = JSON.parse(await readFile(path.join(output, "package.json"), "utf8"));
   assert.equal(exportedPackage.scripts.build, "astro build");
+  assert.deepEqual(exportedPackage.scripts, {
+    dev: "astro dev",
+    check: "astro check",
+    build: "astro build",
+    preview: "astro preview",
+    "validate:fast": "npm run check && npm run build",
+  });
+  const exportedWorkflow = await readFile(path.join(output, "WORKFLOW.md"), "utf8");
+  assert.match(exportedWorkflow, /npm run validate:fast/);
+  assert.doesNotMatch(exportedWorkflow, /scripts\//);
   assert.match(await readFile(path.join(output, "src/pages/index.astro"), "utf8"), /<BaseLayout/);
   assert.match(await readFile(path.join(output, "public/favicon.svg"), "utf8"), /<svg/);
   await assert.rejects(() => readFile(path.join(output, "docs/reference/fieldcraft-fde/v3/manifest.json"), "utf8"), /ENOENT/);
