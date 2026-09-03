@@ -41,6 +41,10 @@ test("ignores commented primary metadata", () => {
   assert.equal(hasPrimarySkillsBarLink(commentedPrimary), false);
 });
 
+test("rejects a primary expression whose runtime value can be false", () => {
+  assert.equal(hasPrimarySkillsBarLink(validFixture.replace("primary: true", "primary: true && featureEnabled")), false);
+});
+
 test("continues parsing after unrelated line and block comments", () => {
   const commentedFixture = `
     // Unrelated explanation before the data.

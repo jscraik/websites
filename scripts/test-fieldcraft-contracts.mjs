@@ -39,6 +39,8 @@ test("the evaluator binds sealed thresholds, exact sections, and required state 
   assert.equal(source.includes("FIELDCRAFT_PIXEL_MISMATCH_LIMIT"), false);
   assert.match(source, /threshold: policy\.pixelmatchThreshold/);
   assert.match(source, /sections\.length !== sceneContract\.scenes\.length/);
+  assert.match(source, /fixed-shell clearance violations/);
+  assert.match(source, /contract\.sectionHeight/);
   for (const state of ["workflowModals", "deploymentCheckpoints", "roadmapStates"]) {
     assert.match(source, new RegExp(`${state}: \\{`));
   }

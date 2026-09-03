@@ -131,7 +131,7 @@ function parseDirectProperties(block) {
     const key = match[1];
     index += match[0].length - 1;
     if (key === "primary") {
-      if (block.slice(index + 1).startsWith("true")) properties.primary = true;
+      if (/^true\s*(?=[,}])/.test(block.slice(index + 1))) properties.primary = true;
       continue;
     }
     const value = block.slice(index + 1).match(/^["']([^"']*)["']/)?.[1];

@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-09-03T14:06:52Z
+Generated: 2026-09-03T14:41:38Z
 
 ## Table of Contents
 
@@ -29,6 +29,8 @@ Generated: 2026-09-03T14:06:52Z
 ## Changed source focus
 
 - These architecture-sensitive paths changed on the current branch and may be compacted out of Mermaid diagrams.
+- `.circleci/config.yml`
+- `.npmrc`
 - `docs/reference/fieldcraft-fde/v2/README.md`
 - `docs/reference/fieldcraft-fde/v2/manifest.json`
 - `docs/reference/fieldcraft-fde/v3/manifest.json`
@@ -67,12 +69,18 @@ Generated: 2026-09-03T14:06:52Z
 - `package.json`
 - `scripts/evaluate-fieldcraft-scenes.mjs`
 - `scripts/lib/design-system-contract.mjs`
+- `scripts/lib/fieldcraft-contracts.mjs`
 - `scripts/lib/pr-template-contract.mjs`
+- `scripts/lib/social-profile-assets-contract.mjs`
+- `scripts/prepare-fieldcraft-blind-build.mjs`
 - `scripts/refresh-diagram-context.sh`
 - `scripts/seal-fieldcraft-reference.mjs`
 - `scripts/test-css-simplification.mjs`
 - `scripts/test-design-system-contract.mjs`
+- `scripts/test-fieldcraft-blind-build.mjs`
+- `scripts/test-fieldcraft-contracts.mjs`
 - `scripts/test-operator-workflow-contract.mjs`
+- `scripts/test-social-profile-assets-contract.mjs`
 - `scripts/validate-design-system.mjs`
 - `scripts/validate-fieldcraft-internal-region-contract.mjs`
 - `scripts/validate-fieldcraft-scene-contract.mjs`
@@ -94,6 +102,9 @@ Generated: 2026-09-03T14:06:52Z
 - `src/styles/global.css`
 - `src/styles/route-rhythm.css`
 - `src/styles/shell.css`
+- `tests/e2e/animated-button-contract.spec.ts`
+- `tests/e2e/interface-contracts.spec.ts`
+- `tests/e2e/work-card-pointer-contract.spec.ts`
 
 ## agent
 
@@ -101,7 +112,7 @@ Generated: 2026-09-03T14:06:52Z
 flowchart TD
   subgraph Orchestration["🎯 Orchestration Layer"]
     jose_parity_runner_50cc4344["🤖 jose-parity-runner"]
-    node_agent_mmd_orchestration_layer_orchestration_prep_a847af26["🤖 prepare-fieldcraft-blind-build"]
+    prepare_fieldcraft_blind_build_8ab85212["🤖 prepare-fieldcraft-blind-build"]
     test_code_quality_debt_contract_569cff13["🤖 test-code-quality-debt-contract"]
     test_operator_workflow_contract_b4a152d7["🤖 test-operator-workflow-contract"]
     validate_design_system_b8a5f37c["🤖 validate-design-system"]
@@ -109,7 +120,6 @@ flowchart TD
   end
   subgraph LLMLayer["🧠 LLM / Model Layer"]
     generate_social_profile_assets_f4f94011["💡 generate-social-profile-assets"]
-    node_agent_mmd_llm_model_layer_llmlayer_prepare_field_7524fdcf["💡 prepare-fieldcraft-blind-build"]
     validate_social_profile_assets_a023937b["💡 validate-social-profile-assets"]
   end
   subgraph ToolLayer["🔧 Tool Layer"]
@@ -121,9 +131,9 @@ flowchart TD
     validate_operational_telemetry_cb447bde[("📚 validate-operational-telemetry")]
   end
   classDef agentNode fill:#555,color:#fff
-  class jose_parity_runner_50cc4344,node_agent_mmd_orchestration_layer_orchestration_prep_a847af26,node_agent_mmd_llm_model_layer_llmlayer_prepare_field_7524fdcf,test_code_quality_debt_contract_569cff13,test_operator_workflow_contract_b4a152d7,validate_design_system_b8a5f37c,validate_jose_claim_boundary_01082824 agentNode
+  class jose_parity_runner_50cc4344,test_code_quality_debt_contract_569cff13,test_operator_workflow_contract_b4a152d7,validate_design_system_b8a5f37c,validate_jose_claim_boundary_01082824 agentNode
   classDef llmNode fill:#555,color:#fff
-  class generate_social_profile_assets_f4f94011,node_agent_mmd_orchestration_layer_orchestration_prep_a847af26,node_agent_mmd_llm_model_layer_llmlayer_prepare_field_7524fdcf,validate_social_profile_assets_a023937b llmNode
+  class generate_social_profile_assets_f4f94011,validate_social_profile_assets_a023937b llmNode
   classDef toolNode fill:#555,color:#fff
   class jose_parity_cdp_bdcde21d,test_css_simplification_05516724 toolNode
   classDef memNode fill:#555,color:#fff
@@ -532,7 +542,6 @@ flowchart LR
   VecDB -. "implemented by" .-> DetectedMemory
   subgraph DetectedLLM["Detected LLM clients"]
     det_detectedllm_generate_social_profile_assets_f4f94011["generate-social-profile-assets"]
-    det_detectedllm_prepare_fieldcraft_blind_build_8ab85212["prepare-fieldcraft-blind-build"]
     det_detectedllm_validate_social_profile_assets_a023937b["validate-social-profile-assets"]
   end
   LLMNode -. "implemented by" .-> DetectedLLM

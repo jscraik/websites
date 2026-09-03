@@ -394,11 +394,12 @@ Use these exact stagger delays:
 - Flex row with a 10px gap.
 - Icon: embedded 64 × 64 source PNG displayed at 26 × 26, `object-fit: cover`, 6px radius, alt text `Varick`.
 - Wordmark: inline SVG with `viewBox="0 0 204 34"`, current-color fill, role `img`, and accessible label `Varick Agents`.
-- Load the exact icon data URI and wordmark SVG from the evidence bundle when
-  present. Otherwise, extract both from the inspected live document, verify
-  their intrinsic dimensions and source-string fingerprints, and add them to
-  the evidence bundle before final parity validation. Do not redraw,
-  approximate, typeset, or substitute either asset.
+- When the evidence bundle includes an owner-authorization record covering
+  reuse, storage, and publication, load the exact icon data URI and wordmark
+  SVG, verify their intrinsic dimensions and source-string fingerprints, and
+  preserve that authorization with the evidence. Without that authorization,
+  do not extract or persist the source assets; use the approved replacement
+  named by its provenance and permission record.
 
 ### Chapter navigation
 
@@ -1149,14 +1150,13 @@ The complete icon source string has SHA-256
 
 All other visual systems are built from HTML, CSS borders, text, and transforms. Do not introduce stock photos, icon libraries, background textures, or decorative gradients.
 
-Before finalizing the brand lockup, verify the packaged or freshly extracted
-asset hashes and verify that the icon data URI decodes byte-for-byte to the PNG.
-Public availability is not permission to reuse, store, or publish these assets.
-Before extraction, record explicit owner authorization covering all three actions.
-If that authorization is absent, the acquisition gate is blocked: use an approved
-replacement with its own provenance and permission record. When authorization is
-present, persist the acquired bytes, authorization reference, and provenance so
-later agents do not have to extract them again.
+Before finalizing the brand lockup, inspect the authorization record. When it
+covers reuse, storage, and publication, verify the packaged or freshly
+extracted hashes and confirm that the icon data URI decodes byte-for-byte to
+the PNG; persist the bytes, authorization reference, and provenance. Public
+availability alone is not permission. When authorization is absent, do not
+extract, store, or publish the source assets: use an approved replacement and
+record its provenance and permission instead.
 
 ## Implementation sequence for the receiving agent
 
@@ -1168,8 +1168,10 @@ later agents do not have to extract them again.
    in an isolated candidate directory. Otherwise, reconstruct the document
    from this specification and the live reference. Do not wait for optional
    archival artifacts before beginning the site.
-3. Extract the exact icon and wordmark from the source or live document, store
-   their bytes and hashes, and use those assets in the candidate.
+3. If the owner-authorization record permits reuse, storage, and publication,
+   extract the exact icon and wordmark, store their bytes and hashes, and use
+   them in the candidate. Otherwise, use the approved replacement and retain
+   its provenance and permission record without extracting the source assets.
 4. Select or build the smallest hosting adapter that serves the document
    without additional visible copy, asset substitution, authentication, or
    route drift. Prefer static HTML, CSS, and JavaScript.
@@ -1267,8 +1269,10 @@ At minimum, the report schema must include `reference`, `candidate`,
 - [ ] Exactly 20 `100dvh` sections.
 - [ ] Fixed HUD, pager, stage, calendar, rail, and modal layer have the specified stacking order.
 - [ ] The page contains no unexpected links, forms, external imagery, or additional routes.
-- [ ] The exact Varick icon and wordmark bytes match the source or live document
-      and are persisted with hashes; no CSS, text, font, or substitute logo is used.
+- [ ] When owner authorization permits source-asset use, the exact Varick icon
+      and wordmark bytes match and are persisted with hashes. Otherwise, the
+      approved replacement matches its provenance and permission record, and
+      no source asset was extracted, stored, or published.
 - [ ] The initial, pre-interaction DOM contains the hidden modal and approval
       controls and matches the declared semantic inventory.
 - [ ] The hosting adapter introduces no client hydration, framework runtime,

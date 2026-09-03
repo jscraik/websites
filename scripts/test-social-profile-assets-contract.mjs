@@ -11,6 +11,17 @@ test("accepts the exact approved X banner pair", () => {
   assert.equal(approvedBannerPathsMatch("x", valid), true);
 });
 
+test("accepts the exact approved LinkedIn banner pair", () => {
+  assert.equal(approvedBannerPathsMatch("linkedin", {
+    source: "src/brand/source/approved/jamie-linkedin-background-1584x396.png",
+    output: "public/brand/social/approved/jamie-linkedin-background-1584x396.png",
+  }), true);
+});
+
+test("rejects inherited platform keys", () => {
+  assert.equal(approvedBannerPathsMatch("__proto__", {}), false);
+});
+
 test("rejects an unapproved filename inside the approved directories", () => {
   assert.equal(approvedBannerPathsMatch("x", {
     source: "src/brand/source/approved/unreviewed.png",

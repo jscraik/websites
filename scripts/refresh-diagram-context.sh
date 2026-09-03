@@ -481,6 +481,41 @@ const buildDependency = (content, nodeMap) => {
   );
 };
 
+const removeClassIds = (line, ids) => {
+  const match = line.match(/^(\s*class\s+)([^\s]+)(\s+\S+\s*)$/);
+  if (!match) return line;
+  const kept = match[2].split(",").filter((id) => !ids.has(id));
+  return kept.length > 0 ? `${match[1]}${kept.join(",")}${match[3]}` : "";
+};
+
+const augmentAgent = (content) => {
+  const lines = content.trimEnd().split(/\r?\n/);
+  const llmDeclaration = lines.find((line) => line.includes('["💡 prepare-fieldcraft-blind-build"]'));
+  const orchestrationDeclaration = lines.find((line) => line.includes('["🤖 prepare-fieldcraft-blind-build"]'));
+  const llmId = llmDeclaration?.trim().split("[")[0];
+  const orchestrationId = orchestrationDeclaration?.trim().split("[")[0];
+  return ensureTrailingNewline(
+    lines
+      .filter((line) => line !== llmDeclaration)
+      .map((line) => {
+        if (llmId && /^\s*class\s+/.test(line)) line = removeClassIds(line, new Set([llmId]));
+        if (orchestrationId && /\sllmNode\s*$/.test(line)) line = removeClassIds(line, new Set([orchestrationId]));
+        return line;
+      })
+      .filter(Boolean)
+      .join("\n"),
+  );
+};
+
+const augmentRag = (content) =>
+  ensureTrailingNewline(
+    content
+      .trimEnd()
+      .split(/\r?\n/)
+      .filter((line) => !line.includes('["prepare-fieldcraft-blind-build"]'))
+      .join("\n"),
+  );
+
 const augmentUser = (content) => {
   const nodeId = "test_design_system_contract_2b5439cd";
   const declaration = `  ${nodeId}["test-design-system-contract"]`;
@@ -568,6 +603,12 @@ for (const file of diagramFiles) {
   }
   const filePath = join(diagramsDir, file);
   let content = normalizeProjectReferences(readFileSync(filePath, "utf8").trimEnd());
+  if (file === "agent.mmd") {
+    content = augmentAgent(content);
+  }
+  if (file === "rag.mmd") {
+    content = augmentRag(content);
+  }
   if (file === "security.mmd") {
     content = augmentSecurity(content);
   }
@@ -620,16 +661,16 @@ SOURCE_FOCUS_FILE="$TMP_DIR/source-focus.txt"
 {
 	base_ref="$(git -C "$ROOT_DIR" merge-base HEAD origin/main 2>/dev/null || true)"
 	if [[ -n "$base_ref" ]]; then
-		git -C "$ROOT_DIR" diff --name-only --diff-filter=ACMR "$base_ref"...HEAD -- src scripts tests docs package.json tsconfig.json .diagramrc 2>/dev/null || true
+		git -C "$ROOT_DIR" diff --name-only --diff-filter=ACMR "$base_ref"...HEAD -- src scripts tests docs package.json tsconfig.json .diagramrc .npmrc .circleci/config.yml 2>/dev/null || true
 	fi
-	git -C "$ROOT_DIR" diff --name-only --diff-filter=ACMR HEAD -- src scripts tests docs package.json tsconfig.json .diagramrc 2>/dev/null || true
-	git -C "$ROOT_DIR" ls-files --others --exclude-standard -- src scripts tests docs package.json tsconfig.json .diagramrc 2>/dev/null || true
+	git -C "$ROOT_DIR" diff --name-only --diff-filter=ACMR HEAD -- src scripts tests docs package.json tsconfig.json .diagramrc .npmrc .circleci/config.yml 2>/dev/null || true
+	git -C "$ROOT_DIR" ls-files --others --exclude-standard -- src scripts tests docs package.json tsconfig.json .diagramrc .npmrc .circleci/config.yml 2>/dev/null || true
 } | awk '
 	$0 ~ /^src\// { print }
 	$0 ~ /^scripts\// { print }
 	$0 ~ /^tests\// { print }
 	$0 ~ /^docs\/(agents\/linear-templates|specifications|reference\/fieldcraft-fde)\// { print }
-	$0 == "package.json" || $0 == "tsconfig.json" || $0 == ".diagramrc" { print }
+	$0 == "package.json" || $0 == "tsconfig.json" || $0 == ".diagramrc" || $0 == ".npmrc" || $0 == ".circleci/config.yml" { print }
 ' | sort -u > "$SOURCE_FOCUS_FILE"
 
 {

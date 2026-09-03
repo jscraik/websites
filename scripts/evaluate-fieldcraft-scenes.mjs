@@ -116,6 +116,15 @@ const measurements = await page.evaluate((sceneContract) => {
           localBox: { x: box.x - sectionBox.x, y: box.y - sectionBox.y, width: box.width, height: box.height },
         };
       });
+    const fixedShells = [...document.querySelectorAll("[data-fixed-shell], .hud, .pager, .rail")]
+      .filter(visible)
+      .map((element) => ({ key: element.id || element.className || element.tagName, box: rect(element) }));
+    const shellTargets = [{ key: "heading", box: headingBox }, ...regions];
+    const fixedShellOverlaps = fixedShells.flatMap((shell) =>
+      shellTargets
+        .filter((target) => intersectionArea(shell.box, target.box) > 0)
+        .map((target) => ({ shell: String(shell.key), target: target.key }))
+    );
     const allowed = new Set(
       [...section.querySelectorAll("[data-contains-region]")].map(
         (element) => `${element.dataset.sceneRegion}>${element.dataset.containsRegion}`,
@@ -152,6 +161,7 @@ const measurements = await page.evaluate((sceneContract) => {
       regions,
       collisions,
       hiddenStateViolations,
+      fixedShellOverlaps,
     };
   }) };
 }, contract);
@@ -173,6 +183,7 @@ const results = measuredScenes.map((actual) => {
     ["localY", actual.heading.localY, expectedHeading.localY, contract.tolerances.anchorPx],
     ["width", actual.heading.box.width, expectedHeading.width, contract.tolerances.boxPx],
     ["height", actual.heading.box.height, expectedHeading.height, contract.tolerances.boxPx],
+    ["sectionHeight", actual.sectionBox.height, contract.sectionHeight, contract.tolerances.boxPx],
     ["fontSize", actual.heading.fontSize, expectedHeading.fontSize, 0.1],
     ["lineHeight", actual.heading.lineHeight, expectedHeading.lineHeight, 0.1],
   ];
@@ -192,6 +203,7 @@ const results = measuredScenes.map((actual) => {
   if (actual.sceneOverflow) failures.push("scene has horizontal overflow");
   if (actual.collisions.length) failures.push(`undeclared collisions: ${JSON.stringify(actual.collisions)}`);
   if (actual.hiddenStateViolations.length) failures.push(`hidden state violations: ${actual.hiddenStateViolations.join(", ")}`);
+  if (actual.fixedShellOverlaps.length) failures.push(`fixed-shell clearance violations: ${JSON.stringify(actual.fixedShellOverlaps)}`);
   const internalScene = internalContract.scenes.find((scene) => scene.index === actual.index);
   if (internalScene) {
     const observed = new Map(actual.regions.map((region) => [region.key, region.localBox]));

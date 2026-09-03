@@ -10,6 +10,7 @@ const APPROVED_BANNERS = {
 };
 
 export function approvedBannerPathsMatch(platform, specification) {
+  if (!Object.hasOwn(APPROVED_BANNERS, platform)) return false;
   const expected = APPROVED_BANNERS[platform];
   return Boolean(expected && specification?.source === expected.source && specification?.output === expected.output);
 }
