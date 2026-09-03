@@ -141,7 +141,7 @@ test.describe("UI polish contracts", () => {
         navLayerPointerEvents: getComputedStyle(document.querySelector(".site-header .nav-bg")!).pointerEvents,
         navLayerZIndex: getComputedStyle(document.querySelector(".site-header .nav-bg")!).zIndex,
         navLayerTransformOrigin: getComputedStyle(document.querySelector(".site-header .nav-bg")!).transformOrigin,
-        navContentZIndex: getComputedStyle(document.querySelector(".site-header .nav-flip")!).zIndex,
+        navContentZIndex: getComputedStyle(document.querySelector(".site-header .nav-flip > a")!).zIndex,
         footer: getComputedStyle(document.querySelector(".site-footer")!).backgroundImage,
         footerProfile: getComputedStyle(document.querySelector(".site-footer .footer-profile-card")!).backgroundColor,
         footerSocial: getComputedStyle(document.querySelector(".site-footer .footer-social-links a")!).backgroundColor
