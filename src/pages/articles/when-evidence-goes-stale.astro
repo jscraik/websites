@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import AnimatedButton from "../../components/AnimatedButton.astro";
 import PullquoteStack from "../../components/PullquoteStack.astro";
 ---
 
@@ -136,11 +137,7 @@ import PullquoteStack from "../../components/PullquoteStack.astro";
         <h2>Inspect the work behind the article</h2>
         <p>The case study carries the complete role boundary, delivery sequence, links, and caveats.</p>
         <div>
-          <a class="small-button small-button--light" href="/work/skillsbar/">
-            <span class="small-button__bg" aria-hidden="true"></span>
-            <span class="small-button__label">Read the SkillsBar case study</span>
-            <span class="small-button__arrow" aria-hidden="true"><span>-&gt;</span></span>
-          </a>
+          <AnimatedButton class="small-button--light" href="/work/skillsbar/" label="Read the SkillsBar case study" />
           <a href="https://github.com/jscraik/skillsbar/pull/6" rel="noopener noreferrer">Inspect merged pull request 6</a>
         </div>
       </nav>

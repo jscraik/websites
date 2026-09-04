@@ -12,9 +12,9 @@ flowchart TD
   check_git_worktree_authority_940ab26d --> check_node_engine_217689bf
   check_public_api_docs_a9604f1b["check-public-api-docs"]
   check_node_engine_217689bf --> check_public_api_docs_a9604f1b
+  evaluate_fieldcraft_scenes_d6258bc6["evaluate-fieldcraft-scenes"]
+  check_public_api_docs_a9604f1b --> evaluate_fieldcraft_scenes_d6258bc6
   generate_social_profile_assets_f4f94011["generate-social-profile-assets"]
-  check_public_api_docs_a9604f1b --> generate_social_profile_assets_f4f94011
-  jose_parity_cdp_bdcde21d["jose-parity-cdp"]
-  generate_social_profile_assets_f4f94011 --> jose_parity_cdp_bdcde21d
+  evaluate_fieldcraft_scenes_d6258bc6 --> generate_social_profile_assets_f4f94011
   End(["End"])
-  jose_parity_cdp_bdcde21d --> End
+  generate_social_profile_assets_f4f94011 --> End

@@ -5,6 +5,8 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { collectPrTemplateContractErrors } from "./lib/pr-template-contract.mjs";
+
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
 
@@ -128,6 +130,64 @@ check("operator contract validator accepts the repository", () => {
   command("node", ["scripts/validate-operator-contract.mjs"]);
 });
 
+check("PR template follows the current maintainer evidence contract", () => {
+  assert.equal(packageJson.scripts["validate:pr-template"], "node scripts/validate-pr-template.mjs");
+  assert.deepEqual(collectPrTemplateContractErrors(pullRequestTemplate), []);
+  assert.match(pullRequestTemplate, /## Summary/);
+  assert.match(pullRequestTemplate, /## Change details/);
+  assert.match(pullRequestTemplate, /## Validation/);
+  assert.match(pullRequestTemplate, /## Review and closeout/);
+  assert.doesNotMatch(pullRequestTemplate, /## Work performed/);
+  assert.doesNotMatch(pullRequestTemplate, /## Testing/);
+
+  const retiredSchemaErrors = collectPrTemplateContractErrors(
+    pullRequestTemplate.replace("## Summary", "## Work performed"),
+  );
+  assert.match(retiredSchemaErrors.join("\n"), /missing required section: ## Summary/i);
+  assert.match(retiredSchemaErrors.join("\n"), /retired section: ## Work performed/i);
+
+  const prependedTextErrors = collectPrTemplateContractErrors(`Context before template\n${pullRequestTemplate}`);
+  assert.match(prependedTextErrors.join("\n"), /must start with '# Pull request'/i);
+
+  const reorderedSections = pullRequestTemplate
+    .replace("## Summary", "## __SUMMARY__")
+    .replace("## Change details", "## Summary")
+    .replace("## __SUMMARY__", "## Change details");
+  const reorderedSectionErrors = collectPrTemplateContractErrors(reorderedSections);
+  assert.match(reorderedSectionErrors.join("\n"), /required sections must remain in the declared order/i);
+
+  const hiddenRequiredFieldErrors = collectPrTemplateContractErrors(
+    pullRequestTemplate.replace("- Problem:", "<!--\n- Problem:\n-->")
+  );
+  assert.match(hiddenRequiredFieldErrors.join("\n"), /Summary is missing field: Problem/i);
+
+  const hiddenChecklistErrors = collectPrTemplateContractErrors(
+    pullRequestTemplate.replace("- [ ] **(Pending)** Codex review completed and findings handled or explicitly waived.", "<!--\n- [ ] **(Pending)** Codex review completed and findings handled or explicitly waived.\n-->")
+  );
+  assert.match(hiddenChecklistErrors.join("\n"), /checklist is missing status marker: \*\*\(Pending\)\*\* Codex/i);
+
+  const hiddenBranchPolicyErrors = collectPrTemplateContractErrors(
+    pullRequestTemplate.replace("standalone review-remediation PRs may use `jscraik/<short-description>` when the body records a concrete Linear `n/a` reason", "<!-- standalone review-remediation PRs may use `jscraik/<short-description>` when the body records a concrete Linear `n/a` reason -->")
+  );
+  assert.match(hiddenBranchPolicyErrors.join("\n"), /standalone remediation branch exception/i);
+
+  const hiddenCodestyleEvidenceErrors = collectPrTemplateContractErrors(
+    pullRequestTemplate.replace(
+      "- Command: `bash scripts/validate-codestyle.sh` -> pass",
+      "<!-- - Command: `bash scripts/validate-codestyle.sh` -> pass -->",
+    ),
+  );
+  assert.match(hiddenCodestyleEvidenceErrors.join("\n"), /codestyle command evidence/i);
+
+  const hiddenBlockedEvidenceErrors = collectPrTemplateContractErrors(
+    pullRequestTemplate.replace(
+      "- Command: `npm run check` -> blocked (reason)",
+      "<!-- - Command: `npm run check` -> blocked (reason) -->",
+    ),
+  );
+  assert.match(hiddenBlockedEvidenceErrors.join("\n"), /blocked command evidence with a reason/i);
+});
+
 check("pre-commit validation uses portfolio package contracts", () => {
   assert.match(codestyleValidator, /run_required_script "validate:fast"/);
   assert.doesNotMatch(preCommitHook, /npm run lint/);
@@ -146,7 +206,9 @@ check("pre-push validation uses the npm and Astro contract", () => {
 
 check("CircleCI npm auth does not expose the token in process arguments", () => {
   assert.match(circleciConfig, /printf '%s\\n' "\/\/registry\.npmjs\.org\/:_authToken=\$\{NPM_TOKEN\}"/);
+  assert.match(circleciConfig, /printf '%s\\n' "\/\/aiforui\.dev\/npm\/:_authToken=\$\{AIFORUI_NPM_TOKEN\}"/);
   assert.doesNotMatch(circleciConfig, /npm config set[^\n]*NPM_TOKEN/);
+  assert.doesNotMatch(circleciConfig, /npm config set[^\n]*AIFORUI_NPM_TOKEN/);
 });
 
 check("aggregate source validation reuses its single Astro build", () => {

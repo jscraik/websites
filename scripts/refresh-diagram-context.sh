@@ -481,6 +481,82 @@ const buildDependency = (content, nodeMap) => {
   );
 };
 
+const removeClassIds = (line, ids) => {
+  const match = line.match(/^(\s*class\s+)([^\s]+)(\s+\S+\s*)$/);
+  if (!match) return line;
+  const kept = match[2].split(",").filter((id) => !ids.has(id));
+  return kept.length > 0 ? `${match[1]}${kept.join(",")}${match[3]}` : "";
+};
+
+const augmentAgent = (content) => {
+  const lines = content.trimEnd().split(/\r?\n/);
+  const llmDeclaration = lines.find((line) => line.includes('["💡 prepare-fieldcraft-blind-build"]'));
+  const orchestrationDeclaration = lines.find((line) => line.includes('["🤖 prepare-fieldcraft-blind-build"]'));
+  const llmId = llmDeclaration?.trim().split("[")[0];
+  const orchestrationId = orchestrationDeclaration?.trim().split("[")[0];
+  return ensureTrailingNewline(
+    lines
+      .filter((line) => line !== llmDeclaration)
+      .map((line) => {
+        if (llmId && /\sllmNode\s*$/.test(line)) line = removeClassIds(line, new Set([llmId]));
+        if (orchestrationId && /\sllmNode\s*$/.test(line)) line = removeClassIds(line, new Set([orchestrationId]));
+        return line;
+      })
+      .filter(Boolean)
+      .join("\n"),
+  );
+};
+
+const augmentRag = (content) =>
+  ensureTrailingNewline(
+    content
+      .trimEnd()
+      .split(/\r?\n/)
+      .filter((line) => !line.includes('["prepare-fieldcraft-blind-build"]'))
+      .join("\n"),
+  );
+
+const augmentUser = (content) => {
+  const nodeId = "test_design_system_contract_2b5439cd";
+  const declaration = `  ${nodeId}["test-design-system-contract"]`;
+  const userEdge = `  User --> ${nodeId}`;
+  const dependencyEdge = `  ${nodeId} --> design_system_contract_744a00f2`;
+  let lines = content.trimEnd().split(/\r?\n/);
+  const classIndex = lines.findIndex((line) => /^  class .* userNode$/.test(line));
+  const insertionIndex = classIndex >= 0 ? classIndex : lines.length;
+  const additions = [];
+  if (!lines.includes(declaration)) additions.push(declaration);
+  if (!lines.includes(userEdge)) additions.push(userEdge);
+  if (additions.length > 0) lines.splice(insertionIndex, 0, ...additions);
+  const dependencyInsertionIndex = lines.findIndex((line) => /^  class .* userNode$/.test(line));
+  if (!lines.includes(dependencyEdge)) lines.splice(dependencyInsertionIndex >= 0 ? dependencyInsertionIndex : lines.length, 0, dependencyEdge);
+  const updatedClassIndex = lines.findIndex((line) => /^  class .* userNode$/.test(line));
+  if (updatedClassIndex >= 0 && !lines[updatedClassIndex].split(/[ ,]/).includes(nodeId)) {
+    lines[updatedClassIndex] = lines[updatedClassIndex].replace(/ userNode$/, `,${nodeId} userNode`);
+  }
+  return ensureTrailingNewline(lines.join("\n"));
+};
+
+const augmentSecurity = (content) => {
+  const nodeId = "validate_pr_template_1fc39e13";
+  const declaration = `  ${nodeId}["validate-pr-template"]`;
+  const edge = `  Untrusted --> ${nodeId}`;
+  let lines = content
+    .trimEnd()
+    .split(/\r?\n/)
+    .filter((line) => line.trim() !== declaration.trim() && line.trim() !== edge.trim());
+
+  const insertionIndex = lines.findIndex((line) => line.includes("--> pr_template_contract_4fa69502"));
+  lines.splice(insertionIndex >= 0 ? insertionIndex : lines.length, 0, declaration, edge);
+
+  const classIndex = lines.findIndex((line) => /^  class .* securityNode$/.test(line));
+  if (classIndex >= 0 && !lines[classIndex].split(/[ ,]/).includes(nodeId)) {
+    lines[classIndex] = lines[classIndex].replace(/ securityNode$/, `,${nodeId} securityNode`);
+  }
+
+  return ensureTrailingNewline(lines.join("\n"));
+};
+
 const diagramFiles = readdirSync(diagramsDir).filter((entry) => entry.endsWith(".mmd"));
 const architecturePath = join(diagramsDir, "architecture.mmd");
 const dependencyPath = join(diagramsDir, "dependency.mmd");
@@ -532,12 +608,22 @@ for (const file of diagramFiles) {
 		continue;
   }
   const filePath = join(diagramsDir, file);
+  let content = normalizeProjectReferences(readFileSync(filePath, "utf8").trimEnd());
+  if (file === "agent.mmd") {
+    content = augmentAgent(content);
+  }
+  if (file === "rag.mmd") {
+    content = augmentRag(content);
+  }
+  if (file === "security.mmd") {
+    content = augmentSecurity(content);
+  }
+  if (file === "user.mmd") {
+    content = augmentUser(content);
+  }
   writeFileSync(
     filePath,
-    dedupeSubgraphNodeIds(
-      normalizeProjectReferences(readFileSync(filePath, "utf8").trimEnd()),
-      file,
-    ),
+    dedupeSubgraphNodeIds(content, file),
   );
 }
 
@@ -581,17 +667,17 @@ SOURCE_FOCUS_FILE="$TMP_DIR/source-focus.txt"
 {
 	base_ref="$(git -C "$ROOT_DIR" merge-base HEAD origin/main 2>/dev/null || true)"
 	if [[ -n "$base_ref" ]]; then
-		git -C "$ROOT_DIR" diff --name-only --diff-filter=ACMR "$base_ref"...HEAD -- src scripts docs/agents/linear-templates package.json tsconfig.json .diagramrc 2>/dev/null || true
-	else
-		git -C "$ROOT_DIR" diff --name-only --diff-filter=ACMR HEAD -- src scripts docs/agents/linear-templates package.json tsconfig.json .diagramrc 2>/dev/null || true
+		git -C "$ROOT_DIR" diff --name-only --diff-filter=ACMR "$base_ref"...HEAD -- AGENTS.md README.md .github/PULL_REQUEST_TEMPLATE.md src scripts tests docs package.json tsconfig.json .diagramrc .npmrc .circleci/config.yml 2>/dev/null || true
 	fi
+	git -C "$ROOT_DIR" diff --name-only --diff-filter=ACMR HEAD -- AGENTS.md README.md .github/PULL_REQUEST_TEMPLATE.md src scripts tests docs package.json tsconfig.json .diagramrc .npmrc .circleci/config.yml 2>/dev/null || true
+	git -C "$ROOT_DIR" ls-files --others --exclude-standard -- AGENTS.md README.md .github/PULL_REQUEST_TEMPLATE.md src scripts tests docs package.json tsconfig.json .diagramrc .npmrc .circleci/config.yml 2>/dev/null || true
 } | awk '
-	$0 ~ /^src\// && $0 !~ /\.(test|spec)\.(ts|js)$/ { print }
-	$0 ~ /^docs\/agents\/linear-templates\// { print }
-	$0 ~ /^scripts\/refresh-diagram-context\.sh$/ { print }
-	$0 ~ /^scripts\/check-diagram-freshness\.sh$/ { print }
-	$0 ~ /^scripts\/lib\/normalize-mermaid-artifact\.cjs$/ { print }
-	$0 == "package.json" || $0 == "tsconfig.json" || $0 == ".diagramrc" { print }
+	$0 == "AGENTS.md" || $0 == "README.md" || $0 == ".github/PULL_REQUEST_TEMPLATE.md" { print }
+	$0 ~ /^src\// { print }
+	$0 ~ /^scripts\// { print }
+	$0 ~ /^tests\// { print }
+	$0 ~ /^docs\/(agents|specifications|reference\/fieldcraft-fde)\// { print }
+	$0 == "package.json" || $0 == "tsconfig.json" || $0 == ".diagramrc" || $0 == ".npmrc" || $0 == ".circleci/config.yml" { print }
 ' | sort -u > "$SOURCE_FOCUS_FILE"
 
 {

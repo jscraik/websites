@@ -790,7 +790,7 @@ main [data-entry]:nth-child(5) { animation-delay: 160ms; }
   align-items: center;
   justify-content: space-between;
   gap: 32px;
-  min-height: 42px;
+  min-height: 44px;
   min-width: 220px;
   padding: 0 18px 0 22px;
   border-radius: 999px;
@@ -819,7 +819,7 @@ main [data-entry]:nth-child(5) { animation-delay: 160ms; }
     background-color 200ms ease;
 }
 
-.small-button > span:not(.small-button__bg) {
+.small-button > span:not(.small-button__fill) {
   position: relative;
   z-index: 1;
 }
@@ -912,7 +912,7 @@ main [data-entry]:nth-child(5) { animation-delay: 160ms; }
   filter: blur(14px);
 }
 
-.work-thumbnail span:last-child {
+.work-thumbnail > span:nth-of-type(2) {
   bottom: 22px;
   width: 62%;
   height: 9px;
@@ -2812,7 +2812,6 @@ body {
 
 @media (hover: hover) and (pointer: fine) {
   .start-links a:hover span:last-child,
-  .small-button:hover span:last-child,
   .article-list a:hover,
   .large-link:hover {
     transform: translateX(3px);
@@ -4829,7 +4828,7 @@ body {
   min-width: 178px;
   min-height: 42px;
   border-radius: 999px;
-  background: rgba(251, 250, 245, 0.7);
+  background: transparent;
 }
 
 .blog-preview .small-button span {
@@ -6010,62 +6009,6 @@ body {
   stroke-width: 1.5;
 }
 
-.brainwav-bridge {
-  display: grid;
-  grid-template-columns: minmax(320px, 0.68fr) minmax(0, 1fr);
-  gap: clamp(48px, 7vw, 112px);
-  width: min(1240px, calc(100% - 48px));
-  padding: clamp(72px, 8vw, 118px) clamp(28px, 5vw, 72px);
-  margin-bottom: clamp(88px, 9vw, 144px);
-  border: 1px solid rgba(251, 250, 245, 0.08);
-  border-radius: 18px;
-  background:
-    radial-gradient(circle at 88% 18%, rgba(45, 168, 255, 0.12), transparent 18rem),
-    radial-gradient(circle at 10% 92%, rgba(255, 122, 0, 0.08), transparent 16rem),
-    linear-gradient(180deg, #141a23, #0b0f17);
-  color: #f8f8f6;
-  box-shadow: 0 26px 70px rgba(0, 11, 0, 0.2);
-}
-
-.brainwav-bridge__intro {
-  align-self: start;
-}
-
-.brainwav-bridge .eyebrow {
-  color: rgba(255, 122, 0, 0.82);
-}
-
-.brainwav-bridge h2 {
-  max-width: 520px;
-  margin: 0 0 24px;
-  color: #f8f8f6;
-  font-size: clamp(48px, 5vw, 74px);
-  font-weight: 100;
-  line-height: 0.92;
-}
-
-.brainwav-bridge__intro > p:not(.eyebrow) {
-  max-width: 520px;
-  margin: 0 0 34px;
-  color: #c5cad3;
-  font-size: clamp(18px, 1.6vw, 22px);
-  font-weight: 300;
-  line-height: 1.45;
-}
-
-.brainwav-bridge__cta {
-  border-color: rgba(45, 168, 255, 0.34);
-  background: rgba(45, 168, 255, 0.08);
-  color: #f8f8f6;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .brainwav-bridge__cta:hover {
-    border-color: rgba(255, 122, 0, 0.46);
-    color: #f8f8f6;
-  }
-}
-
 @media (max-width: 920px) {
   .feature-proof-panel {
     position: relative;
@@ -6073,10 +6016,6 @@ body {
     bottom: auto;
     width: auto;
     margin: -118px 22px 22px;
-  }
-
-  .brainwav-bridge {
-    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -6107,13 +6046,6 @@ body {
   .home-hero__position {
     font-size: 27px;
   }
-
-  .brainwav-bridge {
-    width: min(100% - 32px, 1240px);
-    padding: 42px 20px;
-    border-radius: 14px;
-  }
-
 }
 
 @media (max-width: 640px) {
@@ -6229,20 +6161,6 @@ body:has(.about-page) main {
   max-width: 240px;
 }
 
-.brainwav-bridge {
-  position: relative;
-  overflow: hidden;
-}
-
-.brainwav-bridge::before {
-  content: "";
-  position: absolute;
-  inset: 28px;
-  border: 1px solid rgba(45, 168, 255, 0.08);
-  border-radius: 14px;
-  pointer-events: none;
-}
-
 @media (hover: hover) and (pointer: fine) {
   .feature-block:hover .work-preview__image::before {
     transform: translateY(-6px) scale(1.015);
@@ -6294,10 +6212,6 @@ body:has(.about-page) main {
   .home-hero__body {
     max-width: 330px;
     font-size: 20px;
-  }
-
-  .brainwav-bridge::before {
-    inset: 14px;
   }
 }
 
@@ -6708,14 +6622,19 @@ body.skillsbar-demo img {
     color var(--bds-motion-fast) ease;
 }
 
-/* Jose animated button transfer. The background remains one real layer so it
-   can move between the complete control and its arrow without cross-fading. */
+/* Jose animated button transfer.
+   The fill is reparented between the full button and the arrow wrap. The
+   native FLIP animation in AnimatedButton.astro preserves Jose's geometry and
+   400ms power4-out timing without shipping GSAP. */
 .small-button {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  min-height: 52px;
-  padding: 5px 6px 5px 28px;
+  min-height: max(44px, calc(var(--jp-fluid-rem, 1rem) * 2.61));
+  min-width: calc(var(--jp-fluid-rem, 1rem) * 10.49);
+  padding: calc(var(--jp-fluid-rem, 1rem) * 0.25) calc(var(--jp-fluid-rem, 1rem) * 0.19)
+    calc(var(--jp-fluid-rem, 1rem) * 0.25) calc(var(--jp-fluid-rem, 1rem) * 1.5);
+  gap: calc(var(--jp-fluid-rem, 1rem) * 0.75);
   border-radius: var(--radius-pill);
   background: transparent;
   transition:
@@ -6729,18 +6648,16 @@ body.skillsbar-demo img {
   content: none;
 }
 
-.small-button__bg {
+.small-button__fill {
   position: absolute;
   inset: 0;
-  z-index: 0;
-  border-radius: inherit;
+  z-index: -1;
+  border-radius: var(--radius-pill);
   background: var(--surface-nav);
-  pointer-events: none;
-  transform: none;
   transform-origin: top left;
 }
 
-.small-button__label {
+.small-button__text {
   position: relative;
   z-index: 1;
   flex: 1 1 0%;
@@ -6752,9 +6669,9 @@ body.skillsbar-demo img {
   z-index: 1;
   isolation: isolate;
   display: inline-flex;
-  width: 42px;
-  height: 42px;
-  flex: 0 0 42px;
+  width: calc(var(--jp-fluid-rem, 1rem) * 2);
+  height: calc(var(--jp-fluid-rem, 1rem) * 2);
+  flex: 0 0 calc(var(--jp-fluid-rem, 1rem) * 2);
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-pill);
@@ -6763,16 +6680,12 @@ body.skillsbar-demo img {
     transform var(--bds-motion-fast) var(--jp-motion-ease);
 }
 
-.small-button__arrow > .small-button__bg {
-  z-index: 0;
+.small-button__arrow svg {
+  width: var(--jp-fluid-rem, 1rem);
+  height: var(--jp-fluid-rem, 1rem);
 }
 
-.small-button__arrow > :not(.small-button__bg) {
-  position: relative;
-  z-index: 1;
-}
-
-.small-button--light .small-button__bg {
+.small-button--light .small-button__fill {
   background: color-mix(in srgb, var(--surface-card) 78%, transparent);
 }
 
@@ -6787,7 +6700,7 @@ body.skillsbar-demo img {
   margin-top: clamp(28px, 3vw, 42px);
 }
 
-.feature-block .small-button__bg {
+.feature-block .small-button .small-button__fill {
   background: var(--surface-nav);
 }
 
@@ -6801,21 +6714,16 @@ body.skillsbar-demo img {
     border-color: var(--colors--hr-light, rgba(251, 250, 245, 0.16));
   }
 
-  .feature-block .small-button:hover .small-button__label {
-    color: var(--text-inverse);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .small-button,
-  .small-button__label,
+  .small-button__fill,
+  .small-button > span,
   .small-button__arrow {
     transition: none;
   }
 
-  .small-button__bg {
-    transform: none;
-  }
 }
 
 @media (max-width: 920px) {
@@ -7590,20 +7498,6 @@ body.skillsbar-demo img {
   line-height: 27px;
 }
 
-.brainwav-bridge {
-  width: min(calc(100% - 90px), 1800px);
-  min-height: clamp(734px, 50.9375vw, 978px);
-  margin-bottom: 154px;
-  padding: clamp(58px, 4vw, 76.8px);
-  border-radius: 27px;
-}
-
-.brainwav-bridge h2 {
-  font-size: 63px;
-  line-height: 0.86;
-  letter-spacing: -2px;
-}
-
 @media (max-width: 920px) {
   .nav-inner {
     padding-inline: 15.125px;
@@ -7637,14 +7531,9 @@ body.skillsbar-demo img {
     padding-inline: 20px;
   }
 
-  .blog-preview,
-  .brainwav-bridge {
+  .blog-preview {
     width: min(calc(100% - 30px), 1203px);
     grid-template-columns: 1fr;
-  }
-
-  .brainwav-bridge {
-    padding: 32px 22px;
   }
 }
 
@@ -7667,8 +7556,7 @@ body.skillsbar-demo img {
 .work-thumbnail,
 .feature-block-inner,
 .feature-block-img,
-.feature-proof-panel,
-.brainwav-bridge {
+.feature-proof-panel {
   transition-property: color, background-color, border-color, box-shadow, opacity, transform, filter;
   transition-duration: var(--jp-motion-fast);
   transition-timing-function: var(--jp-motion-ease);
@@ -7713,35 +7601,6 @@ body.skillsbar-demo img {
   transition: transform var(--jp-motion-standard) var(--jp-motion-ease), filter var(--jp-motion-standard) var(--jp-motion-ease);
 }
 
-.brainwav-bridge {
-  color: var(--jp-muted);
-  border-color: color-mix(in srgb, var(--blue) 18%, var(--paper));
-  background:
-    radial-gradient(circle at 86% 18%, color-mix(in srgb, var(--blue) 20%, transparent), transparent 18rem),
-    radial-gradient(circle at 9% 94%, color-mix(in srgb, var(--orange) 14%, transparent), transparent 15rem),
-    linear-gradient(180deg, var(--brand-surface-light), var(--brand-surface-mid));
-  box-shadow: rgba(0, 11, 0, 0.05) -14px 18px 34px, rgba(0, 11, 0, 0.06) 0 1px 2px;
-}
-
-.brainwav-bridge .eyebrow {
-  color: color-mix(in srgb, var(--orange) 82%, var(--jp-muted));
-}
-
-.brainwav-bridge h2 {
-  color: color-mix(in srgb, var(--jp-muted) 88%, var(--blue));
-}
-
-.brainwav-bridge__intro > p:not(.eyebrow) {
-  color: color-mix(in srgb, var(--jp-muted) 74%, var(--blue));
-}
-
-.brainwav-bridge__cta {
-  border-color: color-mix(in srgb, var(--blue) 18%, var(--paper));
-  background: color-mix(in srgb, var(--paper) 88%, var(--blue));
-  color: var(--jp-muted);
-  box-shadow: rgba(0, 11, 0, 0.04) -6px 8px 16px;
-}
-
 @media (hover: hover) and (pointer: fine) {
   .nav-link:hover,
   .site-header .icon-box:hover {
@@ -7751,8 +7610,7 @@ body.skillsbar-demo img {
   }
 
   .small-button:hover,
-  .start-links a:hover,
-  .brainwav-bridge__cta:hover {
+  .start-links a:hover {
     border-color: color-mix(in srgb, var(--jp-muted) 52%, var(--blue));
     color: var(--jp-muted);
     transform: translateY(-1px);
@@ -7809,48 +7667,10 @@ body.skillsbar-demo img {
   .work-thumbnail,
   .feature-block-inner,
   .feature-block-img,
-  .feature-proof-panel,
-  .brainwav-bridge {
+  .feature-proof-panel {
     transition-property: color, background-color, border-color, opacity;
     transform: none;
   }
-}
-
-/* Jose parity loop phase 6: keep brAInwav intentionally brand-dark. */
-.brainwav-bridge {
-  color: var(--text-inverse);
-  border-color: color-mix(in srgb, var(--blue) 24%, transparent);
-  background:
-    radial-gradient(circle at 78% 20%, color-mix(in srgb, var(--blue) 20%, transparent), transparent 18rem),
-    radial-gradient(circle at 8% 92%, color-mix(in srgb, var(--orange) 16%, transparent), transparent 15rem),
-    linear-gradient(145deg, var(--panel), var(--panel-2));
-  box-shadow: rgba(0, 11, 0, 0.17) -14px 18px 34px, rgba(0, 11, 0, 0.12) 0 1px 2px;
-}
-
-.brainwav-bridge .eyebrow {
-  color: color-mix(in srgb, var(--orange) 86%, var(--text-inverse));
-}
-
-.brainwav-bridge h2 {
-  color: color-mix(in srgb, var(--text-inverse) 88%, var(--blue));
-}
-
-.brainwav-bridge__intro > p:not(.eyebrow) {
-  color: color-mix(in srgb, var(--text-inverse) 74%, var(--blue));
-}
-
-.brainwav-bridge__cta {
-  border-color: color-mix(in srgb, var(--blue) 34%, transparent);
-  background: color-mix(in srgb, var(--blue) 8%, transparent);
-  color: var(--text-inverse);
-  box-shadow: none;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .brainwav-bridge__cta:hover {
-    border-color: color-mix(in srgb, var(--blue) 52%, var(--text-inverse));
-  }
-
 }
 
 /* Jose route parity pass: About, Blog, Article, and Work detail shells. */
@@ -8231,57 +8051,6 @@ body.skillsbar-demo img {
   font-variant-numeric: tabular-nums;
 }
 
-.brainwav-resource-links {
-  display: grid;
-  align-content: center;
-  gap: 1px;
-  overflow: hidden;
-  border: 1px solid var(--bds-color-brainwav-border);
-  border-radius: var(--bds-radius-card);
-  background: var(--bds-color-brainwav-border);
-}
-
-.brainwav-resource-links a {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: var(--space-3);
-  align-items: start;
-  padding: clamp(22px, 3vw, 34px);
-  background: var(--bds-color-brainwav-surface);
-  color: var(--bds-color-brainwav-text);
-  text-decoration: none;
-  transition: background-color var(--bds-motion-fast) var(--bds-ease-out);
-}
-
-.brainwav-resource-links a:hover {
-  background: var(--bds-color-brainwav-surface-elevated);
-}
-
-.brainwav-resource-links a > span:first-child {
-  color: var(--bds-color-orange);
-  font-family: var(--body-mono);
-  font-size: 11px;
-  font-variant-numeric: tabular-nums;
-}
-
-.brainwav-resource-links a > span:last-child {
-  display: grid;
-  gap: var(--space-2);
-}
-
-.brainwav-resource-links strong {
-  font-family: var(--body-sans);
-  font-size: clamp(18px, 1.6vw, 24px);
-  line-height: 1.2;
-}
-
-.brainwav-resource-links small {
-  color: var(--bds-color-brainwav-text-secondary);
-  font-family: var(--body-serif);
-  font-size: clamp(15px, 1.2vw, 18px);
-  line-height: 1.45;
-}
-
 .case-proof-summary {
   display: grid;
   width: min(100% - var(--space-6), 1100px);
@@ -8560,10 +8329,6 @@ body:not(.skillsbar-demo) :is(
   .skillsbar-preview__header img {
     width: 44px;
     height: 44px;
-  }
-
-  .brainwav-resource-links {
-    margin-top: var(--space-4);
   }
 
   .case-proof-summary {
@@ -9619,7 +9384,7 @@ body:not(.skillsbar-demo) :is(
       calc(var(--jp-fluid-rem) * 0.25) calc(var(--jp-fluid-rem) * 1.5);
     border-color: var(--bds-color-portfolio-nav);
     border-radius: calc(var(--jp-fluid-rem) * 2);
-    background: var(--bds-color-portfolio-nav);
+    background: transparent;
     gap: calc(var(--jp-fluid-rem) * 0.75);
   }
 
@@ -9812,16 +9577,6 @@ body:not(.skillsbar-demo) :is(
     color: var(--neutral-07);
   }
 
-  #featured-work > .brainwav-bridge {
-    width: 100%;
-    max-width: none;
-    margin-top: calc(var(--jp-fluid-rem) * 2.5);
-  }
-
-  .brainwav-bridge {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
 }
 
 @media (max-width: 57.5625rem) {
@@ -9878,12 +9633,6 @@ body:not(.skillsbar-demo) :is(
     right: 24px;
     bottom: 24px;
     width: min(320px, calc(100% - 48px));
-  }
-
-  #featured-work > .brainwav-bridge {
-    width: 100%;
-    margin-top: 40px;
-    margin-bottom: 0;
   }
 
   .work-carousel {
@@ -11088,38 +10837,28 @@ body:not(.skillsbar-demo) :is(
   transition-timing-function: ease;
 }
 
-/* These controls keep a light pill surface across their hover and press states.
-   Keep their foreground stable so the CTA never transitions through low contrast. */
+/* The resting CTA is a light pill. On pointer hover the fill moves into the
+   arrow circle, matching Jose's button while preserving readable labels. */
 .feature-block .small-button,
-.small-button--light,
-.brainwav-bridge__cta {
+.small-button--light {
+  background: transparent;
   color: var(--text-primary);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .feature-block .small-button:hover,
-  .small-button--light:hover,
-  .brainwav-bridge__cta:hover {
-    background: transparent;
+  .feature-block .small-button[data-active] .small-button__text {
+    color: var(--text-inverse);
+  }
+
+  .small-button[data-active] .small-button__arrow {
     color: var(--text-primary);
     transform: none;
-  }
-
-  .feature-block .small-button:hover .small-button__arrow,
-  .small-button--light:hover .small-button__arrow,
-  .brainwav-bridge__cta:hover .small-button__arrow {
-    color: currentcolor;
-  }
-
-  .feature-block .small-button:hover .small-button__label {
-    color: var(--text-inverse);
   }
 }
 
 /* Display titles are navigation landmarks inside dark surfaces. Keep their
    contrast and stroke weight independent of the decorative surface treatment. */
-#featured-work .feature-block__content h2,
-.brainwav-bridge h2 {
+#featured-work .feature-block__content h2 {
   color: var(--text-inverse);
   font-weight: 300;
 }
@@ -11160,8 +10899,7 @@ body:not(.skillsbar-demo) :is(
   .article-list h2,
   .blog-about-card h2,
   .work-carousel h2,
-  .blog-preview h2,
-  .brainwav-bridge h2
+  .blog-preview h2
 ) {
   font-weight: var(--bds-type-display-lg-weight);
 }
@@ -11400,5 +11138,94 @@ html body:not(.skillsbar-demo) .blog-index .latest-article .eyebrow {
 
   .contact-links a {
     min-inline-size: 44px;
+  }
+}
+
+/* Work-card pointer affordance. Jose's cards keep the project link semantic and
+   place a dimming layer plus a pointer-following arrow above the thumbnail. */
+.work-thumbnail::after {
+  z-index: 1;
+  inset: 0;
+  height: auto;
+  background: rgb(0 11 0 / 20%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms ease;
+}
+
+.work-thumbnail__cursor {
+  --work-cursor-x: 0px;
+  --work-cursor-y: 0px;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  width: 4rem;
+  height: 4rem;
+  pointer-events: none;
+  transform: translate3d(
+    calc(-50% + var(--work-cursor-x)),
+    calc(-50% + var(--work-cursor-y)),
+    0
+  );
+}
+
+.work-thumbnail__arrow {
+  position: static;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-soft);
+  opacity: 0;
+  transform: translate3d(0, 1rem, 0);
+  transition:
+    opacity 400ms ease,
+    transform 400ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.work-thumbnail__arrow svg {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1.5;
+}
+
+.work-mini-card:focus-visible .work-thumbnail::after,
+.work-mini-card:focus-visible .work-thumbnail__arrow {
+  opacity: 1;
+}
+
+.work-mini-card:focus-visible .work-thumbnail__arrow {
+  transform: translate3d(0, 0, 0);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .work-mini-card:hover,
+  .work-mini-card:hover .work-thumbnail {
+    filter: none;
+    transform: none;
+  }
+
+  .work-thumbnail[data-pointer-active="true"]::after,
+  .work-thumbnail[data-pointer-active="true"] .work-thumbnail__arrow {
+    opacity: 1;
+  }
+
+  .work-thumbnail[data-pointer-active="true"] .work-thumbnail__arrow {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-thumbnail::after,
+  .work-thumbnail__cursor,
+  .work-thumbnail__arrow {
+    transition: none;
   }
 }

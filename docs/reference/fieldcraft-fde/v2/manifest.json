@@ -1,0 +1,152 @@
+{
+  "schema_version": 1,
+  "reference": {
+    "name": "Fieldcraft FDE version 2",
+    "prepared_at": "2026-08-13",
+    "original_url": "https://learn.varickagents.com/fde-in-30-days",
+    "copy_url": "https://fieldcraft-fde-30-days.jscraik.chatgpt.site/clone",
+    "page_title": "Varick — Forward Deployed Engineering",
+    "document_language": "en"
+  },
+  "sites": {
+    "project_id": "appgprj_6a7cc26b99dc81918631aa2541049afd",
+    "version_number": 2,
+    "version_id": "appgprj_6a7cc26b99dc81918631aa2541049afd~appgver_dd16939823808191bd642bc55037788d",
+    "source_commit_sha": "c6220eca648739a1f643f128fdb01907fa0fc902",
+    "archive": {
+      "format": "tar",
+      "content_hash": "sha256:8c1971868fe6a6e3c37010980ab169cc006bf1fe8fc19d7d43c8eda2c3d3496e",
+      "size_bytes": 1392640,
+      "file_count": 73,
+      "local_copy_present": false,
+      "retrieval_status": "blocked_no_archive_download_capability",
+      "claims_boundary": "The Sites connector exposed immutable provenance and archive metadata but no archive-download operation. The hash identifies the authoritative archive; it does not prove a local copy is present."
+    },
+    "access_mode_observed": "custom"
+  },
+  "source_comparison": {
+    "captured_at": "2026-08-13",
+    "method": "Read-only live DOM, inline stylesheet, inline script, visible-text, section-subtree, and embedded-image fingerprints in the same in-app Chromium session.",
+    "verdict": "exact_implementation_match",
+    "matched": {
+      "page_title": true,
+      "document_language": true,
+      "section_count": true,
+      "section_ids": true,
+      "all_section_visible_text": true,
+      "all_section_outer_html": true,
+      "complete_visible_text": true,
+      "inline_stylesheets": true,
+      "inline_scripts": true,
+      "interactive_element_count": true,
+      "embedded_varick_icon": true
+    },
+    "differences": [
+      {
+        "surface": "favicon_links",
+        "classification": "expected_origin_resolution",
+        "original": "https://learn.varickagents.com/favicon.png",
+        "copy": "https://fieldcraft-fde-30-days.jscraik.chatgpt.site/favicon.png"
+      },
+      {
+        "surface": "codex-browser-sidebar-comments-root",
+        "classification": "browser_injected_non_site_dom",
+        "original_present": false,
+        "copy_capture_present": true,
+        "replication_requirement": false
+      }
+    ],
+    "not_proved": [
+      "A locally stored copy of the immutable Sites archive.",
+      "Pixel equality at viewports other than the separately measured 1280x720 and 390x844 states.",
+      "Cross-browser pixel identity.",
+      "Origin-level equivalence for HTTP response headers, redirects, caching, or favicon file bytes."
+    ]
+  },
+  "implementation_fingerprints": {
+    "section_count": 20,
+    "id_count": 43,
+    "interactive_element_count": 20,
+    "semantic_counts": {
+      "h1": 1,
+      "h2": 20,
+      "h3": 1,
+      "buttons": 15,
+      "svg": 10,
+      "role_img": 4,
+      "dialogs": 1,
+      "anchors": 0,
+      "forms": 0
+    },
+    "section_class_token_count": 137,
+    "css_selector_count": 471,
+    "complete_visible_text_sha256": "1730c3036027441d9ec55149953d0aaa6564f6af737c6228ceed01457002061d",
+    "stylesheets": [
+      {
+        "index": 0,
+        "length": 155,
+        "sha256": "7fc4ba2ef0149a3e0f5fd633b5654a59b5c52d21bb9af73ba5a9d7695061e872"
+      },
+      {
+        "index": 1,
+        "length": 39213,
+        "sha256": "6e255b6717eafecf4d3c649f6dca27eaf1a37898dba54c23ae3b2c6734858a41"
+      }
+    ],
+    "scripts": [
+      {
+        "index": 0,
+        "length": 8975,
+        "sha256": "fe78dd514f5dee64e0ebff6b2399e5d36103e3b2396b557e9602e82f36a4be34"
+      },
+      {
+        "index": 1,
+        "length": 5327,
+        "sha256": "16cd634b42416766736d6add1e5e430c87bde57f8e54587f3996d24e3115bc3d"
+      }
+    ],
+    "embedded_images": [
+      {
+        "alt": "Varick",
+        "natural_width": 64,
+        "natural_height": 64,
+        "source_string_sha256": "44fa88e9f611cf6ddf82ae3f06ec78e065d42ab6355c4b612da85728d31d6b83"
+      }
+    ],
+    "sections": [
+      {"index": 0, "id": "s01", "visible_text_sha256": "0e83d22f82a01914acb4ba0c519233b95a372871b3e968f37b2998b7525683a7", "outer_html_sha256": "b50d11f48fd7e1e3d82d358c33fca88d5c3db2a57ab59c1c8d9a3ec8d7141978"},
+      {"index": 1, "id": "s02", "visible_text_sha256": "774441892e9d7e66c477336a8795ec3b0835b516018ecd51574e5a64e6621373", "outer_html_sha256": "3a11bb907b6068dbabce5f511620a3a3e8aa26b5b9419c18bb5fbdcd7931a696"},
+      {"index": 2, "id": "s03", "visible_text_sha256": "8f44ab2f140d56d2dcf272f39312f219bf70575e051fc022691a0cc716770d78", "outer_html_sha256": "9c75d1644d14aa72c587c9cf3f61dbf9b510b99a5bbdb7ff235b46250aaae267"},
+      {"index": 3, "id": "s04", "visible_text_sha256": "fc31813bf4faf1091f0460124abc34e0d9d5ee78ba7fdc942730e4ea20fece98", "outer_html_sha256": "6e10b525b58a9eb7a3810720eefa0cec437789d86cc61ae5baba61e7be6daf76"},
+      {"index": 4, "id": "s05", "visible_text_sha256": "17ab341598a862d618e86d85eb061add3c88e80282abbb8b861c6cce79b820cd", "outer_html_sha256": "ea575d1be1016de578e2f365799bf1a7fc82035ada35838b5a7953dbd3979a8e"},
+      {"index": 5, "id": "s06", "visible_text_sha256": "f333869e7ddf30889e4deb48798b037714e2d921f5d79ea36a8c05d6d390ab68", "outer_html_sha256": "db3d4bf208b4eb40a7734fe8982831bf8253c66651460d8614dc2bc25761c7e3"},
+      {"index": 6, "id": "s07", "visible_text_sha256": "246be520acee8c03f9cd34b18a50e41c5ddda28d112b0c73b78008535e186be2", "outer_html_sha256": "c3bbe7e476375dd25d422c5661303e01f4155f2ee936bf422b7b8d8ab29f9fb0"},
+      {"index": 7, "id": "s08", "visible_text_sha256": "ad02038df105631775d52a5c875f07e9a959c71732ab9c10e267b229ac580d41", "outer_html_sha256": "41cb1296c5fd88a48c7b8f402ec6eb1f4b894ab4ba54d60b54275cc6335b6db5"},
+      {"index": 8, "id": "srun", "visible_text_sha256": "cb4f15e72da5a34e1ec8ad12081576f301f554d5467c1b92d84c355045540402", "outer_html_sha256": "623d641c7c0f2f3b026e3e8c9325014b29c35210c419f55c3edcf0359781773c"},
+      {"index": 9, "id": "s09", "visible_text_sha256": "4f55feea2f6382a67f615ff4cf26a93fee5e11c066030fa441c99ee5c5436bc1", "outer_html_sha256": "84b72705423cd9621b0991ce44fb086c91b7231a4ab2cb52372987096be26c47"},
+      {"index": 10, "id": "s10", "visible_text_sha256": "ce5b413d2576ecc9a44ee0be6978f311cc5f23120735ad0648f0e0716b913086", "outer_html_sha256": "aabcf62b35eaa04892f56ff3319d24b1eb7635862fd3c9512a0452af3f4f83bf"},
+      {"index": 11, "id": "s11", "visible_text_sha256": "77286ddbeb46b17f38f9735489f41b819d6e1ff466bf90918ba72710f326b95b", "outer_html_sha256": "75f1bca7c150ca9a6a67b7e20a7a354d32c256c03831993f930f31a4040d5e5e"},
+      {"index": 12, "id": "s12", "visible_text_sha256": "216be961103eaccf54cf10981e1f1f90320219b495fabceacdcabab2242534e0", "outer_html_sha256": "e297871f6554c721d1cced0efa3591d1829874fd47e5400d87b510b4c393d3ab"},
+      {"index": 13, "id": "s13", "visible_text_sha256": "5c95e7603815c9a5cd1a9fdf4f97ad09a200b310f0d1c4cf29829282def8af77", "outer_html_sha256": "bdefc5bdf40cfc3cc2be421db1c3819ab407087a9b7a9e70f7276cca34583dbf"},
+      {"index": 14, "id": "s14", "visible_text_sha256": "1fe0be879a96159c77d04a0f0a365e4859b3d5d33b31b4a1a1ac44df07a25453", "outer_html_sha256": "5797218cde79780837afc55fdeac98b774cde33dafa7a02b269ea36d5a1226ac"},
+      {"index": 15, "id": "s15", "visible_text_sha256": "3f5f762f317a03be587a7219a74d0c80fe765f2b6e4d148849dffe1a97be5180", "outer_html_sha256": "22f3c86ea4b81dedcd51e0ba452b0b57110426ec90b22d0061cdf73ce3e993de"},
+      {"index": 16, "id": "s16", "visible_text_sha256": "fa81b565771af7ceb46bae8846eb9e38c4ef12eba100865b8b920a7accd19f8a", "outer_html_sha256": "10fd8460a9df1b26a543ac65c1a530999184e6e84c0326c1cdf8f5e1f14312d1"},
+      {"index": 17, "id": "s17", "visible_text_sha256": "f358652209134bad067a51f2600d184230f51e2403f8e41610178ca8d7cf76f3", "outer_html_sha256": "7e8edbbd43a0ad2f90dba04975aa3cbbcaffda40da72f7624fead312100dc8bc"},
+      {"index": 18, "id": "s18", "visible_text_sha256": "8e59403b077abef1c4961d66bb19a8a840c2ed19c3c205499526da591d1cd8c0", "outer_html_sha256": "2ec72ffcdfcc52604c85b6b9198e4812dad3de834d1f6526334d399ea01cd253"},
+      {"index": 19, "id": "s19", "visible_text_sha256": "787b319e6c7cf196da4fcb0268123cd7528179559db33b23d8718585ac86fb51", "outer_html_sha256": "609fafded66f340cf6ee46af971c843d7f8106034f33fd9db653c41782d6b64c"}
+    ]
+  },
+  "viewport_evidence": {
+    "pixel_parity_reference_viewports": [
+      {"width": 1280, "height": 720, "device_pixel_ratio": 2, "status": "measured_copy"},
+      {"width": 390, "height": 844, "device_pixel_ratio": 1, "status": "measured_copy"}
+    ],
+    "requested_but_not_yet_stored": [
+      {"width": 1440, "height": 900},
+      {"width": 820, "height": 1180},
+      {"width": 360, "height": 800}
+    ],
+    "screenshot_bundle_status": "blocked_not_persisted",
+    "claims_boundary": "Live visual inspection occurred, but no durable local screenshot matrix was produced. Fingerprint identity proves source implementation identity, not an independent stored pixel-diff corpus."
+  }
+}

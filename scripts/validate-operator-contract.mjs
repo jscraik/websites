@@ -3,6 +3,8 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { collectPrTemplateContractErrors } from "./lib/pr-template-contract.mjs";
+
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const errors = [];
 
@@ -26,11 +28,19 @@ const contributing = read("CONTRIBUTING.md");
 const newTask = read("scripts/new-task.sh");
 const gitignore = read(".gitignore");
 const prePushHook = read("scripts/hook-pre-push.sh");
+const circleciConfig = read(".circleci/config.yml");
 const contract = JSON.parse(read("harness.contract.json"));
 const standaloneRemediationPolicy = /standalone review-remediation PRs may use\s+`jscraik\/<short-description>`\s+when the body records a concrete Linear `n\/a`\s+reason/i;
 
+for (const error of collectPrTemplateContractErrors(pullRequestTemplate)) {
+  errors.push(`PR template contract: ${error}`);
+}
+
 if (packageJson.name !== "brainwav-io") errors.push("package.json must identify the brainwav-io site package");
 if (!existsSync(path.join(repoRoot, "package-lock.json"))) errors.push("package-lock.json must exist for this npm repository");
+if (packageJson.scripts?.["validate:pr-template"] !== "node scripts/validate-pr-template.mjs") {
+  errors.push("package.json must expose the repository PR-template validator");
+}
 requireMatch(agents, /package\.json is the source of truth/i, "AGENTS.md must identify package.json as the portfolio command authority");
 rejectMatch(agents, /There was no repo-local AGENTS\.md or CODESTYLE\.md/i, "AGENTS.md must describe the current root instruction surfaces");
 requireMatch(newTask, /--prepare/, "new-task must support the documented --prepare alias");
@@ -56,6 +66,8 @@ requireMatch(prePushHook, /npm run validate:fast/, "pre-push must run the portfo
 requireMatch(prePushHook, /npm run check/, "pre-push must run Astro type checking");
 requireMatch(prePushHook, /npm run build/, "pre-push must build the portfolio");
 rejectMatch(prePushHook, /tooling-audit|check-environment\.sh|semgrep-changed/, "pre-push must not require inherited full-Harness tooling gates");
+requireMatch(circleciConfig, /\/\/aiforui\.dev\/npm\/:_authToken=\$\{AIFORUI_NPM_TOKEN\}/, "CircleCI must authenticate private @aiforui packages from AIFORUI_NPM_TOKEN");
+rejectMatch(circleciConfig, /npm config set[^\n]*AIFORUI_NPM_TOKEN/, "CircleCI must not expose AIFORUI_NPM_TOKEN in process arguments");
 
 const trackedReceipt = execFileSync("git", ["ls-files", ".harness/runtime/codex-preflight-status.json"], { cwd: repoRoot, encoding: "utf8" }).trim();
 if (trackedReceipt) errors.push("generated codex preflight receipt must not be tracked");

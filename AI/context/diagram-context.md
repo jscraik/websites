@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-08-13T00:10:07Z
+Generated: 2026-09-04T16:15:09Z
 
 ## Table of Contents
 
@@ -29,35 +29,92 @@ Generated: 2026-08-13T00:10:07Z
 ## Changed source focus
 
 - These architecture-sensitive paths changed on the current branch and may be compacted out of Mermaid diagrams.
+- `.circleci/config.yml`
+- `.github/PULL_REQUEST_TEMPLATE.md`
+- `.npmrc`
+- `AGENTS.md`
+- `README.md`
+- `docs/agents/00-architecture-bootstrap.md`
+- `docs/agents/07b-agent-governance.md`
+- `docs/reference/fieldcraft-fde/v2/README.md`
+- `docs/reference/fieldcraft-fde/v2/manifest.json`
+- `docs/reference/fieldcraft-fde/v3/manifest.json`
+- `docs/reference/fieldcraft-fde/v3/policy.json`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-00.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-01.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-02.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-03.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-04.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-05.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-06.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-07.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-08.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-09.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-10.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-11.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-12.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-13.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-14.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-15.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-16.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-17.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-18.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-19.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/states/modal-01.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/states/modal-02.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/states/modal-03.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/states/modal-04.png`
+- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/states/modal-05.png`
+- `docs/specifications/fieldcraft-fde-blind-build-agent-prompt.md`
+- `docs/specifications/fieldcraft-fde-blind-build-brief.md`
+- `docs/specifications/fieldcraft-fde-internal-region-contract.json`
+- `docs/specifications/fieldcraft-fde-measured-scene-contract.md`
+- `docs/specifications/fieldcraft-fde-replication-spec.md`
+- `docs/specifications/fieldcraft-fde-scene-contract.json`
 - `package.json`
-- `src/components/PullquoteStack.astro`
-- `src/components/SiteFooter.astro`
+- `scripts/evaluate-fieldcraft-scenes.mjs`
+- `scripts/lib/design-system-contract.mjs`
+- `scripts/lib/fieldcraft-contracts.mjs`
+- `scripts/lib/pr-template-contract.mjs`
+- `scripts/lib/social-profile-assets-contract.mjs`
+- `scripts/prepare-fieldcraft-blind-build.mjs`
+- `scripts/refresh-diagram-context.sh`
+- `scripts/seal-fieldcraft-reference.mjs`
+- `scripts/test-css-simplification.mjs`
+- `scripts/test-design-system-contract.mjs`
+- `scripts/test-diagram-freshness-opt-in.mjs`
+- `scripts/test-fieldcraft-blind-build.mjs`
+- `scripts/test-fieldcraft-contracts.mjs`
+- `scripts/test-operator-workflow-contract.mjs`
+- `scripts/test-social-profile-assets-contract.mjs`
+- `scripts/validate-design-system.mjs`
+- `scripts/validate-fieldcraft-internal-region-contract.mjs`
+- `scripts/validate-fieldcraft-scene-contract.mjs`
+- `scripts/validate-operator-contract.mjs`
+- `scripts/validate-pr-template.mjs`
+- `scripts/validate-social-profile-assets.mjs`
+- `src/brand/approved-live-banners.json`
+- `src/brand/source/approved/jamie-linkedin-background-1584x396.png`
+- `src/brand/source/approved/jamie-x-header-1500x500.png`
+- `src/components/AnimatedButton.astro`
 - `src/components/SiteNav.astro`
 - `src/components/StartLinks.astro`
-- `src/content.config.ts`
-- `src/content/blog/army-to-ai-delivery-bridge.md`
-- `src/content/blog/how-i-direct-codex.md`
-- `src/content/blog/how-to-present-proof-surfaces.md`
-- `src/content/blog/when-evidence-goes-stale.md`
-- `src/content/blog/why-ai-native-devrel.md`
-- `src/content/proof/why-ai-native-devrel.md`
-- `src/content/work/ai-native-devrel.md`
-- `src/content/work/brainwav-io.md`
-- `src/content/work/skillsbar.md`
 - `src/layouts/BaseLayout.astro`
 - `src/pages/articles/when-evidence-goes-stale.astro`
-- `src/pages/articles/why-ai-native-devrel.astro`
 - `src/pages/blog/index.astro`
-- `src/pages/blog/rss.xml.ts`
-- `src/pages/contact.astro`
 - `src/pages/index.astro`
-- `src/pages/now.astro`
 - `src/pages/work/[slug].astro`
-- `src/scripts/flip-motion.ts`
+- `src/scripts/flip.test.ts`
+- `src/scripts/flip.ts`
+- `src/scripts/lapse-dev.test.ts`
+- `src/scripts/lapse-dev.ts`
 - `src/styles/global.css`
 - `src/styles/route-rhythm.css`
 - `src/styles/shell.css`
-- `tsconfig.json`
+- `tests/e2e/animated-button-contract.spec.ts`
+- `tests/e2e/fieldcraft-hidden-state-contract.spec.ts`
+- `tests/e2e/interface-contracts.spec.ts`
+- `tests/e2e/work-card-pointer-contract.spec.ts`
 
 ## agent
 
@@ -65,6 +122,7 @@ Generated: 2026-08-13T00:10:07Z
 flowchart TD
   subgraph Orchestration["🎯 Orchestration Layer"]
     jose_parity_runner_50cc4344["🤖 jose-parity-runner"]
+    prepare_fieldcraft_blind_build_8ab85212["🤖 prepare-fieldcraft-blind-build"]
     test_code_quality_debt_contract_569cff13["🤖 test-code-quality-debt-contract"]
     test_operator_workflow_contract_b4a152d7["🤖 test-operator-workflow-contract"]
     validate_design_system_b8a5f37c["🤖 validate-design-system"]
@@ -80,16 +138,17 @@ flowchart TD
   end
   subgraph MemoryLayer["📚 Memory / Vector Layer"]
     normalize_mermaid_artifact_9dba7231[("📚 normalize-mermaid-artifact")]
+    test_diagram_freshness_opt_in_96293749[("📚 test-diagram-freshness-opt-in")]
     validate_operational_telemetry_cb447bde[("📚 validate-operational-telemetry")]
   end
   classDef agentNode fill:#555,color:#fff
-  class jose_parity_runner_50cc4344,test_code_quality_debt_contract_569cff13,test_operator_workflow_contract_b4a152d7,validate_design_system_b8a5f37c,validate_jose_claim_boundary_01082824 agentNode
+  class jose_parity_runner_50cc4344,prepare_fieldcraft_blind_build_8ab85212,test_code_quality_debt_contract_569cff13,test_operator_workflow_contract_b4a152d7,validate_design_system_b8a5f37c,validate_jose_claim_boundary_01082824 agentNode
   classDef llmNode fill:#555,color:#fff
   class generate_social_profile_assets_f4f94011,validate_social_profile_assets_a023937b llmNode
   classDef toolNode fill:#555,color:#fff
   class jose_parity_cdp_bdcde21d,test_css_simplification_05516724 toolNode
   classDef memNode fill:#555,color:#fff
-  class normalize_mermaid_artifact_9dba7231,validate_operational_telemetry_cb447bde memNode
+  class normalize_mermaid_artifact_9dba7231,test_diagram_freshness_opt_in_96293749,validate_operational_telemetry_cb447bde memNode
 
 ```
 
@@ -156,11 +215,16 @@ graph LR
   node_check_node_engine_217689bf_3e5964b2["check_node_engine_217689bf"]
   node_check_public_api_docs_a9604f1b_f824853c["check_public_api_docs_a9604f1b"]
   node_content_config_a9a9d2e1_05943ac5["content_config_a9a9d2e1"]
+  node_evaluate_fieldcraft_scenes_d6258bc6_1eab3e75["evaluate_fieldcraft_scenes_d6258bc6"]
+  node_fieldcraft_contracts_8c3b3237_5c0d7894["fieldcraft_contracts_8c3b3237"]
   node_generate_social_profile_assets_f4f94011_2a983f29["generate_social_profile_assets_f4f94011"]
   node_jose_parity_cdp_bdcde21d_edb59c81["jose_parity_cdp_bdcde21d"]
   node_jose_parity_runner_50cc4344_e9555b02["jose_parity_runner_50cc4344"]
+  node_lapse_dev_f2526c24_d04b45a0["lapse_dev_f2526c24"]
   node_pr_readiness_boundaries_621e369e_7f0b2de9["pr_readiness_boundaries_621e369e"]
+  node_prepare_fieldcraft_blind_build_8ab85212_153447eb["prepare_fieldcraft_blind_build_8ab85212"]
   node_rss_xml_b85d02db_61029d19["rss_xml_b85d02db"]
+  node_seal_fieldcraft_reference_8652aaa2_c54b3f46["seal_fieldcraft_reference_8652aaa2"]
   node_setup_git_hooks_70750d40_b4ca2cf9["setup_git_hooks_70750d40"]
   node_smoke_pages_9a92b30d_72f6805f["smoke_pages_9a92b30d"]
   node_test_astro_anti_patterns_88db0377_401e86a9["test_astro_anti_patterns_88db0377"]
@@ -168,7 +232,10 @@ graph LR
   node_test_code_quality_debt_contract_569cff13_2953095a["test_code_quality_debt_contract_569cff13"]
   node_test_codex_preflight_receipt_200ab781_029a12e8["test_codex_preflight_receipt_200ab781"]
   node_test_css_simplification_05516724_6f0b8da9["test_css_simplification_05516724"]
+  node_test_design_system_contract_2b5439cd_a676eb9e["test_design_system_contract_2b5439cd"]
   node_test_diagram_freshness_opt_in_96293749_08c46e10["test_diagram_freshness_opt_in_96293749"]
+  node_test_fieldcraft_blind_build_ec0e094c_11c1ac7a["test_fieldcraft_blind_build_ec0e094c"]
+  node_test_fieldcraft_contracts_82274efa_2a3f2205["test_fieldcraft_contracts_82274efa"]
   node_test_git_worktree_authority_e031ba7e_d149c121["test_git_worktree_authority_e031ba7e"]
   node_test_harness_cli_public_fallback_ad793eff_5fbe4aa9["test_harness_cli_public_fallback_ad793eff"]
   node_test_jose_parity_measurements_2477824f_5f030e16["test_jose_parity_measurements_2477824f"]
@@ -176,12 +243,15 @@ graph LR
   node_test_portfolio_helpers_88b404c3_859ed297["test_portfolio_helpers_88b404c3"]
   node_test_pr_readiness_fbe81eba_0ec78421["test_pr_readiness_fbe81eba"]
   node_test_setup_git_hooks_syntax_c035405d_68ddd381["test_setup_git_hooks_syntax_c035405d"]
+  node_test_social_profile_assets_contract_21d9ea77_0cbbd736["test_social_profile_assets_contract_21d9ea77"]
   node_validate_astro_anti_patterns_c2656e62_cf436b7a["validate_astro_anti_patterns_c2656e62"]
   node_validate_coding_policy_29976175_c710e9cd["validate_coding_policy_29976175"]
   node_validate_commit_msg_43b008fe_f9560ef9["validate_commit_msg_43b008fe"]
   node_validate_content_source_boundary_8a6f121b_b79b7423["validate_content_source_boundary_8a6f121b"]
   node_validate_css_policy_1c5ec854_8f6d9474["validate_css_policy_1c5ec854"]
   node_validate_design_system_b8a5f37c_d69ca690["validate_design_system_b8a5f37c"]
+  node_validate_fieldcraft_internal_region_contract_a12_d8f43689["validate_fieldcraft_internal_region_contract_a1266d61"]
+  node_validate_fieldcraft_scene_contract_186745c2_38a27626["validate_fieldcraft_scene_contract_186745c2"]
   node_validate_html_output_736c5b7a_1b91e628["validate_html_output_736c5b7a"]
   node_validate_jose_claim_boundary_01082824_d7b27144["validate_jose_claim_boundary_01082824"]
   node_validate_js_budget_3d3908ce_dabf96a0["validate_js_budget_3d3908ce"]
@@ -191,9 +261,11 @@ graph LR
   node_validate_page_surfaces_078ef6b6_3d64ee9f["validate_page_surfaces_078ef6b6"]
   node_validate_portfolio_content_6d36990e_d04a79b1["validate_portfolio_content_6d36990e"]
   node_validate_pr_readiness_dfa3c61c_8978de80["validate_pr_readiness_dfa3c61c"]
+  node_validate_pr_template_1fc39e13_503b878b["validate_pr_template_1fc39e13"]
   node_validate_release_source_boundary_43d40a1f_0405b813["validate_release_source_boundary_43d40a1f"]
   node_validate_render_flow_2f64be63_a84870b9["validate_render_flow_2f64be63"]
   node_validate_social_profile_assets_a023937b_aed15edb["validate_social_profile_assets_a023937b"]
+  ext_aiforui_lapse_8332b6cc["@aiforui/lapse"] --> node_lapse_dev_f2526c24_d04b45a0
   ext_playwright_test_4b02302d["@playwright/test"] --> node_capture_jose_reference_e7b66705_7f5ac43a
   ext_playwright_test_4b02302d["@playwright/test"] --> node_generate_social_profile_assets_f4f94011_2a983f29
   ext_playwright_test_4b02302d["@playwright/test"] --> node_jose_parity_cdp_bdcde21d_edb59c81
@@ -202,12 +274,17 @@ graph LR
   ext_astro_90c9d7bd["astro"] --> node_content_config_a9a9d2e1_05943ac5
   ext_astro_content_2110f121["astro:content"] --> node_content_config_a9a9d2e1_05943ac5
   ext_astro_content_2110f121["astro:content"] --> node_rss_xml_b85d02db_61029d19
+  ext_jpeg_js_a3e0a788["jpeg-js"] --> node_evaluate_fieldcraft_scenes_d6258bc6_1eab3e75
+  ext_jpeg_js_a3e0a788["jpeg-js"] --> node_test_fieldcraft_contracts_82274efa_2a3f2205
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_astro_anti_patterns_88db0377_401e86a9
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_branch_transition_preflight_1665655e_acac1534
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_css_simplification_05516724_6f0b8da9
+  ext_node_assert_f1a93ba5["node:assert"] --> node_test_design_system_contract_2b5439cd_a676eb9e
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_diagram_freshness_opt_in_96293749_08c46e10
+  ext_node_assert_f1a93ba5["node:assert"] --> node_test_fieldcraft_blind_build_ec0e094c_11c1ac7a
+  ext_node_assert_f1a93ba5["node:assert"] --> node_test_fieldcraft_contracts_82274efa_2a3f2205
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_git_worktree_authority_e031ba7e_d149c121
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_harness_cli_public_fallback_ad793eff_5fbe4aa9
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_jose_parity_measurements_2477824f_5f030e16
@@ -215,6 +292,9 @@ graph LR
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_portfolio_helpers_88b404c3_859ed297
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_pr_readiness_fbe81eba_0ec78421
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_setup_git_hooks_syntax_c035405d_68ddd381
+  ext_node_assert_f1a93ba5["node:assert"] --> node_test_social_profile_assets_contract_21d9ea77_0cbbd736
+  ext_node_assert_f1a93ba5["node:assert"] --> node_validate_fieldcraft_internal_region_contract_a12_d8f43689
+  ext_node_assert_f1a93ba5["node:assert"] --> node_validate_fieldcraft_scene_contract_186745c2_38a27626
   ext_node_child_process_f62b7d19["node:child_process"] --> node_changed_files_4c0102f6_bfd165bc
   ext_node_child_process_f62b7d19["node:child_process"] --> node_check_code_quality_debt_cba04f67_104c73f4
   ext_node_child_process_f62b7d19["node:child_process"] --> node_check_git_worktree_authority_940ab26d_54e5636e
@@ -227,6 +307,7 @@ graph LR
   ext_node_child_process_f62b7d19["node:child_process"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_child_process_f62b7d19["node:child_process"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
   ext_node_child_process_f62b7d19["node:child_process"] --> node_test_diagram_freshness_opt_in_96293749_08c46e10
+  ext_node_child_process_f62b7d19["node:child_process"] --> node_test_fieldcraft_blind_build_ec0e094c_11c1ac7a
   ext_node_child_process_f62b7d19["node:child_process"] --> node_test_git_worktree_authority_e031ba7e_d149c121
   ext_node_child_process_f62b7d19["node:child_process"] --> node_test_harness_cli_public_fallback_ad793eff_5fbe4aa9
   ext_node_child_process_f62b7d19["node:child_process"] --> node_test_operator_workflow_contract_b4a152d7_c294797c
@@ -238,7 +319,10 @@ graph LR
   ext_node_child_process_f62b7d19["node:child_process"] --> node_validate_release_source_boundary_43d40a1f_0405b813
   ext_node_constants_cc38fbc2["node:constants"] --> node_check_git_worktree_authority_940ab26d_54e5636e
   ext_node_crypto_c7dfc512["node:crypto"] --> node_check_code_quality_debt_cba04f67_104c73f4
+  ext_node_crypto_c7dfc512["node:crypto"] --> node_evaluate_fieldcraft_scenes_d6258bc6_1eab3e75
+  ext_node_crypto_c7dfc512["node:crypto"] --> node_fieldcraft_contracts_8c3b3237_5c0d7894
   ext_node_crypto_c7dfc512["node:crypto"] --> node_generate_social_profile_assets_f4f94011_2a983f29
+  ext_node_crypto_c7dfc512["node:crypto"] --> node_seal_fieldcraft_reference_8652aaa2_c54b3f46
   ext_node_crypto_c7dfc512["node:crypto"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_crypto_c7dfc512["node:crypto"] --> node_validate_social_profile_assets_a023937b_aed15edb
   ext_node_fs_a15b7d96["node:fs"] --> node_capture_jose_reference_e7b66705_7f5ac43a
@@ -247,10 +331,13 @@ graph LR
   ext_node_fs_a15b7d96["node:fs"] --> node_check_git_worktree_authority_940ab26d_54e5636e
   ext_node_fs_a15b7d96["node:fs"] --> node_check_node_engine_217689bf_3e5964b2
   ext_node_fs_a15b7d96["node:fs"] --> node_check_public_api_docs_a9604f1b_f824853c
+  ext_node_fs_a15b7d96["node:fs"] --> node_evaluate_fieldcraft_scenes_d6258bc6_1eab3e75
   ext_node_fs_a15b7d96["node:fs"] --> node_generate_social_profile_assets_f4f94011_2a983f29
   ext_node_fs_a15b7d96["node:fs"] --> node_jose_parity_cdp_bdcde21d_edb59c81
   ext_node_fs_a15b7d96["node:fs"] --> node_jose_parity_runner_50cc4344_e9555b02
   ext_node_fs_a15b7d96["node:fs"] --> node_pr_readiness_boundaries_621e369e_7f0b2de9
+  ext_node_fs_a15b7d96["node:fs"] --> node_prepare_fieldcraft_blind_build_8ab85212_153447eb
+  ext_node_fs_a15b7d96["node:fs"] --> node_seal_fieldcraft_reference_8652aaa2_c54b3f46
   ext_node_fs_a15b7d96["node:fs"] --> node_setup_git_hooks_70750d40_b4ca2cf9
   ext_node_fs_a15b7d96["node:fs"] --> node_smoke_pages_9a92b30d_72f6805f
   ext_node_fs_a15b7d96["node:fs"] --> node_test_astro_anti_patterns_88db0377_401e86a9
@@ -259,6 +346,8 @@ graph LR
   ext_node_fs_a15b7d96["node:fs"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
   ext_node_fs_a15b7d96["node:fs"] --> node_test_css_simplification_05516724_6f0b8da9
   ext_node_fs_a15b7d96["node:fs"] --> node_test_diagram_freshness_opt_in_96293749_08c46e10
+  ext_node_fs_a15b7d96["node:fs"] --> node_test_fieldcraft_blind_build_ec0e094c_11c1ac7a
+  ext_node_fs_a15b7d96["node:fs"] --> node_test_fieldcraft_contracts_82274efa_2a3f2205
   ext_node_fs_a15b7d96["node:fs"] --> node_test_git_worktree_authority_e031ba7e_d149c121
   ext_node_fs_a15b7d96["node:fs"] --> node_test_harness_cli_public_fallback_ad793eff_5fbe4aa9
   ext_node_fs_a15b7d96["node:fs"] --> node_test_jose_parity_measurements_2477824f_5f030e16
@@ -271,6 +360,8 @@ graph LR
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_content_source_boundary_8a6f121b_b79b7423
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_css_policy_1c5ec854_8f6d9474
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_design_system_b8a5f37c_d69ca690
+  ext_node_fs_a15b7d96["node:fs"] --> node_validate_fieldcraft_internal_region_contract_a12_d8f43689
+  ext_node_fs_a15b7d96["node:fs"] --> node_validate_fieldcraft_scene_contract_186745c2_38a27626
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_html_output_736c5b7a_1b91e628
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_jose_claim_boundary_01082824_d7b27144
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_js_budget_3d3908ce_dabf96a0
@@ -280,15 +371,18 @@ graph LR
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_page_surfaces_078ef6b6_3d64ee9f
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_portfolio_content_6d36990e_d04a79b1
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_pr_readiness_dfa3c61c_8978de80
+  ext_node_fs_a15b7d96["node:fs"] --> node_validate_pr_template_1fc39e13_503b878b
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_release_source_boundary_43d40a1f_0405b813
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_render_flow_2f64be63_a84870b9
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_social_profile_assets_a023937b_aed15edb
   ext_node_http_e4ddf53f["node:http"] --> node_validate_render_flow_2f64be63_a84870b9
+  ext_node_os_d93fe73a["node:os"] --> node_evaluate_fieldcraft_scenes_d6258bc6_1eab3e75
   ext_node_os_d93fe73a["node:os"] --> node_test_astro_anti_patterns_88db0377_401e86a9
   ext_node_os_d93fe73a["node:os"] --> node_test_branch_transition_preflight_1665655e_acac1534
   ext_node_os_d93fe73a["node:os"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_os_d93fe73a["node:os"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
   ext_node_os_d93fe73a["node:os"] --> node_test_diagram_freshness_opt_in_96293749_08c46e10
+  ext_node_os_d93fe73a["node:os"] --> node_test_fieldcraft_blind_build_ec0e094c_11c1ac7a
   ext_node_os_d93fe73a["node:os"] --> node_test_git_worktree_authority_e031ba7e_d149c121
   ext_node_os_d93fe73a["node:os"] --> node_test_harness_cli_public_fallback_ad793eff_5fbe4aa9
   ext_node_os_d93fe73a["node:os"] --> node_test_operator_workflow_contract_b4a152d7_c294797c
@@ -299,9 +393,12 @@ graph LR
   ext_node_path_78811c13["node:path"] --> node_check_git_worktree_authority_940ab26d_54e5636e
   ext_node_path_78811c13["node:path"] --> node_check_node_engine_217689bf_3e5964b2
   ext_node_path_78811c13["node:path"] --> node_check_public_api_docs_a9604f1b_f824853c
+  ext_node_path_78811c13["node:path"] --> node_evaluate_fieldcraft_scenes_d6258bc6_1eab3e75
   ext_node_path_78811c13["node:path"] --> node_generate_social_profile_assets_f4f94011_2a983f29
   ext_node_path_78811c13["node:path"] --> node_jose_parity_cdp_bdcde21d_edb59c81
   ext_node_path_78811c13["node:path"] --> node_pr_readiness_boundaries_621e369e_7f0b2de9
+  ext_node_path_78811c13["node:path"] --> node_prepare_fieldcraft_blind_build_8ab85212_153447eb
+  ext_node_path_78811c13["node:path"] --> node_seal_fieldcraft_reference_8652aaa2_c54b3f46
   ext_node_path_78811c13["node:path"] --> node_setup_git_hooks_70750d40_b4ca2cf9
   ext_node_path_78811c13["node:path"] --> node_smoke_pages_9a92b30d_72f6805f
   ext_node_path_78811c13["node:path"] --> node_test_astro_anti_patterns_88db0377_401e86a9
@@ -309,6 +406,7 @@ graph LR
   ext_node_path_78811c13["node:path"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_path_78811c13["node:path"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
   ext_node_path_78811c13["node:path"] --> node_test_diagram_freshness_opt_in_96293749_08c46e10
+  ext_node_path_78811c13["node:path"] --> node_test_fieldcraft_blind_build_ec0e094c_11c1ac7a
   ext_node_path_78811c13["node:path"] --> node_test_git_worktree_authority_e031ba7e_d149c121
   ext_node_path_78811c13["node:path"] --> node_test_harness_cli_public_fallback_ad793eff_5fbe4aa9
   ext_node_path_78811c13["node:path"] --> node_test_operator_workflow_contract_b4a152d7_c294797c
@@ -325,13 +423,20 @@ graph LR
   ext_node_path_78811c13["node:path"] --> node_validate_operational_telemetry_cb447bde_70262920
   ext_node_path_78811c13["node:path"] --> node_validate_operator_contract_f777ed78_83e6297e
   ext_node_path_78811c13["node:path"] --> node_validate_portfolio_content_6d36990e_d04a79b1
+  ext_node_path_78811c13["node:path"] --> node_validate_pr_template_1fc39e13_503b878b
   ext_node_path_78811c13["node:path"] --> node_validate_release_source_boundary_43d40a1f_0405b813
   ext_node_path_78811c13["node:path"] --> node_validate_render_flow_2f64be63_a84870b9
   ext_node_path_78811c13["node:path"] --> node_validate_social_profile_assets_a023937b_aed15edb
+  ext_node_process_00cdf119["node:process"] --> node_evaluate_fieldcraft_scenes_d6258bc6_1eab3e75
+  ext_node_process_00cdf119["node:process"] --> node_prepare_fieldcraft_blind_build_8ab85212_153447eb
+  ext_node_test_a8c66a4f["node:test"] --> node_test_design_system_contract_2b5439cd_a676eb9e
+  ext_node_test_a8c66a4f["node:test"] --> node_test_fieldcraft_contracts_82274efa_2a3f2205
   ext_node_test_a8c66a4f["node:test"] --> node_test_pr_readiness_fbe81eba_0ec78421
+  ext_node_test_a8c66a4f["node:test"] --> node_test_social_profile_assets_contract_21d9ea77_0cbbd736
   ext_node_url_d0cb3ad7["node:url"] --> node_check_git_worktree_authority_940ab26d_54e5636e
   ext_node_url_d0cb3ad7["node:url"] --> node_check_node_engine_217689bf_3e5964b2
   ext_node_url_d0cb3ad7["node:url"] --> node_generate_social_profile_assets_f4f94011_2a983f29
+  ext_node_url_d0cb3ad7["node:url"] --> node_prepare_fieldcraft_blind_build_8ab85212_153447eb
   ext_node_url_d0cb3ad7["node:url"] --> node_test_astro_anti_patterns_88db0377_401e86a9
   ext_node_url_d0cb3ad7["node:url"] --> node_test_branch_transition_preflight_1665655e_acac1534
   ext_node_url_d0cb3ad7["node:url"] --> node_test_code_quality_debt_contract_569cff13_2953095a
@@ -342,20 +447,26 @@ graph LR
   ext_node_url_d0cb3ad7["node:url"] --> node_test_operator_workflow_contract_b4a152d7_c294797c
   ext_node_url_d0cb3ad7["node:url"] --> node_test_setup_git_hooks_syntax_c035405d_68ddd381
   ext_node_url_d0cb3ad7["node:url"] --> node_validate_operator_contract_f777ed78_83e6297e
+  ext_node_url_d0cb3ad7["node:url"] --> node_validate_pr_template_1fc39e13_503b878b
   ext_node_url_d0cb3ad7["node:url"] --> node_validate_social_profile_assets_a023937b_aed15edb
   ext_node_vm_e83aa31f["node:vm"] --> node_test_portfolio_helpers_88b404c3_859ed297
   ext_node_zlib_bb6e132b["node:zlib"] --> node_validate_js_budget_3d3908ce_dabf96a0
+  ext_pixelmatch_09ac8ff1["pixelmatch"] --> node_evaluate_fieldcraft_scenes_d6258bc6_1eab3e75
   ext_pixelmatch_09ac8ff1["pixelmatch"] --> node_jose_parity_cdp_bdcde21d_edb59c81
+  ext_playwright_7cbdd1eb["playwright"] --> node_evaluate_fieldcraft_scenes_d6258bc6_1eab3e75
   ext_playwright_7cbdd1eb["playwright"] --> node_validate_render_flow_2f64be63_a84870b9
+  ext_pngjs_3cfe9260["pngjs"] --> node_evaluate_fieldcraft_scenes_d6258bc6_1eab3e75
   ext_pngjs_3cfe9260["pngjs"] --> node_jose_parity_cdp_bdcde21d_edb59c81
   ext_pngjs_3cfe9260["pngjs"] --> node_validate_social_profile_assets_a023937b_aed15edb
   ext_typescript_fb9da861["typescript"] --> node_check_code_quality_debt_cba04f67_104c73f4
   ext_typescript_fb9da861["typescript"] --> node_check_code_size_9c5efc3a_154124ae
   ext_typescript_fb9da861["typescript"] --> node_check_public_api_docs_a9604f1b_f824853c
   ext_typescript_fb9da861["typescript"] --> node_test_portfolio_helpers_88b404c3_859ed297
+  style ext_aiforui_lapse_8332b6cc fill:#f59e0b,color:#fff
   style ext_astro_90c9d7bd fill:#f59e0b,color:#fff
   style ext_astro_content_2110f121 fill:#f59e0b,color:#fff
   style ext_ext_81f836ce fill:#f59e0b,color:#fff
+  style ext_jpeg_js_a3e0a788 fill:#f59e0b,color:#fff
   style ext_node_assert_f1a93ba5 fill:#f59e0b,color:#fff
   style ext_node_child_process_f62b7d19 fill:#f59e0b,color:#fff
   style ext_node_constants_cc38fbc2 fill:#f59e0b,color:#fff
@@ -364,6 +475,7 @@ graph LR
   style ext_node_http_e4ddf53f fill:#f59e0b,color:#fff
   style ext_node_os_d93fe73a fill:#f59e0b,color:#fff
   style ext_node_path_78811c13 fill:#f59e0b,color:#fff
+  style ext_node_process_00cdf119 fill:#f59e0b,color:#fff
   style ext_node_test_a8c66a4f fill:#f59e0b,color:#fff
   style ext_node_url_d0cb3ad7 fill:#f59e0b,color:#fff
   style ext_node_vm_e83aa31f fill:#f59e0b,color:#fff
@@ -392,7 +504,11 @@ erDiagram
 flowchart TD
   subgraph Channels["Event channels / queues"]
     validate_design_system_b8a5f37c{{"validate-design-system"}}
+    design_system_contract_744a00f2["design-system-contract"]
+    test_design_system_contract_2b5439cd["test-design-system-contract"]
   end
+  validate_design_system_b8a5f37c -->|emit| design_system_contract_744a00f2
+  test_design_system_contract_2b5439cd -->|consume| design_system_contract_744a00f2
   classDef eventNode fill:#db2777,color:#fff
   class validate_design_system_b8a5f37c eventNode
 
@@ -415,12 +531,12 @@ flowchart TD
   check_git_worktree_authority_940ab26d --> check_node_engine_217689bf
   check_public_api_docs_a9604f1b["check-public-api-docs"]
   check_node_engine_217689bf --> check_public_api_docs_a9604f1b
+  evaluate_fieldcraft_scenes_d6258bc6["evaluate-fieldcraft-scenes"]
+  check_public_api_docs_a9604f1b --> evaluate_fieldcraft_scenes_d6258bc6
   generate_social_profile_assets_f4f94011["generate-social-profile-assets"]
-  check_public_api_docs_a9604f1b --> generate_social_profile_assets_f4f94011
-  jose_parity_cdp_bdcde21d["jose-parity-cdp"]
-  generate_social_profile_assets_f4f94011 --> jose_parity_cdp_bdcde21d
+  evaluate_fieldcraft_scenes_d6258bc6 --> generate_social_profile_assets_f4f94011
   End(["End"])
-  jose_parity_cdp_bdcde21d --> End
+  generate_social_profile_assets_f4f94011 --> End
 
 ```
 
@@ -441,6 +557,7 @@ flowchart LR
   LLMNode -->|generated answer| Output
   subgraph DetectedMemory["Detected memory stores"]
     det_detectedmemory_normalize_mermaid_artifact_9dba7231[("normalize-mermaid-artifact")]
+    det_detectedmemory_test_diagram_freshness_opt_in_96293749[("test-diagram-freshness-opt-in")]
     det_detectedmemory_validate_operational_telemetry_cb447bde[("validate-operational-telemetry")]
   end
   VecDB -. "implemented by" .-> DetectedMemory
@@ -479,8 +596,13 @@ flowchart TD
   Untrusted --> test_operator_workflow_contract_b4a152d7
   validate_operator_contract_f777ed78["validate-operator-contract"]
   Untrusted --> validate_operator_contract_f777ed78
+  validate_pr_template_1fc39e13["validate-pr-template"]
+  Untrusted --> validate_pr_template_1fc39e13
+  test_operator_workflow_contract_b4a152d7 --> pr_template_contract_4fa69502
+  validate_operator_contract_f777ed78 --> pr_template_contract_4fa69502
+  validate_pr_template_1fc39e13 --> pr_template_contract_4fa69502
   classDef securityNode fill:#dc2626,color:#fff
-  class validate_coding_policy_29976175,validate_css_policy_1c5ec854,setup_git_hooks_70750d40,test_operator_workflow_contract_b4a152d7,validate_operator_contract_f777ed78 securityNode
+  class validate_coding_policy_29976175,validate_css_policy_1c5ec854,setup_git_hooks_70750d40,test_operator_workflow_contract_b4a152d7,validate_operator_contract_f777ed78,validate_pr_template_1fc39e13 securityNode
 
 ```
 
@@ -512,6 +634,10 @@ flowchart LR
   User --> smoke_pages_9a92b30d
   test_css_simplification_05516724["test-css-simplification"]
   User --> test_css_simplification_05516724
+  test_fieldcraft_blind_build_ec0e094c["test-fieldcraft-blind-build"]
+  User --> test_fieldcraft_blind_build_ec0e094c
+  test_fieldcraft_contracts_82274efa["test-fieldcraft-contracts"]
+  User --> test_fieldcraft_contracts_82274efa
   test_jose_parity_measurements_2477824f["test-jose-parity-measurements"]
   User --> test_jose_parity_measurements_2477824f
   test_operator_workflow_contract_b4a152d7["test-operator-workflow-contract"]
@@ -530,15 +656,30 @@ flowchart LR
   User --> validate_page_surfaces_078ef6b6
   validate_portfolio_content_6d36990e["validate-portfolio-content"]
   User --> validate_portfolio_content_6d36990e
+  validate_pr_template_1fc39e13["validate-pr-template"]
+  User --> validate_pr_template_1fc39e13
   rss_xml_b85d02db["rss.xml"]
   User --> rss_xml_b85d02db
   check_public_api_docs_a9604f1b --> changed_files_4c0102f6
   jose_parity_cdp_bdcde21d --> jose_parity_measurements_afc7a199
+  test_fieldcraft_blind_build_ec0e094c --> prepare_fieldcraft_blind_build_8ab85212
+  test_fieldcraft_contracts_82274efa --> fieldcraft_contracts_8c3b3237
   test_jose_parity_measurements_2477824f --> jose_parity_measurements_afc7a199
+  test_operator_workflow_contract_b4a152d7 --> pr_template_contract_4fa69502
+  validate_design_system_b8a5f37c --> design_system_contract_744a00f2
+  validate_operator_contract_f777ed78 --> pr_template_contract_4fa69502
+  validate_pr_template_1fc39e13 --> pr_template_contract_4fa69502
   rss_xml_b85d02db --> portfolio_0e6a8e0b
   check_code_size_9c5efc3a --> changed_files_4c0102f6
+  evaluate_fieldcraft_scenes_d6258bc6 --> fieldcraft_contracts_8c3b3237
+  seal_fieldcraft_reference_8652aaa2 --> fieldcraft_contracts_8c3b3237
+  validate_fieldcraft_internal_region_contract_a1266d61 --> fieldcraft_contracts_8c3b3237
+  validate_fieldcraft_scene_contract_186745c2 --> fieldcraft_contracts_8c3b3237
   classDef userNode fill:#16a34a,color:#fff
-  class capture_jose_reference_e7b66705,check_public_api_docs_a9604f1b,jose_parity_cdp_bdcde21d,smoke_pages_9a92b30d,test_css_simplification_05516724,test_jose_parity_measurements_2477824f,test_operator_workflow_contract_b4a152d7,validate_coding_policy_29976175,validate_content_source_boundary_8a6f121b,validate_css_policy_1c5ec854,validate_design_system_b8a5f37c,validate_operator_contract_f777ed78,validate_page_surfaces_078ef6b6,validate_portfolio_content_6d36990e,rss_xml_b85d02db userNode
+  test_design_system_contract_2b5439cd["test-design-system-contract"]
+  User --> test_design_system_contract_2b5439cd
+  test_design_system_contract_2b5439cd --> design_system_contract_744a00f2
+  class capture_jose_reference_e7b66705,check_public_api_docs_a9604f1b,jose_parity_cdp_bdcde21d,smoke_pages_9a92b30d,test_css_simplification_05516724,test_fieldcraft_blind_build_ec0e094c,test_fieldcraft_contracts_82274efa,test_jose_parity_measurements_2477824f,test_operator_workflow_contract_b4a152d7,validate_coding_policy_29976175,validate_content_source_boundary_8a6f121b,validate_css_policy_1c5ec854,validate_design_system_b8a5f37c,validate_operator_contract_f777ed78,validate_page_surfaces_078ef6b6,validate_portfolio_content_6d36990e,validate_pr_template_1fc39e13,rss_xml_b85d02db,test_design_system_contract_2b5439cd userNode
 
 ```
 

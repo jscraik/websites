@@ -46,9 +46,12 @@ contract and the debt baseline reviewable: add a focused regression test,
 inspect newly discovered debt, and baseline only existing findings. This does
 not replace hosted PR readiness, review, or merge evidence.
 
-When a dependency change refreshes tracked architecture projections, update
-the linked architecture and governance documentation before push. Generated
-diagram evidence informs the change; it does not replace the documented
+When a dependency or source change refreshes tracked architecture projections,
+run `bash scripts/refresh-diagram-context.sh --force`, validate the changed path
+list with `bash scripts/check-diagram-freshness.sh --changed-files <path-list-file>`,
+and update the linked architecture and governance documentation before push.
+The expected freshness result is `Diagram freshness check passed`; generated
+diagram evidence informs the change but does not replace the documented
 workflow contract or hosted review evidence.
 
 When a source-quality validator or focused regression fixture adds a node to

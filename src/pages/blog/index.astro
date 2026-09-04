@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Icon from "../../components/Icon.astro";
+import AnimatedButton from "../../components/AnimatedButton.astro";
 import { getCollection } from "astro:content";
 import { byOrder } from "../../lib/portfolio";
 import type { CollectionEntry } from "astro:content";
@@ -46,11 +47,11 @@ const otherArticles = articles.filter((article) => article.id !== latestArticle.
           <p>{latestArticle.data.summary}</p>
         </div>
         <div>
-          <a class="small-button small-button--light" href={latestArticle.data.href!}>
-            <span class="small-button__bg" aria-hidden="true"></span>
-            <span class="small-button__label">Keep reading</span>
-            <span class="small-button__arrow" aria-hidden="true"><span>-&gt;</span></span>
-          </a>
+          <AnimatedButton
+            class="small-button--light"
+            href={latestArticle.data.href}
+            label="Keep reading"
+          />
         </div>
       </article>
     </section>
@@ -236,7 +237,7 @@ const otherArticles = articles.filter((article) => article.id !== latestArticle.
     min-width: 150px;
     margin-top: var(--space-3);
     border-color: rgba(0, 11, 0, 0.06);
-    background: rgba(251, 250, 245, 0.62);
+    background: transparent;
   }
 
   .article-list {
@@ -773,6 +774,27 @@ const otherArticles = articles.filter((article) => article.id !== latestArticle.
       margin: 0;
       font-size: clamp(22px, 2.4vw, 26px);
       line-height: 1.45;
+    }
+  }
+
+  @media (min-width: 72.0001rem) {
+    .blog-index {
+      width: min(62.12vw, calc(var(--jp-fluid-rem) * 62.12));
+      max-width: calc(var(--jp-fluid-rem) * 62.12);
+      min-height: calc(var(--jp-fluid-rem) * 52.83);
+    }
+
+    .latest-article article {
+      justify-content: space-between;
+      min-height: calc(var(--jp-fluid-rem) * 31.25);
+    }
+
+    .latest-article h2 {
+      color: var(--neutral-07);
+      font-family: var(--body-sans);
+      font-size: calc(var(--jp-fluid-rem) * 1.25);
+      font-weight: 600;
+      line-height: 1.4;
     }
   }
 </style>

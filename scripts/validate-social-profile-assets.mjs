@@ -3,12 +3,15 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { PNG } from "pngjs";
+import { approvedBannerPathsMatch } from "./lib/social-profile-assets-contract.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const manifestBuffer = await readFile(path.join(ROOT, "src/brand/social-profile-assets.json"));
+const approvedLiveBannersBuffer = await readFile(path.join(ROOT, "src/brand/approved-live-banners.json"));
 const tokensBuffer = await readFile(path.join(ROOT, "src/styles/brand-tokens.json"));
 const generatorBuffer = await readFile(path.join(ROOT, "scripts/generate-social-profile-assets.mjs"));
 const manifest = JSON.parse(manifestBuffer.toString("utf8"));
+const approvedLiveBanners = JSON.parse(approvedLiveBannersBuffer.toString("utf8"));
 const tokens = JSON.parse(tokensBuffer.toString("utf8"));
 const generator = generatorBuffer.toString("utf8");
 const failures = [];
@@ -105,6 +108,59 @@ try {
   check("source avatar is high resolution", sourceAvatar.width >= 1200, "expected a source portrait at least 1200px wide");
 } catch (error) {
   check("source avatar exists", false, error.message);
+}
+
+check(
+  "approved live-banner status",
+  approvedLiveBanners.schema_version === 1 &&
+    approvedLiveBanners.contract === "jamie-approved-live-banners/v1" &&
+    approvedLiveBanners.status === "approved_for_platform_upload" &&
+    approvedLiveBanners.approved_on === "2026-08-12" &&
+    approvedLiveBanners.profile_descriptor === "AI Workflows · Agent Skills · Evals" &&
+    approvedLiveBanners.brand_promise === manifest.brand_promise &&
+    JSON.stringify(Object.keys(approvedLiveBanners.platforms || {}).sort()) === JSON.stringify(["linkedin", "x"]) &&
+    approvedLiveBanners.platforms?.x?.width === 1500 &&
+    approvedLiveBanners.platforms?.x?.height === 500 &&
+    approvedLiveBanners.platforms?.linkedin?.width === 1584 &&
+    approvedLiveBanners.platforms?.linkedin?.height === 396,
+  "expected the reviewed 2026-08-12 platform-upload pair, schema, dimensions, and exact platform set"
+);
+
+for (const [platform, specification] of Object.entries(approvedLiveBanners.platforms || {})) {
+  check(
+    `${platform} approved live-banner paths are distinct and canonical`,
+    specification.source !== specification.output &&
+      approvedBannerPathsMatch(platform, specification),
+    "approved source and public output paths must remain distinct and under the canonical directories"
+  );
+  await checkPng(
+    `${platform} approved live-banner source`,
+    specification.source,
+    specification.width,
+    specification.height
+  );
+  await checkPng(
+    `${platform} approved live-banner output`,
+    specification.output,
+    specification.width,
+    specification.height
+  );
+  try {
+    const source = await readFile(path.join(ROOT, specification.source));
+    const output = await readFile(path.join(ROOT, specification.output));
+    check(
+      `${platform} approved live-banner bytes`,
+      sha256(source) === sha256(output),
+      "public upload artifact must exactly match its approved source bytes"
+    );
+    check(
+      `${platform} approved live-banner digest`,
+      specification.sha256 === sha256(source) && specification.sha256 === sha256(output),
+      "approved live-banner bytes must match the reviewed SHA-256 digest"
+    );
+  } catch (error) {
+    check(`${platform} approved live-banner bytes`, false, error.message);
+  }
 }
 
 for (const [platform, specification] of Object.entries(manifest.platforms)) {

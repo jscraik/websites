@@ -47,7 +47,7 @@ const currentFor = (href: string): "page" | undefined => {
 </header>
 
 <script>
-  import { moveLayerWithFlip } from "../scripts/flip-motion";
+  import { getFlipTransform } from "../scripts/flip";
 
   const navShells = document.querySelectorAll(".site-header .nav-inner");
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -59,32 +59,77 @@ const currentFor = (href: string): "page" | undefined => {
     const highlight = navShell.querySelector(".nav-bg");
     if (!(highlight instanceof HTMLElement)) return;
 
+    const navStyle = getComputedStyle(navShell);
+    const navFlipDuration = Number.parseFloat(navStyle.getPropertyValue("--nav-flip-duration-ms")) || 400;
+    const navFlipEasing = navStyle.getPropertyValue("--nav-flip-ease").trim() || "cubic-bezier(0.165, 0.84, 0.44, 1)";
+
+    const animateHighlightFrom = (highlightRect: DOMRect) => {
+      const settledRect = highlight.getBoundingClientRect();
+      const inverse = getFlipTransform(highlightRect, settledRect);
+      if (!inverse || reducedMotion.matches) return;
+
+      const keyframes: Keyframe[] = [
+        { transform: inverse },
+        { transform: "none" }
+      ];
+      highlight.animate(
+        keyframes,
+        {
+          duration: navFlipDuration,
+          easing: navFlipEasing
+        }
+      );
+    };
+
     const resetHighlight = () => {
-      if (highlight.parentElement !== navShell) {
-        moveLayerWithFlip(highlight, navShell, { animate: !reducedMotion.matches });
-      }
+      const highlightRect = highlight.getBoundingClientRect();
+      highlight.getAnimations().forEach((animation) => animation.cancel());
+      navShell.prepend(highlight);
       highlight.removeAttribute("data-active");
+      animateHighlightFrom(highlightRect);
     };
 
     const moveHighlight = (target: Element) => {
-      if (reducedMotion.matches || !finePointer.matches || !(target instanceof HTMLElement)) {
+      if (!(target instanceof HTMLElement)) {
         resetHighlight();
         return;
       }
 
-      moveLayerWithFlip(highlight, target);
+      const highlightRect = highlight.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+      if (targetRect.width === 0 || targetRect.height === 0) {
+        resetHighlight();
+        return;
+      }
+
+      highlight.getAnimations().forEach((animation) => animation.cancel());
+      target.append(highlight);
       highlight.dataset.active = "true";
+      animateHighlightFrom(highlightRect);
     };
+
+    const syncHighlight = () => {
+      const activeTarget = finePointer.matches
+        ? navShell.querySelector(".nav-flip:hover")
+        : null;
+      if (activeTarget instanceof HTMLElement) {
+        moveHighlight(activeTarget);
+      } else {
+        resetHighlight();
+      }
+    };
+
+    const resyncHighlight = () => syncHighlight();
 
     navShell.addEventListener("pointerover", (event) => {
       if (!finePointer.matches || !(event.target instanceof Element)) return;
       const target = event.target.closest(".nav-flip");
       if (target && navShell.contains(target)) {
-        moveHighlight(target);
+        syncHighlight();
       }
     });
-    navShell.addEventListener("pointerleave", resetHighlight);
-    window.addEventListener("resize", resetHighlight, { passive: true });
-    reducedMotion.addEventListener("change", resetHighlight);
+    navShell.addEventListener("pointerleave", resyncHighlight);
+    window.addEventListener("resize", resyncHighlight, { passive: true });
+    reducedMotion.addEventListener("change", resyncHighlight);
   });
 </script>

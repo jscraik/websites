@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { hasPrimarySkillsBarLink } from "./lib/design-system-contract.mjs";
 
 const repoRoot = process.cwd();
 
@@ -10,7 +11,15 @@ const addCheck = (name, passed, detail) => {
   checks.push({ name, passed, detail });
 };
 
-let tokensCss, tokensJson, globalCss, blogPage, brandGuide, readme, astroConfig, homepage;
+let tokensCss,
+  tokensJson,
+  globalCss,
+  blogPage,
+  brandGuide,
+  readme,
+  astroConfig,
+  homepage,
+  startLinks;
 try {
   tokensCss = read("src/styles/brand-tokens.css");
   tokensJson = JSON.parse(read("src/styles/brand-tokens.json"));
@@ -20,6 +29,7 @@ try {
   readme = read("README.md");
   astroConfig = read("astro.config.mjs");
   homepage = read("src/pages/index.astro");
+  startLinks = read("src/components/StartLinks.astro");
 } catch (error) {
   console.error(`Design system validation failed to read inputs: ${error.message}`);
   process.exit(1);
@@ -128,11 +138,10 @@ addCheck(
 );
 
 addCheck(
-  "homepage exposes SkillsBar as the first concrete proof",
-  homepage.includes('href="/demos/skillsbar/"') &&
-    homepage.includes("See SkillsBar in action") &&
-    homepage.includes("SkillsBar is the first concrete demonstration."),
-  "expected the homepage to link to the SkillsBar demo and name it as the first concrete proof"
+  "homepage exposes SkillsBar as the primary starting point",
+  homepage.includes("<StartLinks />") &&
+    hasPrimarySkillsBarLink(startLinks),
+  "expected the homepage start links to make SkillsBar the primary route"
 );
 
 addCheck(

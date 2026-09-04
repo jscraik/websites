@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "authority": "independent-evaluator-only",
+  "viewport": { "width": 1280, "height": 720 },
+  "captureConditions": {
+    "zoom": 1,
+    "animations": "settled-before-capture",
+    "fonts": "browser-ready",
+    "browserSurface": "Codex in-app browser"
+  },
+  "pixelMismatchLimit": 0.01,
+  "pixelmatchThreshold": 0.1,
+  "geometryTolerances": {
+    "anchorPx": 2,
+    "boxPx": 3,
+    "diagramPx": 4
+  },
+  "requiredLanes": [
+    "geometry",
+    "typography",
+    "rendered-line-boxes",
+    "collision",
+    "visibility-state",
+    "interaction",
+    "runtime-cleanliness",
+    "visual-difference"
+  ],
+  "admissionRule": "Every required lane must pass independently; missing evidence is blocked, not passed.",
+  "builderMayRead": false,
+  "builderMayChangeThresholds": false,
+  "capturedStates": {
+    "initialScenes": 20,
+    "workflowModals": 5,
+    "deploymentCheckpoints": 0,
+    "advancedRoadmapStates": 0
+  },
+  "blockedStates": {
+    "deploymentCheckpoints": "The in-app browser security boundary denied further interaction with the deployed URL during timed-state capture.",
+    "advancedRoadmapStates": "Not captured after the deployed-URL browser security denial; no alternate browser or policy workaround was attempted."
+  }
+}

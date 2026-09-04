@@ -1,6 +1,7 @@
 flowchart TD
   subgraph Orchestration["🎯 Orchestration Layer"]
     jose_parity_runner_50cc4344["🤖 jose-parity-runner"]
+    prepare_fieldcraft_blind_build_8ab85212["🤖 prepare-fieldcraft-blind-build"]
     test_code_quality_debt_contract_569cff13["🤖 test-code-quality-debt-contract"]
     test_operator_workflow_contract_b4a152d7["🤖 test-operator-workflow-contract"]
     validate_design_system_b8a5f37c["🤖 validate-design-system"]
@@ -16,13 +17,14 @@ flowchart TD
   end
   subgraph MemoryLayer["📚 Memory / Vector Layer"]
     normalize_mermaid_artifact_9dba7231[("📚 normalize-mermaid-artifact")]
+    test_diagram_freshness_opt_in_96293749[("📚 test-diagram-freshness-opt-in")]
     validate_operational_telemetry_cb447bde[("📚 validate-operational-telemetry")]
   end
   classDef agentNode fill:#555,color:#fff
-  class jose_parity_runner_50cc4344,test_code_quality_debt_contract_569cff13,test_operator_workflow_contract_b4a152d7,validate_design_system_b8a5f37c,validate_jose_claim_boundary_01082824 agentNode
+  class jose_parity_runner_50cc4344,prepare_fieldcraft_blind_build_8ab85212,test_code_quality_debt_contract_569cff13,test_operator_workflow_contract_b4a152d7,validate_design_system_b8a5f37c,validate_jose_claim_boundary_01082824 agentNode
   classDef llmNode fill:#555,color:#fff
   class generate_social_profile_assets_f4f94011,validate_social_profile_assets_a023937b llmNode
   classDef toolNode fill:#555,color:#fff
   class jose_parity_cdp_bdcde21d,test_css_simplification_05516724 toolNode
   classDef memNode fill:#555,color:#fff
-  class normalize_mermaid_artifact_9dba7231,validate_operational_telemetry_cb447bde memNode
+  class normalize_mermaid_artifact_9dba7231,test_diagram_freshness_opt_in_96293749,validate_operational_telemetry_cb447bde memNode
