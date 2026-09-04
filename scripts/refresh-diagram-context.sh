@@ -520,10 +520,13 @@ const augmentUser = (content) => {
   const nodeId = "test_design_system_contract_2b5439cd";
   const declaration = `  ${nodeId}["test-design-system-contract"]`;
   const userEdge = `  User --> ${nodeId}`;
+  const dependencyEdge = `  ${nodeId} --> design_system_contract_744a00f2`;
   let lines = content.trimEnd().split(/\r?\n/);
   const classIndex = lines.findIndex((line) => /^  class .* userNode$/.test(line));
   const insertionIndex = classIndex >= 0 ? classIndex : lines.length;
   if (!lines.includes(declaration)) lines.splice(insertionIndex, 0, declaration, userEdge);
+  const dependencyInsertionIndex = lines.findIndex((line) => /^  class .* userNode$/.test(line));
+  if (!lines.includes(dependencyEdge)) lines.splice(dependencyInsertionIndex >= 0 ? dependencyInsertionIndex : lines.length, 0, dependencyEdge);
   const updatedClassIndex = lines.findIndex((line) => /^  class .* userNode$/.test(line));
   if (updatedClassIndex >= 0 && !lines[updatedClassIndex].split(/[ ,]/).includes(nodeId)) {
     lines[updatedClassIndex] = lines[updatedClassIndex].replace(/ userNode$/, `,${nodeId} userNode`);

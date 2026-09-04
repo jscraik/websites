@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-09-04T08:12:39Z
+Generated: 2026-09-04T12:26:14Z
 
 ## Table of Contents
 
@@ -99,8 +99,10 @@ Generated: 2026-09-04T08:12:39Z
 - `src/components/SiteNav.astro`
 - `src/components/StartLinks.astro`
 - `src/layouts/BaseLayout.astro`
+- `src/pages/articles/when-evidence-goes-stale.astro`
 - `src/pages/blog/index.astro`
 - `src/pages/index.astro`
+- `src/pages/work/[slug].astro`
 - `src/scripts/flip.test.ts`
 - `src/scripts/flip.ts`
 - `src/scripts/lapse-dev.test.ts`
@@ -370,6 +372,7 @@ graph LR
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_render_flow_2f64be63_a84870b9
   ext_node_fs_a15b7d96["node:fs"] --> node_validate_social_profile_assets_a023937b_aed15edb
   ext_node_http_e4ddf53f["node:http"] --> node_validate_render_flow_2f64be63_a84870b9
+  ext_node_os_d93fe73a["node:os"] --> node_evaluate_fieldcraft_scenes_d6258bc6_1eab3e75
   ext_node_os_d93fe73a["node:os"] --> node_test_astro_anti_patterns_88db0377_401e86a9
   ext_node_os_d93fe73a["node:os"] --> node_test_branch_transition_preflight_1665655e_acac1534
   ext_node_os_d93fe73a["node:os"] --> node_test_code_quality_debt_contract_569cff13_2953095a
@@ -670,6 +673,7 @@ flowchart LR
   classDef userNode fill:#16a34a,color:#fff
   test_design_system_contract_2b5439cd["test-design-system-contract"]
   User --> test_design_system_contract_2b5439cd
+  test_design_system_contract_2b5439cd --> design_system_contract_744a00f2
   class capture_jose_reference_e7b66705,check_public_api_docs_a9604f1b,jose_parity_cdp_bdcde21d,smoke_pages_9a92b30d,test_css_simplification_05516724,test_fieldcraft_blind_build_ec0e094c,test_fieldcraft_contracts_82274efa,test_jose_parity_measurements_2477824f,test_operator_workflow_contract_b4a152d7,validate_coding_policy_29976175,validate_content_source_boundary_8a6f121b,validate_css_policy_1c5ec854,validate_design_system_b8a5f37c,validate_operator_contract_f777ed78,validate_page_surfaces_078ef6b6,validate_portfolio_content_6d36990e,validate_pr_template_1fc39e13,rss_xml_b85d02db,test_design_system_contract_2b5439cd userNode
 
 ```

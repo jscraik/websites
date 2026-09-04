@@ -154,9 +154,18 @@ try {
   await page.goto(candidateUrl, { waitUntil: "networkidle" });
   await page.evaluate(async () => document.fonts.ready);
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.evaluate(async () => {
-    await Promise.all(document.getAnimations().map((animation) => animation.finished.catch(() => undefined)));
-  });
+  const animationsSettled = await page.evaluate(async (deadlineMs) => Promise.race([
+    Promise.all(
+      document.getAnimations().map((animation) => animation.finished.catch(() => undefined)),
+    ).then(() => true),
+    new Promise((resolve) => setTimeout(() => resolve(false), deadlineMs)),
+  ]), 10_000);
+  if (!animationsSettled) {
+    await writeBlockedReport({ stage: "candidate-stabilization", code: "animation_deadline_expired", browserStatus: "available" });
+    await browser.close();
+    console.error("BLOCKED Fieldcraft candidate stabilization; see " + outputRoot + "/report.json");
+    process.exit(1);
+  }
   Object.assign(renderingEnvironment, await page.evaluate(() => ({
     devicePixelRatio: window.devicePixelRatio,
     colorScheme: matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",

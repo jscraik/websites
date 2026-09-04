@@ -111,6 +111,10 @@ test("records rendering inputs, page errors, blocked visuals, and post-navigatio
     assert.match(source, new RegExp("\\b" + field + ":"));
   }
   assert.match(source, /page\.on\("pageerror"/);
+  assert.match(source, /Promise\.race\(/);
+  assert.match(source, /10_000/);
+  assert.match(source, /stage: "candidate-stabilization", code: "animation_deadline_expired"/);
+  assert.match(source, /BLOCKED Fieldcraft candidate stabilization/);
   assert.match(source, /visualResults\.some\(\(result\) => result\.status === "blocked"\)/);
   assert.match(source, /stage: "candidate-evaluation", code: "evaluation_failed"/);
   assert.match(source, /await browser\.close\(\)\.catch/);
