@@ -9,6 +9,7 @@ import {
   parseReferenceManifest,
   parseSceneContract,
   requiredEvidencePasses,
+  readBoundedBody,
   withControllerDeadline,
 } from "./lib/fieldcraft-contracts.mjs";
 import path from "node:path";
@@ -565,12 +566,22 @@ if (candidateResourceBudgetFailure) {
 const candidateResources = [];
 let candidateResourceBytes = 0;
 for (const response of candidateResponses) {
-  const bytes = await response.body();
-  candidateResourceBytes += bytes.byteLength;
-  if (candidateResourceBytes > maxCandidateResourceBytes) {
-    candidateResourceBudgetFailure = "candidate_resource_bytes_exceeded";
+  let streamedResponse;
+  try {
+    streamedResponse = await fetch(response.url(), { redirect: "follow" });
+  } catch {
+    candidateResourceBudgetFailure = "candidate_resource_stream_unavailable";
     break;
   }
+  const { bytes, failure } = await readBoundedBody(streamedResponse.body, {
+    perResponseLimit: maxCandidateResourceBytes,
+    cumulativeRemaining: maxCandidateResourceBytes - candidateResourceBytes,
+  });
+  if (failure) {
+    candidateResourceBudgetFailure = failure;
+    break;
+  }
+  candidateResourceBytes += bytes.byteLength;
   const resourceUrl = new URL(response.url());
   candidateResources.push({
     url: resourceUrl.origin === candidateOrigin ? `${resourceUrl.pathname}${resourceUrl.search}` : resourceUrl.href,

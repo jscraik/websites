@@ -8,6 +8,14 @@ import { fileURLToPath } from "node:url";
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const changedPathsRoot = mkdtempSync(path.join(os.tmpdir(), "portfolio-diagram-gate-"));
 const changedPaths = path.join(changedPathsRoot, "paths.txt");
+const refreshTimeoutSeconds = Number.parseInt(process.env.DIAGRAM_REFRESH_TIMEOUT_SECONDS ?? "90", 10);
+assert.ok(Number.isSafeInteger(refreshTimeoutSeconds) && refreshTimeoutSeconds > 0, "DIAGRAM_REFRESH_TIMEOUT_SECONDS must be a positive integer");
+const refreshOptions = {
+  cwd: repoRoot,
+  encoding: "utf8",
+  timeout: refreshTimeoutSeconds * 1000,
+  killSignal: "SIGTERM",
+};
 
 const generatedArtifactSnapshots = new Map();
 const snapshotGeneratedArtifact = (relativePath) => {
@@ -66,11 +74,13 @@ try {
     snapshotGeneratedArtifact(artifactPath);
   }
 
-  const firstSecurityRefresh = spawnSync("bash", ["scripts/refresh-diagram-context.sh", "--force"], { cwd: repoRoot, encoding: "utf8" });
-  assert.equal(firstSecurityRefresh.status, 0, firstSecurityRefresh.stderr);
+  const firstSecurityRefresh = spawnSync("bash", ["scripts/refresh-diagram-context.sh", "--force"], refreshOptions);
+  assert.notEqual(firstSecurityRefresh.error?.code, "ETIMEDOUT", firstSecurityRefresh.error?.message);
+  assert.equal(firstSecurityRefresh.status, 0, firstSecurityRefresh.error?.message ?? firstSecurityRefresh.stderr);
   const securityAfterFirstRefresh = readFileSync(path.join(repoRoot, ".diagram/security.mmd"), "utf8");
-  const secondSecurityRefresh = spawnSync("bash", ["scripts/refresh-diagram-context.sh", "--force"], { cwd: repoRoot, encoding: "utf8" });
-  assert.equal(secondSecurityRefresh.status, 0, secondSecurityRefresh.stderr);
+  const secondSecurityRefresh = spawnSync("bash", ["scripts/refresh-diagram-context.sh", "--force"], refreshOptions);
+  assert.notEqual(secondSecurityRefresh.error?.code, "ETIMEDOUT", secondSecurityRefresh.error?.message);
+  assert.equal(secondSecurityRefresh.status, 0, secondSecurityRefresh.error?.message ?? secondSecurityRefresh.stderr);
   assert.equal(readFileSync(path.join(repoRoot, ".diagram/security.mmd"), "utf8"), securityAfterFirstRefresh);
 
   console.log("PASS diagram freshness consumes a changed-path list and validates manifest metadata");

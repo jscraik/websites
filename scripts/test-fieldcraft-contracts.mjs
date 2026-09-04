@@ -12,6 +12,7 @@ import {
   parseReferenceManifest,
   parseSceneContract,
   requiredEvidencePasses,
+  readBoundedBody,
   withControllerDeadline,
 } from "./lib/fieldcraft-contracts.mjs";
 
@@ -102,6 +103,20 @@ test("writes a blocked report when the browser runtime cannot launch", async () 
 });
 
 
+test("bounded response streaming stops before per-response or cumulative limits", async () => {
+  const within = await readBoundedBody(new Response("abcd").body, { perResponseLimit: 4, cumulativeRemaining: 4 });
+  assert.equal(within.failure, null);
+  assert.equal(within.bytes.toString("utf8"), "abcd");
+
+  const oversized = await readBoundedBody(new Response("abcde").body, { perResponseLimit: 4, cumulativeRemaining: 10 });
+  assert.equal(oversized.bytes, null);
+  assert.equal(oversized.failure, "candidate_response_bytes_exceeded");
+
+  const cumulative = await readBoundedBody(new Response("abcd").body, { perResponseLimit: 10, cumulativeRemaining: 3 });
+  assert.equal(cumulative.bytes, null);
+  assert.equal(cumulative.failure, "candidate_resource_bytes_exceeded");
+});
+
 test("controller deadline rejects an operation that never settles", async () => {
   await assert.rejects(
     withControllerDeadline(new Promise(() => {}), 5, "animation_deadline_expired"),
@@ -161,7 +176,10 @@ test("binds evaluator artifacts to deployment identity and candidate paths", asy
   assert.match(source, /maxCandidateResourceBytes = 64 \* 1024 \* 1024/);
   assert.match(source, /for \(const response of candidateResponses\)/);
   assert.match(source, /stage: "candidate-resources", code: candidateResourceBudgetFailure/);
-  assert.match(source, /const bytes = await response\.body\(\)/);
+  assert.doesNotMatch(source, /response\.body\(\)/);
+  assert.match(source, /await fetch\(response\.url\(\), { redirect: "follow" }\)/);
+  assert.match(source, /readBoundedBody\(streamedResponse\.body/);
+  assert.match(source, /cumulativeRemaining: maxCandidateResourceBytes - candidateResourceBytes/);
   assert.match(source, /for \(const scene of contract\.scenes\)[\s\S]*for \(const response of candidateResponses\)/);
   assert.match(source, /FIELDCRAFT_DISCOVER_CANDIDATE_ID/);
   assert.match(source, /observedCandidateId = observedCandidate\.id/);

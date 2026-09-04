@@ -118,3 +118,32 @@ export async function withControllerDeadline(operation, deadlineMs, failureCode)
     clearTimeout(deadline);
   }
 }
+
+export async function readBoundedBody(body, { perResponseLimit, cumulativeRemaining }) {
+  if (!body || typeof body.getReader !== "function") {
+    throw new Error("candidate response does not expose a readable body stream");
+  }
+  const reader = body.getReader();
+  const chunks = [];
+  let total = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      const nextTotal = total + value.byteLength;
+      if (nextTotal > perResponseLimit) {
+        await reader.cancel();
+        return { bytes: null, failure: "candidate_response_bytes_exceeded" };
+      }
+      if (nextTotal > cumulativeRemaining) {
+        await reader.cancel();
+        return { bytes: null, failure: "candidate_resource_bytes_exceeded" };
+      }
+      chunks.push(Buffer.from(value));
+      total = nextTotal;
+    }
+  } finally {
+    reader.releaseLock();
+  }
+  return { bytes: Buffer.concat(chunks, total), failure: null };
+}
