@@ -1,14 +1,16 @@
 import assert from "node:assert/strict";
-import { mkdtemp, readFile, rm, symlink } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rename, rm, symlink } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
+import { prepareBlindBuild } from "./prepare-fieldcraft-blind-build.mjs";
 
 const parent = await mkdtemp(path.join(os.tmpdir(), "fieldcraft-blind-build-"));
 const output = path.join(parent, "export");
 try {
   const exporterSource = await readFile("scripts/prepare-fieldcraft-blind-build.mjs", "utf8");
-  assert.match(exporterSource, /mkdtemp\(path\.join\(canonicalParent/);
+  assert.match(exporterSource, /open\(canonicalParent, "r"\)/);
+  assert.match(exporterSource, /mkdtemp\(path\.join\(stagingParent/);
   assert.match(exporterSource, /path\.join\(canonicalStaging, source\)/);
   assert.match(exporterSource, /await rename\(canonicalStaging, output\)/);
   assert.doesNotMatch(exporterSource, /path\.join\(output, source\)/);
@@ -70,6 +72,23 @@ try {
   await symlink(process.cwd(), link);
   const symlinked = spawnSync(process.execPath, ["scripts/prepare-fieldcraft-blind-build.mjs", path.join(link, "export")], { encoding: "utf8" });
   assert.notEqual(symlinked.status, 0, "symlinked output parent must be rejected");
+
+  const swapParent = path.join(parent, "swap-parent");
+  const redirectedParent = path.join(parent, "redirected-parent");
+  const swappedOutput = path.join(swapParent, "export");
+  await mkdir(swapParent);
+  await mkdir(redirectedParent);
+  await assert.rejects(
+    () => prepareBlindBuild(swappedOutput, {
+      afterParentValidation: async () => {
+        await rename(swapParent, `${swapParent}.original`);
+        await symlink(redirectedParent, swapParent);
+      },
+    }),
+    /before publication/,
+  );
+  await assert.rejects(() => readFile(path.join(`${swapParent}.original`, "export", "blind-build-manifest.json"), "utf8"), /ENOENT/);
+  await assert.rejects(() => readFile(path.join(redirectedParent, "export", "blind-build-manifest.json"), "utf8"), /ENOENT/);
 } finally {
   await rm(parent, { recursive: true, force: true });
 }

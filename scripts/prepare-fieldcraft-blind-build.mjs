@@ -1,8 +1,9 @@
-import { cp, lstat, mkdir, mkdtemp, readFile, realpath, rename, rm, writeFile } from "node:fs/promises";
+import { cp, lstat, mkdir, mkdtemp, open, readFile, realpath, rename, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
+import { fileURLToPath } from "node:url";
 
-const outputArg = process.argv[2];
+export async function prepareBlindBuild(outputArg, { afterParentValidation } = {}) {
 if (!outputArg) throw new Error("Usage: node scripts/prepare-fieldcraft-blind-build.mjs <output-directory>");
 
 const root = await realpath(process.cwd());
@@ -50,14 +51,24 @@ const inputs = [
   "docs/specifications/fieldcraft-fde-internal-region-contract.json",
 ];
 
-const staging = await mkdtemp(path.join(canonicalParent, `.${path.basename(output)}.staging-`));
-const canonicalParentAfterCreate = await realpath(directParent);
-const canonicalStaging = await realpath(staging);
-if (canonicalParentAfterCreate !== canonicalParent || path.dirname(canonicalStaging) !== canonicalParent) {
-  throw new Error("Blind-build output parent changed during staging creation");
-}
+const parentHandle = await open(canonicalParent, "r");
+let canonicalStaging;
 
 try {
+  const openedParentMetadata = await parentHandle.stat();
+  const canonicalParentMetadata = await lstat(canonicalParent);
+  if (openedParentMetadata.dev !== canonicalParentMetadata.dev || openedParentMetadata.ino !== canonicalParentMetadata.ino) {
+    throw new Error("Blind-build output parent changed before staging creation");
+  }
+  const stagingParent = path.dirname(canonicalParent);
+  canonicalStaging = await realpath(
+    await mkdtemp(path.join(stagingParent, `.${path.basename(canonicalParent)}-${path.basename(output)}.staging-`)),
+  );
+  if (path.dirname(canonicalStaging) !== stagingParent) {
+    throw new Error("Blind-build staging directory escaped its private sibling parent");
+  }
+  await afterParentValidation?.({ directParent, canonicalParent });
+
   for (const source of [...workspace, ...inputs]) {
     const destination = path.join(canonicalStaging, source);
     await mkdir(path.dirname(destination), { recursive: true });
@@ -94,9 +105,23 @@ const manifest = {
   ],
 };
   await writeFile(path.join(canonicalStaging, "blind-build-manifest.json"), `${JSON.stringify(manifest, null, 2)}\n`);
+  const parentMetadataBeforePublish = await lstat(directParent);
+  if (
+    parentMetadataBeforePublish.dev !== openedParentMetadata.dev ||
+    parentMetadataBeforePublish.ino !== openedParentMetadata.ino
+  ) {
+    throw new Error("Blind-build output parent changed before publication");
+  }
   await rename(canonicalStaging, output);
 } catch (error) {
-  await rm(canonicalStaging, { recursive: true, force: true });
+  if (canonicalStaging) await rm(canonicalStaging, { recursive: true, force: true });
   throw error;
+} finally {
+  await parentHandle.close();
 }
 console.log(`PASS prepared isolated Fieldcraft blind-build input at ${output}`);
+}
+
+if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
+  await prepareBlindBuild(process.argv[2]);
+}
