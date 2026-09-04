@@ -8,6 +8,7 @@ import {
   parseReferenceManifest,
   parseSceneContract,
   requiredEvidencePasses,
+  withControllerDeadline,
 } from "./lib/fieldcraft-contracts.mjs";
 import path from "node:path";
 import os from "node:os";
@@ -20,6 +21,12 @@ const candidateUrl = process.env.CANDIDATE_BASE_URL;
 if (!candidateUrl) {
   throw new Error("CANDIDATE_BASE_URL is required");
 }
+
+const candidateId = process.env.FIELDCRAFT_CANDIDATE_ID;
+if (!candidateId || !/^(?:[a-f0-9]{40}|sha256:[a-f0-9]{64})$/.test(candidateId)) {
+  throw new Error("FIELDCRAFT_CANDIDATE_ID must be a 40-character commit SHA or sha256:<64-hex-digest>");
+}
+const candidateSlug = candidateId.replace(":", "-");
 
 const referenceBundleRoot = path.resolve("docs/reference/fieldcraft-fde/v3");
 const policyPath = path.join(referenceBundleRoot, "policy.json");
@@ -41,12 +48,22 @@ if (JSON.stringify(policy.geometryTolerances) !== JSON.stringify(contract.tolera
   throw new Error("Fieldcraft scene tolerances do not match the sealed evaluation policy");
 }
 const geometryTolerances = policy.geometryTolerances;
-const outputRoot = process.env.FIELDCRAFT_EVIDENCE_DIR ?? "artifacts/fieldcraft-scene-evaluation";
+const outputBase = process.env.FIELDCRAFT_EVIDENCE_DIR ?? "artifacts/fieldcraft-scene-evaluation";
+const outputRoot = path.join(outputBase, candidateSlug);
 const referenceRoot = process.env.FIELDCRAFT_REFERENCE_SCREENSHOTS
   ? path.resolve(process.env.FIELDCRAFT_REFERENCE_SCREENSHOTS)
   : path.join(referenceBundleRoot, "screenshots/1280x720");
 const mismatchLimit = policy.pixelMismatchLimit;
 await mkdir(outputRoot, { recursive: true });
+const artifactDigests = [];
+const digestArtifact = (relativePath, bytes) => {
+  artifactDigests.push({
+    path: relativePath,
+    sha256: createHash("sha256").update(bytes).digest("hex"),
+    bytes: bytes.byteLength,
+  });
+};
+
 const renderingEnvironment = {
   browserVersion: null,
   operatingSystem: { platform: process.platform, release: os.release(), architecture: process.arch },
@@ -61,7 +78,7 @@ const buildEvidenceEnvelope = ({ laneEvidence, stateCoverage, pass, browserStatu
     manifest: "docs/reference/fieldcraft-fde/v3/manifest.json",
     policySha256: policyDigest,
   },
-  candidate: { url: candidateUrl },
+  candidate: { id: candidateId, url: candidateUrl },
   environment: {
     browser: "playwright-chromium",
     browserStatus,
@@ -76,11 +93,14 @@ const buildEvidenceEnvelope = ({ laneEvidence, stateCoverage, pass, browserStatu
   states: stateCoverage,
   commands: [{
     name: "evaluate",
-    command: "CANDIDATE_BASE_URL=<candidate-url> node scripts/evaluate-fieldcraft-scenes.mjs",
+    command: "FIELDCRAFT_CANDIDATE_ID=<commit-sha-or-build-digest> CANDIDATE_BASE_URL=<candidate-url> node scripts/evaluate-fieldcraft-scenes.mjs",
   }],
   outcomes: { laneEvidence, pass },
+  completionStatus: pass ? "pass" : Object.values(laneEvidence).includes("blocked") || Object.values(stateCoverage).some((state) => state.status === "blocked") ? "incomplete" : "fail",
+  evidenceGaps: Object.entries(stateCoverage).filter(([, state]) => state.status === "blocked").map(([state]) => state),
   artifacts: {
     report: "report.json",
+    digests: artifactDigests,
     candidateScreenshots: "candidate/scene-*.png",
     visualDiffs: "scene-*-diff.png",
   },
@@ -99,10 +119,11 @@ const writeBlockedReport = async ({ stage, code, browserStatus }) => {
   };
   const report = {
     schemaVersion: 1,
-    candidateUrl,
+    candidateId,
     ...buildEvidenceEnvelope({ laneEvidence, stateCoverage, pass: false, browserStatus }),
     viewport: contract.viewport,
     geometry: [],
+    completionStatus: "incomplete",
     visual: [],
     consoleFindings: [],
     requestFailures: [],
@@ -154,18 +175,6 @@ try {
   await page.goto(candidateUrl, { waitUntil: "networkidle" });
   await page.evaluate(async () => document.fonts.ready);
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  const animationsSettled = await page.evaluate(async (deadlineMs) => Promise.race([
-    Promise.all(
-      document.getAnimations().map((animation) => animation.finished.catch(() => undefined)),
-    ).then(() => true),
-    new Promise((resolve) => setTimeout(() => resolve(false), deadlineMs)),
-  ]), 10_000);
-  if (!animationsSettled) {
-    await writeBlockedReport({ stage: "candidate-stabilization", code: "animation_deadline_expired", browserStatus: "available" });
-    await browser.close();
-    console.error("BLOCKED Fieldcraft candidate stabilization; see " + outputRoot + "/report.json");
-    process.exit(1);
-  }
   Object.assign(renderingEnvironment, await page.evaluate(() => ({
     devicePixelRatio: window.devicePixelRatio,
     colorScheme: matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
@@ -179,6 +188,24 @@ try {
   await writeBlockedReport({ stage: "candidate-navigation", code: "candidate_unreachable", browserStatus: "available" });
   await browser.close();
   console.error(`BLOCKED Fieldcraft candidate navigation; see ${outputRoot}/report.json`);
+  process.exit(1);
+}
+
+try {
+  await withControllerDeadline(
+    page.evaluate(async () => {
+      await Promise.all(
+        document.getAnimations().map((animation) => animation.finished.catch(() => undefined)),
+      );
+    }),
+    10_000,
+    "animation_deadline_expired",
+  );
+} catch (error) {
+  const code = error.message === "animation_deadline_expired" ? error.message : "animation_stabilization_failed";
+  await writeBlockedReport({ stage: "candidate-stabilization", code, browserStatus: "available" });
+  await browser.close().catch(() => undefined);
+  console.error("BLOCKED Fieldcraft candidate stabilization; see " + outputRoot + "/report.json");
   process.exit(1);
 }
 
@@ -352,49 +379,56 @@ const near = (actual, expected, tolerance) => Math.abs(actual - expected) <= tol
 const normalizeAlign = (value) => ({ left: "start", right: "end" })[value] ?? value;
 const results = measuredScenes.map((actual) => {
   const expected = contract.scenes[actual.index];
-  if (actual.missing) return { index: actual.index, name: expected.name, pass: false, failures: ["missing scene or heading"] };
-  const failures = [];
+  const laneFailures = Object.fromEntries(
+    ["geometry", "typography", "rendered-line-boxes", "collision", "visibility-state"]
+      .map((lane) => [lane, []]),
+  );
+  const fail = (lane, message) => laneFailures[lane].push(message);
+  if (actual.missing) {
+    for (const lane of Object.keys(laneFailures)) fail(lane, "missing scene or heading");
+    return { index: actual.index, name: expected.name, pass: false, failures: ["missing scene or heading"], laneFailures, lanePass: Object.fromEntries(Object.keys(laneFailures).map((lane) => [lane, false])) };
+  }
   const expectedHeading = expected.heading;
   const checks = [
-    ["x", actual.heading.box.x, expectedHeading.x, geometryTolerances.anchorPx],
-    ["localY", actual.heading.localY, expectedHeading.localY, geometryTolerances.anchorPx],
-    ["width", actual.heading.box.width, expectedHeading.width, geometryTolerances.boxPx],
-    ["height", actual.heading.box.height, expectedHeading.height, geometryTolerances.boxPx],
-    ["sectionHeight", actual.sectionBox.height, contract.sectionHeight, geometryTolerances.boxPx],
-    ["fontSize", actual.heading.fontSize, expectedHeading.fontSize, 0.1],
-    ["lineHeight", actual.heading.lineHeight, expectedHeading.lineHeight, 0.1],
+    ["geometry", "x", actual.heading.box.x, expectedHeading.x, geometryTolerances.anchorPx],
+    ["geometry", "localY", actual.heading.localY, expectedHeading.localY, geometryTolerances.anchorPx],
+    ["geometry", "width", actual.heading.box.width, expectedHeading.width, geometryTolerances.boxPx],
+    ["geometry", "height", actual.heading.box.height, expectedHeading.height, geometryTolerances.boxPx],
+    ["geometry", "sectionHeight", actual.sectionBox.height, contract.sectionHeight, geometryTolerances.boxPx],
+    ["typography", "fontSize", actual.heading.fontSize, expectedHeading.fontSize, 0.1],
+    ["typography", "lineHeight", actual.heading.lineHeight, expectedHeading.lineHeight, 0.1],
   ];
-  for (const [key, observed, wanted, tolerance] of checks) {
-    if (!near(observed, wanted, tolerance)) failures.push(`${key}: expected ${wanted}±${tolerance}, observed ${observed}`);
+  for (const [lane, key, observed, wanted, tolerance] of checks) {
+    if (!near(observed, wanted, tolerance)) fail(lane, `${key}: expected ${wanted}±${tolerance}, observed ${observed}`);
   }
   if (normalizeAlign(actual.heading.align) !== expectedHeading.align) {
-    failures.push(`align: expected ${expectedHeading.align}, observed ${actual.heading.align}`);
+    fail("typography", `align: expected ${expectedHeading.align}, observed ${actual.heading.align}`);
   }
   if (actual.heading.color !== contract.colors[expectedHeading.color]) {
-    failures.push(`color: expected ${contract.colors[expectedHeading.color]}, observed ${actual.heading.color}`);
+    fail("typography", `color: expected ${contract.colors[expectedHeading.color]}, observed ${actual.heading.color}`);
   }
   if (expectedHeading.lines && actual.heading.lines.length !== expectedHeading.lines) {
-    failures.push(`lines: expected ${expectedHeading.lines}, observed ${actual.heading.lines.length}`);
+    fail("rendered-line-boxes", `lines: expected ${expectedHeading.lines}, observed ${actual.heading.lines.length}`);
   }
-  if (actual.heading.clipped) failures.push("heading is internally clipped");
-  if (actual.sceneOverflow) failures.push("scene has horizontal overflow");
-  if (actual.documentOverflow) failures.push("document has horizontal overflow");
-  if (actual.collisions.length) failures.push(`undeclared collisions: ${JSON.stringify(actual.collisions)}`);
-  if (actual.hiddenStateViolations.length) failures.push(`hidden state violations: ${actual.hiddenStateViolations.join(", ")}`);
+  if (actual.heading.clipped) fail("rendered-line-boxes", "heading is internally clipped");
+  if (actual.sceneOverflow) fail("visibility-state", "scene has horizontal overflow");
+  if (actual.documentOverflow) fail("visibility-state", "document has horizontal overflow");
+  if (actual.collisions.length) fail("collision", `undeclared collisions: ${JSON.stringify(actual.collisions)}`);
+  if (actual.hiddenStateViolations.length) fail("visibility-state", `hidden state violations: ${actual.hiddenStateViolations.join(", ")}`);
   const fixedShellOverlaps = activeSceneFixedShellOverlaps[actual.index] ?? [];
-  if (fixedShellOverlaps.length) failures.push(`fixed-shell clearance violations: ${JSON.stringify(fixedShellOverlaps)}`);
+  if (fixedShellOverlaps.length) fail("collision", `fixed-shell clearance violations: ${JSON.stringify(fixedShellOverlaps)}`);
   const internalScene = internalContract.scenes.find((scene) => scene.index === actual.index);
   if (internalScene) {
     const observed = new Map(actual.regions.map((region) => [region.key, region.localBox]));
     for (const [key, bounds] of Object.entries(internalScene.regions)) {
       const box = observed.get(key);
       if (!box) {
-        failures.push(`missing internal region: ${key}`);
+        fail("geometry", `missing internal region: ${key}`);
         continue;
       }
       for (const [dimension, value, wanted] of [["x", box.x, bounds[0]], ["y", box.y, bounds[1]], ["width", box.width, bounds[2]], ["height", box.height, bounds[3]]]) {
         if (!near(value, wanted, internalContract.tolerancePx)) {
-          failures.push(`region ${key}.${dimension}: expected ${wanted}±${internalContract.tolerancePx}, observed ${value}`);
+          fail("geometry", `region ${key}.${dimension}: expected ${wanted}±${internalContract.tolerancePx}, observed ${value}`);
         }
       }
     }
@@ -402,10 +436,12 @@ const results = measuredScenes.map((actual) => {
     for (const [left, right] of internalScene.collisionPairs) {
       const a = observed.get(left);
       const b = observed.get(right);
-      if (a && b && intersect(a, b) > 0) failures.push(`contract collision: ${left}/${right}`);
+      if (a && b && intersect(a, b) > 0) fail("collision", `contract collision: ${left}/${right}`);
     }
   }
-  return { index: actual.index, name: expected.name, pass: failures.length === 0, failures };
+  const lanePass = Object.fromEntries(Object.entries(laneFailures).map(([lane, failures]) => [lane, failures.length === 0]));
+  const failures = Object.values(laneFailures).flat();
+  return { index: actual.index, name: expected.name, pass: failures.length === 0, failures, laneFailures, lanePass };
 });
 
 const visualResults = [];
@@ -418,6 +454,8 @@ for (const scene of contract.scenes) {
   const candidatePath = path.join(outputRoot, `scene-${String(scene.index).padStart(2, "0")}-candidate.png`);
   await page.screenshot({ path: candidatePath, animations: "disabled" });
   const referenceName = `scene-${String(scene.index).padStart(2, "0")}.png`;
+  const candidateBytes = await readFile(candidatePath);
+  digestArtifact(path.basename(candidatePath), candidateBytes);
   const manifestPathForScene = `screenshots/1280x720/${referenceName}`;
   const sealedCapture = manifest.captures.find((capture) => capture.path === manifestPathForScene);
   if (!sealedCapture) {
@@ -440,7 +478,7 @@ for (const scene of contract.scenes) {
     visualResults.push({ index: scene.index, status: "blocked", reason: `${referenceName}: ${error.message}` });
     continue;
   }
-  const candidate = PNG.sync.read(await readFile(candidatePath));
+  const candidate = PNG.sync.read(candidateBytes);
   if (reference.width !== candidate.width || reference.height !== candidate.height) {
     visualResults.push({ index: scene.index, status: "fail", reason: "image dimensions differ" });
     continue;
@@ -448,16 +486,19 @@ for (const scene of contract.scenes) {
   const diff = new PNG({ width: reference.width, height: reference.height });
   const mismatched = pixelmatch(reference.data, candidate.data, diff.data, reference.width, reference.height, { threshold: policy.pixelmatchThreshold });
   const ratio = mismatched / (reference.width * reference.height);
-  await writeFile(path.join(outputRoot, `scene-${String(scene.index).padStart(2, "0")}-diff.png`), PNG.sync.write(diff));
+  const diffName = `scene-${String(scene.index).padStart(2, "0")}-diff.png`;
+  const diffBytes = PNG.sync.write(diff);
+  await writeFile(path.join(outputRoot, diffName), diffBytes);
+  digestArtifact(diffName, diffBytes);
   visualResults.push({ index: scene.index, status: ratio <= mismatchLimit ? "pass" : "fail", ratio, limit: mismatchLimit });
 }
 
 const laneEvidence = {
-  geometry: results.every((result) => result.pass) ? "pass" : "fail",
-  typography: results.every((result) => result.pass) ? "pass" : "fail",
-  "rendered-line-boxes": results.every((result) => result.pass) ? "pass" : "fail",
-  collision: results.every((result) => result.pass) ? "pass" : "fail",
-  "visibility-state": results.every((result) => result.pass) ? "pass" : "fail",
+  geometry: results.every((result) => result.lanePass.geometry) ? "pass" : "fail",
+  typography: results.every((result) => result.lanePass.typography) ? "pass" : "fail",
+  "rendered-line-boxes": results.every((result) => result.lanePass["rendered-line-boxes"]) ? "pass" : "fail",
+  collision: results.every((result) => result.lanePass.collision) ? "pass" : "fail",
+  "visibility-state": results.every((result) => result.lanePass["visibility-state"]) ? "pass" : "fail",
   interaction: "blocked",
   "runtime-cleanliness": consoleFindings.length === 0 && requestFailures.length === 0 ? "pass" : "fail",
   "visual-difference": visualResults.some((result) => result.status === "blocked")
@@ -476,7 +517,7 @@ const reportPass = requiredEvidencePasses(policy.requiredLanes, laneEvidence, st
 const report = {
   schemaVersion: 1,
   ...buildEvidenceEnvelope({ laneEvidence, stateCoverage, pass: reportPass, browserStatus: "available" }),
-  candidateUrl,
+  candidateId,
   viewport: contract.viewport,
   geometry: results,
   visual: visualResults,
@@ -486,12 +527,18 @@ const report = {
   laneEvidence,
   stateCoverage,
   pass: reportPass,
+  completionStatus: reportPass ? "pass" : Object.values(laneEvidence).includes("blocked") || Object.values(stateCoverage).some((state) => state.status === "blocked") ? "incomplete" : "fail",
+  evidenceGaps: Object.entries(stateCoverage).filter(([, state]) => state.status === "blocked").map(([state]) => state),
 };
 await writeFile(path.join(outputRoot, "report.json"), `${JSON.stringify(report, null, 2)}\n`);
 await browser.close();
 
 if (!report.pass) {
-  console.error(`FAIL Fieldcraft rendered scene evaluation; see ${outputRoot}/report.json`);
+  if (report.completionStatus === "incomplete") {
+    console.error(`BLOCKED Fieldcraft rendered scene evaluation has incomplete required evidence; see ${outputRoot}/report.json`);
+  } else {
+    console.error(`FAIL Fieldcraft rendered scene evaluation; see ${outputRoot}/report.json`);
+  }
   process.exitCode = 1;
 } else {
   console.log(`PASS Fieldcraft rendered scene evaluation; see ${outputRoot}/report.json`);

@@ -10,6 +10,7 @@ import {
   parseReferenceManifest,
   parseSceneContract,
   requiredEvidencePasses,
+  withControllerDeadline,
 } from "./lib/fieldcraft-contracts.mjs";
 
 test("rejects non-object Fieldcraft roots", () => {
@@ -80,6 +81,7 @@ test("blocks admission when any required lane or state lacks passing evidence", 
 
 test("writes a blocked report when the browser runtime cannot launch", async () => {
   const source = await readFile("scripts/evaluate-fieldcraft-scenes.mjs", "utf8");
+
   assert.match(source, /await mkdir\(outputRoot, \{ recursive: true \}\)/);
   assert.match(source, /await import\("playwright"\)/);
   assert.match(source, /catch \{/);
@@ -91,6 +93,17 @@ test("writes a blocked report when the browser runtime cannot launch", async () 
   }
 });
 
+
+test("controller deadline rejects an operation that never settles", async () => {
+  await assert.rejects(
+    withControllerDeadline(new Promise(() => {}), 5, "animation_deadline_expired"),
+    /animation_deadline_expired/,
+  );
+});
+
+test("controller deadline returns an operation that settles in time", async () => {
+  assert.equal(await withControllerDeadline(Promise.resolve("settled"), 50, "deadline_expired"), "settled");
+});
 test("writes a blocked report and closes the browser when candidate navigation fails", async () => {
   const source = await readFile("scripts/evaluate-fieldcraft-scenes.mjs", "utf8");
   assert.match(source, /stage: "candidate-navigation", code: "candidate_unreachable"/);
@@ -111,7 +124,12 @@ test("records rendering inputs, page errors, blocked visuals, and post-navigatio
     assert.match(source, new RegExp("\\b" + field + ":"));
   }
   assert.match(source, /page\.on\("pageerror"/);
-  assert.match(source, /Promise\.race\([\s\S]*?10_000\);[\s\S]*?if \(!animationsSettled\) \{[\s\S]*?stage: "candidate-stabilization", code: "animation_deadline_expired"[\s\S]*?BLOCKED Fieldcraft candidate stabilization/);
+  assert.match(source, /withControllerDeadline\([\s\S]*?page\.evaluate\([\s\S]*?10_000,[\s\S]*?"animation_deadline_expired"/);
+  assert.match(source, /stage: "candidate-stabilization", code/);
+  assert.match(source, /BLOCKED Fieldcraft candidate stabilization/);
+  assert.match(source, /FIELDCRAFT_CANDIDATE_ID/);
+  assert.match(source, /candidate: \{ id: candidateId, url: candidateUrl \}/);
+  assert.match(source, /digests: artifactDigests/);
   assert.match(source, /visualResults\.some\(\(result\) => result\.status === "blocked"\)/);
   assert.match(source, /stage: "candidate-evaluation", code: "evaluation_failed"/);
   assert.match(source, /await browser\.close\(\)\.catch/);

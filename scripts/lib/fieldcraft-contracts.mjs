@@ -79,3 +79,17 @@ export function requiredEvidencePasses(requiredLanes, laneEvidence, stateCoverag
   return requiredLanes.every((lane) => laneEvidence[lane] === "pass") &&
     Object.values(stateCoverage).every((state) => state.status === "pass");
 }
+
+export async function withControllerDeadline(operation, deadlineMs, failureCode) {
+  let deadline;
+  try {
+    return await Promise.race([
+      operation,
+      new Promise((_, reject) => {
+        deadline = setTimeout(() => reject(new Error(failureCode)), deadlineMs);
+      }),
+    ]);
+  } finally {
+    clearTimeout(deadline);
+  }
+}

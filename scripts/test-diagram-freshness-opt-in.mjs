@@ -29,6 +29,14 @@ try {
     assert.equal(entry.lines, lines, `${entry.outputPath}: manifest line count`);
     assert.equal(entry.bytes, content.byteLength, `${entry.outputPath}: manifest byte count`);
   }
+  const requiredUserEdge =
+    "test_design_system_contract_2b5439cd --> design_system_contract_744a00f2";
+  assert.match(
+    readFileSync(path.join(repoRoot, ".diagram/user.mmd"), "utf8"),
+    new RegExp(requiredUserEdge),
+  );
+  assert.match(readFileSync(path.join(repoRoot, "AI/context/diagram-context.md"), "utf8"), new RegExp(requiredUserEdge));
+
 
   console.log("PASS diagram freshness consumes a changed-path list and validates manifest metadata");
 } finally {

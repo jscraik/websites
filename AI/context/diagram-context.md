@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-09-04T12:26:14Z
+Generated: 2026-09-04T15:21:56Z
 
 ## Table of Contents
 
@@ -82,6 +82,7 @@ Generated: 2026-09-04T12:26:14Z
 - `scripts/seal-fieldcraft-reference.mjs`
 - `scripts/test-css-simplification.mjs`
 - `scripts/test-design-system-contract.mjs`
+- `scripts/test-diagram-freshness-opt-in.mjs`
 - `scripts/test-fieldcraft-blind-build.mjs`
 - `scripts/test-fieldcraft-contracts.mjs`
 - `scripts/test-operator-workflow-contract.mjs`
@@ -137,6 +138,7 @@ flowchart TD
   end
   subgraph MemoryLayer["📚 Memory / Vector Layer"]
     normalize_mermaid_artifact_9dba7231[("📚 normalize-mermaid-artifact")]
+    test_diagram_freshness_opt_in_96293749[("📚 test-diagram-freshness-opt-in")]
     validate_operational_telemetry_cb447bde[("📚 validate-operational-telemetry")]
   end
   classDef agentNode fill:#555,color:#fff
@@ -146,7 +148,7 @@ flowchart TD
   classDef toolNode fill:#555,color:#fff
   class jose_parity_cdp_bdcde21d,test_css_simplification_05516724 toolNode
   classDef memNode fill:#555,color:#fff
-  class normalize_mermaid_artifact_9dba7231,validate_operational_telemetry_cb447bde memNode
+  class normalize_mermaid_artifact_9dba7231,test_diagram_freshness_opt_in_96293749,validate_operational_telemetry_cb447bde memNode
 
 ```
 
@@ -553,6 +555,7 @@ flowchart LR
   LLMNode -->|generated answer| Output
   subgraph DetectedMemory["Detected memory stores"]
     det_detectedmemory_normalize_mermaid_artifact_9dba7231[("normalize-mermaid-artifact")]
+    det_detectedmemory_test_diagram_freshness_opt_in_96293749[("test-diagram-freshness-opt-in")]
     det_detectedmemory_validate_operational_telemetry_cb447bde[("validate-operational-telemetry")]
   end
   VecDB -. "implemented by" .-> DetectedMemory

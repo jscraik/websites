@@ -108,12 +108,10 @@ const currentFor = (href: string): "page" | undefined => {
       animateHighlightFrom(highlightRect);
     };
 
-    const syncHighlight = (source: "focus" | "pointer" = "focus") => {
-      const focusedTarget = navShell.querySelector("a:focus-visible")?.closest(".nav-flip");
-      const activeTarget =
-        source === "pointer"
-          ? navShell.querySelector(".nav-flip:hover")
-          : focusedTarget ?? navShell.querySelector(".nav-flip:hover");
+    const syncHighlight = () => {
+      const activeTarget = finePointer.matches
+        ? navShell.querySelector(".nav-flip:hover")
+        : null;
       if (activeTarget instanceof HTMLElement) {
         moveHighlight(activeTarget);
       } else {
@@ -127,12 +125,10 @@ const currentFor = (href: string): "page" | undefined => {
       if (!finePointer.matches || !(event.target instanceof Element)) return;
       const target = event.target.closest(".nav-flip");
       if (target && navShell.contains(target)) {
-        syncHighlight("pointer");
+        syncHighlight();
       }
     });
     navShell.addEventListener("pointerleave", resyncHighlight);
-    navShell.addEventListener("focusin", resyncHighlight);
-    navShell.addEventListener("focusout", () => window.requestAnimationFrame(resyncHighlight));
     window.addEventListener("resize", resyncHighlight, { passive: true });
     reducedMotion.addEventListener("change", resyncHighlight);
   });
