@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import {
+  candidateResourceIdentity,
   assertReferenceBinding,
   parseEvaluationPolicy,
   parseFieldcraftJson,
@@ -22,11 +23,17 @@ if (!candidateUrl) {
   throw new Error("CANDIDATE_BASE_URL is required");
 }
 
-const candidateId = process.env.FIELDCRAFT_CANDIDATE_ID;
-if (!candidateId || !/^(?:[a-f0-9]{40}|sha256:[a-f0-9]{64})$/.test(candidateId)) {
-  throw new Error("FIELDCRAFT_CANDIDATE_ID must be a 40-character commit SHA or sha256:<64-hex-digest>");
+const discoverCandidateId = process.env.FIELDCRAFT_DISCOVER_CANDIDATE_ID === "1";
+let candidateId = process.env.FIELDCRAFT_CANDIDATE_ID;
+if (!discoverCandidateId && (!candidateId || !/^sha256:[a-f0-9]{64}$/.test(candidateId))) {
+  throw new Error("FIELDCRAFT_CANDIDATE_ID must be sha256:<64-hex-digest> for the served candidate resource set");
 }
-const candidateSlug = candidateId.replace(":", "-");
+if (discoverCandidateId && candidateId) {
+  throw new Error("Do not set FIELDCRAFT_CANDIDATE_ID during discovery");
+}
+const candidateSlug = discoverCandidateId
+  ? `discovery-${process.pid}-${Date.now()}`
+  : candidateId.replace(":", "-");
 
 const referenceBundleRoot = path.resolve("docs/reference/fieldcraft-fde/v3");
 const policyPath = path.join(referenceBundleRoot, "policy.json");
@@ -49,13 +56,17 @@ if (JSON.stringify(policy.geometryTolerances) !== JSON.stringify(contract.tolera
 }
 const geometryTolerances = policy.geometryTolerances;
 const outputBase = process.env.FIELDCRAFT_EVIDENCE_DIR ?? "artifacts/fieldcraft-scene-evaluation";
-const outputRoot = path.join(outputBase, candidateSlug);
+let outputRoot = path.join(outputBase, candidateSlug);
 const referenceRoot = process.env.FIELDCRAFT_REFERENCE_SCREENSHOTS
   ? path.resolve(process.env.FIELDCRAFT_REFERENCE_SCREENSHOTS)
   : path.join(referenceBundleRoot, "screenshots/1280x720");
 const mismatchLimit = policy.pixelMismatchLimit;
 await mkdir(outputRoot, { recursive: true });
+let candidateOutputRoot = path.join(outputRoot, "candidate");
+await mkdir(candidateOutputRoot, { recursive: true });
 const artifactDigests = [];
+let candidateResourceManifest = [];
+let observedCandidateId = null;
 const digestArtifact = (relativePath, bytes) => {
   artifactDigests.push({
     path: relativePath,
@@ -93,7 +104,9 @@ const buildEvidenceEnvelope = ({ laneEvidence, stateCoverage, pass, browserStatu
   states: stateCoverage,
   commands: [{
     name: "evaluate",
-    command: "FIELDCRAFT_CANDIDATE_ID=<commit-sha-or-build-digest> CANDIDATE_BASE_URL=<candidate-url> node scripts/evaluate-fieldcraft-scenes.mjs",
+    command: discoverCandidateId
+      ? "FIELDCRAFT_DISCOVER_CANDIDATE_ID=1 CANDIDATE_BASE_URL=<candidate-url> node scripts/evaluate-fieldcraft-scenes.mjs"
+      : "FIELDCRAFT_CANDIDATE_ID=sha256:<candidate-resource-set-digest> CANDIDATE_BASE_URL=<candidate-url> node scripts/evaluate-fieldcraft-scenes.mjs",
   }],
   outcomes: { laneEvidence, pass },
   completionStatus: pass ? "pass" : Object.values(laneEvidence).includes("blocked") || Object.values(stateCoverage).some((state) => state.status === "blocked") ? "incomplete" : "fail",
@@ -120,6 +133,8 @@ const writeBlockedReport = async ({ stage, code, browserStatus }) => {
   const report = {
     schemaVersion: 1,
     candidateId,
+    observedCandidateId,
+    candidateResourceManifest,
     ...buildEvidenceEnvelope({ laneEvidence, stateCoverage, pass: false, browserStatus }),
     viewport: contract.viewport,
     geometry: [],
@@ -149,6 +164,7 @@ try {
 const page = await browser.newPage({ viewport: contract.viewport, reducedMotion: "no-preference" });
 const consoleFindings = [];
 const requestFailures = [];
+const candidateResponses = [];
 
 page.on("console", (message) => {
   if (["warning", "error"].includes(message.type())) {
@@ -162,6 +178,7 @@ page.on("requestfailed", (request) => {
   requestFailures.push({ url: request.url(), error: request.failure()?.errorText ?? "unknown" });
 });
 page.on("response", (response) => {
+  if (response.status() >= 200 && response.status() < 300) candidateResponses.push(response);
   if (response.status() >= 400) {
     requestFailures.push({
       url: response.url(),
@@ -184,8 +201,9 @@ try {
         .filter(Boolean),
     )].sort(),
   })));
-} catch {
-  await writeBlockedReport({ stage: "candidate-navigation", code: "candidate_unreachable", browserStatus: "available" });
+} catch (error) {
+  const code = error.code ?? "candidate_unreachable";
+  await writeBlockedReport({ stage: "candidate-navigation", code, browserStatus: "available" });
   await browser.close();
   console.error(`BLOCKED Fieldcraft candidate navigation; see ${outputRoot}/report.json`);
   process.exit(1);
@@ -451,11 +469,12 @@ for (const scene of contract.scenes) {
     section.scrollIntoView({ behavior: "instant", block: "start" });
   }, scene.index);
   await page.waitForTimeout(50);
-  const candidatePath = path.join(outputRoot, `scene-${String(scene.index).padStart(2, "0")}-candidate.png`);
+  const candidateName = `scene-${String(scene.index).padStart(2, "0")}-candidate.png`;
+  const candidatePath = path.join(candidateOutputRoot, candidateName);
   await page.screenshot({ path: candidatePath, animations: "disabled" });
   const referenceName = `scene-${String(scene.index).padStart(2, "0")}.png`;
   const candidateBytes = await readFile(candidatePath);
-  digestArtifact(path.basename(candidatePath), candidateBytes);
+  digestArtifact(path.relative(outputRoot, candidatePath), candidateBytes);
   const manifestPathForScene = `screenshots/1280x720/${referenceName}`;
   const sealedCapture = manifest.captures.find((capture) => capture.path === manifestPathForScene);
   if (!sealedCapture) {
@@ -493,6 +512,34 @@ for (const scene of contract.scenes) {
   visualResults.push({ index: scene.index, status: ratio <= mismatchLimit ? "pass" : "fail", ratio, limit: mismatchLimit });
 }
 
+await page.waitForLoadState("networkidle");
+const candidateOrigin = new URL(candidateUrl).origin;
+const candidateResources = await Promise.all(candidateResponses.map(async (response) => {
+  const resourceUrl = new URL(response.url());
+  return {
+    url: resourceUrl.origin === candidateOrigin ? `${resourceUrl.pathname}${resourceUrl.search}` : resourceUrl.href,
+    status: response.status(),
+    bytes: await response.body(),
+  };
+}));
+const observedCandidate = candidateResourceIdentity(candidateResources);
+observedCandidateId = observedCandidate.id;
+candidateResourceManifest = observedCandidate.manifest;
+if (discoverCandidateId) {
+  candidateId = observedCandidateId;
+  const discoveredCandidateRoot = path.join(outputBase, observedCandidateId.replace(":", "-"));
+  await mkdir(discoveredCandidateRoot, { recursive: true });
+  const discoveredOutputRoot = path.join(discoveredCandidateRoot, path.basename(outputRoot));
+  await rename(outputRoot, discoveredOutputRoot);
+  outputRoot = discoveredOutputRoot;
+  candidateOutputRoot = path.join(outputRoot, "candidate");
+} else if (observedCandidateId !== candidateId) {
+  await writeBlockedReport({ stage: "candidate-identity", code: "candidate_identity_mismatch", browserStatus: "available" });
+  await browser.close();
+  console.error(`BLOCKED Fieldcraft candidate identity mismatch; observed ${observedCandidateId}; see ${outputRoot}/report.json`);
+  process.exit(1);
+}
+
 const laneEvidence = {
   geometry: results.every((result) => result.lanePass.geometry) ? "pass" : "fail",
   typography: results.every((result) => result.lanePass.typography) ? "pass" : "fail",
@@ -518,6 +565,8 @@ const report = {
   schemaVersion: 1,
   ...buildEvidenceEnvelope({ laneEvidence, stateCoverage, pass: reportPass, browserStatus: "available" }),
   candidateId,
+  observedCandidateId,
+  candidateResourceManifest,
   viewport: contract.viewport,
   geometry: results,
   visual: visualResults,

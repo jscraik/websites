@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+
 const object = (value, label) => {
   if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error(`Fieldcraft contract error: ${label} must be an object`);
   return value;
@@ -78,6 +80,29 @@ export function assertReferenceBinding(policyDigest, policy, manifest) {
 export function requiredEvidencePasses(requiredLanes, laneEvidence, stateCoverage) {
   return requiredLanes.every((lane) => laneEvidence[lane] === "pass") &&
     Object.values(stateCoverage).every((state) => state.status === "pass");
+}
+
+export function candidateResourceIdentity(resources) {
+  const manifest = resources
+    .map(({ url, status, bytes }) => ({
+      url,
+      status,
+      bytes: bytes.byteLength,
+      sha256: createHash("sha256").update(bytes).digest("hex"),
+    }))
+    .sort((left, right) => left.url.localeCompare(right.url) || left.status - right.status || left.sha256.localeCompare(right.sha256));
+  const observed = `sha256:${createHash("sha256").update(JSON.stringify(manifest)).digest("hex")}`;
+  return { id: observed, manifest };
+}
+
+export function assertCandidateResourceIdentity(expected, resources) {
+  const observed = candidateResourceIdentity(resources);
+  if (observed.id !== expected) {
+    const error = new Error("Fieldcraft candidate resource-set digest does not match FIELDCRAFT_CANDIDATE_ID");
+    error.code = "candidate_identity_mismatch";
+    throw error;
+  }
+  return observed;
 }
 
 export async function withControllerDeadline(operation, deadlineMs, failureCode) {

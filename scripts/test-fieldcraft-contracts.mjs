@@ -3,6 +3,8 @@ import test from "node:test";
 import { readFile } from "node:fs/promises";
 import jpeg from "jpeg-js";
 import {
+  assertCandidateResourceIdentity,
+  candidateResourceIdentity,
   assertReferenceBinding,
   parseEvaluationPolicy,
   parseFieldcraftJson,
@@ -88,6 +90,8 @@ test("writes a blocked report when the browser runtime cannot launch", async () 
   assert.match(source, /writeBlockedReport/);
   assert.match(source, /writeBlockedReport\(\{ stage: "browser-launch", code: "browser_unavailable", browserStatus: "unavailable" \}\)/);
   assert.match(source, /writeFile\(path\.join\(outputRoot, "report\.json"\)/);
+  assert.ok(source.indexOf("let observedCandidateId = null") < source.indexOf("const writeBlockedReport"));
+  assert.ok(source.indexOf("let candidateResourceManifest = []") < source.indexOf("const writeBlockedReport"));
   for (const field of ["reference", "candidate", "environment", "states", "commands", "outcomes", "artifacts", "claims_boundary"]) {
     assert.match(source, new RegExp(`\\b${field}:`));
   }
@@ -106,7 +110,8 @@ test("controller deadline returns an operation that settles in time", async () =
 });
 test("writes a blocked report and closes the browser when candidate navigation fails", async () => {
   const source = await readFile("scripts/evaluate-fieldcraft-scenes.mjs", "utf8");
-  assert.match(source, /stage: "candidate-navigation", code: "candidate_unreachable"/);
+  assert.match(source, /const code = error\.code \?\? "candidate_unreachable"/);
+  assert.match(source, /writeBlockedReport\(\{ stage: "candidate-navigation", code, browserStatus: "available" \}\)/);
   assert.match(source, /await writeBlockedReport\(\{ stage: "candidate-navigation"/);
   assert.match(source, /await browser\.close\(\)/);
   assert.match(source, /BLOCKED Fieldcraft candidate navigation/);
@@ -133,4 +138,33 @@ test("records rendering inputs, page errors, blocked visuals, and post-navigatio
   assert.match(source, /visualResults\.some\(\(result\) => result\.status === "blocked"\)/);
   assert.match(source, /stage: "candidate-evaluation", code: "evaluation_failed"/);
   assert.match(source, /await browser\.close\(\)\.catch/);
+});
+
+test("binds evaluator artifacts to deployment identity and candidate paths", async () => {
+  const resources = [
+    { url: "/", status: 200, bytes: Buffer.from("immutable candidate document") },
+    { url: "/brand/font.woff2", status: 200, bytes: Buffer.from("immutable font") },
+  ];
+  const candidateId = candidateResourceIdentity(resources).id;
+  assert.equal(assertCandidateResourceIdentity(candidateId, [...resources].reverse()).id, candidateId);
+  assert.throws(
+    () => assertCandidateResourceIdentity(candidateId, [{ ...resources[0], bytes: Buffer.from("changed") }, resources[1]]),
+    (error) => error.code === "candidate_identity_mismatch",
+  );
+
+  const source = await readFile("scripts/evaluate-fieldcraft-scenes.mjs", "utf8");
+  assert.match(source, /candidateResponses\.map\(async \(response\)/);
+  assert.match(source, /bytes: await response\.body\(\)/);
+  assert.match(source, /for \(const scene of contract\.scenes\)[\s\S]*candidateResponses\.map\(async \(response\)/);
+  assert.match(source, /FIELDCRAFT_DISCOVER_CANDIDATE_ID/);
+  assert.match(source, /observedCandidateId = observedCandidate\.id/);
+  assert.match(source, /await mkdir\(discoveredCandidateRoot, \{ recursive: true \}\)/);
+  assert.match(source, /path\.join\(discoveredCandidateRoot, path\.basename\(outputRoot\)\)/);
+  assert.match(source, /await rename\(outputRoot, discoveredOutputRoot\)/);
+  assert.match(source, /outputRoot = discoveredOutputRoot/);
+  assert.match(source, /candidateOutputRoot = path\.join\(outputRoot, "candidate"\)/);
+  assert.match(source, /stage: "candidate-identity", code: "candidate_identity_mismatch"/);
+  assert.match(source, /candidateId,\n  observedCandidateId,\n  candidateResourceManifest,/);
+  assert.match(source, /path\.join\(candidateOutputRoot, candidateName\)/);
+  assert.match(source, /digestArtifact\(path\.relative\(outputRoot, candidatePath\), candidateBytes\)/);
 });

@@ -14,20 +14,20 @@ brief. All coordinates use CSS pixels in a 1280 × 720 viewport, with the page a
 
 ## Shared desktop frame
 
-| Property | Required value |
-| --- | --- |
-| Viewport | 1280 × 720 |
-| Section box | 0, 0, 1280, 720 relative to its snapped scene |
-| Header | 0, 0, 1280, 67 |
-| Main horizontal inset | 89.6px |
-| Main content width | 1100.8px |
-| Paper | `#ffffff` |
-| Ink | `#171a22` |
-| Navy | `#022b72` |
-| Reverse ink | `#f3f6fb` |
-| Pager buttons | 38 × 38px at x 1170 and 1216, y 658 |
-| Navigation | Uppercase visual text with wide tracking |
-| Section overflow | No document overflow; intentional scene clipping only |
+| Property              | Required value                                        |
+| --------------------- | ----------------------------------------------------- |
+| Viewport              | 1280 × 720                                            |
+| Section box           | 0, 0, 1280, 720 relative to its snapped scene         |
+| Header                | 0, 0, 1280, 67                                        |
+| Main horizontal inset | 89.6px                                                |
+| Main content width    | 1100.8px                                              |
+| Paper                 | `#ffffff`                                             |
+| Ink                   | `#171a22`                                             |
+| Navy                  | `#022b72`                                             |
+| Reverse ink           | `#f3f6fb`                                             |
+| Pager buttons         | 38 × 38px at x 1170 and 1216, y 658                   |
+| Navigation            | Uppercase visual text with wide tracking              |
+| Section overflow      | No document overflow; intentional scene clipping only |
 
 Geometry tolerances are ±2px for major anchors, ±3px for text boxes, and ±4px
 for diagram nodes and rules. Text line counts, alignment, visibility, color
@@ -38,28 +38,28 @@ tokens, and composition types have no tolerance.
 The heading bounds use document y coordinates to make the 720px scene cadence
 executable. A validator may subtract `(section index × 720)` to obtain local y.
 
-| # | Scene | Field | Heading bounds | Type | Align | Composition |
-| ---: | --- | --- | --- | --- | --- | --- |
-| 0 | Hero | paper | 89.6, 158.8, 1100.8, 395.1 | 134.4/131.712 | center | centered three-line statement |
-| 1 | Capability availability | paper | 89.6, 839.6, 619.5, 117.1 | 56.32/58.573 | left | left copy, persistent stage right |
-| 2 | Moat question | paper | 217.6, 1545.2, 844.8, 175.7 | 56.32/58.573 | center | centered statement over persistent stage |
-| 3 | Deployment answer | paper | 301.0, 2345.3, 678.0, 94.7 | 94.72/94.72 | center | centered answer, stage retargets to ROI |
-| 4 | The role | navy | 89.6, 3100.9, 788.5, 117.1 | 56.32/58.573 | left | three connected stages, reverse ink |
-| 5 | Two judgments | paper | 208.0, 3718.5, 864.0, 80.6 | 36/40.32 | center | symmetric two-world bridge with center FDE |
-| 6 | Current workflow | paper | 89.6, 4418.0, 1100.8, 117.1 | 56.32/58.573 | left | five linked workflow cards |
-| 7 | AI-native workflow | paper | 89.6, 5138.0, 901.1, 175.7 | 56.32/58.573 | left | four-stage horizontal workflow and evidence rail |
-| 8 | Deployment run | navy | 240.0, 5923.9, 800.0, 95.8 | 42/47.88 | center | centered timed run, reverse ink |
-| 9 | Three parts | navy | 353.8, 6725.0, 572.4, 58.6 | 56.32/58.573 | center | centered Audit → Evals → Deployment chain |
-| 10 | Audit | paper | 89.6, 7296.0, 1100.8, 58.6 | 56.32/58.573 | left | three open process columns; artifact table at right |
-| 11 | Automation decision | paper | 189.4, 8018.0, 901.1, 117.1 | 56.32/58.573 | center | centered decision tree |
-| 12 | Evals | paper | 89.6, 8736.0, 1100.8, 58.6 | 56.32/58.573 | left | evaluation cases and report artifact |
-| 13 | Deployment | paper | 89.6, 9456.0, 1100.8, 117.1 | 56.32/58.573 | left | controlled-environment architecture |
-| 14 | Continuous loop | paper | 161.3, 10493.5, 957.4, 117.1 | 56.32/58.573 | center | centered six-stage feedback loop |
-| 15 | Roadmap introduction | paper | 89.6, 10907.5, 1100.8, 58.6 | 56.32/58.573 | left | sparse roadmap introduction over latent calendar |
-| 16 | Week 1 | paper | 89.6, 11621.9, 1100.8, 46.1 | 43.52/46.131 | left | week-one detail with calendar transformation |
-| 17 | Week 2 | paper | 89.6, 12341.9, 1100.8, 46.1 | 43.52/46.131 | left | week-two detail with calendar transformation |
-| 18 | Week 3 | paper | 89.6, 13061.9, 1100.8, 92.3 | 43.52/46.131 | left | week-three detail with calendar transformation |
-| 19 | Final week | paper | 89.6, 13781.9, 1100.8, 46.1 | 43.52/46.131 | left | week-four detail, then complete-month state |
+|   # | Scene                   | Field | Heading bounds               | Type          | Align  | Composition                                         |
+| --: | ----------------------- | ----- | ---------------------------- | ------------- | ------ | --------------------------------------------------- |
+|   0 | Hero                    | paper | 89.6, 158.8, 1100.8, 395.1   | 134.4/131.712 | center | centered three-line statement                       |
+|   1 | Capability availability | paper | 89.6, 839.6, 619.5, 117.1    | 56.32/58.573  | left   | left copy, persistent stage right                   |
+|   2 | Moat question           | paper | 217.6, 1545.2, 844.8, 175.7  | 56.32/58.573  | center | centered statement over persistent stage            |
+|   3 | Deployment answer       | paper | 301.0, 2345.3, 678.0, 94.7   | 94.72/94.72   | center | centered answer, stage retargets to ROI             |
+|   4 | The role                | navy  | 89.6, 3100.9, 788.5, 117.1   | 56.32/58.573  | left   | three connected stages, reverse ink                 |
+|   5 | Two judgments           | paper | 208.0, 3718.5, 864.0, 80.6   | 36/40.32      | center | symmetric two-world bridge with center FDE          |
+|   6 | Current workflow        | paper | 89.6, 4418.0, 1100.8, 117.1  | 56.32/58.573  | left   | five linked workflow cards                          |
+|   7 | AI-native workflow      | paper | 89.6, 5138.0, 901.1, 175.7   | 56.32/58.573  | left   | four-stage horizontal workflow and evidence rail    |
+|   8 | Deployment run          | navy  | 240.0, 5923.9, 800.0, 95.8   | 42/47.88      | center | centered timed run, reverse ink                     |
+|   9 | Three parts             | navy  | 353.8, 6725.0, 572.4, 58.6   | 56.32/58.573  | center | centered Audit → Evals → Deployment chain           |
+|  10 | Audit                   | paper | 89.6, 7296.0, 1100.8, 58.6   | 56.32/58.573  | left   | three open process columns; artifact table at right |
+|  11 | Automation decision     | paper | 189.4, 8018.0, 901.1, 117.1  | 56.32/58.573  | center | centered decision tree                              |
+|  12 | Evals                   | paper | 89.6, 8736.0, 1100.8, 58.6   | 56.32/58.573  | left   | evaluation cases and report artifact                |
+|  13 | Deployment              | paper | 89.6, 9456.0, 1100.8, 117.1  | 56.32/58.573  | left   | controlled-environment architecture                 |
+|  14 | Continuous loop         | paper | 161.3, 10493.5, 957.4, 117.1 | 56.32/58.573  | center | centered six-stage feedback loop                    |
+|  15 | Roadmap introduction    | paper | 89.6, 10907.5, 1100.8, 58.6  | 56.32/58.573  | left   | sparse roadmap introduction over latent calendar    |
+|  16 | Week 1                  | paper | 89.6, 11621.9, 1100.8, 46.1  | 43.52/46.131  | left   | week-one detail with calendar transformation        |
+|  17 | Week 2                  | paper | 89.6, 12341.9, 1100.8, 46.1  | 43.52/46.131  | left   | week-two detail with calendar transformation        |
+|  18 | Week 3                  | paper | 89.6, 13061.9, 1100.8, 92.3  | 43.52/46.131  | left   | week-three detail with calendar transformation      |
+|  19 | Final week              | paper | 89.6, 13781.9, 1100.8, 46.1  | 43.52/46.131  | left   | week-four detail, then complete-month state         |
 
 ## Scene-specific composition rules
 
@@ -226,30 +226,54 @@ the evaluator treats it as the region's complete visible extent.
 
 The modal uses these stable region keys while open:
 
-| Region | Required role |
-| --- | --- |
-| `modal-backdrop` | Full viewport dim layer; no click-to-dismiss behavior |
-| `modal-panel` | White panel bounded by the modal-shell contract |
-| `modal-tag` | Step label |
-| `modal-title` | H3 title |
-| `modal-punch` | Short introductory sentence |
-| `modal-bullets` | Complete bullet-list region |
-| `modal-closing-label` | “Why this is a person, not a script” label |
-| `modal-closing` | Complete explanatory closing region |
-| `modal-close` | Circular Close control |
+| Region                | Required role                                         |
+| --------------------- | ----------------------------------------------------- |
+| `modal-backdrop`      | Full viewport dim layer; no click-to-dismiss behavior |
+| `modal-panel`         | White panel bounded by the modal-shell contract       |
+| `modal-tag`           | Step label                                            |
+| `modal-title`         | H3 title                                              |
+| `modal-punch`         | Short introductory sentence                           |
+| `modal-bullets`       | Complete bullet-list region                           |
+| `modal-closing-label` | “Why this is a person, not a script” label            |
+| `modal-closing`       | Complete explanatory closing region                   |
+| `modal-close`         | Circular Close control                                |
 
 All five modal variants preserve the same shell and region anchors. Their
 different text length is handled only inside the declared bullet and closing
 regions; it must never push another region, the close control, or the panel
 outside its contract bounds.
 
-An independent evaluator runs the rendered candidate with:
+An independent evaluator first discovers the rendered resource-set digest:
 
 ```sh
+FIELDCRAFT_DISCOVER_CANDIDATE_ID=1 \
 CANDIDATE_BASE_URL=<candidate-url> \
 FIELDCRAFT_REFERENCE_SCREENSHOTS=<protected-reference-directory> \
 node scripts/evaluate-fieldcraft-scenes.mjs
 ```
+
+The discovery report records `observedCandidateId` and
+`candidateResourceManifest`. The evaluator then repeats the complete path in
+verification mode:
+
+```sh
+FIELDCRAFT_CANDIDATE_ID=<observed-candidate-id> \
+CANDIDATE_BASE_URL=<candidate-url> \
+FIELDCRAFT_REFERENCE_SCREENSHOTS=<protected-reference-directory> \
+node scripts/evaluate-fieldcraft-scenes.mjs
+```
+
+`FIELDCRAFT_CANDIDATE_ID` is the aggregate SHA-256 digest of a deterministic
+manifest for every successful response used by the rendered candidate. Identity
+sealing occurs only after every scene has been scrolled into view, captured, and
+the page returns to network idle. Each
+manifest entry contains the normalized resource URL, HTTP status, byte length,
+and SHA-256 digest of the exact response body. The evaluator collects and hashes
+the document, styles, scripts, fonts, images, and successful API responses, then
+blocks with `candidate_identity_mismatch` when the aggregate differs. A
+deployment-controlled identity header is not accepted as evidence. Reports and
+candidate screenshots are written beneath a candidate-ID-specific directory,
+and digest paths are relative to that directory.
 
 If the managed browser cannot launch, report the rendered lane as blocked and
 run it through the approved in-app browser or approved CDP runtime. Never add a
