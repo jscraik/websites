@@ -198,7 +198,8 @@ difference result all pass. Counts and token searches are diagnostic only and
 cannot establish visual fidelity.
 
 The machine-readable contract is
-`fieldcraft-fde-scene-contract.json`. Validate its internal completeness with:
+`fieldcraft-fde-scene-contract.json`. In the source repository, an independent
+evaluator validates its internal completeness with:
 
 ```sh
 node scripts/validate-fieldcraft-scene-contract.mjs
@@ -206,11 +207,19 @@ node scripts/validate-fieldcraft-scene-contract.mjs
 
 The interior layout authority for the 19 scenes that previously failed visual
 difference and for all five modals is
-`fieldcraft-fde-internal-region-contract.json`. Validate it with:
+`fieldcraft-fde-internal-region-contract.json`. In the source repository, the
+evaluator validates it with:
 
 ```sh
 node scripts/validate-fieldcraft-internal-region-contract.mjs
 ```
+
+Those repository-only validator scripts are intentionally excluded from the
+clean-room export. Builders in the exported workspace run `npm run
+validate:fast`, which executes the exported Astro check and build commands. They
+consume the exported internal-region JSON contract and the scene requirements
+in this document, but do not receive the separate scene-contract JSON or run the
+protected repository evaluator scripts.
 
 The builder must expose every declared region using `data-scene-region`; the
 evaluator uses those identifiers to verify their local bounds and collision
