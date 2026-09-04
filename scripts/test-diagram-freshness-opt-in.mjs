@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -8,6 +8,25 @@ import { fileURLToPath } from "node:url";
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const changedPathsRoot = mkdtempSync(path.join(os.tmpdir(), "portfolio-diagram-gate-"));
 const changedPaths = path.join(changedPathsRoot, "paths.txt");
+
+const generatedArtifactSnapshots = new Map();
+const snapshotGeneratedArtifact = (relativePath) => {
+  const artifactPath = path.join(repoRoot, relativePath);
+  generatedArtifactSnapshots.set(
+    relativePath,
+    existsSync(artifactPath) ? readFileSync(artifactPath) : null,
+  );
+};
+const restoreGeneratedArtifacts = () => {
+  for (const [relativePath, content] of generatedArtifactSnapshots) {
+    const artifactPath = path.join(repoRoot, relativePath);
+    if (content === null) {
+      rmSync(artifactPath, { force: true });
+    } else {
+      writeFileSync(artifactPath, content);
+    }
+  }
+};
 
 try {
   writeFileSync(changedPaths, "package.json\n");
@@ -37,6 +56,16 @@ try {
   );
   assert.match(readFileSync(path.join(repoRoot, "AI/context/diagram-context.md"), "utf8"), new RegExp(requiredUserEdge));
 
+  for (const artifactPath of [
+    ".diagram/manifest.json",
+    ...manifest.diagrams.map((entry) => entry.outputPath),
+    "AI/context/diagram-context.md",
+    ".diagram/context/diagram-context.meta.json",
+    ".diagram/context/refresh.log",
+  ]) {
+    snapshotGeneratedArtifact(artifactPath);
+  }
+
   const firstSecurityRefresh = spawnSync("bash", ["scripts/refresh-diagram-context.sh", "--force"], { cwd: repoRoot, encoding: "utf8" });
   assert.equal(firstSecurityRefresh.status, 0, firstSecurityRefresh.stderr);
   const securityAfterFirstRefresh = readFileSync(path.join(repoRoot, ".diagram/security.mmd"), "utf8");
@@ -46,5 +75,6 @@ try {
 
   console.log("PASS diagram freshness consumes a changed-path list and validates manifest metadata");
 } finally {
+  restoreGeneratedArtifacts();
   rmSync(changedPathsRoot, { recursive: true, force: true });
 }
