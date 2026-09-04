@@ -5,6 +5,7 @@ import { getCollection } from "astro:content";
 import { byOrder, proofWorkCards, workRoute } from "../../lib/portfolio";
 import type { ProofEntry, WorkCard, WorkEntry } from "../../lib/portfolio";
 type Study = WorkEntry["data"] & { slug: string; route: string };
+type CaseStudyLink = NonNullable<WorkEntry["data"]["caseStudy"]>["links"][number];
 
 export async function getStaticPaths() {
   const caseStudies: WorkEntry[] = (await getCollection("work"))
@@ -102,6 +103,95 @@ const workCount = String(workCards.length).padStart(2, "0");
         </div>
       </dl>
     </section>
+
+    {study.caseStudy && (
+      <>
+        <section class="case-story section-shell" aria-labelledby="case-story-title">
+          <div class="case-story__heading">
+            <p class="eyebrow">From problem to proof</p>
+            <h2 id="case-story-title">How the delivery unfolded</h2>
+          </div>
+          <div class="case-story__body">
+            <article>
+              <p class="input-label">Problem</p>
+              <h3>{study.caseStudy.problem.title}</h3>
+              <p>{study.caseStudy.problem.body}</p>
+            </article>
+            <article>
+              <p class="input-label">Discovery</p>
+              <h3>{study.caseStudy.discovery.title}</h3>
+              <p>{study.caseStudy.discovery.body}</p>
+            </article>
+            <article>
+              <p class="input-label">Constraints</p>
+              <h3>{study.caseStudy.constraints.title}</h3>
+              <ul>
+                {study.caseStudy.constraints.items.map((constraint: string) => <li>{constraint}</li>)}
+              </ul>
+            </article>
+            <article>
+              <p class="input-label">Decisions</p>
+              <h3>{study.caseStudy.decisions.title}</h3>
+              <ul>
+                {study.caseStudy.decisions.items.map((decision: string) => <li>{decision}</li>)}
+              </ul>
+            </article>
+            <article>
+              <p class="input-label">Delivery</p>
+              <h3>{study.caseStudy.delivery.title}</h3>
+              <p>{study.caseStudy.delivery.body}</p>
+            </article>
+            <article>
+              <p class="input-label">Failure and correction</p>
+              <h3>{study.caseStudy.correction.title}</h3>
+              <p>{study.caseStudy.correction.body}</p>
+            </article>
+            <article>
+              <p class="input-label">Outcome</p>
+              <h3>{study.caseStudy.outcome.title}</h3>
+              <p>{study.caseStudy.outcome.body}</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="case-role-boundary section-shell" aria-labelledby="case-role-title">
+          <div>
+            <p class="eyebrow">Human-owned delivery</p>
+            <h2 id="case-role-title">Directed by Jamie. Implemented with Codex.</h2>
+          </div>
+          <dl>
+            <div>
+              <dt>Jamie</dt>
+              <dd>{study.caseStudy.roleBoundary.jamie}</dd>
+            </div>
+            <div>
+              <dt>Codex</dt>
+              <dd>{study.caseStudy.roleBoundary.codex}</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="case-evidence section-shell" aria-labelledby="case-evidence-title">
+          <div>
+            <p class="eyebrow">Inspect the evidence</p>
+            <h2 id="case-evidence-title">Follow the artifact, tests, and stated limits.</h2>
+          </div>
+          <div class="case-evidence__links">
+            {study.caseStudy.links.map((link: CaseStudyLink) => (
+              link.primary ? (
+                <a class="small-button small-button--light" href={link.href} rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}>
+                  <span class="small-button__bg" aria-hidden="true"></span>
+                  <span class="small-button__label">{link.label}</span>
+                  <span class="small-button__arrow" aria-hidden="true"><span>-&gt;</span></span>
+                </a>
+              ) : (
+                <a href={link.href} rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}>{link.label}</a>
+              )
+            ))}
+          </div>
+        </section>
+      </>
+    )}
 
     <section class="work-carousel case-all-work" aria-labelledby="case-all-work-title">
       <h2 id="case-all-work-title">All work <sup>{workCount}</sup></h2>

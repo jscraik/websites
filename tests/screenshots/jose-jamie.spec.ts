@@ -315,7 +315,7 @@ async function measureSurface(page: Page, baseURL: string, capture: (typeof capt
     const lead =
       captureName === "blog-top"
         ? withType(
-            containsText("h2, h3", "Why AI-native DevRel") ??
+            containsText("h2, h3", "When Evidence Goes Stale") ??
               containsText("h2, h3", "creative direction") ??
               document.querySelector("article h2, article h3")
           )

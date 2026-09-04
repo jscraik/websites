@@ -40,16 +40,20 @@ function proofEntry(
 ): ProofEntry {
   return {
     id,
+    collection: "proof",
     data: {
       title: id,
       order: 1,
       publicationState: "published",
       status: "Planned",
-      summary: "Summary",
       href: "/proof/",
+      claim: "Claim",
+      evidence: "Evidence",
+      caveat: "Caveat",
+      nextState: "Next",
       ...overrides
     }
-  } as ProofEntry;
+  };
 }
 
 describe("portfolio publication helpers", () => {

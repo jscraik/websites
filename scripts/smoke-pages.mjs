@@ -5,12 +5,12 @@ const pages = [
   {
     route: "/",
     file: "index.html",
-    includes: ["Jamie Scott Craik", "AI-native DevRel", "SkillsBar", "/demos/skillsbar/"]
+    includes: ["Jamie Scott Craik", "AI workflow delivery", "SkillsBar", "/work/skillsbar/"]
   },
   {
     route: "/blog/",
     file: "blog/index.html",
-    includes: ["Blog", "Why AI-native DevRel"]
+    includes: ["Blog", "When Evidence Goes Stale", "Capability Is Not Trust", "RSS feed"]
   },
   {
     route: "/proof/",
@@ -20,7 +20,7 @@ const pages = [
   {
     route: "/now/",
     file: "now/index.html",
-    includes: ["About", "AI-native Developer Relations"]
+    includes: ["About", "customer-facing AI deployment", "life-changing injury"]
   },
   {
     route: "/contact/",
@@ -35,7 +35,12 @@ const pages = [
   {
     route: "/articles/why-ai-native-devrel/",
     file: "articles/why-ai-native-devrel/index.html",
-    includes: ["Why AI-Native DevRel", "trust"]
+    includes: ["Capability Is Not Trust", "trustworthy adoption"]
+  },
+  {
+    route: "/articles/when-evidence-goes-stale/",
+    file: "articles/when-evidence-goes-stale/index.html",
+    includes: ["When Evidence Goes Stale", "Identity before readiness", "Inspect the work behind the article"]
   },
   {
     route: "/work/ai-native-devrel/",
@@ -46,12 +51,16 @@ const pages = [
     route: "/work/brainwav-io/",
     file: "work/brainwav-io/index.html",
     includes: ["jscraik.com", "proof-led AI work"]
+  },
+  {
+    route: "/work/skillsbar/",
+    file: "work/skillsbar/index.html",
+    includes: ["SkillsBar", "How the delivery unfolded", "Inspect the merged adaptive delivery"]
   }
 ];
 
 const absentPages = [
-  { route: "/work/cli-proof-series/", file: "work/cli-proof-series/index.html" },
-  { route: "/work/skillsbar/", file: "work/skillsbar/index.html" }
+  { route: "/work/cli-proof-series/", file: "work/cli-proof-series/index.html" }
 ];
 
 const failures = [];
@@ -76,6 +85,27 @@ for (const page of absentPages) {
   const path = join("dist", page.file);
   if (existsSync(path)) {
     failures.push(`${page.route}: unpublished or externally routed work must not generate ${path}`);
+  }
+}
+
+const rssPath = join("dist", "blog", "rss.xml");
+if (!existsSync(rssPath)) {
+  failures.push("/blog/rss.xml: missing generated RSS artifact " + rssPath);
+} else {
+  const rss = readFileSync(rssPath, "utf8");
+  for (const expected of ["When Evidence Goes Stale", "Capability Is Not Trust", "https://jscraik.com/articles/when-evidence-goes-stale/"]) {
+    if (!rss.includes(expected)) {
+      failures.push(`/blog/rss.xml: expected text not found: ${expected}`);
+    }
+  }
+  for (const excluded of ["How I Direct Codex Without Outsourcing Judgment", "The Army-to-AI Delivery Bridge"]) {
+    if (rss.includes(excluded)) {
+      failures.push(`/blog/rss.xml: draft title must not appear in feed: ${excluded}`);
+    }
+  }
+  const itemCount = (rss.match(/<item>/g) ?? []).length;
+  if (itemCount !== 2) {
+    failures.push(`/blog/rss.xml: expected 2 published items, found ${itemCount}`);
   }
 }
 

@@ -7,7 +7,7 @@ order: 3
 publicationState: "published"
 isFeatured: true
 overview: "The site turns private learning and local build evidence into a public reader journey without exposing private machinery."
-organization: "The site exists to make Jamie's AI-native DevRel direction legible to developers, reviewers, and community contacts."
+organization: "The site exists to make Jamie's AI workflow delivery and developer-experience work legible to employers, developers, reviewers, and community contacts."
 work: "I am building the Astro site, matching a high-taste editorial reference, and keeping proof boundaries visible while the work matures."
 role: "Designer and developer"
 tags:
