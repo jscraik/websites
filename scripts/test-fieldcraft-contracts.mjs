@@ -74,4 +74,7 @@ test("writes a blocked report when the browser runtime cannot launch", async () 
   assert.match(source, /writeBrowserBlockedReport/);
   assert.match(source, /failure: \{ stage: "browser-launch", code: "browser_unavailable", retryable: true \}/);
   assert.match(source, /writeFile\(path\.join\(outputRoot, "report\.json"\)/);
+  for (const field of ["reference", "candidate", "environment", "states", "commands", "outcomes", "artifacts", "claims_boundary"]) {
+    assert.match(source, new RegExp(`\\b${field}:`));
+  }
 });

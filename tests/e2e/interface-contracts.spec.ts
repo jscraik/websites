@@ -60,8 +60,8 @@ test.describe("portfolio interface contracts", () => {
   test("the home page exposes one explicit first-visit route and truthful entry motion", async ({ page }) => {
     await preparePage(page, "/");
 
-    const primaryRoute = page.getByRole("link", { name: "Read the SkillsBar case study" });
-    await expect(primaryRoute).toHaveAttribute("href", "/work/skillsbar/");
+    const primaryRoute = page.getByRole("link", { name: "Start with SkillsBar" });
+    await expect(primaryRoute).toHaveAttribute("href", "/demos/skillsbar/");
     await expect(primaryRoute).toHaveAttribute("data-primary-start", "true");
     await expect(page.locator("[data-reveal]")).toHaveCount(0);
     await expect(page.locator("[data-entry]")).toHaveCount(7);

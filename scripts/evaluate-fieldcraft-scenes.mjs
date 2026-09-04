@@ -46,6 +46,33 @@ const referenceRoot = process.env.FIELDCRAFT_REFERENCE_SCREENSHOTS
 const mismatchLimit = policy.pixelMismatchLimit;
 await mkdir(outputRoot, { recursive: true });
 
+const buildEvidenceEnvelope = ({ laneEvidence, stateCoverage, pass, browserStatus }) => ({
+  reference: {
+    bundle: "fieldcraft-fde/v3",
+    manifest: "docs/reference/fieldcraft-fde/v3/manifest.json",
+    policySha256: policyDigest,
+  },
+  candidate: { url: candidateUrl },
+  environment: {
+    browser: "playwright-chromium",
+    browserStatus,
+    viewport: contract.viewport,
+    reducedMotion: "no-preference",
+  },
+  states: stateCoverage,
+  commands: [{
+    name: "evaluate",
+    command: "CANDIDATE_BASE_URL=<candidate-url> node scripts/evaluate-fieldcraft-scenes.mjs",
+  }],
+  outcomes: { laneEvidence, pass },
+  artifacts: {
+    report: "report.json",
+    candidateScreenshots: "candidate/scene-*.png",
+    visualDiffs: "scene-*-diff.png",
+  },
+  claims_boundary: "This report covers only the recorded candidate, viewport, states, and required lanes; blocked lanes cannot support a parity claim.",
+});
+
 const writeBrowserBlockedReport = async () => {
   const laneEvidence = Object.fromEntries(
     policy.requiredLanes.map((lane) => [lane, "blocked"]),
@@ -59,6 +86,7 @@ const writeBrowserBlockedReport = async () => {
   const report = {
     schemaVersion: 1,
     candidateUrl,
+    ...buildEvidenceEnvelope({ laneEvidence, stateCoverage, pass: false, browserStatus: "unavailable" }),
     viewport: contract.viewport,
     geometry: [],
     visual: [],
@@ -380,8 +408,10 @@ const stateCoverage = {
   deploymentCheckpoints: { expected: contract.requiredVisualMatrix.deploymentCheckpoints, observed: policy.capturedStates.deploymentCheckpoints, status: "blocked" },
   roadmapStates: { expected: contract.requiredVisualMatrix.roadmapStates, observed: policy.capturedStates.advancedRoadmapStates, status: "blocked" },
 };
+const reportPass = requiredEvidencePasses(policy.requiredLanes, laneEvidence, stateCoverage);
 const report = {
   schemaVersion: 1,
+  ...buildEvidenceEnvelope({ laneEvidence, stateCoverage, pass: reportPass, browserStatus: "available" }),
   candidateUrl,
   viewport: contract.viewport,
   geometry: results,
@@ -391,7 +421,7 @@ const report = {
   policy: { authority: policy.authority, sha256: policyDigest, mismatchLimit, pixelmatchThreshold: policy.pixelmatchThreshold },
   laneEvidence,
   stateCoverage,
-  pass: requiredEvidencePasses(policy.requiredLanes, laneEvidence, stateCoverage),
+  pass: reportPass,
 };
 await writeFile(path.join(outputRoot, "report.json"), `${JSON.stringify(report, null, 2)}\n`);
 await browser.close();

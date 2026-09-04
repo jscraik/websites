@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-09-04T06:41:17Z
+Generated: 2026-09-04T07:06:04Z
 
 ## Table of Contents
 
@@ -73,7 +73,6 @@ Generated: 2026-09-04T06:41:17Z
 - `docs/specifications/fieldcraft-fde-scene-contract.json`
 - `package.json`
 - `scripts/evaluate-fieldcraft-scenes.mjs`
-- `scripts/jose-parity-cdp.mjs`
 - `scripts/lib/design-system-contract.mjs`
 - `scripts/lib/fieldcraft-contracts.mjs`
 - `scripts/lib/pr-template-contract.mjs`
@@ -81,7 +80,6 @@ Generated: 2026-09-04T06:41:17Z
 - `scripts/prepare-fieldcraft-blind-build.mjs`
 - `scripts/refresh-diagram-context.sh`
 - `scripts/seal-fieldcraft-reference.mjs`
-- `scripts/smoke-pages.mjs`
 - `scripts/test-css-simplification.mjs`
 - `scripts/test-design-system-contract.mjs`
 - `scripts/test-fieldcraft-blind-build.mjs`
@@ -92,39 +90,17 @@ Generated: 2026-09-04T06:41:17Z
 - `scripts/validate-fieldcraft-internal-region-contract.mjs`
 - `scripts/validate-fieldcraft-scene-contract.mjs`
 - `scripts/validate-operator-contract.mjs`
-- `scripts/validate-page-surfaces.mjs`
-- `scripts/validate-portfolio-content.mjs`
 - `scripts/validate-pr-template.mjs`
 - `scripts/validate-social-profile-assets.mjs`
 - `src/brand/approved-live-banners.json`
 - `src/brand/source/approved/jamie-linkedin-background-1584x396.png`
 - `src/brand/source/approved/jamie-x-header-1500x500.png`
 - `src/components/AnimatedButton.astro`
-- `src/components/PullquoteStack.astro`
-- `src/components/SiteFooter.astro`
 - `src/components/SiteNav.astro`
 - `src/components/StartLinks.astro`
-- `src/content.config.ts`
-- `src/content/blog/army-to-ai-delivery-bridge.md`
-- `src/content/blog/how-i-direct-codex.md`
-- `src/content/blog/how-to-present-proof-surfaces.md`
-- `src/content/blog/when-evidence-goes-stale.md`
-- `src/content/blog/why-ai-native-devrel.md`
-- `src/content/proof/why-ai-native-devrel.md`
-- `src/content/work/ai-native-devrel.md`
-- `src/content/work/brainwav-io.md`
-- `src/content/work/skillsbar.md`
 - `src/layouts/BaseLayout.astro`
-- `src/lib/portfolio.test.ts`
-- `src/pages/articles/when-evidence-goes-stale.astro`
-- `src/pages/articles/why-ai-native-devrel.astro`
 - `src/pages/blog/index.astro`
-- `src/pages/blog/rss.xml.ts`
-- `src/pages/contact.astro`
 - `src/pages/index.astro`
-- `src/pages/now.astro`
-- `src/pages/work/[slug].astro`
-- `src/scripts/flip-motion.ts`
 - `src/scripts/flip.test.ts`
 - `src/scripts/flip.ts`
 - `src/scripts/lapse-dev.test.ts`
@@ -132,13 +108,9 @@ Generated: 2026-09-04T06:41:17Z
 - `src/styles/global.css`
 - `src/styles/route-rhythm.css`
 - `src/styles/shell.css`
-- `tests/a11y/polish.spec.ts`
 - `tests/e2e/animated-button-contract.spec.ts`
 - `tests/e2e/interface-contracts.spec.ts`
 - `tests/e2e/work-card-pointer-contract.spec.ts`
-- `tests/helpers/visual.ts`
-- `tests/screenshots/jose-jamie.spec.ts`
-- `tsconfig.json`
 
 ## agent
 
