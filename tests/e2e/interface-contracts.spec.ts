@@ -63,6 +63,7 @@ test.describe("portfolio interface contracts", () => {
     const primaryRoute = page.getByRole("link", { name: "Start with SkillsBar" });
     await expect(primaryRoute).toHaveAttribute("href", "/demos/skillsbar/");
     await expect(primaryRoute).toHaveAttribute("data-primary-start", "true");
+    await expect(page.locator('a[data-primary-start][href="/work/skillsbar/"]')).toHaveCount(0);
     await expect(page.locator("[data-reveal]")).toHaveCount(0);
     await expect(page.locator("[data-entry]")).toHaveCount(7);
 
