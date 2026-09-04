@@ -38,28 +38,28 @@ tokens, and composition types have no tolerance.
 The heading bounds use document y coordinates to make the 720px scene cadence
 executable. A validator may subtract `(section index × 720)` to obtain local y.
 
-|   # | Scene                   | Field | Heading bounds               | Type          | Align  | Composition                                         |
-| --: | ----------------------- | ----- | ---------------------------- | ------------- | ------ | --------------------------------------------------- |
-|   0 | Hero                    | paper | 89.6, 158.8, 1100.8, 395.1   | 134.4/131.712 | center | centered three-line statement                       |
-|   1 | Capability availability | paper | 89.6, 839.6, 619.5, 117.1    | 56.32/58.573  | left   | left copy, persistent stage right                   |
-|   2 | Moat question           | paper | 217.6, 1545.2, 844.8, 175.7  | 56.32/58.573  | center | centered statement over persistent stage            |
-|   3 | Deployment answer       | paper | 301.0, 2345.3, 678.0, 94.7   | 94.72/94.72   | center | centered answer, stage retargets to ROI             |
-|   4 | The role                | navy  | 89.6, 3100.9, 788.5, 117.1   | 56.32/58.573  | left   | three connected stages, reverse ink                 |
-|   5 | Two judgments           | paper | 208.0, 3718.5, 864.0, 80.6   | 36/40.32      | center | symmetric two-world bridge with center FDE          |
-|   6 | Current workflow        | paper | 89.6, 4418.0, 1100.8, 117.1  | 56.32/58.573  | left   | five linked workflow cards                          |
-|   7 | AI-native workflow      | paper | 89.6, 5138.0, 901.1, 175.7   | 56.32/58.573  | left   | four-stage horizontal workflow and evidence rail    |
-|   8 | Deployment run          | navy  | 240.0, 5923.9, 800.0, 95.8   | 42/47.88      | center | centered timed run, reverse ink                     |
-|   9 | Three parts             | navy  | 353.8, 6725.0, 572.4, 58.6   | 56.32/58.573  | center | centered Audit → Evals → Deployment chain           |
-|  10 | Audit                   | paper | 89.6, 7296.0, 1100.8, 58.6   | 56.32/58.573  | left   | three open process columns; artifact table at right |
-|  11 | Automation decision     | paper | 189.4, 8018.0, 901.1, 117.1  | 56.32/58.573  | center | centered decision tree                              |
-|  12 | Evals                   | paper | 89.6, 8736.0, 1100.8, 58.6   | 56.32/58.573  | left   | evaluation cases and report artifact                |
-|  13 | Deployment              | paper | 89.6, 9456.0, 1100.8, 117.1  | 56.32/58.573  | left   | controlled-environment architecture                 |
-|  14 | Continuous loop         | paper | 161.3, 10493.5, 957.4, 117.1 | 56.32/58.573  | center | centered six-stage feedback loop                    |
-|  15 | Roadmap introduction    | paper | 89.6, 10907.5, 1100.8, 58.6  | 56.32/58.573  | left   | sparse roadmap introduction over latent calendar    |
-|  16 | Week 1                  | paper | 89.6, 11621.9, 1100.8, 46.1  | 43.52/46.131  | left   | week-one detail with calendar transformation        |
-|  17 | Week 2                  | paper | 89.6, 12341.9, 1100.8, 46.1  | 43.52/46.131  | left   | week-two detail with calendar transformation        |
-|  18 | Week 3                  | paper | 89.6, 13061.9, 1100.8, 92.3  | 43.52/46.131  | left   | week-three detail with calendar transformation      |
-|  19 | Final week              | paper | 89.6, 13781.9, 1100.8, 46.1  | 43.52/46.131  | left   | week-four detail, then complete-month state         |
+|   # | Scene                   | Field | Heading bounds               | Font size / line height (px) | Align  | Composition                                         |
+| --: | ----------------------- | ----- | ---------------------------- | ---------------------------- | ------ | --------------------------------------------------- |
+|   0 | Hero                    | paper | 89.6, 158.8, 1100.8, 395.1   | 134.4/131.712                | center | centered three-line statement                       |
+|   1 | Capability availability | paper | 89.6, 839.6, 619.5, 117.1    | 56.32/58.573                 | left   | left copy, persistent stage right                   |
+|   2 | Moat question           | paper | 217.6, 1545.2, 844.8, 175.7  | 56.32/58.573                 | center | centered statement over persistent stage            |
+|   3 | Deployment answer       | paper | 301.0, 2345.3, 678.0, 94.7   | 94.72/94.72                  | center | centered answer, stage retargets to ROI             |
+|   4 | The role                | navy  | 89.6, 3100.9, 788.5, 117.1   | 56.32/58.573                 | left   | three connected stages, reverse ink                 |
+|   5 | Two judgments           | paper | 208.0, 3718.5, 864.0, 80.6   | 36/40.32                     | center | symmetric two-world bridge with center FDE          |
+|   6 | Current workflow        | paper | 89.6, 4418.0, 1100.8, 117.1  | 56.32/58.573                 | left   | five linked workflow cards                          |
+|   7 | AI-native workflow      | paper | 89.6, 5138.0, 901.1, 175.7   | 56.32/58.573                 | left   | four-stage horizontal workflow and evidence rail    |
+|   8 | Deployment run          | navy  | 240.0, 5923.9, 800.0, 95.8   | 42/47.88                     | center | centered timed run, reverse ink                     |
+|   9 | Three parts             | navy  | 353.8, 6725.0, 572.4, 58.6   | 56.32/58.573                 | center | centered Audit → Evals → Deployment chain           |
+|  10 | Audit                   | paper | 89.6, 7296.0, 1100.8, 58.6   | 56.32/58.573                 | left   | three open process columns; artifact table at right |
+|  11 | Automation decision     | paper | 189.4, 8018.0, 901.1, 117.1  | 56.32/58.573                 | center | centered decision tree                              |
+|  12 | Evals                   | paper | 89.6, 8736.0, 1100.8, 58.6   | 56.32/58.573                 | left   | evaluation cases and report artifact                |
+|  13 | Deployment              | paper | 89.6, 9456.0, 1100.8, 117.1  | 56.32/58.573                 | left   | controlled-environment architecture                 |
+|  14 | Continuous loop         | paper | 161.3, 10493.5, 957.4, 117.1 | 56.32/58.573                 | center | centered six-stage feedback loop                    |
+|  15 | Roadmap introduction    | paper | 89.6, 10907.5, 1100.8, 58.6  | 56.32/58.573                 | left   | sparse roadmap introduction over latent calendar    |
+|  16 | Week 1                  | paper | 89.6, 11621.9, 1100.8, 46.1  | 43.52/46.131                 | left   | week-one detail with calendar transformation        |
+|  17 | Week 2                  | paper | 89.6, 12341.9, 1100.8, 46.1  | 43.52/46.131                 | left   | week-two detail with calendar transformation        |
+|  18 | Week 3                  | paper | 89.6, 13061.9, 1100.8, 92.3  | 43.52/46.131                 | left   | week-three detail with calendar transformation      |
+|  19 | Final week              | paper | 89.6, 13781.9, 1100.8, 46.1  | 43.52/46.131                 | left   | week-four detail, then complete-month state         |
 
 ## Scene-specific composition rules
 
@@ -213,6 +213,10 @@ evaluator validates it with:
 ```sh
 node scripts/validate-fieldcraft-internal-region-contract.mjs
 ```
+
+Run that command from the repository root. The independent evaluator owns this
+validator and its contract. Success prints `PASS Fieldcraft internal-region
+contract is complete and internally valid`; any non-zero exit blocks acceptance.
 
 Those repository-only validator scripts are intentionally excluded from the
 clean-room export. Builders in the exported workspace run `npm run

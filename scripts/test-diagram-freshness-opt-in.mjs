@@ -37,6 +37,12 @@ try {
   );
   assert.match(readFileSync(path.join(repoRoot, "AI/context/diagram-context.md"), "utf8"), new RegExp(requiredUserEdge));
 
+  const firstSecurityRefresh = spawnSync("bash", ["scripts/refresh-diagram-context.sh", "--force"], { cwd: repoRoot, encoding: "utf8" });
+  assert.equal(firstSecurityRefresh.status, 0, firstSecurityRefresh.stderr);
+  const securityAfterFirstRefresh = readFileSync(path.join(repoRoot, ".diagram/security.mmd"), "utf8");
+  const secondSecurityRefresh = spawnSync("bash", ["scripts/refresh-diagram-context.sh", "--force"], { cwd: repoRoot, encoding: "utf8" });
+  assert.equal(secondSecurityRefresh.status, 0, secondSecurityRefresh.stderr);
+  assert.equal(readFileSync(path.join(repoRoot, ".diagram/security.mmd"), "utf8"), securityAfterFirstRefresh);
 
   console.log("PASS diagram freshness consumes a changed-path list and validates manifest metadata");
 } finally {

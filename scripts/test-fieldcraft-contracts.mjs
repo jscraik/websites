@@ -153,9 +153,12 @@ test("binds evaluator artifacts to deployment identity and candidate paths", asy
   );
 
   const source = await readFile("scripts/evaluate-fieldcraft-scenes.mjs", "utf8");
-  assert.match(source, /candidateResponses\.map\(async \(response\)/);
-  assert.match(source, /bytes: await response\.body\(\)/);
-  assert.match(source, /for \(const scene of contract\.scenes\)[\s\S]*candidateResponses\.map\(async \(response\)/);
+  assert.match(source, /maxCandidateResponses = 256/);
+  assert.match(source, /maxCandidateResourceBytes = 64 \* 1024 \* 1024/);
+  assert.match(source, /for \(const response of candidateResponses\)/);
+  assert.match(source, /stage: "candidate-resources", code: candidateResourceBudgetFailure/);
+  assert.match(source, /const bytes = await response\.body\(\)/);
+  assert.match(source, /for \(const scene of contract\.scenes\)[\s\S]*for \(const response of candidateResponses\)/);
   assert.match(source, /FIELDCRAFT_DISCOVER_CANDIDATE_ID/);
   assert.match(source, /observedCandidateId = observedCandidate\.id/);
   assert.match(source, /await mkdir\(discoveredCandidateRoot, \{ recursive: true \}\)/);
@@ -164,6 +167,10 @@ test("binds evaluator artifacts to deployment identity and candidate paths", asy
   assert.match(source, /outputRoot = discoveredOutputRoot/);
   assert.match(source, /candidateOutputRoot = path\.join\(outputRoot, "candidate"\)/);
   assert.match(source, /stage: "candidate-identity", code: "candidate_identity_mismatch"/);
+  assert.match(source, /hiddenControlInventory/);
+  assert.match(source, /missing initial hidden controls/);
+  assert.match(source, /captureEnvironmentCompatible/);
+  assert.match(source, /!captureEnvironmentCompatible \|\| visualResults\.some/);
   assert.match(source, /candidateId,\n  observedCandidateId,\n  candidateResourceManifest,/);
   assert.match(source, /path\.join\(candidateOutputRoot, candidateName\)/);
   assert.match(source, /digestArtifact\(path\.relative\(outputRoot, candidatePath\), candidateBytes\)/);

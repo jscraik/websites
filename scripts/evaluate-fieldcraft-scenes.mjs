@@ -165,6 +165,9 @@ const page = await browser.newPage({ viewport: contract.viewport, reducedMotion:
 const consoleFindings = [];
 const requestFailures = [];
 const candidateResponses = [];
+const maxCandidateResponses = 256;
+const maxCandidateResourceBytes = 64 * 1024 * 1024;
+let candidateResourceBudgetFailure = null;
 
 page.on("console", (message) => {
   if (["warning", "error"].includes(message.type())) {
@@ -178,7 +181,13 @@ page.on("requestfailed", (request) => {
   requestFailures.push({ url: request.url(), error: request.failure()?.errorText ?? "unknown" });
 });
 page.on("response", (response) => {
-  if (response.status() >= 200 && response.status() < 300) candidateResponses.push(response);
+  if (response.status() >= 200 && response.status() < 300) {
+    if (candidateResponses.length >= maxCandidateResponses) {
+      candidateResourceBudgetFailure = "candidate_response_count_exceeded";
+    } else if (!candidateResourceBudgetFailure) {
+      candidateResponses.push(response);
+    }
+  }
   if (response.status() >= 400) {
     requestFailures.push({
       url: response.url(),
@@ -275,11 +284,32 @@ const measurements = await page.evaluate((sceneContract) => {
         (candidate) => rendered(candidate) && !candidate.closest("[inert]") && !candidate.hidden,
       ));
   const documentOverflow = Math.max(document.documentElement.scrollWidth, document.body?.scrollWidth ?? 0) > window.innerWidth;
+  const dialog = document.querySelector("[role=dialog]");
+  const buttons = [...document.querySelectorAll("button")];
+  const modalTitle = dialog?.querySelector("h3");
+  const closeButton = dialog?.querySelector("button[aria-label=Close]") ?? null;
+  const approveButton = buttons.find((button) => /^approve$/i.test(button.textContent?.trim() ?? ""));
+  const initiallyHidden = (element) => Boolean(
+    element && !visible(element) && !keyboardReachable(element) &&
+    (!rendered(element) || getComputedStyle(element).pointerEvents === "none"),
+  );
+  const hiddenControlInventory = {
+    buttonCount: buttons.length === 15,
+    svgCount: document.querySelectorAll("svg").length === 10,
+    roleImageCount: document.querySelectorAll("[role=img]").length === 4,
+    headingInventory: document.querySelectorAll("h1").length === 1 && document.querySelectorAll("main section h2").length === 20 && document.querySelectorAll("[role=dialog] h3").length === 1,
+    noLinksOrForms: document.querySelectorAll("a, form, input, select, textarea").length === 0,
+    dialogSemantics: Boolean(dialog && dialog.getAttribute("aria-modal") === "true" && modalTitle?.id && dialog.getAttribute("aria-labelledby") === modalTitle.id),
+    dialogInitiallyHidden: initiallyHidden(dialog),
+    modalTitleInitiallyHidden: initiallyHidden(modalTitle),
+    closeInitiallyHidden: initiallyHidden(closeButton),
+    approveInitiallyHidden: initiallyHidden(approveButton),
+  };
 
   if (sections.length !== sceneContract.scenes.length) {
-    return { sectionCount: sections.length, scenes: [] };
+    return { sectionCount: sections.length, hiddenControlInventory, scenes: [] };
   }
-  return { sectionCount: sections.length, scenes: sceneContract.scenes.map((expected, index) => {
+  return { sectionCount: sections.length, hiddenControlInventory, scenes: sceneContract.scenes.map((expected, index) => {
     const section = sections[index];
     const heading = section?.querySelector(index === 0 ? "h1" : "h2");
     if (!section || !heading) return { index, missing: true };
@@ -350,6 +380,9 @@ if (measurements.sectionCount !== contract.scenes.length) {
   throw new Error(`Fieldcraft scene count mismatch: expected ${contract.scenes.length}, observed ${measurements.sectionCount}`);
 }
 const measuredScenes = measurements.scenes;
+const missingHiddenControls = Object.entries(measurements.hiddenControlInventory)
+  .filter(([, present]) => !present)
+  .map(([control]) => control);
 
 const activeSceneFixedShellOverlaps = [];
 for (const scene of contract.scenes) {
@@ -433,6 +466,7 @@ const results = measuredScenes.map((actual) => {
   if (actual.documentOverflow) fail("visibility-state", "document has horizontal overflow");
   if (actual.collisions.length) fail("collision", `undeclared collisions: ${JSON.stringify(actual.collisions)}`);
   if (actual.hiddenStateViolations.length) fail("visibility-state", `hidden state violations: ${actual.hiddenStateViolations.join(", ")}`);
+  if (actual.index === 0 && missingHiddenControls.length) fail("visibility-state", `missing initial hidden controls: ${missingHiddenControls.join(", ")}`);
   const fixedShellOverlaps = activeSceneFixedShellOverlaps[actual.index] ?? [];
   if (fixedShellOverlaps.length) fail("collision", `fixed-shell clearance violations: ${JSON.stringify(fixedShellOverlaps)}`);
   const internalScene = internalContract.scenes.find((scene) => scene.index === actual.index);
@@ -514,14 +548,34 @@ for (const scene of contract.scenes) {
 
 await page.waitForLoadState("networkidle");
 const candidateOrigin = new URL(candidateUrl).origin;
-const candidateResources = await Promise.all(candidateResponses.map(async (response) => {
+if (candidateResourceBudgetFailure) {
+  await writeBlockedReport({ stage: "candidate-resources", code: candidateResourceBudgetFailure, browserStatus: "available" });
+  await browser.close();
+  console.error(`BLOCKED Fieldcraft candidate resource budget exceeded; see ${outputRoot}/report.json`);
+  process.exit(1);
+}
+const candidateResources = [];
+let candidateResourceBytes = 0;
+for (const response of candidateResponses) {
+  const bytes = await response.body();
+  candidateResourceBytes += bytes.byteLength;
+  if (candidateResourceBytes > maxCandidateResourceBytes) {
+    candidateResourceBudgetFailure = "candidate_resource_bytes_exceeded";
+    break;
+  }
   const resourceUrl = new URL(response.url());
-  return {
+  candidateResources.push({
     url: resourceUrl.origin === candidateOrigin ? `${resourceUrl.pathname}${resourceUrl.search}` : resourceUrl.href,
     status: response.status(),
-    bytes: await response.body(),
-  };
-}));
+    bytes,
+  });
+}
+if (candidateResourceBudgetFailure) {
+  await writeBlockedReport({ stage: "candidate-resources", code: candidateResourceBudgetFailure, browserStatus: "available" });
+  await browser.close();
+  console.error(`BLOCKED Fieldcraft candidate resource budget exceeded; see ${outputRoot}/report.json`);
+  process.exit(1);
+}
 const observedCandidate = candidateResourceIdentity(candidateResources);
 observedCandidateId = observedCandidate.id;
 candidateResourceManifest = observedCandidate.manifest;
@@ -540,6 +594,7 @@ if (discoverCandidateId) {
   process.exit(1);
 }
 
+const captureEnvironmentCompatible = policy.captureConditions.browserSurface === "playwright-chromium";
 const laneEvidence = {
   geometry: results.every((result) => result.lanePass.geometry) ? "pass" : "fail",
   typography: results.every((result) => result.lanePass.typography) ? "pass" : "fail",
@@ -548,7 +603,7 @@ const laneEvidence = {
   "visibility-state": results.every((result) => result.lanePass["visibility-state"]) ? "pass" : "fail",
   interaction: "blocked",
   "runtime-cleanliness": consoleFindings.length === 0 && requestFailures.length === 0 ? "pass" : "fail",
-  "visual-difference": visualResults.some((result) => result.status === "blocked")
+  "visual-difference": !captureEnvironmentCompatible || visualResults.some((result) => result.status === "blocked")
     ? "blocked"
     : visualResults.every((result) => result.status === "pass")
       ? "pass"

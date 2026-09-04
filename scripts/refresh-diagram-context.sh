@@ -550,7 +550,7 @@ const augmentSecurity = (content) => {
   lines.splice(insertionIndex >= 0 ? insertionIndex : lines.length, 0, declaration, edge);
 
   const classIndex = lines.findIndex((line) => /^  class .* securityNode$/.test(line));
-  if (classIndex >= 0 && !lines[classIndex].split(/\s+/).includes(nodeId)) {
+  if (classIndex >= 0 && !lines[classIndex].split(/[ ,]/).includes(nodeId)) {
     lines[classIndex] = lines[classIndex].replace(/ securityNode$/, `,${nodeId} securityNode`);
   }
 
