@@ -1,3 +1,4 @@
-import { mountLapse } from "@aiforui/lapse/panel";
-
-mountLapse();
+if (import.meta.env.DEV) {
+  const { mountLapse } = await import("@aiforui/lapse/panel");
+  mountLapse();
+}

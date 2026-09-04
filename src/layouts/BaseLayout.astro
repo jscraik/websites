@@ -3,7 +3,6 @@ import "../styles/global.css";
 import "../styles/shell.css";
 import "../styles/route-rhythm.css";
 import SiteNav from "../components/SiteNav.astro";
-import { createRequire } from "node:module";
 import SiteFooter from "../components/SiteFooter.astro";
 
 interface Props {
@@ -18,15 +17,6 @@ const {
   bodyClass
 } = Astro.props;
 const canonicalUrl = Astro.url.href;
-const isDevelopment = import.meta.env.DEV;
-const lapseInspectorAvailable = isDevelopment && (() => {
-  try {
-    createRequire(import.meta.url).resolve("@aiforui/lapse/panel");
-    return true;
-  } catch {
-    return false;
-  }
-})();
 
 ---
 
@@ -52,7 +42,7 @@ const lapseInspectorAvailable = isDevelopment && (() => {
   </head>
   <body class={bodyClass}>
     <a class="skip-link" href="#main-content">Skip to main content</a>
-    {lapseInspectorAvailable && <script type="module" src="/src/scripts/lapse-dev.ts"></script>}
+    <script src="../scripts/lapse-dev.ts"></script>
     <SiteNav />
     <main id="main-content" tabindex="-1">
       <slot />

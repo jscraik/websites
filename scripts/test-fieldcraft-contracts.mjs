@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { readFile } from "node:fs/promises";
+import jpeg from "jpeg-js";
 import {
   assertReferenceBinding,
   parseEvaluationPolicy,
@@ -48,7 +49,9 @@ test("the evaluator binds sealed thresholds, exact sections, and required state 
   assert.match(source, /section\.scrollIntoView\(\{ behavior: "instant", block: "start" \}\)/);
   assert.match(source, /page\.on\("response"/);
   assert.match(source, /response\.status\(\) >= 400/);
-  assert.match(source, /keyboardReachable\(element\)/);
+  assert.match(source, /rendered\(element\) &&/);
+  assert.match(source, /referenceBytes\[0\] === 0xff/);
+  assert.match(source, /jpeg\.decode\(referenceBytes/);
   assert.match(source, /\[tabindex\]:not\(\[tabindex="-1"\]\)/);
   assert.match(source, /Math\.max\(document\.documentElement\.scrollWidth, document\.body\?\.scrollWidth \?\? 0\) > window\.innerWidth/);
   assert.match(source, /document has horizontal overflow/);
@@ -58,6 +61,15 @@ test("the evaluator binds sealed thresholds, exact sections, and required state 
   for (const state of ["workflowModals", "deploymentCheckpoints", "roadmapStates"]) {
     assert.match(source, new RegExp(`${state}: \\{`));
   }
+});
+
+test("decodes the sealed JPEG captures before pixel comparison", async () => {
+  const bytes = await readFile("docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-00.png");
+  assert.deepEqual([...bytes.subarray(0, 2)], [0xff, 0xd8]);
+  const decoded = jpeg.decode(bytes, { useTArray: true, formatAsRGBA: true });
+  assert.equal(decoded.width, 1280);
+  assert.equal(decoded.height, 720);
+  assert.equal(decoded.data.length, 1280 * 720 * 4);
 });
 
 test("blocks admission when any required lane or state lacks passing evidence", () => {

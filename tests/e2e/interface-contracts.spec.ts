@@ -151,7 +151,7 @@ test.describe("portfolio interface contracts", () => {
     expect(homeStyle.linkZIndex).toBe("1");
   });
 
-  test("the shared nav highlight clears when the pointer enters a nav gap", async ({ page }) => {
+  test("the shared nav highlight persists while the pointer crosses a nav gap", async ({ page }) => {
     await preparePage(page, "/");
 
     const nav = page.locator(".site-header .nav-inner");
@@ -197,6 +197,9 @@ test.describe("portfolio interface contracts", () => {
     const supportsFinePointer = await page.evaluate(() => window.matchMedia("(hover: hover) and (pointer: fine)").matches);
     test.skip(!supportsFinePointer, "pointer highlight is only available for fine-pointer projects");
 
+    await workTarget.locator("a").evaluate((link) =>
+      link.addEventListener("click", (event) => event.preventDefault(), { once: true }),
+    );
     await workTarget.click();
     expect(await highlight.evaluate((element) => element.parentElement?.textContent?.trim())).toBe("Work");
 
@@ -226,18 +229,18 @@ test.describe("portfolio interface contracts", () => {
     const highlight = nav.locator(".nav-bg");
     await nav.locator(".nav-flip").filter({ hasText: "Work" }).hover();
 
-    await expect(highlight).not.toHaveAttribute("data-active");
+    await expect(highlight).toHaveAttribute("data-active", "true");
     const style = await highlight.evaluate((element) => {
       const computed = getComputedStyle(element);
       return {
         transform: computed.transform,
-        parentIsNav: element.parentElement?.classList.contains("nav-inner"),
+        parentText: element.parentElement?.textContent?.trim(),
         animations: element.getAnimations().length
       };
     });
 
     expect(style.transform).toBe("none");
-    expect(style.parentIsNav).toBe(true);
+    expect(style.parentText).toBe("Work");
     expect(style.animations).toBe(0);
   });
 

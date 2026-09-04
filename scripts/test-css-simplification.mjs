@@ -230,7 +230,7 @@ assert.match(source, /navShell\.querySelector\("a:focus-visible"\)\?\.closest\("
 assert.match(source, /source === "pointer"\s*\? navShell\.querySelector\("\.nav-flip:hover"\)/);
 assert.match(source, /else\s*\{\s*resetHighlight\(\);\s*\}/);
 assert.match(source, /prefers-reduced-motion: reduce/);
-assert.doesNotMatch(source, /--nav-highlight-(?:x|scale)/);
+assert.doesNotMatch(`${source}\n${css}`, /--nav-highlight-(?:x|scale)/);
 assert.doesNotMatch(
   css,
   /--jp-surface\b/,

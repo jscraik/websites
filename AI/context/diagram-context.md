@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-09-04T07:06:04Z
+Generated: 2026-09-04T07:32:14Z
 
 ## Table of Contents
 
@@ -109,6 +109,7 @@ Generated: 2026-09-04T07:06:04Z
 - `src/styles/route-rhythm.css`
 - `src/styles/shell.css`
 - `tests/e2e/animated-button-contract.spec.ts`
+- `tests/e2e/fieldcraft-hidden-state-contract.spec.ts`
 - `tests/e2e/interface-contracts.spec.ts`
 - `tests/e2e/work-card-pointer-contract.spec.ts`
 
@@ -268,6 +269,8 @@ graph LR
   ext_astro_90c9d7bd["astro"] --> node_content_config_a9a9d2e1_05943ac5
   ext_astro_content_2110f121["astro:content"] --> node_content_config_a9a9d2e1_05943ac5
   ext_astro_content_2110f121["astro:content"] --> node_rss_xml_b85d02db_61029d19
+  ext_jpeg_js_a3e0a788["jpeg-js"] --> node_evaluate_fieldcraft_scenes_d6258bc6_1eab3e75
+  ext_jpeg_js_a3e0a788["jpeg-js"] --> node_test_fieldcraft_contracts_82274efa_2a3f2205
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_astro_anti_patterns_88db0377_401e86a9
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_branch_transition_preflight_1665655e_acac1534
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_code_quality_debt_contract_569cff13_2953095a
@@ -455,6 +458,7 @@ graph LR
   style ext_astro_90c9d7bd fill:#f59e0b,color:#fff
   style ext_astro_content_2110f121 fill:#f59e0b,color:#fff
   style ext_ext_81f836ce fill:#f59e0b,color:#fff
+  style ext_jpeg_js_a3e0a788 fill:#f59e0b,color:#fff
   style ext_node_assert_f1a93ba5 fill:#f59e0b,color:#fff
   style ext_node_child_process_f62b7d19 fill:#f59e0b,color:#fff
   style ext_node_constants_cc38fbc2 fill:#f59e0b,color:#fff

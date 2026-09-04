@@ -13,6 +13,7 @@ import path from "node:path";
 import process from "node:process";
 import pixelmatch from "pixelmatch";
 import { PNG } from "pngjs";
+import jpeg from "jpeg-js";
 
 const candidateUrl = process.env.CANDIDATE_BASE_URL;
 if (!candidateUrl) {
@@ -171,12 +172,20 @@ const measurements = await page.evaluate((sceneContract) => {
     const box = element.getBoundingClientRect();
     return style.display !== "none" && style.visibility !== "hidden" && Number(style.opacity) > 0 && box.width > 0 && box.height > 0;
   };
+  const rendered = (element) => {
+    const style = getComputedStyle(element);
+    return style.display !== "none" && style.visibility !== "hidden" && element.getClientRects().length > 0;
+  };
   const focusableSelector =
     'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [contenteditable="true"], [tabindex]:not([tabindex="-1"])';
   const keyboardReachable = (element) =>
+    rendered(element) &&
     !element.closest("[inert]") &&
     !element.hidden &&
-    (element.matches(focusableSelector) || [...element.querySelectorAll(focusableSelector)].some((candidate) => !candidate.closest("[inert]") && !candidate.hidden));
+    (element.matches(focusableSelector) ||
+      [...element.querySelectorAll(focusableSelector)].some(
+        (candidate) => rendered(candidate) && !candidate.closest("[inert]") && !candidate.hidden,
+      ));
   const documentOverflow = Math.max(document.documentElement.scrollWidth, document.body?.scrollWidth ?? 0) > window.innerWidth;
 
   if (sections.length !== sceneContract.scenes.length) {
@@ -219,7 +228,12 @@ const measurements = await page.evaluate((sceneContract) => {
       }
     }
     const hiddenStateViolations = [...section.querySelectorAll("[data-state-hidden='true']")]
-      .filter((element) => visible(element) || getComputedStyle(element).pointerEvents !== "none" || keyboardReachable(element))
+      .filter(
+        (element) =>
+          visible(element) ||
+          (rendered(element) && getComputedStyle(element).pointerEvents !== "none") ||
+          keyboardReachable(element),
+      )
       .map((element) => element.id || element.dataset.sceneRegion || element.tagName);
     return {
       index,
@@ -375,7 +389,10 @@ for (const scene of contract.scenes) {
     if (digest !== sealedCapture.sha256 || referenceBytes.byteLength !== sealedCapture.bytes) {
       throw new Error("digest or byte length differs from sealed manifest");
     }
-    reference = PNG.sync.read(referenceBytes);
+    reference =
+      referenceBytes[0] === 0xff && referenceBytes[1] === 0xd8
+        ? jpeg.decode(referenceBytes, { useTArray: true, formatAsRGBA: true })
+        : PNG.sync.read(referenceBytes);
   } catch (error) {
     visualResults.push({ index: scene.index, status: "blocked", reason: `${referenceName}: ${error.message}` });
     continue;

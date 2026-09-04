@@ -95,11 +95,6 @@ const currentFor = (href: string): "page" | undefined => {
         return;
       }
 
-      if (reducedMotion.matches) {
-        resetHighlight();
-        return;
-      }
-
       const highlightRect = highlight.getBoundingClientRect();
       const targetRect = target.getBoundingClientRect();
       if (targetRect.width === 0 || targetRect.height === 0) {
@@ -133,8 +128,6 @@ const currentFor = (href: string): "page" | undefined => {
       const target = event.target.closest(".nav-flip");
       if (target && navShell.contains(target)) {
         syncHighlight("pointer");
-      } else {
-        resetHighlight();
       }
     });
     navShell.addEventListener("pointerleave", resyncHighlight);
