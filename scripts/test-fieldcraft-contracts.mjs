@@ -90,6 +90,10 @@ test("writes a blocked report when the browser runtime cannot launch", async () 
   assert.match(source, /writeBlockedReport/);
   assert.match(source, /writeBlockedReport\(\{ stage: "browser-launch", code: "browser_unavailable", browserStatus: "unavailable" \}\)/);
   assert.match(source, /writeFile\(path\.join\(outputRoot, "report\.json"\)/);
+  assert.match(source, /let page;\s+try {\s+page = await browser\.newPage/);
+  assert.match(source, /writeBlockedReport\({ stage: "page-creation", code: "page_creation_failed", browserStatus: "available" }\)/);
+  assert.match(source, /await browser\.close\(\)\.catch\(\(\) => undefined\)/);
+  assert.match(source, /BLOCKED Fieldcraft browser page creation/);
   assert.ok(source.indexOf("let observedCandidateId = null") < source.indexOf("const writeBlockedReport"));
   assert.ok(source.indexOf("let candidateResourceManifest = []") < source.indexOf("const writeBlockedReport"));
   for (const field of ["reference", "candidate", "environment", "states", "commands", "outcomes", "artifacts", "claims_boundary"]) {

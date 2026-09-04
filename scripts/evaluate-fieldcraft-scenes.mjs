@@ -161,7 +161,15 @@ try {
   console.error(`BLOCKED Fieldcraft rendered scene evaluation; see ${outputRoot}/report.json`);
   process.exit(1);
 }
-const page = await browser.newPage({ viewport: contract.viewport, reducedMotion: "no-preference" });
+let page;
+try {
+  page = await browser.newPage({ viewport: contract.viewport, reducedMotion: "no-preference" });
+} catch {
+  await writeBlockedReport({ stage: "page-creation", code: "page_creation_failed", browserStatus: "available" });
+  await browser.close().catch(() => undefined);
+  console.error(`BLOCKED Fieldcraft browser page creation; see ${outputRoot}/report.json`);
+  process.exit(1);
+}
 const consoleFindings = [];
 const requestFailures = [];
 const candidateResponses = [];
