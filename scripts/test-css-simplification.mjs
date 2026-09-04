@@ -227,8 +227,8 @@ assert.match(flip, /scale\(\$\{from\.width \/ to\.width\}, \$\{from\.height \/ t
 assert.match(source, /duration:\s*navFlipDuration/);
 assert.match(source, /easing:\s*navFlipEasing/);
 assert.match(source, /finePointer\.matches\s*\? navShell\.querySelector\("\.nav-flip:hover"\)/);
-assert.doesNotMatch(source, /navShell\.querySelector\("a:focus-visible"\)/);
-assert.doesNotMatch(source, /addEventListener\("focus(?:in|out)"/);
+assert.doesNotMatch(source, /querySelector\s*\(\s*["']a:focus-visible["']/);
+assert.doesNotMatch(source, /addEventListener\s*\(\s*["']focus(?:in|out)?["']/);
 assert.match(source, /else\s*\{\s*resetHighlight\(\);\s*\}/);
 assert.match(source, /prefers-reduced-motion: reduce/);
 assert.doesNotMatch(`${source}\n${css}`, /--nav-highlight-(?:x|scale)/);
