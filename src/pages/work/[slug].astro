@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import AnimatedButton from "../../components/AnimatedButton.astro";
 import CarouselControls from "../../components/CarouselControls.astro";
 import { getCollection } from "astro:content";
 import { byOrder, proofWorkCards, workRoute } from "../../lib/portfolio";
@@ -179,11 +180,12 @@ const workCount = String(workCards.length).padStart(2, "0");
           <div class="case-evidence__links">
             {study.caseStudy.links.map((link: CaseStudyLink) => (
               link.primary ? (
-                <a class="small-button small-button--light" href={link.href} rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}>
-                  <span class="small-button__bg" aria-hidden="true"></span>
-                  <span class="small-button__label">{link.label}</span>
-                  <span class="small-button__arrow" aria-hidden="true"><span>-&gt;</span></span>
-                </a>
+                <AnimatedButton
+                  class="small-button--light"
+                  href={link.href}
+                  label={link.label}
+                  rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                />
               ) : (
                 <a href={link.href} rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}>{link.label}</a>
               )

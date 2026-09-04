@@ -83,10 +83,18 @@ test("writes a blocked report when the browser runtime cannot launch", async () 
   assert.match(source, /await mkdir\(outputRoot, \{ recursive: true \}\)/);
   assert.match(source, /await import\("playwright"\)/);
   assert.match(source, /catch \{/);
-  assert.match(source, /writeBrowserBlockedReport/);
-  assert.match(source, /failure: \{ stage: "browser-launch", code: "browser_unavailable", retryable: true \}/);
+  assert.match(source, /writeBlockedReport/);
+  assert.match(source, /writeBlockedReport\(\{ stage: "browser-launch", code: "browser_unavailable", browserStatus: "unavailable" \}\)/);
   assert.match(source, /writeFile\(path\.join\(outputRoot, "report\.json"\)/);
   for (const field of ["reference", "candidate", "environment", "states", "commands", "outcomes", "artifacts", "claims_boundary"]) {
     assert.match(source, new RegExp(`\\b${field}:`));
   }
+});
+
+test("writes a blocked report and closes the browser when candidate navigation fails", async () => {
+  const source = await readFile("scripts/evaluate-fieldcraft-scenes.mjs", "utf8");
+  assert.match(source, /stage: "candidate-navigation", code: "candidate_unreachable"/);
+  assert.match(source, /await writeBlockedReport\(\{ stage: "candidate-navigation"/);
+  assert.match(source, /await browser\.close\(\)/);
+  assert.match(source, /BLOCKED Fieldcraft candidate navigation/);
 });

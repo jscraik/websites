@@ -74,7 +74,7 @@ const buildEvidenceEnvelope = ({ laneEvidence, stateCoverage, pass, browserStatu
   claims_boundary: "This report covers only the recorded candidate, viewport, states, and required lanes; blocked lanes cannot support a parity claim.",
 });
 
-const writeBrowserBlockedReport = async () => {
+const writeBlockedReport = async ({ stage, code, browserStatus }) => {
   const laneEvidence = Object.fromEntries(
     policy.requiredLanes.map((lane) => [lane, "blocked"]),
   );
@@ -87,7 +87,7 @@ const writeBrowserBlockedReport = async () => {
   const report = {
     schemaVersion: 1,
     candidateUrl,
-    ...buildEvidenceEnvelope({ laneEvidence, stateCoverage, pass: false, browserStatus: "unavailable" }),
+    ...buildEvidenceEnvelope({ laneEvidence, stateCoverage, pass: false, browserStatus }),
     viewport: contract.viewport,
     geometry: [],
     visual: [],
@@ -96,7 +96,7 @@ const writeBrowserBlockedReport = async () => {
     policy: { authority: policy.authority, sha256: policyDigest, mismatchLimit, pixelmatchThreshold: policy.pixelmatchThreshold },
     laneEvidence,
     stateCoverage,
-    failure: { stage: "browser-launch", code: "browser_unavailable", retryable: true },
+    failure: { stage, code, retryable: true },
     pass: false,
   };
   await writeFile(path.join(outputRoot, "report.json"), `${JSON.stringify(report, null, 2)}\n`);
@@ -107,7 +107,7 @@ try {
   const { chromium } = await import("playwright");
   browser = await chromium.launch({ headless: true });
 } catch {
-  await writeBrowserBlockedReport();
+  await writeBlockedReport({ stage: "browser-launch", code: "browser_unavailable", browserStatus: "unavailable" });
   console.error(`BLOCKED Fieldcraft rendered scene evaluation; see ${outputRoot}/report.json`);
   process.exit(1);
 }
@@ -133,12 +133,19 @@ page.on("response", (response) => {
   }
 });
 
-await page.goto(candidateUrl, { waitUntil: "networkidle" });
+try {
+  await page.goto(candidateUrl, { waitUntil: "networkidle" });
 await page.evaluate(async () => document.fonts.ready);
 await page.emulateMedia({ reducedMotion: "no-preference" });
 await page.evaluate(async () => {
   await Promise.all(document.getAnimations().map((animation) => animation.finished.catch(() => undefined)));
 });
+} catch {
+  await writeBlockedReport({ stage: "candidate-navigation", code: "candidate_unreachable", browserStatus: "available" });
+  await browser.close();
+  console.error(`BLOCKED Fieldcraft candidate navigation; see ${outputRoot}/report.json`);
+  process.exit(1);
+}
 
 const measurements = await page.evaluate((sceneContract) => {
   const sections = [...document.querySelectorAll("main section")];

@@ -49,36 +49,6 @@ const canonicalUrl = Astro.url.href;
     </main>
     <SiteFooter />
     <script>
-      import { moveLayerWithFlip } from "../scripts/flip-motion";
-
-      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-      const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
-      const animatedButtons = document.querySelectorAll(".small-button");
-
-      animatedButtons.forEach((button) => {
-        if (!(button instanceof HTMLElement)) return;
-
-        const background = button.querySelector(".small-button__bg");
-        const arrow = button.querySelector(".small-button__arrow");
-        if (!(background instanceof HTMLElement) || !(arrow instanceof HTMLElement)) return;
-
-        const resetBackground = () => {
-          if (background.parentElement !== button) {
-            moveLayerWithFlip(background, button, {
-              animate: !reducedMotion.matches,
-            });
-          }
-          button.removeAttribute("data-flip-active");
-        };
-
-        button.addEventListener("pointerenter", () => {
-          if (!finePointer.matches || reducedMotion.matches) return;
-          moveLayerWithFlip(background, arrow);
-          button.dataset.flipActive = "true";
-        });
-        button.addEventListener("pointerleave", resetBackground);
-        reducedMotion.addEventListener("change", resetBackground);
-      });
 
       const workCarousels = document.querySelectorAll("[data-work-carousel]");
 
