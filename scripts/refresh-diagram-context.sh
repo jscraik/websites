@@ -524,7 +524,10 @@ const augmentUser = (content) => {
   let lines = content.trimEnd().split(/\r?\n/);
   const classIndex = lines.findIndex((line) => /^  class .* userNode$/.test(line));
   const insertionIndex = classIndex >= 0 ? classIndex : lines.length;
-  if (!lines.includes(declaration)) lines.splice(insertionIndex, 0, declaration, userEdge);
+  const additions = [];
+  if (!lines.includes(declaration)) additions.push(declaration);
+  if (!lines.includes(userEdge)) additions.push(userEdge);
+  if (additions.length > 0) lines.splice(insertionIndex, 0, ...additions);
   const dependencyInsertionIndex = lines.findIndex((line) => /^  class .* userNode$/.test(line));
   if (!lines.includes(dependencyEdge)) lines.splice(dependencyInsertionIndex >= 0 ? dependencyInsertionIndex : lines.length, 0, dependencyEdge);
   const updatedClassIndex = lines.findIndex((line) => /^  class .* userNode$/.test(line));
