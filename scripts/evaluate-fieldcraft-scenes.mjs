@@ -10,6 +10,7 @@ import {
   requiredEvidencePasses,
 } from "./lib/fieldcraft-contracts.mjs";
 import path from "node:path";
+import os from "node:os";
 import process from "node:process";
 import pixelmatch from "pixelmatch";
 import { PNG } from "pngjs";
@@ -46,6 +47,13 @@ const referenceRoot = process.env.FIELDCRAFT_REFERENCE_SCREENSHOTS
   : path.join(referenceBundleRoot, "screenshots/1280x720");
 const mismatchLimit = policy.pixelMismatchLimit;
 await mkdir(outputRoot, { recursive: true });
+const renderingEnvironment = {
+  browserVersion: null,
+  operatingSystem: { platform: process.platform, release: os.release(), architecture: process.arch },
+  devicePixelRatio: null,
+  colorScheme: null,
+  resolvedFonts: [],
+};
 
 const buildEvidenceEnvelope = ({ laneEvidence, stateCoverage, pass, browserStatus }) => ({
   reference: {
@@ -59,6 +67,11 @@ const buildEvidenceEnvelope = ({ laneEvidence, stateCoverage, pass, browserStatu
     browserStatus,
     viewport: contract.viewport,
     reducedMotion: "no-preference",
+    browserVersion: renderingEnvironment.browserVersion,
+    operatingSystem: renderingEnvironment.operatingSystem,
+    devicePixelRatio: renderingEnvironment.devicePixelRatio,
+    colorScheme: renderingEnvironment.colorScheme,
+    resolvedFonts: renderingEnvironment.resolvedFonts,
   },
   states: stateCoverage,
   commands: [{
@@ -106,6 +119,7 @@ let browser;
 try {
   const { chromium } = await import("playwright");
   browser = await chromium.launch({ headless: true });
+  renderingEnvironment.browserVersion = browser.version();
 } catch {
   await writeBlockedReport({ stage: "browser-launch", code: "browser_unavailable", browserStatus: "unavailable" });
   console.error(`BLOCKED Fieldcraft rendered scene evaluation; see ${outputRoot}/report.json`);
@@ -119,6 +133,9 @@ page.on("console", (message) => {
   if (["warning", "error"].includes(message.type())) {
     consoleFindings.push({ type: message.type(), text: message.text() });
   }
+});
+page.on("pageerror", (error) => {
+  consoleFindings.push({ type: "pageerror", text: error.message });
 });
 page.on("requestfailed", (request) => {
   requestFailures.push({ url: request.url(), error: request.failure()?.errorText ?? "unknown" });
@@ -135,11 +152,20 @@ page.on("response", (response) => {
 
 try {
   await page.goto(candidateUrl, { waitUntil: "networkidle" });
-await page.evaluate(async () => document.fonts.ready);
-await page.emulateMedia({ reducedMotion: "no-preference" });
-await page.evaluate(async () => {
-  await Promise.all(document.getAnimations().map((animation) => animation.finished.catch(() => undefined)));
-});
+  await page.evaluate(async () => document.fonts.ready);
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.evaluate(async () => {
+    await Promise.all(document.getAnimations().map((animation) => animation.finished.catch(() => undefined)));
+  });
+  Object.assign(renderingEnvironment, await page.evaluate(() => ({
+    devicePixelRatio: window.devicePixelRatio,
+    colorScheme: matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
+    resolvedFonts: [...new Set(
+      [...document.querySelectorAll("body, h1, h2, h3, p, button, a")]
+        .map((element) => getComputedStyle(element).fontFamily)
+        .filter(Boolean),
+    )].sort(),
+  })));
 } catch {
   await writeBlockedReport({ stage: "candidate-navigation", code: "candidate_unreachable", browserStatus: "available" });
   await browser.close();
@@ -147,6 +173,7 @@ await page.evaluate(async () => {
   process.exit(1);
 }
 
+try {
 const measurements = await page.evaluate((sceneContract) => {
   const sections = [...document.querySelectorAll("main section")];
   const rect = (element) => {
@@ -424,7 +451,11 @@ const laneEvidence = {
   "visibility-state": results.every((result) => result.pass) ? "pass" : "fail",
   interaction: "blocked",
   "runtime-cleanliness": consoleFindings.length === 0 && requestFailures.length === 0 ? "pass" : "fail",
-  "visual-difference": visualResults.every((result) => result.status === "pass") ? "pass" : "fail",
+  "visual-difference": visualResults.some((result) => result.status === "blocked")
+    ? "blocked"
+    : visualResults.every((result) => result.status === "pass")
+      ? "pass"
+      : "fail",
 };
 const stateCoverage = {
   initialScenes: { expected: contract.requiredVisualMatrix.initialScenes, observed: results.length, status: results.length === contract.requiredVisualMatrix.initialScenes ? "pass" : "blocked" },
@@ -455,4 +486,10 @@ if (!report.pass) {
   process.exitCode = 1;
 } else {
   console.log(`PASS Fieldcraft rendered scene evaluation; see ${outputRoot}/report.json`);
+}
+} catch {
+  await writeBlockedReport({ stage: "candidate-evaluation", code: "evaluation_failed", browserStatus: "available" });
+  await browser.close().catch(() => undefined);
+  console.error("BLOCKED Fieldcraft candidate evaluation; see " + outputRoot + "/report.json");
+  process.exitCode = 1;
 }

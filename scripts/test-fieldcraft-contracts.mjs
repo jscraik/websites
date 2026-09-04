@@ -98,3 +98,20 @@ test("writes a blocked report and closes the browser when candidate navigation f
   assert.match(source, /await browser\.close\(\)/);
   assert.match(source, /BLOCKED Fieldcraft candidate navigation/);
 });
+
+test("records rendering inputs, page errors, blocked visuals, and post-navigation failures", async () => {
+  const source = await readFile("scripts/evaluate-fieldcraft-scenes.mjs", "utf8");
+  for (const field of [
+    "browserVersion",
+    "operatingSystem",
+    "devicePixelRatio",
+    "colorScheme",
+    "resolvedFonts",
+  ]) {
+    assert.match(source, new RegExp("\\b" + field + ":"));
+  }
+  assert.match(source, /page\.on\("pageerror"/);
+  assert.match(source, /visualResults\.some\(\(result\) => result\.status === "blocked"\)/);
+  assert.match(source, /stage: "candidate-evaluation", code: "evaluation_failed"/);
+  assert.match(source, /await browser\.close\(\)\.catch/);
+});
