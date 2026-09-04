@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-09-04T07:32:14Z
+Generated: 2026-09-04T08:12:39Z
 
 ## Table of Contents
 
@@ -429,6 +429,7 @@ graph LR
   ext_node_url_d0cb3ad7["node:url"] --> node_check_git_worktree_authority_940ab26d_54e5636e
   ext_node_url_d0cb3ad7["node:url"] --> node_check_node_engine_217689bf_3e5964b2
   ext_node_url_d0cb3ad7["node:url"] --> node_generate_social_profile_assets_f4f94011_2a983f29
+  ext_node_url_d0cb3ad7["node:url"] --> node_prepare_fieldcraft_blind_build_8ab85212_153447eb
   ext_node_url_d0cb3ad7["node:url"] --> node_test_astro_anti_patterns_88db0377_401e86a9
   ext_node_url_d0cb3ad7["node:url"] --> node_test_branch_transition_preflight_1665655e_acac1534
   ext_node_url_d0cb3ad7["node:url"] --> node_test_code_quality_debt_contract_569cff13_2953095a
@@ -653,6 +654,7 @@ flowchart LR
   User --> rss_xml_b85d02db
   check_public_api_docs_a9604f1b --> changed_files_4c0102f6
   jose_parity_cdp_bdcde21d --> jose_parity_measurements_afc7a199
+  test_fieldcraft_blind_build_ec0e094c --> prepare_fieldcraft_blind_build_8ab85212
   test_fieldcraft_contracts_82274efa --> fieldcraft_contracts_8c3b3237
   test_jose_parity_measurements_2477824f --> jose_parity_measurements_afc7a199
   test_operator_workflow_contract_b4a152d7 --> pr_template_contract_4fa69502
@@ -665,7 +667,6 @@ flowchart LR
   seal_fieldcraft_reference_8652aaa2 --> fieldcraft_contracts_8c3b3237
   validate_fieldcraft_internal_region_contract_a1266d61 --> fieldcraft_contracts_8c3b3237
   validate_fieldcraft_scene_contract_186745c2 --> fieldcraft_contracts_8c3b3237
-  test_design_system_contract_2b5439cd --> design_system_contract_744a00f2
   classDef userNode fill:#16a34a,color:#fff
   test_design_system_contract_2b5439cd["test-design-system-contract"]
   User --> test_design_system_contract_2b5439cd
