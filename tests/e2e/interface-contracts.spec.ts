@@ -28,7 +28,7 @@ test.describe("portfolio interface contracts", () => {
 
     const copied = await page.locator("html").getAttribute("data-copied-pullquote");
     expect(copied).toBe(
-      `Capability is not trust. Developer education has to carry the proof.\n\n${page.url()}`
+      `Capability is not trust. The path to adoption has to carry the proof.\n\n${page.url()}`
     );
   });
 
@@ -60,8 +60,8 @@ test.describe("portfolio interface contracts", () => {
   test("the home page exposes one explicit first-visit route and truthful entry motion", async ({ page }) => {
     await preparePage(page, "/");
 
-    const primaryRoute = page.getByRole("link", { name: "Start with SkillsBar" });
-    await expect(primaryRoute).toHaveAttribute("href", "/demos/skillsbar/");
+    const primaryRoute = page.getByRole("link", { name: "Read the SkillsBar case study" });
+    await expect(primaryRoute).toHaveAttribute("href", "/work/skillsbar/");
     await expect(primaryRoute).toHaveAttribute("data-primary-start", "true");
     await expect(page.locator("[data-reveal]")).toHaveCount(0);
     await expect(page.locator("[data-entry]")).toHaveCount(7);
@@ -88,20 +88,22 @@ test.describe("portfolio interface contracts", () => {
     const nav = page.locator(".site-header .nav-inner");
     const highlight = nav.locator(".nav-bg");
     const workTarget = nav.locator(".nav-flip").filter({ hasText: "Work" });
-    const initialTransform = await highlight.evaluate((element) => getComputedStyle(element).transform);
 
     const supportsFinePointer = await page.evaluate(() => window.matchMedia("(hover: hover) and (pointer: fine)").matches);
     test.skip(!supportsFinePointer, "pointer highlight is only available for fine-pointer projects");
 
     await workTarget.hover();
+    await expect
+      .poll(() => highlight.evaluate((element) => {
+        const timing = element.getAnimations()[0]?.effect?.getTiming();
+        return {
+          parentText: element.parentElement?.textContent?.trim(),
+          duration: timing?.duration,
+          easing: timing?.easing
+        };
+      }))
+      .toEqual({ parentText: "Work", duration: 400, easing: "cubic-bezier(0.165, 0.84, 0.44, 1)" });
     await expect(highlight).toHaveAttribute("data-active", "true");
-    const pointerTransform = await highlight.evaluate((element) => {
-      const style = getComputedStyle(element);
-      return { transform: style.transform, transitionProperty: style.transitionProperty };
-    });
-
-    expect(pointerTransform.transform).not.toBe(initialTransform);
-    expect(pointerTransform.transitionProperty).toBe("transform");
   });
 
   test("the shared nav highlight adopts the hovered target geometry", async ({ page }) => {
@@ -177,7 +179,12 @@ test.describe("portfolio interface contracts", () => {
     }
     await page.mouse.move(gapX, navBox.y + navBox.height / 2);
 
+    await expect(highlight).toHaveAttribute("data-active", "true");
+    expect(await highlight.evaluate((element) => element.parentElement?.textContent?.trim())).toBe("Work");
+
+    await page.mouse.move(navBox.x, navBox.y + navBox.height + 24);
     await expect(highlight).not.toHaveAttribute("data-active");
+    expect(await highlight.evaluate((element) => element.parentElement?.classList.contains("nav-inner"))).toBe(true);
   });
 
   test("the shared nav highlight follows pointer hover after a pointer click", async ({ page }) => {
@@ -191,29 +198,24 @@ test.describe("portfolio interface contracts", () => {
     test.skip(!supportsFinePointer, "pointer highlight is only available for fine-pointer projects");
 
     await workTarget.click();
-    const clickedTransform = await highlight.evaluate((element) => getComputedStyle(element).transform);
+    expect(await highlight.evaluate((element) => element.parentElement?.textContent?.trim())).toBe("Work");
 
     await contactTarget.hover();
     await expect(highlight).toHaveAttribute("data-active", "true");
-    const hoveredTransform = await highlight.evaluate((element) => getComputedStyle(element).transform);
-    expect(hoveredTransform).not.toBe(clickedTransform);
+    expect(await highlight.evaluate((element) => element.parentElement?.textContent?.trim())).toBe("Contact");
   });
 
-  test("the shared nav highlight follows keyboard focus", async ({ page }) => {
+  test("keyboard focus stays explicit without triggering pointer movement", async ({ page }) => {
     await preparePage(page, "/");
 
     const nav = page.locator(".site-header .nav-inner");
     const highlight = nav.locator(".nav-bg");
     const aboutLink = nav.getByRole("link", { name: "About" });
-    const initialTransform = await highlight.evaluate((element) => getComputedStyle(element).transform);
 
     await aboutLink.focus();
-    await expect(highlight).toHaveAttribute("data-active", "true");
-    const focusTransform = await highlight.evaluate((element) => getComputedStyle(element).transform);
-    expect(focusTransform).not.toBe(initialTransform);
-
-    await aboutLink.blur();
     await expect(highlight).not.toHaveAttribute("data-active");
+    expect(await highlight.evaluate((element) => element.parentElement?.classList.contains("nav-inner"))).toBe(true);
+    await expect(aboutLink).toBeFocused();
   });
 
   test("the shared nav highlight remains still when reduced motion is requested", async ({ page }) => {
@@ -227,11 +229,16 @@ test.describe("portfolio interface contracts", () => {
     await expect(highlight).not.toHaveAttribute("data-active");
     const style = await highlight.evaluate((element) => {
       const computed = getComputedStyle(element);
-      return { transform: computed.transform, transitionProperty: computed.transitionProperty };
+      return {
+        transform: computed.transform,
+        parentIsNav: element.parentElement?.classList.contains("nav-inner"),
+        animations: element.getAnimations().length
+      };
     });
 
     expect(style.transform).toBe("none");
-    expect(style.transitionProperty).toBe("none");
+    expect(style.parentIsNav).toBe(true);
+    expect(style.animations).toBe(0);
   });
 
   test("the homepage keeps Jose-derived tablet geometry at the first fold", async ({ page }) => {
@@ -368,13 +375,17 @@ test.describe("portfolio interface contracts", () => {
       "content",
       "summary"
     );
+    await expect(page.locator('link[rel="alternate"][type="application/rss+xml"]')).toHaveAttribute(
+      "href",
+      "/blog/rss.xml"
+    );
     await expect(page.locator('meta[name="twitter:title"]')).toHaveAttribute(
       "content",
-      "Why AI-Native DevRel | brAInwav"
+      "Capability Is Not Trust | brAInwav"
     );
     await expect(page.locator('meta[name="twitter:description"]')).toHaveAttribute(
       "content",
-      "Jamie Scott Craik on AI-native DevRel, trust, evaluation, and visible proof."
+      "Jamie Scott Craik on the gap between AI capability, trustworthy adoption, evaluation, and visible proof."
     );
   });
 

@@ -36,10 +36,12 @@
     background-color: var(--paper);
     background-image: linear-gradient(180deg, var(--surface-card), var(--paper));
     background-repeat: no-repeat;
+    background-position: top;
     background-size: 100% calc(var(--jp-fluid-rem) * 55.0375);
   }
 
-  html body:not(.skillsbar-demo):has(.home-hero) .site-header {
+  html body:not(.skillsbar-demo):has(.home-hero) .site-header,
+  html body:not(.skillsbar-demo):has(.home-hero) .header-inner {
     background: transparent;
   }
 
@@ -49,7 +51,6 @@
     margin-inline: 0;
     padding-top: calc(var(--jp-fluid-rem) * 8.73125);
     padding-bottom: calc(var(--jp-fluid-rem) * 10.20625);
-    background: transparent;
   }
 
   html body:not(.skillsbar-demo):has(.home-hero) .home-hero {
@@ -104,18 +105,18 @@
 }
 
 @media (max-width: 57.5625rem) {
-  /* The mobile home hero is taller, so extend the same shared fade through it. */
-  html body:not(.skillsbar-demo):has(.home-hero) .site-header {
-    background-size: 100% 53.8296rem;
-    background-repeat: no-repeat;
+  /* Extend the same route-owned fade through the taller mobile home hero. */
+  html body:not(.skillsbar-demo):has(.home-hero) {
     background-color: var(--paper);
-  }
-
-  html body:not(.skillsbar-demo):has(.home-hero) .header-inner {
     background-image: linear-gradient(180deg, var(--surface-card), var(--paper));
     background-position: top;
     background-repeat: no-repeat;
-    background-size: 100% 50.125rem;
+    background-size: 100% 53.8296rem;
+  }
+
+  html body:not(.skillsbar-demo):has(.home-hero) .site-header,
+  html body:not(.skillsbar-demo):has(.home-hero) .header-inner {
+    background: transparent;
   }
 
   /* Keep the compact Blog route on the same uninterrupted paper canvas. */

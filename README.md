@@ -2,7 +2,7 @@
 
 This repository contains the source configured with [jscraik.com](https://jscraik.com) as Jamie Scott Craik's intended canonical single public portfolio front door. brAInwav is the identity behind the work: it connects Jamie's human perspective, AI tools, and technical exploration as they become public products, writing, and proof. The site is intentionally small: it makes AI-assisted developer work inspectable, shows current proof artifacts, keeps caveats visible, and gives future agents a repeatable way to validate design and claim boundaries.
 
-Jamie’s accepted role is AI-native DevRel builder. The promise is `Making AI-assisted developer work inspectable.` and the intended benefit is helping developers adopt emerging AI tools with confidence. These are positioning and intended-benefit statements, not evidence of employment, affiliation, usability, adoption, or developer confidence.
+Jamie’s working career direction is customer-facing AI workflow delivery and developer experience. The promise is `Making AI-assisted developer work inspectable.` Role labels remain provisional, and the site is not permitted to claim employment, affiliation, external adoption, production readiness, or outcome evidence that source repositories do not establish. The existing AI-native DevRel article remains a historical position piece rather than a fixed job-title claim.
 
 ## Canonical Brand Contract
 
@@ -49,16 +49,19 @@ For agent/worktree operation, use `bash scripts/new-task.sh --prepare <task-slug
 
 The current site includes:
 
-These routes describe the current implementation, not the accepted target architecture. `/work/skillsbar/`, the Visual System page, and the product-cover generator remain pending until their owning files and evidence exist.
+These routes describe the current implementation, not the accepted target architecture. The Visual System page and product-cover generator remain pending until their owning files and evidence exist.
 
 | Route                           | Purpose                                                                        |
 | ------------------------------- | ------------------------------------------------------------------------------ |
 | /                               | Homepage with Jamie's identity, featured work, proof cards, and blog preview.  |
 | /now/                           | About/current-focus page with background, skills, work history, and web links. |
 | /blog/                          | Article index and current draft prompts.                                       |
-| /articles/why-ai-native-devrel/ | Anchor article for the AI-native DevRel position.                              |
+| /articles/when-evidence-goes-stale/ | SkillsBar companion article on candidate-bound release evidence.           |
+| /articles/why-ai-native-devrel/ | Historical URL for the broader `Capability Is Not Trust` thesis.               |
+| /blog/rss.xml                   | RSS feed containing published articles only.                                   |
 | /proof/                         | Proof index with claim, evidence, caveat, and next-state fields.               |
 | /contact/                       | Contact page and external profile links.                                       |
+| /work/skillsbar/                | Flagship case study for candidate-bound AI Skill release evidence.             |
 | /work/ai-native-devrel/         | Case study for the AI-native DevRel proof surface.                             |
 | /work/brainwav-io/              | Case study for this site as a proof-led portfolio.                             |
 | /work/cli-proof-series/         | CLI proof-series case-study route.                                             |

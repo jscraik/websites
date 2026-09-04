@@ -76,7 +76,7 @@ test.describe("UI polish contracts", () => {
         layerPosition: layerStyle.position,
         layerPointerEvents: layerStyle.pointerEvents,
         layerZIndex: layerStyle.zIndex,
-        layerTransitionProperty: layerStyle.transitionProperty,
+        layerTransformOrigin: layerStyle.transformOrigin,
         contentZIndex: contentStyle.zIndex
       };
     });
@@ -85,7 +85,7 @@ test.describe("UI polish contracts", () => {
     expect(technicalNav.layerPosition).toBe("absolute");
     expect(technicalNav.layerPointerEvents).toBe("none");
     expect(technicalNav.layerZIndex).toBe("0");
-    expect(technicalNav.layerTransitionProperty).toBe("transform");
+    expect(technicalNav.layerTransformOrigin).toBe("0px 0px");
     expect(technicalNav.contentZIndex).toBe("1");
   });
 
@@ -107,25 +107,26 @@ test.describe("UI polish contracts", () => {
     expect(shell.mainBackgroundColor).toBe("rgb(213, 214, 208)");
   });
 
-  test("portfolio routes share one header and footer surface", async ({ page }) => {
+  test("portfolio routes share navigation and footer surfaces while home owns one full-width fade", async ({ page }) => {
     const routes = [
       "/",
       "/now/",
       "/blog/",
       "/contact/",
+      "/articles/when-evidence-goes-stale/",
       "/articles/why-ai-native-devrel/",
       "/proof/",
       "/work/ai-native-devrel/",
-      "/work/brainwav-io/"
+      "/work/brainwav-io/",
+      "/work/skillsbar/"
     ];
     let reference:
       | {
-          header: string;
           nav: string;
           navInner: string;
           navLayerPointerEvents: string;
           navLayerZIndex: string;
-          navLayerTransitionProperty: string;
+          navLayerTransformOrigin: string;
           navContentZIndex: string;
           footer: string;
           footerProfile: string;
@@ -141,16 +142,30 @@ test.describe("UI polish contracts", () => {
         navInner: getComputedStyle(document.querySelector(".site-header .nav-inner")!).backgroundColor,
         navLayerPointerEvents: getComputedStyle(document.querySelector(".site-header .nav-bg")!).pointerEvents,
         navLayerZIndex: getComputedStyle(document.querySelector(".site-header .nav-bg")!).zIndex,
-        navLayerTransitionProperty: getComputedStyle(document.querySelector(".site-header .nav-bg")!).transitionProperty,
-        navContentZIndex: getComputedStyle(document.querySelector(".site-header .nav-flip")!).zIndex,
+        navLayerTransformOrigin: getComputedStyle(document.querySelector(".site-header .nav-bg")!).transformOrigin,
+        navContentZIndex: getComputedStyle(document.querySelector(".site-header .nav-flip > a")!).zIndex,
         footer: getComputedStyle(document.querySelector(".site-footer")!).backgroundImage,
         footerProfile: getComputedStyle(document.querySelector(".site-footer .footer-profile-card")!).backgroundColor,
         footerSocial: getComputedStyle(document.querySelector(".site-footer .footer-social-links a")!).backgroundColor
       }));
 
-      reference ??= surfaces;
-      expect(surfaces, `${route}: shared shell surface`).toEqual(reference);
-      expect(surfaces.navLayerTransitionProperty, `${route}: nav highlight transition`).toBe("transform");
+      const sharedSurfaces = {
+        nav: surfaces.nav,
+        navInner: surfaces.navInner,
+        navLayerPointerEvents: surfaces.navLayerPointerEvents,
+        navLayerZIndex: surfaces.navLayerZIndex,
+        navLayerTransformOrigin: surfaces.navLayerTransformOrigin,
+        navContentZIndex: surfaces.navContentZIndex,
+        footer: surfaces.footer,
+        footerProfile: surfaces.footerProfile,
+        footerSocial: surfaces.footerSocial
+      };
+      reference ??= sharedSurfaces;
+      expect(sharedSurfaces, `${route}: shared navigation and footer surface`).toEqual(reference);
+      expect(surfaces.navLayerTransformOrigin, `${route}: nav highlight transform origin`).toBe("0px 0px");
+      expect(surfaces.header, `${route}: header fade owner`).toBe(
+        route === "/" ? "none" : "linear-gradient(rgb(251, 250, 245), rgb(213, 214, 208))"
+      );
     }
   });
 
@@ -160,10 +175,12 @@ test.describe("UI polish contracts", () => {
       "/now/",
       "/blog/",
       "/contact/",
+      "/articles/when-evidence-goes-stale/",
       "/articles/why-ai-native-devrel/",
       "/proof/",
       "/work/ai-native-devrel/",
-      "/work/brainwav-io/"
+      "/work/brainwav-io/",
+      "/work/skillsbar/"
     ];
 
     for (const route of routes) {
@@ -181,7 +198,9 @@ test.describe("UI polish contracts", () => {
         };
       });
 
-      expect(canvas.bodyBackgroundImage, `${route}: body canvas gradient`).toBe("none");
+      expect(canvas.bodyBackgroundImage, `${route}: body canvas gradient`).toBe(
+        route === "/" ? "linear-gradient(rgb(251, 250, 245), rgb(213, 214, 208))" : "none"
+      );
       expect(canvas.mainBackgroundImage, `${route}: main canvas gradient`).toBe("none");
       expect(canvas.bodyBackgroundColor, `${route}: body canvas color`).toBe("rgb(213, 214, 208)");
       expect(canvas.effectiveMainBackgroundColor, `${route}: effective main canvas color`).toBe("rgb(213, 214, 208)");

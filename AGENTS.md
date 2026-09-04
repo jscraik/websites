@@ -22,6 +22,10 @@ schema_version: 2
 
 ## Project Pointers
 - package.json is the source of truth for npm scripts. Re-read it before choosing validation commands.
+- docs/agents/00-architecture-bootstrap.md records the schema, route-coverage,
+  motion, development-tooling, and generated-diagram boundaries that must stay
+  synchronized with source and dependency changes.
+
 - docs/implementation-notes/jose-parity-guardrail.md defines the Jose parity proof boundary, repeated steering fixes, and what screenshot/parity commands do and do not prove.
 - docs/decisions/2026-07-31-freeze-jose-reference-authority.md records the approved stored-reference authority; current-live Jose comparisons remain advisory until an explicit reference refresh is approved.
 - docs/reference/jose-ocando/README.md describes the stored Jose reference bundle. Static capture proves reference availability, not visual parity.

@@ -65,3 +65,13 @@ test("blocks admission when any required lane or state lacks passing evidence", 
   assert.equal(requiredEvidencePasses(["geometry"], { geometry: "pass" }, { modal: { status: "blocked" } }), false);
   assert.equal(requiredEvidencePasses(["geometry"], { geometry: "pass" }, { initial: { status: "pass" } }), true);
 });
+
+test("writes a blocked report when the browser runtime cannot launch", async () => {
+  const source = await readFile("scripts/evaluate-fieldcraft-scenes.mjs", "utf8");
+  assert.match(source, /await mkdir\(outputRoot, \{ recursive: true \}\)/);
+  assert.match(source, /await import\("playwright"\)/);
+  assert.match(source, /catch \{/);
+  assert.match(source, /writeBrowserBlockedReport/);
+  assert.match(source, /failure: \{ stage: "browser-launch", code: "browser_unavailable", retryable: true \}/);
+  assert.match(source, /writeFile\(path\.join\(outputRoot, "report\.json"\)/);
+});

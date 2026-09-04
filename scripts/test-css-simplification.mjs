@@ -212,7 +212,7 @@ assert.match(
 );
 assert.match(
   shell,
-  /@media \(prefers-reduced-motion: reduce\)\s*{\s*\.site-header \.nav-inner \.nav-bg\s*{\s*transform:\s*none;\s*transition:\s*none;\s*}\s*}/,
+  /@media \(prefers-reduced-motion: reduce\)\s*{\s*\.site-header \.nav-inner \.nav-bg\s*{\s*transform:\s*none;\s*}\s*}/,
   "the navigation highlight must stay still when reduced motion is requested",
 );
 assert.match(source, /<div class="nav-bg" aria-hidden="true"><\/div>/);
@@ -230,6 +230,7 @@ assert.match(source, /navShell\.querySelector\("a:focus-visible"\)\?\.closest\("
 assert.match(source, /source === "pointer"\s*\? navShell\.querySelector\("\.nav-flip:hover"\)/);
 assert.match(source, /else\s*\{\s*resetHighlight\(\);\s*\}/);
 assert.match(source, /prefers-reduced-motion: reduce/);
+assert.doesNotMatch(source, /--nav-highlight-(?:x|scale)/);
 assert.doesNotMatch(
   css,
   /--jp-surface\b/,

@@ -72,7 +72,6 @@ body:not(.skillsbar-demo) .site-header .icon-box[aria-current="page"] {
 @media (prefers-reduced-motion: reduce) {
   .site-header .nav-inner .nav-bg {
     transform: none;
-    transition: none;
   }
 }
 

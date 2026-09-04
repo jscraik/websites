@@ -60,6 +60,12 @@ bootstrap guidance aligned with the validator entrypoint and its proof scope.
 The CSS simplification fixture follows the same rule: its selector-removal
 assertions and the shared shell gradient contract must remain named in both
 surfaces when the stylesheet or route markup changes.
+The architecture bootstrap is the durable owner for portfolio schema,
+public-route inventory, shared motion, development-only tooling, and diagram
+projection boundaries. When any of those mechanisms change, agents must update
+that bootstrap with the implementation and keep this governance surface and
+root `AGENTS.md` aligned before push.
+
 
 Route-specific editorial rhythm belongs in `src/styles/route-rhythm.css`, not
 the shared shell. Keep its selectors scoped to the owning route and refresh the

@@ -68,6 +68,18 @@ current producers. The José About measurements target the current
 `.recognition-list a` markup; update that selector and its focused contract
 together when the source structure changes.
 
+Portfolio content is schema-driven. `src/content.config.ts` owns publication
+states, proof links, and the optional case-study narrative consumed by
+`src/pages/work/[slug].astro`; keep content fixtures and route-level coverage
+aligned whenever those schemas change. Shared route inventories must include
+new public article and work paths in smoke, accessibility, visual, and Jose CDP
+surfaces before those routes are treated as covered.
+
+Browser motion belongs to shared, testable helpers such as
+`src/scripts/flip-motion.ts`. Production output and committed dependency
+metadata must not require private development tooling or unauthenticated
+registries.
+
 Route-specific editorial rhythm belongs in `src/styles/route-rhythm.css` rather
 than the shared shell. Keep its selectors limited to the route that owns the
 spacing, and refresh the checked-in diagram projections when that stylesheet

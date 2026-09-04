@@ -11,7 +11,6 @@ import {
 } from "./lib/fieldcraft-contracts.mjs";
 import path from "node:path";
 import process from "node:process";
-import { chromium } from "playwright";
 import pixelmatch from "pixelmatch";
 import { PNG } from "pngjs";
 
@@ -45,7 +44,44 @@ const referenceRoot = process.env.FIELDCRAFT_REFERENCE_SCREENSHOTS
   ? path.resolve(process.env.FIELDCRAFT_REFERENCE_SCREENSHOTS)
   : path.join(referenceBundleRoot, "screenshots/1280x720");
 const mismatchLimit = policy.pixelMismatchLimit;
-const browser = await chromium.launch({ headless: true });
+await mkdir(outputRoot, { recursive: true });
+
+const writeBrowserBlockedReport = async () => {
+  const laneEvidence = Object.fromEntries(
+    policy.requiredLanes.map((lane) => [lane, "blocked"]),
+  );
+  const stateCoverage = {
+    initialScenes: { expected: contract.requiredVisualMatrix.initialScenes, observed: 0, status: "blocked" },
+    workflowModals: { expected: contract.requiredVisualMatrix.workflowModals, observed: 0, status: "blocked" },
+    deploymentCheckpoints: { expected: contract.requiredVisualMatrix.deploymentCheckpoints, observed: 0, status: "blocked" },
+    roadmapStates: { expected: contract.requiredVisualMatrix.roadmapStates, observed: 0, status: "blocked" },
+  };
+  const report = {
+    schemaVersion: 1,
+    candidateUrl,
+    viewport: contract.viewport,
+    geometry: [],
+    visual: [],
+    consoleFindings: [],
+    requestFailures: [],
+    policy: { authority: policy.authority, sha256: policyDigest, mismatchLimit, pixelmatchThreshold: policy.pixelmatchThreshold },
+    laneEvidence,
+    stateCoverage,
+    failure: { stage: "browser-launch", code: "browser_unavailable", retryable: true },
+    pass: false,
+  };
+  await writeFile(path.join(outputRoot, "report.json"), `${JSON.stringify(report, null, 2)}\n`);
+};
+
+let browser;
+try {
+  const { chromium } = await import("playwright");
+  browser = await chromium.launch({ headless: true });
+} catch {
+  await writeBrowserBlockedReport();
+  console.error(`BLOCKED Fieldcraft rendered scene evaluation; see ${outputRoot}/report.json`);
+  process.exit(1);
+}
 const page = await browser.newPage({ viewport: contract.viewport, reducedMotion: "no-preference" });
 const consoleFindings = [];
 const requestFailures = [];
@@ -74,7 +110,6 @@ await page.emulateMedia({ reducedMotion: "no-preference" });
 await page.evaluate(async () => {
   await Promise.all(document.getAnimations().map((animation) => animation.finished.catch(() => undefined)));
 });
-await mkdir(outputRoot, { recursive: true });
 
 const measurements = await page.evaluate((sceneContract) => {
   const sections = [...document.querySelectorAll("main section")];
