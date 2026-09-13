@@ -204,7 +204,7 @@ export function collectPrBodyContractErrors(content, template) {
       if (value === "" && !CONDITIONALLY_ADMITTED_FIELDS.has(field)) {
         errors.push(`PR body field ${section} / ${field} must not be empty.`);
       }
-      const notApplicable = value.match(/^n\.a\.(?:\s+because(?:\s+(.*))?)?$/i);
+      const notApplicable = value.match(/^(?:n\.a\.|n\/a)(?:\s+because(?:\s+(.*))?)?$/i);
       if (notApplicable !== null && (notApplicable[1] === undefined || !/[A-Za-z0-9]/.test(notApplicable[1]))) {
         errors.push(`PR body field ${section} / ${field} must give a concrete reason after n.a.`);
       }

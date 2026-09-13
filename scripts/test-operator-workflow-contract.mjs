@@ -220,7 +220,16 @@ check("PR body validation follows the repository template contract", () => {
   const placeholderValue = validBody.replace("- Problem: verified value", "- Problem: n.a. because reason");
   assert.match(collectPrBodyContractErrors(placeholderValue, pullRequestTemplate).join("\n"), /replace the template placeholder/i);
 
-  for (const incompleteReason of ["n.a.", "n.a. because", "n.a. because   ", "n.a. because ---"]) {
+  for (const incompleteReason of [
+    "n.a.",
+    "n.a. because",
+    "n.a. because   ",
+    "n.a. because ---",
+    "n/a",
+    "n/a because",
+    "n/a because   ",
+    "n/a because ---",
+  ]) {
     const incompleteNotApplicable = validBody.replace(
       "- Linear reference: verified value",
       `- Linear reference: ${incompleteReason}`,
