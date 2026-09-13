@@ -14,12 +14,14 @@ career-transition copy, and Home's primary SkillsBar destination. All requested
 fonts, styles, and portrait/product images returned HTTP 200 from the immutable
 artifact server.
 
-The attempted About-link activation inside the sandboxed frame timed out and the
-frame remained on Home, so it is not navigation evidence. A later nested-frame
-locator attempt also exceeded its selector deadline. The accessibility-tree
-read is the accepted rendered fallback evidence; link activation, top-level
-Back/bfcache behavior, mobile coverage, and a full Playwright no-script rerun
-remain open. Temporary tabs and both local servers were closed.
+The initial locator-based About activation timed out and remained on Home, so
+that attempt is rejected. A fresh accessibility-action run then completed the
+current script-disabled journey: Home → About → browser Back → primary demo,
+followed by browser Back → SkillsBar case study → demo. Each destination exposed
+its expected heading, and both demo arrivals exposed the ordered fallback. The
+sandboxed frame returned no `PerformanceNavigationTiming` entry after Back, so
+restoration is verified but bfcache residency is not. Mobile coverage and a full
+Playwright rerun remain open. Temporary tabs and both local servers were closed.
 
 ## Remaining finite verification queue
 
