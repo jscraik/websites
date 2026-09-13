@@ -1579,3 +1579,39 @@ The captures used reduced motion for stable comparison and therefore do not
 close dynamic-motion review, physical-device coverage, screen-reader operation,
 public-safe CV approval, or Jose-reference pixel parity; no such broader claim
 is made.
+
+## September 13 current motion review and reduced-motion repair
+
+The `review-animations` contract was applied to the current motion inventory.
+The 400ms navigation and animated-button FLIP remains an explicit, tested Jose
+transfer decision; the longer card/image transitions are low-frequency
+marketing motion rather than high-frequency interface latency. Normal-motion
+frame sequences showed coherent page entry, navigation-highlight, CTA-fill, and
+SkillsBar readiness movement at 375×812 and 1440×1000.
+
+The first eight-case runtime review found one blocking accessibility defect. In
+both reduced-motion viewports, the SkillsBar readiness fill retained its 350ms
+scale transition: it was still interpolating at 100ms and, at 375px, at 250ms.
+The existing global descendant override appeared later in the built stylesheet
+but lost to the more-specific scoped readiness selector. A rejected first repair
+used `!important`; `npm run validate:astro-anti-patterns` correctly failed it.
+
+The accepted repair replaces the blanket rule with explicit body-scoped
+`.readiness-track span` and `.toast` reduced-motion selectors. Their natural
+specificity wins without `!important`. The same eight-case review was repeated
+against a new immutable build: 56 sequenced captures, no page errors, coherent
+normal motion, stable reduced-motion frames, and the readiness fill at its final
+0.24 scale by 100ms at both widths. Before the repair, reduced-motion active
+durations included 350ms; after it, the fill's transition duration is 0.01ms.
+
+Review verdict after repair: **Approve**. No feel-breaking regression, unjustified
+high-frequency motion, non-GPU movement, or unresolved reduced-motion defect
+remains in the reviewed interaction inventory. This closes C05. It does not
+substitute for physical-device gesture review or screen-reader operation.
+
+The focused Playwright regression is present in
+`tests/e2e/skillsbar-demo.spec.ts`. Direct execution for both configured projects
+was blocked before test code ran because the repository's managed Playwright
+Chromium executable is not installed; policy forbids installing or substituting
+it. The existing-CDP before/after run exercises the same built route and media
+query and supplies the runtime behavior proof.

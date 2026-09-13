@@ -91,3 +91,25 @@ test("demo reports clipboard failure without changing the selected scenario", as
   await expect(page.locator("#pipeline-title")).toHaveText("Security review is flagged");
   await expect(page.locator(".gate-state")).toHaveText(scenarios[1].states);
 });
+
+test("demo removes movement when reduced motion is requested", async ({ page }) => {
+  const transitionDurations = async () => page.locator("#readiness-fill").evaluate((element) =>
+    getComputedStyle(element).transitionDuration
+      .split(",")
+      .map((duration) => Number.parseFloat(duration) * (duration.trim().endsWith("ms") ? 1 : 1000)),
+  );
+
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await preparePage(page, "/demos/skillsbar/");
+  expect(Math.max(...await transitionDurations())).toBe(350);
+
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  expect(Math.max(...await transitionDurations())).toBeLessThanOrEqual(0.01);
+
+  await page.getByRole("button", { name: "Security flagged", exact: true }).click();
+  await expect(page.locator("#readiness-score")).toHaveText("24");
+  const movementDurations = await page.locator("#readiness-fill").evaluate((element) =>
+    element.getAnimations().map((animation) => Number(animation.effect?.getTiming().duration ?? 0)),
+  );
+  expect(movementDurations.every((duration) => duration <= 0.01)).toBe(true);
+});

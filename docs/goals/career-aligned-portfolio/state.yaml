@@ -8,7 +8,7 @@ current_task:
   id: closeout-and-browser-proof
   status: in_progress
   owner: codex
-  next_action: Signed candidate c50fbfa contains merged PR 41 and passes the complete 52-case static visual matrix across all 13 routes at 320, 375, 768, and 1440 pixels; C02 and D07 are complete. Exact native 200-percent reflow and top-level JavaScript-disabled bfcache proof also pass. The compression-capable immutable-artifact audit clears local portrait, compression, latency, and bfcache findings and raises six-route performance to 0.92-0.94; the recommended preset remains failed only by six zero-savings dependency-tree and six shared unused-CSS assertions. Continue the independent screen-reader, dynamic-motion and physical-device, deployed Cloudflare-header, and public-safe CV lanes. Do not revisit the rejected appended About CSS split without an order-preserving build mechanism or deliberate cascade-refactor scope.
+  next_action: The current motion review found and repaired a SkillsBar reduced-motion specificity defect; the repeated eight-case, 56-frame immutable-build review passes at mobile and desktop and C05 is complete. C02 and D07 remain complete through the 52-case static matrix, with exact native 200-percent reflow and top-level JavaScript-disabled bfcache proof also passing. The compression-capable audit clears local portrait, compression, latency, and bfcache findings but the recommended preset retains six zero-savings dependency-tree and six shared unused-CSS assertions. Continue the independent screen-reader, physical-device, deployed Cloudflare-header, performance-preset, and public-safe CV lanes. Do not revisit the rejected appended About CSS split without an order-preserving build mechanism or deliberate cascade-refactor scope.
 scope:
   - src
   - public
@@ -18,7 +18,6 @@ scope:
 blocked_items:
   - B11
   - C04
-  - C05
   - C06
   - D01
   - D02
