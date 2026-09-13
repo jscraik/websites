@@ -8,7 +8,7 @@ current_task:
   id: closeout-and-browser-proof
   status: in_progress
   owner: codex
-  next_action: Current signed head 8b95baf has fresh in-app browser evidence across all 13 desktop routes and seven key mobile routes, plus a verified SkillsBar state transition. Use an approved JavaScript-toggle or test runtime for the updated no-script journey and a policy-compliant Lighthouse run. Native 200-percent zoom, screen-reader operation, exhaustive visual review, and public-safe CV wording still require external capability or approval. Continue the order-preserving CSS split investigation without speculative deletion.
+  next_action: Current signed head 8b95baf has fresh in-app browser evidence across all 13 desktop routes and seven key mobile routes, plus a verified SkillsBar state transition. Regular Chrome also preserved readable Home content and its complete accessibility tree at native 250-percent zoom, but exact 200-percent and all-route zoom remain open after window focus changed. Use an approved JavaScript-toggle or test runtime for the updated no-script journey and a policy-compliant Lighthouse run. Screen-reader operation, exhaustive visual review, and public-safe CV wording still require external capability or approval. Continue the order-preserving CSS split investigation without speculative deletion.
 scope:
   - src
   - public

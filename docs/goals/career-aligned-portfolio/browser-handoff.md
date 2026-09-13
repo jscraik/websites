@@ -1401,5 +1401,15 @@ control. Repeated platform zoom shortcuts left the measured 1280×720 CSS
 viewport unchanged, so native 200% zoom remains unproven. This is a capability
 limit, not a site failure. Lighthouse and public-safe CV review also remain
 separate open lanes.
+
+A subsequent bounded desktop-control attempt opened the same current build in
+regular Chrome and confirmed Chrome's native zoom indicator at 250%. At that
+level the Home screenshot retained the complete navigation and readable hero,
+career summary, portrait and first action group; Chrome's accessibility tree
+continued to expose the complete page structure through the footer. This is
+useful above-threshold reflow evidence, but it does not replace the required
+exact 200% checkpoint or an all-route zoom sweep. Chrome focus then changed to
+another user window, so no further shortcut was sent; the separate viewing
+session was not disturbed to manufacture the missing result.
 Keep synthetic lifecycle tests separate from real back-forward-cache proof.
 Record screenshots and results against this archive checksum, not a later build.
