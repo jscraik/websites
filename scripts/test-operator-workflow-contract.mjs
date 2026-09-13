@@ -204,6 +204,9 @@ check("PR body validation follows the repository template contract", () => {
   const missingValue = validBody.replace("- Problem: verified value", "- Problem:");
   assert.match(collectPrBodyContractErrors(missingValue, pullRequestTemplate).join("\n"), /Problem must not be empty/i);
 
+  const duplicateRequiredField = validBody.replace("- Problem: verified value", "- Problem: filled\n- Problem:");
+  assert.match(collectPrBodyContractErrors(duplicateRequiredField, pullRequestTemplate).join("\n"), /Problem must appear exactly once/i);
+
   const placeholderValue = validBody.replace("- Problem: verified value", "- Problem: n.a. because reason");
   assert.match(collectPrBodyContractErrors(placeholderValue, pullRequestTemplate).join("\n"), /replace the template placeholder/i);
 
@@ -246,6 +249,12 @@ check("PR body validation follows the repository template contract", () => {
     "- Command: `npm run validate:pr-template` -> blocked (reason)",
   );
   assert.match(collectPrBodyContractErrors(placeholderBlockedReason, pullRequestTemplate).join("\n"), /must include an exact command/i);
+
+  const blankValidationCommand = validBody.replace(
+    "- Command: `npm run validate:pr-template` -> pass",
+    "- Command: `   ` -> pass",
+  );
+  assert.match(collectPrBodyContractErrors(blankValidationCommand, pullRequestTemplate).join("\n"), /must include an exact command/i);
 
   const fencedHeadingExample = validBody.replace(
     "- Untested paths and limitations: verified value",

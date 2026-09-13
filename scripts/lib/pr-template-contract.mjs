@@ -79,8 +79,11 @@ function hasField(section, label) {
 }
 
 function fieldValue(section, label) {
-  const match = section.match(new RegExp(`^- ${escapeRegExp(label)}:[ \\t]*(.*)$`, "m"));
-  return match?.[1]?.trim() ?? null;
+  return fieldValues(section, label)[0] ?? null;
+}
+
+function fieldValues(section, label) {
+  return [...section.matchAll(new RegExp(`^- ${escapeRegExp(label)}:[ \\t]*(.*)$`, "gm"))].map((match) => match[1].trim());
 }
 
 function collectRequiredSectionErrors(content, surface) {
@@ -183,7 +186,12 @@ export function collectPrBodyContractErrors(content, template) {
     const templateBody = sectionBody(visibleTemplate, section);
     if (body === null) continue;
     for (const field of fields) {
-      const value = fieldValue(body, field);
+      const values = fieldValues(body, field);
+      if (values.length !== 1) {
+        errors.push(`PR body field ${section} / ${field} must appear exactly once.`);
+        continue;
+      }
+      const [value] = values;
       const templateValue = templateBody === null ? null : fieldValue(templateBody, field);
       if (value === "") errors.push(`PR body field ${section} / ${field} must not be empty.`);
       if (value !== null && /^n\.a\.$/i.test(value)) {
@@ -218,9 +226,15 @@ export function collectPrBodyContractErrors(content, template) {
     .split("\n")
     .filter((line) => /^- Command: /.test(line) && !templateCommandExamples.has(line));
   const hasValidOutcome = commandEvidence.some((line) => {
-    if (/^- Command: `[^`]+` -> (?:pass|fail)(?: \([^\n]+\))?$/.test(line)) return true;
-    const blocked = line.match(/^- Command: `[^`]+` -> blocked \(([^\n]*)\)$/);
-    return blocked !== null && blocked[1].trim() !== "" && !/^reason$/i.test(blocked[1].trim());
+    const completed = line.match(/^- Command: `([^`]*)` -> (?:pass|fail)(?: \([^\n]+\))?$/);
+    if (completed !== null) return completed[1].trim() !== "";
+    const blocked = line.match(/^- Command: `([^`]*)` -> blocked \(([^\n]*)\)$/);
+    return (
+      blocked !== null &&
+      blocked[1].trim() !== "" &&
+      blocked[2].trim() !== "" &&
+      !/^reason$/i.test(blocked[2].trim())
+    );
   });
   if (!hasValidOutcome) {
     errors.push("PR body validation must include an exact command with a pass, fail, or blocked outcome.");
