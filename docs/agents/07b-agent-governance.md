@@ -1,5 +1,10 @@
 # Agent governance
 
+Read this document when a task selects delegation, persistent coordination,
+operator-projection changes, or PR delivery. Ordinary local implementation does
+not require loading this governance detail unless one of those boundaries is
+reached.
+
 ## Scope and handoff
 
 Agents work only on the approved task slice and preserve unrelated dirty state.
