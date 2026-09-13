@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-09-13T17:08:34Z
+Generated: 2026-09-13T17:13:48Z
 
 ## Table of Contents
 
@@ -31,6 +31,7 @@ Generated: 2026-09-13T17:08:34Z
 - These architecture-sensitive paths changed on the current branch and may be compacted out of Mermaid diagrams.
 - `.circleci/config.yml`
 - `AGENTS.md`
+- `README.md`
 - `docs/agents/00-architecture-bootstrap.md`
 - `docs/agents/07b-agent-governance.md`
 - `package.json`
