@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-09-04T16:15:09Z
+Generated: 2026-09-13T16:13:42Z
 
 ## Table of Contents
 
@@ -29,92 +29,9 @@ Generated: 2026-09-04T16:15:09Z
 ## Changed source focus
 
 - These architecture-sensitive paths changed on the current branch and may be compacted out of Mermaid diagrams.
-- `.circleci/config.yml`
-- `.github/PULL_REQUEST_TEMPLATE.md`
-- `.npmrc`
 - `AGENTS.md`
-- `README.md`
-- `docs/agents/00-architecture-bootstrap.md`
 - `docs/agents/07b-agent-governance.md`
-- `docs/reference/fieldcraft-fde/v2/README.md`
-- `docs/reference/fieldcraft-fde/v2/manifest.json`
-- `docs/reference/fieldcraft-fde/v3/manifest.json`
-- `docs/reference/fieldcraft-fde/v3/policy.json`
-- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-00.png`
-- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-01.png`
-- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-02.png`
-- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-03.png`
-- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-04.png`
-- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-05.png`
-- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-06.png`
-- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-07.png`
-- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-08.png`
-- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-09.png`
-- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-10.png`
-- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-11.png`
-- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-12.png`
-- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-13.png`
-- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-14.png`
-- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-15.png`
-- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-16.png`
-- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-17.png`
-- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-18.png`
-- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/scene-19.png`
-- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/states/modal-01.png`
-- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/states/modal-02.png`
-- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/states/modal-03.png`
-- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/states/modal-04.png`
-- `docs/reference/fieldcraft-fde/v3/screenshots/1280x720/states/modal-05.png`
-- `docs/specifications/fieldcraft-fde-blind-build-agent-prompt.md`
-- `docs/specifications/fieldcraft-fde-blind-build-brief.md`
-- `docs/specifications/fieldcraft-fde-internal-region-contract.json`
-- `docs/specifications/fieldcraft-fde-measured-scene-contract.md`
-- `docs/specifications/fieldcraft-fde-replication-spec.md`
-- `docs/specifications/fieldcraft-fde-scene-contract.json`
 - `package.json`
-- `scripts/evaluate-fieldcraft-scenes.mjs`
-- `scripts/lib/design-system-contract.mjs`
-- `scripts/lib/fieldcraft-contracts.mjs`
-- `scripts/lib/pr-template-contract.mjs`
-- `scripts/lib/social-profile-assets-contract.mjs`
-- `scripts/prepare-fieldcraft-blind-build.mjs`
-- `scripts/refresh-diagram-context.sh`
-- `scripts/seal-fieldcraft-reference.mjs`
-- `scripts/test-css-simplification.mjs`
-- `scripts/test-design-system-contract.mjs`
-- `scripts/test-diagram-freshness-opt-in.mjs`
-- `scripts/test-fieldcraft-blind-build.mjs`
-- `scripts/test-fieldcraft-contracts.mjs`
-- `scripts/test-operator-workflow-contract.mjs`
-- `scripts/test-social-profile-assets-contract.mjs`
-- `scripts/validate-design-system.mjs`
-- `scripts/validate-fieldcraft-internal-region-contract.mjs`
-- `scripts/validate-fieldcraft-scene-contract.mjs`
-- `scripts/validate-operator-contract.mjs`
-- `scripts/validate-pr-template.mjs`
-- `scripts/validate-social-profile-assets.mjs`
-- `src/brand/approved-live-banners.json`
-- `src/brand/source/approved/jamie-linkedin-background-1584x396.png`
-- `src/brand/source/approved/jamie-x-header-1500x500.png`
-- `src/components/AnimatedButton.astro`
-- `src/components/SiteNav.astro`
-- `src/components/StartLinks.astro`
-- `src/layouts/BaseLayout.astro`
-- `src/pages/articles/when-evidence-goes-stale.astro`
-- `src/pages/blog/index.astro`
-- `src/pages/index.astro`
-- `src/pages/work/[slug].astro`
-- `src/scripts/flip.test.ts`
-- `src/scripts/flip.ts`
-- `src/scripts/lapse-dev.test.ts`
-- `src/scripts/lapse-dev.ts`
-- `src/styles/global.css`
-- `src/styles/route-rhythm.css`
-- `src/styles/shell.css`
-- `tests/e2e/animated-button-contract.spec.ts`
-- `tests/e2e/fieldcraft-hidden-state-contract.spec.ts`
-- `tests/e2e/interface-contracts.spec.ts`
-- `tests/e2e/work-card-pointer-contract.spec.ts`
 
 ## agent
 
