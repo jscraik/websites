@@ -1,11 +1,16 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
-import { byOrder } from "../../lib/portfolio";
+import { byOrder, workRoute } from "../../lib/portfolio";
 import type { CollectionEntry } from "astro:content";
 
 type ProofEntry = CollectionEntry<"proof">;
+type WorkEntry = CollectionEntry<"work">;
 type ProofItem = ProofEntry["data"];
+
+const workItems: WorkEntry[] = (await getCollection("work"))
+  .filter((entry: WorkEntry) => entry.data.publicationState === "published")
+  .sort(byOrder);
 
 const proofItems: ProofItem[] = (await getCollection("proof"))
   .filter((entry: ProofEntry) => entry.data.publicationState === "published")
@@ -28,8 +33,27 @@ const plannedProofItems = proofItems.filter((item: ProofItem) => item.status ===
     </header>
 
     <div class="section-label proof-label">
-      <span>Featured proof</span>
-      <span>Curated proof</span>
+      <span>Projects</span>
+      <span>Source-backed work</span>
+    </div>
+
+    <div class="proof-row" role="region" aria-label="Published projects" tabindex="0">
+      {workItems.map((entry: WorkEntry) => (
+        <a class="proof-card" href={workRoute(entry)}>
+          <span>{entry.data.date}</span>
+          <h2>{entry.data.shortTitle}</h2>
+          <p>{entry.data.proof.claim}</p>
+          <dl>
+            <div><dt>Evidence</dt><dd>{entry.data.proof.evidence}</dd></div>
+            <div><dt>Limitation</dt><dd>{entry.data.proof.caveat}</dd></div>
+          </dl>
+        </a>
+      ))}
+    </div>
+
+    <div class="section-label proof-label">
+      <span>Writing and proof notes</span>
+      <span>Curated evidence</span>
     </div>
 
     <div class="proof-row" role="region" aria-label="Featured proof" tabindex="0">
@@ -81,3 +105,14 @@ const plannedProofItems = proofItems.filter((item: ProofItem) => item.status ===
     )}
   </section>
 </BaseLayout>
+
+<style>
+  .proof-card {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .proof-card:focus-visible {
+    outline-offset: -4px;
+  }
+</style>

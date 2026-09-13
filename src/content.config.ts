@@ -64,6 +64,13 @@ const work = defineCollection({
     role: z.string(),
     tags: z.array(z.string()).min(1),
     tone: z.enum(["paper", "dark", "blue", "peach", "green"]),
+    capture: z.object({
+      src: z.string().regex(/^\/products\/[a-z0-9-]+\/[a-z0-9-]+\.(?:png|webp|avif)$/),
+      alt: z.string().min(1),
+      width: z.number().int().positive(),
+      height: z.number().int().positive(),
+      caption: z.string().min(1)
+    }).strict().optional(),
     featured: featuredSchema,
     proof: z.object({
       claim: z.string(),

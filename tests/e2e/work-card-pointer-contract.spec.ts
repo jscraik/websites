@@ -45,8 +45,8 @@ test.describe("work-card pointer contract", () => {
     await thumbnail.hover({ position: { x: 40, y: 60 } });
 
     await expect(thumbnail).toHaveAttribute("data-pointer-active", "true");
-    await expect(cursor).toHaveCSS("--work-cursor-x", "0px");
-    await expect(cursor).toHaveCSS("--work-cursor-y", "0px");
+    await expect(cursor).toHaveCSS("--work-cursor-x", /^0(?:\.0+)?px$/);
+    await expect(cursor).toHaveCSS("--work-cursor-y", /^0(?:\.0+)?px$/);
     await expect(cursor.locator(".work-thumbnail__arrow")).toHaveCSS("transition-property", "none");
   });
 });

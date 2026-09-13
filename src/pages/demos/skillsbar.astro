@@ -46,6 +46,26 @@ const gates = [
             Evidence current
           </button>
         </div>
+        <noscript>
+          <section class="scenario-fallback" aria-labelledby="scenario-fallback-title">
+            <h2 id="scenario-fallback-title">All release scenarios</h2>
+            <p>Interactive switching needs JavaScript. The complete decision summary remains available below.</p>
+            <dl>
+              <div>
+                <dt>Candidate held · 11/100</dt>
+                <dd>Build the canonical non-mutating package receipt before downstream proof can proceed.</dd>
+              </div>
+              <div>
+                <dt>Security flagged · 24/100</dt>
+                <dd>Resolve the candidate-bound risk-mode finding before delivery evidence can proceed.</dd>
+              </div>
+              <div>
+                <dt>Evidence current · 100/100</dt>
+                <dd>Inspect the bound publication receipt before any promotion decision.</dd>
+              </div>
+            </dl>
+          </section>
+        </noscript>
       </section>
 
       <section class="product-shell" aria-label="Interactive SkillsBar cockpit">
@@ -248,29 +268,14 @@ const gates = [
 
       const renderGates = (states: string[]) => {
         if (!(gateList instanceof HTMLOListElement)) return;
-        gateList.replaceChildren(...gates.map(([name, detail], index) => {
+        gateList.querySelectorAll(".gate").forEach((row, index) => {
           const state = states[index];
-          const row = document.createElement("li");
           row.className = `gate ${state}`;
-
-          const marker = document.createElement("span");
-          marker.className = "gate-marker";
-          marker.textContent = state === "passed" ? "✓" : String(index + 1).padStart(2, "0");
-
-          const copy = document.createElement("span");
-          copy.className = "gate-copy";
-          const nameElement = document.createElement("strong");
-          nameElement.textContent = name;
-          const detailElement = document.createElement("span");
-          detailElement.textContent = detail;
-          copy.append(nameElement, detailElement);
-
-          const status = document.createElement("span");
-          status.className = "gate-state";
-          status.textContent = state === "active" ? "Required" : state === "flagged" ? "Flagged" : state === "passed" ? "Current" : "Held";
-          row.append(marker, copy, status);
-          return row;
-        }));
+          const marker = row.querySelector(".gate-marker");
+          const status = row.querySelector(".gate-state");
+          if (marker) marker.textContent = state === "passed" ? "✓" : String(index + 1).padStart(2, "0");
+          if (status) status.textContent = state === "active" ? "Required" : state === "flagged" ? "Flagged" : state === "passed" ? "Current" : "Held";
+        });
       };
 
       const selectScenario = (key: keyof typeof scenarios) => {
@@ -367,6 +372,50 @@ const gates = [
   }
   :global(.skillsbar-demo *) { box-sizing: border-box; }
   :global(.skillsbar-demo button) { color: inherit; font: inherit; }
+
+  .scenario-fallback {
+    width: min(100%, 760px);
+    margin: var(--space-6) auto 0;
+    padding: var(--space-5);
+    border: 1px solid var(--skillsbar-line);
+    border-radius: var(--bds-radius-card);
+    background: var(--skillsbar-surface);
+  }
+
+  .scenario-fallback h2,
+  .scenario-fallback p,
+  .scenario-fallback dl,
+  .scenario-fallback dd {
+    margin: 0;
+  }
+
+  .scenario-fallback h2 {
+    font-size: var(--bds-type-heading-sm-size);
+  }
+
+  .scenario-fallback p,
+  .scenario-fallback dd {
+    color: var(--skillsbar-muted);
+  }
+
+  .scenario-fallback p {
+    margin-top: var(--space-2);
+  }
+
+  .scenario-fallback dl {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-5);
+  }
+
+  .scenario-fallback div {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .scenario-fallback dt {
+    font-weight: 700;
+  }
 
   .demo-nav {
     position: sticky;

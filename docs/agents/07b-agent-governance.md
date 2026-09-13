@@ -1,5 +1,10 @@
 # Agent governance
 
+Read this document when a task selects delegation, persistent coordination,
+operator-projection changes, or PR delivery. Ordinary local implementation does
+not require loading this governance detail unless one of those boundaries is
+reached.
+
 ## Scope and handoff
 
 Agents work only on the approved task slice and preserve unrelated dirty state.
@@ -65,7 +70,6 @@ public-route inventory, shared motion, development-only tooling, and diagram
 projection boundaries. When any of those mechanisms change, agents must update
 that bootstrap with the implementation and keep this governance surface and
 root `AGENTS.md` aligned before push.
-
 
 Route-specific editorial rhythm belongs in `src/styles/route-rhythm.css`, not
 the shared shell. Keep its selectors scoped to the owning route and refresh the

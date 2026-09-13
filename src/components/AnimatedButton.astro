@@ -26,6 +26,7 @@ const { class: className, href, label, ...rest } = Astro.props;
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
   const activeAnimations = new WeakMap<HTMLElement, Animation>();
   const activeFills = new Set<HTMLElement>();
+  const resetButtons: Array<() => void> = [];
 
   const cancelAnimation = (fill: HTMLElement) => {
     activeAnimations.get(fill)?.cancel();
@@ -70,9 +71,12 @@ const { class: className, href, label, ...rest } = Astro.props;
     }
   };
   reducedMotion.addEventListener("change", cancelForReducedMotion);
+  finePointer.addEventListener("change", () => {
+    if (!finePointer.matches) resetButtons.forEach((reset) => reset());
+  });
   window.addEventListener("pagehide", () => {
-    reducedMotion.removeEventListener("change", cancelForReducedMotion);
-  }, { once: true });
+    resetButtons.forEach((reset) => reset());
+  });
 
   document.querySelectorAll<HTMLElement>("[data-animated-button]").forEach((button) => {
     if (button.dataset.buttonReady === "true") return;
@@ -82,6 +86,12 @@ const { class: className, href, label, ...rest } = Astro.props;
     if (!fill || !arrow) return;
 
     button.dataset.buttonReady = "true";
+
+    resetButtons.push(() => {
+      cancelAnimation(fill);
+      if (fill.parentElement !== button) button.prepend(fill);
+      button.removeAttribute("data-active");
+    });
 
     button.addEventListener("mouseenter", () => {
       if (!finePointer.matches || fill.parentElement === arrow) return;
@@ -94,13 +104,13 @@ const { class: className, href, label, ...rest } = Astro.props;
     });
 
     button.addEventListener("mouseleave", () => {
-      if (!finePointer.matches || fill.parentElement === button) return;
+      if (fill.parentElement === button) return;
 
       const previousRect = fill.getBoundingClientRect();
       cancelAnimation(fill);
       button.prepend(fill);
       button.removeAttribute("data-active");
-      animateFrom(fill, previousRect);
+      if (finePointer.matches) animateFrom(fill, previousRect);
     });
   });
 </script>

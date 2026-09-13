@@ -9,6 +9,7 @@ import { getCollection } from "astro:content";
 import { byOrder, featuredWorkCards, proofWorkCards } from "../lib/portfolio";
 import type { CollectionEntry } from "astro:content";
 import type { ProofEntry, WorkCard, WorkEntry } from "../lib/portfolio";
+import { publicProfile } from "../lib/public-profile";
 
 type BlogEntry = CollectionEntry<"blog">;
 
@@ -27,7 +28,7 @@ const workCards = proofWorkCards(workEntries, proofEntries);
 const workCount = String(workCards.length).padStart(2, "0");
 ---
 
-<BaseLayout title="Jamie Scott Craik | Inspectable AI workflows">
+<BaseLayout title="Jamie Scott Craik | Software developer in transition" description={publicProfile.summary}>
   <header class="header-inner section-shell" aria-labelledby="home-title">
     <div class="home-hero" data-entry>
       <div class="home-hero__intro v-stack cc-lg">
@@ -37,20 +38,19 @@ const workCount = String(workCards.length).padStart(2, "0");
         </h1>
         <div>
           <p class="home-hero__position">
-            AI workflow delivery and developer experience, focused on trustworthy AI-assisted software engineering.
+            Software, developer tools, and practical AI-assisted work.
           </p>
           <p class="home-hero__body">
-            I turn ambiguous agent-workflow problems into inspected, teachable
-            systems with clear claims, command evidence, and honest proof
-            boundaries.
+            I am moving into professional software development after 22 years of Army
+            leadership, instruction, and operational delivery.
           </p>
           <div class="profile-row cc-home-hero" aria-label="Jamie Scott Craik">
             <div class="pfp-img-wrap">
               <img src="/jamie-profile-96.webp" alt="Jamie Scott Craik" class="u-img-cover" width="96" height="96" />
             </div>
             <div class="profile-row-meta">
-              <div class="input-label">AI workflow delivery</div>
-              <div class="input-label">Former Army Warrant Officer</div>
+              <div class="input-label">Independent since Nov 2024</div>
+              <div class="input-label">Former Army logistics leader and instructor</div>
             </div>
           </div>
         </div>
@@ -82,7 +82,7 @@ const workCount = String(workCards.length).padStart(2, "0");
             </div>
             <div class={"feature-block-img feature-block-img--" + card.visual}>
               <div class="work-preview">
-                <div class={"work-preview__image work-preview__image--" + card.visual} aria-hidden="true">
+                <div class={card.visual === "skills" ? "skillsbar-artwork" : "work-preview__image work-preview__image--" + card.visual} aria-hidden="true">
                   {card.visual === "skills" ? (
                     <div class="skillsbar-preview">
                       <div class="skillsbar-preview__header">
@@ -250,7 +250,7 @@ const workCount = String(workCards.length).padStart(2, "0");
         </span>
       </div>
       <div class="blog-preview__drafts" aria-label="In my drafts">
-        <p class="eyebrow">In my drafts</p>
+        <p class="eyebrow">Writing next</p>
         {draftBlogEntries.map((draft) => (
           <a
             href={draft.data.proofLink}

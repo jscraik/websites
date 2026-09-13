@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import "../styles/about.css";
+import { publicProfile } from "../lib/public-profile";
 
 const quickLinks = [
   { label: "Fun Facts", href: "#fun-facts", icon: "person" },
@@ -13,9 +14,9 @@ const funFacts = [
   {
     kicker: "Background",
     title: "British Army",
-    detail: "Ten years of standards, instruction, logistics, and people leadership still shape how I work.",
+    detail: "Twenty-two years of service, including 7.5 years at Warrant Officer rank, shape how I lead, teach, and work.",
     artifact: "Field note",
-    meta: "10 years",
+    meta: publicProfile.background.service,
     visual: "army"
   },
   {
@@ -47,18 +48,18 @@ const funFacts = [
 const skills = [
   {
     icon: "spark",
-    title: "AI workflow delivery",
-    detail: "Turning ambiguous agent-workflow problems into working interfaces, evidence routes, and clear next actions without hiding the verification burden."
+    title: "Software development",
+    detail: "Turning product goals into small, testable software systems with clear behavior and honest limits."
   },
   {
     icon: "proof",
-    title: "Proof-led writing",
-    detail: "Turning drafts, commands, screenshots, caveats, and validation receipts into public-safe articles and notes."
+    title: "Technical communication",
+    detail: "Explaining technical choices, commands, results, and limitations in language a maintainer can use."
   },
   {
     icon: "tool",
-    title: "Developer workflow design",
-    detail: "Designing small tools, docs, and examples that help developers move from curiosity to repeatable use."
+    title: "Developer tooling",
+    detail: "Designing small command-line and desktop tools with predictable inputs, outputs, and failure paths."
   },
   {
     icon: "standard",
@@ -68,11 +69,11 @@ const skills = [
 ];
 
 const capabilities = [
-  "AI Workflow Delivery",
+  "Software Development",
   "Developer Experience",
-  "Proof Writing",
-  "Agent Workflows",
-  "Evals",
+  "Technical Writing",
+  "AI-assisted Delivery",
+  "Testing",
   "CLI Tools",
   "Technical Education",
   "Instruction"
@@ -80,34 +81,27 @@ const capabilities = [
 
 const history = [
   {
-    title: "brAInwav",
+    title: "Independent software projects",
     badge: "Current",
-    dates: "2026 - Present",
-    roles: ["Personal site", "AI workflow delivery and developer experience"],
+    dates: publicProfile.independentSince + " - Present",
+    roles: ["Portfolio products", "AI-assisted software delivery"],
     detail: [
-      "Building the public home for evidence-backed case studies, writing, and small developer-facing demos."
+      "Directing and inspecting SkillsBar, Skills SDK, research CLIs, and this portfolio as independent work rather than paid employment."
     ]
   },
   {
-    title: "Codex workflows",
-    badge: "Agent work",
-    dates: "Current",
-    roles: ["Workflow design", "Validation loops"],
+    title: "Professional learning",
+    badge: "Current",
+    dates: "Ongoing",
+    roles: ["Software development", "Structured learning"],
     detail: [
-      "Shaping repeatable loops for agent tasks, review, validation, and evidence-aware closeout."
-    ]
-  },
-  {
-    title: "rsearch and wsearch",
-    dates: "Candidate portfolio units",
-    roles: ["CLI tools", "Tutorial path"],
-    detail: [
-      "Tightening small developer tools into documented examples with command receipts and tutorial paths."
+      "Building on verified leadership and management qualifications up to Level 7 while developing practical software skills through project work.",
+      "My planned study is the UCNL HNC Level 4 Digital Technologies – Software Development & Programming Pathway FT, alongside the Google Project Management and Google Cybersecurity Professional Certificates. These are study intentions, not completed qualifications or a claim of enrollment; dates are not yet confirmed."
     ]
   },
   {
     title: "British Army",
-    dates: "10 years",
+    dates: publicProfile.background.service,
     roles: ["Warrant Officer", "Instruction and standards", "Operational delivery"],
     detail: [
       "Standards, training, operational delivery, logistics, management, and leadership under pressure."
@@ -123,33 +117,33 @@ const webLinks = [
 ];
 ---
 
-<BaseLayout title="About | brAInwav">
+<BaseLayout title="About | Jamie Scott Craik" description="Jamie Scott Craik brings 22 years of Army leadership and instruction to a career switch into professional software development.">
   <header class="about-page about-hero-shell" aria-labelledby="about-title">
     <div class="about-intro">
       <div class="about-copy-block">
         <h1 id="about-title">About</h1>
         <div class="about-copy">
           <p>
-            I am building toward customer-facing AI deployment and developer
-            experience: working prototypes, evidence surfaces, agent workflows,
-            and technical education that make AI-assisted work easier to inspect
-            and trust.
+            I am moving into professional software development through independent
+            products, developer tools, and structured learning. I use AI to help
+            implement the work while I set direction, inspect results, test
+            behavior, and own what is presented.
           </p>
           <p>
-            Before this, I spent ten years as a British Army Warrant Officer.
-            Standards, instruction, operational delivery, and people leadership
-            still shape how I think about software.
+            Before moving into software, I served 22 years in the British Army,
+            including 7.5 years at Warrant Officer rank. Standards, instruction,
+            operational delivery, and people leadership still shape how I work.
           </p>
           <p>
-            After a life-changing injury changed how I learn and work, AI became
-            practical leverage for rebuilding agency. I now direct, inspect, and
-            explain human-led AI workflows that are useful, accountable, and
-            inspectable.
+            My earlier career was built around logistics, instruction, standards,
+            and helping people perform under pressure. I now apply those habits
+            to software: make the goal clear, test the actual path, and explain
+            the limits alongside the result.
           </p>
           <p>
-            brAInwav is the public record of that transition: the articles,
-            receipts, experiments, and caveats that show the work while it is
-            being built.
+            This portfolio is the public record of that transition: working
+            projects, case studies, technical writing, and the decisions behind
+            them.
           </p>
         </div>
       </div>

@@ -43,6 +43,19 @@ const workCount = String(workCards.length).padStart(2, "0");
       <p>{study.subtitle}</p>
     </header>
 
+    {study.capture ? (
+      <figure class="case-product-capture section-shell">
+        <img
+          src={study.capture.src}
+          alt={study.capture.alt}
+          width={study.capture.width}
+          height={study.capture.height}
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption>{study.capture.caption}</figcaption>
+      </figure>
+    ) : (
     <figure class="case-hero-art section-shell" aria-label={`${study.title} case study visual`}>
       <div class="case-window case-window--left">
         <span></span>
@@ -60,6 +73,7 @@ const workCount = String(workCards.length).padStart(2, "0");
         <span></span>
       </div>
     </figure>
+    )}
 
     <section class="case-overview section-shell" aria-labelledby="case-overview-title">
       <h2 id="case-overview-title">Project overview</h2>
@@ -216,3 +230,56 @@ const workCount = String(workCards.length).padStart(2, "0");
     </section>
   </article>
 </BaseLayout>
+
+<style>
+  @media (max-width: 47.9375rem) {
+    .case-work-header h1 {
+      font-size: var(--bds-type-display-lg-size);
+      line-height: 1.05;
+      overflow-wrap: break-word;
+    }
+
+    .case-role-boundary h2 {
+      font-size: var(--bds-type-heading-3-size);
+      line-height: 1.2;
+      overflow-wrap: break-word;
+    }
+
+    .case-hero-art {
+      width: 100%;
+      grid-template-columns: minmax(0, 1fr);
+      padding: var(--space-2);
+    }
+
+    .case-window {
+      padding: var(--space-2);
+    }
+
+    .case-window strong {
+      font-size: var(--bds-type-heading-3-size);
+      line-height: 1.2;
+      overflow-wrap: break-word;
+    }
+  }
+
+  .case-product-capture {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    margin-block: 0 var(--space-8);
+  }
+
+  .case-product-capture img {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-image);
+  }
+
+  .case-product-capture figcaption {
+    max-width: 40rem;
+    margin: 0;
+    line-height: 1.5;
+  }
+</style>

@@ -1,0 +1,32 @@
+schema_version: 1
+goal_id: career-aligned-portfolio
+status: in_progress
+release_mode: Portfolio
+branch: codex/career-aligned-portfolio
+starting_revision: ad329f6b5202de84f748e4d2edf5efd9ebce0413
+current_task:
+  id: closeout-and-browser-proof
+  status: in_progress
+  owner: codex
+  next_action: The q76 portrait derivative and semantic no-script scenario summary are independently accepted and source-validated. Use an approved browser runtime to execute the updated no-script journey, paired rendered-flow and Lighthouse checks; do not install or substitute Chromium here. Continue the order-preserving CSS split investigation without speculative deletion. Native zoom, screen-reader operation, and public-safe CV wording still require external capability or approval.
+scope:
+  - src
+  - public
+  - tests
+  - scripts
+  - docs/goals/career-aligned-portfolio
+blocked_items:
+  - B11
+  - C02
+  - C03
+  - C04
+  - C05
+  - C06
+  - C08
+  - D01
+  - D02
+  - D03
+  - D05
+  - D06
+  - D07
+updated_at: "2026-09-13"

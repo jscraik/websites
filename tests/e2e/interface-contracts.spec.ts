@@ -65,7 +65,11 @@ test.describe("portfolio interface contracts", () => {
     await expect(primaryRoute).toHaveAttribute("data-primary-start", "true");
     await expect(page.locator('a[data-primary-start][href="/work/skillsbar/"]')).toHaveCount(0);
     await expect(page.locator("[data-reveal]")).toHaveCount(0);
-    await expect(page.locator("[data-entry]")).toHaveCount(7);
+    await expect(page.locator(".home-hero[data-entry]")).toHaveCount(1);
+    await expect(page.locator("#featured-work .feature-block[data-entry]")).toHaveCount(2);
+    await expect(page.locator("#work[data-entry]")).toHaveCount(1);
+    await expect(page.locator(".blog-preview[data-entry]")).toHaveCount(1);
+    await expect(page.locator("[data-entry]")).toHaveCount(5);
 
     const animationName = await page.locator("[data-entry]").first().evaluate((element) =>
       getComputedStyle(element).animationName
@@ -80,7 +84,7 @@ test.describe("portfolio interface contracts", () => {
     const animationNames = await page.locator("[data-entry]").evaluateAll((elements) =>
       elements.map((element) => getComputedStyle(element).animationName)
     );
-    expect(animationNames).toEqual(["none", "none", "none", "none", "none", "none", "none"]);
+    expect(animationNames).toEqual(["none", "none", "none", "none", "none"]);
   });
 
   test("the shared nav highlight follows fine-pointer hover", async ({ page }) => {
@@ -228,24 +232,29 @@ test.describe("portfolio interface contracts", () => {
 
     const nav = page.locator(".site-header .nav-inner");
     const highlight = nav.locator(".nav-bg");
+    const finePointer = await page.evaluate(() => matchMedia("(hover: hover) and (pointer: fine)").matches);
     await nav.locator(".nav-flip").filter({ hasText: "Work" }).hover();
 
-    await expect(highlight).toHaveAttribute("data-active", "true");
+    if (finePointer) await expect(highlight).toHaveAttribute("data-active", "true");
+    else await expect(highlight).not.toHaveAttribute("data-active", "true");
     const style = await highlight.evaluate((element) => {
       const computed = getComputedStyle(element);
       return {
         transform: computed.transform,
         parentText: element.parentElement?.textContent?.trim(),
+        inNavShell: element.parentElement?.classList.contains("nav-inner"),
         animations: element.getAnimations().length
       };
     });
 
     expect(style.transform).toBe("none");
-    expect(style.parentText).toBe("Work");
+    if (finePointer) expect(style.parentText).toBe("Work");
+    else expect(style.inNavShell).toBe(true);
     expect(style.animations).toBe(0);
   });
 
   test("the homepage keeps Jose-derived tablet geometry at the first fold", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
     await page.setViewportSize({ width: 805, height: 964 });
     await preparePage(page, "/");
 
@@ -297,6 +306,7 @@ test.describe("portfolio interface contracts", () => {
   });
 
   test("the homepage keeps Jose-derived desktop surface and first-fold geometry", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
     await page.setViewportSize({ width: 1292, height: 964 });
     await preparePage(page, "/");
 
@@ -322,6 +332,7 @@ test.describe("portfolio interface contracts", () => {
         heroHeader: rect(".header-inner"),
         title: rect(".home-hero h1"),
         intro: rect(".home-hero__intro"),
+        startLinks: rect(".home-hero .start-links"),
         featuredWork: rect("#featured-work"),
         titleFontSize: title ? Number.parseFloat(getComputedStyle(title).fontSize) : 0,
         bodyBackgroundImage: body.backgroundImage,
@@ -345,8 +356,9 @@ test.describe("portfolio interface contracts", () => {
     expect(geometry.title).not.toBeNull();
     expect(geometry.title!.x).toBeGreaterThanOrEqual(243);
     expect(geometry.title!.x).toBeLessThanOrEqual(247);
-    expect(geometry.title!.y).toBeGreaterThanOrEqual(212);
-    expect(geometry.title!.y).toBeLessThanOrEqual(220);
+    expect(geometry.title!.y, "name stays below navigation").toBeGreaterThan(
+      geometry.nav!.y + geometry.nav!.height
+    );
     expect(geometry.titleFontSize).toBeGreaterThanOrEqual(101);
     expect(geometry.titleFontSize).toBeLessThanOrEqual(105);
 
@@ -357,6 +369,9 @@ test.describe("portfolio interface contracts", () => {
     expect(geometry.featuredWork).not.toBeNull();
     expect(geometry.featuredWork!.y).toBeGreaterThanOrEqual(875);
     expect(geometry.featuredWork!.y).toBeLessThanOrEqual(887);
+    expect(geometry.intro!.y + geometry.intro!.height, "complete career introduction clears featured work").toBeLessThan(geometry.featuredWork!.y);
+    expect(geometry.startLinks).not.toBeNull();
+    expect(geometry.startLinks!.y + geometry.startLinks!.height, "all starting links clear featured work").toBeLessThan(geometry.featuredWork!.y);
 
     expect(geometry.bodyBackgroundImage).toContain("linear-gradient");
     expect(geometry.siteHeaderBackgroundImage).toBe("none");
@@ -377,7 +392,13 @@ test.describe("portfolio interface contracts", () => {
     );
     await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute(
       "content",
-      "summary"
+      "summary_large_image"
+    );
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+      "content", "https://jscraik.com/jamie-profile-640.webp"
+    );
+    await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute(
+      "content", "Portrait of Jamie Scott Craik"
     );
     await expect(page.locator('link[rel="alternate"][type="application/rss+xml"]')).toHaveAttribute(
       "href",
@@ -426,6 +447,7 @@ test.describe("portfolio interface contracts", () => {
       expect(contract.textWrap, `${route.path}: editorial copy wrapping`).toBe("pretty");
       expect(contract.preloads, `${route.path}: critical font preloads`).toEqual([
         "/brand/fonts/geist-variable.woff2",
+        "/brand/fonts/geist-mono-variable.woff2",
         "/brand/fonts/newsreader-variable.woff2"
       ]);
     }

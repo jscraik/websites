@@ -5,22 +5,22 @@ const pages = [
   {
     route: "/",
     file: "index.html",
-    includes: ["Jamie Scott Craik", "AI workflow delivery", "SkillsBar", "/work/skillsbar/"]
+    includes: ["Jamie Scott Craik", "Career-switching into professional software development", "SkillsBar", "Skills SDK", "/work/skillsbar/", "/work/skills-sdk/"]
   },
   {
     route: "/blog/",
     file: "blog/index.html",
-    includes: ["Blog", "When Evidence Goes Stale", "Capability Is Not Trust", "RSS feed"]
+    includes: ["Writing", "When Evidence Goes Stale", "Capability Is Not Trust", "RSS feed"]
   },
   {
     route: "/proof/",
     file: "proof/index.html",
-    includes: ["Proof surface", "All work", "Featured proof"]
+    includes: ["Proof surface", "All work", "SkillsBar", "Skills SDK", "Writing and proof notes"]
   },
   {
     route: "/now/",
     file: "now/index.html",
-    includes: ["About", "customer-facing AI deployment", "life-changing injury"]
+    includes: ["About", "22 years in the British Army", "7.5 years at Warrant Officer rank"]
   },
   {
     route: "/contact/",
@@ -56,12 +56,20 @@ const pages = [
     route: "/work/skillsbar/",
     file: "work/skillsbar/index.html",
     includes: ["SkillsBar", "How the delivery unfolded", "Inspect the merged adaptive delivery"]
+  },
+  {
+    route: "/work/skills-sdk/",
+    file: "work/skills-sdk/index.html",
+    includes: ["Skills SDK", "How the delivery unfolded", "Portable contracts for inspectable AI skill packages"]
+  },
+  {
+    route: "/work/cli-proof-series/",
+    file: "work/cli-proof-series/index.html",
+    includes: ["CLI proof series", "wSearch queries Wikidata", "wiki.entity.get.v1", "arxiv.download.dryrun.v1", "planning-output evidence"]
   }
 ];
 
-const absentPages = [
-  { route: "/work/cli-proof-series/", file: "work/cli-proof-series/index.html" }
-];
+const absentPages = [];
 
 const failures = [];
 

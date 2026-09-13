@@ -18,17 +18,17 @@ if (!latestArticle) {
 const otherArticles = articles.filter((article) => article.id !== latestArticle.id);
 ---
 
-<BaseLayout title="Blog | brAInwav">
+<BaseLayout title="Writing | Jamie Scott Craik" description="Technical writing from Jamie Scott Craik about software projects, AI-assisted delivery, developer tools, and lessons from a career switch.">
   <header class="blog-index section-shell" aria-labelledby="blog-title">
     <div class="blog-title-block">
       <div class="blog-heading-lockup">
-        <h1 id="blog-title">Blog</h1>
+        <h1 id="blog-title">Writing</h1>
         <span class="icon-box blog-heading-icon" aria-hidden="true">
           <Icon name="pencil" />
         </span>
       </div>
       <div class="draft-links">
-        <p class="eyebrow">In my drafts</p>
+        <p class="eyebrow">Writing next</p>
         {drafts.map((draft) => (
           <span><Icon name="document" />{draft.data.title}</span>
         ))}
@@ -87,14 +87,12 @@ const otherArticles = articles.filter((article) => article.id !== latestArticle.
         <h2 id="blog-about-title">About Jamie</h2>
         <div class="text-lg w-richtext">
           <p>
-            I am building public proof surfaces for AI workflow delivery and
-            developer experience: articles, demos, validation notes, and
-            developer-facing examples.
+            I am moving into professional software development through independent
+            products, developer tools, and technical writing.
           </p>
           <p>
-            The work sits between field notes and finished case studies: small
-            receipts, careful caveats, and examples that make the trust boundary
-            visible.
+            I write from work I can inspect: the decision, the implementation,
+            the result, and the limitation that still matters.
           </p>
           <p>Thank you for reading.</p>
         </div>
@@ -245,6 +243,8 @@ const otherArticles = articles.filter((article) => article.id !== latestArticle.
     width: min(1100px, calc(100% - var(--space-6)));
     max-width: 1100px;
     margin-inline: auto;
+    margin-block: 0;
+    padding-bottom: 0;
   }
 
   .article-list h2 {
@@ -317,6 +317,7 @@ const otherArticles = articles.filter((article) => article.id !== latestArticle.
     width: min(1100px, calc(100% - var(--space-6)));
     max-width: 1100px;
     margin-inline: auto;
+    margin-block: 0;
     border: 0;
     background: transparent;
     box-shadow: none;
@@ -448,6 +449,7 @@ const otherArticles = articles.filter((article) => article.id !== latestArticle.
     .blog-index {
       gap: var(--space-5);
       padding-top: 84px;
+      padding-bottom: var(--space-7);
     }
 
     .blog-index .blog-heading-lockup {

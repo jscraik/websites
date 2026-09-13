@@ -1,25 +1,26 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { publicProfile } from "../lib/public-profile";
 ---
 
-<BaseLayout title="Contact | brAInwav">
+<BaseLayout title="Contact | Jamie Scott Craik" description="Contact Jamie Scott Craik about software-development roles, career-switcher opportunities, and collaborative projects.">
   <section class="plain-page contact-page section-shell">
     <div>
       <p class="eyebrow">Contact</p>
-      <h1>Talk to me about deploying trustworthy AI workflows.</h1>
+      <h1>Let’s talk about software, developer tools, and useful AI-assisted work.</h1>
+      <a class="large-link" href={publicProfile.links.email}>{publicProfile.links.emailLabel}</a>
       <img class="contact-photo" src="/jamie-profile-640.webp" alt="Jamie Scott Craik" width="640" height="640" />
     </div>
     <div class="contact-panel">
       <p>
-        I am looking for customer-facing AI deployment, implementation, solutions,
-        technical delivery, and developer-experience roles. I bring agent skills,
-        Codex workflows, evals, technical education, and a habit of making claims
-        inspectable before asking anyone to trust them.
+        I am open to software-development roles, career-switcher opportunities,
+        and thoughtful collaborations. I bring long experience in leadership and
+        instruction, growing TypeScript and Python project work, and a practical
+        approach to directing and checking AI-assisted implementation.
       </p>
-      <a class="large-link" href="mailto:jscraik@brainwav.io">jscraik@brainwav.io</a>
       <div class="contact-links" aria-label="External profiles">
-        <a href="https://github.com/jscraik">GitHub</a>
-        <a href="https://www.linkedin.com/in/jscraik/">LinkedIn</a>
+        <a href={publicProfile.links.github}>GitHub</a>
+        <a href={publicProfile.links.linkedin}>LinkedIn</a>
         <a href="https://x.com/jscraik">X</a>
       </div>
     </div>
