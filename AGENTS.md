@@ -48,13 +48,16 @@ schema_version: 2
   work as standalone/untracked with that concrete reason.
 - `.codex/skills/` contains explicitly pinned workflow skills; review their source
   commit before treating a skill addition as project governance.
+- Read `docs/agents/07b-agent-governance.md` when selecting delegation,
+  persistent coordination, operator-projection changes, or PR delivery.
 
 ## Validation
 - Run the narrowest proving check first, then widen when the change affects shared styling, route behavior, generated artifacts, or user-visible design.
 - For docs or instruction-only edits, at minimum verify the touched paths and links with rg/test -f, then run the smallest relevant repo check when practical.
 - Use `npm run validate:fast` for ordinary Astro, source, CSS, or content edits;
-  `npm run validate:source` or `npm run test:smoke` for built output, semantics,
-  or route wiring; and `npm run validate:rendered` for layout, visual flow,
+  `npm run validate:source` for built-output semantics;
+  `npm run test:smoke` for route output or page wiring; and
+  `npm run validate:rendered` for layout, visual flow,
   accessibility, or viewport behavior. Run `npm run validate:site` for release
   preparation or broad site-quality proof. Add focused validators named in
   `package.json` when the touched surface requires them.
