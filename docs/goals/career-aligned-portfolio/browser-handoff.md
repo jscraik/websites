@@ -34,6 +34,16 @@ remains the applicable overflow evidence. Current desktop and mobile no-script
 navigation are complete. Bfcache residency remains unproven because the frame
 does not expose navigation timing after Back.
 
+The follow-up bfcache harness served the immutable artifact and wrapper from one
+origin, using `sandbox="allow-same-origin"` without `allow-scripts`. An outer
+listener recorded each inner `pageshow` event. Home → About → Back restored Home,
+but the event count advanced from two to three with `persisted=false`; this
+sandboxed run did not use bfcache. The inner navigation entry and not-restored
+reasons were unavailable, so the result cannot distinguish site behavior from a
+sandbox eligibility limitation. It is valid negative harness evidence, not a
+product defect or a reason to change source. A top-level script-disabled runtime
+with lifecycle observability is required to close the bfcache claim.
+
 ## Remaining finite verification queue
 
 Latest aggregate after explicit post-Back animation readiness: command
