@@ -79,11 +79,12 @@ acceptance. On `622468cf…`, all three demo scenarios' changed regions at
 320/1440px and all 30 preserved frames across the three complete scenario pages
 are independently accepted for layout, type, spacing, and clipping. This supersedes
 the pending-heading/demo-region wording in historical item evidence below,
-without closing C02, C04, or D07. The current instrumented aggregate passed
+without closing C04. C02 and D07 were subsequently closed by the current
+52-case all-route matrix. The current instrumented aggregate passed
 148 tests with ten skips, separately from the preserved 147-pass/one-failure
 aggregate. The intermittent animation-start failure remains unexplained and D06
-remains incomplete. Actual zoom, motion, and final-candidate reconciliation
-remain separate requirements.
+remains incomplete. Native zoom and final static reconciliation are now complete;
+dynamic-motion and physical-device review remain separate requirements.
 
 Earlier archive `316956c6…` included fixes for
 footer target overlap, carousel boundary focus loss, and clipped focused Proof
@@ -91,10 +92,11 @@ cards. All 13 routes passed unique forward/reverse keyboard cycles at mobile
 and desktop (560 stops in each direction), five-point target obstruction checks,
 render-flow at four viewports, no-JS rendering, Home/About/Back, and 26 axe scans.
 Footer captures at 320/1024/1440px have independent DATA acceptance. Exact
-commands and limits are in `browser-handoff.md`. Actual browser zoom, remaining
-visual/motion coverage, screen-reader proof, complete gates, CLI evidence, and
-the public-safe CV remain incomplete. Old archive results below are historical
-where they have not been explicitly refreshed.
+commands and limits are in `browser-handoff.md`. Browser zoom, visual/motion
+coverage, screen-reader proof, complete gates, CLI evidence, and the public-safe
+CV were incomplete at that archive. The current matrix, native zoom, and CLI
+records supersede those three historical gaps; dynamic motion, physical-device
+operation, screen-reader proof, and the public-safe CV remain incomplete.
 
 - [x] **C01** — status: `pass_source`; evidence: existing editorial tokens and stored-reference structure were preserved.
 - [x] **C02** — status: `pass_current_matrix`; evidence: page-surface source policy passes. On current signed head `c50fbfa`, all 13 routes were captured and reviewed at 320×800, 375×812, 768×1024, and 1440×1000: 52/52 returned HTTP 200, retained their `h1`, navigation, main and footer landmarks, had no document-level horizontal overflow, loaded no broken image, and emitted no page error. Contact sheets and representative original-scale full pages were inspected; a suspected Writing navigation shift was rejected with a fresh viewport capture and exact live geometry. This reconciles the preserved article, project, demo, CLI, and bounded route-review records with the current build. Limits: this static matrix and the separate exact native 200% sweep do not claim every physical device, dynamic-motion review, screen-reader operation, or Jose-reference pixel parity.
@@ -136,6 +138,8 @@ performance-preset findings are not resolved by this test synchronization repair
   source is selected, but its public-safe derivative awaits review. Clean-source
   wSearch help/rejection/live Q42 and rSearch fixture-backed planning results are
   verified and incorporated. Installed releases and live rSearch retrieval or
-  downloads are not claimed. Remaining actionable gates are current aggregate,
-  production-artifact browser proof, policy-compliant Lighthouse, manual
-  accessibility capability/coverage, final reconciliation, and CV approval.
+  downloads are not claimed. Current source, production-artifact browser, static
+  visual, native-zoom, and explicit Lighthouse category evidence is complete.
+  Remaining actionable gates are the recommended Lighthouse preset and deployed
+  headers, manual assistive-technology and physical-device/motion coverage, and
+  public-safe CV approval.
