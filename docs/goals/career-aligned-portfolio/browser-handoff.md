@@ -1373,5 +1373,33 @@ Review every route at 320px, tablet, 1280/1440px and 200% zoom. Check keyboard
 focus, touch targets, overflow, image/diagram meaning, backgrounds, no-JS
 navigation, real back navigation, reduced motion, and pointer changes. Run
 prepared lifecycle regressions where the approved test runtime supports them.
+
+## September 13 current-head in-app browser refresh
+
+The signed reconciled checkout at `8b95baf` was built with
+`npm run validate:source` and served locally with
+`npm run preview -- --host 127.0.0.1 --port 4323`. The supported in-app browser
+inspected the current output rather than a historical archive.
+
+At 1440×1000, all 13 HTML routes were nonblank, exposed an `h1`, retained
+navigation, main and footer landmarks, and reported no document-level horizontal
+overflow. At 375×812, Home, About, Writing, Contact, Proof, both featured case
+studies, and the SkillsBar demo reported the same structural and overflow
+results. The Home portrait resolved to its expected 96×96 intrinsic derivative
+after page load. The sampled mobile action inventory contained no visible target
+below 24px in either dimension.
+
+The SkillsBar demo accessibility tree exposed the three scenario controls as
+named checkboxes. Activating `Security flagged` changed the selected state from
+`Candidate held` to `Security flagged`, readiness from 11/100 to 24/100, and the
+next action to `Security review`. This proves current-build semantic exposure and
+one real interaction path; it is not a screen-reader session, no-JavaScript run,
+or exhaustive keyboard audit.
+
+The in-app browser exposes viewport sizing but no documented browser-zoom
+control. Repeated platform zoom shortcuts left the measured 1280×720 CSS
+viewport unchanged, so native 200% zoom remains unproven. This is a capability
+limit, not a site failure. Lighthouse and public-safe CV review also remain
+separate open lanes.
 Keep synthetic lifecycle tests separate from real back-forward-cache proof.
 Record screenshots and results against this archive checksum, not a later build.
