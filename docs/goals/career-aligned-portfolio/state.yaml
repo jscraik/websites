@@ -8,7 +8,7 @@ current_task:
   id: closeout-and-browser-proof
   status: in_progress
   owner: codex
-  next_action: Current signed head 8b95baf has fresh in-app browser evidence across all 13 desktop routes and seven key mobile routes, a verified SkillsBar state transition, and exact native 200-percent structural/reflow proof across all 13 routes. Use an approved JavaScript-toggle or test runtime for the updated no-script journey and a policy-compliant Lighthouse run. Screen-reader operation, exhaustive visual review, and public-safe CV wording still require external capability or approval. Reset the localhost Chrome origin from 200 percent in a dedicated stable session before reuse. Continue the order-preserving CSS split investigation without speculative deletion.
+  next_action: Current source/build candidate 8b95baf, recorded through signed evidence head 8043cfe, has fresh in-app browser evidence across all 13 desktop routes and seven key mobile routes, a verified SkillsBar state transition, and exact native 200-percent structural/reflow proof across all 13 routes. Use an approved JavaScript-toggle or test runtime for the updated no-script journey and a policy-compliant Lighthouse run. Screen-reader operation, exhaustive visual review, and public-safe CV wording still require external capability or approval. Reset the localhost Chrome origin from 200 percent in a dedicated stable session before reuse. Continue the order-preserving CSS split investigation without speculative deletion; the current scratch probe is an inventory and remaining-order proof, not cascade-equivalence evidence.
 scope:
   - src
   - public
@@ -18,7 +18,6 @@ scope:
 blocked_items:
   - B11
   - C02
-  - C03
   - C04
   - C05
   - C06
