@@ -31,7 +31,6 @@ const STANDALONE_REMEDIATION_POLICY =
   /standalone review-remediation PRs may use\s+`jscraik\/<short-description>`\s+when the body records a concrete Linear `n\/a` reason/i;
 const PLACEHOLDER_VALUE_PATTERNS = [
   /^n\.a\.\s+because\s+reason[.!]?$/i,
-  /^Prototype\s*\/\s*Portfolio\s*\/\s*Product\s*\/\s*Harness\s*\/\s*n\.a\.\s+because\s+reason$/i,
 ];
 
 function escapeRegExp(value) {
@@ -40,6 +39,30 @@ function escapeRegExp(value) {
 
 function stripHtmlComments(content) {
   return content.replace(/<!--[\s\S]*?-->/g, "");
+}
+
+function stripFencedCodeBlocks(content) {
+  let fence = null;
+  return content
+    .split("\n")
+    .map((line) => {
+      if (fence === null) {
+        const opening = line.match(/^ {0,3}(`{3,}|~{3,})(.*)$/);
+        if (opening === null) return line;
+        if (opening[1][0] === "`" && opening[2].includes("`")) return line;
+        fence = { marker: opening[1][0], length: opening[1].length };
+        return "";
+      }
+
+      const closing = line.match(/^ {0,3}(`+|~+)[ \t]*$/);
+      if (closing !== null && closing[1][0] === fence.marker && closing[1].length >= fence.length) fence = null;
+      return "";
+    })
+    .join("\n");
+}
+
+function normalizedPlaceholder(value) {
+  return value.trim().replace(/\s+/g, " ").toLowerCase();
 }
 
 function sectionBody(visibleContent, heading) {
@@ -62,7 +85,7 @@ function fieldValue(section, label) {
 
 function collectRequiredSectionErrors(content, surface) {
   const errors = [];
-  const visibleContent = stripHtmlComments(content);
+  const visibleContent = stripFencedCodeBlocks(stripHtmlComments(content));
   const positions = REQUIRED_SECTIONS.map((section) =>
     visibleContent.search(new RegExp(`^${escapeRegExp(section)}[ \\t]*$`, "im")),
   );
@@ -146,24 +169,35 @@ export function collectPrBodyContractErrors(content, template) {
   const errors = collectRequiredSectionErrors(content, "PR body");
   const visibleContent = stripHtmlComments(content);
   const visibleTemplate = stripHtmlComments(template);
+  const structuralContent = stripFencedCodeBlocks(visibleContent);
 
   if (!visibleContent.startsWith("# Pull request")) errors.push("PR body must start with '# Pull request'.");
 
-  const headings = [...visibleContent.matchAll(/^## .+$/gm)].map((match) => match[0]);
+  const headings = [...structuralContent.matchAll(/^## .+$/gm)].map((match) => match[0]);
   if (headings.length !== REQUIRED_SECTIONS.length || headings.some((heading, index) => heading !== REQUIRED_SECTIONS[index])) {
     errors.push("PR body must use exactly the repository template sections in the declared order.");
   }
 
   for (const [section, fields] of REQUIRED_FIELDS) {
-    const body = sectionBody(visibleContent, section);
+    const body = sectionBody(structuralContent, section);
+    const templateBody = sectionBody(visibleTemplate, section);
     if (body === null) continue;
     for (const field of fields) {
       const value = fieldValue(body, field);
+      const templateValue = templateBody === null ? null : fieldValue(templateBody, field);
       if (value === "") errors.push(`PR body field ${section} / ${field} must not be empty.`);
       if (value !== null && /^n\.a\.$/i.test(value)) {
         errors.push(`PR body field ${section} / ${field} must give a concrete reason after n.a.`);
       }
       if (value !== null && PLACEHOLDER_VALUE_PATTERNS.some((pattern) => pattern.test(value))) {
+        errors.push(`PR body field ${section} / ${field} must replace the template placeholder.`);
+      }
+      if (
+        value !== null &&
+        templateValue !== null &&
+        templateValue !== "" &&
+        normalizedPlaceholder(value) === normalizedPlaceholder(templateValue)
+      ) {
         errors.push(`PR body field ${section} / ${field} must replace the template placeholder.`);
       }
     }
@@ -178,8 +212,17 @@ export function collectPrBodyContractErrors(content, template) {
     errors.push("PR body checklist items must exactly match the repository template.");
   }
 
-  const validation = sectionBody(visibleContent, "## Validation") ?? "";
-  if (!/^- Command: `[^`]+` -> (?:pass|fail|blocked)(?: \([^\n]+\))?$/m.test(validation)) {
+  const validation = sectionBody(structuralContent, "## Validation") ?? "";
+  const templateCommandExamples = new Set(template.match(/^- Command: `[^`]+` -> [^\n]+$/gm) ?? []);
+  const commandEvidence = validation
+    .split("\n")
+    .filter((line) => /^- Command: /.test(line) && !templateCommandExamples.has(line));
+  const hasValidOutcome = commandEvidence.some((line) => {
+    if (/^- Command: `[^`]+` -> (?:pass|fail)(?: \([^\n]+\))?$/.test(line)) return true;
+    const blocked = line.match(/^- Command: `[^`]+` -> blocked \(([^\n]*)\)$/);
+    return blocked !== null && blocked[1].trim() !== "" && !/^reason$/i.test(blocked[1].trim());
+  });
+  if (!hasValidOutcome) {
     errors.push("PR body validation must include an exact command with a pass, fail, or blocked outcome.");
   }
 

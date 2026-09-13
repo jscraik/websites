@@ -194,9 +194,10 @@ check("PR body validation follows the repository template contract", () => {
     .replace(/<!--[\s\S]*?-->/g, "")
     .replace(/^- ([^\n:]+):$/gm, "- $1: verified value")
     .replace(/^- Release mode:.*$/m, "- Release mode: Harness")
+    .replace(/^- User-facing impact:.*$/m, "- User-facing impact: n.a. because this validator has no visitor impact")
     .replace(
-      "## Validation\n\n- Regression coverage:",
-      "## Validation\n\n- Regression coverage: PR-body schema\n- Command: `npm run validate:pr-template` -> pass",
+      "- Regression coverage: verified value",
+      "- Regression coverage: PR-body schema\n- Command: `npm run validate:pr-template` -> pass",
     );
   assert.deepEqual(collectPrBodyContractErrors(validBody, pullRequestTemplate), []);
 
@@ -211,6 +212,58 @@ check("PR body validation follows the repository template contract", () => {
     "- Release mode: Prototype / Portfolio / Product / Harness / n.a. because reason",
   );
   assert.match(collectPrBodyContractErrors(releaseModePlaceholder, pullRequestTemplate).join("\n"), /replace the template placeholder/i);
+
+  const userImpactPlaceholder = validBody.replace(
+    "- User-facing impact: n.a. because this validator has no visitor impact",
+    "- User-facing impact: yes, with changelog / no / n.a. because reason",
+  );
+  assert.match(collectPrBodyContractErrors(userImpactPlaceholder, pullRequestTemplate).join("\n"), /replace the template placeholder/i);
+
+  const normalizedUserImpactPlaceholder = validBody.replace(
+    "- User-facing impact: n.a. because this validator has no visitor impact",
+    "- User-facing impact: Yes,  with changelog / no / n.a. because reason",
+  );
+  assert.match(collectPrBodyContractErrors(normalizedUserImpactPlaceholder, pullRequestTemplate).join("\n"), /replace the template placeholder/i);
+
+  const sampleOnlyEvidence = validBody
+    .replace("- Command: `npm run validate:pr-template` -> pass", "- Command: `bash scripts/validate-codestyle.sh` -> pass");
+  assert.match(collectPrBodyContractErrors(sampleOnlyEvidence, pullRequestTemplate).join("\n"), /must include an exact command/i);
+
+  const bareBlockedEvidence = validBody.replace(
+    "- Command: `npm run validate:pr-template` -> pass",
+    "- Command: `npm run validate:pr-template` -> blocked",
+  );
+  assert.match(collectPrBodyContractErrors(bareBlockedEvidence, pullRequestTemplate).join("\n"), /must include an exact command/i);
+
+  const blankBlockedReason = validBody.replace(
+    "- Command: `npm run validate:pr-template` -> pass",
+    "- Command: `npm run validate:pr-template` -> blocked (   )",
+  );
+  assert.match(collectPrBodyContractErrors(blankBlockedReason, pullRequestTemplate).join("\n"), /must include an exact command/i);
+
+  const placeholderBlockedReason = validBody.replace(
+    "- Command: `npm run validate:pr-template` -> pass",
+    "- Command: `npm run validate:pr-template` -> blocked (reason)",
+  );
+  assert.match(collectPrBodyContractErrors(placeholderBlockedReason, pullRequestTemplate).join("\n"), /must include an exact command/i);
+
+  const fencedHeadingExample = validBody.replace(
+    "- Untested paths and limitations: verified value",
+    "- Untested paths and limitations: verified value\n\n```md\n## Summary\n```",
+  );
+  assert.deepEqual(collectPrBodyContractErrors(fencedHeadingExample, pullRequestTemplate), []);
+
+  const longIndentedFenceExample = validBody.replace(
+    "- Untested paths and limitations: verified value",
+    "- Untested paths and limitations: verified value\n\n  ````md\n## Summary\n  ````",
+  );
+  assert.deepEqual(collectPrBodyContractErrors(longIndentedFenceExample, pullRequestTemplate), []);
+
+  const invalidBacktickInfoFence = validBody.replace(
+    "- Untested paths and limitations: verified value",
+    "- Untested paths and limitations: verified value\n\n```bad`info\n## Summary\n```",
+  );
+  assert.match(collectPrBodyContractErrors(invalidBacktickInfoFence, pullRequestTemplate).join("\n"), /exactly the repository template sections/i);
 
   const renamedSection = validBody.replace("## Summary", "## Overview");
   assert.match(collectPrBodyContractErrors(renamedSection, pullRequestTemplate).join("\n"), /exactly the repository template sections/i);
