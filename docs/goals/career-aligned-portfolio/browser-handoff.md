@@ -23,6 +23,17 @@ sandboxed frame returned no `PerformanceNavigationTiming` entry after Back, so
 restoration is verified but bfcache residency is not. Mobile coverage and a full
 Playwright rerun remain open. Temporary tabs and both local servers were closed.
 
+The current mobile follow-up used a fixed 375×812 sandboxed iframe rather than
+the browser-wide viewport override. The embedded document measured 375×812 with
+Home `scrollWidth === clientWidth === 375`. Accessibility actions completed the
+same two script-disabled journeys: Home → About → Back → primary demo, and Home
+→ SkillsBar case study → demo. The expected headings and ordered fallback were
+present at both demo arrivals. A final demo geometry locator timed out, so no new
+demo-overflow assertion is added; the current all-route mobile render sweep
+remains the applicable overflow evidence. Current desktop and mobile no-script
+navigation are complete. Bfcache residency remains unproven because the frame
+does not expose navigation timing after Back.
+
 ## Remaining finite verification queue
 
 Latest aggregate after explicit post-Back animation readiness: command
