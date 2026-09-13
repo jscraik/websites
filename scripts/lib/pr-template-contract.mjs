@@ -32,6 +32,14 @@ const STANDALONE_REMEDIATION_POLICY =
 const PLACEHOLDER_VALUE_PATTERNS = [
   /^n\.a\.\s+because\s+reason[.!]?$/i,
 ];
+const CONDITIONALLY_ADMITTED_FIELDS = new Set([
+  "Validation evidence",
+  "Review artifacts",
+  "Pattern scope inventory",
+  "Meta-behavior proof",
+  "Repeated-error research",
+  "Durable evidence map",
+]);
 
 function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -193,7 +201,9 @@ export function collectPrBodyContractErrors(content, template) {
       }
       const [value] = values;
       const templateValue = templateBody === null ? null : fieldValue(templateBody, field);
-      if (value === "") errors.push(`PR body field ${section} / ${field} must not be empty.`);
+      if (value === "" && !CONDITIONALLY_ADMITTED_FIELDS.has(field)) {
+        errors.push(`PR body field ${section} / ${field} must not be empty.`);
+      }
       if (value !== null && /^n\.a\.$/i.test(value)) {
         errors.push(`PR body field ${section} / ${field} must give a concrete reason after n.a.`);
       }

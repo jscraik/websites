@@ -204,6 +204,16 @@ check("PR body validation follows the repository template contract", () => {
   const missingValue = validBody.replace("- Problem: verified value", "- Problem:");
   assert.match(collectPrBodyContractErrors(missingValue, pullRequestTemplate).join("\n"), /Problem must not be empty/i);
 
+  const optionalEvidenceFieldsEmpty = [
+    "Validation evidence",
+    "Review artifacts",
+    "Pattern scope inventory",
+    "Meta-behavior proof",
+    "Repeated-error research",
+    "Durable evidence map",
+  ].reduce((body, field) => body.replace(`- ${field}: verified value`, `- ${field}:`), validBody);
+  assert.deepEqual(collectPrBodyContractErrors(optionalEvidenceFieldsEmpty, pullRequestTemplate), []);
+
   const duplicateRequiredField = validBody.replace("- Problem: verified value", "- Problem: filled\n- Problem:");
   assert.match(collectPrBodyContractErrors(duplicateRequiredField, pullRequestTemplate).join("\n"), /Problem must appear exactly once/i);
 
