@@ -1524,3 +1524,27 @@ This is direct top-level bfcache residency evidence and supersedes the earlier
 sandboxed-iframe uncertainty. The previously verified desktop/mobile link
 journeys and fallback content remain the interaction proof; this focused
 lifecycle probe used top-level history navigation to isolate residency.
+
+## September 13 compression-capable Lighthouse comparison
+
+Candidate `5cdef2b` was rebuilt and copied into another fresh immutable artifact.
+A bounded static server returned gzip for compressible files and
+`Cache-Control: public, max-age=0, must-revalidate`; `curl` verified the HTML
+response's `Content-Encoding: gzip`. The same disposable-Chrome existing-CDP
+audit was then repeated without `--no-sandbox`.
+
+The first compression run deliberately used `Cache-Control: no-store` and
+reported six bfcache failures. That result was rejected as a harness defect:
+the header itself prevents eligibility and contradicts the separately passing
+top-level lifecycle proof. After correcting only the scratch server header,
+command `node .playwright-tmp/audit-production-lighthouse.mjs` -> expected
+aggregate fail with 12 recommended-preset assertions. All six compression,
+six document-latency, six bfcache, and both image-delivery findings are absent.
+
+The twelve remaining errors are one zero-estimated-savings dependency-tree and
+one shared unused-CSS assertion on each of the six routes. Performance scores
+are 0.92–0.94; accessibility, best practices, and SEO remain 1.00. This proves
+the built artifact is locally compressible and that the earlier twelve
+compression/latency failures came from the uncompressed harness. It does not
+prove Cloudflare's deployed response headers, field performance, or a passing
+recommended preset.

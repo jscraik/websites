@@ -162,3 +162,25 @@ failures are six uncompressed-response/document-latency pairs from the local
 server, six zero-savings dependency-tree findings, and six shared unused-CSS
 findings. This closes the portrait-delivery work; it does not certify the full
 recommended preset or production compression behavior.
+
+## September 13 compression-capable artifact comparison
+
+The same immutable candidate was served through a bounded gzip-capable static
+server. `curl` verified `Content-Encoding: gzip` for HTML. The server used a
+revalidating cache policy so it did not make bfcache ineligible. The same
+six-route existing-CDP Lighthouse command then reduced error assertions from 24
+to 12 and raised performance from 0.83–0.86 to 0.92–0.94. Accessibility, best
+practices, and SEO remained 1.00.
+
+All six compression and six document-latency findings disappeared. The two
+image findings remained cleared, and no bfcache finding appeared. The only
+remaining errors are six zero-estimated-savings dependency-tree findings and
+six shared unused-CSS findings already bounded above. A rejected first attempt
+used `Cache-Control: no-store` and created six bfcache errors; correcting that
+scratch-only header removed them, consistent with the direct top-level bfcache
+proof.
+
+This comparison proves that the generated text artifacts benefit from normal
+HTTP compression and that the earlier twelve failures were local-server
+artifacts. It does not observe the deployed Cloudflare configuration, waive the
+twelve remaining preset assertions, or establish field performance.
