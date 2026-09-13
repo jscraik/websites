@@ -85,6 +85,19 @@ function validateHtml(file, html) {
       if (!("alt" in attrs)) fail(file, line, "image is missing alt text.");
       if (/^(image|photo|picture|graphic|icon)$/i.test(attrs.alt ?? "")) fail(file, line, "image has generic alt text.");
       if (!attrs.width || !attrs.height) fail(file, line, "image is missing width or height.");
+      if (attrs.src === "/jamie-profile-480.webp") {
+        if (attrs.srcset !== "/jamie-profile-480.webp 480w, /jamie-profile-640.webp 640w") {
+          fail(file, line, "public portrait must offer the 480px and 640px responsive sources.");
+        }
+        if (attrs.sizes !== "(max-width: 640px) calc(100vw - 40px), 480px") {
+          fail(file, line, "public portrait must declare its responsive display size.");
+        }
+      }
+      if (file === "dist/now/index.html" && attrs.class === "about-portrait") {
+        if (attrs.src !== "/jamie-profile-360x480.webp" || attrs.width !== "360" || attrs.height !== "480") {
+          fail(file, line, "About portrait must use the center-cropped 360x480 source and matching dimensions.");
+        }
+      }
       if (isBelowFoldPortrait(file, html, match.index, attrs)) {
         if (attrs.loading !== "lazy") fail(file, line, "below-fold portrait must use loading=\"lazy\".");
         if (attrs.decoding !== "async") fail(file, line, "below-fold portrait must use decoding=\"async\".");
@@ -116,7 +129,7 @@ function validateHtml(file, html) {
 }
 
 function isBelowFoldPortrait(file, html, index, attrs) {
-  const isBlogAuthor = file === "dist/blog/index.html" && attrs.src === "/jamie-profile-640.webp";
+  const isBlogAuthor = file === "dist/blog/index.html" && attrs.src === "/jamie-profile-480.webp";
   const footerStart = html.lastIndexOf("<footer", index);
   const footerEnd = html.lastIndexOf("</footer>", index);
   const isFooterPortrait = footerStart > footerEnd && attrs.src === "/jamie-profile-96.webp";

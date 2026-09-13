@@ -76,7 +76,9 @@ const otherArticles = articles.filter((article) => article.id !== latestArticle.
 
     <section class="blog-about-card" aria-labelledby="blog-about-title">
       <img
-        src="/jamie-profile-640.webp"
+        src="/jamie-profile-480.webp"
+        srcset="/jamie-profile-480.webp 480w, /jamie-profile-640.webp 640w"
+        sizes="(max-width: 640px) calc(100vw - 40px), 480px"
         alt="Jamie Scott Craik"
         width="640"
         height="640"
