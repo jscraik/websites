@@ -5,7 +5,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { collectPrTemplateContractErrors } from "./lib/pr-template-contract.mjs";
+import { collectPrBodyContractErrors, collectPrTemplateContractErrors } from "./lib/pr-template-contract.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
@@ -186,6 +186,37 @@ check("PR template follows the current maintainer evidence contract", () => {
     ),
   );
   assert.match(hiddenBlockedEvidenceErrors.join("\n"), /blocked command evidence with a reason/i);
+});
+
+check("PR body validation follows the repository template contract", () => {
+  const validBody = pullRequestTemplate
+    .replace(/^Write for maintainers\.[\s\S]*?^## Summary$/m, "## Summary")
+    .replace(/<!--[\s\S]*?-->/g, "")
+    .replace(/^- ([^\n:]+):$/gm, "- $1: verified value")
+    .replace(/^- Release mode:.*$/m, "- Release mode: Harness")
+    .replace(
+      "## Validation\n\n- Regression coverage:",
+      "## Validation\n\n- Regression coverage: PR-body schema\n- Command: `npm run validate:pr-template` -> pass",
+    );
+  assert.deepEqual(collectPrBodyContractErrors(validBody, pullRequestTemplate), []);
+
+  const missingValue = validBody.replace("- Problem: verified value", "- Problem:");
+  assert.match(collectPrBodyContractErrors(missingValue, pullRequestTemplate).join("\n"), /Problem must not be empty/i);
+
+  const placeholderValue = validBody.replace("- Problem: verified value", "- Problem: n.a. because reason");
+  assert.match(collectPrBodyContractErrors(placeholderValue, pullRequestTemplate).join("\n"), /replace the template placeholder/i);
+
+  const releaseModePlaceholder = validBody.replace(
+    "- Release mode: Harness",
+    "- Release mode: Prototype / Portfolio / Product / Harness / n.a. because reason",
+  );
+  assert.match(collectPrBodyContractErrors(releaseModePlaceholder, pullRequestTemplate).join("\n"), /replace the template placeholder/i);
+
+  const renamedSection = validBody.replace("## Summary", "## Overview");
+  assert.match(collectPrBodyContractErrors(renamedSection, pullRequestTemplate).join("\n"), /exactly the repository template sections/i);
+
+  const changedChecklist = validBody.replace("I did not push directly to `main`", "I avoided main");
+  assert.match(collectPrBodyContractErrors(changedChecklist, pullRequestTemplate).join("\n"), /checklist items must exactly match/i);
 });
 
 check("pre-commit validation uses portfolio package contracts", () => {

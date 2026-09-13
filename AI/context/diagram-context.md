@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-09-13T16:42:31Z
+Generated: 2026-09-13T17:08:34Z
 
 ## Table of Contents
 
@@ -29,10 +29,14 @@ Generated: 2026-09-13T16:42:31Z
 ## Changed source focus
 
 - These architecture-sensitive paths changed on the current branch and may be compacted out of Mermaid diagrams.
+- `.circleci/config.yml`
 - `AGENTS.md`
 - `docs/agents/00-architecture-bootstrap.md`
 - `docs/agents/07b-agent-governance.md`
 - `package.json`
+- `scripts/lib/pr-template-contract.mjs`
+- `scripts/test-operator-workflow-contract.mjs`
+- `scripts/validate-pr-template.mjs`
 
 ## agent
 

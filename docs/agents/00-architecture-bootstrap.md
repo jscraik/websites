@@ -43,6 +43,12 @@ the static `dist/` artifact, and uploads it through the pinned Wrangler
 contract. Keep those hosted checks and deployment-context claims separate from
 local build proof and from Cloudflare custom-domain setup.
 
+The `pr-template` job reads the hosted PR body and validates it with the
+repository-owned `scripts/validate-pr-template.mjs` contract. Keep that body
+schema, `.github/PULL_REQUEST_TEMPLATE.md`, its focused regression fixtures,
+and the CircleCI invocation synchronized; do not substitute a packaged schema
+that targets a different template version.
+
 The Astro anti-pattern validator is part of the source-quality architecture:
 `scripts/test-astro-anti-patterns.mjs` exercises the production validator with
 fixture CSS, while `npm run validate:fast` keeps that focused regression test

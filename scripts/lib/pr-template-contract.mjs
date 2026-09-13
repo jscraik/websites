@@ -29,6 +29,10 @@ const RETIRED_SECTIONS = [
 
 const STANDALONE_REMEDIATION_POLICY =
   /standalone review-remediation PRs may use\s+`jscraik\/<short-description>`\s+when the body records a concrete Linear `n\/a` reason/i;
+const PLACEHOLDER_VALUE_PATTERNS = [
+  /^n\.a\.\s+because\s+reason[.!]?$/i,
+  /^Prototype\s*\/\s*Portfolio\s*\/\s*Product\s*\/\s*Harness\s*\/\s*n\.a\.\s+because\s+reason$/i,
+];
 
 function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -51,21 +55,22 @@ function hasField(section, label) {
   return new RegExp(`^- ${escapeRegExp(label)}:`, "m").test(section);
 }
 
-/** Return actionable contract violations for the repository PR template. */
-export function collectPrTemplateContractErrors(content) {
+function fieldValue(section, label) {
+  const match = section.match(new RegExp(`^- ${escapeRegExp(label)}:[ \\t]*(.*)$`, "m"));
+  return match?.[1]?.trim() ?? null;
+}
+
+function collectRequiredSectionErrors(content, surface) {
   const errors = [];
   const visibleContent = stripHtmlComments(content);
-  if (!visibleContent.startsWith("# Pull request")) errors.push("PR template must start with '# Pull request'.");
-  if (!/Write for maintainers\./.test(visibleContent)) errors.push("PR template must address maintainers.");
-  if (!/Use `n\.a\.` with a reason/.test(visibleContent)) errors.push("PR template must define the n.a. reason convention.");
-
-  const sectionPositions = REQUIRED_SECTIONS.map((section) =>
-    visibleContent.search(new RegExp(`^${escapeRegExp(section)}[ \t]*$`, "im")),
+  const positions = REQUIRED_SECTIONS.map((section) =>
+    visibleContent.search(new RegExp(`^${escapeRegExp(section)}[ \\t]*$`, "im")),
   );
-  if (sectionPositions.every((position) => position >= 0)) {
-    for (let index = 1; index < sectionPositions.length; index += 1) {
-      if (sectionPositions[index] <= sectionPositions[index - 1]) {
-        errors.push("PR template required sections must remain in the declared order.");
+
+  if (positions.every((position) => position >= 0)) {
+    for (let index = 1; index < positions.length; index += 1) {
+      if (positions[index] <= positions[index - 1]) {
+        errors.push(`${surface} required sections must remain in the declared order.`);
         break;
       }
     }
@@ -74,13 +79,26 @@ export function collectPrTemplateContractErrors(content) {
   for (const section of REQUIRED_SECTIONS) {
     const body = sectionBody(visibleContent, section);
     if (body === null) {
-      errors.push(`PR template is missing required section: ${section}`);
+      errors.push(`${surface} is missing required section: ${section}`);
       continue;
     }
     for (const field of REQUIRED_FIELDS.get(section) ?? []) {
-      if (!hasField(body, field)) errors.push(`PR template section ${section} is missing field: ${field}`);
+      if (!hasField(body, field)) errors.push(`${surface} section ${section} is missing field: ${field}`);
     }
   }
+
+  return errors;
+}
+
+/** Return actionable contract violations for the repository PR template. */
+export function collectPrTemplateContractErrors(content) {
+  const errors = [];
+  const visibleContent = stripHtmlComments(content);
+  if (!visibleContent.startsWith("# Pull request")) errors.push("PR template must start with '# Pull request'.");
+  if (!/Write for maintainers\./.test(visibleContent)) errors.push("PR template must address maintainers.");
+  if (!/Use `n\.a\.` with a reason/.test(visibleContent)) errors.push("PR template must define the n.a. reason convention.");
+
+  errors.push(...collectRequiredSectionErrors(content, "PR template"));
 
   for (const section of RETIRED_SECTIONS) {
     if (new RegExp(`^${escapeRegExp(section)}[ \\t]*$`, "m").test(visibleContent)) {
@@ -118,6 +136,51 @@ export function collectPrTemplateContractErrors(content) {
   }
   if (!/\| Artifact \| Durable reference \| Schema \/ version \| Producer command \| Digest \| Replay command \| Authority \|/.test(visibleContent)) {
     errors.push("PR template must retain the durable evidence map columns.");
+  }
+
+  return errors;
+}
+
+/** Return actionable contract violations for a completed PR body. */
+export function collectPrBodyContractErrors(content, template) {
+  const errors = collectRequiredSectionErrors(content, "PR body");
+  const visibleContent = stripHtmlComments(content);
+  const visibleTemplate = stripHtmlComments(template);
+
+  if (!visibleContent.startsWith("# Pull request")) errors.push("PR body must start with '# Pull request'.");
+
+  const headings = [...visibleContent.matchAll(/^## .+$/gm)].map((match) => match[0]);
+  if (headings.length !== REQUIRED_SECTIONS.length || headings.some((heading, index) => heading !== REQUIRED_SECTIONS[index])) {
+    errors.push("PR body must use exactly the repository template sections in the declared order.");
+  }
+
+  for (const [section, fields] of REQUIRED_FIELDS) {
+    const body = sectionBody(visibleContent, section);
+    if (body === null) continue;
+    for (const field of fields) {
+      const value = fieldValue(body, field);
+      if (value === "") errors.push(`PR body field ${section} / ${field} must not be empty.`);
+      if (value !== null && /^n\.a\.$/i.test(value)) {
+        errors.push(`PR body field ${section} / ${field} must give a concrete reason after n.a.`);
+      }
+      if (value !== null && PLACEHOLDER_VALUE_PATTERNS.some((pattern) => pattern.test(value))) {
+        errors.push(`PR body field ${section} / ${field} must replace the template placeholder.`);
+      }
+    }
+  }
+
+  const checklistItems = (value) =>
+    (sectionBody(value, "## Checklist") ?? "")
+      .split("\n")
+      .filter((line) => /^- \[[ xX]\] /.test(line))
+      .map((line) => line.replace(/^- \[[ xX]\] /, ""));
+  if (JSON.stringify(checklistItems(visibleContent)) !== JSON.stringify(checklistItems(visibleTemplate))) {
+    errors.push("PR body checklist items must exactly match the repository template.");
+  }
+
+  const validation = sectionBody(visibleContent, "## Validation") ?? "";
+  if (!/^- Command: `[^`]+` -> (?:pass|fail|blocked)(?: \([^\n]+\))?$/m.test(validation)) {
+    errors.push("PR body validation must include an exact command with a pass, fail, or blocked outcome.");
   }
 
   return errors;
