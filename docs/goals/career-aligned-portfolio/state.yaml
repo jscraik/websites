@@ -8,7 +8,7 @@ current_task:
   id: closeout-and-browser-proof
   status: in_progress
   owner: codex
-  next_action: Signed candidate e771682 passes the source gate, clears both current Lighthouse portrait findings with source-derived responsive assets, and retains focused mobile/desktop About, Blog, and Contact presentation without overflow. All six Lighthouse routes pass explicit category thresholds; the recommended preset remains failed by 24 assertions split across local-server compression/latency artifacts and the retained dependency-tree/unused-CSS groups. The same-origin iframe bfcache probe restored Home with pageshow.persisted false and no diagnostic reason; use an approved top-level script-disabled runtime for bfcache proof rather than changing source speculatively. Screen-reader operation, exhaustive visual review, production compression evidence, and public-safe CV wording remain external/manual lanes. Reset the localhost Chrome origin from 200 percent in a dedicated stable session before reuse. Do not revisit the rejected appended About CSS split without an order-preserving build mechanism or deliberate cascade-refactor scope.
+  next_action: Signed candidate e771682 passes the source gate, clears both current Lighthouse portrait findings with source-derived responsive assets, and retains focused mobile/desktop About, Blog, and Contact presentation without overflow. Candidate 3dfec5c also passes top-level JavaScript-disabled bfcache proof: Home restored after Back with Chrome navigation type BackForwardCacheRestore and no failure event. All six Lighthouse routes pass explicit category thresholds; the recommended preset remains failed by 24 assertions split across local-server compression/latency artifacts and the retained dependency-tree/unused-CSS groups. Screen-reader operation, exhaustive visual review, production compression evidence, and public-safe CV wording remain external/manual lanes. Reset the localhost Chrome origin from 200 percent in a dedicated stable session before reuse. Do not revisit the rejected appended About CSS split without an order-preserving build mechanism or deliberate cascade-refactor scope.
 scope:
   - src
   - public
@@ -21,7 +21,6 @@ blocked_items:
   - C04
   - C05
   - C06
-  - C08
   - D01
   - D02
   - D03

@@ -1507,3 +1507,20 @@ About, Blog, and Contact at 375×812 and 1440×1000. The current sources resolve
 the accepted portrait composition was retained, and all six pages reported no
 document overflow. This is focused affected-route visual evidence, not
 exhaustive visual or physical-device acceptance.
+
+## September 13 top-level no-JavaScript bfcache proof
+
+Candidate `3dfec5c` was rebuilt and copied into a fresh immutable temporary
+artifact. A disposable unauthenticated Chrome profile was launched through the
+approved existing-CDP route without `--no-sandbox`. The page-level JavaScript
+setting was disabled before navigation, and Chrome's `Page` lifecycle domain
+observed the top-level history journey.
+
+Command: `node .playwright-tmp/verify-top-level-nojs-bfcache.mjs` -> pass.
+Chrome reported JavaScript disabled, `Navigation` for Home, `Navigation` for
+About, and `BackForwardCacheRestore` for Home after Back. The final URL was Home
+and no `Page.backForwardCacheNotUsed` event or not-restored explanation fired.
+This is direct top-level bfcache residency evidence and supersedes the earlier
+sandboxed-iframe uncertainty. The previously verified desktop/mobile link
+journeys and fallback content remain the interaction proof; this focused
+lifecycle probe used top-level history navigation to isolate residency.
