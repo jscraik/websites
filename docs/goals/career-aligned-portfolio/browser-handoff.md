@@ -1413,3 +1413,21 @@ another user window, so no further shortcut was sent; the separate viewing
 session was not disturbed to manufacture the missing result.
 Keep synthetic lifecycle tests separate from real back-forward-cache proof.
 Record screenshots and results against this archive checksum, not a later build.
+
+## September 13 exact native 200% route sweep
+
+The exact checkpoint was completed by claiming the known localhost tab through
+Chrome's tab-specific control surface, then using an isolated agent tab on the
+same origin. At native 200%, Chrome measured a 1080×1890 outer window, a
+540×945 CSS viewport and device pixel ratio 4, compared with device pixel ratio
+2 at default zoom. All 13 routes were audited in four bounded batches. Every
+route was nonblank, retained its `h1`, navigation, main and footer landmarks,
+reported no document-level horizontal overflow, and had no completed image with
+zero intrinsic width. This closes the exact all-route 200% structural/reflow
+checkpoint; it is not screen-reader operation or pixel-by-pixel visual approval.
+
+The isolated agent tab was closed. Chrome's page-level shortcut API did not
+restore origin zoom, and the older claimed localhost tab could not be reattached
+after its debugger detached. The local preview was stopped; a later dedicated
+Chrome session should reset that localhost origin before reuse. No unrelated tab
+received another shortcut.
