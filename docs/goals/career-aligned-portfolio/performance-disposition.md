@@ -6,11 +6,11 @@ No new audit or product change was performed for this diagnosis.
 
 ## Fourteen error assertions
 
-| Group | Evidence | Disposition |
-| --- | --- | --- |
-| Six unused-CSS errors | All identify `BaseLayout.CKahxD7B.css`, 35,944 transfer bytes; estimated unused bytes are 19,508 Home, 25,239 About, 26,709 Blog, 29,127 Proof, 28,314 article, 25,620 work. Estimated LCP savings 150–300ms. | Genuine shared-delivery optimization candidate, not proof those rules are globally dead. Source `BaseLayout.astro` imports global, shell and route-rhythm CSS on every route. Preserve required rules and first establish which route-specific rules can move without changing cascade/order. |
-| Six network-tree errors | Longest observed chains 13/12/30/23/21/12ms; every report estimates zero LCP savings. Chains contain document → stylesheet and navigation module → shared FLIP helper. Preloaded fonts are no longer descendants. | Binary structural audit limitation as a severity signal; not evidence of a measured slow chain. Installed trace engine sets failure for path length ≥2 without a duration threshold; adapter maps failure to score zero. Do not remove shared behavior, inline all CSS, or preload everything solely to turn this score green. The preset remains failed, not waived. |
-| Two image-delivery errors | Same 71,610-byte 640px WebP on About/Blog; estimated savings 20,449/20,410 bytes. About estimates 150ms LCP saving, Blog zero. | Real compression opportunity with an unproven quality trade-off. Existing portrait source and prior accepted visuals are retained. No documented current encoder/quality recipe exists; do not invent a destructive recompression or substitute an unrelated portrait. A separately evaluated derivative would need source provenance, dimensions and independent visual comparison before replacement. |
+| Group                     | Evidence                                                                                                                                                                                                          | Disposition                                                                                                                                                                                                                                                                                                                                                                                             |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Six unused-CSS errors     | All identify `BaseLayout.CKahxD7B.css`, 35,944 transfer bytes; estimated unused bytes are 19,508 Home, 25,239 About, 26,709 Blog, 29,127 Proof, 28,314 article, 25,620 work. Estimated LCP savings 150–300ms.     | Genuine shared-delivery optimization candidate, not proof those rules are globally dead. Source `BaseLayout.astro` imports global, shell and route-rhythm CSS on every route. Preserve required rules and first establish which route-specific rules can move without changing cascade/order.                                                                                                           |
+| Six network-tree errors   | Longest observed chains 13/12/30/23/21/12ms; every report estimates zero LCP savings. Chains contain document → stylesheet and navigation module → shared FLIP helper. Preloaded fonts are no longer descendants. | Binary structural audit limitation as a severity signal; not evidence of a measured slow chain. Installed trace engine sets failure for path length ≥2 without a duration threshold; adapter maps failure to score zero. Do not remove shared behavior, inline all CSS, or preload everything solely to turn this score green. The preset remains failed, not waived.                                   |
+| Two image-delivery errors | Same 71,610-byte 640px WebP on About/Blog; estimated savings 20,449/20,410 bytes. About estimates 150ms LCP saving, Blog zero.                                                                                    | Real compression opportunity with an unproven quality trade-off. Existing portrait source and prior accepted visuals are retained. No documented current encoder/quality recipe exists; do not invent a destructive recompression or substitute an unrelated portrait. A separately evaluated derivative would need source provenance, dimensions and independent visual comparison before replacement. |
 
 The current repository contract is `lighthouserc.json`: recommended preset plus
 explicit performance/accessibility/best-practices/SEO category thresholds. Passing
@@ -63,13 +63,13 @@ PostCSS inspection of current `global.css` found the following candidate groups
 where every selector arm contains the named class prefix. These are an inventory
 filter, not a safe extraction algorithm or a proof of exclusive ownership:
 
-| Prefix | Rules | Source bytes | Standalone gzip bytes |
-| --- | ---: | ---: | ---: |
-| `about-` | 293 | 44,857 | 6,491 |
-| `contact-` | 21 | 3,436 | 1,041 |
-| `article-` | 68 | 9,771 | 2,333 |
-| `case-` | 111 | 14,395 | 2,964 |
-| `proof-` | 25 | 4,043 | 1,344 |
+| Prefix     | Rules | Source bytes | Standalone gzip bytes |
+| ---------- | ----: | -----------: | --------------------: |
+| `about-`   |   293 |       44,857 |                 6,491 |
+| `contact-` |    21 |        3,436 |                 1,041 |
+| `article-` |    68 |        9,771 |                 2,333 |
+| `case-`    |   111 |       14,395 |                 2,964 |
+| `proof-`   |    25 |        4,043 |                 1,344 |
 
 Standalone gzip totals are not additive and do not predict bundled transfer
 savings. A parse5 traversal of all 13 retained production HTML documents found
