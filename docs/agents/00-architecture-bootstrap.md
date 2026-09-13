@@ -31,6 +31,11 @@ belongs to the portfolio maintainer and blocks the architecture-sensitive
 change until the projections and `AI/context/diagram-context.md` are aligned.
 Generated runtime receipts remain evidence rather than canonical source.
 
+Dependency and lockfile changes are architecture-sensitive. Refresh the
+tracked diagram context, run the repository source-validation contract, and
+report production and development-tool audits separately; an upstream-only
+development advisory must not be represented as a production vulnerability.
+
 CircleCI owns the repository's pull-request validation workflows, while the
 `pages-production` workflow is the only production publication path. It runs
 on `main` with the restricted `cloudflare-pages-production` context, validates
