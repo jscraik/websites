@@ -1,5 +1,26 @@
 # Browser review handoff
 
+## Current-build script-disabled fallback proof
+
+On the signed current source candidate, the production `dist/` artifact was
+loaded in an iframe with `sandbox` and no `allow-scripts` token. This gives the
+embedded document a genuine script-disabled browsing context without launching
+or installing another browser. The supported in-app browser accessibility tree
+exposed the SkillsBar demo heading and the visible `All release scenarios`
+fallback, including the ordered outcomes `Candidate held · 11/100`,
+`Security flagged · 24/100`, and `Evidence current · 100/100` with their three
+descriptions. Direct script-disabled route loads also exposed the About heading,
+career-transition copy, and Home's primary SkillsBar destination. All requested
+fonts, styles, and portrait/product images returned HTTP 200 from the immutable
+artifact server.
+
+The attempted About-link activation inside the sandboxed frame timed out and the
+frame remained on Home, so it is not navigation evidence. A later nested-frame
+locator attempt also exceeded its selector deadline. The accessibility-tree
+read is the accepted rendered fallback evidence; link activation, top-level
+Back/bfcache behavior, mobile coverage, and a full Playwright no-script rerun
+remain open. Temporary tabs and both local servers were closed.
+
 ## Remaining finite verification queue
 
 Latest aggregate after explicit post-Back animation readiness: command
