@@ -38,6 +38,27 @@ mechanism; that is not justified merely to harvest this preliminary estimate.
 The original accepted CSS remains intact. This closes the proposed simple split
 experiment with a negative implementation decision, not a performance-gate pass.
 
+### September 13 computed-style rejection
+
+The planned rendered comparison now confirms the cascade risk rather than merely
+inferring it. Two immutable copies of the built About document were generated:
+one with the current source order, and one with the same conservative 209 rules
+moved after `about.css`. In the supported in-app browser at an exact
+1440×1000 viewport, both documents contained 283 elements, but the candidate
+changed 221 computed-style or geometry records. Concrete winning-value changes
+included `.about-copy` column gap from 24px to 20px, `.about-fact-card` radius
+from 18px to 0, and a 12px reduction in the page height. The single appended
+stylesheet extraction is therefore rejected by rendered evidence; production
+CSS remains unchanged.
+
+The requested 375×812 override was not applied to the comparison tab, so that
+attempt was rejected and supplies no mobile evidence. The isolated comparison
+server also did not serve font and image URLs; both candidates received the same
+404s, which is sufficient for the observed cascade-value mismatch but not for a
+visual-parity or performance claim. Any future split needs an order-preserving
+build mechanism or a deliberate cascade refactor with full rendered regression
+proof; neither is justified solely by the current unused-CSS audit.
+
 PostCSS inspection of current `global.css` found the following candidate groups
 where every selector arm contains the named class prefix. These are an inventory
 filter, not a safe extraction algorithm or a proof of exclusive ownership:
