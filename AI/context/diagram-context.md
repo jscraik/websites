@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-09-13T16:13:42Z
+Generated: 2026-09-13T16:42:31Z
 
 ## Table of Contents
 
@@ -30,6 +30,7 @@ Generated: 2026-09-13T16:13:42Z
 
 - These architecture-sensitive paths changed on the current branch and may be compacted out of Mermaid diagrams.
 - `AGENTS.md`
+- `docs/agents/00-architecture-bootstrap.md`
 - `docs/agents/07b-agent-governance.md`
 - `package.json`
 
