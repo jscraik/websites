@@ -137,3 +137,28 @@ runtime has no installed Playwright Chromium; repository policy forbids
 installing or substituting a browser for this lane. The prior two image-delivery
 assertions therefore remain open until a paired audit on the new artifact proves
 their disposition. No claim is made that the complete recommended preset passes.
+
+## September 13 paired current audit and responsive portrait repair
+
+The approved existing-CDP audit route is now available. A fresh audit of the
+40,742-byte square candidate reproduced both image-delivery assertions: About
+estimated 15,261 wasted bytes and Blog 12,189. The source/render relationship
+showed two distinct causes. Blog and Contact needed a smaller square source;
+About placed a square image inside a 3:4 `object-fit` frame, so Lighthouse also
+counted the cropped sides as waste.
+
+Signed candidate `e771682` adds a 25,436-byte 480×480 square derivative
+(`86d24def…`) and a 22,268-byte 360×480 centre crop (`472699bb…`), both encoded
+from the tracked master at q76/m6. Blog and Contact use the responsive 480/640
+square pair; About uses the crop matching its rendered frame. The full source
+gate and built-HTML portrait contract pass. Focused desktop/mobile captures of
+all three affected routes retain the intended composition with no document
+overflow.
+
+The paired six-route Lighthouse rerun clears both image-delivery assertions and
+reduces error assertions from 26 to 24. About performance improves from 0.82 to
+0.83; every route passes the explicit category thresholds. The remaining preset
+failures are six uncompressed-response/document-latency pairs from the local
+server, six zero-savings dependency-tree findings, and six shared unused-CSS
+findings. This closes the portrait-delivery work; it does not certify the full
+recommended preset or production compression behavior.

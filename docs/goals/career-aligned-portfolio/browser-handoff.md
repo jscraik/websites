@@ -1475,3 +1475,35 @@ restore origin zoom, and the older claimed localhost tab could not be reattached
 after its debugger detached. The local preview was stopped; a later dedicated
 Chrome session should reset that localhost origin before reuse. No unrelated tab
 received another shortcut.
+
+## September 13 current-head Lighthouse and portrait repair
+
+Signed candidate `e771682` replaces the square About source inside its 3:4
+frame with a source-derived 360×480 centre crop and adds a 480px square source
+plus 480/640 `srcset` selection for Blog and Contact. The 640px square remains
+the metadata image and large-display fallback. Built HTML validation now
+enforces those source and intrinsic-dimension contracts.
+
+The candidate was built with `npm run validate:source`, copied into a fresh
+immutable temporary artifact, and served to a disposable unauthenticated Chrome
+profile over the approved existing-CDP route. Chrome was launched without
+`--no-sandbox`. Command: `node .playwright-tmp/audit-production-lighthouse.mjs`
+-> expected aggregate fail with 24 recommended-preset assertions, down from 26
+on the paired pre-fix artifact. The two image-delivery assertions are cleared.
+About performance improved from 0.82 to 0.83; all six audited routes score
+0.83–0.86 performance and 1.00 accessibility, best practices, and SEO, passing
+the repository's explicit category thresholds.
+
+The remaining 24 assertions are six uncompressed-response/document-latency
+pairs caused by the deliberately uncompressed local static server, six
+zero-estimated-savings dependency-tree findings, and six shared unused-CSS
+findings. The latter two groups retain their existing bounded disposition; the
+failed recommended preset is not relabelled as green. The raw current reports
+and assertion array remain ignored evidence under
+`.playwright-tmp/portfolio-production.KFPftI/vite-lighthouse/`.
+
+Command: `node .playwright-tmp/capture-responsive-portraits.mjs` -> pass for
+About, Blog, and Contact at 375×812 and 1440×1000. The current sources resolved,
+the accepted portrait composition was retained, and all six pages reported no
+document overflow. This is focused affected-route visual evidence, not
+exhaustive visual or physical-device acceptance.
