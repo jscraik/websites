@@ -1548,3 +1548,34 @@ the built artifact is locally compressible and that the earlier twelve
 compression/latency failures came from the uncompressed harness. It does not
 prove Cloudflare's deployed response headers, field performance, or a passing
 recommended preset.
+
+## September 13 current all-route visual matrix
+
+Signed candidate `c50fbfa` was rebuilt, copied into a fresh immutable artifact,
+and served to a disposable unauthenticated Chrome profile through the approved
+existing-CDP route without `--no-sandbox`. The current Portfolio route inventory
+was captured at 320×800, 375×812, 768×1024, and 1440×1000: 13 routes across four
+widths, for 52 current-head full-page captures.
+
+Command: `node .playwright-tmp/capture-all-route-visual-review.mjs` -> pass for
+the 375px, 768px, and 1440px matrix. Command:
+`VISUAL_VIEWPORTS=compact node .playwright-tmp/capture-all-route-visual-review.mjs`
+-> pass for the 320px matrix. Every case returned HTTP 200, retained its `h1`,
+navigation, main and footer landmarks, reported no document-level horizontal
+overflow, loaded no broken image, and emitted no page error. Mobile, tablet,
+desktop, and compact contact sheets were inspected, followed by original-scale
+representative full-page inspection of Home, About, Writing, Proof, SkillsBar,
+and the SkillsBar demo.
+
+The desktop Writing contact-sheet tile appeared to shift its navigation. A
+fresh viewport capture and live geometry rejected that apparent finding as a
+full-page/contact-sheet rendering artifact: the navigation had no transform,
+occupied x=272.8 through x=1167.2 in the 1440px viewport, and every link remained
+within the viewport. No source repair was warranted.
+
+UI-review verdict: **Ship it** for the defined static current-build matrix. This
+closes C02 and D07 together with the separate exact native 200% all-route sweep.
+The captures used reduced motion for stable comparison and therefore do not
+close dynamic-motion review, physical-device coverage, screen-reader operation,
+public-safe CV approval, or Jose-reference pixel parity; no such broader claim
+is made.
