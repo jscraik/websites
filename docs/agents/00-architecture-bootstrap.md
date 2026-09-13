@@ -31,12 +31,23 @@ belongs to the portfolio maintainer and blocks the architecture-sensitive
 change until the projections and `AI/context/diagram-context.md` are aligned.
 Generated runtime receipts remain evidence rather than canonical source.
 
+Dependency and lockfile changes are architecture-sensitive. Refresh the
+tracked diagram context, run the repository source-validation contract, and
+report production and development-tool audits separately; an upstream-only
+development advisory must not be represented as a production vulnerability.
+
 CircleCI owns the repository's pull-request validation workflows, while the
 `pages-production` workflow is the only production publication path. It runs
 on `main` with the restricted `cloudflare-pages-production` context, validates
 the static `dist/` artifact, and uploads it through the pinned Wrangler
 contract. Keep those hosted checks and deployment-context claims separate from
 local build proof and from Cloudflare custom-domain setup.
+
+The `pr-template` job reads the hosted PR body and validates it with the
+repository-owned `scripts/validate-pr-template.mjs` contract. Keep that body
+schema, `.github/PULL_REQUEST_TEMPLATE.md`, its focused regression fixtures,
+and the CircleCI invocation synchronized; do not substitute a packaged schema
+that targets a different template version.
 
 The Astro anti-pattern validator is part of the source-quality architecture:
 `scripts/test-astro-anti-patterns.mjs` exercises the production validator with

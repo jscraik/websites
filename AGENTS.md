@@ -22,24 +22,17 @@ schema_version: 2
 
 ## Project Pointers
 - package.json is the source of truth for npm scripts. Re-read it before choosing validation commands.
-- docs/agents/00-architecture-bootstrap.md records the schema, route-coverage,
-  motion, development-tooling, and generated-diagram boundaries that must stay
-  synchronized with source and dependency changes.
-
-- docs/implementation-notes/jose-parity-guardrail.md defines the Jose parity proof boundary, repeated steering fixes, and what screenshot/parity commands do and do not prove.
-- docs/decisions/2026-07-31-freeze-jose-reference-authority.md records the approved stored-reference authority; current-live Jose comparisons remain advisory until an explicit reference refresh is approved.
-- docs/reference/jose-ocando/README.md describes the stored Jose reference bundle. Static capture proves reference availability, not visual parity.
-- scripts/validate-page-surfaces.mjs protects repeated page-surface regressions such as grey section bands, hidden full-bleed band patterns, and leaked Blog author-card layout rules.
-- scripts/test-css-simplification.mjs protects the shared shell gradient and dynamic CSS variant boundary while keeping removed legacy selectors out of current Astro source.
-- src/styles/route-rhythm.css owns route-specific editorial spacing; keep its selectors route-scoped and refresh tracked diagram projections when it changes.
-- scripts/validate-astro-anti-patterns.mjs protects AI-prone Astro regressions: fake controls, missing image alt text, careless hydration, component-level global styles, transition-all, important/overflow masking, pixel breakpoints, and heading-outline jumps; `scripts/test-astro-anti-patterns.mjs` is its focused fixture contract.
-- scripts/validate-css-policy.mjs protects token usage, rem breakpoints, selector specificity, z-index scale, and type-scale discipline.
-- scripts/validate-html-output.mjs validates built HTML semantics, duplicate IDs, landmarks, headings, links, buttons, images, and ARIA references.
-- scripts/validate-js-budget.mjs protects Astro's static-first output with a strict JavaScript budget and no accidental hydration.
-- scripts/validate-render-flow.mjs uses Playwright against built output to catch horizontal overflow, clipped text, tiny hit targets, blank routes, and zero-size images across common viewports.
-- scripts/validate-no-prototype-slop.mjs blocks placeholder copy, empty links, local machine paths, debug logging, and patch-status comments from source/public files.
-- scripts/validate-jose-claim-boundary.mjs protects claim wording around Jose reference capture versus parity proof.
-- scripts/smoke-pages.mjs and tests/** cover route smoke, visual, screenshot, and accessibility lanes.
+- Read `docs/agents/00-architecture-bootstrap.md` when changing schemas, route
+  coverage, motion infrastructure, development tooling, dependencies, or tracked
+  diagrams. Update affected projections through the documented generator.
+- Read `docs/implementation-notes/jose-parity-guardrail.md`,
+  `docs/decisions/2026-07-31-freeze-jose-reference-authority.md`, and
+  `docs/reference/jose-ocando/README.md` only for Jose-reference, parity, or
+  stored-capture work. Static capture proves availability, not visual parity.
+- For source, CSS, HTML, JavaScript-budget, render-flow, smoke, visual, or
+  accessibility changes, select the matching repository validator or test from
+  `package.json`. Keep route-specific editorial spacing in
+  `src/styles/route-rhythm.css` and refresh tracked diagrams when it changes.
 - `.circleci/config.yml` owns pull-request validation and the main-only
   `pages-production` publication workflow; pair that contract with
   `docs/decisions/2026-08-02-circleci-cloudflare-pages-direct-upload.md` and
@@ -55,20 +48,25 @@ schema_version: 2
   work as standalone/untracked with that concrete reason.
 - `.codex/skills/` contains explicitly pinned workflow skills; review their source
   commit before treating a skill addition as project governance.
+- Read `docs/agents/07b-agent-governance.md` when selecting delegation,
+  persistent coordination, operator-projection changes, or PR delivery.
 
 ## Validation
 - Run the narrowest proving check first, then widen when the change affects shared styling, route behavior, generated artifacts, or user-visible design.
 - For docs or instruction-only edits, at minimum verify the touched paths and links with rg/test -f, then run the smallest relevant repo check when practical.
-- For Astro source, layout, or CSS changes, prefer:
-  - ASTRO_TELEMETRY_DISABLED=1 npm run build
-  - npm run validate:astro-anti-patterns when component markup, hydration, scoped styles, responsive CSS, or animation rules are touched.
-  - npm run validate:fast for ordinary Astro/source/CSS/content edits.
-  - npm run validate:source when route output or built HTML semantics are affected.
-  - npm run validate:rendered when layout, visual flow, accessibility, or viewport behavior is affected.
-  - npm run validate:site before release or when a broad site-quality proof is needed.
-  - npm run validate:page-surfaces when page backgrounds, section surfaces, spacing bands, or Blog card layout are touched.
-  - npm run test:smoke when route output or page wiring changes.
-  - npm run check when TypeScript/Astro typing is relevant and dependencies are available.
+- Use `npm run validate:fast` for ordinary Astro, source, CSS, or content edits;
+  `npm run validate:source` for built-output semantics;
+  `npm run test:smoke` for route output or page wiring; and
+  `npm run validate:rendered` for layout, visual flow,
+  accessibility, or viewport behavior. Run `npm run validate:site` for release
+  preparation or broad site-quality proof. Add focused validators named in
+  `package.json` when the touched surface requires them.
+- Run `npm run validate:page-surfaces` for page backgrounds, section surfaces,
+  spacing bands, or Blog card layout. Run
+  `npm run validate:astro-anti-patterns` for component markup, hydration,
+  scoped or responsive CSS, and animation-rule changes.
+- Run `ASTRO_TELEMETRY_DISABLED=1 npm run build` when output generation matters,
+  and `npm run check` when Astro or TypeScript diagnostics are relevant.
 - For Jose-reference or parity-claim work, run:
   - npm run validate:jose-claim-boundary
   - npm run test:jose-parity-measurements
