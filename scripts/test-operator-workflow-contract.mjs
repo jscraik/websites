@@ -220,6 +220,9 @@ check("PR body validation follows the repository template contract", () => {
   const placeholderValue = validBody.replace("- Problem: verified value", "- Problem: n.a. because reason");
   assert.match(collectPrBodyContractErrors(placeholderValue, pullRequestTemplate).join("\n"), /replace the template placeholder/i);
 
+  const slashPlaceholderValue = validBody.replace("- Linear reference: verified value", "- Linear reference: n/a because reason");
+  assert.match(collectPrBodyContractErrors(slashPlaceholderValue, pullRequestTemplate).join("\n"), /replace the template placeholder/i);
+
   for (const incompleteReason of [
     "n.a.",
     "n.a. because",
@@ -301,11 +304,23 @@ check("PR body validation follows the repository template contract", () => {
   );
   assert.match(collectPrBodyContractErrors(invalidBacktickInfoFence, pullRequestTemplate).join("\n"), /exactly the repository template sections/i);
 
+  const indentedExtraHeading = validBody.replace(
+    "- Untested paths and limitations: verified value",
+    "- Untested paths and limitations: verified value\n\n  ## Deployment notes\n- None",
+  );
+  assert.match(collectPrBodyContractErrors(indentedExtraHeading, pullRequestTemplate).join("\n"), /exactly the repository template sections/i);
+
   const renamedSection = validBody.replace("## Summary", "## Overview");
   assert.match(collectPrBodyContractErrors(renamedSection, pullRequestTemplate).join("\n"), /exactly the repository template sections/i);
 
   const changedChecklist = validBody.replace("I did not push directly to `main`", "I avoided main");
   assert.match(collectPrBodyContractErrors(changedChecklist, pullRequestTemplate).join("\n"), /checklist items must exactly match/i);
+
+  const fencedChecklistExample = validBody.replace(
+    "- [ ] I will delete the branch and worktree after merge.",
+    "- [ ] I will delete the branch and worktree after merge.\n\n```md\n- [ ] Example item\n```",
+  );
+  assert.deepEqual(collectPrBodyContractErrors(fencedChecklistExample, pullRequestTemplate), []);
 });
 
 check("pre-commit validation uses portfolio package contracts", () => {

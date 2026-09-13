@@ -30,7 +30,7 @@ const RETIRED_SECTIONS = [
 const STANDALONE_REMEDIATION_POLICY =
   /standalone review-remediation PRs may use\s+`jscraik\/<short-description>`\s+when the body records a concrete Linear `n\/a` reason/i;
 const PLACEHOLDER_VALUE_PATTERNS = [
-  /^n\.a\.\s+because\s+reason[.!]?$/i,
+  /^(?:n\.a\.|n\/a)\s+because\s+reason[.!]?$/i,
 ];
 const CONDITIONALLY_ADMITTED_FIELDS = new Set([
   "Validation evidence",
@@ -74,11 +74,11 @@ function normalizedPlaceholder(value) {
 }
 
 function sectionBody(visibleContent, heading) {
-  const headingPattern = new RegExp(`^${escapeRegExp(heading)}[ \\t]*$`, "im");
+  const headingPattern = new RegExp(`^ {0,3}${escapeRegExp(heading)}[ \\t]*$`, "im");
   const match = headingPattern.exec(visibleContent);
   if (!match) return null;
   const start = match.index + match[0].length;
-  const nextHeading = visibleContent.slice(start).search(/^##? /m);
+  const nextHeading = visibleContent.slice(start).search(/^ {0,3}##? /m);
   return visibleContent.slice(start, nextHeading < 0 ? visibleContent.length : start + nextHeading);
 }
 
@@ -98,7 +98,7 @@ function collectRequiredSectionErrors(content, surface) {
   const errors = [];
   const visibleContent = stripFencedCodeBlocks(stripHtmlComments(content));
   const positions = REQUIRED_SECTIONS.map((section) =>
-    visibleContent.search(new RegExp(`^${escapeRegExp(section)}[ \\t]*$`, "im")),
+    visibleContent.search(new RegExp(`^ {0,3}${escapeRegExp(section)}[ \\t]*$`, "im")),
   );
 
   if (positions.every((position) => position >= 0)) {
@@ -184,7 +184,7 @@ export function collectPrBodyContractErrors(content, template) {
 
   if (!visibleContent.startsWith("# Pull request")) errors.push("PR body must start with '# Pull request'.");
 
-  const headings = [...structuralContent.matchAll(/^## .+$/gm)].map((match) => match[0]);
+  const headings = [...structuralContent.matchAll(/^ {0,3}(## .+)$/gm)].map((match) => match[1]);
   if (headings.length !== REQUIRED_SECTIONS.length || headings.some((heading, index) => heading !== REQUIRED_SECTIONS[index])) {
     errors.push("PR body must use exactly the repository template sections in the declared order.");
   }
@@ -227,7 +227,10 @@ export function collectPrBodyContractErrors(content, template) {
       .split("\n")
       .filter((line) => /^- \[[ xX]\] /.test(line))
       .map((line) => line.replace(/^- \[[ xX]\] /, ""));
-  if (JSON.stringify(checklistItems(visibleContent)) !== JSON.stringify(checklistItems(visibleTemplate))) {
+  if (
+    JSON.stringify(checklistItems(structuralContent)) !==
+    JSON.stringify(checklistItems(stripFencedCodeBlocks(visibleTemplate)))
+  ) {
     errors.push("PR body checklist items must exactly match the repository template.");
   }
 
