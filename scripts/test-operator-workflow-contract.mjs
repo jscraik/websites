@@ -5,7 +5,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { collectPrTemplateContractErrors } from "./lib/pr-template-contract.mjs";
+import { collectPrBodyContractErrors, collectPrTemplateContractErrors } from "./lib/pr-template-contract.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
@@ -187,6 +187,141 @@ check("PR template follows the current maintainer evidence contract", () => {
     ),
   );
   assert.match(hiddenBlockedEvidenceErrors.join("\n"), /blocked command evidence with a reason/i);
+});
+
+check("PR body validation follows the repository template contract", () => {
+  const validBody = pullRequestTemplate
+    .replace(/^Write for maintainers\.[\s\S]*?^## Summary$/m, "## Summary")
+    .replace(/<!--[\s\S]*?-->/g, "")
+    .replace(/^- ([^\n:]+):$/gm, "- $1: verified value")
+    .replace(/^- Release mode:.*$/m, "- Release mode: Harness")
+    .replace(/^- User-facing impact:.*$/m, "- User-facing impact: n.a. because this validator has no visitor impact")
+    .replace(
+      "- Regression coverage: verified value",
+      "- Regression coverage: PR-body schema\n- Command: `npm run validate:pr-template` -> pass",
+    );
+  assert.deepEqual(collectPrBodyContractErrors(validBody, pullRequestTemplate), []);
+
+  const missingValue = validBody.replace("- Problem: verified value", "- Problem:");
+  assert.match(collectPrBodyContractErrors(missingValue, pullRequestTemplate).join("\n"), /Problem must not be empty/i);
+
+  const optionalEvidenceFieldsEmpty = [
+    "Validation evidence",
+    "Review artifacts",
+    "Pattern scope inventory",
+    "Meta-behavior proof",
+    "Repeated-error research",
+    "Durable evidence map",
+  ].reduce((body, field) => body.replace(`- ${field}: verified value`, `- ${field}:`), validBody);
+  assert.deepEqual(collectPrBodyContractErrors(optionalEvidenceFieldsEmpty, pullRequestTemplate), []);
+
+  const duplicateRequiredField = validBody.replace("- Problem: verified value", "- Problem: filled\n- Problem:");
+  assert.match(collectPrBodyContractErrors(duplicateRequiredField, pullRequestTemplate).join("\n"), /Problem must appear exactly once/i);
+
+  const placeholderValue = validBody.replace("- Problem: verified value", "- Problem: n.a. because reason");
+  assert.match(collectPrBodyContractErrors(placeholderValue, pullRequestTemplate).join("\n"), /replace the template placeholder/i);
+
+  const slashPlaceholderValue = validBody.replace("- Linear reference: verified value", "- Linear reference: n/a because reason");
+  assert.match(collectPrBodyContractErrors(slashPlaceholderValue, pullRequestTemplate).join("\n"), /replace the template placeholder/i);
+
+  for (const incompleteReason of [
+    "n.a.",
+    "n.a. because",
+    "n.a. because   ",
+    "n.a. because ---",
+    "n/a",
+    "n/a because",
+    "n/a because   ",
+    "n/a because ---",
+  ]) {
+    const incompleteNotApplicable = validBody.replace(
+      "- Linear reference: verified value",
+      `- Linear reference: ${incompleteReason}`,
+    );
+    assert.match(collectPrBodyContractErrors(incompleteNotApplicable, pullRequestTemplate).join("\n"), /concrete reason after n\.a\./i);
+  }
+
+  const releaseModePlaceholder = validBody.replace(
+    "- Release mode: Harness",
+    "- Release mode: Prototype / Portfolio / Product / Harness / n.a. because reason",
+  );
+  assert.match(collectPrBodyContractErrors(releaseModePlaceholder, pullRequestTemplate).join("\n"), /replace the template placeholder/i);
+
+  const userImpactPlaceholder = validBody.replace(
+    "- User-facing impact: n.a. because this validator has no visitor impact",
+    "- User-facing impact: yes, with changelog / no / n.a. because reason",
+  );
+  assert.match(collectPrBodyContractErrors(userImpactPlaceholder, pullRequestTemplate).join("\n"), /replace the template placeholder/i);
+
+  const normalizedUserImpactPlaceholder = validBody.replace(
+    "- User-facing impact: n.a. because this validator has no visitor impact",
+    "- User-facing impact: Yes,  with changelog / no / n.a. because reason",
+  );
+  assert.match(collectPrBodyContractErrors(normalizedUserImpactPlaceholder, pullRequestTemplate).join("\n"), /replace the template placeholder/i);
+
+  const sampleOnlyEvidence = validBody
+    .replace("- Command: `npm run validate:pr-template` -> pass", "- Command: `bash scripts/validate-codestyle.sh` -> pass");
+  assert.match(collectPrBodyContractErrors(sampleOnlyEvidence, pullRequestTemplate).join("\n"), /must include an exact command/i);
+
+  const bareBlockedEvidence = validBody.replace(
+    "- Command: `npm run validate:pr-template` -> pass",
+    "- Command: `npm run validate:pr-template` -> blocked",
+  );
+  assert.match(collectPrBodyContractErrors(bareBlockedEvidence, pullRequestTemplate).join("\n"), /must include an exact command/i);
+
+  const blankBlockedReason = validBody.replace(
+    "- Command: `npm run validate:pr-template` -> pass",
+    "- Command: `npm run validate:pr-template` -> blocked (   )",
+  );
+  assert.match(collectPrBodyContractErrors(blankBlockedReason, pullRequestTemplate).join("\n"), /must include an exact command/i);
+
+  const placeholderBlockedReason = validBody.replace(
+    "- Command: `npm run validate:pr-template` -> pass",
+    "- Command: `npm run validate:pr-template` -> blocked (reason)",
+  );
+  assert.match(collectPrBodyContractErrors(placeholderBlockedReason, pullRequestTemplate).join("\n"), /must include an exact command/i);
+
+  const blankValidationCommand = validBody.replace(
+    "- Command: `npm run validate:pr-template` -> pass",
+    "- Command: `   ` -> pass",
+  );
+  assert.match(collectPrBodyContractErrors(blankValidationCommand, pullRequestTemplate).join("\n"), /must include an exact command/i);
+
+  const fencedHeadingExample = validBody.replace(
+    "- Untested paths and limitations: verified value",
+    "- Untested paths and limitations: verified value\n\n```md\n## Summary\n```",
+  );
+  assert.deepEqual(collectPrBodyContractErrors(fencedHeadingExample, pullRequestTemplate), []);
+
+  const longIndentedFenceExample = validBody.replace(
+    "- Untested paths and limitations: verified value",
+    "- Untested paths and limitations: verified value\n\n  ````md\n## Summary\n  ````",
+  );
+  assert.deepEqual(collectPrBodyContractErrors(longIndentedFenceExample, pullRequestTemplate), []);
+
+  const invalidBacktickInfoFence = validBody.replace(
+    "- Untested paths and limitations: verified value",
+    "- Untested paths and limitations: verified value\n\n```bad`info\n## Summary\n```",
+  );
+  assert.match(collectPrBodyContractErrors(invalidBacktickInfoFence, pullRequestTemplate).join("\n"), /exactly the repository template sections/i);
+
+  const indentedExtraHeading = validBody.replace(
+    "- Untested paths and limitations: verified value",
+    "- Untested paths and limitations: verified value\n\n  ## Deployment notes\n- None",
+  );
+  assert.match(collectPrBodyContractErrors(indentedExtraHeading, pullRequestTemplate).join("\n"), /exactly the repository template sections/i);
+
+  const renamedSection = validBody.replace("## Summary", "## Overview");
+  assert.match(collectPrBodyContractErrors(renamedSection, pullRequestTemplate).join("\n"), /exactly the repository template sections/i);
+
+  const changedChecklist = validBody.replace("I did not push directly to `main`", "I avoided main");
+  assert.match(collectPrBodyContractErrors(changedChecklist, pullRequestTemplate).join("\n"), /checklist items must exactly match/i);
+
+  const fencedChecklistExample = validBody.replace(
+    "- [ ] I will delete the branch and worktree after merge.",
+    "- [ ] I will delete the branch and worktree after merge.\n\n```md\n- [ ] Example item\n```",
+  );
+  assert.deepEqual(collectPrBodyContractErrors(fencedChecklistExample, pullRequestTemplate), []);
 });
 
 check("pre-commit validation uses portfolio package contracts", () => {
