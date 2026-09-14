@@ -184,3 +184,36 @@ This comparison proves that the generated text artifacts benefit from normal
 HTTP compression and that the earlier twelve failures were local-server
 artifacts. It does not observe the deployed Cloudflare configuration, waive the
 twelve remaining preset assertions, or establish field performance.
+
+## September 13 order-preserving inline stylesheet trial
+
+Astro's supported `build.inlineStylesheets: "always"` mode was tested as a
+reversible candidate because it preserves the generated CSS order while
+removing the external stylesheet request. The trial was built successfully,
+copied into a read-only immutable artifact, served through the same bounded
+gzip/revalidation server, and audited across the same six routes through a
+fresh disposable Chrome/CDP profile. The artifact manifest SHA-256 was
+`a262b955fef7cc07788f24fa47ad25e5068be751e4b2f882e4d58c44ef2d207a`.
+
+The candidate did not improve the required-assertion result: all twelve errors
+remained. Performance measured 0.92–0.94 and accessibility, best practices and
+SEO remained 1.00. `unused-css-rules` continued to report one item on every
+route, now identifying the inline style block instead of an external file. Its
+estimated unused bytes ranged from 20,435 on Home to 30,386 on Proof, with zero
+FCP and LCP savings. `network-dependency-tree-insight` continued to fail with
+zero LCP savings because the critical chain moved to the external component
+scripts; Home recorded document → SiteNav → shared `flip` at 30ms.
+
+Inlining also expanded representative uncompressed HTML to 216,566 bytes on
+Home, 216,019 on About and 224,571 on Blog. The configuration was therefore
+rejected and reverted without a source change: it moved rather than removed the
+unused CSS and left the binary dependency-tree condition intact while
+duplicating the shared stylesheet into every HTML page. The assertion report
+SHA-256 was
+`3455dfcbcac7a53d595248e320de79f5734ff836f94fdd590d210a7550d5498a`.
+
+Any implementation intended to close the remaining preset assertions must now
+address route-aware CSS delivery and non-critical or inline component scripts
+together, preserve the accepted cascade and behavior, and prove a genuine
+six-route reduction. Do not reintroduce the rejected blanket inline mode or
+weaken the recommended preset merely to make the command green.
