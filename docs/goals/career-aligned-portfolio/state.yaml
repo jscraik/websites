@@ -8,7 +8,7 @@ current_task:
   id: closeout-and-browser-proof
   status: in_progress
   owner: codex
-  next_action: The current motion review found and repaired a SkillsBar reduced-motion specificity defect; the repeated eight-case, 56-frame immutable-build review passes at mobile and desktop and C05 is complete. C02 and D07 remain complete through the 52-case static matrix, with exact native 200-percent reflow and top-level JavaScript-disabled bfcache proof also passing. A two-page, metadata-scrubbed public-safe CV candidate is ready for Jamie's wording/selection review but remains outside public output. The compression-capable audit clears local portrait, compression, latency, and bfcache findings but the recommended preset retains six zero-savings dependency-tree and six shared unused-CSS assertions. The order-preserving blanket-inline trial left all twelve failures and duplicated 216-225KB of uncompressed CSS into representative pages, so it is rejected and reverted. Continue the independent screen-reader, physical-device, deployed Cloudflare-header, route-aware CSS/script delivery, and CV-approval/public-download lanes. Do not revisit the rejected appended About CSS split or blanket inline mode without a candidate that removes the measured causes and preserves the accepted cascade.
+  next_action: The current motion review found and repaired a SkillsBar reduced-motion specificity defect; the repeated eight-case, 56-frame immutable-build review passes at mobile and desktop and C05 is complete. C02 and D07 remain complete through the 52-case static matrix, with exact native 200-percent reflow and top-level JavaScript-disabled bfcache proof also passing. A two-page, metadata-scrubbed public-safe CV candidate is ready for Jamie's wording review but remains outside public output; Jamie indicated that the approved CV should probably be downloadable, so wording approval is now the prerequisite to local download integration. The compression-capable audit clears local portrait, compression, latency, and bfcache findings but the recommended preset retains six zero-savings dependency-tree and six shared unused-CSS assertions. The order-preserving blanket-inline trial left all twelve failures and duplicated 216-225KB of uncompressed CSS into representative pages, so it is rejected and reverted. Screen-reader execution is explicitly deferred after the macOS VoiceOver/browser route destabilized the host; do not repeat it. Continue the independent physical-device, deployed Cloudflare-header, evidence-backed route-aware CSS/script, and CV-approval/download lanes. Do not revisit the rejected appended About CSS split or blanket inline mode without a candidate that removes the measured causes and preserves the accepted cascade.
 scope:
   - src
   - public
@@ -24,4 +24,4 @@ blocked_items:
   - D03
   - D05
   - D06
-updated_at: "2026-09-13"
+updated_at: "2026-09-16"
