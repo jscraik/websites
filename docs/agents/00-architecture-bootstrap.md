@@ -79,6 +79,12 @@ current producers. The José About measurements target the current
 `.recognition-list a` markup; update that selector and its focused contract
 together when the source structure changes.
 
+The Blog divider hairline is a design-system source contract:
+`scripts/lib/surface-hairline-contract.mjs` checks the shared normal and
+high-density border widths and the Blog's use of that token.
+`npm run test:design-system-contract` covers valid and invalid neighbors, while
+`npm run validate:design-system` checks the current source.
+
 Portfolio content is schema-driven. `src/content.config.ts` owns publication
 states, proof links, and the optional case-study narrative consumed by
 `src/pages/work/[slug].astro`; keep content fixtures and route-level coverage

@@ -8,6 +8,11 @@ const pages = [
     includes: ["Jamie Scott Craik", "Career-switching into professional software development", "SkillsBar", "Skills SDK", "/work/skillsbar/", "/work/skills-sdk/"]
   },
   {
+    route: "/404",
+    file: "404.html",
+    includes: ["Page not found", "Return to the homepage", "Browse the proof index", "noindex, nofollow"]
+  },
+  {
     route: "/blog/",
     file: "blog/index.html",
     includes: ["Writing", "When Evidence Goes Stale", "Capability Is Not Trust", "RSS feed"]
@@ -116,6 +121,9 @@ if (!existsSync(rssPath)) {
     failures.push(`/blog/rss.xml: expected 2 published items, found ${itemCount}`);
   }
 }
+
+const sitemap = readFileSync(join("dist", "sitemap.xml"), "utf8");
+if (sitemap.includes("/404/")) failures.push("/sitemap.xml: 404 recovery page must not be indexed.");
 
 if (failures.length > 0) {
   console.error("Smoke page checks failed:");

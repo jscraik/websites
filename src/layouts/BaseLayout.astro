@@ -9,15 +9,17 @@ interface Props {
   title: string;
   description?: string;
   bodyClass?: string;
+  noIndex?: boolean;
 }
 
 const {
   title,
   description = "Jamie Scott Craik is moving into professional software development through source-backed products, developer tools, and AI-assisted delivery.",
-  bodyClass
+  bodyClass,
+  noIndex = false
 } = Astro.props;
 const canonicalUrl = Astro.url.href;
-const preventIndexing = import.meta.env.DEV || import.meta.env.MODE === "preview";
+const preventIndexing = noIndex || import.meta.env.DEV || import.meta.env.MODE === "preview";
 
 ---
 
@@ -25,8 +27,9 @@ const preventIndexing = import.meta.env.DEV || import.meta.env.MODE === "preview
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#fbfaf5" />
     {preventIndexing && <meta name="robots" content="noindex, nofollow" />}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -62,68 +65,6 @@ const preventIndexing = import.meta.env.DEV || import.meta.env.MODE === "preview
         });
       });
 
-      const workCarousels = document.querySelectorAll("[data-work-carousel]");
-
-      workCarousels.forEach((workCarousel) => {
-        const section = workCarousel.closest(".work-carousel");
-        const workRow = section?.querySelector("[data-work-row]");
-
-        if (!(workRow instanceof HTMLElement) || !(workCarousel instanceof HTMLElement)) {
-          return;
-        }
-
-        const previousButton = workCarousel.querySelector("[data-work-prev]");
-        const nextButton = workCarousel.querySelector("[data-work-next]");
-        const progress = workCarousel.querySelector("[data-work-progress]");
-
-        const updateControls = () => {
-          const maxScroll = workRow.scrollWidth - workRow.clientWidth;
-          if (maxScroll <= 24) {
-            workCarousel.hidden = true;
-            return;
-          }
-
-          workCarousel.hidden = false;
-
-          const ratio = maxScroll > 0 ? workRow.scrollLeft / maxScroll : 0;
-          if (progress instanceof HTMLElement) {
-            progress.style.transform = `scaleX(${Math.max(0.18, Math.min(1, ratio || 0.18))})`;
-          }
-          if (previousButton instanceof HTMLButtonElement) {
-            previousButton.disabled = false;
-            previousButton.setAttribute("aria-disabled", String(workRow.scrollLeft <= 4));
-          }
-          if (nextButton instanceof HTMLButtonElement) {
-            nextButton.disabled = false;
-            nextButton.setAttribute("aria-disabled", String(workRow.scrollLeft >= maxScroll - 4));
-          }
-        };
-
-        const scrollCards = (direction: number) => {
-          workRow.scrollBy({
-            left: direction * Math.max(288, workRow.clientWidth * 0.72),
-            behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-              ? "auto"
-              : "smooth"
-          });
-        };
-
-        if (previousButton instanceof HTMLButtonElement) {
-          previousButton.addEventListener("click", () => {
-            if (previousButton.getAttribute("aria-disabled") !== "true") scrollCards(-1);
-          });
-        }
-        if (nextButton instanceof HTMLButtonElement) {
-          nextButton.addEventListener("click", () => {
-            if (nextButton.getAttribute("aria-disabled") !== "true") scrollCards(1);
-          });
-        }
-
-        workRow.addEventListener("scroll", updateControls, { passive: true });
-        window.addEventListener("resize", updateControls);
-        window.addEventListener("load", updateControls);
-        updateControls();
-      });
     </script>
   </body>
 </html>

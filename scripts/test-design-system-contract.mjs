@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { hasPrimarySkillsBarLink } from "./lib/design-system-contract.mjs";
+import { hasDensityAwareBlogDividers } from "./lib/surface-hairline-contract.mjs";
 
 const validFixture = `
   const links = [{
@@ -53,4 +54,22 @@ test("continues parsing after unrelated line and block comments", () => {
     ${validFixture}
   `;
   assert.equal(hasPrimarySkillsBarLink(commentedFixture), true);
+});
+
+const hairlineCss = `
+  :root { --border-hairline: 1px; }
+  @media (min-resolution: 2dppx) { :root { --border-hairline: 0.5px; } }
+`;
+const hairlineBlog = `<style>.draft-links { border-top: var(--border-hairline) solid var(--border-subtle); }</style>`;
+
+test("accepts Blog dividers backed by standard and high-density widths", () => {
+  assert.equal(hasDensityAwareBlogDividers(hairlineCss, hairlineBlog), true);
+});
+
+test("rejects a hairline without a high-density width", () => {
+  assert.equal(hasDensityAwareBlogDividers(hairlineCss.replace("0.5px", "1px"), hairlineBlog), false);
+});
+
+test("rejects a Blog divider that bypasses the shared token", () => {
+  assert.equal(hasDensityAwareBlogDividers(hairlineCss, hairlineBlog.replace("var(--border-hairline)", "1px")), false);
 });

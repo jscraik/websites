@@ -1,7 +1,11 @@
 ---
-const { name, class: className = "sm-icon" } = Astro.props;
-
 type IconName = "home" | "person" | "document" | "bookmark" | "pencil";
+interface Props {
+  name: IconName;
+  class?: string;
+}
+
+const { name, class: className = "sm-icon" } = Astro.props;
 
 const icons: Record<IconName, { viewBox: string; paths: string[] }> = {
   home: {
@@ -39,11 +43,11 @@ const icons: Record<IconName, { viewBox: string; paths: string[] }> = {
   }
 };
 
-const icon = icons[name as IconName];
+const icon = icons[name];
 ---
 
 {icon && (
-  <svg viewBox={icon.viewBox} class={className}>
+  <svg viewBox={icon.viewBox} class={className} aria-hidden="true" focusable="false">
     {icon.paths.map((path) => <path d={path}></path>)}
   </svg>
 )}
