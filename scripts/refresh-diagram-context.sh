@@ -72,7 +72,11 @@ if ! command -v mise >/dev/null 2>&1; then
 	exit 1
 fi
 
-DIAGRAM_CLI=(mise exec -- diagram)
+DIAGRAM_INSTALL_DIR="$(mise where 'npm:@brainwav/diagram@1.1.0' 2>/dev/null)" || {
+	log "error: pinned diagram CLI 1.1.0 is not installed"
+	exit 1
+}
+DIAGRAM_CLI=("$DIAGRAM_INSTALL_DIR/bin/diagram")
 if ! (cd "$ROOT_DIR" && "${DIAGRAM_CLI[@]}" --version) >/dev/null 2>&1; then
 	log "error: diagram CLI is not available"
 	exit 1
