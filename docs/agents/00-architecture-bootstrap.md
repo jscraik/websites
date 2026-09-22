@@ -25,6 +25,9 @@ architecture evidence. From the repository root, refresh them with
 `bash scripts/refresh-diagram-context.sh --force`, then write the changed-path
 list to a temporary file and run
 `bash scripts/check-diagram-freshness.sh --changed-files <path-list-file>`.
+The refresh script resolves the pinned `diagram` CLI through `mise exec` rather
+than a package-manager `exec`, so a pre-push check cannot create an unrelated
+package lock or workspace file.
 The expected result is `Diagram freshness check passed`. A cooldown skip is
 not a refresh proof; rerun with `--force`. Any generation or freshness failure
 belongs to the portfolio maintainer and blocks the architecture-sensitive

@@ -8,6 +8,10 @@ import { fileURLToPath } from "node:url";
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const changedPathsRoot = mkdtempSync(path.join(os.tmpdir(), "portfolio-diagram-gate-"));
 const changedPaths = path.join(changedPathsRoot, "paths.txt");
+const packageManagerArtifacts = ["pnpm-lock.yaml", "pnpm-workspace.yaml"];
+const packageManagerArtifactsBefore = packageManagerArtifacts.map((entry) =>
+  existsSync(path.join(repoRoot, entry)),
+);
 const refreshTimeoutSeconds = Number.parseInt(process.env.DIAGRAM_REFRESH_TIMEOUT_SECONDS ?? "90", 10);
 assert.ok(Number.isSafeInteger(refreshTimeoutSeconds) && refreshTimeoutSeconds > 0, "DIAGRAM_REFRESH_TIMEOUT_SECONDS must be a positive integer");
 const refreshOptions = {
@@ -82,6 +86,11 @@ try {
   assert.notEqual(secondSecurityRefresh.error?.code, "ETIMEDOUT", secondSecurityRefresh.error?.message);
   assert.equal(secondSecurityRefresh.status, 0, secondSecurityRefresh.error?.message ?? secondSecurityRefresh.stderr);
   assert.equal(readFileSync(path.join(repoRoot, ".diagram/security.mmd"), "utf8"), securityAfterFirstRefresh);
+  assert.deepEqual(
+    packageManagerArtifacts.map((entry) => existsSync(path.join(repoRoot, entry))),
+    packageManagerArtifactsBefore,
+    "diagram refresh must not create package-manager lock or workspace files",
+  );
 
   console.log("PASS diagram freshness consumes a changed-path list and validates manifest metadata");
 } finally {

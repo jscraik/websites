@@ -67,7 +67,13 @@ if [[ "$FORCE" -ne 1 && -f "$META_FILE" ]]; then
 	fi
 fi
 
-if ! pnpm --dir "$ROOT_DIR" exec diagram --version >/dev/null 2>&1; then
+if ! command -v mise >/dev/null 2>&1; then
+	log "error: mise is required for the pinned diagram CLI"
+	exit 1
+fi
+
+DIAGRAM_CLI=(mise exec -- diagram)
+if ! (cd "$ROOT_DIR" && "${DIAGRAM_CLI[@]}" --version) >/dev/null 2>&1; then
 	log "error: diagram CLI is not available"
 	exit 1
 fi
@@ -89,7 +95,7 @@ pushd "$ROOT_DIR" >/dev/null
 if [[ "$QUIET" -eq 1 ]]; then
 	diagram_stderr="$TMP_DIR/diagram-generate.stderr"
 	set +e
-	pnpm exec diagram "${DIAGRAM_GENERATE_ARGS[@]}" >/dev/null 2>"$diagram_stderr"
+	"${DIAGRAM_CLI[@]}" "${DIAGRAM_GENERATE_ARGS[@]}" >/dev/null 2>"$diagram_stderr"
 	status=$?
 	set -e
 	if [[ "$status" -ne 0 ]]; then
@@ -102,11 +108,7 @@ if [[ "$QUIET" -eq 1 ]]; then
 		exit "$status"
 	fi
 else
-	if ! pnpm exec diagram --version >/dev/null 2>&1; then
-		log "error: diagram CLI is not available"
-		exit 1
-	fi
-	pnpm exec diagram "${DIAGRAM_GENERATE_ARGS[@]}"
+	"${DIAGRAM_CLI[@]}" "${DIAGRAM_GENERATE_ARGS[@]}"
 fi
 popd >/dev/null
 
