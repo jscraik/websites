@@ -100,7 +100,7 @@ test("demo removes movement when reduced motion is requested", async ({ page }) 
   );
 
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await preparePage(page, "/demos/skillsbar/");
+  await preparePage(page, "/demos/skillsbar/", { stabilize: false });
   expect(Math.max(...await transitionDurations())).toBe(350);
 
   await page.emulateMedia({ reducedMotion: "reduce" });
