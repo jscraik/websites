@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-09-22T20:11:07Z
+Generated: 2026-09-22T20:37:03Z
 
 ## Table of Contents
 
@@ -29,13 +29,16 @@ Generated: 2026-09-22T20:11:07Z
 ## Changed source focus
 
 - These architecture-sensitive paths changed on the current branch and may be compacted out of Mermaid diagrams.
+- `AGENTS.md`
 - `README.md`
 - `docs/agents/00-architecture-bootstrap.md`
 - `docs/agents/07b-agent-governance.md`
 - `scripts/check-related-tests.sh`
 - `scripts/lib/surface-hairline-contract.mjs`
+- `scripts/refresh-diagram-context.sh`
 - `scripts/smoke-pages.mjs`
 - `scripts/test-design-system-contract.mjs`
+- `scripts/test-diagram-freshness-opt-in.mjs`
 - `scripts/test-operator-workflow-contract.mjs`
 - `scripts/validate-design-system.mjs`
 - `scripts/validate-html-output.mjs`
