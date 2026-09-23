@@ -50,6 +50,8 @@ const candidateSurfaceRoutes = [
   "/work/ai-native-devrel/",
   "/work/brainwav-io/",
   "/work/skillsbar/",
+  "/work/skills-sdk/",
+  "/work/cli-proof-series/",
 ];
 
 const pixelRatioBudgets = {

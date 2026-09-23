@@ -94,9 +94,9 @@ render-flow at four viewports, no-JS rendering, Home/About/Back, and 26 axe scan
 Footer captures at 320/1024/1440px have independent DATA acceptance. Exact
 commands and limits are in `browser-handoff.md`. Browser zoom, visual/motion
 coverage, screen-reader proof, complete gates, CLI evidence, and the public-safe
-CV were incomplete at that archive. The current matrix, native zoom, and CLI
-records supersede those three historical gaps; dynamic motion, physical-device
-operation, screen-reader proof, and the public-safe CV remain incomplete.
+CV were incomplete at that archive. The current matrix, native zoom, CLI, and
+motion records supersede those historical gaps; physical-device operation and
+screen-reader proof remain incomplete. CV publication is excluded from this release.
 
 - [x] **C01** — status: `pass_source`; evidence: existing editorial tokens and stored-reference structure were preserved.
 - [x] **C02** — status: `pass_current_matrix`; evidence: page-surface source policy passes. On current signed head `c50fbfa`, all 13 routes were captured and reviewed at 320×800, 375×812, 768×1024, and 1440×1000: 52/52 returned HTTP 200, retained their `h1`, navigation, main and footer landmarks, had no document-level horizontal overflow, loaded no broken image, and emitted no page error. Contact sheets and representative original-scale full pages were inspected; a suspected Writing navigation shift was rejected with a fresh viewport capture and exact live geometry. This reconciles the preserved article, project, demo, CLI, and bounded route-review records with the current build. Limits: this static matrix and the separate exact native 200% sweep do not claim every physical device, dynamic-motion review, screen-reader operation, or Jose-reference pixel parity.

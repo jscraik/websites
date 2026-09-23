@@ -64,6 +64,7 @@ These routes describe the current implementation, not the accepted target archit
 | /proof/                             | Proof index with claim, evidence, caveat, and next-state fields.               |
 | /contact/                           | Contact page and external profile links.                                       |
 | /work/skillsbar/                    | Flagship case study for candidate-bound AI Skill release evidence.             |
+| /work/skills-sdk/                   | Skills SDK case study for inspectable, portable AI skill contracts.            |
 | /work/ai-native-devrel/             | Case study for the AI-native DevRel proof surface.                             |
 | /work/brainwav-io/                  | Case study for this site as a proof-led portfolio.                             |
 | /work/cli-proof-series/             | CLI proof-series case-study route.                                             |
