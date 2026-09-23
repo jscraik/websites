@@ -22,10 +22,10 @@ export function initCarouselControls(root: ParentNode = document): void {
       controls.hidden = false;
       const ratio = workRow.scrollLeft / maxScroll;
       progress.style.transform = `scaleX(${Math.max(0.18, Math.min(1, ratio || 0.18))})`;
-      previousButton.disabled = false;
-      previousButton.setAttribute("aria-disabled", String(workRow.scrollLeft <= 4));
-      nextButton.disabled = false;
-      nextButton.setAttribute("aria-disabled", String(workRow.scrollLeft >= maxScroll - 4));
+      previousButton.disabled = workRow.scrollLeft <= 4;
+      previousButton.setAttribute("aria-disabled", String(previousButton.disabled));
+      nextButton.disabled = workRow.scrollLeft >= maxScroll - 4;
+      nextButton.setAttribute("aria-disabled", String(nextButton.disabled));
     };
 
     const scrollCards = (direction: number, keyboardActivated: boolean) => {
@@ -36,10 +36,10 @@ export function initCarouselControls(root: ParentNode = document): void {
     };
 
     previousButton.addEventListener("click", (event) => {
-      if (previousButton.getAttribute("aria-disabled") !== "true") scrollCards(-1, event.detail === 0);
+      if (!previousButton.disabled) scrollCards(-1, event.detail === 0);
     });
     nextButton.addEventListener("click", (event) => {
-      if (nextButton.getAttribute("aria-disabled") !== "true") scrollCards(1, event.detail === 0);
+      if (!nextButton.disabled) scrollCards(1, event.detail === 0);
     });
     workRow.addEventListener("scroll", updateControls, { passive: true });
     window.addEventListener("resize", updateControls);

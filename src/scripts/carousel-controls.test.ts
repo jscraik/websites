@@ -57,6 +57,8 @@ describe("initCarouselControls", () => {
     initCarouselControls(root as unknown as ParentNode);
 
     expect(first.controls.hidden).toBe(false);
+    expect(first.previous.disabled).toBe(true);
+    expect(first.next.disabled).toBe(false);
     expect(first.previous.getAttribute("aria-disabled")).toBe("true");
     expect(first.next.getAttribute("aria-disabled")).toBe("false");
     first.next.fire("click");
@@ -65,11 +67,17 @@ describe("initCarouselControls", () => {
 
     second.row.scrollLeft = 1000;
     second.row.fire("scroll");
+    expect(second.next.disabled).toBe(true);
     expect(second.next.getAttribute("aria-disabled")).toBe("true");
     expect(second.progress.style.transform).toBe("scaleX(1)");
     expect(first.next.getAttribute("aria-disabled")).toBe("false");
     second.next.fire("click");
     expect(second.row.scrollBy).not.toHaveBeenCalled();
+
+    second.row.scrollLeft = 500;
+    second.row.fire("scroll");
+    expect(second.previous.disabled).toBe(false);
+    expect(second.next.disabled).toBe(false);
   });
 
   it("hides a non-scrollable carousel and avoids duplicate listeners", () => {
