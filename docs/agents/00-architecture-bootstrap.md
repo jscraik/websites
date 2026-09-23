@@ -28,7 +28,10 @@ list to a temporary file and run
 The refresh script resolves the already-installed, pinned `diagram` CLI through
 `mise where` and runs its binary directly. It does not activate or install the
 rest of the mise toolchain, and cannot create a package-manager lock or workspace
-file. Install the pinned toolchain before using the refresh path.
+file. From the repository root, install only the pinned CLI with
+`mise install 'npm:@brainwav/diagram@1.1.0'`; verify that
+`mise where 'npm:@brainwav/diagram@1.1.0'` prints its installed directory
+before using the refresh path.
 The expected result is `Diagram freshness check passed`. A cooldown skip is
 not a refresh proof; rerun with `--force`. Any generation or freshness failure
 belongs to the portfolio maintainer and blocks the architecture-sensitive
@@ -95,6 +98,9 @@ states, proof links, and the optional case-study narrative consumed by
 aligned whenever those schemas change. Shared route inventories must include
 new public article and work paths in smoke, accessibility, visual, and Jose CDP
 surfaces before those routes are treated as covered.
+The source gate runs `scripts/test-built-output-validators.mjs` against a
+disposable copy of the built site so sitemap exclusions and About portrait
+requirements fail through their actual validator entrypoints.
 
 An optional work `capture` supplies a local product image, descriptive alt text,
 intrinsic dimensions, and a required evidence caption. The work route renders

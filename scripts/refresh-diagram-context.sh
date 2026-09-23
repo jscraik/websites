@@ -72,10 +72,18 @@ if ! command -v mise >/dev/null 2>&1; then
 	exit 1
 fi
 
-DIAGRAM_INSTALL_DIR="$(mise where 'npm:@brainwav/diagram@1.1.0' 2>/dev/null)" || {
+MISE_WHERE_STDERR="$(mktemp "$DIAGRAM_CONTEXT_DIR/mise-where-XXXXXX")"
+trap 'rm -f "$MISE_WHERE_STDERR"' EXIT
+DIAGRAM_INSTALL_DIR="$(mise where 'npm:@brainwav/diagram@1.1.0' 2>"$MISE_WHERE_STDERR")" || {
 	log "error: pinned diagram CLI 1.1.0 is not installed"
+	while IFS= read -r diagnostic; do
+		log "mise where: $diagnostic"
+		printf 'mise where: %s\n' "$diagnostic" >&2
+	done < "$MISE_WHERE_STDERR"
 	exit 1
 }
+rm -f "$MISE_WHERE_STDERR"
+trap - EXIT
 DIAGRAM_CLI=("$DIAGRAM_INSTALL_DIR/bin/diagram")
 if ! (cd "$ROOT_DIR" && "${DIAGRAM_CLI[@]}" --version) >/dev/null 2>&1; then
 	log "error: diagram CLI is not available"

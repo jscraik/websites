@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -77,6 +77,19 @@ try {
   ]) {
     snapshotGeneratedArtifact(artifactPath);
   }
+
+  const fakeMiseDir = path.join(changedPathsRoot, "bin");
+  const fakeMise = path.join(fakeMiseDir, "mise");
+  mkdirSync(fakeMiseDir);
+  writeFileSync(fakeMise, "#!/bin/sh\necho 'fixture: pinned diagram tool unavailable' >&2\nexit 1\n");
+  chmodSync(fakeMise, 0o755);
+  const missingTool = spawnSync("bash", ["scripts/refresh-diagram-context.sh", "--force"], {
+    ...refreshOptions,
+    env: { ...process.env, PATH: `${fakeMiseDir}:${process.env.PATH}` },
+  });
+  assert.equal(missingTool.status, 1);
+  assert.match(missingTool.stderr, /fixture: pinned diagram tool unavailable/);
+  assert.match(readFileSync(path.join(repoRoot, ".diagram/context/refresh.log"), "utf8"), /fixture: pinned diagram tool unavailable/);
 
   const firstSecurityRefresh = spawnSync("bash", ["scripts/refresh-diagram-context.sh", "--force"], refreshOptions);
   assert.notEqual(firstSecurityRefresh.error?.code, "ETIMEDOUT", firstSecurityRefresh.error?.message);

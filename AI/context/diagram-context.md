@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-09-22T20:37:03Z
+Generated: 2026-09-23T17:59:54Z
 
 ## Table of Contents
 
@@ -33,10 +33,13 @@ Generated: 2026-09-22T20:37:03Z
 - `README.md`
 - `docs/agents/00-architecture-bootstrap.md`
 - `docs/agents/07b-agent-governance.md`
+- `package.json`
 - `scripts/check-related-tests.sh`
+- `scripts/jose-parity-cdp.mjs`
 - `scripts/lib/surface-hairline-contract.mjs`
 - `scripts/refresh-diagram-context.sh`
 - `scripts/smoke-pages.mjs`
+- `scripts/test-built-output-validators.mjs`
 - `scripts/test-design-system-contract.mjs`
 - `scripts/test-diagram-freshness-opt-in.mjs`
 - `scripts/test-operator-workflow-contract.mjs`
@@ -198,6 +201,7 @@ graph LR
   node_smoke_pages_9a92b30d_72f6805f["smoke_pages_9a92b30d"]
   node_test_astro_anti_patterns_88db0377_401e86a9["test_astro_anti_patterns_88db0377"]
   node_test_branch_transition_preflight_1665655e_acac1534["test_branch_transition_preflight_1665655e"]
+  node_test_built_output_validators_c44e3406_53438bab["test_built_output_validators_c44e3406"]
   node_test_code_quality_debt_contract_569cff13_2953095a["test_code_quality_debt_contract_569cff13"]
   node_test_codex_preflight_receipt_200ab781_029a12e8["test_codex_preflight_receipt_200ab781"]
   node_test_css_simplification_05516724_6f0b8da9["test_css_simplification_05516724"]
@@ -248,6 +252,7 @@ graph LR
   ext_jpeg_js_a3e0a788["jpeg-js"] --> node_test_fieldcraft_contracts_82274efa_2a3f2205
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_astro_anti_patterns_88db0377_401e86a9
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_branch_transition_preflight_1665655e_acac1534
+  ext_node_assert_f1a93ba5["node:assert"] --> node_test_built_output_validators_c44e3406_53438bab
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_css_simplification_05516724_6f0b8da9
@@ -274,6 +279,7 @@ graph LR
   ext_node_child_process_f62b7d19["node:child_process"] --> node_setup_git_hooks_70750d40_b4ca2cf9
   ext_node_child_process_f62b7d19["node:child_process"] --> node_test_astro_anti_patterns_88db0377_401e86a9
   ext_node_child_process_f62b7d19["node:child_process"] --> node_test_branch_transition_preflight_1665655e_acac1534
+  ext_node_child_process_f62b7d19["node:child_process"] --> node_test_built_output_validators_c44e3406_53438bab
   ext_node_child_process_f62b7d19["node:child_process"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_child_process_f62b7d19["node:child_process"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
   ext_node_child_process_f62b7d19["node:child_process"] --> node_test_diagram_freshness_opt_in_96293749_08c46e10
@@ -312,6 +318,7 @@ graph LR
   ext_node_fs_a15b7d96["node:fs"] --> node_smoke_pages_9a92b30d_72f6805f
   ext_node_fs_a15b7d96["node:fs"] --> node_test_astro_anti_patterns_88db0377_401e86a9
   ext_node_fs_a15b7d96["node:fs"] --> node_test_branch_transition_preflight_1665655e_acac1534
+  ext_node_fs_a15b7d96["node:fs"] --> node_test_built_output_validators_c44e3406_53438bab
   ext_node_fs_a15b7d96["node:fs"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_fs_a15b7d96["node:fs"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
   ext_node_fs_a15b7d96["node:fs"] --> node_test_css_simplification_05516724_6f0b8da9
@@ -349,6 +356,7 @@ graph LR
   ext_node_os_d93fe73a["node:os"] --> node_evaluate_fieldcraft_scenes_d6258bc6_1eab3e75
   ext_node_os_d93fe73a["node:os"] --> node_test_astro_anti_patterns_88db0377_401e86a9
   ext_node_os_d93fe73a["node:os"] --> node_test_branch_transition_preflight_1665655e_acac1534
+  ext_node_os_d93fe73a["node:os"] --> node_test_built_output_validators_c44e3406_53438bab
   ext_node_os_d93fe73a["node:os"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_os_d93fe73a["node:os"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
   ext_node_os_d93fe73a["node:os"] --> node_test_diagram_freshness_opt_in_96293749_08c46e10
@@ -373,6 +381,7 @@ graph LR
   ext_node_path_78811c13["node:path"] --> node_smoke_pages_9a92b30d_72f6805f
   ext_node_path_78811c13["node:path"] --> node_test_astro_anti_patterns_88db0377_401e86a9
   ext_node_path_78811c13["node:path"] --> node_test_branch_transition_preflight_1665655e_acac1534
+  ext_node_path_78811c13["node:path"] --> node_test_built_output_validators_c44e3406_53438bab
   ext_node_path_78811c13["node:path"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_path_78811c13["node:path"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
   ext_node_path_78811c13["node:path"] --> node_test_diagram_freshness_opt_in_96293749_08c46e10
@@ -399,6 +408,7 @@ graph LR
   ext_node_path_78811c13["node:path"] --> node_validate_social_profile_assets_a023937b_aed15edb
   ext_node_process_00cdf119["node:process"] --> node_evaluate_fieldcraft_scenes_d6258bc6_1eab3e75
   ext_node_process_00cdf119["node:process"] --> node_prepare_fieldcraft_blind_build_8ab85212_153447eb
+  ext_node_test_a8c66a4f["node:test"] --> node_test_built_output_validators_c44e3406_53438bab
   ext_node_test_a8c66a4f["node:test"] --> node_test_design_system_contract_2b5439cd_a676eb9e
   ext_node_test_a8c66a4f["node:test"] --> node_test_fieldcraft_contracts_82274efa_2a3f2205
   ext_node_test_a8c66a4f["node:test"] --> node_test_pr_readiness_fbe81eba_0ec78421
@@ -607,6 +617,8 @@ flowchart LR
   User --> jose_parity_cdp_bdcde21d
   smoke_pages_9a92b30d["smoke-pages"]
   User --> smoke_pages_9a92b30d
+  test_built_output_validators_c44e3406["test-built-output-validators"]
+  User --> test_built_output_validators_c44e3406
   test_css_simplification_05516724["test-css-simplification"]
   User --> test_css_simplification_05516724
   test_fieldcraft_blind_build_ec0e094c["test-fieldcraft-blind-build"]
@@ -652,12 +664,11 @@ flowchart LR
   rss_xml_b85d02db --> portfolio_0e6a8e0b
   sitemap_xml_ab094897 --> portfolio_0e6a8e0b
   check_code_size_9c5efc3a --> changed_files_4c0102f6
-  evaluate_fieldcraft_scenes_d6258bc6 --> fieldcraft_contracts_8c3b3237
   classDef userNode fill:#16a34a,color:#fff
   test_design_system_contract_2b5439cd["test-design-system-contract"]
   User --> test_design_system_contract_2b5439cd
   test_design_system_contract_2b5439cd --> design_system_contract_744a00f2
-  class capture_jose_reference_e7b66705,check_public_api_docs_a9604f1b,jose_parity_cdp_bdcde21d,smoke_pages_9a92b30d,test_css_simplification_05516724,test_fieldcraft_blind_build_ec0e094c,test_fieldcraft_contracts_82274efa,test_jose_parity_measurements_2477824f,test_operator_workflow_contract_b4a152d7,validate_coding_policy_29976175,validate_content_source_boundary_8a6f121b,validate_css_policy_1c5ec854,validate_design_system_b8a5f37c,validate_operator_contract_f777ed78,validate_page_surfaces_078ef6b6,validate_portfolio_content_6d36990e,validate_pr_template_1fc39e13,rss_xml_b85d02db,robots_txt_870b1fc1,sitemap_xml_ab094897,test_design_system_contract_2b5439cd userNode
+  class capture_jose_reference_e7b66705,check_public_api_docs_a9604f1b,jose_parity_cdp_bdcde21d,smoke_pages_9a92b30d,test_built_output_validators_c44e3406,test_css_simplification_05516724,test_fieldcraft_blind_build_ec0e094c,test_fieldcraft_contracts_82274efa,test_jose_parity_measurements_2477824f,test_operator_workflow_contract_b4a152d7,validate_coding_policy_29976175,validate_content_source_boundary_8a6f121b,validate_css_policy_1c5ec854,validate_design_system_b8a5f37c,validate_operator_contract_f777ed78,validate_page_surfaces_078ef6b6,validate_portfolio_content_6d36990e,validate_pr_template_1fc39e13,rss_xml_b85d02db,robots_txt_870b1fc1,sitemap_xml_ab094897,test_design_system_contract_2b5439cd userNode
 
 ```
 
