@@ -123,7 +123,19 @@ if (!existsSync(rssPath)) {
 }
 
 const sitemap = readFileSync(join("dist", "sitemap.xml"), "utf8");
-if (sitemap.includes("/404/")) failures.push("/sitemap.xml: 404 recovery page must not be indexed.");
+for (const match of sitemap.matchAll(/<loc\b[^>]*>([^<]+)<\/loc>/gi)) {
+  let pathname;
+  try {
+    pathname = new URL(match[1].trim(), "https://jscraik.com").pathname;
+  } catch {
+    failures.push("/sitemap.xml: invalid loc URL.");
+    continue;
+  }
+  if (["/404", "/404/", "/404.html"].includes(pathname)) {
+    failures.push("/sitemap.xml: 404 recovery page must not be indexed.");
+    break;
+  }
+}
 
 if (failures.length > 0) {
   console.error("Smoke page checks failed:");

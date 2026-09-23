@@ -39,6 +39,7 @@ function validateHtml(file, html) {
   const ids = new Map();
   const headings = [];
   const hashLinks = [];
+  let aboutPortraitFound = false;
   const mainTags = [...html.matchAll(/<main\b/gi)];
   const bodyText = stripTags(html).replace(/\s+/g, " ").trim();
 
@@ -93,7 +94,8 @@ function validateHtml(file, html) {
           fail(file, line, "public portrait must declare its responsive display size.");
         }
       }
-      if (file === "dist/now/index.html" && attrs.class === "about-portrait") {
+      if (file === "dist/now/index.html" && (attrs.class ?? "").split(/\s+/).includes("about-portrait")) {
+        aboutPortraitFound = true;
         if (attrs.src !== "/jamie-profile-360x480.webp" || attrs.width !== "360" || attrs.height !== "480") {
           fail(file, line, "About portrait must use the center-cropped 360x480 source and matching dimensions.");
         }
@@ -111,6 +113,10 @@ function validateHtml(file, html) {
         }
       }
     }
+  }
+
+  if (file === "dist/now/index.html" && !aboutPortraitFound) {
+    fail(file, 1, "About portrait is missing.");
   }
 
   if (mainTags.length !== 1) fail(file, 1, "expected exactly one main landmark, found " + mainTags.length + ".");
