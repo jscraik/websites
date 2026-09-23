@@ -57,7 +57,10 @@ test("demo scenarios expose complete state for pointer, Enter, and Space", async
       await expect(page.locator("#action-index")).toHaveText(scenario.index);
       await expect(page.locator("#action-detail")).toHaveText(scenario.detail);
       await expect(page.locator("#event-entry")).toHaveText(scenario.event);
-      await expect(page.locator(".event-log")).toHaveAttribute("aria-live", "polite");
+      await expect(page.locator(".event-log")).not.toHaveAttribute("aria-live");
+      await expect(page.locator("#scenario-status")).toHaveText(
+        `${scenario.title}. ${scenario.score} out of 100 pipeline readiness. ${scenario.detail}`,
+      );
       await expect(page.locator(".gate-copy strong")).toHaveText(gateNames);
       await expect(page.locator(".gate-state")).toHaveText(scenario.states);
       for (const row of await page.locator(".gate").all()) {
@@ -67,8 +70,8 @@ test("demo scenarios expose complete state for pointer, Enter, and Space", async
       }
       await page.getByRole("button", { name: "Copy command", exact: true }).click();
       await expect.poll(() => copied.at(-1)).toBe(scenario.command);
-      await expect(page.getByRole("status")).toHaveText("Command copied");
-      await expect(page.getByRole("status")).toHaveClass(/is-visible/);
+      await expect(page.locator("#toast")).toHaveText("Command copied");
+      await expect(page.locator("#toast")).toHaveClass(/is-visible/);
       await expect(page.locator(".registry-score .score-ring strong")).toHaveText("66");
       await expect(page.locator(".proof-warning")).toContainText("not bound to the current local digest");
     }
@@ -86,8 +89,8 @@ test("demo reports clipboard failure without changing the selected scenario", as
   await preparePage(page, "/demos/skillsbar/");
   await page.getByRole("button", { name: "Security flagged", exact: true }).click();
   await page.getByRole("button", { name: "Copy command", exact: true }).click();
-  await expect(page.getByRole("status")).toHaveText("Clipboard unavailable");
-  await expect(page.getByRole("status")).toHaveClass(/is-visible/);
+  await expect(page.locator("#toast")).toHaveText("Clipboard unavailable");
+  await expect(page.locator("#toast")).toHaveClass(/is-visible/);
   await expect(page.locator("#pipeline-title")).toHaveText("Security review is flagged");
   await expect(page.locator(".gate-state")).toHaveText(scenarios[1].states);
 });
