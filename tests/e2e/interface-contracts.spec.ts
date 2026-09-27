@@ -2,6 +2,19 @@ import { expect, test } from "@playwright/test";
 import { preparePage } from "../helpers/visual";
 
 test.describe("portfolio interface contracts", () => {
+  test("SkillsBar artwork fills its featured panel at desktop widths", async ({ page }) => {
+    test.skip((page.viewportSize()?.width ?? 0) <= 921, "desktop feature-panel geometry");
+    await preparePage(page, "/");
+
+    const panel = page.locator(".feature-block-img--skills");
+    const artwork = panel.locator(".skillsbar-artwork");
+    const [panelBox, artworkBox] = await Promise.all([panel.boundingBox(), artwork.boundingBox()]);
+    expect(panelBox).not.toBeNull();
+    expect(artworkBox).not.toBeNull();
+    expect(artworkBox!.y).toBeCloseTo(panelBox!.y, 0);
+    expect(artworkBox!.height).toBeCloseTo(panelBox!.height, 0);
+  });
+
   test("pullquote copy buttons copy the quote and current article URL", async ({ page }) => {
     await page.addInitScript(() => {
       Object.defineProperty(navigator, "clipboard", {

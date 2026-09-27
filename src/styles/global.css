@@ -9617,7 +9617,7 @@ body:not(.skillsbar-demo) :is(
     height: 100%;
   }
 
-  .feature-block .work-preview__image {
+  .feature-block :is(.work-preview__image, .skillsbar-artwork) {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -9699,7 +9699,7 @@ body:not(.skillsbar-demo) :is(
     aspect-ratio: auto;
   }
 
-  .feature-block .work-preview__image {
+  .feature-block :is(.work-preview__image, .skillsbar-artwork) {
     min-height: 360px;
   }
 
