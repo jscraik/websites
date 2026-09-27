@@ -10,9 +10,15 @@ test.describe("core page visual snapshots", () => {
       await footerImage.evaluate(async (image) => {
         if (image instanceof HTMLImageElement) await image.decode();
       });
+      await page.evaluate(() => window.scrollTo(0, 0));
+      await expect.poll(() => page.locator(".skip-link").evaluate((link) => link.getBoundingClientRect().bottom))
+        .toBeLessThanOrEqual(0);
+      await page.addStyleTag({ content: ".skip-link { visibility: hidden !important; }" });
 
-      const screenshot = await page.screenshot({ animations: "disabled", fullPage: true });
-      expect(screenshot).toMatchSnapshot(`${route.name}-${testInfo.project.name}.png`, {
+      await expect(page).toHaveScreenshot(`${route.name}-${testInfo.project.name}.png`, {
+        animations: "disabled",
+        fullPage: true,
+        scale: "css",
         maxDiffPixelRatio: 0.02
       });
     });
