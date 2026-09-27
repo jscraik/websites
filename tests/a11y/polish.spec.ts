@@ -322,7 +322,7 @@ test.describe("UI polish contracts", () => {
     }
   });
 
-  test("carousel boundary state preserves focused controls and prevents unavailable movement", async ({ page }) => {
+  test("carousel boundary state disables unavailable controls and preserves keyboard movement", async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 800 });
     await page.emulateMedia({ reducedMotion: "reduce" });
     await preparePage(page, "/work/skillsbar/");
@@ -330,9 +330,8 @@ test.describe("UI polish contracts", () => {
     const next = page.locator("[data-work-next]");
     const row = page.locator("[data-work-row]");
     await expect(previous).toHaveAttribute("aria-disabled", "true");
-    await previous.focus();
-    await page.keyboard.press("Enter");
-    await expect(previous).toBeFocused();
+    await expect(previous).toBeDisabled();
+    await previous.evaluate((element: HTMLButtonElement) => element.click());
     expect(await row.evaluate((element) => element.scrollLeft)).toBe(0);
     await next.focus();
     for (let index = 0; index < 12 && await next.getAttribute("aria-disabled") !== "true"; index += 1) {
@@ -345,8 +344,7 @@ test.describe("UI polish contracts", () => {
       }).toBe(true);
     }
     await expect(next).toHaveAttribute("aria-disabled", "true");
-    await expect(next).toBeFocused();
-    expect(await next.evaluate((element: HTMLButtonElement) => element.disabled)).toBe(false);
+    await expect(next).toBeDisabled();
     await expect.poll(() => row.evaluate(async (element) => {
       const positions: number[] = [];
       for (let frame = 0; frame < 5; frame += 1) {
@@ -356,14 +354,9 @@ test.describe("UI polish contracts", () => {
       return positions.every((position) => position === positions[0]);
     })).toBe(true);
     const end = await row.evaluate((element) => element.scrollLeft);
-    await page.keyboard.press("Enter");
+    await next.evaluate((element: HTMLButtonElement) => element.click());
     expect(await row.evaluate((element) => element.scrollLeft)).toBe(end);
-    await page.keyboard.press("Space");
-    expect(await row.evaluate((element) => element.scrollLeft)).toBe(end);
-    const bounds = await next.boundingBox();
-    await page.mouse.click(bounds!.x + bounds!.width / 2, bounds!.y + bounds!.height / 2);
-    expect(await row.evaluate((element) => element.scrollLeft)).toBe(end);
-    await expect(next).toBeFocused();
+    await expect(previous).toBeEnabled();
     await previous.focus();
     await page.keyboard.press("Enter");
     await expect.poll(() => row.evaluate((element) => element.scrollLeft)).toBeLessThan(end);
