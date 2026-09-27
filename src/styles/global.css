@@ -5867,7 +5867,7 @@ body {
 
 .feature-proof-panel dt {
   margin: 0 0 5px;
-  color: rgba(0, 11, 0, 0.42);
+  color: var(--jp-muted);
   font-family: var(--body-mono);
   font-size: 9px;
   font-weight: 700;
