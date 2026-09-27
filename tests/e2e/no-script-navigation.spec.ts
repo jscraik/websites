@@ -1,0 +1,43 @@
+import { expect, test } from "@playwright/test";
+
+test.describe("navigation without JavaScript", () => {
+  test.use({ javaScriptEnabled: false });
+
+  test("About, browser Back, and the primary project remain reachable", async ({ page }) => {
+    await page.goto("/");
+    const start = page.locator('[data-primary-start="true"]');
+    await expect(start).toHaveAttribute("href", "/demos/skillsbar/");
+
+    await page.locator('.site-header a[href="/now/"]').first().click();
+    await expect(page).toHaveURL(/\/now\/$/);
+    await expect(page.locator("main h1")).toBeVisible();
+
+    await page.goBack({ waitUntil: "commit" });
+    await expect(start).toBeVisible();
+    await expect.poll(() => start.evaluate(element => {
+      for (let ancestor: Element | null = element; ancestor; ancestor = ancestor.parentElement) {
+        if (ancestor.getAnimations().some(animation => animation.playState === "running")) return false;
+      }
+      return true;
+    })).toBe(true);
+    await start.click();
+    await expect(page).toHaveURL(/\/demos\/skillsbar\/$/);
+    await expect(page.locator("main h1")).toBeVisible();
+    const fallback = page.locator(".scenario-fallback");
+    await expect(fallback).toBeVisible();
+    await expect(fallback.locator("dt")).toHaveText([
+      "Candidate held · 11/100",
+      "Security flagged · 24/100",
+      "Evidence current · 100/100",
+    ]);
+
+    await page.goBack({ waitUntil: "commit" });
+    await page.locator('main a[href="/work/skillsbar/"]').first().click();
+    await expect(page).toHaveURL(/\/work\/skillsbar\/$/);
+    await expect(page.locator("main h1")).toContainText("SkillsBar");
+
+    await page.locator('main a[href="/demos/skillsbar/"]').first().click();
+    await expect(page).toHaveURL(/\/demos\/skillsbar\/$/);
+    await expect(page.locator("main h1")).toBeVisible();
+  });
+});

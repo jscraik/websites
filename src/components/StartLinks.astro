@@ -10,12 +10,12 @@ const links = [
   },
   {
     href: "/#featured-work",
-    label: "Read a featured case study",
+    label: "Read the featured projects",
     icon: "bookmark"
   },
   {
     href: "/now/#current-focus",
-    label: "Browse my work history",
+    label: "Read my career story",
     icon: "document"
   },
   {
@@ -23,7 +23,7 @@ const links = [
     label: "Read a recent blog",
     icon: "pencil"
   }
-];
+] as const;
 
 ---
 
@@ -36,7 +36,7 @@ const links = [
           <a
             href={link.href}
             class="icon-link"
-            data-primary-start={link.primary ? "true" : undefined}
+            data-primary-start={"primary" in link && link.primary ? "true" : undefined}
           >
             <span class="icon-box start-links__icon" aria-hidden="true">
               <Icon name={link.icon} />

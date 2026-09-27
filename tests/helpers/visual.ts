@@ -12,12 +12,14 @@ export const stableScreenshotStyle = `
   }
 `;
 
-export async function preparePage(page: Page, path: string) {
+export async function preparePage(page: Page, path: string, options: { stabilize?: boolean } = {}) {
   const response = await page.goto(path);
   if (!response || !response.ok()) {
     throw new Error(`Failed to load ${path}: ${response?.status() ?? "no response"}`);
   }
-  await page.addStyleTag({ content: stableScreenshotStyle });
+  if (options.stabilize !== false) {
+    await page.addStyleTag({ content: stableScreenshotStyle });
+  }
 }
 
 export const coreRoutes = [
@@ -31,5 +33,7 @@ export const coreRoutes = [
   { name: "proof", path: "/proof/" },
   { name: "work-ai-native-devrel", path: "/work/ai-native-devrel/" },
   { name: "work-brainwav-io", path: "/work/brainwav-io/" },
-  { name: "work-skillsbar", path: "/work/skillsbar/" }
+  { name: "work-skillsbar", path: "/work/skillsbar/" },
+  { name: "work-skills-sdk", path: "/work/skills-sdk/" },
+  { name: "work-cli-proof-series", path: "/work/cli-proof-series/" }
 ] as const;

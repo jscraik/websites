@@ -53,20 +53,21 @@ The current site includes:
 
 These routes describe the current implementation, not the accepted target architecture. The Visual System page and product-cover generator remain pending until their owning files and evidence exist.
 
-| Route                           | Purpose                                                                        |
-| ------------------------------- | ------------------------------------------------------------------------------ |
-| /                               | Homepage with Jamie's identity, featured work, proof cards, and blog preview.  |
-| /now/                           | About/current-focus page with background, skills, work history, and web links. |
-| /blog/                          | Article index and current draft prompts.                                       |
-| /articles/when-evidence-goes-stale/ | SkillsBar companion article on candidate-bound release evidence.           |
-| /articles/why-ai-native-devrel/ | Historical URL for the broader `Capability Is Not Trust` thesis.               |
-| /blog/rss.xml                   | RSS feed containing published articles only.                                   |
-| /proof/                         | Proof index with claim, evidence, caveat, and next-state fields.               |
-| /contact/                       | Contact page and external profile links.                                       |
-| /work/skillsbar/                | Flagship case study for candidate-bound AI Skill release evidence.             |
-| /work/ai-native-devrel/         | Case study for the AI-native DevRel proof surface.                             |
-| /work/brainwav-io/              | Case study for this site as a proof-led portfolio.                             |
-| /work/cli-proof-series/         | CLI proof-series case-study route.                                             |
+| Route                               | Purpose                                                                        |
+| ----------------------------------- | ------------------------------------------------------------------------------ |
+| /                                   | Homepage with Jamie's identity, featured work, proof cards, and blog preview.  |
+| /now/                               | About/current-focus page with background, skills, work history, and web links. |
+| /blog/                              | Article index and current draft prompts.                                       |
+| /articles/when-evidence-goes-stale/ | SkillsBar companion article on candidate-bound release evidence.               |
+| /articles/why-ai-native-devrel/     | Historical URL for the broader `Capability Is Not Trust` thesis.               |
+| /blog/rss.xml                       | RSS feed containing published articles only.                                   |
+| /proof/                             | Proof index with claim, evidence, caveat, and next-state fields.               |
+| /contact/                           | Contact page and external profile links.                                       |
+| /work/skillsbar/                    | Flagship case study for candidate-bound AI Skill release evidence.             |
+| /work/skills-sdk/                   | Skills SDK case study for inspectable, portable AI skill contracts.            |
+| /work/ai-native-devrel/             | Case study for the AI-native DevRel proof surface.                             |
+| /work/brainwav-io/                  | Case study for this site as a proof-led portfolio.                             |
+| /work/cli-proof-series/             | CLI proof-series case-study route.                                             |
 
 Routes are generated from Astro pages under src/pages/ and portfolio content collections under src/content/.
 

@@ -71,7 +71,6 @@ projection boundaries. When any of those mechanisms change, agents must update
 that bootstrap with the implementation and keep this governance surface and
 root `AGENTS.md` aligned before push.
 
-
 Route-specific editorial rhythm belongs in `src/styles/route-rhythm.css`, not
 the shared shell. Keep its selectors scoped to the owning route and refresh the
 tracked diagram projections when that stylesheet changes.

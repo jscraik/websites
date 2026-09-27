@@ -17,8 +17,8 @@ html body:not(.skillsbar-demo):has(.about-page) .header {
   background-color: var(--paper);
 }
 
-/* Intermediate About contract: retain Jose's centered two-column rhythm for
-   tablet widths while the stored mobile layout remains below 48rem. */
+/* Keep the longer career introduction readable before the sidebar at tablet
+   widths; the desktop editorial columns remain above this range. */
 @media (min-width: 48rem) and (max-width: 57.5625rem) {
   html body:not(.skillsbar-demo) .about-page.about-hero-shell {
     box-sizing: border-box;
@@ -29,9 +29,9 @@ html body:not(.skillsbar-demo):has(.about-page) .header {
   }
 
   .about-page.about-hero-shell .about-intro {
-    grid-template-columns: minmax(0, 1fr) minmax(180px, 240px);
-    column-gap: clamp(36px, 7vw, 72px);
-    row-gap: 0;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+    gap: var(--space-6);
     width: 100%;
     max-width: none;
     margin-inline: auto;
@@ -79,7 +79,7 @@ html body:not(.skillsbar-demo):has(.about-page) .header {
   }
 
   .about-page.about-hero-shell .about-sidebar {
-    grid-column: 2;
+    grid-column: 1;
     width: 100%;
     padding-top: clamp(20px, 4vw, 42px);
     justify-self: stretch;
@@ -91,7 +91,7 @@ html body:not(.skillsbar-demo):has(.about-page) .header {
 
   .about-page.about-hero-shell .about-portrait {
     width: 100%;
-    max-width: none;
+    max-width: 16rem;
     height: auto;
     margin: 0;
     aspect-ratio: 3 / 4;
@@ -100,7 +100,7 @@ html body:not(.skillsbar-demo):has(.about-page) .header {
 }
 
 /* Stored Jose mobile About contract: full-bleed surface and editorial intro rhythm. */
-@media (max-width: 47.9999rem) {
+@media (width < 48rem) {
   html body:not(.skillsbar-demo) .about-page.about-hero-shell {
     --jp-about-fade-height: 110.5625rem;
     box-sizing: border-box;

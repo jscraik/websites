@@ -46,6 +46,27 @@ const gates = [
             Evidence current
           </button>
         </div>
+        <p id="scenario-status" class="u-visually-hidden" role="status" aria-live="polite"></p>
+        <noscript>
+          <section class="scenario-fallback" aria-labelledby="scenario-fallback-title">
+            <h2 id="scenario-fallback-title">All release scenarios</h2>
+            <p>Interactive switching needs JavaScript. The complete decision summary remains available below.</p>
+            <dl>
+              <div>
+                <dt>Candidate held · 11/100</dt>
+                <dd>Build the canonical non-mutating package receipt before downstream proof can proceed.</dd>
+              </div>
+              <div>
+                <dt>Security flagged · 24/100</dt>
+                <dd>Resolve the candidate-bound risk-mode finding before delivery evidence can proceed.</dd>
+              </div>
+              <div>
+                <dt>Evidence current · 100/100</dt>
+                <dd>Inspect the bound publication receipt before any promotion decision.</dd>
+              </div>
+            </dl>
+          </section>
+        </noscript>
       </section>
 
       <section class="product-shell" aria-label="Interactive SkillsBar cockpit">
@@ -138,7 +159,7 @@ const gates = [
             <p>This registry result is not bound to the current local digest.</p>
           </div>
 
-          <div class="event-log" aria-live="polite">
+          <div class="event-log">
             <p class="rail-label">EVIDENCE LOG</p>
             <div><time id="event-time">10:42:16</time><span id="event-entry">Local candidate selected</span></div>
           </div>
@@ -244,33 +265,20 @@ const gates = [
       const eventTime = document.querySelector("#event-time");
       const copyButton = document.querySelector("#copy-command");
       const toast = document.querySelector("#toast");
+      const scenarioStatus = document.querySelector("#scenario-status");
       let activeScenario = scenarios.candidate;
+      let toastTimer: number | undefined;
 
       const renderGates = (states: string[]) => {
         if (!(gateList instanceof HTMLOListElement)) return;
-        gateList.replaceChildren(...gates.map(([name, detail], index) => {
+        gateList.querySelectorAll(".gate").forEach((row, index) => {
           const state = states[index];
-          const row = document.createElement("li");
           row.className = `gate ${state}`;
-
-          const marker = document.createElement("span");
-          marker.className = "gate-marker";
-          marker.textContent = state === "passed" ? "✓" : String(index + 1).padStart(2, "0");
-
-          const copy = document.createElement("span");
-          copy.className = "gate-copy";
-          const nameElement = document.createElement("strong");
-          nameElement.textContent = name;
-          const detailElement = document.createElement("span");
-          detailElement.textContent = detail;
-          copy.append(nameElement, detailElement);
-
-          const status = document.createElement("span");
-          status.className = "gate-state";
-          status.textContent = state === "active" ? "Required" : state === "flagged" ? "Flagged" : state === "passed" ? "Current" : "Held";
-          row.append(marker, copy, status);
-          return row;
-        }));
+          const marker = row.querySelector(".gate-marker");
+          const status = row.querySelector(".gate-state");
+          if (marker) marker.textContent = state === "passed" ? "✓" : String(index + 1).padStart(2, "0");
+          if (status) status.textContent = state === "active" ? "Required" : state === "flagged" ? "Flagged" : state === "passed" ? "Current" : "Held";
+        });
       };
 
       const selectScenario = (key: keyof typeof scenarios) => {
@@ -296,6 +304,7 @@ const gates = [
         if (eventEntry) eventEntry.textContent = activeScenario.event;
         if (eventTime) eventTime.textContent = new Date().toLocaleTimeString([], { hour12: false });
         renderGates(activeScenario.states);
+        if (scenarioStatus) scenarioStatus.textContent = `${activeScenario.title}. ${activeScenario.score} out of 100 pipeline readiness. ${activeScenario.detail}`;
       };
 
       document.querySelectorAll(".scenario").forEach((button) => {
@@ -306,6 +315,16 @@ const gates = [
         });
       });
 
+      const scheduleToastHide = () => {
+        window.clearTimeout(toastTimer);
+        if (toast?.classList.contains("is-visible") && !document.hidden) {
+          toastTimer = window.setTimeout(() => toast.classList.remove("is-visible"), 4000);
+        }
+      };
+
+      document.addEventListener("visibilitychange", scheduleToastHide);
+      window.addEventListener("pagehide", () => window.clearTimeout(toastTimer));
+
       copyButton?.addEventListener("click", async () => {
         try {
           await navigator.clipboard.writeText(activeScenario.command);
@@ -314,7 +333,7 @@ const gates = [
           if (toast) toast.textContent = "Clipboard unavailable";
         }
         toast?.classList.add("is-visible");
-        window.setTimeout(() => toast?.classList.remove("is-visible"), 1800);
+        scheduleToastHide();
       });
     </script>
 </BaseLayout>
@@ -351,10 +370,10 @@ const gates = [
     color: var(--skillsbar-muted);
   }
   :global(body.skillsbar-demo .site-footer .footer-profile-card) {
-    border: 1px solid var(--skillsbar-line);
+    border: 0;
     background: var(--skillsbar-surface);
     color: var(--skillsbar-ink);
-    box-shadow: none;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.09);
   }
   :global(body.skillsbar-demo .site-footer .footer-profile-card .input-label),
   :global(body.skillsbar-demo .site-footer .footer-links a),
@@ -367,6 +386,50 @@ const gates = [
   }
   :global(.skillsbar-demo *) { box-sizing: border-box; }
   :global(.skillsbar-demo button) { color: inherit; font: inherit; }
+
+  .scenario-fallback {
+    width: min(100%, 760px);
+    margin: var(--space-6) auto 0;
+    padding: var(--space-5);
+    border: 1px solid var(--skillsbar-line);
+    border-radius: var(--bds-radius-card);
+    background: var(--skillsbar-surface);
+  }
+
+  .scenario-fallback h2,
+  .scenario-fallback p,
+  .scenario-fallback dl,
+  .scenario-fallback dd {
+    margin: 0;
+  }
+
+  .scenario-fallback h2 {
+    font-size: var(--bds-type-heading-sm-size);
+  }
+
+  .scenario-fallback p,
+  .scenario-fallback dd {
+    color: var(--skillsbar-muted);
+  }
+
+  .scenario-fallback p {
+    margin-top: var(--space-2);
+  }
+
+  .scenario-fallback dl {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-5);
+  }
+
+  .scenario-fallback div {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .scenario-fallback dt {
+    font-weight: 700;
+  }
 
   .demo-nav {
     position: sticky;
@@ -394,7 +457,9 @@ const gates = [
   .demo-lede { max-width: 49rem; margin: 1.5rem 0 1.75rem; color: #c5c7c2; font-size: clamp(1rem, 2vw, 1.25rem); line-height: 1.55; }
   .scenario-control { display: inline-flex; padding: .1875rem; border: 1px solid var(--skillsbar-line); border-radius: .4375rem; background: #0c0e0d; }
   .scenario { min-height: 2.75rem; padding: 0 .875rem; border: 0; border-radius: .3125rem; background: transparent; color: var(--skillsbar-muted); cursor: pointer; }
-  .scenario:hover { color: var(--skillsbar-ink); }
+  @media (hover: hover) and (pointer: fine) {
+    .scenario:hover { color: var(--skillsbar-ink); }
+  }
   .scenario:focus-visible { color: var(--skillsbar-ink); outline: 2px solid var(--focus-ring-inverse); outline-offset: 2px; }
   .scenario.is-active { color: var(--skillsbar-ink); background: var(--skillsbar-surface-2); box-shadow: inset 0 0 0 1px #3a403a; }
 
@@ -449,7 +514,9 @@ const gates = [
   .action-copy h3 { margin: 0 0 .25rem; color: var(--skillsbar-ink); font-size: .8125rem; }
   .action-copy span { color: var(--skillsbar-muted); font-size: .6875rem; }
   .command-button { min-height: 2.75rem; padding: 0 .6875rem; border: 1px solid var(--skillsbar-line); border-radius: .3125rem; background: var(--skillsbar-surface-2); font-size: .625rem; text-transform: uppercase; cursor: pointer; }
-  .command-button:hover { border-color: var(--skillsbar-blue); }
+  @media (hover: hover) and (pointer: fine) {
+    .command-button:hover { border-color: var(--skillsbar-blue); }
+  }
   .command-button:focus-visible { border-color: var(--skillsbar-blue); outline: 2px solid var(--focus-ring-inverse); outline-offset: 2px; }
   .gate-list { margin: 0; padding: 1rem 0 0; list-style: none; }
   .gate { position: relative; display: grid; grid-template-columns: 2.5rem 1fr auto; align-items: center; gap: .75rem; min-height: 3rem; border-bottom: 1px solid #292d29; }
@@ -502,7 +569,7 @@ const gates = [
   .closing-statement p { color: var(--skillsbar-blue); font-family: var(--body-mono); font-size: .6875rem; font-weight: 700; }
   .closing-statement h2 { max-width: 52rem; margin: 1rem auto; color: var(--skillsbar-ink); font-family: var(--body-serif); font-size: clamp(2.25rem, 5vw, 4.5rem); font-weight: 300; line-height: 1.05; }
   .closing-statement span { color: var(--skillsbar-muted); font-size: .75rem; }
-  .toast { position: fixed; bottom: 1.5rem; left: 50%; z-index: 20; padding: .625rem .875rem; border-radius: .3125rem; background: var(--skillsbar-ink); color: #111; font-size: .75rem; opacity: 0; pointer-events: none; transform: translate(-50%, 1.25rem); transition: opacity 200ms ease, transform 200ms ease; }
+  .toast { position: fixed; bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px)); left: 50%; z-index: 20; padding: .625rem .875rem; border-radius: .3125rem; background: var(--skillsbar-ink); color: #111; font-size: .75rem; opacity: 0; pointer-events: none; transform: translate(-50%, 1.25rem); transition: opacity 200ms ease, transform 200ms ease; }
   .toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
 
   @media (max-width: 65.625rem) {
@@ -538,6 +605,10 @@ const gates = [
   }
 
   @media (prefers-reduced-motion: reduce) {
-    :global(body.skillsbar-demo *) { scroll-behavior: auto; transition-duration: .01ms; }
+    :global(body.skillsbar-demo) .readiness-track span,
+    :global(body.skillsbar-demo) .toast {
+      transition-duration: .01ms;
+      transition-delay: 0ms;
+    }
   }
 </style>

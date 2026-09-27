@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { hasPrimarySkillsBarLink } from "./lib/design-system-contract.mjs";
+import { hasDensityAwareBlogDividers } from "./lib/surface-hairline-contract.mjs";
 
 const repoRoot = process.cwd();
 
@@ -596,8 +597,7 @@ const requiredBlogSnippets = [
   "font-family: var(--body-mono);",
   "width: min(1100px, calc(100% - var(--space-6)));",
   "border-radius: var(--radius-pill);",
-  "border-radius: var(--radius-image);",
-  "border-top: 1px solid var(--border-subtle);"
+  "border-radius: var(--radius-image);"
 ];
 
 for (const snippet of requiredBlogSnippets) {
@@ -607,6 +607,12 @@ for (const snippet of requiredBlogSnippets) {
     `expected blog page scoped styles to contain ${snippet}`
   );
 }
+
+addCheck(
+  "Blog dividers use a density-aware shared hairline",
+  hasDensityAwareBlogDividers(globalCss, blogPage),
+  "expected --border-hairline to resolve to 1px normally and 0.5px at 2dppx, with Blog dividers using it"
+);
 
 const pageFiles = fs
   .readdirSync(path.join(repoRoot, "src/pages"), { recursive: true })

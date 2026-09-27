@@ -206,4 +206,4 @@ fi
 echo "[check-related-tests] running related test files:"
 printf '  %s\n' "${related_tests[@]}"
 
-pnpm exec vitest run "${related_tests[@]}"
+npm exec -- vitest run "${related_tests[@]}"

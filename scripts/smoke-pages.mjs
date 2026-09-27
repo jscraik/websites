@@ -5,22 +5,27 @@ const pages = [
   {
     route: "/",
     file: "index.html",
-    includes: ["Jamie Scott Craik", "AI workflow delivery", "SkillsBar", "/work/skillsbar/"]
+    includes: ["Jamie Scott Craik", "Career-switching into professional software development", "SkillsBar", "Skills SDK", "/work/skillsbar/", "/work/skills-sdk/"]
+  },
+  {
+    route: "/404",
+    file: "404.html",
+    includes: ["Page not found", "Return to the homepage", "Browse the proof index", "noindex, nofollow"]
   },
   {
     route: "/blog/",
     file: "blog/index.html",
-    includes: ["Blog", "When Evidence Goes Stale", "Capability Is Not Trust", "RSS feed"]
+    includes: ["Writing", "When Evidence Goes Stale", "Capability Is Not Trust", "RSS feed"]
   },
   {
     route: "/proof/",
     file: "proof/index.html",
-    includes: ["Proof surface", "All work", "Featured proof"]
+    includes: ["Proof surface", "All work", "SkillsBar", "Skills SDK", "Writing and proof notes"]
   },
   {
     route: "/now/",
     file: "now/index.html",
-    includes: ["About", "customer-facing AI deployment", "life-changing injury"]
+    includes: ["About", "22 years in the British Army", "7.5 years at Warrant Officer rank"]
   },
   {
     route: "/contact/",
@@ -56,12 +61,20 @@ const pages = [
     route: "/work/skillsbar/",
     file: "work/skillsbar/index.html",
     includes: ["SkillsBar", "How the delivery unfolded", "Inspect the merged adaptive delivery"]
+  },
+  {
+    route: "/work/skills-sdk/",
+    file: "work/skills-sdk/index.html",
+    includes: ["Skills SDK", "How the delivery unfolded", "Portable contracts for inspectable AI skill packages"]
+  },
+  {
+    route: "/work/cli-proof-series/",
+    file: "work/cli-proof-series/index.html",
+    includes: ["CLI proof series", "wSearch queries Wikidata", "wiki.entity.get.v1", "arxiv.download.dryrun.v1", "planning-output evidence"]
   }
 ];
 
-const absentPages = [
-  { route: "/work/cli-proof-series/", file: "work/cli-proof-series/index.html" }
-];
+const absentPages = [];
 
 const failures = [];
 
@@ -106,6 +119,21 @@ if (!existsSync(rssPath)) {
   const itemCount = (rss.match(/<item>/g) ?? []).length;
   if (itemCount !== 2) {
     failures.push(`/blog/rss.xml: expected 2 published items, found ${itemCount}`);
+  }
+}
+
+const sitemap = readFileSync(join("dist", "sitemap.xml"), "utf8");
+for (const match of sitemap.matchAll(/<loc\b[^>]*>([^<]+)<\/loc>/gi)) {
+  let pathname;
+  try {
+    pathname = new URL(match[1].trim(), "https://jscraik.com").pathname;
+  } catch {
+    failures.push("/sitemap.xml: invalid loc URL.");
+    continue;
+  }
+  if (["/404", "/404/", "/404.html"].includes(pathname)) {
+    failures.push("/sitemap.xml: 404 recovery page must not be indexed.");
+    break;
   }
 }
 
