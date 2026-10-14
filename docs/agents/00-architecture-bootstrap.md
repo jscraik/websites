@@ -25,6 +25,13 @@ architecture evidence. From the repository root, refresh them with
 `bash scripts/refresh-diagram-context.sh --force`, then write the changed-path
 list to a temporary file and run
 `bash scripts/check-diagram-freshness.sh --changed-files <path-list-file>`.
+The refresh script resolves the already-installed, pinned `diagram` CLI through
+`mise where` and runs its binary directly. It does not activate or install the
+rest of the mise toolchain, and cannot create a package-manager lock or workspace
+file. From the repository root, install only the pinned CLI with
+`mise install 'npm:@brainwav/diagram@1.1.0'`; verify that
+`mise where 'npm:@brainwav/diagram@1.1.0'` prints its installed directory
+before using the refresh path.
 The expected result is `Diagram freshness check passed`. A cooldown skip is
 not a refresh proof; rerun with `--force`. Any generation or freshness failure
 belongs to the portfolio maintainer and blocks the architecture-sensitive
@@ -79,12 +86,27 @@ current producers. The José About measurements target the current
 `.recognition-list a` markup; update that selector and its focused contract
 together when the source structure changes.
 
+The Blog divider hairline is a design-system source contract:
+`scripts/lib/surface-hairline-contract.mjs` checks the shared normal and
+high-density border widths and the Blog's use of that token.
+`npm run test:design-system-contract` covers valid and invalid neighbors, while
+`npm run validate:design-system` checks the current source.
+
 Portfolio content is schema-driven. `src/content.config.ts` owns publication
 states, proof links, and the optional case-study narrative consumed by
 `src/pages/work/[slug].astro`; keep content fixtures and route-level coverage
 aligned whenever those schemas change. Shared route inventories must include
 new public article and work paths in smoke, accessibility, visual, and Jose CDP
 surfaces before those routes are treated as covered.
+The source gate runs `scripts/test-built-output-validators.mjs` against a
+disposable copy of the built site so sitemap exclusions and About portrait
+requirements fail through their actual validator entrypoints.
+
+An optional work `capture` supplies a local product image, descriptive alt text,
+intrinsic dimensions, and a required evidence caption. The work route renders
+that figure instead of its decorative art; entries without a capture retain
+their existing art. `tests/a11y/polish.spec.ts` covers the SkillsBar fixture and
+the neighboring Skills SDK fallback.
 
 Browser motion belongs to shared, testable helpers such as
 `src/scripts/flip-motion.ts`. Production output and committed dependency

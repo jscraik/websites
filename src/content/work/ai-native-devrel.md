@@ -3,9 +3,9 @@ title: "AI-native DevRel"
 shortTitle: "AI DevRel"
 subtitle: "Building trust surfaces for agentic developer tools"
 date: "June 2026"
-order: 2
+order: 5
 publicationState: "published"
-isFeatured: true
+isFeatured: false
 overview: "This case study frames the first public article and proof log as one artifact: a position, a receipt, and a boundary."
 organization: "This earlier position piece explores AI-native DevRel as one lens on Jamie's writing, demos, CLI work, and validation practice; it is not a fixed job-title claim."
 work: "I am shaping the reader journey, writing the anchor article, and making evidence visible through proof cards, caveats, and command receipts."

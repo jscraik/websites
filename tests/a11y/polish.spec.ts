@@ -1,10 +1,416 @@
 import { expect, test } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 import { coreRoutes, preparePage } from "../helpers/visual";
 
 const interactiveSelector =
   "a[href], button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)";
 
 test.describe("UI polish contracts", () => {
+  test("Proof endpoint focus outlines fit inside their scroll region", async ({ page }) => {
+    for (const width of [320, 393, 768, 1440]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await preparePage(page, "/proof/");
+      expect(await page.locator(".proof-row").count()).toBeGreaterThan(0);
+      expect(await page.locator(".proof-row a.proof-card").count()).toBeGreaterThan(0);
+      for (const row of await page.locator(".proof-row").all()) {
+        const cards = row.locator("a.proof-card");
+        if (await cards.count() === 0) continue;
+        for (const card of [cards.first(), cards.last()]) {
+          await card.focus();
+          await card.scrollIntoViewIfNeeded();
+          const ring = await card.evaluate((element) => {
+            const style = getComputedStyle(element);
+            const extent = Number.parseFloat(style.outlineOffset) + Number.parseFloat(style.outlineWidth);
+            const box = element.getBoundingClientRect();
+            const clip = element.parentElement!.getBoundingClientRect();
+            return { visible: element.matches(":focus-visible"), width: Number.parseFloat(style.outlineWidth), fits: box.left - extent >= clip.left - 1 && box.right + extent <= clip.right + 1 && box.top - extent >= clip.top - 1 && box.bottom + extent <= clip.bottom + 1 };
+          });
+          expect(ring.visible).toBe(true);
+          expect(ring.width).toBeGreaterThanOrEqual(2);
+          expect(ring.fits, `whole Proof focus outline at ${width}px`).toBe(true);
+        }
+      }
+    }
+  });
+  test("project headings fit viewport and attribution card gutters", async ({ page }) => {
+    for (const width of [320, 393, 768, 1440]) {
+      await page.setViewportSize({ width, height: 1000 });
+      for (const slug of ["skillsbar", "skills-sdk", "cli-proof-series", "brainwav-io", "ai-native-devrel"]) {
+        await preparePage(page, `/work/${slug}/`);
+        await page.evaluate(() => document.fonts.ready);
+        const failures = await page.locator("h1, .case-role-boundary h2").evaluateAll((headings) => headings.flatMap((heading) => {
+          const card = heading.closest(".case-role-boundary")?.getBoundingClientRect();
+          const left = card ? card.left + 16 : 16;
+          const right = card ? card.right - 16 : innerWidth - 16;
+          const range = document.createRange();
+          range.selectNodeContents(heading);
+          return [...range.getClientRects()].filter((r) => r.width && (r.left < left || r.right > right)).map(() => heading.textContent);
+        }));
+        expect(failures, `${slug} at ${width}px`).toEqual([]);
+      }
+    }
+  });
+
+  test("project illustration labels fit their cards", async ({ page }) => {
+    for (const width of [320, 393, 768, 1440]) {
+      await page.setViewportSize({ width, height: 1000 });
+      for (const slug of ["skills-sdk", "cli-proof-series", "brainwav-io", "ai-native-devrel"]) {
+        await preparePage(page, `/work/${slug}/`);
+        await page.evaluate(() => document.fonts.ready);
+        const failures = await page.locator(".case-window--main").evaluate((card) => {
+          const box = card.getBoundingClientRect();
+          return [...card.querySelectorAll("p,strong")].flatMap((text) => {
+            const range = document.createRange();
+            range.selectNodeContents(text);
+            return [...range.getClientRects()].filter((r) => r.width && (
+              r.left < box.left + 16 || r.right > box.right - 16 || r.bottom > box.bottom - 16
+            )).map(() => text.textContent);
+          });
+        });
+        expect(failures, `${slug} at ${width}px`).toEqual([]);
+      }
+    }
+  });
+
+  test("article text retains mobile gutters without expanding its grid", async ({ page }) => {
+    for (const width of [320, 393, 768]) {
+      await page.setViewportSize({ width, height: 1000 });
+      for (const route of ["/articles/when-evidence-goes-stale/", "/articles/why-ai-native-devrel/"]) {
+        await preparePage(page, route);
+        await page.evaluate(() => document.fonts.ready);
+        const failures = await page.locator(".article-layout").evaluate((article) => {
+          const failures: string[] = [];
+          for (const text of article.querySelectorAll("h1,h2,h3,p,li,a")) {
+            const range = document.createRange();
+            range.selectNodeContents(text);
+            for (const bounds of range.getClientRects()) {
+              if (bounds.width && (bounds.left < 16 || bounds.right > innerWidth - 16)) {
+                failures.push(text.textContent ?? "");
+              }
+            }
+          }
+          return failures;
+        });
+        expect(failures, `${route} at ${width}px`).toEqual([]);
+      }
+    }
+  });
+
+  test("Proof cards fit their scroll region at both endpoints", async ({ page }) => {
+    for (const width of [320, 393, 768, 1440]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await preparePage(page, "/proof/");
+      for (const row of await page.locator(".proof-row").all()) {
+        for (const end of [false, true]) {
+          await row.evaluate((element, end) => {
+            element.scrollLeft = end ? element.scrollWidth : 0;
+          }, end);
+          const card = end ? row.locator(".proof-card").last() : row.locator(".proof-card").first();
+          const contained = await card.evaluate((element) => {
+            const card = element.getBoundingClientRect();
+            const row = element.parentElement!.getBoundingClientRect();
+            return card.left >= row.left - 2 && card.right <= row.right + 2;
+          });
+          expect(contained, `Proof endpoint at ${width}px`).toBe(true);
+        }
+      }
+    }
+  });
+
+  test("Blog sections do not stack legacy margins onto editorial spacing", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    for (const width of [320, 393, 768, 1024, 1440]) {
+      await page.setViewportSize({ width, height: 800 });
+      await preparePage(page, "/blog/");
+      const spacing = await page.evaluate(() => {
+        const latest = document.querySelector(".latest-article")!.getBoundingClientRect();
+        const title = document.querySelector(".blog-title-block")!.getBoundingClientRect();
+        const list = document.querySelector(".article-list")!.getBoundingClientRect();
+        const about = document.querySelector(".blog-about-card")!.getBoundingClientRect();
+        const lastArticle = document.querySelector(".blog-list-item:last-child")!.getBoundingClientRect();
+        return { beforeList: list.top - Math.max(latest.bottom, title.bottom), beforeAbout: about.top - lastArticle.bottom };
+      });
+      for (const [section, gap] of Object.entries(spacing)) {
+        expect(gap, `${section} at ${width}px`).toBeGreaterThanOrEqual(32);
+        expect(gap, `${section} at ${width}px`).toBeLessThanOrEqual(144);
+      }
+    }
+  });
+
+  test("Contact email is reachable in the first viewport", async ({ page }) => {
+    for (const width of [320, 393, 768, 1440]) {
+      await page.setViewportSize({ width, height: 800 });
+      await preparePage(page, "/contact/");
+      const email = page.locator('.contact-page a[href^="mailto:"]');
+      await expect(email).toHaveCount(1);
+      await expect(email).toBeVisible();
+      const bounds = await email.boundingBox();
+      expect(bounds!.height).toBeGreaterThanOrEqual(44);
+      expect(bounds!.y).toBeGreaterThanOrEqual(0);
+      expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(800);
+      expect(bounds!.x).toBeGreaterThanOrEqual(16);
+      expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(width - 16);
+      for (let step = 0; step < 30; step++) {
+        await page.keyboard.press("Tab");
+        if (await email.evaluate((element) => element === document.activeElement)) break;
+      }
+      await expect(email).toBeFocused();
+      expect(await email.evaluate((element) => element.matches(":focus-visible"))).toBe(true);
+    }
+  });
+
+  test("featured proof labels have readable contrast on their artwork", async ({ page }) => {
+    for (const width of [320, 768, 1440]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await preparePage(page, "/");
+      const results = await new AxeBuilder({ page })
+        .include(".feature-proof-panel")
+        .withRules(["color-contrast"])
+        .analyze();
+      expect(results.violations, `Featured proof contrast at ${width}px`).toEqual([]);
+    }
+  });
+
+  test("all Fun Facts descriptions are readable without interaction", async ({ page }) => {
+    for (const width of [320, 768, 922, 1440]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await preparePage(page, "/now/");
+      const descriptions = page.locator(".about-fact-card > span");
+      await expect(descriptions).toHaveCount(4);
+      for (const description of await descriptions.all()) {
+        await expect(description).toBeVisible();
+        const geometry = await description.evaluate((element) => {
+          const range = document.createRange();
+          range.selectNodeContents(element);
+          const card = element.parentElement!.getBoundingClientRect();
+          const text = range.getBoundingClientRect();
+          return {
+            contained: text.left >= card.left && text.right <= card.right && text.bottom <= card.bottom,
+            clearOfNextSection: text.bottom < document.querySelector("#skills")!.getBoundingClientRect().top,
+          };
+        });
+        expect(geometry).toEqual({ contained: true, clearOfNextSection: true });
+      }
+    }
+  });
+
+  test("About skills and history retain gutters and separate metadata", async ({ page }) => {
+    for (const width of [320, 360, 768, 1440]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await preparePage(page, "/now/");
+      const failures = await page.evaluate(() => {
+        const issues: string[] = [];
+        for (const selector of [".about-skills-stack", ".about-history-stack", ".about-web-stack", "#fun-facts .about-card-grid", "#fun-facts .about-band-heading"]) {
+          const stack = document.querySelector(selector)!;
+          const bounds = stack.getBoundingClientRect();
+          if (bounds.left < 16 || bounds.right > innerWidth - 16) issues.push(`${selector} gutter`);
+          const walker = document.createTreeWalker(stack, NodeFilter.SHOW_TEXT);
+          while (walker.nextNode()) {
+            if (!walker.currentNode.textContent?.trim()) continue;
+            const range = document.createRange();
+            range.selectNodeContents(walker.currentNode);
+            for (const text of range.getClientRects()) {
+              if (text.width && text.height && (text.left < bounds.left - 0.5 || text.right > bounds.right + 0.5)) issues.push(`${selector} text overflow`);
+            }
+          }
+        }
+        for (const group of document.querySelectorAll(".history-flex--meta, .history-flex.cc-vertical")) {
+          const rectangles = [...group.children].map((child) => child.getBoundingClientRect());
+          if (!rectangles.every((rect, index) => index === 0 || rect.left >= rectangles[index - 1].right + 4 || rect.top >= rectangles[index - 1].bottom)) issues.push("metadata separation");
+        }
+        return issues;
+      });
+      expect(failures, `About at ${width}px`).toEqual([]);
+    }
+  });
+
+  test("About intro determines section height and artifact labels stay separate", async ({ page }) => {
+    for (const width of [320, 360, 720, 768, 820, 922, 1024, 1440]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await preparePage(page, "/now/");
+      const geometry = await page.evaluate(() => {
+        const copy = document.querySelector(".about-copy-block")!.getBoundingClientRect();
+        const range = document.createRange();
+        range.selectNodeContents(document.querySelector(".about-copy p:last-child")!);
+        const overlaps = (a: DOMRect, b: DOMRect) => Math.min(a.right, b.right) > Math.max(a.left, b.left) && Math.min(a.bottom, b.bottom) > Math.max(a.top, b.top);
+        return {
+          width: copy.width,
+          end: range.getBoundingClientRect().bottom,
+          next: document.querySelector("#fun-facts h2")!.getBoundingClientRect().top,
+          sidebarOverlap: [...document.querySelectorAll(".about-sidebar nav, .about-portrait")].some((element) => overlaps(copy, element.getBoundingClientRect())),
+          labelOverlap: [...document.querySelectorAll(".about-object")].some((element) => {
+            const label = document.createRange();
+            label.selectNodeContents(element.querySelector(".about-fact-label")!);
+            const artifact = document.createRange();
+            artifact.selectNodeContents(element.querySelector(".about-object__artifact")!);
+            return overlaps(label.getBoundingClientRect(), artifact.getBoundingClientRect());
+          })
+        };
+      });
+      expect(geometry.width).toBeGreaterThanOrEqual(Math.min(320, width - 64));
+      expect(geometry.end).toBeLessThan(geometry.next);
+      expect(geometry.sidebarOverlap).toBe(false);
+      expect(geometry.labelOverlap).toBe(false);
+    }
+  });
+
+  test("home name keeps its gutter and proof notes stay inside their artwork", async ({ page }) => {
+    for (const width of [320, 360, 768, 1440]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await preparePage(page, "/");
+      await page.mouse.move(width - 1, 0);
+      const geometry = await page.evaluate(() => {
+        const title = document.querySelector("#home-title")!;
+        const titleBounds = title.getBoundingClientRect();
+        const lines = [...title.querySelectorAll("span")].map((line) => {
+          const range = document.createRange();
+          range.selectNodeContents(line);
+          return range.getBoundingClientRect().right;
+        });
+        const panels = [...document.querySelectorAll(".feature-proof-panel, .skillsbar-preview")].map((panel) => {
+          const bounds = panel.getBoundingClientRect();
+          const artwork = panel.closest(".feature-block-img")!.getBoundingClientRect();
+          const walker = document.createTreeWalker(panel, NodeFilter.SHOW_TEXT);
+          let textFits = true;
+          while (walker.nextNode()) {
+            if (!walker.currentNode.textContent?.trim()) continue;
+            const range = document.createRange();
+            range.selectNodeContents(walker.currentNode);
+            for (const text of range.getClientRects()) {
+              if (text.width === 0 || text.height === 0) continue;
+              textFits &&= text.left >= bounds.left - 0.5 && text.right <= bounds.right + 0.5 &&
+                text.top >= bounds.top - 0.5 && text.bottom <= bounds.bottom + 0.5;
+            }
+          }
+          return textFits && bounds.left >= artwork.left && bounds.right <= artwork.right &&
+            bounds.top >= artwork.top && bounds.bottom <= artwork.bottom;
+        });
+        return { left: titleBounds.left, lines, panels };
+      });
+      expect(geometry.panels).toEqual([true, true, true]);
+      const label = await page.locator("#featured-work .section-label span:last-child").boundingBox();
+      const firstCard = await page.locator(".feature-block").first().boundingBox();
+      expect(label!.y + label!.height).toBeLessThan(firstCard!.y);
+      const artwork = page.locator(".skillsbar-artwork");
+      expect(await artwork.evaluate((element) => getComputedStyle(element, "::before").content)).toBe("none");
+      expect(await artwork.locator(".skillsbar-preview__header span").evaluate((element) => getComputedStyle(element).position)).toBe("static");
+      if (width <= 360) {
+        for (const right of geometry.lines) expect(right).toBeLessThanOrEqual(width - geometry.left);
+      }
+    }
+  });
+
+  test("footer targets do not overlap at mobile, intermediate, or desktop widths", async ({ page }) => {
+    for (const width of [320, 1024, 1440]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await preparePage(page, "/");
+      const overlaps = await page.locator("footer a").evaluateAll((links) => {
+        const rectangles = links.map((link) => ({ label: link.getAttribute("aria-label") || link.textContent, rect: link.getBoundingClientRect() }));
+        return rectangles.flatMap((left, index) => rectangles.slice(index + 1).filter((right) =>
+          Math.min(left.rect.right, right.rect.right) > Math.max(left.rect.left, right.rect.left) &&
+          Math.min(left.rect.bottom, right.rect.bottom) > Math.max(left.rect.top, right.rect.top)
+        ).map((right) => [left.label, right.label]));
+      });
+      expect(overlaps, `footer targets at ${width}px`).toEqual([]);
+      const navigation = await page.locator(".footer-links").evaluate((nav) => {
+        const links = [...nav.querySelectorAll("a")];
+        const contentHeight = links.reduce((height, link) => height + link.getBoundingClientRect().height, 0);
+        const gap = Number.parseFloat(getComputedStyle(nav).rowGap);
+        return { height: nav.getBoundingClientRect().height, upperBound: contentHeight + gap * (links.length - 1) };
+      });
+      expect(navigation.height, `footer navigation must not stretch at ${width}px`).toBeLessThanOrEqual(navigation.upperBound);
+    }
+  });
+
+  test("carousel boundary state disables unavailable controls and preserves keyboard movement", async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 800 });
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await preparePage(page, "/work/skillsbar/");
+    const previous = page.locator("[data-work-prev]");
+    const next = page.locator("[data-work-next]");
+    const row = page.locator("[data-work-row]");
+    await expect(previous).toHaveAttribute("aria-disabled", "true");
+    await expect(previous).toBeDisabled();
+    await previous.evaluate((element: HTMLButtonElement) => element.click());
+    expect(await row.evaluate((element) => element.scrollLeft)).toBe(0);
+    await next.focus();
+    for (let index = 0; index < 12 && await next.getAttribute("aria-disabled") !== "true"; index += 1) {
+      const before = await row.evaluate((element) => element.scrollLeft);
+      await page.keyboard.press("Enter");
+      await expect.poll(() => row.evaluate((element) => element.scrollLeft)).toBeGreaterThan(before);
+      await expect.poll(async () => {
+        const atEnd = await row.evaluate((element) => element.scrollLeft >= element.scrollWidth - element.clientWidth - 4);
+        return await next.getAttribute("aria-disabled") === String(atEnd);
+      }).toBe(true);
+    }
+    await expect(next).toHaveAttribute("aria-disabled", "true");
+    await expect(next).toBeDisabled();
+    await expect.poll(() => row.evaluate(async (element) => {
+      const positions: number[] = [];
+      for (let frame = 0; frame < 5; frame += 1) {
+        positions.push(element.scrollLeft);
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+      }
+      return positions.every((position) => position === positions[0]);
+    })).toBe(true);
+    const end = await row.evaluate((element) => element.scrollLeft);
+    await next.evaluate((element: HTMLButtonElement) => element.click());
+    expect(await row.evaluate((element) => element.scrollLeft)).toBe(end);
+    await expect(previous).toBeEnabled();
+    await previous.focus();
+    await page.keyboard.press("Enter");
+    await expect.poll(() => row.evaluate((element) => element.scrollLeft)).toBeLessThan(end);
+  });
+
+  test("keyboard focus reveals each proof card inside its scroll container", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await preparePage(page, "/proof/");
+    const cards = page.locator(".proof-card");
+    for (let index = 0; index < await cards.count(); index += 1) {
+      await cards.nth(index).focus();
+      await expect.poll(() => cards.nth(index).evaluate((card) => {
+        const bounds = card.getBoundingClientRect();
+        const container = card.parentElement!.getBoundingClientRect();
+        return bounds.left >= container.left - 1 && bounds.right <= container.right + 1;
+      })).toBe(true);
+    }
+  });
+
+  test("SkillsBar shows its labeled native fixture without changing other work art", async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 800 });
+    await preparePage(page, "/work/skillsbar/");
+    const capture = page.locator(".case-product-capture");
+    const image = capture.getByRole("img", { name: /Historical native demo fixture/ });
+    await image.scrollIntoViewIfNeeded();
+    await expect(image).toBeVisible();
+    await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.naturalWidth)).toBe(404);
+    await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.naturalHeight)).toBe(560);
+    await expect(image).toHaveAttribute("height", "560");
+    await expect(capture.locator("figcaption")).toContainText("not proof for this candidate");
+    const bounds = await image.boundingBox();
+    expect(bounds!.width).toBeLessThanOrEqual(320);
+    await expect(page.locator(".case-hero-art")).toHaveCount(0);
+
+    await preparePage(page, "/work/skills-sdk/");
+    await expect(page.locator(".case-product-capture")).toHaveCount(0);
+    await expect(page.locator(".case-hero-art")).toBeVisible();
+  });
+
+  test("homepage reading links retain 44px targets across breakpoints", async ({ page }) => {
+    for (const width of [320, 768, 1440]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await preparePage(page, "/");
+      const links = page.getByRole("link", { name: /^(Read case study|Keep reading)$/i });
+      await expect(links).toHaveCount(3);
+      for (const link of await links.all()) {
+        const bounds = await link.boundingBox();
+        expect(bounds, `${width}px reading link is rendered`).not.toBeNull();
+        expect(bounds!.height, `${width}px reading link target height`).toBeGreaterThanOrEqual(44);
+        expect(bounds!.width, `${width}px reading link target width`).toBeGreaterThanOrEqual(44);
+      }
+    }
+  });
+
   test("skip link moves focus to the shared main landmark", async ({ page }) => {
     await preparePage(page, "/");
 
@@ -39,7 +445,7 @@ test.describe("UI polish contracts", () => {
 
     const portfolioShell = await page.evaluate(() => ({
       activeNav: getComputedStyle(document.querySelector('.site-header .nav-link[aria-current="page"]')!).color,
-      activeHomeIcon: getComputedStyle(document.querySelector('.site-header .icon-box[aria-current="page"]')!).color,
+      homeIcon: getComputedStyle(document.querySelector('.site-header .icon-box')!).color,
       footerBackgroundImage: getComputedStyle(document.querySelector(".site-footer")!).backgroundImage,
       footerBackground: getComputedStyle(document.querySelector(".site-footer")!).backgroundColor,
       profileBackground: getComputedStyle(document.querySelector(".site-footer .footer-profile-card")!).backgroundColor,
@@ -47,10 +453,10 @@ test.describe("UI polish contracts", () => {
     }));
 
     expect(portfolioShell.activeNav).toBe("rgb(79, 86, 77)");
-    expect(portfolioShell.activeHomeIcon).toBe("rgb(79, 86, 77)");
+    expect(portfolioShell.homeIcon).toBe("rgba(75, 84, 77, 0.88)");
     expect(portfolioShell.footerBackgroundImage).toBe("linear-gradient(rgb(213, 214, 208), rgb(251, 250, 245))");
     expect(portfolioShell.footerBackground).toBe("rgba(0, 0, 0, 0)");
-    expect(portfolioShell.profileBackground).toBe("rgba(251, 250, 245, 0.88)");
+    expect(portfolioShell.profileBackground).toBe("rgb(251, 250, 245)");
     expect(portfolioShell.socialBackground).toBe("rgba(251, 250, 245, 0.42)");
 
     await preparePage(page, "/demos/skillsbar/");
@@ -164,7 +570,7 @@ test.describe("UI polish contracts", () => {
       expect(sharedSurfaces, `${route}: shared navigation and footer surface`).toEqual(reference);
       expect(surfaces.navLayerTransformOrigin, `${route}: nav highlight transform origin`).toBe("0px 0px");
       expect(surfaces.header, `${route}: header fade owner`).toBe(
-        route === "/" ? "none" : "linear-gradient(rgb(251, 250, 245), rgb(213, 214, 208))"
+        route === "/" ? "none" : route === "/blog/" ? "none" : "linear-gradient(rgb(251, 250, 245), rgb(213, 214, 208))"
       );
     }
   });
@@ -427,6 +833,7 @@ test.describe("UI polish contracts", () => {
           columns: style.gridTemplateColumns.split(" ").filter(Boolean).length,
           copyX: copyRect.x,
           copyWidth: copyRect.width,
+          copyBottom: copyRect.bottom,
           sidebarX: sidebarRect.x,
           sidebarY: sidebarRect.y,
           titleFontSize: Number.parseFloat(titleStyle.fontSize),
@@ -441,31 +848,22 @@ test.describe("UI polish contracts", () => {
     expect(Math.abs(belowBreakpoint.sidebarX - belowBreakpoint.copyX), "767px About sidebar stays below the copy").toBeLessThan(1);
 
     const atBreakpoint = await measureAbout(768, 964);
-    expect(atBreakpoint.columns, "768px About switches to two tracks").toBe(2);
-    expect(atBreakpoint.sidebarX, "768px About sidebar moves beside the copy").toBeGreaterThan(
-      atBreakpoint.copyX + atBreakpoint.copyWidth - 1
-    );
-    expect(atBreakpoint.sidebarY, "768px About sidebar starts near the intro").toBeLessThan(240);
+    expect(atBreakpoint.columns, "768px About retains one readable track").toBe(1);
+    expect(atBreakpoint.sidebarY, "768px About sidebar follows the complete copy").toBeGreaterThanOrEqual(atBreakpoint.copyBottom);
     expect(atBreakpoint.titleFontSize, "768px About title stays a compact route label").toBeLessThanOrEqual(24);
     expect(atBreakpoint.titleFontFamily, "768px About title uses the sans contract").toContain("Geist");
     expect(atBreakpoint.spacerDisplay, "768px About spacer stays structural and hidden").toBe("none");
 
     const intermediate = await measureAbout(857, 964);
-    expect(intermediate.columns, "857px About keeps two tracks").toBe(2);
-    expect(intermediate.sidebarX, "857px About sidebar stays beside the copy").toBeGreaterThan(
-      intermediate.copyX + intermediate.copyWidth - 1
-    );
-    expect(intermediate.sidebarY, "857px About sidebar starts near the intro").toBeLessThan(240);
+    expect(intermediate.columns, "857px About keeps one readable track").toBe(1);
+    expect(intermediate.sidebarY, "857px About sidebar follows the complete copy").toBeGreaterThanOrEqual(intermediate.copyBottom);
     expect(intermediate.titleFontSize, "857px About title stays a compact route label").toBeLessThanOrEqual(24);
     expect(intermediate.titleFontFamily, "857px About title uses the sans contract").toContain("Geist");
     expect(intermediate.spacerDisplay, "857px About spacer stays structural and hidden").toBe("none");
 
     const beforeUpperBreakpoint = await measureAbout(921, 964);
-    expect(beforeUpperBreakpoint.columns, "921px About keeps two tracks").toBe(2);
-    expect(beforeUpperBreakpoint.sidebarX, "921px About sidebar stays beside the copy").toBeGreaterThan(
-      beforeUpperBreakpoint.copyX + beforeUpperBreakpoint.copyWidth - 1
-    );
-    expect(beforeUpperBreakpoint.sidebarY, "921px About sidebar starts near the intro").toBeLessThan(240);
+    expect(beforeUpperBreakpoint.columns, "921px About keeps one readable track").toBe(1);
+    expect(beforeUpperBreakpoint.sidebarY, "921px About sidebar follows the complete copy").toBeGreaterThanOrEqual(beforeUpperBreakpoint.copyBottom);
 
     const afterUpperBreakpoint = await measureAbout(922, 964);
     expect(afterUpperBreakpoint.columns, "922px About enters the desktop three-track contract").toBe(3);

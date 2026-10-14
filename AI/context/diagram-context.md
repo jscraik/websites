@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-09-13T17:13:48Z
+Generated: 2026-09-23T17:59:54Z
 
 ## Table of Contents
 
@@ -29,15 +29,63 @@ Generated: 2026-09-13T17:13:48Z
 ## Changed source focus
 
 - These architecture-sensitive paths changed on the current branch and may be compacted out of Mermaid diagrams.
-- `.circleci/config.yml`
 - `AGENTS.md`
 - `README.md`
 - `docs/agents/00-architecture-bootstrap.md`
 - `docs/agents/07b-agent-governance.md`
 - `package.json`
-- `scripts/lib/pr-template-contract.mjs`
+- `scripts/check-related-tests.sh`
+- `scripts/jose-parity-cdp.mjs`
+- `scripts/lib/surface-hairline-contract.mjs`
+- `scripts/refresh-diagram-context.sh`
+- `scripts/smoke-pages.mjs`
+- `scripts/test-built-output-validators.mjs`
+- `scripts/test-design-system-contract.mjs`
+- `scripts/test-diagram-freshness-opt-in.mjs`
 - `scripts/test-operator-workflow-contract.mjs`
-- `scripts/validate-pr-template.mjs`
+- `scripts/validate-design-system.mjs`
+- `scripts/validate-html-output.mjs`
+- `src/components/AnimatedButton.astro`
+- `src/components/CarouselControls.astro`
+- `src/components/Icon.astro`
+- `src/components/PullquoteStack.astro`
+- `src/components/SiteFooter.astro`
+- `src/components/StartLinks.astro`
+- `src/content.config.ts`
+- `src/content/work/ai-native-devrel.md`
+- `src/content/work/brainwav-io.md`
+- `src/content/work/cli-proof-series.md`
+- `src/content/work/skills-sdk.md`
+- `src/content/work/skillsbar.md`
+- `src/layouts/BaseLayout.astro`
+- `src/lib/public-profile.ts`
+- `src/pages/404.astro`
+- `src/pages/articles/when-evidence-goes-stale.astro`
+- `src/pages/articles/why-ai-native-devrel.astro`
+- `src/pages/blog/index.astro`
+- `src/pages/blog/rss.xml.ts`
+- `src/pages/contact.astro`
+- `src/pages/demos/skillsbar.astro`
+- `src/pages/index.astro`
+- `src/pages/now.astro`
+- `src/pages/proof/index.astro`
+- `src/pages/robots.txt.ts`
+- `src/pages/sitemap.xml.ts`
+- `src/pages/work/[slug].astro`
+- `src/scripts/carousel-controls.test.ts`
+- `src/scripts/carousel-controls.ts`
+- `src/scripts/pullquote-stack.test.ts`
+- `src/scripts/pullquote-stack.ts`
+- `src/styles/about.css`
+- `src/styles/global.css`
+- `tests/a11y/button-lifecycle.spec.ts`
+- `tests/a11y/polish.spec.ts`
+- `tests/e2e/interface-contracts.spec.ts`
+- `tests/e2e/motion-resync-contract.spec.ts`
+- `tests/e2e/no-script-navigation.spec.ts`
+- `tests/e2e/skillsbar-demo.spec.ts`
+- `tests/e2e/work-card-pointer-contract.spec.ts`
+- `tests/helpers/visual.ts`
 
 ## agent
 
@@ -149,9 +197,11 @@ graph LR
   node_rss_xml_b85d02db_61029d19["rss_xml_b85d02db"]
   node_seal_fieldcraft_reference_8652aaa2_c54b3f46["seal_fieldcraft_reference_8652aaa2"]
   node_setup_git_hooks_70750d40_b4ca2cf9["setup_git_hooks_70750d40"]
+  node_sitemap_xml_ab094897_1c737315["sitemap_xml_ab094897"]
   node_smoke_pages_9a92b30d_72f6805f["smoke_pages_9a92b30d"]
   node_test_astro_anti_patterns_88db0377_401e86a9["test_astro_anti_patterns_88db0377"]
   node_test_branch_transition_preflight_1665655e_acac1534["test_branch_transition_preflight_1665655e"]
+  node_test_built_output_validators_c44e3406_53438bab["test_built_output_validators_c44e3406"]
   node_test_code_quality_debt_contract_569cff13_2953095a["test_code_quality_debt_contract_569cff13"]
   node_test_codex_preflight_receipt_200ab781_029a12e8["test_codex_preflight_receipt_200ab781"]
   node_test_css_simplification_05516724_6f0b8da9["test_css_simplification_05516724"]
@@ -197,10 +247,12 @@ graph LR
   ext_astro_90c9d7bd["astro"] --> node_content_config_a9a9d2e1_05943ac5
   ext_astro_content_2110f121["astro:content"] --> node_content_config_a9a9d2e1_05943ac5
   ext_astro_content_2110f121["astro:content"] --> node_rss_xml_b85d02db_61029d19
+  ext_astro_content_2110f121["astro:content"] --> node_sitemap_xml_ab094897_1c737315
   ext_jpeg_js_a3e0a788["jpeg-js"] --> node_evaluate_fieldcraft_scenes_d6258bc6_1eab3e75
   ext_jpeg_js_a3e0a788["jpeg-js"] --> node_test_fieldcraft_contracts_82274efa_2a3f2205
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_astro_anti_patterns_88db0377_401e86a9
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_branch_transition_preflight_1665655e_acac1534
+  ext_node_assert_f1a93ba5["node:assert"] --> node_test_built_output_validators_c44e3406_53438bab
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
   ext_node_assert_f1a93ba5["node:assert"] --> node_test_css_simplification_05516724_6f0b8da9
@@ -227,6 +279,7 @@ graph LR
   ext_node_child_process_f62b7d19["node:child_process"] --> node_setup_git_hooks_70750d40_b4ca2cf9
   ext_node_child_process_f62b7d19["node:child_process"] --> node_test_astro_anti_patterns_88db0377_401e86a9
   ext_node_child_process_f62b7d19["node:child_process"] --> node_test_branch_transition_preflight_1665655e_acac1534
+  ext_node_child_process_f62b7d19["node:child_process"] --> node_test_built_output_validators_c44e3406_53438bab
   ext_node_child_process_f62b7d19["node:child_process"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_child_process_f62b7d19["node:child_process"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
   ext_node_child_process_f62b7d19["node:child_process"] --> node_test_diagram_freshness_opt_in_96293749_08c46e10
@@ -265,6 +318,7 @@ graph LR
   ext_node_fs_a15b7d96["node:fs"] --> node_smoke_pages_9a92b30d_72f6805f
   ext_node_fs_a15b7d96["node:fs"] --> node_test_astro_anti_patterns_88db0377_401e86a9
   ext_node_fs_a15b7d96["node:fs"] --> node_test_branch_transition_preflight_1665655e_acac1534
+  ext_node_fs_a15b7d96["node:fs"] --> node_test_built_output_validators_c44e3406_53438bab
   ext_node_fs_a15b7d96["node:fs"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_fs_a15b7d96["node:fs"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
   ext_node_fs_a15b7d96["node:fs"] --> node_test_css_simplification_05516724_6f0b8da9
@@ -302,6 +356,7 @@ graph LR
   ext_node_os_d93fe73a["node:os"] --> node_evaluate_fieldcraft_scenes_d6258bc6_1eab3e75
   ext_node_os_d93fe73a["node:os"] --> node_test_astro_anti_patterns_88db0377_401e86a9
   ext_node_os_d93fe73a["node:os"] --> node_test_branch_transition_preflight_1665655e_acac1534
+  ext_node_os_d93fe73a["node:os"] --> node_test_built_output_validators_c44e3406_53438bab
   ext_node_os_d93fe73a["node:os"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_os_d93fe73a["node:os"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
   ext_node_os_d93fe73a["node:os"] --> node_test_diagram_freshness_opt_in_96293749_08c46e10
@@ -326,6 +381,7 @@ graph LR
   ext_node_path_78811c13["node:path"] --> node_smoke_pages_9a92b30d_72f6805f
   ext_node_path_78811c13["node:path"] --> node_test_astro_anti_patterns_88db0377_401e86a9
   ext_node_path_78811c13["node:path"] --> node_test_branch_transition_preflight_1665655e_acac1534
+  ext_node_path_78811c13["node:path"] --> node_test_built_output_validators_c44e3406_53438bab
   ext_node_path_78811c13["node:path"] --> node_test_code_quality_debt_contract_569cff13_2953095a
   ext_node_path_78811c13["node:path"] --> node_test_codex_preflight_receipt_200ab781_029a12e8
   ext_node_path_78811c13["node:path"] --> node_test_diagram_freshness_opt_in_96293749_08c46e10
@@ -352,6 +408,7 @@ graph LR
   ext_node_path_78811c13["node:path"] --> node_validate_social_profile_assets_a023937b_aed15edb
   ext_node_process_00cdf119["node:process"] --> node_evaluate_fieldcraft_scenes_d6258bc6_1eab3e75
   ext_node_process_00cdf119["node:process"] --> node_prepare_fieldcraft_blind_build_8ab85212_153447eb
+  ext_node_test_a8c66a4f["node:test"] --> node_test_built_output_validators_c44e3406_53438bab
   ext_node_test_a8c66a4f["node:test"] --> node_test_design_system_contract_2b5439cd_a676eb9e
   ext_node_test_a8c66a4f["node:test"] --> node_test_fieldcraft_contracts_82274efa_2a3f2205
   ext_node_test_a8c66a4f["node:test"] --> node_test_pr_readiness_fbe81eba_0ec78421
@@ -428,10 +485,13 @@ flowchart TD
   subgraph Channels["Event channels / queues"]
     validate_design_system_b8a5f37c{{"validate-design-system"}}
     design_system_contract_744a00f2["design-system-contract"]
+    surface_hairline_contract_da3ed6a5["surface-hairline-contract"]
     test_design_system_contract_2b5439cd["test-design-system-contract"]
   end
   validate_design_system_b8a5f37c -->|emit| design_system_contract_744a00f2
+  validate_design_system_b8a5f37c -->|emit| surface_hairline_contract_da3ed6a5
   test_design_system_contract_2b5439cd -->|consume| design_system_contract_744a00f2
+  test_design_system_contract_2b5439cd -->|consume| surface_hairline_contract_da3ed6a5
   classDef eventNode fill:#db2777,color:#fff
   class validate_design_system_b8a5f37c eventNode
 
@@ -519,13 +579,15 @@ flowchart TD
   Untrusted --> test_operator_workflow_contract_b4a152d7
   validate_operator_contract_f777ed78["validate-operator-contract"]
   Untrusted --> validate_operator_contract_f777ed78
+  public_profile_d85f919e["public-profile"]
+  Untrusted --> public_profile_d85f919e
   validate_pr_template_1fc39e13["validate-pr-template"]
   Untrusted --> validate_pr_template_1fc39e13
   test_operator_workflow_contract_b4a152d7 --> pr_template_contract_4fa69502
   validate_operator_contract_f777ed78 --> pr_template_contract_4fa69502
   validate_pr_template_1fc39e13 --> pr_template_contract_4fa69502
   classDef securityNode fill:#dc2626,color:#fff
-  class validate_coding_policy_29976175,validate_css_policy_1c5ec854,setup_git_hooks_70750d40,test_operator_workflow_contract_b4a152d7,validate_operator_contract_f777ed78,validate_pr_template_1fc39e13 securityNode
+  class validate_coding_policy_29976175,validate_css_policy_1c5ec854,setup_git_hooks_70750d40,test_operator_workflow_contract_b4a152d7,validate_operator_contract_f777ed78,public_profile_d85f919e,validate_pr_template_1fc39e13 securityNode
 
 ```
 
@@ -555,6 +617,8 @@ flowchart LR
   User --> jose_parity_cdp_bdcde21d
   smoke_pages_9a92b30d["smoke-pages"]
   User --> smoke_pages_9a92b30d
+  test_built_output_validators_c44e3406["test-built-output-validators"]
+  User --> test_built_output_validators_c44e3406
   test_css_simplification_05516724["test-css-simplification"]
   User --> test_css_simplification_05516724
   test_fieldcraft_blind_build_ec0e094c["test-fieldcraft-blind-build"]
@@ -583,6 +647,10 @@ flowchart LR
   User --> validate_pr_template_1fc39e13
   rss_xml_b85d02db["rss.xml"]
   User --> rss_xml_b85d02db
+  robots_txt_870b1fc1["robots.txt"]
+  User --> robots_txt_870b1fc1
+  sitemap_xml_ab094897["sitemap.xml"]
+  User --> sitemap_xml_ab094897
   check_public_api_docs_a9604f1b --> changed_files_4c0102f6
   jose_parity_cdp_bdcde21d --> jose_parity_measurements_afc7a199
   test_fieldcraft_blind_build_ec0e094c --> prepare_fieldcraft_blind_build_8ab85212
@@ -590,19 +658,17 @@ flowchart LR
   test_jose_parity_measurements_2477824f --> jose_parity_measurements_afc7a199
   test_operator_workflow_contract_b4a152d7 --> pr_template_contract_4fa69502
   validate_design_system_b8a5f37c --> design_system_contract_744a00f2
+  validate_design_system_b8a5f37c --> surface_hairline_contract_da3ed6a5
   validate_operator_contract_f777ed78 --> pr_template_contract_4fa69502
   validate_pr_template_1fc39e13 --> pr_template_contract_4fa69502
   rss_xml_b85d02db --> portfolio_0e6a8e0b
+  sitemap_xml_ab094897 --> portfolio_0e6a8e0b
   check_code_size_9c5efc3a --> changed_files_4c0102f6
-  evaluate_fieldcraft_scenes_d6258bc6 --> fieldcraft_contracts_8c3b3237
-  seal_fieldcraft_reference_8652aaa2 --> fieldcraft_contracts_8c3b3237
-  validate_fieldcraft_internal_region_contract_a1266d61 --> fieldcraft_contracts_8c3b3237
-  validate_fieldcraft_scene_contract_186745c2 --> fieldcraft_contracts_8c3b3237
   classDef userNode fill:#16a34a,color:#fff
   test_design_system_contract_2b5439cd["test-design-system-contract"]
   User --> test_design_system_contract_2b5439cd
   test_design_system_contract_2b5439cd --> design_system_contract_744a00f2
-  class capture_jose_reference_e7b66705,check_public_api_docs_a9604f1b,jose_parity_cdp_bdcde21d,smoke_pages_9a92b30d,test_css_simplification_05516724,test_fieldcraft_blind_build_ec0e094c,test_fieldcraft_contracts_82274efa,test_jose_parity_measurements_2477824f,test_operator_workflow_contract_b4a152d7,validate_coding_policy_29976175,validate_content_source_boundary_8a6f121b,validate_css_policy_1c5ec854,validate_design_system_b8a5f37c,validate_operator_contract_f777ed78,validate_page_surfaces_078ef6b6,validate_portfolio_content_6d36990e,validate_pr_template_1fc39e13,rss_xml_b85d02db,test_design_system_contract_2b5439cd userNode
+  class capture_jose_reference_e7b66705,check_public_api_docs_a9604f1b,jose_parity_cdp_bdcde21d,smoke_pages_9a92b30d,test_built_output_validators_c44e3406,test_css_simplification_05516724,test_fieldcraft_blind_build_ec0e094c,test_fieldcraft_contracts_82274efa,test_jose_parity_measurements_2477824f,test_operator_workflow_contract_b4a152d7,validate_coding_policy_29976175,validate_content_source_boundary_8a6f121b,validate_css_policy_1c5ec854,validate_design_system_b8a5f37c,validate_operator_contract_f777ed78,validate_page_surfaces_078ef6b6,validate_portfolio_content_6d36990e,validate_pr_template_1fc39e13,rss_xml_b85d02db,robots_txt_870b1fc1,sitemap_xml_ab094897,test_design_system_contract_2b5439cd userNode
 
 ```
 

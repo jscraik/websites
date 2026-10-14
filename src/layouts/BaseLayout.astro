@@ -9,14 +9,17 @@ interface Props {
   title: string;
   description?: string;
   bodyClass?: string;
+  noIndex?: boolean;
 }
 
 const {
   title,
-  description = "Jamie Scott Craik turns AI-assisted developer work into inspectable workflows through agent skills, Codex, evals, and evidence-backed tooling.",
-  bodyClass
+  description = "Jamie Scott Craik is moving into professional software development through source-backed products, developer tools, and AI-assisted delivery.",
+  bodyClass,
+  noIndex = false
 } = Astro.props;
 const canonicalUrl = Astro.url.href;
+const preventIndexing = noIndex || import.meta.env.DEV || import.meta.env.MODE === "preview";
 
 ---
 
@@ -24,18 +27,23 @@ const canonicalUrl = Astro.url.href;
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#fbfaf5" />
+    {preventIndexing && <meta name="robots" content="noindex, nofollow" />}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalUrl} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={new URL("/jamie-profile-640.webp", Astro.site ?? Astro.url.origin).href} />
+    <meta property="og:image:alt" content="Portrait of Jamie Scott Craik" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
-    <link rel="alternate" type="application/rss+xml" title="Jamie Scott Craik — AI workflow delivery" href="/blog/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Jamie Scott Craik — software development and AI-assisted work" href="/blog/rss.xml" />
     <link rel="preload" href="/brand/fonts/geist-variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/brand/fonts/geist-mono-variable.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/brand/fonts/newsreader-variable.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg" />
     <title>{title}</title>
@@ -49,63 +57,14 @@ const canonicalUrl = Astro.url.href;
     </main>
     <SiteFooter />
     <script>
-
-      const workCarousels = document.querySelectorAll("[data-work-carousel]");
-
-      workCarousels.forEach((workCarousel) => {
-        const section = workCarousel.closest(".work-carousel");
-        const workRow = section?.querySelector("[data-work-row]");
-
-        if (!(workRow instanceof HTMLElement) || !(workCarousel instanceof HTMLElement)) {
-          return;
-        }
-
-        const previousButton = workCarousel.querySelector("[data-work-prev]");
-        const nextButton = workCarousel.querySelector("[data-work-next]");
-        const progress = workCarousel.querySelector("[data-work-progress]");
-
-        const updateControls = () => {
-          const maxScroll = workRow.scrollWidth - workRow.clientWidth;
-          if (maxScroll <= 24) {
-            workCarousel.hidden = true;
-            return;
+      document.querySelectorAll(".proof-row").forEach((row) => {
+        row.addEventListener("focusin", (event) => {
+          if (event.target instanceof HTMLElement && event.target.matches(".proof-card")) {
+            event.target.scrollIntoView({ behavior: "instant", block: "nearest", inline: "center" });
           }
-
-          workCarousel.hidden = false;
-
-          const ratio = maxScroll > 0 ? workRow.scrollLeft / maxScroll : 0;
-          if (progress instanceof HTMLElement) {
-            progress.style.transform = `scaleX(${Math.max(0.18, Math.min(1, ratio || 0.18))})`;
-          }
-          if (previousButton instanceof HTMLButtonElement) {
-            previousButton.disabled = workRow.scrollLeft <= 4;
-          }
-          if (nextButton instanceof HTMLButtonElement) {
-            nextButton.disabled = workRow.scrollLeft >= maxScroll - 4;
-          }
-        };
-
-        const scrollCards = (direction: number) => {
-          workRow.scrollBy({
-            left: direction * Math.max(288, workRow.clientWidth * 0.72),
-            behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-              ? "auto"
-              : "smooth"
-          });
-        };
-
-        if (previousButton instanceof HTMLButtonElement) {
-          previousButton.addEventListener("click", () => scrollCards(-1));
-        }
-        if (nextButton instanceof HTMLButtonElement) {
-          nextButton.addEventListener("click", () => scrollCards(1));
-        }
-
-        workRow.addEventListener("scroll", updateControls, { passive: true });
-        window.addEventListener("resize", updateControls);
-        window.addEventListener("load", updateControls);
-        updateControls();
+        });
       });
+
     </script>
   </body>
 </html>

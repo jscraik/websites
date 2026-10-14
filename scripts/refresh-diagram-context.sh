@@ -67,7 +67,25 @@ if [[ "$FORCE" -ne 1 && -f "$META_FILE" ]]; then
 	fi
 fi
 
-if ! pnpm --dir "$ROOT_DIR" exec diagram --version >/dev/null 2>&1; then
+if ! command -v mise >/dev/null 2>&1; then
+	log "error: mise is required for the pinned diagram CLI"
+	exit 1
+fi
+
+MISE_WHERE_STDERR="$(mktemp "$DIAGRAM_CONTEXT_DIR/mise-where-XXXXXX")"
+trap 'rm -f "$MISE_WHERE_STDERR"' EXIT
+DIAGRAM_INSTALL_DIR="$(mise where 'npm:@brainwav/diagram@1.1.0' 2>"$MISE_WHERE_STDERR")" || {
+	log "error: pinned diagram CLI 1.1.0 is not installed"
+	while IFS= read -r diagnostic; do
+		log "mise where: $diagnostic"
+		printf 'mise where: %s\n' "$diagnostic" >&2
+	done < "$MISE_WHERE_STDERR"
+	exit 1
+}
+rm -f "$MISE_WHERE_STDERR"
+trap - EXIT
+DIAGRAM_CLI=("$DIAGRAM_INSTALL_DIR/bin/diagram")
+if ! (cd "$ROOT_DIR" && "${DIAGRAM_CLI[@]}" --version) >/dev/null 2>&1; then
 	log "error: diagram CLI is not available"
 	exit 1
 fi
@@ -89,7 +107,7 @@ pushd "$ROOT_DIR" >/dev/null
 if [[ "$QUIET" -eq 1 ]]; then
 	diagram_stderr="$TMP_DIR/diagram-generate.stderr"
 	set +e
-	pnpm exec diagram "${DIAGRAM_GENERATE_ARGS[@]}" >/dev/null 2>"$diagram_stderr"
+	"${DIAGRAM_CLI[@]}" "${DIAGRAM_GENERATE_ARGS[@]}" >/dev/null 2>"$diagram_stderr"
 	status=$?
 	set -e
 	if [[ "$status" -ne 0 ]]; then
@@ -102,11 +120,7 @@ if [[ "$QUIET" -eq 1 ]]; then
 		exit "$status"
 	fi
 else
-	if ! pnpm exec diagram --version >/dev/null 2>&1; then
-		log "error: diagram CLI is not available"
-		exit 1
-	fi
-	pnpm exec diagram "${DIAGRAM_GENERATE_ARGS[@]}"
+	"${DIAGRAM_CLI[@]}" "${DIAGRAM_GENERATE_ARGS[@]}"
 fi
 popd >/dev/null
 

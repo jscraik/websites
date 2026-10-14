@@ -3,9 +3,9 @@ title: "brAInwav"
 shortTitle: "Proof Log"
 subtitle: "A personal site for proof-led AI work"
 date: "Current"
-order: 3
+order: 4
 publicationState: "published"
-isFeatured: true
+isFeatured: false
 overview: "The site turns private learning and local build evidence into a public reader journey without exposing private machinery."
 organization: "The site exists to make Jamie's AI workflow delivery and developer-experience work legible to employers, developers, reviewers, and community contacts."
 work: "I am building the Astro site, matching a high-taste editorial reference, and keeping proof boundaries visible while the work matures."

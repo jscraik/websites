@@ -32,36 +32,7 @@ const { quotes } = Astro.props as { quotes: Pullquote[] };
 </aside>
 
 <script>
-  const copyButtons = document.querySelectorAll<HTMLButtonElement>("[data-copy-pullquote]");
-  const copyStatus = document.querySelector<HTMLElement>("[data-copy-status]");
+  import { initPullquoteStacks } from "../scripts/pullquote-stack";
 
-  copyButtons.forEach((button) => {
-    let resetTimer: number | undefined;
-    const label = button.dataset.copyLabel ?? "pullquote and article link";
-    const labelText = button.querySelector("span");
-
-    const setFeedback = (text: string, status: string) => {
-      if (labelText) labelText.textContent = text;
-      if (copyStatus) copyStatus.textContent = status;
-
-      window.clearTimeout(resetTimer);
-      resetTimer = window.setTimeout(() => {
-        if (labelText) labelText.textContent = "Copy";
-        if (copyStatus) copyStatus.textContent = "";
-      }, 2400);
-    };
-
-    button.addEventListener("click", async () => {
-      const quote = button.closest(".pullquote-wrap")?.querySelector("[data-pullquote]")?.textContent?.trim();
-      if (!quote) return;
-
-      try {
-        if (!navigator.clipboard?.writeText) throw new Error("Clipboard unavailable");
-        await navigator.clipboard.writeText(`${quote}\n\n${window.location.href}`);
-        setFeedback("Copied", `Copied ${label}.`);
-      } catch {
-        setFeedback("Copy unavailable", "Copy unavailable. Select the pullquote and article URL manually.");
-      }
-    });
-  });
+  initPullquoteStacks();
 </script>

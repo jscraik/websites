@@ -16,6 +16,12 @@ tags:
   - "AI skills"
   - "Developer experience"
 tone: "blue"
+capture:
+  src: "/products/skillsbar/native-demo-fixture.png"
+  alt: "Historical native demo fixture showing a missing candidate identity and held downstream evidence gates."
+  width: 404
+  height: 560
+  caption: "Historical SkillsBar native demo fixture, version 0.2.0. The image retains its earlier SKILLS SDK heading. Candidate identity is missing; the Tessl score is a historical registry baseline, not proof for this candidate. The linked interactive web demo uses a separate fixture."
 featured:
   eyebrow: "From the interactive demo"
   quote: "A changed candidate should not inherit proof that no longer belongs to it."

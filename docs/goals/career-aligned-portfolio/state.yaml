@@ -1,0 +1,26 @@
+schema_version: 1
+goal_id: career-aligned-portfolio
+status: in_progress
+release_mode: Portfolio
+branch: codex/career-aligned-portfolio
+starting_revision: ad329f6b5202de84f748e4d2edf5efd9ebce0413
+current_task:
+  id: closeout-and-browser-proof
+  status: in_progress
+  owner: codex
+  next_action: Keep the private CV review candidate out of public output and site links; Jamie decided on September 23 not to attach a CV to this portfolio release. Continue the independent physical-device, deployed Cloudflare-header, and evidence-backed route-aware CSS/script lanes. Screen-reader execution remains explicitly deferred after the macOS VoiceOver/browser route destabilized the host; do not repeat it. The compression-capable audit clears local portrait, compression, latency, and bfcache findings, but the recommended preset retains six zero-savings dependency-tree and six shared unused-CSS assertions. Do not revisit the rejected appended About CSS split or blanket inline mode without a candidate that removes the measured causes and preserves the accepted cascade.
+scope:
+  - src
+  - public
+  - tests
+  - scripts
+  - docs/goals/career-aligned-portfolio
+blocked_items:
+  - C04
+  - C06
+  - D01
+  - D02
+  - D03
+  - D05
+  - D06
+updated_at: "2026-09-23"

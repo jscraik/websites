@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -8,6 +8,10 @@ import { fileURLToPath } from "node:url";
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const changedPathsRoot = mkdtempSync(path.join(os.tmpdir(), "portfolio-diagram-gate-"));
 const changedPaths = path.join(changedPathsRoot, "paths.txt");
+const packageManagerArtifacts = ["pnpm-lock.yaml", "pnpm-workspace.yaml"];
+const packageManagerArtifactsBefore = packageManagerArtifacts.map((entry) =>
+  existsSync(path.join(repoRoot, entry)),
+);
 const refreshTimeoutSeconds = Number.parseInt(process.env.DIAGRAM_REFRESH_TIMEOUT_SECONDS ?? "90", 10);
 assert.ok(Number.isSafeInteger(refreshTimeoutSeconds) && refreshTimeoutSeconds > 0, "DIAGRAM_REFRESH_TIMEOUT_SECONDS must be a positive integer");
 const refreshOptions = {
@@ -74,6 +78,19 @@ try {
     snapshotGeneratedArtifact(artifactPath);
   }
 
+  const fakeMiseDir = path.join(changedPathsRoot, "bin");
+  const fakeMise = path.join(fakeMiseDir, "mise");
+  mkdirSync(fakeMiseDir);
+  writeFileSync(fakeMise, "#!/bin/sh\necho 'fixture: pinned diagram tool unavailable' >&2\nexit 1\n");
+  chmodSync(fakeMise, 0o755);
+  const missingTool = spawnSync("bash", ["scripts/refresh-diagram-context.sh", "--force"], {
+    ...refreshOptions,
+    env: { ...process.env, PATH: `${fakeMiseDir}:${process.env.PATH}` },
+  });
+  assert.equal(missingTool.status, 1);
+  assert.match(missingTool.stderr, /fixture: pinned diagram tool unavailable/);
+  assert.match(readFileSync(path.join(repoRoot, ".diagram/context/refresh.log"), "utf8"), /fixture: pinned diagram tool unavailable/);
+
   const firstSecurityRefresh = spawnSync("bash", ["scripts/refresh-diagram-context.sh", "--force"], refreshOptions);
   assert.notEqual(firstSecurityRefresh.error?.code, "ETIMEDOUT", firstSecurityRefresh.error?.message);
   assert.equal(firstSecurityRefresh.status, 0, firstSecurityRefresh.error?.message ?? firstSecurityRefresh.stderr);
@@ -82,6 +99,11 @@ try {
   assert.notEqual(secondSecurityRefresh.error?.code, "ETIMEDOUT", secondSecurityRefresh.error?.message);
   assert.equal(secondSecurityRefresh.status, 0, secondSecurityRefresh.error?.message ?? secondSecurityRefresh.stderr);
   assert.equal(readFileSync(path.join(repoRoot, ".diagram/security.mmd"), "utf8"), securityAfterFirstRefresh);
+  assert.deepEqual(
+    packageManagerArtifacts.map((entry) => existsSync(path.join(repoRoot, entry))),
+    packageManagerArtifactsBefore,
+    "diagram refresh must not create package-manager lock or workspace files",
+  );
 
   console.log("PASS diagram freshness consumes a changed-path list and validates manifest metadata");
 } finally {

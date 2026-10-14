@@ -40,6 +40,7 @@ const newTask = read("scripts/new-task.sh");
 const gitignore = read(".gitignore");
 const codestyleValidator = read("scripts/validate-codestyle.sh");
 const preCommitHook = read("scripts/hook-pre-commit.sh");
+const relatedTests = read("scripts/check-related-tests.sh");
 const prePushHook = read("scripts/hook-pre-push.sh");
 const circleciConfig = read(".circleci/config.yml");
 const renderFlow = read("scripts/validate-render-flow.mjs");
@@ -328,6 +329,8 @@ check("pre-commit validation uses portfolio package contracts", () => {
   assert.doesNotMatch(preCommitHook, /npm run lint/);
   assert.doesNotMatch(preCommitHook, /npm run quality:debt/);
   assert.match(preCommitHook, /make related-tests-staged/);
+  assert.match(relatedTests, /npm exec -- vitest run/);
+  assert.doesNotMatch(relatedTests, /pnpm exec vitest run/);
 });
 
 check("pre-push validation uses the npm and Astro contract", () => {

@@ -35,9 +35,9 @@ export async function GET({ site }: APIContext) {
   const body = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<rss version="2.0"><channel>',
-    "<title>Jamie Scott Craik — AI workflow delivery</title>",
+    "<title>Jamie Scott Craik — software development and AI-assisted work</title>",
     `<link>${xmlEscape(new URL("/blog/", canonicalSite).href)}</link>`,
-    "<description>Evidence-backed notes on AI workflow delivery, developer experience, agent skills, and trustworthy adoption.</description>",
+    "<description>Notes on software projects, developer tools, AI-assisted delivery, and a career switch into technology.</description>",
     items,
     "</channel></rss>"
   ].join("");
