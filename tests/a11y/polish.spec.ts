@@ -29,6 +29,18 @@ async function editorialPalette(page: Page) {
 }
 
 test.describe("UI polish contracts", () => {
+  test("featured article artwork follows the selected content identity", async ({ page }) => {
+    await preparePage(page, "/blog/");
+    const feature = page.locator(".latest-article");
+    await expect(feature).toHaveAttribute("data-article", /.+/);
+    const artwork = () => feature.evaluate((element) => getComputedStyle(element, "::before").backgroundImage);
+    await feature.evaluate((element) => element.setAttribute("data-article", "when-evidence-goes-stale"));
+    await expect.poll(artwork).toContain("/editorial/evidence-outline.svg");
+    await feature.evaluate((element) => element.setAttribute("data-article", "why-ai-native-devrel"));
+    await expect.poll(artwork).toContain("/editorial/devrel-outline.svg");
+    await feature.evaluate((element) => element.setAttribute("data-article", "new-article"));
+    await expect.poll(artwork).toContain("/editorial/evidence-outline.svg");
+  });
   test("Proof endpoint focus outlines fit inside their scroll region", async ({ page }) => {
     for (const width of [320, 393, 768, 1440]) {
       await page.setViewportSize({ width, height: 1000 });

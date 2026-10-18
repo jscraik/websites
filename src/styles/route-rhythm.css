@@ -375,7 +375,8 @@ html.editorial-theme[data-page^="/articles/"] .article-layout__mast::after {
   border-radius: 12px;
   background: url('/editorial/evidence-outline.svg') center / cover;
 }
-html.editorial-theme[data-page="/articles/why-ai-native-devrel/"] .article-layout__mast::after {
+html.editorial-theme[data-page="/articles/why-ai-native-devrel/"] .article-layout__mast::after,
+html.editorial-theme #main-content .latest-article[data-article="why-ai-native-devrel"]::before {
   background-image: url('/editorial/devrel-outline.svg');
 }
 html.editorial-theme[data-page^="/articles/"] .article-layout__mast::after { grid-column: 1 / -1; }

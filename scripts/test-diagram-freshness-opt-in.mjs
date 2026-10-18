@@ -16,4 +16,5 @@ for (const entry of manifest.diagrams) {
 assert.doesNotMatch(read("scripts/hook-pre-push.sh"), /check-diagram-freshness|refresh-diagram-context/);
 assert.doesNotMatch(read(".mise.toml"), /npm:@brainwav\/diagram/);
 assert.doesNotMatch(read("scripts/check-environment.sh"), /"diagram"|npm:@brainwav\/diagram/);
+assert.doesNotMatch(read(".circleci/config.yml"), /npm:@brainwav\/diagram/);
 console.log("PASS historical diagram integrity; no mandatory generator dependency");

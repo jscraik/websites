@@ -36,7 +36,7 @@ const otherArticles = articles.filter((article) => article.id !== latestArticle.
       </div>
     </div>
 
-    <section class="latest-article" aria-labelledby="latest-article-title">
+    <section class="latest-article" data-article={latestArticle.id} aria-labelledby="latest-article-title">
       <article>
         <div>
           <p class="eyebrow">Latest article · {latestArticle.data.category}</p>

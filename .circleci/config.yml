@@ -382,7 +382,7 @@ workflows:
             export MISE_PYTHON_PRECOMPILED_ARCH=x86_64
             retry_cmd 3 install_mise_without_github_tokens \
               node pnpm python uv cargo:prek \
-              npm:@brainwav/diagram npm:@argos-ci/cli cosign cloudflared npm:vitest \
+              npm:@argos-ci/cli cosign cloudflared npm:vitest \
               ruff npm:eslint npm:agent-browser npm:agentation npm:agentation-mcp \
               npm:ctx7 npm:@mermaid-js/mermaid-cli npm:@brainwav/rsearch npm:@brainwav/wsearch-cli \
               npm:markdownlint-cli2 npm:semver npm:wrangler \
