@@ -19,6 +19,7 @@ export async function getStaticPaths() {
 }
 
 const { study } = Astro.props as { study: Study };
+const isSkillsSdk = study.slug === "skills-sdk";
 const workEntries: WorkEntry[] = (await getCollection("work")).sort(byOrder);
 const proofEntries: ProofEntry[] = (await getCollection("proof")).sort(byOrder);
 const workCards = proofWorkCards(workEntries, proofEntries);
@@ -26,7 +27,7 @@ const workCount = String(workCards.length).padStart(2, "0");
 ---
 
 <BaseLayout title={`${study.title} | brAInwav case study`} description={study.subtitle}>
-  <article class="case-study" aria-labelledby="case-title">
+  <article class="case-study" data-case={study.slug} aria-labelledby="case-title">
     <header class="case-work-header section-shell">
       <div class="case-meta">
         <span class="icon-box case-meta__icon" aria-hidden="true">
@@ -41,6 +42,13 @@ const workCount = String(workCards.length).padStart(2, "0");
       </div>
       <h1 id="case-title">{study.title}</h1>
       <p>{study.subtitle}</p>
+      {isSkillsSdk && study.caseStudy && (
+        <nav class="sdk-project-links" aria-label="Skills SDK project links">
+          {study.caseStudy.links.map((link: CaseStudyLink) => (
+            <a href={link.href} rel="noopener noreferrer">{link.primary ? "View source" : link.label}<span aria-hidden="true"> ↗</span></a>
+          ))}
+        </nav>
+      )}
     </header>
 
     {study.capture ? (
@@ -65,7 +73,7 @@ const workCount = String(workCards.length).padStart(2, "0");
       <h2 id="case-overview-title">Project overview</h2>
       <div class="case-detail-grid" aria-label="Case study detail">
         <div class="case-copy">
-          <h3>About the organization</h3>
+          <h3>{isSkillsSdk ? "About the project" : "About the organization"}</h3>
           <p>{study.organization}</p>
           <h3>What I did</h3>
           <p>{study.work}</p>
@@ -85,6 +93,27 @@ const workCount = String(workCards.length).padStart(2, "0");
         </aside>
       </div>
     </section>
+
+    {isSkillsSdk && (
+      <section class="sdk-command section-shell" aria-labelledby="sdk-command-title">
+        <div class="sdk-command__intro">
+          <p class="eyebrow">The SDK in practice</p>
+          <h2 id="sdk-command-title">A package in. An inspectable result out.</h2>
+          <p>Validate a local skill package, or build a receipt tied to its source revision and content. Both commands are read-only.</p>
+        </div>
+        <div class="sdk-command__example">
+          <p class="input-label">Documented command · SDK 0.1.0 contract</p>
+          <pre><code>{"mise exec -- uv run --frozen skills-sdk validate ./skills/example \\\n  --source-revision <40-lowercase-hex> --json --robot"}</code></pre>
+          <dl>
+            <div><dt>Validation passes</dt><dd>Exit <code>0</code> · <code>skill-package-validation/v1</code></dd></div>
+            <div><dt>A service returns a blocker</dt><dd>Exit <code>2</code> · a structured blocked result</dd></div>
+            <div><dt>Build succeeds</dt><dd>A candidate-bound <code>package-receipt/v2</code>, without writing into the package</dd></div>
+          </dl>
+          <p class="sdk-command__note">Contract reference, not a captured execution. Replace the revision placeholder with the package’s 40-character source revision. Malformed invocations exit before a versioned result exists.</p>
+          <a href="https://github.com/jscraik/skills-sdk/blob/d7eb05289d321c03ddd47b49c6b292b56e510463/docs/cli.md" rel="noopener noreferrer">Read the pinned command contract ↗</a>
+        </div>
+      </section>
+    )}
 
     <section class="case-proof-summary section-shell" aria-labelledby="case-proof-title">
       <p class="eyebrow">Inspectable boundary</p>
@@ -175,11 +204,15 @@ const workCount = String(workCards.length).padStart(2, "0");
         <section class="case-evidence section-shell" aria-labelledby="case-evidence-title">
           <div>
             <p class="eyebrow">Inspect the evidence</p>
-            <h2 id="case-evidence-title">Follow the artifact, tests, and stated limits.</h2>
+            <h2 id="case-evidence-title">{isSkillsSdk ? "Inspect the source and contract" : "Follow the artifact, tests, and stated limits."}</h2>
           </div>
           <div class="case-evidence__links">
             {study.caseStudy.links.map((link: CaseStudyLink) => (
-              link.primary ? (
+              isSkillsSdk ? (
+                <a class:list={["sdk-evidence-link", { "sdk-evidence-link--primary": link.primary }]} href={link.href} rel="noopener noreferrer">
+                  {link.primary ? "View source" : "Command contract"}<span aria-hidden="true"> ↗</span>
+                </a>
+              ) : link.primary ? (
                 <AnimatedButton
                   class="small-button--light"
                   href={link.href}

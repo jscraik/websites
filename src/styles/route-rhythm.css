@@ -561,3 +561,168 @@ html.editorial-theme body:not(.skillsbar-demo) .nav-link:focus-visible {
   border-radius: 6px;
   outline-offset: 2px;
 }
+
+/* Skills SDK reads as a case study, with a single narrative and a concrete contract example. */
+html.editorial-theme #main-content [data-case="skills-sdk"] .sdk-project-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px 28px;
+  margin-block-start: 24px;
+}
+html.editorial-theme #main-content [data-case="skills-sdk"] :is(.sdk-project-links a,.sdk-command a) {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 44px;
+  color: var(--editorial-blue);
+  font-family: var(--body-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  text-underline-offset: 5px;
+}
+html.editorial-theme #main-content [data-case="skills-sdk"] :is(.sdk-command,.case-proof-summary,.case-story,.case-role-boundary,.case-evidence) {
+  width: min(calc(100% - 48px), 1080px);
+  margin-inline: auto;
+  padding-block: clamp(32px, 5vw, 64px);
+}
+html.editorial-theme #main-content [data-case="skills-sdk"] :is(.sdk-command h2,.case-proof-summary h2) {
+  max-width: 24ch;
+  margin-block: 12px 24px;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 300;
+  line-height: 1.12;
+  text-wrap: balance;
+}
+html.editorial-theme #main-content [data-case="skills-sdk"] :is(.sdk-command p,.sdk-command dd,.case-proof-summary dd,.case-story p,.case-story li,.case-role-boundary dd) {
+  font-family: var(--body-sans);
+  font-size: 18px;
+  line-height: 1.6;
+  max-width: 65ch;
+}
+html.editorial-theme #main-content [data-case="skills-sdk"] .sdk-command__example {
+  margin-block-start: 28px;
+  padding: clamp(20px, 3vw, 32px);
+  background: var(--editorial-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+}
+html.editorial-theme #main-content [data-case="skills-sdk"] .sdk-command pre {
+  margin-block: 16px 24px;
+  max-width: 100%;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--editorial-title);
+  font-size: 15px;
+  line-height: 1.7;
+}
+html.editorial-theme #main-content [data-case="skills-sdk"] .sdk-command code {
+  font-family: var(--body-mono);
+  font-size: .85em;
+  overflow-wrap: anywhere;
+}
+html.editorial-theme #main-content [data-case="skills-sdk"] .sdk-command pre code { font-size: inherit; }
+html.editorial-theme #main-content [data-case="skills-sdk"] .sdk-command dl {
+  display: grid;
+  gap: 16px;
+  margin-block: 0 24px;
+}
+html.editorial-theme #main-content [data-case="skills-sdk"] .sdk-command dt {
+  font-family: var(--body-sans);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--editorial-title);
+}
+html.editorial-theme #main-content [data-case="skills-sdk"] .sdk-command dd { margin: 4px 0 0; }
+html.editorial-theme #main-content [data-case="skills-sdk"] .sdk-command .sdk-command__note {
+  margin-block-end: 16px;
+  color: var(--editorial-muted);
+  font-size: 14px;
+}
+html.editorial-theme #main-content [data-case="skills-sdk"] :is(.case-proof-summary,.case-role-boundary) { background: transparent; }
+html.editorial-theme #main-content [data-case="skills-sdk"] .case-proof-summary dl div {
+  min-height: 0;
+  padding: 24px;
+}
+html.editorial-theme #main-content [data-case="skills-sdk"] .case-story {
+  display: block;
+  max-width: 860px;
+}
+html.editorial-theme #main-content [data-case="skills-sdk"] .case-story__heading { margin-block-end: 12px; }
+html.editorial-theme #main-content [data-case="skills-sdk"] .case-story__body {
+  display: block;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+html.editorial-theme #main-content [data-case="skills-sdk"] .case-story__body article {
+  min-height: 0;
+  padding: 28px 0;
+  border-block-end: 1px solid var(--border-subtle);
+  background: transparent;
+}
+html.editorial-theme #main-content [data-case="skills-sdk"] :is(.case-story .input-label,.case-story .eyebrow,.sdk-command .eyebrow,.sdk-command .input-label) {
+  font-family: var(--body-mono);
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: .06em;
+}
+html.editorial-theme #main-content [data-case="skills-sdk"] .case-story h3 { max-width: 48ch; }
+html.editorial-theme #main-content [data-case="skills-sdk"] .case-role-boundary {
+  border-block: 1px solid var(--border-subtle);
+  border-radius: 0;
+}
+html.editorial-theme #main-content [data-case="skills-sdk"] .case-role-boundary h2 { max-width: 15ch; }
+html.editorial-theme #main-content [data-case="skills-sdk"] .case-all-work {
+  padding-block-start: 32px;
+  margin-block-start: 0;
+}
+html.editorial-theme #main-content [data-case="skills-sdk"] .case-evidence {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 24px;
+  padding-block: 40px;
+  background: transparent;
+  border: 0;
+}
+html.editorial-theme #main-content [data-case="skills-sdk"] .case-evidence h2 {
+  max-width: 24ch;
+  margin: 0;
+  font-size: clamp(28px, 3vw, 36px);
+  line-height: 1.15;
+}
+html.editorial-theme #main-content [data-case="skills-sdk"] .case-evidence__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 24px;
+}
+html.editorial-theme #main-content [data-case="skills-sdk"] .case-evidence .sdk-evidence-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 44px;
+  width: auto;
+  padding: 10px 0;
+  border: 0;
+  font-family: var(--body-sans);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--editorial-blue);
+  text-underline-offset: 5px;
+}
+html.editorial-theme #main-content [data-case="skills-sdk"] .case-evidence .sdk-evidence-link--primary {
+  padding: 10px 20px;
+  background: var(--editorial-blue);
+  color: var(--editorial-canvas);
+  border-radius: 999px;
+  text-decoration: none;
+}
+@media (max-width: 60rem) {
+  html.editorial-theme #main-content [data-case="skills-sdk"] .case-evidence { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 30rem) {
+  html.editorial-theme #main-content [data-case="skills-sdk"] .case-evidence__links { align-items: flex-start; flex-direction: column; gap: 8px; }
+}
