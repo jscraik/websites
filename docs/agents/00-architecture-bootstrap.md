@@ -10,39 +10,26 @@ This repository is an Astro portfolio site. Canonical implementation lives in `s
 2. Preserve unrelated dirty work and generated runtime output. The primary checkout is not a cleanup target.
 3. Treat `harness.contract.json`, `WORKFLOW.md`, hook scripts, and `scripts/new-task.sh` as one operator boundary; update their tests and documentation together when the contract changes.
 
-## Diagram Freshness Boundary
+## Historical Diagram Boundary
 
-`scripts/check-diagram-freshness.sh` applies only after the repository deliberately tracks `.diagram/manifest.json`. Until then, generated Mermaid files under `.diagram/` are local runtime output, and the freshness gate exits without generating or requiring them. The shared `AI/context/diagram-context.md` is not a substitute for that tracked manifest opt-in.
-
-When the project adopts checked-in diagram projections, add the manifest and the resulting artifacts intentionally, then validate the exact changed-file path through `bash scripts/check-diagram-freshness.sh --changed-files <file>`.
+Jamie retired the diagram dependency and mandatory refresh gate on 18 October
+2026. `.diagram/` and `AI/context/diagram-context.md` remain historical reference
+captures, not current-source or release evidence. Source changes do not require
+installing or running the generator. Legacy manual scripts remain available for
+an explicitly requested capture; they are not part of pre-push validation.
 
 ## Validation Boundary
 
 Use the narrowest deterministic test first. For operator-contract changes, run the relevant `test:*` script, `npm run validate:operator-contract`, and the hook path that the change affects. Local results establish only local behavior; hosted checks, reviews, and merge readiness remain separate lanes.
 
-The checked-in `.diagram/manifest.json` and Mermaid projections are intentional
-architecture evidence. From the repository root, refresh them with
-`bash scripts/refresh-diagram-context.sh --force`, then write the changed-path
-list to a temporary file and run
-`bash scripts/check-diagram-freshness.sh --changed-files <path-list-file>`.
-The refresh script resolves the already-installed, pinned `diagram` CLI through
-`mise where` and runs its binary directly, supporting both the global `bin/`
-and local `node_modules/.bin/` installation layouts. It does not activate or install the
-rest of the mise toolchain, and cannot create a package-manager lock or workspace
-file. From the repository root, install only the pinned CLI with
-`mise install 'npm:@brainwav/diagram@1.1.0'`; verify that
-`mise where 'npm:@brainwav/diagram@1.1.0'` prints its installed directory
-before using the refresh path.
-The expected result is `Diagram freshness check passed`. A cooldown skip is
-not a refresh proof; rerun with `--force`. Any generation or freshness failure
-belongs to the portfolio maintainer and blocks the architecture-sensitive
-change until the projections and `AI/context/diagram-context.md` are aligned.
-Generated runtime receipts remain evidence rather than canonical source.
+The retained manifest's byte and line metadata can be checked without the
+removed tool via `npm run test:diagram-freshness-opt-in`. That legacy-named
+command checks historical artifact integrity and guards against restoring the
+retired mandatory gate. It does not claim source-graph freshness.
 
-Dependency and lockfile changes are architecture-sensitive. Refresh the
-tracked diagram context, run the repository source-validation contract, and
-report production and development-tool audits separately; an upstream-only
-development advisory must not be represented as a production vulnerability.
+For dependency and lockfile changes, update affected architecture documentation,
+run source validation and report production and development-tool audits separately.
+Generated runtime receipts remain evidence rather than canonical source.
 
 CircleCI owns the repository's pull-request validation workflows, while the
 `pages-production` workflow is the only production publication path. It runs
@@ -63,10 +50,9 @@ fixture CSS, while `npm run validate:fast` keeps that focused regression test
 adjacent to the full source-policy lane.
 
 The tracked environment projection and code-quality debt validator are part of
-the operator workflow architecture. When either changes, refresh the diagram
-context after `npm run test:code-quality-debt`, `npm run quality:debt`, and an
-inspected baseline update. The focused contract test remains the regression
-boundary for the debt validator and its environment projection.
+the operator workflow architecture. When either changes, run
+`npm run test:code-quality-debt` and `npm run quality:debt`, and inspect any
+baseline update. The focused contract test remains their regression boundary.
 
 The Jose parity workflow treats `docs/reference/jose-ocando/` as its frozen
 structural authority. `scripts/jose-parity-cdp.mjs` owns browser capture and
@@ -119,7 +105,15 @@ entry identity with a fallback for new entries, independently of link overrides.
 `BaseLayout.astro` normalises the route key consumed by editorial CSS so both
 slashless and trailing-slash article requests select the same artwork.
 
+Accessibility and visual suites share `tests/helpers/test.ts`. Without
+`CHROME_CDP_URL` they retain Playwright's normal browser fixture; the approved
+managed-browser recovery path connects to the runtime owner's disposable Chrome
+profile with `noDefaults: true`, then uses isolated contexts for each test.
+CDP runs use one worker so keyboard-focus checks do not compete for the browser.
+The render-flow validator uses the same CDP connection option. Never supply an
+authenticated browser profile. Visual baselines must be regenerated and checked
+again after intentional theme changes; source validation alone cannot prove them.
+
 Route-specific editorial rhythm belongs in `src/styles/route-rhythm.css` rather
-than the shared shell. Keep its selectors limited to the route that owns the
-spacing, and refresh the checked-in diagram projections when that stylesheet
-changes.
+than the shared shell. Keep its selectors limited to the owning route and run
+rendered validation when that stylesheet changes.

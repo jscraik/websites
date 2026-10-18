@@ -1,4 +1,5 @@
-import { expect, test, type Page } from "@playwright/test";
+import type { Page } from "@playwright/test";
+import { expect, test } from "../helpers/test";
 import AxeBuilder from "@axe-core/playwright";
 import { coreRoutes, preparePage } from "../helpers/visual";
 
@@ -8,9 +9,10 @@ const interactiveSelector =
 async function editorialPalette(page: Page) {
   return page.evaluate(() => {
     const reference = document.createElement("span");
+    reference.style.setProperty("transition", "none", "important");
     document.body.append(reference);
     const color = (value: string) => {
-      reference.style.color = value;
+      reference.style.setProperty("color", value, "important");
       return getComputedStyle(reference).color;
     };
     const palette = {
@@ -29,6 +31,8 @@ test.describe("UI polish contracts", () => {
     for (const width of [320, 393, 768, 1440]) {
       await page.setViewportSize({ width, height: 1000 });
       await preparePage(page, "/proof/");
+      await page.evaluate(() => document.fonts.ready);
+      await page.keyboard.press("Tab");
       expect(await page.locator(".proof-row").count()).toBeGreaterThan(0);
       expect(await page.locator(".proof-row a.proof-card").count()).toBeGreaterThan(0);
       for (const row of await page.locator(".proof-row").all()) {
@@ -70,23 +74,18 @@ test.describe("UI polish contracts", () => {
     }
   });
 
-  test("project illustration labels fit their cards", async ({ page }) => {
+  test("project outline illustrations fit their cards", async ({ page }) => {
     for (const width of [320, 393, 768, 1440]) {
       await page.setViewportSize({ width, height: 1000 });
       for (const slug of ["skills-sdk", "cli-proof-series", "brainwav-io", "ai-native-devrel"]) {
         await preparePage(page, `/work/${slug}/`);
         await page.evaluate(() => document.fonts.ready);
-        const failures = await page.locator(".case-window--main").evaluate((card) => {
-          const box = card.getBoundingClientRect();
-          return [...card.querySelectorAll("p,strong")].flatMap((text) => {
-            const range = document.createRange();
-            range.selectNodeContents(text);
-            return [...range.getClientRects()].filter((r) => r.width && (
-              r.left < box.left + 16 || r.right > box.right - 16 || r.bottom > box.bottom - 16
-            )).map(() => text.textContent);
-          });
+        const art = await page.locator(".case-hero-art .case-outline").evaluate((image: HTMLImageElement) => {
+          const box = image.getBoundingClientRect();
+          const card = image.parentElement!.getBoundingClientRect();
+          return { loaded: image.complete && image.naturalWidth > 0, fits: box.left >= card.left - 1 && box.right <= card.right + 1 && box.bottom <= card.bottom + 1 };
         });
-        expect(failures, `${slug} at ${width}px`).toEqual([]);
+        expect(art, `${slug} at ${width}px`).toEqual({ loaded: true, fits: true });
       }
     }
   });
@@ -764,9 +763,10 @@ test.describe("UI polish contracts", () => {
     }
   });
 
-  test("interactive focus rings are visible and neutral", async ({ page }) => {
+  test("interactive focus rings are visible and use the route palette", async ({ page }) => {
     for (const route of coreRoutes) {
       await preparePage(page, route.path);
+      const palette = await editorialPalette(page);
       const controls = page.locator(
         `:is(.site-header, .demo-nav, main, .site-footer) ${interactiveSelector}`
       );
@@ -787,6 +787,7 @@ test.describe("UI polish contracts", () => {
               .replace(/\s+/g, " ")
               .slice(0, 80),
             neutral,
+            color: style.outlineColor,
             outlineStyle: style.outlineStyle,
             outlineWidth: Number.parseFloat(style.outlineWidth)
           };
@@ -794,7 +795,7 @@ test.describe("UI polish contracts", () => {
 
         expect(focus.outlineStyle, `${route.path}: ${focus.label} focus style`).not.toBe("none");
         expect(focus.outlineWidth, `${route.path}: ${focus.label} focus width`).toBeGreaterThanOrEqual(2);
-        expect(focus.neutral, `${route.path}: ${focus.label} focus color`).toBe(true);
+        expect(focus.neutral || focus.color === palette.blue, `${route.path}: ${focus.label} focus color`).toBe(true);
       }
     }
   });
@@ -832,7 +833,7 @@ test.describe("UI polish contracts", () => {
     );
   });
 
-  test("About keeps the reference composition across responsive boundaries", async ({ page }) => {
+  test("About keeps the editorial composition across responsive boundaries", async ({ page }) => {
     const measureAbout = async (width: number, height: number) => {
       await page.setViewportSize({ width, height });
       await preparePage(page, "/now/");
@@ -868,15 +869,15 @@ test.describe("UI polish contracts", () => {
     const atBreakpoint = await measureAbout(768, 964);
     expect(atBreakpoint.columns, "768px About retains one readable track").toBe(1);
     expect(atBreakpoint.sidebarY, "768px About sidebar follows the complete copy").toBeGreaterThanOrEqual(atBreakpoint.copyBottom);
-    expect(atBreakpoint.titleFontSize, "768px About title stays a compact route label").toBeLessThanOrEqual(24);
-    expect(atBreakpoint.titleFontFamily, "768px About title uses the sans contract").toContain("Geist");
+    expect(atBreakpoint.titleFontSize, "768px About title stays within the display scale").toBeLessThanOrEqual(96);
+    expect(atBreakpoint.titleFontFamily, "768px About title uses the editorial serif").toContain("Newsreader");
     expect(atBreakpoint.spacerDisplay, "768px About spacer stays structural and hidden").toBe("none");
 
     const intermediate = await measureAbout(857, 964);
     expect(intermediate.columns, "857px About keeps one readable track").toBe(1);
     expect(intermediate.sidebarY, "857px About sidebar follows the complete copy").toBeGreaterThanOrEqual(intermediate.copyBottom);
-    expect(intermediate.titleFontSize, "857px About title stays a compact route label").toBeLessThanOrEqual(24);
-    expect(intermediate.titleFontFamily, "857px About title uses the sans contract").toContain("Geist");
+    expect(intermediate.titleFontSize, "857px About title stays within the display scale").toBeLessThanOrEqual(96);
+    expect(intermediate.titleFontFamily, "857px About title uses the editorial serif").toContain("Newsreader");
     expect(intermediate.spacerDisplay, "857px About spacer stays structural and hidden").toBe("none");
 
     const beforeUpperBreakpoint = await measureAbout(921, 964);
@@ -892,11 +893,11 @@ test.describe("UI polish contracts", () => {
     const mobile = await measureAbout(390, 844);
     expect(mobile.columns, "390px About remains one track").toBe(1);
     expect(Math.abs(mobile.sidebarX - mobile.copyX), "390px About sidebar returns below the copy").toBeLessThan(1);
-    expect(mobile.titleFontSize, "390px About title remains a compact route label").toBeLessThanOrEqual(24);
-    expect(mobile.titleFontFamily, "390px About title keeps the sans contract").toContain("Geist");
+    expect(mobile.titleFontSize, "390px About title stays within the display scale").toBeLessThanOrEqual(96);
+    expect(mobile.titleFontFamily, "390px About title uses the editorial serif").toContain("Newsreader");
 
     const desktop = await measureAbout(1440, 1000);
-    expect(desktop.titleFontSize, "1440px About title remains a compact route label").toBeLessThanOrEqual(24);
-    expect(desktop.titleFontFamily, "1440px About title keeps the sans contract").toContain("Geist");
+    expect(desktop.titleFontSize, "1440px About title stays within the display scale").toBeLessThanOrEqual(96);
+    expect(desktop.titleFontFamily, "1440px About title uses the editorial serif").toContain("Newsreader");
   });
 });

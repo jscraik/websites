@@ -110,6 +110,9 @@ html.editorial-theme #main-content .blog-heading-icon {
 html.editorial-theme body .small-button .small-button__fill {
   background: var(--editorial-blue);
 }
+html.editorial-theme #main-content .case-evidence .small-button {
+  background: var(--editorial-blue);
+}
 html.editorial-theme body .small-button .small-button__text,
 html.editorial-theme body .small-button .small-button__arrow {
   color: var(--editorial-canvas);
@@ -173,8 +176,8 @@ html.editorial-theme #main-content :is(.jump-icon,.skill-icon)::after {
 html.editorial-theme #main-content .jump-icon--file::after {
   box-shadow: 0 5px 0 var(--editorial-blue);
 }
-html.editorial-theme #main-content .about-object .about-fact-label {
-  color: var(--bds-color-portfolio-muted);
+html.editorial-theme #main-content .about-band .about-object .about-fact-label {
+  color: #4f564d;
 }
 html.editorial-theme #main-content :is(.case-study, .about-page, .about-band, .plain-page, .proof-index) {
   color: var(--editorial-body);
@@ -191,7 +194,7 @@ html.editorial-theme #main-content :is(.case-study, .about-page, .about-band, .p
 html.editorial-theme #main-content :is(.case-study, .about-page, .about-band, .plain-page, .proof-index) h1 {
   font-weight: 300;
 }
-html.editorial-theme #main-content :is(.proof-card,.case-proof-summary,.case-role-boundary,.case-evidence,.about-history-badge,.case-meta__icon) {
+html.editorial-theme #main-content :is(.proof-card,.case-proof-summary,.case-role-boundary,.case-evidence,.about-history-badge,.case-meta__icon,.article-receipt,.case-tags span) {
   background: var(--editorial-surface);
   border-color: var(--border-subtle);
 }

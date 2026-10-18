@@ -59,13 +59,11 @@ contract and the debt baseline reviewable: add a focused regression test,
 inspect newly discovered debt, and baseline only existing findings. This does
 not replace hosted PR readiness, review, or merge evidence.
 
-When a dependency or source change refreshes tracked architecture projections,
-run `bash scripts/refresh-diagram-context.sh --force`, validate the changed path
-list with `bash scripts/check-diagram-freshness.sh --changed-files <path-list-file>`,
-and update the linked architecture and governance documentation before push.
-The expected freshness result is `Diagram freshness check passed`; generated
-diagram evidence informs the change but does not replace the documented
-workflow contract or hosted review evidence.
+The diagram dependency and mandatory refresh gate were retired at Jamie's
+request on 18 October 2026. Preserve stored projections as historical references;
+do not install the tool or require generation for source changes. Keep affected
+architecture and governance documentation aligned before push. Historical
+diagrams do not prove the current source graph or replace hosted review evidence.
 
 When a source-quality validator or focused regression fixture adds a node to
 the tracked architecture projections, keep `AGENTS.md` and the architecture
@@ -80,8 +78,8 @@ that bootstrap with the implementation and keep this governance surface and
 root `AGENTS.md` aligned before push.
 
 Route-specific editorial rhythm belongs in `src/styles/route-rhythm.css`, not
-the shared shell. Keep its selectors scoped to the owning route and refresh the
-tracked diagram projections when that stylesheet changes.
+the shared shell. Keep its selectors scoped to the owning route and run the
+rendered validation contract when that stylesheet changes.
 
 For Jose parity work, the stored bundle and its accepted decision record are
 the design authority. Current-live comparisons remain advisory evidence, and

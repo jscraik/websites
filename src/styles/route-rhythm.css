@@ -304,12 +304,15 @@ html.editorial-theme #main-content .feature-block-img--terminal .work-preview {
   grid-template-rows: minmax(0, 1fr) auto;
   position: relative;
   height: 100%;
+  min-width: 0;
 }
 html.editorial-theme #main-content .feature-block-img--terminal .work-preview__image {
   position: relative;
   inset: auto;
   min-height: 0;
   aspect-ratio: 5 / 4;
+  width: 100%;
+  max-width: 100%;
 }
 html.editorial-theme #main-content .feature-block-img--terminal .feature-proof-panel {
   position: static;
@@ -427,11 +430,16 @@ html.editorial-theme #main-content :is(.case-work-header,.plain-page,.proof-inde
 html.editorial-theme #main-content .case-work-header {
   padding-bottom: 48px;
 }
+html.editorial-theme #main-content .case-work-header h1 {
+  max-width: calc(100% - 32px);
+  margin-inline: auto;
+}
 html.editorial-theme #main-content :is(.case-work-header h1,#home-title,#blog-title) {
   font-size: clamp(48px,7vw,96px);
   line-height: 1.05;
   letter-spacing: -.025em;
   text-wrap: balance;
+  overflow-wrap: anywhere;
 }
 html.editorial-theme #main-content :is(.case-overview h2,.case-story h2,.case-role-boundary h2,.case-evidence h2,.about-band h2,.article-list h2,.blog-about-card h2,.work-carousel > h2) {
   font-size: clamp(32px,4vw,52px);

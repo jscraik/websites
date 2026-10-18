@@ -334,6 +334,9 @@ check("pre-commit validation uses portfolio package contracts", () => {
 });
 
 check("pre-push validation uses the npm and Astro contract", () => {
+  assert.match(read("scripts/validate-codestyle.sh"), /run-package-command\.sh" npm/);
+  assert.doesNotMatch(read("scripts/validate-codestyle.sh"), /run-package-command\.sh" pnpm/);
+  assert.doesNotMatch(prePushHook, /check-diagram-freshness|refresh-diagram-context/);
   assert.match(prePushHook, /node \.\/scripts\/validate-operator-contract\.mjs/);
   assert.match(prePushHook, /npm run check:git-worktree-authority/);
   assert.match(prePushHook, /npm run validate:fast/);

@@ -65,6 +65,7 @@ requireMatch(prePushHook, /npm run check:git-worktree-authority/, "pre-push must
 requireMatch(prePushHook, /npm run validate:fast/, "pre-push must run the portfolio fast validation surface");
 requireMatch(prePushHook, /npm run check/, "pre-push must run Astro type checking");
 requireMatch(prePushHook, /npm run build/, "pre-push must build the portfolio");
+rejectMatch(prePushHook, /check-diagram-freshness|refresh-diagram-context/, "pre-push must not require the retired diagram dependency");
 rejectMatch(prePushHook, /tooling-audit|check-environment\.sh|semgrep-changed/, "pre-push must not require inherited full-Harness tooling gates");
 rejectMatch(circleciConfig, /AIFORUI_NPM_TOKEN|aiforui\.dev\/npm/, "CircleCI must not handle the removed inspector's private registry credential");
 
