@@ -1,6 +1,8 @@
 import type { CollectionEntry } from "astro:content";
 
+/** A work collection entry with its validated portfolio metadata. */
 export type WorkEntry = CollectionEntry<"work">;
+/** A proof collection entry with its validated evidence metadata. */
 export type ProofEntry = CollectionEntry<"proof">;
 
 export const workIllustrations: Record<string, string> = {
@@ -11,6 +13,7 @@ export const workIllustrations: Record<string, string> = {
   "ai-native-devrel": "devrel"
 };
 
+/** Display data shared by work and proof cards in the portfolio grid. */
 export type WorkCard = {
   title: string;
   eyebrow: string;
@@ -22,12 +25,18 @@ export type WorkCard = {
   illustration: string;
 };
 
+/** Compares collection entries by ascending metadata order. */
 export const byOrder = <T extends { data: { order: number } }>(a: T, b: T) => a.data.order - b.data.order;
 
+/** Returns an entry's destination override or its default work detail route. */
 export function workRoute(entry: Pick<WorkEntry, "id" | "data">) {
   return entry.data.href ?? "/work/" + entry.id + "/";
 }
 
+/**
+ * Builds ordered, published featured cards without mutating the input.
+ * Artwork follows the entry ID, with proof artwork as the fallback.
+ */
 export function featuredWorkCards(workEntries: WorkEntry[]) {
   return workEntries
     .slice()
@@ -43,6 +52,10 @@ export function featuredWorkCards(workEntries: WorkEntry[]) {
     }));
 }
 
+/**
+ * Builds ordered, published work cards, followed by published agent skills notes.
+ * Assigns one-based indices and entry-specific artwork without mutating inputs.
+ */
 export function proofWorkCards(workEntries: WorkEntry[], proofEntries: ProofEntry[]): WorkCard[] {
   const sortedWorkEntries = workEntries
     .slice()

@@ -6,11 +6,13 @@ import { coreRoutes, preparePage } from "../helpers/visual";
 const interactiveSelector =
   "a[href], button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)";
 
+/** Resolves editorial palette values to the browser's computed color format. */
 async function editorialPalette(page: Page) {
   return page.evaluate(() => {
     const reference = document.createElement("span");
     reference.style.setProperty("transition", "none", "important");
     document.body.append(reference);
+    /** Resolves a CSS color using the temporary reference element. */
     const color = (value: string) => {
       reference.style.setProperty("color", value, "important");
       return getComputedStyle(reference).color;
