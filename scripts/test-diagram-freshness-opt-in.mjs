@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
+import { spawnSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -17,4 +18,12 @@ assert.doesNotMatch(read("scripts/hook-pre-push.sh"), /check-diagram-freshness|r
 assert.doesNotMatch(read(".mise.toml"), /npm:@brainwav\/diagram/);
 assert.doesNotMatch(read("scripts/check-environment.sh"), /"diagram"|npm:@brainwav\/diagram/);
 assert.doesNotMatch(read(".circleci/config.yml"), /npm:@brainwav\/diagram/);
+for (const file of ["scripts/check-diagram-freshness.sh", "scripts/refresh-diagram-context.sh", "scripts/lib/normalize-mermaid-artifact.cjs"]) {
+  assert.equal(existsSync(path.join(root, file)), false, `${file}: retired entrypoint absent`);
+}
+for (const target of ["diagrams", "diagrams-check"]) {
+  const result = spawnSync("make", ["-n", target], { cwd: root, encoding: "utf8" });
+  assert.notEqual(result.status, 0, `${target}: obsolete target must not remain runnable`);
+  assert.match(result.stderr, /No rule to make target/);
+}
 console.log("PASS historical diagram integrity; no mandatory generator dependency");

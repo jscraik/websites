@@ -15,8 +15,9 @@ This repository is an Astro portfolio site. Canonical implementation lives in `s
 Jamie retired the diagram dependency and mandatory refresh gate on 18 October
 2026. `.diagram/` and `AI/context/diagram-context.md` remain historical reference
 captures, not current-source or release evidence. Source changes do not require
-installing or running the generator. Legacy manual scripts remain available for
-an explicitly requested capture; they are not part of pre-push validation.
+installing or running the generator. The obsolete manual Make targets, refresh
+scripts and generator-only normaliser were removed as well. A future capture
+requires an explicitly selected, supported authoring workflow.
 
 ## Validation Boundary
 

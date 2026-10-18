@@ -38,6 +38,7 @@ before staging, and preserve unrelated dirty paths and runtime receipts.
 Jamie explicitly retired the diagram dependency and mandatory refresh gate on
 18 October 2026. Retain existing captures without claiming current-source
 freshness; artifact-integrity tests must not reinstall the removed tool. All
+obsolete generation entrypoints are removed rather than installing on demand. All
 other source, operator, hosted CI and independent-review gates remain required.
 Disposable CDP validation is local browser proof only: use isolated contexts,
 one worker, and no authenticated profile; it grants no publication authority.

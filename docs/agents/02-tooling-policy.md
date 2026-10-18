@@ -14,6 +14,8 @@ The diagram dependency and mandatory refresh gate were retired at Jamie's
 request on 18 October 2026. Neither pre-push nor environment checks require the
 generator. Keep stored captures as historical references; the legacy-named
 `test:diagram-freshness-opt-in` command checks their integrity without invoking it.
+The former manual Make targets and generator scripts are retired too; no supported
+command advertises a dependency that the project no longer installs.
 The codestyle wrapper follows this repository's npm contract as well.
 
 ## Harness fallback
