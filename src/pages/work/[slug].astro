@@ -3,7 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import AnimatedButton from "../../components/AnimatedButton.astro";
 import CarouselControls from "../../components/CarouselControls.astro";
 import { getCollection } from "astro:content";
-import { byOrder, proofWorkCards, workRoute } from "../../lib/portfolio";
+import { byOrder, proofWorkCards, workRoute, workIllustrations } from "../../lib/portfolio";
 import type { ProofEntry, WorkCard, WorkEntry } from "../../lib/portfolio";
 type Study = WorkEntry["data"] & { slug: string; route: string };
 type CaseStudyLink = NonNullable<WorkEntry["data"]["caseStudy"]>["links"][number];
@@ -57,21 +57,7 @@ const workCount = String(workCards.length).padStart(2, "0");
       </figure>
     ) : (
     <figure class="case-hero-art section-shell" aria-label={`${study.title} case study visual`}>
-      <div class="case-window case-window--left">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-      <div class="case-window case-window--main">
-        <p>{study.title}</p>
-        <strong>{study.subtitle}</strong>
-        <span></span>
-        <span></span>
-      </div>
-      <div class="case-window case-window--right">
-        <span></span>
-        <span></span>
-      </div>
+      <img class="case-outline" src={`/editorial/${workIllustrations[study.route]}-outline.svg`} alt="" width="1000" height="800" loading="lazy" decoding="async" />
     </figure>
     )}
 
@@ -216,8 +202,7 @@ const workCount = String(workCards.length).padStart(2, "0");
           <a class="work-mini-card" href={item.href}>
             <p class="work-card-count">{String(index + 1).padStart(2, "0")} / {workCount}</p>
             <div class={"work-thumbnail work-thumbnail--" + item.tone} aria-hidden="true">
-              <span></span>
-              <span></span>
+              <img class="work-card-illustration" src={`/editorial/${workIllustrations[item.href]}-card.svg`} alt="" width="800" height="1000" loading="lazy" decoding="async" />
             </div>
             <h3>{item.title}</h3>
             <div class="tag-row">

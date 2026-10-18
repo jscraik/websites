@@ -6,7 +6,7 @@ import BrandWord from "../components/BrandWord.astro";
 import Icon from "../components/Icon.astro";
 import AnimatedButton from "../components/AnimatedButton.astro";
 import { getCollection } from "astro:content";
-import { byOrder, featuredWorkCards, proofWorkCards } from "../lib/portfolio";
+import { byOrder, featuredWorkCards, proofWorkCards, workIllustrations } from "../lib/portfolio";
 import type { CollectionEntry } from "astro:content";
 import type { ProofEntry, WorkCard, WorkEntry } from "../lib/portfolio";
 import { publicProfile } from "../lib/public-profile";
@@ -103,6 +103,8 @@ const workCount = String(workCards.length).padStart(2, "0");
                         <div><small>Next required</small><strong>Candidate identity</strong></div>
                       </div>
                     </div>
+                  ) : card.visual === "terminal" ? (
+                    <img class="project-outline" src="/editorial/skills-sdk-outline.svg" alt="" width="1000" height="800" loading="lazy" decoding="async" />
                   ) : (
                     <>
                       <span></span>
@@ -143,8 +145,7 @@ const workCount = String(workCards.length).padStart(2, "0");
         <a class="work-mini-card" href={item.href}>
           <p class="work-card-count">{String(index + 1).padStart(2, "0")} / {workCount}</p>
           <div class={"work-thumbnail work-thumbnail--" + item.tone} aria-hidden="true">
-            <span></span>
-            <span></span>
+            <img class="work-card-illustration" src={`/editorial/${workIllustrations[item.href]}-card.svg`} alt="" width="800" height="1000" loading="lazy" decoding="async" />
             <div class="work-thumbnail__cursor" data-work-card-cursor>
               <div class="work-thumbnail__arrow">
                 <svg viewBox="0 0 16 16" aria-hidden="true">

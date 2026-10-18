@@ -85,6 +85,9 @@ DIAGRAM_INSTALL_DIR="$(mise where 'npm:@brainwav/diagram@1.1.0' 2>"$MISE_WHERE_S
 rm -f "$MISE_WHERE_STDERR"
 trap - EXIT
 DIAGRAM_CLI=("$DIAGRAM_INSTALL_DIR/bin/diagram")
+if [[ ! -x "${DIAGRAM_CLI[0]}" && -x "$DIAGRAM_INSTALL_DIR/node_modules/.bin/diagram" ]]; then
+	DIAGRAM_CLI=("$DIAGRAM_INSTALL_DIR/node_modules/.bin/diagram")
+fi
 if ! (cd "$ROOT_DIR" && "${DIAGRAM_CLI[@]}" --version) >/dev/null 2>&1; then
 	log "error: diagram CLI is not available"
 	exit 1

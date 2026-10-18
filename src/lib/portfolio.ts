@@ -3,6 +3,15 @@ import type { CollectionEntry } from "astro:content";
 export type WorkEntry = CollectionEntry<"work">;
 export type ProofEntry = CollectionEntry<"proof">;
 
+export const workIllustrations: Record<string, string> = {
+  "/work/skillsbar/": "skillsbar",
+  "/work/skills-sdk/": "skills-sdk",
+  "/work/cli-proof-series/": "cli",
+  "/work/brainwav-io/": "proof",
+  "/work/ai-native-devrel/": "devrel",
+  "/proof/": "proof"
+};
+
 export type WorkCard = {
   title: string;
   eyebrow: string;

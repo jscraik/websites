@@ -26,7 +26,8 @@ architecture evidence. From the repository root, refresh them with
 list to a temporary file and run
 `bash scripts/check-diagram-freshness.sh --changed-files <path-list-file>`.
 The refresh script resolves the already-installed, pinned `diagram` CLI through
-`mise where` and runs its binary directly. It does not activate or install the
+`mise where` and runs its binary directly, supporting both the global `bin/`
+and local `node_modules/.bin/` installation layouts. It does not activate or install the
 rest of the mise toolchain, and cannot create a package-manager lock or workspace
 file. From the repository root, install only the pinned CLI with
 `mise install 'npm:@brainwav/diagram@1.1.0'`; verify that
