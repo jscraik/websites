@@ -35,6 +35,13 @@ Environment projections, pinned skills, and diagram artifacts are committed
 only within an explicit delivery scope. Review their source commit or digest
 before staging, and preserve unrelated dirty paths and runtime receipts.
 
+Jamie explicitly retired the diagram dependency and mandatory refresh gate on
+18 October 2026. Retain existing captures without claiming current-source
+freshness; artifact-integrity tests must not reinstall the removed tool. All
+other source, operator, hosted CI and independent-review gates remain required.
+Disposable CDP validation is local browser proof only: use isolated contexts,
+one worker, and no authenticated profile; it grants no publication authority.
+
 The code-quality debt baseline records accepted existing debt only. When the
 validator expands a source surface, inspect newly visible findings first, then
 update the baseline only for pre-existing findings rather than using it to hide
