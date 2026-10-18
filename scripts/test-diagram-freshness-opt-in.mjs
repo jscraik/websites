@@ -18,6 +18,12 @@ assert.doesNotMatch(read("scripts/hook-pre-push.sh"), /check-diagram-freshness|r
 assert.doesNotMatch(read(".mise.toml"), /npm:@brainwav\/diagram/);
 assert.doesNotMatch(read("scripts/check-environment.sh"), /"diagram"|npm:@brainwav\/diagram/);
 assert.doesNotMatch(read(".circleci/config.yml"), /npm:@brainwav\/diagram/);
+const contract = JSON.parse(read("harness.contract.json"));
+assert.equal(contract.toolingPolicy.requiredDocumentationTerms.includes("diagram"), false);
+assert.equal(contract.toolingPolicy.requiredBinaries.includes("diagram"), false);
+assert.equal(contract.toolingPolicy.requiredMiseTools.some((entry) => entry.tool === "npm:@brainwav/diagram"), false);
+assert.equal(contract.toolingPolicy.makefile.requiredTargets.includes("diagrams"), false);
+assert.equal(contract.toolingPolicy.makefile.requiredTargets.includes("diagrams-check"), false);
 for (const file of ["scripts/check-diagram-freshness.sh", "scripts/refresh-diagram-context.sh", "scripts/lib/normalize-mermaid-artifact.cjs"]) {
   assert.equal(existsSync(path.join(root, file)), false, `${file}: retired entrypoint absent`);
 }
