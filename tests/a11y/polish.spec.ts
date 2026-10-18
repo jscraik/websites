@@ -814,21 +814,31 @@ test.describe("UI polish contracts", () => {
     }
   });
 
-  test("proof scrollers are keyboard reachable", async ({ page }) => {
-    await preparePage(page, "/proof/");
+  test("proof grids expose card links without redundant focus stops", async ({ page }) => {
+    for (const width of [320, 393, 768, 1440]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await preparePage(page, "/proof/");
+      const rows = page.locator(".proof-row");
+      expect(await rows.count()).toBeGreaterThan(0);
+      expect(await rows.evaluateAll((items) => items.filter((item) => item.tabIndex >= 0).length)).toBe(0);
+      const cards = page.locator(".proof-row a.proof-card");
+      expect(await cards.count()).toBeGreaterThan(1);
+      await cards.first().focus();
+      await page.keyboard.press("Tab");
+      await expect(cards.nth(1)).toBeFocused();
+    }
+  });
 
-    const inaccessibleRows = await page.locator(".proof-row").evaluateAll((rows) =>
-      rows
-        .map((row, index) => ({
-          index,
-          reachable:
-            row.matches("[tabindex]:not([tabindex='-1'])") ||
-            row.querySelector("a[href], button, input, select, textarea") !== null
-        }))
-        .filter(({ reachable }) => !reachable)
-    );
-
-    expect(inaccessibleRows).toEqual([]);
+  test("article pullquote controls retain charcoal contrast", async ({ page }) => {
+    for (const route of ["/articles/when-evidence-goes-stale/", "/articles/why-ai-native-devrel/"]) {
+      await preparePage(page, route);
+      await page.locator(".pullquote-wrap").first().scrollIntoViewIfNeeded();
+      const { violations } = await new AxeBuilder({ page }).include(".pullquote-stack").withRules(["color-contrast"]).analyze();
+      expect(violations).toEqual([]);
+      await page.locator(".pullquote-button").first().hover();
+      const hovered = await new AxeBuilder({ page }).include(".pullquote-stack").withRules(["color-contrast"]).analyze();
+      expect(hovered.violations).toEqual([]);
+    }
   });
 
   test("article proof cards stack after the body on mobile", async ({ page }, testInfo) => {

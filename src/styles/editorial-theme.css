@@ -130,6 +130,22 @@ html.editorial-theme body .article-layout :is(h1, h2, h3) {
 html.editorial-theme body .article-body {
   color: var(--editorial-body);
 }
+html.editorial-theme #main-content .pullquote-wrap {
+  background: var(--editorial-surface);
+  color: var(--editorial-body);
+}
+html.editorial-theme #main-content .pullquote-wrap blockquote {
+  color: var(--editorial-title);
+}
+html.editorial-theme #main-content .pullquote-wrap :is(.input-label, figcaption p, .pullquote-button) {
+  color: var(--editorial-muted);
+}
+html.editorial-theme #main-content .pullquote-wrap figcaption p {
+  font-size: 14px;
+}
+html.editorial-theme #main-content .pullquote-button:hover {
+  color: var(--editorial-title);
+}
 html.editorial-theme #main-content :is(.article-list, .blog-about-card, .latest-article, .article-layout) :is(h1, h2, h3) {
   color: var(--editorial-title);
 }
