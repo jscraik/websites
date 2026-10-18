@@ -7,6 +7,7 @@ export default defineConfig({
   testDir: "./tests",
   outputDir: "test-results",
   fullyParallel: true,
+  workers: process.env.CHROME_CDP_URL ? 1 : undefined,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   reporter: [

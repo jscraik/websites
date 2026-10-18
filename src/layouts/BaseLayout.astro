@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import "../styles/shell.css";
+import "../styles/editorial-theme.css";
 import "../styles/route-rhythm.css";
 import SiteNav from "../components/SiteNav.astro";
 import SiteFooter from "../components/SiteFooter.astro";
@@ -24,12 +25,12 @@ const preventIndexing = noIndex || import.meta.env.DEV || import.meta.env.MODE =
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class:list={{ "editorial-theme": bodyClass !== "skillsbar-demo" }} data-page={`${Astro.url.pathname.replace(/\/+$/, "")}/`}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#fbfaf5" />
+    <meta name="theme-color" content={bodyClass === "skillsbar-demo" ? "#fbfaf5" : "#242629"} />
     {preventIndexing && <meta name="robots" content="noindex, nofollow" />}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -50,7 +51,6 @@ const preventIndexing = noIndex || import.meta.env.DEV || import.meta.env.MODE =
   </head>
   <body class={bodyClass}>
     <a class="skip-link" href="#main-content">Skip to main content</a>
-    <script src="../scripts/lapse-dev.ts"></script>
     <SiteNav />
     <main id="main-content" tabindex="-1">
       <slot />

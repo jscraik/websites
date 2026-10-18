@@ -49,8 +49,8 @@ assert.doesNotMatch(
 );
 assert.match(
   layout,
-  /import "\.\.\/styles\/global\.css";\nimport "\.\.\/styles\/shell\.css";\nimport "\.\.\/styles\/route-rhythm\.css";/,
-  "the shared shell and route-rhythm stylesheets must load after the global stylesheet",
+  /import "\.\.\/styles\/global\.css";\nimport "\.\.\/styles\/shell\.css";\nimport "\.\.\/styles\/editorial-theme\.css";\nimport "\.\.\/styles\/route-rhythm\.css";/,
+  "the shared shell and editorial theme must load before route-specific rhythm overrides",
 );
 assert.match(
   shell,

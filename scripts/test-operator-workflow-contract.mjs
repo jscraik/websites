@@ -334,6 +334,9 @@ check("pre-commit validation uses portfolio package contracts", () => {
 });
 
 check("pre-push validation uses the npm and Astro contract", () => {
+  assert.match(read("scripts/validate-codestyle.sh"), /run-package-command\.sh" npm/);
+  assert.doesNotMatch(read("scripts/validate-codestyle.sh"), /run-package-command\.sh" pnpm/);
+  assert.doesNotMatch(prePushHook, /check-diagram-freshness|refresh-diagram-context/);
   assert.match(prePushHook, /node \.\/scripts\/validate-operator-contract\.mjs/);
   assert.match(prePushHook, /npm run check:git-worktree-authority/);
   assert.match(prePushHook, /npm run validate:fast/);
@@ -344,9 +347,8 @@ check("pre-push validation uses the npm and Astro contract", () => {
 
 check("CircleCI npm auth does not expose the token in process arguments", () => {
   assert.match(circleciConfig, /printf '%s\\n' "\/\/registry\.npmjs\.org\/:_authToken=\$\{NPM_TOKEN\}"/);
-  assert.match(circleciConfig, /printf '%s\\n' "\/\/aiforui\.dev\/npm\/:_authToken=\$\{AIFORUI_NPM_TOKEN\}"/);
+  assert.doesNotMatch(circleciConfig, /AIFORUI_NPM_TOKEN|aiforui\.dev\/npm/);
   assert.doesNotMatch(circleciConfig, /npm config set[^\n]*NPM_TOKEN/);
-  assert.doesNotMatch(circleciConfig, /npm config set[^\n]*AIFORUI_NPM_TOKEN/);
 });
 
 check("aggregate source validation reuses its single Astro build", () => {

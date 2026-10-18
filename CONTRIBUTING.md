@@ -65,7 +65,6 @@ This workflow keeps delivery auditable, reversible, and consistent even for solo
 Harness-managed repositories should keep this baseline available locally before claiming the repo is ready:
 
 - `prek`
-- `diagram`
 - `mise`
 - `vale`
 - `argos`

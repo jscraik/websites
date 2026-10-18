@@ -61,7 +61,6 @@
       "fd",
       "jq",
       "prek",
-      "diagram",
       "mise",
       "vale",
       "argos",
@@ -91,7 +90,6 @@
       "rg",
       "fd",
       "prek",
-      "diagram",
       "mise",
       "vale",
       "argos",
@@ -133,10 +131,6 @@
       {
         "tool": "cargo:prek",
         "version": "0.3.4"
-      },
-      {
-        "tool": "npm:@brainwav/diagram",
-        "version": "1.1.0"
       },
       {
         "tool": "npm:@argos-ci/cli",
@@ -362,7 +356,6 @@
         "related-tests",
         "related-tests-staged",
         "semgrep-changed",
-        "diagrams-check",
         "lint",
         "docs-lint",
         "fmt",
@@ -375,7 +368,6 @@
         "clean",
         "reset",
         "ci",
-        "diagrams",
         "env-check"
       ]
     },

@@ -21,10 +21,15 @@ schema_version: 2
 - If neither codestyle front door can be read, report codestyle guidance as blocked and continue only from discovered AGENTS.md files, local code patterns, and explicit user instructions.
 
 ## Project Pointers
+- `src/styles/editorial-theme.css` owns the approved charcoal portfolio theme;
+  keep product demo interfaces isolated. Map artwork by content identity rather
+  than overridable destination URLs, and normalise route keys used by CSS.
+- Optional private development inspectors must not enter the site install or
+  CI credential contract. Keep their removal and focused operator tests aligned.
 - package.json is the source of truth for npm scripts. Re-read it before choosing validation commands.
 - Read `docs/agents/00-architecture-bootstrap.md` when changing schemas, route
   coverage, motion infrastructure, development tooling, dependencies, or tracked
-  diagrams. Update affected projections through the documented generator.
+  diagrams. Stored diagrams are historical references; automatic generation is retired.
 - Read `docs/implementation-notes/jose-parity-guardrail.md`,
   `docs/decisions/2026-07-31-freeze-jose-reference-authority.md`, and
   `docs/reference/jose-ocando/README.md` only for Jose-reference, parity, or
@@ -32,7 +37,7 @@ schema_version: 2
 - For source, CSS, HTML, JavaScript-budget, render-flow, smoke, visual, or
   accessibility changes, select the matching repository validator or test from
   `package.json`. Keep route-specific editorial spacing in
-  `src/styles/route-rhythm.css` and refresh tracked diagrams when it changes.
+  `src/styles/route-rhythm.css`; no diagram generator is required.
 - `.circleci/config.yml` owns pull-request validation and the main-only
   `pages-production` publication workflow; pair that contract with
   `docs/decisions/2026-08-02-circleci-cloudflare-pages-direct-upload.md` and
@@ -82,9 +87,9 @@ schema_version: 2
   focused contract test. Inspect newly visible debt before updating the
   baseline, and never use a baseline update to conceal debt introduced by the
   current delivery.
-- For dependency or lockfile changes, run the package audit and refresh any
-  tracked diagram projections. When the diagrams change, keep their required
-  architecture and governance documentation surfaces synchronized before push.
+- For dependency or lockfile changes, run the package audit and update affected
+  architecture and governance documentation before push. The removed diagram
+  dependency is not a release requirement; stored projections are historical.
 
 ## Visual Reference Work
 - Preserve Jamie's site identity while using Jose Ocando as a structural reference. Do not replace source content or brand direction with copied benchmark content.

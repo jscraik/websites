@@ -18,6 +18,16 @@ vm.runInNewContext(transpiled, { module, exports: module.exports }, {
 });
 const { byOrder, featuredWorkCards, proofWorkCards, workRoute } = module.exports;
 
+for (const name of ["skillsbar", "skills-sdk", "cli", "proof", "devrel", "evidence"]) {
+  const svg = readFileSync(`public/editorial/${name}-card.svg`, "utf8");
+  assert.match(svg, /viewBox="0 0 800 1000"/);
+  for (const layer of ["base", "dots"]) {
+    const rect = svg.match(new RegExp(`<rect width="(\\d+)" height="(\\d+)" fill="url\\(#${layer}\\)"`));
+    assert.ok(rect, `${name}: ${layer} background exists`);
+    assert.ok(Number(rect[1]) >= 800 && Number(rect[2]) >= 1000, `${name}: ${layer} covers the portrait viewport`);
+  }
+}
+
 // Functions evaluated in the isolated VM return arrays from that VM's realm.
 // Normalize assertion values so this fixture tests portfolio behavior rather
 // than JavaScript realm identity.
@@ -73,6 +83,11 @@ assert.equal(
 assert.equal(byOrder(workEntry("b", { order: 2 }), workEntry("a", { order: 1 })), 1);
 assert.deepEqual(nativeValue(featuredWorkCards([])), []);
 assert.deepEqual(nativeValue(proofWorkCards([], [])), []);
+const routedSkill = proofWorkCards([workEntry("skills-sdk", { href: "/custom-sdk/" })], [])[0];
+assert.equal(routedSkill.href, "/custom-sdk/");
+assert.equal(routedSkill.illustration, "skills-sdk");
+assert.equal(proofWorkCards([workEntry("new-project", {})], [])[0].illustration, "proof");
+assert.equal(featuredWorkCards([workEntry("cli-proof-series", { isFeatured: true })])[0].illustration, "cli");
 
 const featuredCards = featuredWorkCards([
   workEntry("later", { isFeatured: true, order: 2, title: "Later" }),

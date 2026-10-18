@@ -16,13 +16,6 @@ commands:
             else
               echo "NPM_TOKEN not set; using the public npm registry."
             fi
-            if [[ -n "${AIFORUI_NPM_TOKEN:-}" ]]; then
-              umask 077
-              printf '%s\n' "//aiforui.dev/npm/:_authToken=${AIFORUI_NPM_TOKEN}" >> "$HOME/.npmrc"
-              echo "AIFORUI_NPM_TOKEN detected; @aiforui registry auth configured (value hidden)."
-            else
-              echo "AIFORUI_NPM_TOKEN not set; private @aiforui packages will be unavailable."
-            fi
             harness_version="$(node -p "require('./package.json').devDependencies['@brainwav/coding-harness']")"
             npm view "@brainwav/coding-harness@${harness_version}" version --json
 
@@ -389,7 +382,7 @@ workflows:
             export MISE_PYTHON_PRECOMPILED_ARCH=x86_64
             retry_cmd 3 install_mise_without_github_tokens \
               node pnpm python uv cargo:prek \
-              npm:@brainwav/diagram npm:@argos-ci/cli cosign cloudflared npm:vitest \
+              npm:@argos-ci/cli cosign cloudflared npm:vitest \
               ruff npm:eslint npm:agent-browser npm:agentation npm:agentation-mcp \
               npm:ctx7 npm:@mermaid-js/mermaid-cli npm:@brainwav/rsearch npm:@brainwav/wsearch-cli \
               npm:markdownlint-cli2 npm:semver npm:wrangler \

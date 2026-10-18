@@ -21,11 +21,9 @@ Use npm from the repository root.
     npm ci
     ASTRO_TELEMETRY_DISABLED=1 npm run dev -- --host 127.0.0.1
 
-The optional Lapse animation inspector is a development-only dependency from
-the private `@aiforui` registry. Keep its credential in the user-level npm
-configuration; the checked-in `.npmrc` contains only the scoped registry route.
-CircleCI reads the same credential from `AIFORUI_NPM_TOKEN` and writes it only
-to the job's user-level npm configuration. Production builds never mount Lapse.
+The site installs without the private Lapse development inspector or an
+`@aiforui` registry credential. The Emil design skills are independent of this
+optional inspector.
 
 Useful local checks:
 

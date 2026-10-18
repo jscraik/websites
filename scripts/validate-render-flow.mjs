@@ -33,7 +33,7 @@ let browser;
 let context;
 try {
   if (cdpEndpoint) {
-    browser = await chromium.connectOverCDP(cdpEndpoint);
+    browser = await chromium.connectOverCDP(cdpEndpoint, { noDefaults: true });
     context = browser.contexts()[0] ?? await browser.newContext();
   } else {
     browser = await chromium.launch();

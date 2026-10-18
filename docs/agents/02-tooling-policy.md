@@ -10,6 +10,14 @@ do not substitute a parent pnpm or harness command contract.
 an environment result: record it separately from source validation and do not
 silently replace the configured runtime.
 
+The diagram dependency and mandatory refresh gate were retired at Jamie's
+request on 18 October 2026. Neither pre-push nor environment checks require the
+generator. Keep stored captures as historical references; the legacy-named
+`test:diagram-freshness-opt-in` command checks their integrity without invoking it.
+The former manual Make targets and generator scripts are retired too; no supported
+command advertises a dependency that the project no longer installs.
+The codestyle wrapper follows this repository's npm contract as well.
+
 ## Harness fallback
 
 The repository may use the public `@brainwav/coding-harness` package through
@@ -64,6 +72,12 @@ inspected. That proves route flow, shell landmarks, overflow, target sizes, and
 image dimensions for the served artifact; it does not prove Jose visual parity
 or hosted deployment. Use `npm run validate:render-flow` when a fresh build is
 intentionally part of the gate.
+
+Accessibility and visual tests can use the same disposable endpoint through
+`tests/helpers/test.ts`; `noDefaults: true` avoids browser-context default
+overrides unsupported by the approved endpoint. Each test uses an isolated
+context, and CDP runs use one worker to preserve keyboard-focus ownership.
+Without `CHROME_CDP_URL`, Playwright's normal fixture remains in effect.
 
 The pre-push hook is deliberately limited to the portfolio contract: operator
 validation, Git worktree authority, `validate:fast`, `check`, and `build`.

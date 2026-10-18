@@ -1,7 +1,7 @@
 # Harness Development Makefile
 # Run `make help` to see available commands
 
-.PHONY: help install setup preflight worktree-ready verify-work codestyle-parity codestyle hooks hooks-pre-commit hooks-pre-push hooks-commit-msg secrets-staged docs-style-changed related-tests related-tests-staged semgrep-changed diagrams-check dev build lint docs-lint fmt typecheck test check audit secrets security clean reset ci diagrams env-check
+.PHONY: help install setup preflight worktree-ready verify-work codestyle-parity codestyle hooks hooks-pre-commit hooks-pre-push hooks-commit-msg secrets-staged docs-style-changed related-tests related-tests-staged semgrep-changed dev build lint docs-lint fmt typecheck test check audit secrets security clean reset ci env-check
 
 # Default target
 help: ## Show this help message
@@ -69,9 +69,6 @@ related-tests-staged: ## Run related tests for staged src implementation files
 semgrep-changed: ## Run narrow Semgrep rules against changed src implementation files
 	npm run semgrep:changed
 
-diagrams-check: ## Refresh architecture diagrams when sensitive paths change and fail on drift
-	@bash ./scripts/check-diagram-freshness.sh
-
 # === Development ===
 
 dev: ## Start development server
@@ -123,11 +120,6 @@ reset: clean ## Full reset: clean and reinstall
 
 ci: ## Run CI-equivalent local checks
 	npm run check
-
-# === Diagrams ===
-
-diagrams: ## Generate architecture diagrams
-	@bash ./scripts/refresh-diagram-context.sh --force
 
 # === Environment ===
 

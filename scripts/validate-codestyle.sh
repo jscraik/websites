@@ -58,11 +58,11 @@ has_package_script() {
 
 run_package_manager() {
 	if [[ -f "$repo_root/scripts/run-package-command.sh" ]]; then
-		bash "$repo_root/scripts/run-package-command.sh" pnpm "$@"
+		bash "$repo_root/scripts/run-package-command.sh" npm "$@"
 		return
 	fi
 
-	pnpm "$@"
+	npm "$@"
 }
 
 run_repo_node() {
@@ -198,13 +198,13 @@ fi
 cd "$repo_root"
 echo "[validate-codestyle] repo root: $repo_root"
 
-if ! command -v pnpm >/dev/null 2>&1; then
-	echo "[validate-codestyle] missing required binary: pnpm" >&2
+if ! command -v npm >/dev/null 2>&1; then
+	echo "[validate-codestyle] missing required binary: npm" >&2
 	exit 1
 fi
 
 if [[ ! -f "$repo_root/package.json" ]]; then
-	echo "[validate-codestyle] missing package.json; this validator expects a pnpm-managed harness repo" >&2
+	echo "[validate-codestyle] missing package.json; this validator expects an npm project" >&2
 	exit 1
 fi
 

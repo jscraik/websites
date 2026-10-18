@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-09-23T17:59:54Z
+Generated: 2026-10-18T17:32:16Z
 
 ## Table of Contents
 
@@ -29,63 +29,25 @@ Generated: 2026-09-23T17:59:54Z
 ## Changed source focus
 
 - These architecture-sensitive paths changed on the current branch and may be compacted out of Mermaid diagrams.
+- `.circleci/config.yml`
+- `.npmrc`
 - `AGENTS.md`
 - `README.md`
 - `docs/agents/00-architecture-bootstrap.md`
 - `docs/agents/07b-agent-governance.md`
 - `package.json`
-- `scripts/check-related-tests.sh`
-- `scripts/jose-parity-cdp.mjs`
-- `scripts/lib/surface-hairline-contract.mjs`
 - `scripts/refresh-diagram-context.sh`
-- `scripts/smoke-pages.mjs`
-- `scripts/test-built-output-validators.mjs`
-- `scripts/test-design-system-contract.mjs`
-- `scripts/test-diagram-freshness-opt-in.mjs`
+- `scripts/test-css-simplification.mjs`
 - `scripts/test-operator-workflow-contract.mjs`
-- `scripts/validate-design-system.mjs`
-- `scripts/validate-html-output.mjs`
-- `src/components/AnimatedButton.astro`
-- `src/components/CarouselControls.astro`
-- `src/components/Icon.astro`
-- `src/components/PullquoteStack.astro`
-- `src/components/SiteFooter.astro`
-- `src/components/StartLinks.astro`
-- `src/content.config.ts`
-- `src/content/work/ai-native-devrel.md`
-- `src/content/work/brainwav-io.md`
-- `src/content/work/cli-proof-series.md`
-- `src/content/work/skills-sdk.md`
-- `src/content/work/skillsbar.md`
+- `scripts/test-portfolio-helpers.mjs`
+- `scripts/validate-operator-contract.mjs`
 - `src/layouts/BaseLayout.astro`
-- `src/lib/public-profile.ts`
-- `src/pages/404.astro`
-- `src/pages/articles/when-evidence-goes-stale.astro`
-- `src/pages/articles/why-ai-native-devrel.astro`
-- `src/pages/blog/index.astro`
-- `src/pages/blog/rss.xml.ts`
-- `src/pages/contact.astro`
-- `src/pages/demos/skillsbar.astro`
+- `src/lib/portfolio.ts`
 - `src/pages/index.astro`
-- `src/pages/now.astro`
-- `src/pages/proof/index.astro`
-- `src/pages/robots.txt.ts`
-- `src/pages/sitemap.xml.ts`
 - `src/pages/work/[slug].astro`
-- `src/scripts/carousel-controls.test.ts`
-- `src/scripts/carousel-controls.ts`
-- `src/scripts/pullquote-stack.test.ts`
-- `src/scripts/pullquote-stack.ts`
-- `src/styles/about.css`
-- `src/styles/global.css`
-- `tests/a11y/button-lifecycle.spec.ts`
+- `src/styles/editorial-theme.css`
+- `src/styles/route-rhythm.css`
 - `tests/a11y/polish.spec.ts`
-- `tests/e2e/interface-contracts.spec.ts`
-- `tests/e2e/motion-resync-contract.spec.ts`
-- `tests/e2e/no-script-navigation.spec.ts`
-- `tests/e2e/skillsbar-demo.spec.ts`
-- `tests/e2e/work-card-pointer-contract.spec.ts`
-- `tests/helpers/visual.ts`
 
 ## agent
 
@@ -191,7 +153,6 @@ graph LR
   node_generate_social_profile_assets_f4f94011_2a983f29["generate_social_profile_assets_f4f94011"]
   node_jose_parity_cdp_bdcde21d_edb59c81["jose_parity_cdp_bdcde21d"]
   node_jose_parity_runner_50cc4344_e9555b02["jose_parity_runner_50cc4344"]
-  node_lapse_dev_f2526c24_d04b45a0["lapse_dev_f2526c24"]
   node_pr_readiness_boundaries_621e369e_7f0b2de9["pr_readiness_boundaries_621e369e"]
   node_prepare_fieldcraft_blind_build_8ab85212_153447eb["prepare_fieldcraft_blind_build_8ab85212"]
   node_rss_xml_b85d02db_61029d19["rss_xml_b85d02db"]
@@ -238,7 +199,6 @@ graph LR
   node_validate_release_source_boundary_43d40a1f_0405b813["validate_release_source_boundary_43d40a1f"]
   node_validate_render_flow_2f64be63_a84870b9["validate_render_flow_2f64be63"]
   node_validate_social_profile_assets_a023937b_aed15edb["validate_social_profile_assets_a023937b"]
-  ext_aiforui_lapse_8332b6cc["@aiforui/lapse"] --> node_lapse_dev_f2526c24_d04b45a0
   ext_playwright_test_4b02302d["@playwright/test"] --> node_capture_jose_reference_e7b66705_7f5ac43a
   ext_playwright_test_4b02302d["@playwright/test"] --> node_generate_social_profile_assets_f4f94011_2a983f29
   ext_playwright_test_4b02302d["@playwright/test"] --> node_jose_parity_cdp_bdcde21d_edb59c81
@@ -442,7 +402,6 @@ graph LR
   ext_typescript_fb9da861["typescript"] --> node_check_code_size_9c5efc3a_154124ae
   ext_typescript_fb9da861["typescript"] --> node_check_public_api_docs_a9604f1b_f824853c
   ext_typescript_fb9da861["typescript"] --> node_test_portfolio_helpers_88b404c3_859ed297
-  style ext_aiforui_lapse_8332b6cc fill:#f59e0b,color:#fff
   style ext_astro_90c9d7bd fill:#f59e0b,color:#fff
   style ext_astro_content_2110f121 fill:#f59e0b,color:#fff
   style ext_ext_81f836ce fill:#f59e0b,color:#fff

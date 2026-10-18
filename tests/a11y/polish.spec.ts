@@ -1,15 +1,52 @@
-import { expect, test } from "@playwright/test";
+import type { Page } from "@playwright/test";
+import { expect, test } from "../helpers/test";
 import AxeBuilder from "@axe-core/playwright";
 import { coreRoutes, preparePage } from "../helpers/visual";
 
 const interactiveSelector =
   "a[href], button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)";
 
+/** Resolves editorial palette values to the browser's computed color format. */
+async function editorialPalette(page: Page) {
+  return page.evaluate(() => {
+    const reference = document.createElement("span");
+    reference.style.setProperty("transition", "none", "important");
+    document.body.append(reference);
+    /** Resolves a CSS color using the temporary reference element. */
+    const color = (value: string) => {
+      reference.style.setProperty("color", value, "important");
+      return getComputedStyle(reference).color;
+    };
+    const palette = {
+      canvas: color("oklch(0.26777 0.00629 258.359)"),
+      surface: color("oklch(0.30779 0.00833 255.562)"),
+      muted: color("oklch(0.76794 0.01448 258.352)"),
+      blue: color("oklch(0.81015 0.04164 254.072)")
+    };
+    reference.remove();
+    return palette;
+  });
+}
+
 test.describe("UI polish contracts", () => {
+  test("featured article artwork follows the selected content identity", async ({ page }) => {
+    await preparePage(page, "/blog/");
+    const feature = page.locator(".latest-article");
+    await expect(feature).toHaveAttribute("data-article", /.+/);
+    const artwork = () => feature.evaluate((element) => getComputedStyle(element, "::before").backgroundImage);
+    await feature.evaluate((element) => element.setAttribute("data-article", "when-evidence-goes-stale"));
+    await expect.poll(artwork).toContain("/editorial/evidence-outline.svg");
+    await feature.evaluate((element) => element.setAttribute("data-article", "why-ai-native-devrel"));
+    await expect.poll(artwork).toContain("/editorial/devrel-outline.svg");
+    await feature.evaluate((element) => element.setAttribute("data-article", "new-article"));
+    await expect.poll(artwork).toContain("/editorial/evidence-outline.svg");
+  });
   test("Proof endpoint focus outlines fit inside their scroll region", async ({ page }) => {
     for (const width of [320, 393, 768, 1440]) {
       await page.setViewportSize({ width, height: 1000 });
       await preparePage(page, "/proof/");
+      await page.evaluate(() => document.fonts.ready);
+      await page.keyboard.press("Tab");
       expect(await page.locator(".proof-row").count()).toBeGreaterThan(0);
       expect(await page.locator(".proof-row a.proof-card").count()).toBeGreaterThan(0);
       for (const row of await page.locator(".proof-row").all()) {
@@ -51,23 +88,18 @@ test.describe("UI polish contracts", () => {
     }
   });
 
-  test("project illustration labels fit their cards", async ({ page }) => {
+  test("project outline illustrations fit their cards", async ({ page }) => {
     for (const width of [320, 393, 768, 1440]) {
       await page.setViewportSize({ width, height: 1000 });
       for (const slug of ["skills-sdk", "cli-proof-series", "brainwav-io", "ai-native-devrel"]) {
         await preparePage(page, `/work/${slug}/`);
         await page.evaluate(() => document.fonts.ready);
-        const failures = await page.locator(".case-window--main").evaluate((card) => {
-          const box = card.getBoundingClientRect();
-          return [...card.querySelectorAll("p,strong")].flatMap((text) => {
-            const range = document.createRange();
-            range.selectNodeContents(text);
-            return [...range.getClientRects()].filter((r) => r.width && (
-              r.left < box.left + 16 || r.right > box.right - 16 || r.bottom > box.bottom - 16
-            )).map(() => text.textContent);
-          });
+        const art = await page.locator(".case-hero-art .case-outline").evaluate((image: HTMLImageElement) => {
+          const box = image.getBoundingClientRect();
+          const card = image.parentElement!.getBoundingClientRect();
+          return { loaded: image.complete && image.naturalWidth > 0, fits: box.left >= card.left - 1 && box.right <= card.right + 1 && box.bottom <= card.bottom + 1 };
         });
-        expect(failures, `${slug} at ${width}px`).toEqual([]);
+        expect(art, `${slug} at ${width}px`).toEqual({ loaded: true, fits: true });
       }
     }
   });
@@ -452,12 +484,13 @@ test.describe("UI polish contracts", () => {
       socialBackground: getComputedStyle(document.querySelector(".site-footer .footer-social-links a")!).backgroundColor
     }));
 
-    expect(portfolioShell.activeNav).toBe("rgb(79, 86, 77)");
-    expect(portfolioShell.homeIcon).toBe("rgba(75, 84, 77, 0.88)");
-    expect(portfolioShell.footerBackgroundImage).toBe("linear-gradient(rgb(213, 214, 208), rgb(251, 250, 245))");
-    expect(portfolioShell.footerBackground).toBe("rgba(0, 0, 0, 0)");
-    expect(portfolioShell.profileBackground).toBe("rgb(251, 250, 245)");
-    expect(portfolioShell.socialBackground).toBe("rgba(251, 250, 245, 0.42)");
+    const palette = await editorialPalette(page);
+    expect(portfolioShell.activeNav).toBe(palette.muted);
+    expect(portfolioShell.homeIcon).toBe(palette.blue);
+    expect(portfolioShell.footerBackgroundImage).toBe("none");
+    expect(portfolioShell.footerBackground).toBe(palette.canvas);
+    expect(portfolioShell.profileBackground).toBe(palette.surface);
+    expect(portfolioShell.socialBackground).toBe(palette.surface);
 
     await preparePage(page, "/demos/skillsbar/");
 
@@ -495,7 +528,7 @@ test.describe("UI polish contracts", () => {
     expect(technicalNav.contentZIndex).toBe("1");
   });
 
-  test("About keeps the shared shell gradient and neutral page canvas", async ({ page }) => {
+  test("About keeps the charcoal shell and page canvas", async ({ page }) => {
     await page.setViewportSize({ width: 645, height: 964 });
     await preparePage(page, "/now/");
 
@@ -508,12 +541,12 @@ test.describe("UI polish contracts", () => {
     }));
 
     expect(shell.mainWidth).toBe(shell.viewportWidth);
-    expect(shell.headerBackground).toBe("linear-gradient(rgb(251, 250, 245), rgb(213, 214, 208))");
+    expect(shell.headerBackground).toBe("none");
     expect(shell.mainBackground).toBe("none");
-    expect(shell.mainBackgroundColor).toBe("rgb(213, 214, 208)");
+    expect(shell.mainBackgroundColor).toBe((await editorialPalette(page)).canvas);
   });
 
-  test("portfolio routes share navigation and footer surfaces while home owns one full-width fade", async ({ page }) => {
+  test("portfolio routes share charcoal navigation and footer surfaces", async ({ page }) => {
     const routes = [
       "/",
       "/now/",
@@ -569,9 +602,7 @@ test.describe("UI polish contracts", () => {
       reference ??= sharedSurfaces;
       expect(sharedSurfaces, `${route}: shared navigation and footer surface`).toEqual(reference);
       expect(surfaces.navLayerTransformOrigin, `${route}: nav highlight transform origin`).toBe("0px 0px");
-      expect(surfaces.header, `${route}: header fade owner`).toBe(
-        route === "/" ? "none" : route === "/blog/" ? "none" : "linear-gradient(rgb(251, 250, 245), rgb(213, 214, 208))"
-      );
+      expect(surfaces.header, `${route}: header surface`).toBe("none");
     }
   });
 
@@ -605,11 +636,11 @@ test.describe("UI polish contracts", () => {
       });
 
       expect(canvas.bodyBackgroundImage, `${route}: body canvas gradient`).toBe(
-        route === "/" ? "linear-gradient(rgb(251, 250, 245), rgb(213, 214, 208))" : "none"
+        "none"
       );
       expect(canvas.mainBackgroundImage, `${route}: main canvas gradient`).toBe("none");
-      expect(canvas.bodyBackgroundColor, `${route}: body canvas color`).toBe("rgb(213, 214, 208)");
-      expect(canvas.effectiveMainBackgroundColor, `${route}: effective main canvas color`).toBe("rgb(213, 214, 208)");
+      expect(canvas.bodyBackgroundColor, `${route}: body canvas color`).toBe((await editorialPalette(page)).canvas);
+      expect(canvas.effectiveMainBackgroundColor, `${route}: effective main canvas color`).toBe((await editorialPalette(page)).canvas);
     }
   });
 
@@ -746,9 +777,10 @@ test.describe("UI polish contracts", () => {
     }
   });
 
-  test("interactive focus rings are visible and neutral", async ({ page }) => {
+  test("interactive focus rings are visible and use the route palette", async ({ page }) => {
     for (const route of coreRoutes) {
       await preparePage(page, route.path);
+      const palette = await editorialPalette(page);
       const controls = page.locator(
         `:is(.site-header, .demo-nav, main, .site-footer) ${interactiveSelector}`
       );
@@ -769,6 +801,7 @@ test.describe("UI polish contracts", () => {
               .replace(/\s+/g, " ")
               .slice(0, 80),
             neutral,
+            color: style.outlineColor,
             outlineStyle: style.outlineStyle,
             outlineWidth: Number.parseFloat(style.outlineWidth)
           };
@@ -776,26 +809,36 @@ test.describe("UI polish contracts", () => {
 
         expect(focus.outlineStyle, `${route.path}: ${focus.label} focus style`).not.toBe("none");
         expect(focus.outlineWidth, `${route.path}: ${focus.label} focus width`).toBeGreaterThanOrEqual(2);
-        expect(focus.neutral, `${route.path}: ${focus.label} focus color`).toBe(true);
+        expect(focus.neutral || focus.color === palette.blue, `${route.path}: ${focus.label} focus color`).toBe(true);
       }
     }
   });
 
-  test("proof scrollers are keyboard reachable", async ({ page }) => {
-    await preparePage(page, "/proof/");
+  test("proof grids expose card links without redundant focus stops", async ({ page }) => {
+    for (const width of [320, 393, 768, 1440]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await preparePage(page, "/proof/");
+      const rows = page.locator(".proof-row");
+      expect(await rows.count()).toBeGreaterThan(0);
+      expect(await rows.evaluateAll((items) => items.filter((item) => item.tabIndex >= 0).length)).toBe(0);
+      const cards = page.locator(".proof-row a.proof-card");
+      expect(await cards.count()).toBeGreaterThan(1);
+      await cards.first().focus();
+      await page.keyboard.press("Tab");
+      await expect(cards.nth(1)).toBeFocused();
+    }
+  });
 
-    const inaccessibleRows = await page.locator(".proof-row").evaluateAll((rows) =>
-      rows
-        .map((row, index) => ({
-          index,
-          reachable:
-            row.matches("[tabindex]:not([tabindex='-1'])") ||
-            row.querySelector("a[href], button, input, select, textarea") !== null
-        }))
-        .filter(({ reachable }) => !reachable)
-    );
-
-    expect(inaccessibleRows).toEqual([]);
+  test("article pullquote controls retain charcoal contrast", async ({ page }) => {
+    for (const route of ["/articles/when-evidence-goes-stale/", "/articles/why-ai-native-devrel/"]) {
+      await preparePage(page, route);
+      await page.locator(".pullquote-wrap").first().scrollIntoViewIfNeeded();
+      const { violations } = await new AxeBuilder({ page }).include(".pullquote-stack").withRules(["color-contrast"]).analyze();
+      expect(violations).toEqual([]);
+      await page.locator(".pullquote-button").first().hover();
+      const hovered = await new AxeBuilder({ page }).include(".pullquote-stack").withRules(["color-contrast"]).analyze();
+      expect(hovered.violations).toEqual([]);
+    }
   });
 
   test("article proof cards stack after the body on mobile", async ({ page }, testInfo) => {
@@ -814,7 +857,7 @@ test.describe("UI polish contracts", () => {
     );
   });
 
-  test("About keeps the reference composition across responsive boundaries", async ({ page }) => {
+  test("About keeps the editorial composition across responsive boundaries", async ({ page }) => {
     const measureAbout = async (width: number, height: number) => {
       await page.setViewportSize({ width, height });
       await preparePage(page, "/now/");
@@ -850,15 +893,15 @@ test.describe("UI polish contracts", () => {
     const atBreakpoint = await measureAbout(768, 964);
     expect(atBreakpoint.columns, "768px About retains one readable track").toBe(1);
     expect(atBreakpoint.sidebarY, "768px About sidebar follows the complete copy").toBeGreaterThanOrEqual(atBreakpoint.copyBottom);
-    expect(atBreakpoint.titleFontSize, "768px About title stays a compact route label").toBeLessThanOrEqual(24);
-    expect(atBreakpoint.titleFontFamily, "768px About title uses the sans contract").toContain("Geist");
+    expect(atBreakpoint.titleFontSize, "768px About title stays within the display scale").toBeLessThanOrEqual(96);
+    expect(atBreakpoint.titleFontFamily, "768px About title uses the editorial serif").toContain("Newsreader");
     expect(atBreakpoint.spacerDisplay, "768px About spacer stays structural and hidden").toBe("none");
 
     const intermediate = await measureAbout(857, 964);
     expect(intermediate.columns, "857px About keeps one readable track").toBe(1);
     expect(intermediate.sidebarY, "857px About sidebar follows the complete copy").toBeGreaterThanOrEqual(intermediate.copyBottom);
-    expect(intermediate.titleFontSize, "857px About title stays a compact route label").toBeLessThanOrEqual(24);
-    expect(intermediate.titleFontFamily, "857px About title uses the sans contract").toContain("Geist");
+    expect(intermediate.titleFontSize, "857px About title stays within the display scale").toBeLessThanOrEqual(96);
+    expect(intermediate.titleFontFamily, "857px About title uses the editorial serif").toContain("Newsreader");
     expect(intermediate.spacerDisplay, "857px About spacer stays structural and hidden").toBe("none");
 
     const beforeUpperBreakpoint = await measureAbout(921, 964);
@@ -874,11 +917,11 @@ test.describe("UI polish contracts", () => {
     const mobile = await measureAbout(390, 844);
     expect(mobile.columns, "390px About remains one track").toBe(1);
     expect(Math.abs(mobile.sidebarX - mobile.copyX), "390px About sidebar returns below the copy").toBeLessThan(1);
-    expect(mobile.titleFontSize, "390px About title remains a compact route label").toBeLessThanOrEqual(24);
-    expect(mobile.titleFontFamily, "390px About title keeps the sans contract").toContain("Geist");
+    expect(mobile.titleFontSize, "390px About title stays within the display scale").toBeLessThanOrEqual(96);
+    expect(mobile.titleFontFamily, "390px About title uses the editorial serif").toContain("Newsreader");
 
     const desktop = await measureAbout(1440, 1000);
-    expect(desktop.titleFontSize, "1440px About title remains a compact route label").toBeLessThanOrEqual(24);
-    expect(desktop.titleFontFamily, "1440px About title keeps the sans contract").toContain("Geist");
+    expect(desktop.titleFontSize, "1440px About title stays within the display scale").toBeLessThanOrEqual(96);
+    expect(desktop.titleFontFamily, "1440px About title uses the editorial serif").toContain("Newsreader");
   });
 });
