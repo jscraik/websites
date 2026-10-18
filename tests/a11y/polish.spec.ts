@@ -1,9 +1,28 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { coreRoutes, preparePage } from "../helpers/visual";
 
 const interactiveSelector =
   "a[href], button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)";
+
+async function editorialPalette(page: Page) {
+  return page.evaluate(() => {
+    const reference = document.createElement("span");
+    document.body.append(reference);
+    const color = (value: string) => {
+      reference.style.color = value;
+      return getComputedStyle(reference).color;
+    };
+    const palette = {
+      canvas: color("oklch(0.26777 0.00629 258.359)"),
+      surface: color("oklch(0.30779 0.00833 255.562)"),
+      muted: color("oklch(0.76794 0.01448 258.352)"),
+      blue: color("oklch(0.81015 0.04164 254.072)")
+    };
+    reference.remove();
+    return palette;
+  });
+}
 
 test.describe("UI polish contracts", () => {
   test("Proof endpoint focus outlines fit inside their scroll region", async ({ page }) => {
@@ -452,12 +471,13 @@ test.describe("UI polish contracts", () => {
       socialBackground: getComputedStyle(document.querySelector(".site-footer .footer-social-links a")!).backgroundColor
     }));
 
-    expect(portfolioShell.activeNav).toBe("rgb(79, 86, 77)");
-    expect(portfolioShell.homeIcon).toBe("rgba(75, 84, 77, 0.88)");
-    expect(portfolioShell.footerBackgroundImage).toBe("linear-gradient(rgb(213, 214, 208), rgb(251, 250, 245))");
-    expect(portfolioShell.footerBackground).toBe("rgba(0, 0, 0, 0)");
-    expect(portfolioShell.profileBackground).toBe("rgb(251, 250, 245)");
-    expect(portfolioShell.socialBackground).toBe("rgba(251, 250, 245, 0.42)");
+    const palette = await editorialPalette(page);
+    expect(portfolioShell.activeNav).toBe(palette.muted);
+    expect(portfolioShell.homeIcon).toBe(palette.blue);
+    expect(portfolioShell.footerBackgroundImage).toBe("none");
+    expect(portfolioShell.footerBackground).toBe(palette.canvas);
+    expect(portfolioShell.profileBackground).toBe(palette.surface);
+    expect(portfolioShell.socialBackground).toBe(palette.surface);
 
     await preparePage(page, "/demos/skillsbar/");
 
@@ -495,7 +515,7 @@ test.describe("UI polish contracts", () => {
     expect(technicalNav.contentZIndex).toBe("1");
   });
 
-  test("About keeps the shared shell gradient and neutral page canvas", async ({ page }) => {
+  test("About keeps the charcoal shell and page canvas", async ({ page }) => {
     await page.setViewportSize({ width: 645, height: 964 });
     await preparePage(page, "/now/");
 
@@ -508,12 +528,12 @@ test.describe("UI polish contracts", () => {
     }));
 
     expect(shell.mainWidth).toBe(shell.viewportWidth);
-    expect(shell.headerBackground).toBe("linear-gradient(rgb(251, 250, 245), rgb(213, 214, 208))");
+    expect(shell.headerBackground).toBe("none");
     expect(shell.mainBackground).toBe("none");
-    expect(shell.mainBackgroundColor).toBe("rgb(213, 214, 208)");
+    expect(shell.mainBackgroundColor).toBe((await editorialPalette(page)).canvas);
   });
 
-  test("portfolio routes share navigation and footer surfaces while home owns one full-width fade", async ({ page }) => {
+  test("portfolio routes share charcoal navigation and footer surfaces", async ({ page }) => {
     const routes = [
       "/",
       "/now/",
@@ -569,9 +589,7 @@ test.describe("UI polish contracts", () => {
       reference ??= sharedSurfaces;
       expect(sharedSurfaces, `${route}: shared navigation and footer surface`).toEqual(reference);
       expect(surfaces.navLayerTransformOrigin, `${route}: nav highlight transform origin`).toBe("0px 0px");
-      expect(surfaces.header, `${route}: header fade owner`).toBe(
-        route === "/" ? "none" : route === "/blog/" ? "none" : "linear-gradient(rgb(251, 250, 245), rgb(213, 214, 208))"
-      );
+      expect(surfaces.header, `${route}: header surface`).toBe("none");
     }
   });
 
@@ -605,11 +623,11 @@ test.describe("UI polish contracts", () => {
       });
 
       expect(canvas.bodyBackgroundImage, `${route}: body canvas gradient`).toBe(
-        route === "/" ? "linear-gradient(rgb(251, 250, 245), rgb(213, 214, 208))" : "none"
+        "none"
       );
       expect(canvas.mainBackgroundImage, `${route}: main canvas gradient`).toBe("none");
-      expect(canvas.bodyBackgroundColor, `${route}: body canvas color`).toBe("rgb(213, 214, 208)");
-      expect(canvas.effectiveMainBackgroundColor, `${route}: effective main canvas color`).toBe("rgb(213, 214, 208)");
+      expect(canvas.bodyBackgroundColor, `${route}: body canvas color`).toBe((await editorialPalette(page)).canvas);
+      expect(canvas.effectiveMainBackgroundColor, `${route}: effective main canvas color`).toBe((await editorialPalette(page)).canvas);
     }
   });
 

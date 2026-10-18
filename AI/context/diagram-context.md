@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-10-18T17:11:18Z
+Generated: 2026-10-18T17:32:16Z
 
 ## Table of Contents
 
@@ -47,6 +47,7 @@ Generated: 2026-10-18T17:11:18Z
 - `src/pages/work/[slug].astro`
 - `src/styles/editorial-theme.css`
 - `src/styles/route-rhythm.css`
+- `tests/a11y/polish.spec.ts`
 
 ## agent
 

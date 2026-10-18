@@ -38,7 +38,8 @@ export function featuredWorkCards(workEntries: WorkEntry[]) {
       title: entry.data.title,
       href: workRoute(entry),
       frames: entry.data.frames ?? [],
-      ...entry.data.featured
+      ...entry.data.featured,
+      illustration: workIllustrations[entry.id] ?? "proof"
     }));
 }
 
