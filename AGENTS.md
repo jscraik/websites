@@ -21,6 +21,11 @@ schema_version: 2
 - If neither codestyle front door can be read, report codestyle guidance as blocked and continue only from discovered AGENTS.md files, local code patterns, and explicit user instructions.
 
 ## Project Pointers
+- `src/styles/editorial-theme.css` owns the approved charcoal portfolio theme;
+  keep product demo interfaces isolated. Map artwork by content identity rather
+  than overridable destination URLs, and normalise route keys used by CSS.
+- Optional private development inspectors must not enter the site install or
+  CI credential contract. Keep their removal and focused operator tests aligned.
 - package.json is the source of truth for npm scripts. Re-read it before choosing validation commands.
 - Read `docs/agents/00-architecture-bootstrap.md` when changing schemas, route
   coverage, motion infrastructure, development tooling, dependencies, or tracked

@@ -7,6 +7,14 @@ reached.
 
 ## Scope and handoff
 
+The approved editorial theme is a portfolio presentation change. Preserve
+product-demo styling and public content; any later Ask assistant needs its own
+source, privacy, abuse-control and release acceptance evidence. Coordination
+or a prototype does not authorise publishing an AI feature.
+
+When removing optional private development tooling, remove unused CI credential
+handling and update its focused operator contract tests in the same release.
+
 Agents work only on the approved task slice and preserve unrelated dirty state.
 For portfolio operator work, keep task code in a dedicated worktree and retain
 the primary checkout for its owner. A reviewer may identify findings, but the

@@ -4,12 +4,11 @@ export type WorkEntry = CollectionEntry<"work">;
 export type ProofEntry = CollectionEntry<"proof">;
 
 export const workIllustrations: Record<string, string> = {
-  "/work/skillsbar/": "skillsbar",
-  "/work/skills-sdk/": "skills-sdk",
-  "/work/cli-proof-series/": "cli",
-  "/work/brainwav-io/": "proof",
-  "/work/ai-native-devrel/": "devrel",
-  "/proof/": "proof"
+  "skillsbar": "skillsbar",
+  "skills-sdk": "skills-sdk",
+  "cli-proof-series": "cli",
+  "brainwav-io": "proof",
+  "ai-native-devrel": "devrel"
 };
 
 export type WorkCard = {
@@ -20,6 +19,7 @@ export type WorkCard = {
   tags: string[];
   tone: string;
   href: string;
+  illustration: string;
 };
 
 export const byOrder = <T extends { data: { order: number } }>(a: T, b: T) => a.data.order - b.data.order;
@@ -56,7 +56,8 @@ export function proofWorkCards(workEntries: WorkEntry[], proofEntries: ProofEntr
       index: index + 1,
       tags: entry.data.tags ?? [],
       tone: entry.data.tone,
-      href: workRoute(entry)
+      href: workRoute(entry),
+      illustration: workIllustrations[entry.id] ?? "proof"
     })),
     ...proofEntries
       .slice()
@@ -70,7 +71,8 @@ export function proofWorkCards(workEntries: WorkEntry[], proofEntries: ProofEntr
         index: sortedWorkEntries.length + 1,
         tags: ["Reusable", "Practice"],
         tone: "green",
-        href: "/proof/"
+        href: "/proof/",
+        illustration: "proof"
       }))
   ];
 }

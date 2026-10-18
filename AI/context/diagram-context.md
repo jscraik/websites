@@ -1,6 +1,6 @@
 # Diagram Context Pack
 
-Generated: 2026-10-18T16:30:45Z
+Generated: 2026-10-18T17:11:18Z
 
 ## Table of Contents
 
@@ -29,12 +29,18 @@ Generated: 2026-10-18T16:30:45Z
 ## Changed source focus
 
 - These architecture-sensitive paths changed on the current branch and may be compacted out of Mermaid diagrams.
+- `.circleci/config.yml`
 - `.npmrc`
+- `AGENTS.md`
 - `README.md`
 - `docs/agents/00-architecture-bootstrap.md`
+- `docs/agents/07b-agent-governance.md`
 - `package.json`
 - `scripts/refresh-diagram-context.sh`
 - `scripts/test-css-simplification.mjs`
+- `scripts/test-operator-workflow-contract.mjs`
+- `scripts/test-portfolio-helpers.mjs`
+- `scripts/validate-operator-contract.mjs`
 - `src/layouts/BaseLayout.astro`
 - `src/lib/portfolio.ts`
 - `src/pages/index.astro`

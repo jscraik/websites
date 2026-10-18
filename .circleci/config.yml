@@ -16,13 +16,6 @@ commands:
             else
               echo "NPM_TOKEN not set; using the public npm registry."
             fi
-            if [[ -n "${AIFORUI_NPM_TOKEN:-}" ]]; then
-              umask 077
-              printf '%s\n' "//aiforui.dev/npm/:_authToken=${AIFORUI_NPM_TOKEN}" >> "$HOME/.npmrc"
-              echo "AIFORUI_NPM_TOKEN detected; @aiforui registry auth configured (value hidden)."
-            else
-              echo "AIFORUI_NPM_TOKEN not set; private @aiforui packages will be unavailable."
-            fi
             harness_version="$(node -p "require('./package.json').devDependencies['@brainwav/coding-harness']")"
             npm view "@brainwav/coding-harness@${harness_version}" version --json
 

@@ -57,7 +57,7 @@ const workCount = String(workCards.length).padStart(2, "0");
       </figure>
     ) : (
     <figure class="case-hero-art section-shell" aria-label={`${study.title} case study visual`}>
-      <img class="case-outline" src={`/editorial/${workIllustrations[study.route]}-outline.svg`} alt="" width="1000" height="800" loading="lazy" decoding="async" />
+      <img class="case-outline" src={`/editorial/${workIllustrations[study.slug] ?? "proof"}-outline.svg`} alt="" width="1000" height="800" loading="lazy" decoding="async" />
     </figure>
     )}
 
@@ -202,7 +202,7 @@ const workCount = String(workCards.length).padStart(2, "0");
           <a class="work-mini-card" href={item.href}>
             <p class="work-card-count">{String(index + 1).padStart(2, "0")} / {workCount}</p>
             <div class={"work-thumbnail work-thumbnail--" + item.tone} aria-hidden="true">
-              <img class="work-card-illustration" src={`/editorial/${workIllustrations[item.href]}-card.svg`} alt="" width="800" height="1000" loading="lazy" decoding="async" />
+              <img class="work-card-illustration" src={`/editorial/${item.illustration}-card.svg`} alt="" width="800" height="1000" loading="lazy" decoding="async" />
             </div>
             <h3>{item.title}</h3>
             <div class="tag-row">

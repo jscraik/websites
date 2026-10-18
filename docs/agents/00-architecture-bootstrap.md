@@ -113,6 +113,11 @@ Browser motion belongs to shared, testable helpers such as
 `src/scripts/flip-motion.ts`. Production output and committed dependency
 metadata must not require private development tooling or unauthenticated
 registries.
+The removed Lapse inspector has no remaining CI credential setup; operator
+contracts reject its private token wiring. Portfolio artwork is keyed by work
+entry identity with a fallback for new entries, independently of link overrides.
+`BaseLayout.astro` normalises the route key consumed by editorial CSS so both
+slashless and trailing-slash article requests select the same artwork.
 
 Route-specific editorial rhythm belongs in `src/styles/route-rhythm.css` rather
 than the shared shell. Keep its selectors limited to the route that owns the

@@ -73,6 +73,10 @@ assert.equal(
 assert.equal(byOrder(workEntry("b", { order: 2 }), workEntry("a", { order: 1 })), 1);
 assert.deepEqual(nativeValue(featuredWorkCards([])), []);
 assert.deepEqual(nativeValue(proofWorkCards([], [])), []);
+const routedSkill = proofWorkCards([workEntry("skills-sdk", { href: "/custom-sdk/" })], [])[0];
+assert.equal(routedSkill.href, "/custom-sdk/");
+assert.equal(routedSkill.illustration, "skills-sdk");
+assert.equal(proofWorkCards([workEntry("new-project", {})], [])[0].illustration, "proof");
 
 const featuredCards = featuredWorkCards([
   workEntry("later", { isFeatured: true, order: 2, title: "Later" }),

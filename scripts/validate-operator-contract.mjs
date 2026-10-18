@@ -66,8 +66,7 @@ requireMatch(prePushHook, /npm run validate:fast/, "pre-push must run the portfo
 requireMatch(prePushHook, /npm run check/, "pre-push must run Astro type checking");
 requireMatch(prePushHook, /npm run build/, "pre-push must build the portfolio");
 rejectMatch(prePushHook, /tooling-audit|check-environment\.sh|semgrep-changed/, "pre-push must not require inherited full-Harness tooling gates");
-requireMatch(circleciConfig, /\/\/aiforui\.dev\/npm\/:_authToken=\$\{AIFORUI_NPM_TOKEN\}/, "CircleCI must authenticate private @aiforui packages from AIFORUI_NPM_TOKEN");
-rejectMatch(circleciConfig, /npm config set[^\n]*AIFORUI_NPM_TOKEN/, "CircleCI must not expose AIFORUI_NPM_TOKEN in process arguments");
+rejectMatch(circleciConfig, /AIFORUI_NPM_TOKEN|aiforui\.dev\/npm/, "CircleCI must not handle the removed inspector's private registry credential");
 
 const trackedReceipt = execFileSync("git", ["ls-files", ".harness/runtime/codex-preflight-status.json"], { cwd: repoRoot, encoding: "utf8" }).trim();
 if (trackedReceipt) errors.push("generated codex preflight receipt must not be tracked");
