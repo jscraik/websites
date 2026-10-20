@@ -10,7 +10,7 @@ const workCount = String(workCards.length).padStart(2, "0");
     <h2 id="work-carousel-title">All work <sup>{workCount}</sup></h2>
     <div class="work-row" aria-label="Curated proof cards" data-work-row>
       {workCards.map((item: WorkCard, index: number) => (
-        <a class="work-mini-card" href={item.href} data-active={index === Math.floor(workCards.length / 2) ? "true" : "false"}>
+        <a class="work-mini-card" href={item.href} data-active={index === 0 ? "true" : "false"}>
           <p class="work-card-count">{String(index + 1).padStart(2, "0")} / {workCount}</p>
           <div class={"work-thumbnail work-thumbnail--" + item.tone} aria-hidden="true">
             <img class="work-card-illustration" src={`/editorial/${item.illustration}-card.svg`} alt="" width="800" height="1000" loading="lazy" decoding="async" />

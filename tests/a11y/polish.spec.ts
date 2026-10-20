@@ -373,6 +373,13 @@ test.describe("UI polish contracts", () => {
     const previous = page.locator("[data-work-prev]");
     const next = page.locator("[data-work-next]");
     const row = page.locator("[data-work-row]");
+    await expect(previous).toBeEnabled();
+    await expect(next).toBeEnabled();
+    await expect(row.locator('[data-active="true"] h3')).toHaveText("CLI Tools");
+    await previous.focus();
+    for (let index = 0; index < 12 && await previous.getAttribute("aria-disabled") !== "true"; index += 1) {
+      await page.keyboard.press("Enter");
+    }
     await expect(previous).toHaveAttribute("aria-disabled", "true");
     await expect(previous).toBeDisabled();
     await previous.evaluate((element: HTMLButtonElement) => element.click());

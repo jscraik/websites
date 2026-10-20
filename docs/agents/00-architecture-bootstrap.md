@@ -122,6 +122,8 @@ Accessibility and visual suites share `tests/helpers/test.ts`. Without
 managed-browser recovery path connects to the runtime owner's disposable Chrome
 profile with `noDefaults: true`, then uses isolated contexts for each test.
 CDP runs use one worker so keyboard-focus checks do not compete for the browser.
+The test fixture tears down its contexts and lets worker exit disconnect CDP;
+it must not call `browser.close()` on the runtime owner's external Chrome.
 The render-flow validator uses the same CDP connection option. Never supply an
 authenticated browser profile. Visual baselines must be regenerated and checked
 again after intentional theme changes; source validation alone cannot prove them.

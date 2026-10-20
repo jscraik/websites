@@ -5,6 +5,8 @@ test.describe("navigation without JavaScript", () => {
 
   test("About, browser Back, and the primary project remain reachable", async ({ page }) => {
     await page.goto("/");
+    await expect(page.locator('[data-work-row] .work-mini-card').first()).toHaveAttribute("data-active", "true");
+    await expect(page.locator('[data-work-row] .work-mini-card').first().locator(".tag-row")).toHaveCSS("opacity", "1");
     const start = page.locator('[data-primary-start="true"]');
     await expect(start).toHaveAttribute("href", "/demos/skillsbar/");
 
