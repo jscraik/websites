@@ -261,13 +261,14 @@ export function rulesetApplies(ruleset, branch, defaultBranch = branch) {
 export function requiredChecks(result, repo, branch, run, gh, commandJson, parseJson, addBlocker) {
   const contexts = [];
   let requiredApprovals = 0;
-  const includeApprovals = /** Reject malformed policy rather than treating it as a zero-approval exception. */ (count, source) => {
+  /** Reject malformed policy rather than treating it as a zero-approval exception. */
+  function includeApprovals(count, source) {
     if (!Number.isInteger(count) || count < 0) {
       addBlocker(result, "approval_policy_invalid", `Invalid required human approval count in ${source}`, { count });
       return;
     }
     requiredApprovals = Math.max(requiredApprovals, count);
-  };
+  }
   const rulesetsPayload = commandJson(result, gh, ["api", "--paginate", "--slurp", `repos/${repo}/rulesets`], "repository rulesets");
   if (!Array.isArray(rulesetsPayload)) {
     addBlocker(result, "approval_policy_invalid", "Repository ruleset policy must be an array");
@@ -311,7 +312,7 @@ export function requiredChecks(result, repo, branch, run, gh, commandJson, parse
       contexts.push(...branchContexts);
       sources.push("branch protection");
     }
-  } else if (!/HTTP 404|not protected/i.test(protection.output)) {
+  } else if (!/Branch not protected/i.test(protection.output)) {
     addBlocker(result, "required_checks_unavailable", `Branch protection for ${branch} could not be verified`, {
       command: [gh, "api", `repos/${repo}/branches/${branch}/protection`].join(" "),
       exit_code: protection.code,
@@ -335,20 +336,23 @@ export function checkHumanApprovals(result, approvals, required, head, addBlocke
 
 /** Locate an authenticated current-head Codex completion artifact, not merge clearance. */
 export function currentCodexCompletion(entries, head, prUrl) {
-  const candidates = entries.filter((entry) => {
-    if (entry.user?.login !== "chatgpt-codex-connector[bot]" || entry.user?.type !== "Bot" ||
+  const candidates = [];
+  for (const entry of entries) {
+    if (entry?.user?.login !== "chatgpt-codex-connector[bot]" || entry.user?.type !== "Bot" ||
       !Number.isInteger(entry.user?.id) || entry.user.id <= 0 || !Number.isInteger(entry.id) || entry.id <= 0 ||
       entry.html_url !== `${prUrl}#issuecomment-${entry.id}` || typeof entry.body !== "string" ||
-      !entry.body.startsWith("<!-- codex-pull-request-review-summary -->")) return false;
+      !entry.body.startsWith("<!-- codex-pull-request-review-summary -->")) continue;
     const markers = [...entry.body.matchAll(/<!-- codex-review-state:v1 (.*?) -->/g)];
-    if (markers.length !== 1) return false;
+    if (markers.length !== 1) return null;
     try {
       const code = JSON.parse(markers[0][1]).code_review;
-      return code?.commit_sha === head && code.status === "completed" &&
-        code.has_any_findings === false && code.has_unresolved_findings === false;
+      if (code?.commit_sha === head) candidates.push({ entry, code });
     } catch {
-      return false;
+      return null;
     }
-  });
-  return candidates.length === 1 ? candidates[0] : null;
+  }
+  if (candidates.length !== 1) return null;
+  const { entry, code } = candidates[0];
+  return code.status === "completed" && code.has_any_findings === false &&
+    code.has_unresolved_findings === false ? entry : null;
 }

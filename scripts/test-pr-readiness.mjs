@@ -54,6 +54,11 @@ test("Codex artifact detection rejects stale, unauthenticated and incomplete sum
   ];
   for (const candidate of invalid) assert.equal(currentCodexCompletion([candidate], head, prUrl), null);
   assert.equal(currentCodexCompletion([entry, entry], head, prUrl), null);
+  const later = { ...entry, id: 124, html_url: `${prUrl}#issuecomment-124` };
+  assert.equal(currentCodexCompletion([entry, later], head, prUrl), null);
+  const laterFinding = { ...later, body: body({ code_review: { ...state.code_review, has_any_findings: true, has_unresolved_findings: true } }) };
+  assert.equal(currentCodexCompletion([entry, laterFinding], head, prUrl), null);
+  assert.equal(currentCodexCompletion([laterFinding, entry], head, prUrl), null);
 });
 
 test("single-star patterns stay within one path segment", () => {
@@ -182,6 +187,18 @@ test("required checks fail closed when branch protection lookup is unavailable",
   assert.deepEqual(checks.contexts, []);
   assert.equal(result.blockers[0].code, "required_checks_unavailable");
   assert.equal(result.blockers[1].code, "required_checks_unconfigured");
+});
+
+test("only an explicit unprotected-branch response permits absent protection", () => {
+  for (const output of ["HTTP 404: Not Found", "HTTP 404: Resource not accessible by integration", "HTTP 404: Branch not protected"]) {
+    const result = { blockers: [] };
+    const commandJson = (_result, _gh, args) => args.at(-1).endsWith("/rulesets") ? [[{ id: 1 }]] : {
+      target: "branch", enforcement: "active", rules: [{ type: "required_status_checks", parameters: { required_status_checks: [{ context: "lint" }] } }],
+    };
+    requiredChecks(result, "jscraik/portfolio", "main", () => ({ ok: false, output }), "gh", commandJson,
+      (value) => ({ value: JSON.parse(value), error: null }), (target, code) => target.blockers.push(code));
+    assert.deepEqual(result.blockers, output.includes("Branch not protected") ? [] : ["required_checks_unavailable"]);
+  }
 });
 
 test("hosted approval policy preserves zero and rejects malformed counts", () => {

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { securityStageStates, stageSymbol } from "../../lib/skillsbar-demo-fixtures";
 const stages = [
   ["Identity", "The exact source package is known and bound to its package ID, source revision and content digest, with provenance and ownership recorded."],
   ["Validation", "The plugin and its skills meet the applicable structural, metadata, resource, reference and presentation requirements."],
@@ -26,7 +27,7 @@ const stages = [
     <div class="focus-inspector">
       <header class="inspector-header"><img src="/products/skillsbar/icon-112.webp" width="48" height="48" alt="" /><div><p class="app-label">SKILLS SDK</p><strong>improve-agent-native</strong><p><span class="local-tag" id="origin">Local</span> <span class="attention" id="header-status">Needs attention</span></p></div></header>
       <fieldset class="scenario-control"><legend>Demo scenario</legend><button type="button" class="scenario" data-scenario="security" aria-pressed="true">Security review required</button><button type="button" class="scenario" data-scenario="identity" aria-pressed="false">Identity missing</button><button type="button" class="scenario" data-scenario="installed" aria-pressed="false">Installed copy found</button></fieldset>
-      <div class="stage-grid" aria-label="Nine evidence gates">{stages.map(([name], index) => <button type="button" class="stage" aria-pressed={index === 2 ? "true" : "false"} aria-label={`Gate ${index + 1}: ${name}`}><span>{String(index + 1).padStart(2, "0")}</span><span class="stage-symbol" aria-hidden="true">{index < 2 ? "✓" : index === 2 ? "!" : "−"}</span><strong>{name}</strong><small class="stage-state">{index < 2 ? "Passed" : index === 2 ? "Review required" : "Unproven"}</small></button>)}</div>
+      <div class="stage-grid" aria-label="Nine evidence gates">{stages.map(([name], index) => <button type="button" class="stage" aria-pressed={index === 2 ? "true" : "false"} aria-label={`Gate ${index + 1}: ${name}`}><span>{String(index + 1).padStart(2, "0")}</span><span class="stage-symbol" aria-hidden="true">{stageSymbol(securityStageStates[index])}</span><strong>{name}</strong><small class="stage-state">{securityStageStates[index]}</small></button>)}</div>
       <p id="pipeline-summary" class="stage-summary">2 passed · 1 needs review · 6 awaiting proof</p>
       <section class="stage-detail" aria-labelledby="action-title"><div class="gate-context"><span id="gate-index">Gate 03 / 09</span><span id="next-required">Next required</span></div><h2 id="action-title">Security</h2><p id="detail-status">Review required · 1 critical · 2 high (synthetic)</p><p id="action-detail">Full security receipt missing or malformed. Inspect findings before continuing.</p><div id="command-actions" hidden><details id="command-disclosure"><summary>Show command</summary><pre><code id="command-text">./bin/ask sdk start Skills/agent-ops/improve-agent-native --json --robot</code></pre></details><button id="copy-command" type="button">Copy command</button></div><p id="command-unavailable">Visual reference · no executable command</p><p id="copy-status" role="status" aria-live="polite"></p></section>
       <details class="registry-details"><summary>Tessl Registry <span id="registry-state">Unavailable</span></summary><p id="registry-description">No cached registry evidence in this fixture.</p><p>Registry evidence stays separate from local checks. A registry score cannot pass a local gate.</p></details>
@@ -36,10 +37,11 @@ const stages = [
   </section>
   <section class="lifecycle section-shell" aria-labelledby="lifecycle-title"><h2 id="lifecycle-title">What each gate should prove</h2><p>These are target evidence requirements, not a claim that every route is executable end to end.</p><ol>{stages.map(([name, description]) => <li><h3>{name}</h3><p>{description}</p></li>)}</ol><p>Security remains active throughout, including a final scoped check at Staging. A changed candidate invalidates affected evidence and dependent stages; independently valid upstream evidence can remain. Publication and Runtime require readback and behaviour evidence from the registry and host adapters.</p></section>
   <script>
+    import { securityStageStates, stageSymbol } from "../../lib/skillsbar-demo-fixtures";
     const names = ["Identity", "Validation", "Security", "Eval prep", "Local eval", "Cloud eval", "Staging", "Publication", "Runtime"];
     const command = "./bin/ask sdk start Skills/agent-ops/improve-agent-native --json --robot";
     const scenarios = {
-      security: { next: 2, summary: "2 passed · 1 needs review · 6 awaiting proof", states: ["Passed", "Passed", "Review required", "Held", "Unproven", "Unproven", "Unproven", "Unproven", "Unproven"] },
+      security: { next: 2, summary: "2 passed · 1 needs review · 6 awaiting proof", states: securityStageStates },
       identity: { next: 0, summary: "1 needs review · 8 awaiting proof", states: ["Review required", "Held", "Held", "Held", "Unproven", "Unproven", "Unproven", "Unproven", "Unproven"] },
       installed: { next: 0, summary: "Installed copy found · 9 stages unproven", states: Array<string>(9).fill("Unproven") },
     };
@@ -56,7 +58,7 @@ const stages = [
         button.dataset.next = String(index === data.next);
         button.dataset.status = state;
         const symbol = button.querySelector(".stage-symbol"); const label = button.querySelector(".stage-state");
-        if (symbol) symbol.textContent = state === "Passed" ? "✓" : state === "Review required" ? "!" : state === "Held" ? "Ⅱ" : "−";
+        if (symbol) symbol.textContent = stageSymbol(state);
         if (label) label.textContent = state;
       });
       document.querySelectorAll<HTMLButtonElement>(".scenario").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.scenario === scenario)));

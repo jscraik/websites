@@ -338,7 +338,7 @@ test.describe("UI polish contracts", () => {
       expect(await artwork.evaluate((element) => getComputedStyle(element, "::before").content)).toBe("none");
       const capture = artwork.locator("img.featured-native-capture");
       await expect(capture).toBeVisible();
-      expect(await capture.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth > 0)).toBe(true);
+      await expect.poll(() => capture.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth > 0)).toBe(true);
       if (width <= 360) {
         for (const right of geometry.lines) expect(right).toBeLessThanOrEqual(width - geometry.left);
       }

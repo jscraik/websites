@@ -49,6 +49,11 @@ Its strongest applicable count and fail-closed policy lookup are covered by
 The local Codex artifact inventory also recognises an authenticated current-head
 completion summary. Negative fixtures reject stale, incomplete, failed or
 wrong-author summaries. Global update receipts retain final clearance authority.
+Multiple current-head summaries are ambiguous even when one claims no findings;
+artifact detection must not filter away a later findings or failure summary.
+The SkillsBar demo's initial security states and symbols live in
+`src/lib/skillsbar-demo-fixtures.ts` so server markup and client enhancement use
+the same evidence. Browser contracts check that state with and without JavaScript.
 
 CircleCI owns the repository's pull-request validation workflows, while the
 `pages-production` workflow is the only production publication path. It runs

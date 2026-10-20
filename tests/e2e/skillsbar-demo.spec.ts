@@ -4,6 +4,7 @@ test("stage inspection leaves evidence unchanged and refresh preserves selection
   await page.goto("/demos/skillsbar/");
   await expect(page.locator(".stage strong")).toHaveText(["Identity", "Validation", "Security", "Eval prep", "Local eval", "Cloud eval", "Staging", "Publication", "Runtime"]);
   const states = await page.locator(".stage-state").allTextContents();
+  expect(states).toEqual(["Passed", "Passed", "Review required", "Held", "Unproven", "Unproven", "Unproven", "Unproven", "Unproven"]);
   await page.locator(".stage").nth(8).click();
   await expect(page.locator("#action-title")).toHaveText("Runtime");
   await expect(page.locator("#next-required")).toHaveText("Next required: Security");
