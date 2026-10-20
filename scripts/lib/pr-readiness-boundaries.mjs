@@ -257,8 +257,18 @@ export function rulesetApplies(ruleset, branch, defaultBranch = branch) {
   return included && !excluded;
 }
 
+/** Read required status contexts and the strongest human quorum from hosted policy. */
 export function requiredChecks(result, repo, branch, run, gh, commandJson, parseJson, addBlocker) {
   const contexts = [];
+  let requiredApprovals = 0;
+  /** Reject malformed policy rather than treating it as a zero-approval exception. */
+  const includeApprovals = (count, source) => {
+    if (!Number.isInteger(count) || count < 0) {
+      addBlocker(result, "approval_policy_invalid", `Invalid required human approval count in ${source}`, { count });
+      return;
+    }
+    requiredApprovals = Math.max(requiredApprovals, count);
+  };
   const rulesetsPayload = commandJson(result, gh, ["api", "--paginate", "--slurp", `repos/${repo}/rulesets`], "repository rulesets");
   const rulesets = Array.isArray(rulesetsPayload)
     ? rulesetsPayload.flatMap((page) => (Array.isArray(page) ? page : [page]))
@@ -268,6 +278,7 @@ export function requiredChecks(result, repo, branch, run, gh, commandJson, parse
       const detail = commandJson(result, gh, ["api", `repos/${repo}/rulesets/${summary.id}`], `ruleset ${summary.id}`);
       if (!detail || !rulesetApplies(detail, branch, branch)) continue;
       for (const rule of detail.rules || []) {
+        if (rule.type === "pull_request") includeApprovals(rule.parameters?.required_approving_review_count, `ruleset ${summary.id}`);
         if (rule.type !== "required_status_checks") continue;
         for (const check of rule.parameters?.required_status_checks || []) {
           if (check.context && !contexts.includes(check.context)) contexts.push(check.context);
@@ -281,6 +292,7 @@ export function requiredChecks(result, repo, branch, run, gh, commandJson, parse
   if (protection.ok) {
     const parsed = parseJson(protection.stdout, `branch protection for ${branch}`);
     if (parsed.error) addBlocker(result, "invalid_command_output", parsed.error, { command: [gh, "api", `repos/${repo}/branches/${branch}/protection`].join(" ") });
+    if (parsed.value?.required_pull_request_reviews) includeApprovals(parsed.value.required_pull_request_reviews.required_approving_review_count, "branch protection");
     const branchContexts = [
       ...(parsed.value?.required_status_checks?.contexts || []),
       ...(parsed.value?.required_status_checks?.checks || []).map((check) => check.context).filter(Boolean),
@@ -297,7 +309,16 @@ export function requiredChecks(result, repo, branch, run, gh, commandJson, parse
     });
   }
   const uniqueContexts = [...new Set(contexts)];
-  if (uniqueContexts.length > 0) return { contexts: uniqueContexts, source: sources.join(" + ") };
+  if (uniqueContexts.length > 0) return { contexts: uniqueContexts, requiredApprovals, source: sources.join(" + ") };
   addBlocker(result, "required_checks_unconfigured", `No required status checks are configured for protected branch ${branch}`);
-  return { contexts: [], source: "none found" };
+  return { contexts: [], requiredApprovals, source: "none found" };
+}
+
+/** Enforce the hosted human quorum separately from independent bot-review evidence. */
+export function checkHumanApprovals(result, approvals, required, head, addBlocker) {
+  if (!Number.isInteger(required) || required < 0) {
+    addBlocker(result, "approval_policy_invalid", "Required human approval count is unavailable or invalid");
+  } else if (approvals.length < required) {
+    addBlocker(result, "independent_approval_missing", `Current-head independent human approvals: ${approvals.length}; required: ${required}`, { head_sha: head });
+  }
 }

@@ -6,6 +6,7 @@ import path from "node:path";
 
 import {
   checkDirty,
+  checkHumanApprovals,
   globMatches,
   loadScope,
   readChangedFiles,
@@ -16,6 +17,21 @@ import {
 test("directory scope patterns include nested files", () => {
   assert.equal(globMatches("docs/implementation-notes/pr-readiness-gate.md", "docs/implementation-notes/"), true);
   assert.equal(globMatches("docs/implementation-notes/pr-readiness-gate.md", "docs/implementation-notes"), true);
+});
+
+test("solo-maintainer human quorum can be zero without satisfying bot-review lanes", () => {
+  const result = { blockers: [], reviews: { current_codex: 0, current_coderabbit: 0 } };
+  checkHumanApprovals(result, [], 0, "current", (target, code) => target.blockers.push(code));
+  assert.deepEqual(result.blockers, []);
+  assert.deepEqual(result.reviews, { current_codex: 0, current_coderabbit: 0 });
+});
+
+test("non-zero human quorum and unknown policy fail closed", () => {
+  for (const required of [1, 2, undefined, -1, "0"]) {
+    const result = { blockers: [] };
+    checkHumanApprovals(result, [], required, "current", (target, code) => target.blockers.push(code));
+    assert.equal(result.blockers.length, 1);
+  }
 });
 
 test("single-star patterns stay within one path segment", () => {
@@ -104,7 +120,7 @@ test("required checks union active rulesets and branch protection", () => {
         enforcement: "active",
         target: "branch",
         conditions: { ref_name: { include: ["~ALL"] } },
-        rules: [{ type: "required_status_checks", parameters: { required_status_checks: [{ context: "lint" }] } }],
+        rules: [{ type: "required_status_checks", parameters: { required_status_checks: [{ context: "lint" }] } }, { type: "pull_request", parameters: { required_approving_review_count: 2 } }],
       };
     }
     return null;
@@ -113,13 +129,14 @@ test("required checks union active rulesets and branch protection", () => {
     result,
     "jscraik/portfolio",
     "main",
-    () => ({ ok: true, stdout: JSON.stringify({ required_status_checks: { contexts: ["test"], checks: [] } }), output: "" }),
+    () => ({ ok: true, stdout: JSON.stringify({ required_status_checks: { contexts: ["test"], checks: [] }, required_pull_request_reviews: { required_approving_review_count: 1 } }), output: "" }),
     "gh",
     commandJson,
     (output) => ({ value: JSON.parse(output), error: null }),
     (target, code, message, evidence) => target.blockers.push({ code, message, evidence })
   );
   assert.deepEqual(checks.contexts, ["lint", "test"]);
+  assert.equal(checks.requiredApprovals, 2);
   assert.equal(checks.source, "active repository ruleset + branch protection");
   assert.deepEqual(result.blockers, []);
 });
@@ -143,4 +160,16 @@ test("required checks fail closed when branch protection lookup is unavailable",
   assert.deepEqual(checks.contexts, []);
   assert.equal(result.blockers[0].code, "required_checks_unavailable");
   assert.equal(result.blockers[1].code, "required_checks_unconfigured");
+});
+
+test("hosted approval policy preserves zero and rejects malformed counts", () => {
+  for (const count of [0, -1, "0"]) {
+    const result = { blockers: [] };
+    const checks = requiredChecks(result, "jscraik/portfolio", "main",
+      () => ({ ok: true, stdout: JSON.stringify({ required_status_checks: { contexts: ["lint"] }, required_pull_request_reviews: { required_approving_review_count: count } }), output: "" }),
+      "gh", () => [], (output) => ({ value: JSON.parse(output), error: null }),
+      (target, code) => target.blockers.push(code));
+    assert.equal(checks.requiredApprovals, 0);
+    assert.deepEqual(result.blockers, count === 0 ? [] : ["approval_policy_invalid"]);
+  }
 });

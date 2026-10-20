@@ -34,8 +34,9 @@ the `jscraik/` branch prefix without an issue key when its body records a
 concrete Linear `n/a` reason; issue-linked delivery still uses the generated
 `jscraik/<linear-key>-<short-description>` branch.
 
-For a solo-maintainer waiver, record an explicit policy exception. It does not
-become an independent approval. Keep current local validation, hosted checks,
+For the solo-maintainer workflow, use the hosted human approval quorum; zero
+does not require a second human. A waiver of other requirements needs an explicit
+policy exception and does not become an independent approval. Keep current local validation, hosted checks,
 review artifacts, Linear linkage, and merge readiness as distinct evidence
 lanes.
 

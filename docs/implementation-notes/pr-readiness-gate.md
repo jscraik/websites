@@ -17,7 +17,7 @@ The gate keeps local and hosted evidence in one machine-readable receipt while r
 - `pre-pr` verifies the current remote base and tracked-branch head ancestry, changed-file scope, and dirty-worktree boundary before a PR is created.
 - `merge` verifies the hosted PR is open and non-draft, its base and head are available, its merge state is current, and its base is an ancestor of the current head.
 - `merge` also resolves an active required-status-check configuration from repository rulesets or branch protection for the protected integration branch, then compares every required context with the current reported check result.
-- `merge` requires current-head evidence for an independent human approval, a Codex review, and a CodeRabbit review. Reviews attached to an older head do not satisfy the gate.
+- `merge` reads the required human approval count from active GitHub rulesets and branch protection, taking the strongest applicable count. Zero permits the solo-maintainer workflow; a configured non-zero count still requires that many independent current-head human approvals. Missing or malformed policy evidence blocks readiness. Codex and CodeRabbit review evidence remain separate requirements. Reviews attached to an older head do not satisfy the gate.
 - A PR whose base is another feature branch is treated as stacked. Its parent PR must be discoverable by base branch and be merged before the child is ready.
 - Both phases require an explicit scope manifest (or equivalent `--allow-path` patterns) and reject unapproved dirty paths.
 

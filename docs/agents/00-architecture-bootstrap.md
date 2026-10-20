@@ -42,6 +42,11 @@ For dependency and lockfile changes, update affected architecture documentation,
 run source validation and report production and development-tool audits separately.
 Generated runtime receipts remain evidence rather than canonical source.
 
+The PR-readiness boundary reads the human approval quorum from active hosted
+rulesets and branch protection instead of assuming a second maintainer exists.
+Its strongest applicable count and fail-closed policy lookup are covered by
+`npm run test:pr-readiness`; independent bot-review and CI lanes remain separate.
+
 CircleCI owns the repository's pull-request validation workflows, while the
 `pages-production` workflow is the only production publication path. It runs
 on `main` with the restricted `cloudflare-pages-production` context, validates
