@@ -6,6 +6,7 @@ export function extractStartLinkRecords(source) {
     .map(({ href, label }) => ({ href, label }));
 }
 
+/** Check that one primary link binds the SkillsBar demo route to its supporting label. */
 export function hasPrimarySkillsBarLink(source) {
   return extractStartLinkRecords(source).some(
     ({ href, label }) => href === "/demos/skillsbar/" && label === "Explore the interactive demo"

@@ -13,6 +13,7 @@ export function initCarouselControls(root: ParentNode = document): void {
     controls.dataset.carouselReady = "true";
     const cards = Array.from(workRow.querySelectorAll<HTMLElement>(".work-mini-card"));
 
+    /** Select the card whose visual centre is closest to the row's centre. */
     const updateActiveCard = () => {
       const centre = workRow.getBoundingClientRect().left + workRow.clientWidth / 2;
       let active = cards[0];
@@ -25,6 +26,7 @@ export function initCarouselControls(root: ParentNode = document): void {
       for (const card of cards) card.dataset.active = String(card === active);
     };
 
+    /** Sync progress and endpoint availability, transferring focus off disabled controls. */
     const updateControls = () => {
       if (cards.length) updateActiveCard();
       const maxScroll = workRow.scrollWidth - workRow.clientWidth;
@@ -48,6 +50,7 @@ export function initCarouselControls(root: ParentNode = document): void {
       }
     };
 
+    /** Advance one measured card interval; keyboard and reduced-motion input scroll immediately. */
     const scrollCards = (direction: number, keyboardActivated: boolean) => {
       const step = cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : Math.max(288, workRow.clientWidth * 0.72);
       workRow.scrollBy({
