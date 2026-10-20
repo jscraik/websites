@@ -21,6 +21,12 @@ requires an explicitly selected, supported authoring workflow.
 
 ## Validation Boundary
 
+The package override pins Vite to `8.1.6`, the patched `8.1` maintenance release
+for GHSA-698v-4r3x-3vcv. Keep the override and lockfile aligned until the Astro
+dependency chain resolves a patched version without it. The ordinary audit
+job rejects moderate production advisories; `audit:strict` is the separate
+high-severity dependency-scan lane. Neither threshold is waived by this pin.
+
 `src/components/WorkCarousel.astro` owns the All work card markup, pointer
 feedback and controls used by both the homepage and case studies. Both callers
 pass the complete ordered project list; keep their rendered treatment shared.

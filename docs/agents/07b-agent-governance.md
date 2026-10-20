@@ -90,6 +90,11 @@ the design authority. Current-live comparisons remain advisory evidence, and
 agents must not silently refresh the bundle, weaken mismatch budgets, or turn
 identity-specific copy and imagery into the structural comparison oracle.
 
+Dependency remediation must preserve the existing audit thresholds. Vite's
+`8.1.6` override addresses GHSA-698v-4r3x-3vcv without a framework upgrade;
+remove that compatibility pin only when the dependency chain resolves a
+patched version and the normal production audit passes.
+
 The shared portfolio shell is a route-independent governance boundary:
 `src/styles/shell.css` owns the header, navigation background, and footer
 surfaces, while route-local styles keep each page canvas on the neutral paper
