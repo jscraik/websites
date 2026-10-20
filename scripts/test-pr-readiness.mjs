@@ -7,6 +7,7 @@ import path from "node:path";
 import {
   checkDirty,
   checkHumanApprovals,
+  currentCodexCompletion,
   globMatches,
   loadScope,
   readChangedFiles,
@@ -32,6 +33,27 @@ test("non-zero human quorum and unknown policy fail closed", () => {
     checkHumanApprovals(result, [], required, "current", (target, code) => target.blockers.push(code));
     assert.equal(result.blockers.length, 1);
   }
+});
+
+test("Codex artifact detection rejects stale, unauthenticated and incomplete summaries", () => {
+  const head = "a".repeat(40), prUrl = "https://github.com/jscraik/websites/pull/49";
+  const state = { code_review: { commit_sha: head, status: "completed", has_any_findings: false, has_unresolved_findings: false } };
+  const body = (value) => `<!-- codex-pull-request-review-summary -->\n<!-- codex-review-state:v1 ${JSON.stringify(value)} -->`;
+  const entry = { id: 123, user: { id: 456, login: "chatgpt-codex-connector[bot]", type: "Bot" }, html_url: `${prUrl}#issuecomment-123`, body: body(state) };
+  assert.equal(currentCodexCompletion([entry], head, prUrl), entry);
+  const invalid = [
+    { ...entry, user: { ...entry.user, login: "author" } },
+    { ...entry, user: { ...entry.user, type: "User" } },
+    { ...entry, html_url: "https://github.com/other/repo/pull/49#issuecomment-123" },
+    { ...entry, body: "<!-- codex-pull-request-review-summary -->\n<!-- codex-review-state:v1 broken -->" },
+    { ...entry, body: body({ security_review: state.code_review }) },
+    ...["running", "failed"].map(status => ({ ...entry, body: body({ code_review: { ...state.code_review, status } }) })),
+    { ...entry, body: body({ code_review: { ...state.code_review, commit_sha: "b".repeat(40) } }) },
+    { ...entry, body: body({ code_review: { ...state.code_review, has_unresolved_findings: true } }) },
+    { ...entry, body: body({ code_review: { ...state.code_review, has_any_findings: null } }) },
+  ];
+  for (const candidate of invalid) assert.equal(currentCodexCompletion([candidate], head, prUrl), null);
+  assert.equal(currentCodexCompletion([entry, entry], head, prUrl), null);
 });
 
 test("single-star patterns stay within one path segment", () => {

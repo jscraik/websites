@@ -332,3 +332,23 @@ export function checkHumanApprovals(result, approvals, required, head, addBlocke
     addBlocker(result, "independent_approval_missing", `Current-head independent human approvals: ${approvals.length}; required: ${required}`, { head_sha: head });
   }
 }
+
+/** Locate an authenticated current-head Codex completion artifact, not merge clearance. */
+export function currentCodexCompletion(entries, head, prUrl) {
+  const candidates = entries.filter((entry) => {
+    if (entry.user?.login !== "chatgpt-codex-connector[bot]" || entry.user?.type !== "Bot" ||
+      !Number.isInteger(entry.user?.id) || entry.user.id <= 0 || !Number.isInteger(entry.id) || entry.id <= 0 ||
+      entry.html_url !== `${prUrl}#issuecomment-${entry.id}` || typeof entry.body !== "string" ||
+      !entry.body.startsWith("<!-- codex-pull-request-review-summary -->")) return false;
+    const markers = [...entry.body.matchAll(/<!-- codex-review-state:v1 (.*?) -->/g)];
+    if (markers.length !== 1) return false;
+    try {
+      const code = JSON.parse(markers[0][1]).code_review;
+      return code?.commit_sha === head && code.status === "completed" &&
+        code.has_any_findings === false && code.has_unresolved_findings === false;
+    } catch {
+      return false;
+    }
+  });
+  return candidates.length === 1 ? candidates[0] : null;
+}

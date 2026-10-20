@@ -46,6 +46,9 @@ The PR-readiness boundary reads the human approval quorum from active hosted
 rulesets and branch protection instead of assuming a second maintainer exists.
 Its strongest applicable count and fail-closed policy lookup are covered by
 `npm run test:pr-readiness`; independent bot-review and CI lanes remain separate.
+The local Codex artifact inventory also recognises an authenticated current-head
+completion summary. Negative fixtures reject stale, incomplete, failed or
+wrong-author summaries. Global update receipts retain final clearance authority.
 
 CircleCI owns the repository's pull-request validation workflows, while the
 `pages-production` workflow is the only production publication path. It runs

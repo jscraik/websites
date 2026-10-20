@@ -23,6 +23,15 @@ The gate keeps local and hosted evidence in one machine-readable receipt while r
 
 Passing local checks do not prove hosted review or CI state. Passing hosted checks do not prove that unrelated local dirty files were excluded. The gate reports each lane separately so a closeout can state exactly what remains blocked.
 
+Codex can publish a no-findings review as its authenticated PR completion
+summary instead of a formal PR review submission. The local artifact inventory
+accepts only the exact Codex bot, PR URL and current head with a completed code
+review and explicit false finding flags. A security-only, stale, failed,
+incomplete, malformed or ambiguous summary does not count. This is artifact
+detection, not independent clearance: the global current-head update receipt
+still verifies reviewer verdicts, reaction provenance, later concerns and all
+other merge requirements before merge.
+
 ## Scope manifest
 
 Use a short-lived, reviewable manifest for each PR boundary. The schema is `portfolio-pr-scope/v1`:

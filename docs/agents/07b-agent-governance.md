@@ -40,6 +40,10 @@ policy exception and does not become an independent approval. Keep current local
 review artifacts, Linear linkage, and merge readiness as distinct evidence
 lanes.
 
+Codex's authenticated current-head completion summary is a supported review
+artifact even when no formal review submission is created. Artifact presence
+does not replace the global update receipt's verdict, reaction and concern checks.
+
 ## Evidence format
 
 Report command evidence with its scope and result:
