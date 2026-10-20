@@ -261,8 +261,7 @@ export function rulesetApplies(ruleset, branch, defaultBranch = branch) {
 export function requiredChecks(result, repo, branch, run, gh, commandJson, parseJson, addBlocker) {
   const contexts = [];
   let requiredApprovals = 0;
-  /** Reject malformed policy rather than treating it as a zero-approval exception. */
-  const includeApprovals = (count, source) => {
+  const includeApprovals = /** Reject malformed policy rather than treating it as a zero-approval exception. */ (count, source) => {
     if (!Number.isInteger(count) || count < 0) {
       addBlocker(result, "approval_policy_invalid", `Invalid required human approval count in ${source}`, { count });
       return;
@@ -270,13 +269,24 @@ export function requiredChecks(result, repo, branch, run, gh, commandJson, parse
     requiredApprovals = Math.max(requiredApprovals, count);
   };
   const rulesetsPayload = commandJson(result, gh, ["api", "--paginate", "--slurp", `repos/${repo}/rulesets`], "repository rulesets");
+  if (!Array.isArray(rulesetsPayload)) {
+    addBlocker(result, "approval_policy_invalid", "Repository ruleset policy must be an array");
+  }
   const rulesets = Array.isArray(rulesetsPayload)
     ? rulesetsPayload.flatMap((page) => (Array.isArray(page) ? page : [page]))
     : [];
   if (Array.isArray(rulesets)) {
     for (const summary of rulesets) {
+      if (!summary || !Number.isInteger(summary.id) || summary.id <= 0) {
+        addBlocker(result, "approval_policy_invalid", "Repository ruleset entry has no valid id");
+        continue;
+      }
       const detail = commandJson(result, gh, ["api", `repos/${repo}/rulesets/${summary.id}`], `ruleset ${summary.id}`);
-      if (!detail || !rulesetApplies(detail, branch, branch)) continue;
+      if (!detail || !["active", "disabled", "evaluate"].includes(detail.enforcement) || !["branch", "tag", "push"].includes(detail.target) || !Array.isArray(detail.rules)) {
+        addBlocker(result, "approval_policy_invalid", `Ruleset ${summary.id} policy is malformed`);
+        continue;
+      }
+      if (!rulesetApplies(detail, branch, branch)) continue;
       for (const rule of detail.rules || []) {
         if (rule.type === "pull_request") includeApprovals(rule.parameters?.required_approving_review_count, `ruleset ${summary.id}`);
         if (rule.type !== "required_status_checks") continue;

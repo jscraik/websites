@@ -173,3 +173,26 @@ test("hosted approval policy preserves zero and rejects malformed counts", () =>
     assert.deepEqual(result.blockers, count === 0 ? [] : ["approval_policy_invalid"]);
   }
 });
+
+test("malformed ruleset lists cannot infer zero approvals from branch checks", () => {
+  for (const payload of [{}, null, [null], [{}], [[{ id: "1" }]]]) {
+    const result = { blockers: [] };
+    requiredChecks(result, "jscraik/portfolio", "main",
+      () => ({ ok: true, stdout: JSON.stringify({ required_status_checks: { contexts: ["lint"] } }), output: "" }),
+      "gh", () => payload, (output) => ({ value: JSON.parse(output), error: null }),
+      (target, code) => target.blockers.push(code));
+    assert.ok(result.blockers.includes("approval_policy_invalid"));
+  }
+});
+
+test("malformed ruleset detail cannot silently remove a human quorum", () => {
+  for (const detail of [null, {}, { enforcement: "active", target: "branch", rules: {} }]) {
+    const result = { blockers: [] };
+    requiredChecks(result, "jscraik/portfolio", "main",
+      () => ({ ok: false, output: "HTTP 404: Branch not protected" }), "gh",
+      (_result, _gh, args) => args.at(-1).endsWith("/rulesets") ? [[{ id: 1 }]] : detail,
+      (output) => ({ value: JSON.parse(output), error: null }),
+      (target, code) => target.blockers.push(code));
+    assert.ok(result.blockers.includes("approval_policy_invalid"));
+  }
+});

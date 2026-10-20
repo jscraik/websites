@@ -345,6 +345,7 @@ function humanSummary(result) {
   for (const blocker of result.blockers) console.log(`- ${blocker.code}: ${blocker.message}`);
 }
 
+/** Collect local and hosted proof lanes and return a non-zero status for any blocker. */
 function main() {
   let options;
   try {
