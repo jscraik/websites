@@ -34,7 +34,7 @@ let context;
 try {
   if (cdpEndpoint) {
     browser = await chromium.connectOverCDP(cdpEndpoint, { noDefaults: true });
-    context = browser.contexts()[0] ?? await browser.newContext();
+    context = await browser.newContext();
   } else {
     browser = await chromium.launch();
     context = await browser.newContext();
@@ -54,7 +54,8 @@ try {
     await page.close();
   }
 } finally {
-  await browser.close();
+  if (cdpEndpoint) await context.close();
+  else await browser.close();
   await new Promise((resolve) => server.instance.close(resolve));
 }
 
@@ -73,6 +74,8 @@ console.log(
     (cdpEndpoint ? " via " + cdpEndpoint : "") +
     ".",
 );
+// Disconnect this validator without closing the runtime owner's CDP browser.
+if (cdpEndpoint) process.exit(0);
 
 function builtRoutes() {
   return listFiles(distRoot)

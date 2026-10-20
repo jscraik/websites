@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "../helpers/test";
 
 test.describe("navigation without JavaScript", () => {
   test.use({ javaScriptEnabled: false });

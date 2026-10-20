@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "../helpers/test";
 
 test("stage inspection leaves evidence unchanged and refresh preserves selection", async ({ page }) => {
   await page.goto("/demos/skillsbar/");

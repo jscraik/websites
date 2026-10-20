@@ -159,12 +159,11 @@ test.describe("UI polish contracts", () => {
       await expect(portrait).toHaveAttribute("src", "/personal/jamie-developer.webp");
       expect((await portrait.boundingBox())!.width).toBeLessThanOrEqual(180);
       const spacing = await page.evaluate(() => {
-        const latest = document.querySelector(".latest-article")!.getBoundingClientRect();
-        const title = document.querySelector(".blog-title-block")!.getBoundingClientRect();
+        const index = document.querySelector(".blog-index")!.getBoundingClientRect();
         const list = document.querySelector(".article-list")!.getBoundingClientRect();
         const about = document.querySelector(".blog-about-card")!.getBoundingClientRect();
         const lastArticle = document.querySelector(".blog-list-item:last-child")!.getBoundingClientRect();
-        return { beforeList: list.top - Math.max(latest.bottom, title.bottom), beforeAbout: about.top - lastArticle.bottom };
+        return { beforeList: list.top - index.bottom, beforeAbout: about.top - lastArticle.bottom };
       });
       for (const [section, gap] of Object.entries(spacing)) {
         expect(gap, `${section} at ${width}px`).toBeGreaterThanOrEqual(32);
@@ -337,7 +336,9 @@ test.describe("UI polish contracts", () => {
       expect(label!.y + label!.height).toBeLessThan(firstCard!.y);
       const artwork = page.locator(".skillsbar-artwork");
       expect(await artwork.evaluate((element) => getComputedStyle(element, "::before").content)).toBe("none");
-      expect(await artwork.locator(".skillsbar-preview__header span").evaluate((element) => getComputedStyle(element).position)).toBe("static");
+      const capture = artwork.locator("img.featured-native-capture");
+      await expect(capture).toBeVisible();
+      expect(await capture.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth > 0)).toBe(true);
       if (width <= 360) {
         for (const right of geometry.lines) expect(right).toBeLessThanOrEqual(width - geometry.left);
       }
@@ -377,8 +378,10 @@ test.describe("UI polish contracts", () => {
     await expect(next).toBeEnabled();
     await expect(row.locator('[data-active="true"] h3')).toHaveText("CLI Tools");
     await previous.focus();
-    for (let index = 0; index < 12 && await previous.getAttribute("aria-disabled") !== "true"; index += 1) {
+    for (let index = 0; index < 12 && await row.evaluate((element) => element.scrollLeft) > 4; index += 1) {
+      const before = await row.evaluate((element) => element.scrollLeft);
       await page.keyboard.press("Enter");
+      await expect.poll(() => row.evaluate((element) => element.scrollLeft)).toBeLessThan(before);
     }
     await expect(previous).toHaveAttribute("aria-disabled", "true");
     await expect(previous).toBeDisabled();
