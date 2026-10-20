@@ -96,8 +96,8 @@ function validateHtml(file, html) {
       }
       if (file === "dist/now/index.html" && (attrs.class ?? "").split(/\s+/).includes("about-portrait")) {
         aboutPortraitFound = true;
-        if (attrs.src !== "/jamie-profile-360x480.webp" || attrs.width !== "360" || attrs.height !== "480") {
-          fail(file, line, "About portrait must use the center-cropped 360x480 source and matching dimensions.");
+        if (attrs.src !== "/personal/jamie-developer.webp" || attrs.width !== "900" || attrs.height !== "900") {
+          fail(file, line, "About portrait must use the approved 900x900 developer source and matching dimensions.");
         }
       }
       if (isBelowFoldPortrait(file, html, match.index, attrs)) {

@@ -18,17 +18,17 @@ if (!latestArticle) {
 const otherArticles = articles.filter((article) => article.id !== latestArticle.id);
 ---
 
-<BaseLayout title="Writing | Jamie Scott Craik" description="Technical writing from Jamie Scott Craik about software projects, AI-assisted delivery, developer tools, and lessons from a career switch.">
+<BaseLayout title="Blog | Jamie Scott Craik" description="Technical writing from Jamie Scott Craik about software projects, AI-assisted delivery, developer tools, and lessons from a career switch.">
   <header class="blog-index section-shell" aria-labelledby="blog-title">
     <div class="blog-title-block">
       <div class="blog-heading-lockup">
-        <h1 id="blog-title">Writing</h1>
+        <h1 id="blog-title">Blog</h1>
         <span class="icon-box blog-heading-icon" aria-hidden="true">
           <Icon name="pencil" />
         </span>
       </div>
       <div class="draft-links">
-        <p class="eyebrow">Writing next</p>
+        <p class="eyebrow">In my drafts</p>
         {drafts.map((draft) => (
           <span><Icon name="document" />{draft.data.title}</span>
         ))}
@@ -76,12 +76,10 @@ const otherArticles = articles.filter((article) => article.id !== latestArticle.
 
     <section class="blog-about-card" aria-labelledby="blog-about-title">
       <img
-        src="/jamie-profile-480.webp"
-        srcset="/jamie-profile-480.webp 480w, /jamie-profile-640.webp 640w"
-        sizes="(max-width: 640px) calc(100vw - 40px), 480px"
+        src="/personal/jamie-developer.webp"
         alt="Jamie Scott Craik"
-        width="640"
-        height="640"
+        width="900"
+        height="900"
         loading="lazy"
         decoding="async"
       />

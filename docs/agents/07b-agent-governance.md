@@ -81,6 +81,10 @@ Route-specific editorial rhythm belongs in `src/styles/route-rhythm.css`, not
 the shared shell. Keep its selectors scoped to the owning route and run the
 rendered validation contract when that stylesheet changes.
 
+Portfolio navigation uses native route links with a static background. Its
+source and browser contracts check stable geometry and consistent destinations;
+the retired moving/reparented highlight is not a required parity mechanism.
+
 For Jose parity work, the stored bundle and its accepted decision record are
 the design authority. Current-live comparisons remain advisory evidence, and
 agents must not silently refresh the bundle, weaken mismatch budgets, or turn

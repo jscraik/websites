@@ -2,6 +2,8 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { initCarouselControls } from "./carousel-controls";
 
 class FakeElement {
+  ownerDocument?: { activeElement: FakeElement | null };
+  focus = vi.fn(() => { if (this.ownerDocument) this.ownerDocument.activeElement = this; });
   dataset: Record<string, string> = {};
   hidden = true;
   disabled = false;
@@ -47,6 +49,23 @@ function makeCarousel(scrollWidth = 1000) {
 afterEach(() => vi.unstubAllGlobals());
 
 describe("initCarouselControls", () => {
+  it("keeps focus on an available control when an endpoint disables the current one", () => {
+    vi.stubGlobal("window", { matchMedia: () => ({ matches: true }), addEventListener: vi.fn() });
+    const carousel = makeCarousel();
+    const doc = { activeElement: carousel.next as FakeElement | null };
+    for (const element of [carousel.controls, carousel.next, carousel.previous]) element.ownerDocument = doc;
+    const root = new FakeElement();
+    root.collections.set("[data-work-carousel]", [carousel.controls]);
+    initCarouselControls(root as unknown as ParentNode);
+    carousel.row.scrollLeft = 600;
+    carousel.row.fire("scroll");
+    expect(carousel.next.disabled).toBe(true);
+    expect(doc.activeElement).toBe(carousel.previous);
+    carousel.row.scrollLeft = 0;
+    carousel.row.fire("scroll");
+    expect(carousel.previous.disabled).toBe(true);
+    expect(doc.activeElement).toBe(carousel.next);
+  });
   it("keeps each carousel's buttons and progress bound to its own row", () => {
     vi.stubGlobal("window", { matchMedia: () => ({ matches: false }), addEventListener: vi.fn() });
     const first = makeCarousel();

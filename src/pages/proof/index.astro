@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
-import { byOrder, workRoute } from "../../lib/portfolio";
+import { byOrder, workRoute, workIllustrations } from "../../lib/portfolio";
 import type { CollectionEntry } from "astro:content";
 
 type ProofEntry = CollectionEntry<"proof">;
@@ -21,14 +21,13 @@ const liveProofItems = proofItems.filter((item: ProofItem) => item.status !== "P
 const plannedProofItems = proofItems.filter((item: ProofItem) => item.status === "Planned");
 ---
 
-<BaseLayout title="Proof Index | brAInwav" description="A deliberately small index of public artifacts. Each item keeps the claim, evidence, and caveat visible.">
+<BaseLayout title="All work | Jamie Scott Craik" description="A deliberately small index of public artifacts. Each item keeps the claim, evidence, and caveat visible.">
   <section class="proof-index section-shell" aria-labelledby="proof-title">
     <header>
       <p class="eyebrow">Proof surface</p>
       <h1 id="proof-title">All work</h1>
       <p>
-        A deliberately small index of public artifacts. Each item keeps the claim,
-        evidence, and caveat visible.
+        Software, developer tools and writing. Explore the projects, the decisions behind them, and the evidence.
       </p>
     </header>
 
@@ -39,14 +38,10 @@ const plannedProofItems = proofItems.filter((item: ProofItem) => item.status ===
 
     <div class="proof-row" role="region" aria-label="Published projects">
       {workItems.map((entry: WorkEntry) => (
-        <a class="proof-card" href={workRoute(entry)}>
+        <a class="proof-card proof-project" href={workRoute(entry)} aria-label={`Explore ${entry.data.shortTitle}`}><img src={`/editorial/${workIllustrations[entry.id] ?? "proof"}-outline.svg`} alt="" width="1000" height="800" loading="lazy" decoding="async" />
           <span>{entry.data.date}</span>
           <h2>{entry.data.shortTitle}</h2>
-          <p>{entry.data.proof.claim}</p>
-          <dl>
-            <div><dt>Evidence</dt><dd>{entry.data.proof.evidence}</dd></div>
-            <div><dt>Limitation</dt><dd>{entry.data.proof.caveat}</dd></div>
-          </dl>
+          <p>{entry.data.subtitle}</p><p class="proof-project__role">{entry.data.role}</p><span class="proof-project__cta" aria-hidden="true">Explore project ↗</span>
         </a>
       ))}
     </div>

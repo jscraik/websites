@@ -1,48 +1,48 @@
 ---
+import Icon from "../components/Icon.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import "../styles/about.css";
 import { publicProfile } from "../lib/public-profile";
 
 const quickLinks = [
-  { label: "Fun Facts", href: "#fun-facts", icon: "person" },
+  { label: "Fun facts", href: "#fun-facts", icon: "person" },
   { label: "Skills", href: "#skills", icon: "wand" },
   { label: "Work History", href: "#current-focus", icon: "file" },
   { label: "On the web", href: "#on-the-web", icon: "globe" }
 ];
 
-const funFacts = [
+const otherInterests = [
   {
-    kicker: "Background",
-    title: "British Army",
-    detail: "Twenty-two years of service, including 7.5 years at Warrant Officer rank, shape how I lead, teach, and work.",
-    artifact: "Field note",
-    meta: publicProfile.background.service,
-    visual: "army"
+    kicker: "Outdoors",
+    title: "Rock climbing",
+    detail: "I’m a Joint Service Rock Climbing Leader, on single-pitch and multi-pitch.",
+    meta: "Joint Service Rock Climbing Leader",
   },
   {
-    kicker: "Current rabbit hole",
-    title: "AI workflows",
-    detail: "I spend a lot of time testing where agents help, where they drift, and how humans keep hold of the work.",
-    artifact: "Notebook",
-    meta: "Current",
-    visual: "agents"
+    kicker: "On the water",
+    title: "Sailing",
+    detail: "I hold RYA Competent Crew, from a sailing course in Kiel in 2009.",
+    meta: "RYA Competent Crew · 2009",
   },
   {
-    kicker: "Small tools",
-    title: "CLI projects",
-    detail: "I like tiny developer tools that are easy to explain, easy to run, and honest about their limits.",
-    artifact: "Terminal",
-    meta: "Small tools",
-    visual: "terminal"
+    kicker: "Coaching",
+    title: "Cycling",
+    detail: "I’m a qualified British Cycling Level 2 coach.",
+    meta: "Level 2 coaching qualification",
   },
   {
-    kicker: "Taste",
-    title: "Receipts over hype",
-    detail: "The work I trust most shows its reasoning, its evidence, and the boundary of what it can claim.",
-    artifact: "Note",
-    meta: "Taste",
-    visual: "receipt"
+    kicker: "Before software",
+    title: "Army chef",
+    detail: "I started my Army career as a chef and won a bronze medal at the Combined Services Culinair competition.",
+    meta: "Combined Services Culinair",
   }
+];
+
+const personalCards = [
+  { category: "Background", title: "British Army", detail: "22 years of service, leadership and instruction.", image: "jamie-army.webp", alt: "Jamie during his Army service, in uniform and yellow protective glasses.", width: 800, height: 1000, treatment: "portrait" },
+  { category: "Cycling", title: "The helmet that saved my life", detail: "This helmet saved my life but it marked the day my military career died.", image: "cycling-helmet.webp", alt: "The inside of Jamie's cycling helmet, showing deep cracks through the protective foam.", width: 1000, height: 750, treatment: "photo" },
+  { category: "Family nickname", title: "Grumpy Grinch", detail: "My kids call me Grumpy Grinch because they think I don’t like Christmas.", image: "grumpy-grinch.webp", alt: "Illustration of green Grinch hands forming a heart, with red Christmas sleeves.", width: 900, height: 900, treatment: "illustration" },
+  { category: "Active hobby", title: "Macro photography", detail: "Getting closer to the small details. One of my flower photographs.", image: "macro-flower.webp", alt: "Jamie's close-up photograph of a bright pink flower, with the garden softly blurred behind it.", width: 750, height: 1000, treatment: "photo" }
 ];
 
 const skills = [
@@ -96,7 +96,7 @@ const history = [
     roles: ["Software development", "Structured learning"],
     detail: [
       "Building on verified leadership and management qualifications up to Level 7 while developing practical software skills through project work.",
-      "My planned study is the UCNL HNC Level 4 Digital Technologies – Software Development & Programming Pathway FT, alongside the Google Project Management and Google Cybersecurity Professional Certificates. These are study intentions, not completed qualifications or a claim of enrollment; dates are not yet confirmed."
+      "I’m studying a full-time BTEC HNC in Digital Technologies for England, on the Software Development and Programming pathway, at University Campus North Lincolnshire. I expect to finish in May 2027 and am looking for full-time work from June 2027."
     ]
   },
   {
@@ -123,28 +123,17 @@ const webLinks = [
       <div class="about-copy-block">
         <h1 id="about-title">About</h1>
         <div class="about-copy">
-          <p>
-            I am moving into professional software development through independent
-            products, developer tools, and structured learning. I use AI to help
-            implement the work while I set direction, inspect results, test
-            behavior, and own what is presented.
-          </p>
-          <p>
-            Before moving into software, I served 22 years in the British Army,
-            including 7.5 years at Warrant Officer rank. Standards, instruction,
-            operational delivery, and people leadership still shape how I work.
-          </p>
-          <p>
-            My earlier career was built around logistics, instruction, standards,
-            and helping people perform under pressure. I now apply those habits
-            to software: make the goal clear, test the actual path, and explain
-            the limits alongside the result.
-          </p>
-          <p>
-            This portfolio is the public record of that transition: working
-            projects, case studies, technical writing, and the decisions behind
-            them.
-          </p>
+          <p>I’m Jamie Scott Craik, a software development student and former Warrant Officer Class 1 living in Middle Rasen, Lincolnshire.</p>
+          <section class="about-evolve" aria-labelledby="evolve-title">
+            <h2 id="evolve-title">Evolve</h2>
+            <p>Twenty-two years in the Army took me from chef to instructor, infantry soldier, senior instructor, squadron sergeant major, logistics manager and service delivery manager.</p>
+            <p>Now I study software development and build AI skill tools with Codex, OpenAI’s coding agent.</p>
+          </section>
+          <p>I’ve been developing independent software projects since November 2024. My main projects are Skills SDK, a Python tool that checks AI agent skills before they’re shared or installed, and SkillsBar, a macOS menu-bar app that brings those results together.</p>
+          <p>I use Codex, an AI coding agent, to write most of the code. I set the requirements, review the changes and take responsibility for testing and documentation.</p>
+          <p>I’m studying a full-time BTEC HNC in Digital Technologies for England, on the Software Development and Programming pathway, at University Campus North Lincolnshire. I expect to finish in May 2027 and am looking for full-time work from June 2027.</p>
+          <p>I’m interested in software development and forward deployed engineering or AI solutions roles where I can combine technical work with explaining systems and helping people use them.</p>
+          <a class="about-contact-link" href="/contact/">Contact me about a role <span aria-hidden="true">↗</span></a>
         </div>
       </div>
       <div class="about-hero-spacer" aria-hidden="true"></div>
@@ -162,10 +151,10 @@ const webLinks = [
         </div>
         <img
           class="about-portrait"
-          src="/jamie-profile-360x480.webp"
+          src="/personal/jamie-developer.webp"
           alt="Jamie Scott Craik"
-          width="360"
-          height="480"
+          width="900"
+          height="900"
         />
       </aside>
     </div>
@@ -173,19 +162,25 @@ const webLinks = [
 
   <section id="fun-facts" class="about-band" aria-labelledby="fun-facts-title">
     <div class="about-band-heading">
-      <h2 id="fun-facts-title">Fun Facts</h2>
-      <p class="eyebrow">Updated July 2026</p>
+      <h2 id="fun-facts-title">Fun facts</h2>
+      <p class="eyebrow">Interests and background</p>
     </div>
-    <div class="about-card-grid">
-      {funFacts.map((fact) => (
-        <article class="about-fact-card">
-          <div class={`about-object about-object--${fact.visual}`} aria-hidden="true">
-            <span class="about-fact-label">{fact.kicker}</span>
-            <span class="about-object__artifact">{fact.artifact}</span>
-            <i></i>
-            <i></i>
-            <i></i>
+    <div class="about-photo-grid">
+      {personalCards.map((card) => (
+        <article class="about-photo-card">
+          <div class={`about-photo-media about-photo-media--${card.treatment}`}>
+            <span class="about-photo-category">{card.category}</span>
+            <img src={`/personal/${card.image}`} alt={card.alt} width={card.width} height={card.height} loading="lazy" decoding="async" />
           </div>
+          <h3>{card.title}</h3>
+          <p>{card.detail}</p>
+        </article>
+      ))}
+    </div>
+    <div class="about-card-grid about-interest-notes">
+      {otherInterests.filter((fact) => fact.title !== "Cycling").map((fact) => (
+        <article class="about-fact-card">
+          <p class="about-fact-label">{fact.kicker}</p>
           <h3>{fact.title}</h3>
           <p>{fact.meta}</p>
           <span>{fact.detail}</span>
@@ -200,7 +195,7 @@ const webLinks = [
       <div class="about-skill-list">
         {skills.map((skill) => (
           <article>
-            <span class={`skill-icon skill-icon--${skill.icon}`} aria-hidden="true"></span>
+            <span class="about-skill-icon" aria-hidden="true"><Icon name={skill.icon === "spark" ? "code" : skill.icon === "tool" ? "terminal" : skill.icon === "standard" ? "checklist" : "document"} /></span>
             <div>
               <h3>{skill.title}</h3>
               <p>{skill.detail}</p>

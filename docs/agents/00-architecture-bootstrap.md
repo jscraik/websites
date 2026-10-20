@@ -66,6 +66,7 @@ advisory evidence and does not replace that authority.
 The shared portfolio shell and CSS simplification boundary are also executable
 contracts. `src/styles/shell.css` owns the canonical header/footer gradients,
 the navigation background layer, and the route-independent shell surface;
+the navigation background remains static rather than moving between controls.
 `src/styles/global.css` and page-local styles keep route canvases on the neutral
 paper token instead of adding competing top-level gradients. The focused
 `scripts/test-css-simplification.mjs` and `scripts/validate-page-surfaces.mjs`
