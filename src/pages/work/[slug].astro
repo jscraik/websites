@@ -1,9 +1,9 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import CarouselControls from "../../components/CarouselControls.astro";
+import WorkCarousel from "../../components/WorkCarousel.astro";
 import { getCollection } from "astro:content";
 import { byOrder, proofWorkCards, workRoute, workIllustrations } from "../../lib/portfolio";
-import type { ProofEntry, WorkCard, WorkEntry } from "../../lib/portfolio";
+import type { ProofEntry, WorkEntry } from "../../lib/portfolio";
 type Study = WorkEntry["data"] & { slug: string; route: string };
 type CaseStudyLink = NonNullable<WorkEntry["data"]["caseStudy"]>["links"][number];
 
@@ -21,8 +21,7 @@ const { study } = Astro.props as { study: Study };
 const isSkillsSdk = study.slug === "skills-sdk";
 const workEntries: WorkEntry[] = (await getCollection("work")).sort(byOrder);
 const proofEntries: ProofEntry[] = (await getCollection("proof")).sort(byOrder);
-const workCards = proofWorkCards(workEntries, proofEntries).filter((item) => item.href !== study.route).slice(0, 3);
-const workCount = String(workCards.length).padStart(2, "0");
+const workCards = proofWorkCards(workEntries, proofEntries);
 ---
 
 <BaseLayout title={`${study.title} | Jamie Scott Craik`} description={study.subtitle}>
@@ -41,7 +40,7 @@ const workCount = String(workCards.length).padStart(2, "0");
       </div>
       <h1 id="case-title">{study.title}</h1>
       <p>{study.subtitle}</p>
-      {study.slug === "skillsbar" && <nav class="sdk-project-links" aria-label="SkillsBar project links"><a href="/demos/skillsbar/">Try the interactive demo <span aria-hidden="true">↗</span></a></nav>}
+      {study.slug === "skillsbar" && <nav class="sdk-project-links" aria-label="SkillsBar project links"><a class="small-button" href="/demos/skillsbar/"><span>Try the interactive demo</span> <span aria-hidden="true">→</span></a></nav>}
       {isSkillsSdk && study.caseStudy && (
         <nav class="sdk-project-links" aria-label="Skills SDK project links">
           {study.caseStudy.links.map((link: CaseStudyLink) => (
@@ -73,7 +72,7 @@ const workCount = String(workCards.length).padStart(2, "0");
       <h2 id="case-overview-title">Project overview</h2>
       <div class="case-detail-grid" aria-label="Case study detail">
         <div class="case-copy">
-          <h3>{isSkillsSdk ? "About the project" : "About the organization"}</h3>
+          <h3>{isSkillsSdk || study.slug === "skillsbar" ? "About the project" : "About the organization"}</h3>
           <p>{study.organization}</p>
           <h3>What I did</h3>
           <p>{study.work}</p>
@@ -217,24 +216,7 @@ const workCount = String(workCards.length).padStart(2, "0");
       </>
     )}
 
-    <section class="work-carousel case-all-work" aria-labelledby="case-all-work-title">
-      <h2 id="case-all-work-title">More work <sup>{workCount}</sup></h2>
-      <div class="work-row" aria-label="More work" data-work-row>
-        {workCards.map((item: WorkCard, index: number) => (
-          <a class="work-mini-card" href={item.href}>
-            <p class="work-card-count">{String(index + 1).padStart(2, "0")} / {workCount}</p>
-            <div class={"work-thumbnail work-thumbnail--" + item.tone} aria-hidden="true">
-              <img class="work-card-illustration" src={`/editorial/${item.illustration}-card.svg`} alt="" width="800" height="1000" loading="lazy" decoding="async" />
-            </div>
-            <h3>{item.title}</h3>
-            <div class="tag-row">
-              {item.tags.map((tag: string) => <span>{tag}</span>)}
-            </div>
-          </a>
-        ))}
-      </div>
-      <CarouselControls />
-    </section>
+    <WorkCarousel cards={workCards} />
   </article>
 </BaseLayout>
 

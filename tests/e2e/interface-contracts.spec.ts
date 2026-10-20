@@ -76,7 +76,7 @@ test.describe("portfolio interface contracts", () => {
   test("the home page exposes one explicit first-visit route and truthful entry motion", async ({ page }) => {
     await preparePage(page, "/");
 
-    const primaryRoute = page.getByRole("link", { name: "Trying the tools Start with SkillsBar" });
+    const primaryRoute = page.getByRole("link", { name: "Try SkillsBar Explore the interactive demo" });
     await expect(primaryRoute).toHaveAttribute("href", "/demos/skillsbar/");
     await expect(primaryRoute).toHaveAttribute("data-primary-start", "true");
     await expect(page.locator('a[data-primary-start][href="/work/skillsbar/"]')).toHaveCount(0);
@@ -147,7 +147,7 @@ test.describe("portfolio interface contracts", () => {
       { path: "/", selector: ".home-hero__body" },
       { path: "/now/", selector: ".about-copy p" },
       { path: "/blog/", selector: ".latest-article p:not(.eyebrow, .article-date)" },
-      { path: "/contact/", selector: ".contact-panel > p" },
+      { path: "/contact/", selector: ".contact-page > div > p:not(.eyebrow)" },
       { path: "/proof/", selector: ".proof-index header > p" },
       { path: "/articles/why-ai-native-devrel/", selector: ".lede" },
       { path: "/work/ai-native-devrel/", selector: ".case-work-header > p" },

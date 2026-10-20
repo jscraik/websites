@@ -26,9 +26,9 @@ test.describe("navigation without JavaScript", () => {
     const fallback = page.locator(".scenario-fallback");
     await expect(fallback).toBeVisible();
     await expect(fallback.locator("dt")).toHaveText([
-      "Candidate held · 11/100",
-      "Security flagged · 24/100",
-      "Evidence current · 100/100",
+      "Security review required",
+      "Identity missing",
+      "Installed copy found",
     ]);
 
     await page.goBack({ waitUntil: "commit" });

@@ -44,6 +44,11 @@ const otherArticles = articles.filter((article) => article.id !== latestArticle.
           <p class="article-date">{latestArticle.data.date}</p>
         </div>
         <div>
+          {latestArticle.id === "when-evidence-goes-stale" && (
+            <a class="blog-feature-art" href={latestArticle.data.href} aria-label={`Read ${latestArticle.data.title}`}>
+              <img src="/editorial/when-evidence-goes-stale-v1.webp" alt="Evidence belongs to Candidate A; an interrupted connection prevents it transferring to the changed Candidate B." width="1672" height="941" decoding="async" />
+            </a>
+          )}
           <p>{latestArticle.data.summary}</p>
         </div>
         <div>

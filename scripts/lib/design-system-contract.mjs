@@ -8,7 +8,7 @@ export function extractStartLinkRecords(source) {
 
 export function hasPrimarySkillsBarLink(source) {
   return extractStartLinkRecords(source).some(
-    ({ href, label }) => href === "/demos/skillsbar/" && label === "Start with SkillsBar"
+    ({ href, label }) => href === "/demos/skillsbar/" && label === "Explore the interactive demo"
   );
 }
 

@@ -425,13 +425,13 @@ test.describe("UI polish contracts", () => {
     await page.setViewportSize({ width: 320, height: 800 });
     await preparePage(page, "/work/skillsbar/");
     const capture = page.locator(".case-product-capture");
-    const image = capture.getByRole("img", { name: /Historical native demo fixture/ });
+    const image = capture.getByRole("img", { name: /SkillsBar nine-stage focus navigator/ });
     await image.scrollIntoViewIfNeeded();
     await expect(image).toBeVisible();
-    await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.naturalWidth)).toBe(404);
-    await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.naturalHeight)).toBe(560);
-    await expect(image).toHaveAttribute("height", "560");
-    await expect(capture.locator("figcaption")).toContainText("not proof for this candidate");
+    await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.naturalWidth)).toBe(460);
+    await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.naturalHeight)).toBe(586);
+    await expect(image).toHaveAttribute("height", "586");
+    await expect(capture.locator("figcaption")).toContainText("deterministic snapshot");
     const bounds = await image.boundingBox();
     expect(bounds!.width).toBeLessThanOrEqual(320);
     await expect(page.locator(".case-hero-art")).toHaveCount(0);
@@ -470,9 +470,9 @@ test.describe("UI polish contracts", () => {
   test("dark surfaces retain their own heading color", async ({ page }) => {
     await preparePage(page, "/demos/skillsbar/");
 
-    const colors = await page.locator("#demo-title").evaluate((heading) => {
+    const colors = await page.locator(".stage-detail h2").evaluate((heading) => {
       const reference = document.createElement("span");
-      reference.style.color = "var(--skillsbar-ink)";
+      reference.style.color = "#f5f5f7";
       document.body.append(reference);
 
       const actual = getComputedStyle(heading).color;
@@ -513,11 +513,11 @@ test.describe("UI polish contracts", () => {
       socialBackground: getComputedStyle(document.querySelector(".site-footer .footer-social-links a")!).backgroundColor
     }));
 
-    expect(technicalShell.footerBackground).toBe("rgb(11, 15, 23)");
-    expect(technicalShell.profileBackground).toBe("rgb(20, 26, 35)");
-    expect(technicalShell.socialBackground).toBe("rgb(27, 34, 48)");
+    expect(technicalShell.footerBackground).toBe(palette.canvas);
+    expect(technicalShell.profileBackground).toBe(palette.surface);
+    expect(technicalShell.socialBackground).toBe(palette.surface);
 
-    await expect(page.locator(".site-header")).toHaveCount(0);
+    await expect(page.locator(".site-header")).toBeVisible();
     await expect(page.locator(".demo-nav")).toBeVisible();
   });
 
@@ -637,24 +637,13 @@ test.describe("UI polish contracts", () => {
     }
   });
 
-  test("contact portrait preserves its square source ratio", async ({ page }) => {
+  test("legacy contact route offers email and the canonical biography", async ({ page }) => {
     await page.setViewportSize({ width: 1151, height: 964 });
     await preparePage(page, "/contact/");
 
-    const image = await page.locator(".contact-photo").evaluate((element) => {
-      const style = getComputedStyle(element);
-      const rect = element.getBoundingClientRect();
-      return {
-        width: rect.width,
-        height: rect.height,
-        objectFit: style.objectFit,
-        aspectRatio: style.aspectRatio
-      };
-    });
-
-    expect(Math.abs(image.width - image.height)).toBeLessThanOrEqual(1);
-    expect(image.objectFit).toBe("cover");
-    expect(image.aspectRatio).toBe("1 / 1");
+    await expect(page.locator(".contact-photo")).toHaveCount(0);
+    await expect(page.locator('.contact-page a[href="/now/"]')).toHaveText("About page");
+    await expect(page.locator('.contact-page a[href^="mailto:"]')).toHaveAttribute("href", "mailto:jscraik@brainwav.io");
   });
 
   test("portfolio images carry the surface outline treatment", async ({ page }) => {

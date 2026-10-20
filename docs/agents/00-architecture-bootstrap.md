@@ -21,6 +21,10 @@ requires an explicitly selected, supported authoring workflow.
 
 ## Validation Boundary
 
+`src/components/WorkCarousel.astro` owns the All work card markup, pointer
+feedback and controls used by both the homepage and case studies. Both callers
+pass the complete ordered project list; keep their rendered treatment shared.
+
 Use the narrowest deterministic test first. For operator-contract changes, run the relevant `test:*` script, `npm run validate:operator-contract`, and the hook path that the change affects. Local results establish only local behavior; hosted checks, reviews, and merge readiness remain separate lanes.
 
 The retained manifest's byte and line metadata can be checked without the

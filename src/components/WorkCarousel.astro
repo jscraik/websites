@@ -1,0 +1,111 @@
+---
+import CarouselControls from "./CarouselControls.astro";
+import type { WorkCard } from "../lib/portfolio";
+interface Props { cards: WorkCard[]; }
+const { cards: workCards } = Astro.props;
+const workCount = String(workCards.length).padStart(2, "0");
+---
+
+  <section id="work" class="work-carousel section-shell" aria-labelledby="work-carousel-title" data-entry>
+    <h2 id="work-carousel-title">All work <sup>{workCount}</sup></h2>
+    <div class="work-row" aria-label="Curated proof cards" data-work-row>
+      {workCards.map((item: WorkCard, index: number) => (
+        <a class="work-mini-card" href={item.href} data-active={index === Math.floor(workCards.length / 2) ? "true" : "false"}>
+          <p class="work-card-count">{String(index + 1).padStart(2, "0")} / {workCount}</p>
+          <div class={"work-thumbnail work-thumbnail--" + item.tone} aria-hidden="true">
+            <img class="work-card-illustration" src={`/editorial/${item.illustration}-card.svg`} alt="" width="800" height="1000" loading="lazy" decoding="async" />
+            <div class="work-thumbnail__cursor" data-work-card-cursor>
+              <div class="work-thumbnail__arrow">
+                <svg viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="M0 8h14M14 8l-5-5M14 8l-5 5"></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="work-card-body">
+            <p>{item.eyebrow}</p>
+            <h3>{item.title}</h3>
+            <span>{item.summary}</span>
+            <div class="tag-row">
+              {item.tags.map((tag: string) => <span>{tag}</span>)}
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+    <CarouselControls />
+  </section>
+
+  <script>
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    document.querySelectorAll<HTMLElement>(".work-thumbnail").forEach((thumbnail) => {
+      const cursor = thumbnail.querySelector<HTMLElement>("[data-work-card-cursor]");
+      if (!cursor) return;
+
+      let frame = 0;
+      let currentX = 0;
+      let currentY = 0;
+      let targetX = 0;
+      let targetY = 0;
+
+      const render = () => {
+        frame = 0;
+
+        if (reducedMotion.matches) {
+          currentX = 0;
+          currentY = 0;
+          targetX = 0;
+          targetY = 0;
+        } else {
+          currentX += (targetX - currentX) * 0.22;
+          currentY += (targetY - currentY) * 0.22;
+        }
+
+        cursor.style.setProperty("--work-cursor-x", `${currentX.toFixed(3)}px`);
+        cursor.style.setProperty("--work-cursor-y", `${currentY.toFixed(3)}px`);
+
+        if (Math.abs(targetX - currentX) > 0.08 || Math.abs(targetY - currentY) > 0.08) {
+          frame = requestAnimationFrame(render);
+        }
+      };
+
+      const requestRender = () => {
+        if (!frame) frame = requestAnimationFrame(render);
+      };
+
+      const updateTarget = (event: PointerEvent) => {
+        if (!finePointer.matches || reducedMotion.matches) return;
+
+        const bounds = thumbnail.getBoundingClientRect();
+        const normalizedX = (event.clientX - bounds.left) / bounds.width - 0.5;
+        const normalizedY = (event.clientY - bounds.top) / bounds.height - 0.5;
+
+        targetX = normalizedX * 32;
+        targetY = normalizedY * 32;
+        requestRender();
+      };
+
+      thumbnail.addEventListener("pointerenter", (event) => {
+        if (!finePointer.matches) return;
+        thumbnail.dataset.pointerActive = "true";
+        updateTarget(event);
+      });
+
+      thumbnail.addEventListener("pointermove", updateTarget);
+
+      const resetPointer = () => {
+        delete thumbnail.dataset.pointerActive;
+        targetX = 0;
+        targetY = 0;
+        requestRender();
+      };
+
+      thumbnail.addEventListener("pointerleave", resetPointer);
+      thumbnail.addEventListener("pointercancel", resetPointer);
+      reducedMotion.addEventListener("change", () => {
+        if (reducedMotion.matches) resetPointer();
+      });
+    });
+  </script>

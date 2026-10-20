@@ -83,6 +83,8 @@ body:not(.skillsbar-demo) .site-header .icon-box[aria-current="page"] {
 }
 
 html.editorial-theme .footer-profile-card.profile-row { margin-block: 0; }
+html.editorial-theme .footer-profile-card .pfp-img-wrap { padding: 0; overflow: hidden; }
+html.editorial-theme .footer-profile-card .pfp-img-wrap > img { display: block; width: 100%; height: 100%; max-width: none; margin: 0; object-fit: cover; border-radius: inherit; }
 
 .footer-profile-card .profile-row-meta {
   min-width: 0;

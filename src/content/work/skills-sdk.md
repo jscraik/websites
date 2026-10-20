@@ -18,7 +18,7 @@ tags:
 tone: "green"
 featured:
   eyebrow: "From the Python contract layer"
-  quote: "A receipt is useful only when it identifies the exact candidate it describes."
+  quote: "Check an AI skill package before sharing it, with clear results and explicit limits."
   cta: "Read case study"
   previewTitle: "Two implemented commands"
   previewMeta: "validate / build · typed pass and blocked outcomes"

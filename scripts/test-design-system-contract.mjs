@@ -6,7 +6,7 @@ import { hasDensityAwareBlogDividers } from "./lib/surface-hairline-contract.mjs
 const validFixture = `
   const links = [{
     href: "/demos/skillsbar/",
-    label: "Start with SkillsBar",
+    label: "Explore the interactive demo",
     primary: true
   }];
 `;
@@ -21,14 +21,14 @@ test("rejects a primary flag detached from the SkillsBar route", () => {
 });
 
 test("rejects a primary flag detached from the SkillsBar label", () => {
-  const wrongLabel = validFixture.replace("Start with SkillsBar", "Read the blog");
+  const wrongLabel = validFixture.replace("Explore the interactive demo", "Read the blog");
   assert.equal(hasPrimarySkillsBarLink(wrongLabel), false);
 });
 
 test("keeps primary metadata bound to one link object", () => {
   const splitAcrossObjects = `
     const links = [
-      { href: "/demos/skillsbar/", label: "Start with SkillsBar" },
+      { href: "/demos/skillsbar/", label: "Explore the interactive demo" },
       { href: "/now/", label: "Read the blog", primary: true }
     ];
   `;

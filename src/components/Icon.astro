@@ -38,10 +38,9 @@ const icons: Record<IconName, { viewBox: string; paths: string[] }> = {
     ]
   },
   pencil: {
-    viewBox: "0 0 17 16",
+    viewBox: "0 0 16 16",
     paths: [
-      "m13.89 6.85 1.24-1.24a2 2 0 0 0 0-2.83l-1.41-1.41a2 2 0 0 0-2.83 0L9.65 2.61",
-      "m14.01 6.73-4.24-4.24-7.37 7.37a.5.5 0 0 0-.14.28l-.59 4.12a.5.5 0 0 0 .57.57l4.12-.59a.5.5 0 0 0 .28-.14l7.37-7.37Z"
+      "m10 2 4 4-8 8H2v-4l8-8ZM8 4l4 4"
     ]
   }
 };
@@ -50,7 +49,7 @@ const icon = icons[name];
 ---
 
 {icon && (
-  <svg viewBox={icon.viewBox} class={className} aria-hidden="true" focusable="false">
+  <svg viewBox={icon.viewBox} class={className} fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
     {icon.paths.map((path) => <path d={path}></path>)}
   </svg>
 )}

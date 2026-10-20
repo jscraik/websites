@@ -1,11 +1,11 @@
 ---
-title: "brAInwav prototype"
+title: "Proof Log"
 status: "Build"
 order: 2
 publicationState: "published"
-href: "/"
-claim: "The site can act as Jamie's public proof surface."
-evidence: "Astro repo and prototype pages."
-caveat: "Needs deployed URL and visual QA before public promotion."
-nextState: "Publish the domain route and complete visual QA."
+href: "/work/brainwav-io/"
+claim: "A published portfolio connects Jamie's projects with their supporting evidence and limitations."
+evidence: "The public jscraik.com site and its Astro source repository."
+caveat: "Publication does not establish external adoption or independent verification of every project claim."
+nextState: "Keep project descriptions and evidence links aligned with the work they describe."
 ---

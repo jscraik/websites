@@ -140,7 +140,7 @@ addCheck(
 
 addCheck(
   "homepage exposes SkillsBar as the primary starting point",
-  homepage.includes("<StartLinks />") &&
+  /<StartLinks(?:\s[^>]*)?\s*\/>/.test(homepage) &&
     hasPrimarySkillsBarLink(startLinks),
   "expected the homepage start links to make SkillsBar the primary route"
 );

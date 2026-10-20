@@ -81,7 +81,7 @@ test("homepage leads with the work and navigation stays stable through page chan
     await page.evaluate(() => document.fonts.ready);
     await expect(page.locator("h1")).toHaveText("I build software and developer tools with practical AI.");
     await expect(page.locator(".home-hero__identity")).toHaveText("Jamie Scott Craik");
-    await expect(page.locator(".start-links__copy strong")).toHaveText(["Hiring", "Trying the tools", "Reading"]);
+    await expect(page.locator(".start-links__copy strong")).toHaveText(["View my background", "Try SkillsBar", "Read the latest article"]);
     const background = page.locator(".site-header .nav-bg");
     const original = await background.boundingBox();
     for (const label of ["Work", "About", "Blog", "Contact"]) {
@@ -97,7 +97,9 @@ test("homepage leads with the work and navigation stays stable through page chan
     await expect(background).toHaveCSS("transform", "none");
     await page.emulateMedia({ reducedMotion: "no-preference" });
   }
-  for (const [label, path] of [["Work", "/proof/"], ["About", "/now/"], ["Blog", "/blog/"], ["Contact", "/contact/"]]) {
+  await expect(page.getByRole("navigation", { name: "Primary navigation" }).getByRole("link", { name: "Contact", exact: true })).toHaveAttribute("href", "mailto:jscraik@brainwav.io");
+  await expect(page.locator('.footer-links').getByRole("link", { name: "Contact", exact: true })).toHaveAttribute("href", "mailto:jscraik@brainwav.io");
+  for (const [label, path] of [["Work", "/proof/"], ["About", "/now/"], ["Blog", "/blog/"]]) {
     const link = page.getByRole("navigation", { name: "Primary navigation" }).getByRole("link", { name: label, exact: true });
     await expect(link).toHaveAttribute("href", path);
     await link.click();

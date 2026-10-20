@@ -71,6 +71,7 @@ const plannedProofItems = proofItems.filter((item: ProofItem) => item.status ===
               <dd>{item.nextState}</dd>
             </div>
           </dl>
+          <span class="proof-note-action" aria-hidden="true">{item.status === "Article" ? "Read article" : "Explore the work"} ↗</span>
         </a>
       ))}
     </div>
