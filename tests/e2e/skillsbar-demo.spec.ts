@@ -10,12 +10,14 @@ test("stage inspection leaves evidence unchanged and refresh preserves selection
   await page.getByRole("button", { name: "Refresh example" }).click();
   await expect(page.locator('.stage[aria-pressed="true"]')).toHaveAttribute("aria-label", /Gate 9/);
   await expect(page.locator(".stage-state")).toHaveText(states);
-  await page.keyboard.press("Home");
   await page.locator(".stage").first().focus();
   await page.keyboard.press("ArrowDown");
   await expect(page.locator("#action-title")).toHaveText("Eval prep");
   await page.keyboard.press("End");
   await expect(page.locator("#action-title")).toHaveText("Runtime");
+  await page.keyboard.press("Home");
+  await expect(page.locator("#action-title")).toHaveText("Identity");
+  await expect(page.locator(".stage").first()).toBeFocused();
   await page.getByRole("button", { name: "Installed copy found", exact: true }).click();
   await expect(page.locator("#action-title")).toHaveText("Identity");
   await expect(page.locator(".stage-state")).toHaveText(Array(9).fill("Unproven"));
