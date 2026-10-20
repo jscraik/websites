@@ -50,10 +50,10 @@ test("HTML validator requires the About portrait and checks class tokens", () =>
     writeFileSync(path, extraClass);
     assert.equal(run("scripts/validate-html-output.mjs").status, 0);
 
-    writeFileSync(path, extraClass.replace('src="/jamie-profile-360x480.webp"', 'src="/wrong.webp"'));
+    writeFileSync(path, extraClass.replace('src="/personal/jamie-developer.webp"', 'src="/wrong.webp"'));
     result = run("scripts/validate-html-output.mjs");
     assert.equal(result.status, 1);
-    assert.match(result.stderr, /About portrait must use the center-cropped/);
+    assert.match(result.stderr, /About portrait must use the approved 900x900 developer source/);
   } finally {
     writeFileSync(path, original);
   }

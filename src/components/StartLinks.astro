@@ -3,24 +3,22 @@ import Icon from "./Icon.astro";
 
 const links = [
   {
+    href: "/now/",
+    title: "Hiring",
+    label: "Career story and experience",
+    icon: "document"
+  },
+  {
     href: "/demos/skillsbar/",
+    title: "Trying the tools",
     label: "Start with SkillsBar",
     icon: "bookmark",
     primary: true
   },
   {
-    href: "/#featured-work",
-    label: "Read the featured projects",
-    icon: "bookmark"
-  },
-  {
-    href: "/now/#current-focus",
-    label: "Read my career story",
-    icon: "document"
-  },
-  {
     href: "/blog/",
-    label: "Read a recent blog",
+    title: "Reading",
+    label: "Articles and public notes",
     icon: "pencil"
   }
 ] as const;
@@ -28,7 +26,7 @@ const links = [
 ---
 
 <aside class="start-links" aria-labelledby="start-links-title">
-  <p id="start-links-title" class="input-label u-mb-lg">Where you can start</p>
+  <p id="start-links-title" class="input-label">Start here</p>
   <ul class="icon-link-list">
     {
       links.map((link) => (
@@ -41,7 +39,7 @@ const links = [
             <span class="icon-box start-links__icon" aria-hidden="true">
               <Icon name={link.icon} />
             </span>
-            <span>{link.label}</span>
+            <span class="start-links__copy"><strong>{link.title}</strong><span>{link.label}</span></span>
           </a>
         </li>
       ))

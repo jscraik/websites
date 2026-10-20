@@ -51,7 +51,7 @@ const preventIndexing = noIndex || import.meta.env.DEV || import.meta.env.MODE =
   </head>
   <body class={bodyClass}>
     <a class="skip-link" href="#main-content">Skip to main content</a>
-    <SiteNav />
+    {bodyClass !== "skillsbar-demo" && <SiteNav />}
     <main id="main-content" tabindex="-1">
       <slot />
     </main>

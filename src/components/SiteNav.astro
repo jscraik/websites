@@ -1,8 +1,7 @@
 ---
-import Icon from "./Icon.astro";
 
 const navItems = [
-  { href: "/#work", label: "Work" },
+  { href: "/proof/", label: "Work" },
   { href: "/now/", label: "About" },
   { href: "/blog/", label: "Blog" },
   { href: "/contact/", label: "Contact" }
@@ -24,8 +23,8 @@ const currentFor = (href: string): "page" | undefined => {
           <div class="nav-inner">
             <div class="nav-bg" aria-hidden="true"></div>
             <div class="nav-flip">
-              <a class="icon-box cc-nav" href="/" aria-label="Home" aria-current={currentPath === "/" ? "page" : undefined}>
-                <Icon name="home" />
+              <a class="icon-box cc-nav jsc-home-link" href="/" aria-label="Home" aria-current={currentPath === "/" ? "page" : undefined}>
+                <span class="jsc-logo-frame" aria-hidden="true"><img src="/brand/jsc-off-white.png" alt="" width="1254" height="1254" /></span>
               </a>
             </div>
             {navItems.map((item) => (
@@ -45,91 +44,3 @@ const currentFor = (href: string): "page" | undefined => {
     </div>
   </div>
 </header>
-
-<script>
-  import { getFlipTransform } from "../scripts/flip";
-
-  const navShells = document.querySelectorAll(".site-header .nav-inner");
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
-
-  navShells.forEach((navShell) => {
-    if (!(navShell instanceof HTMLElement)) return;
-
-    const highlight = navShell.querySelector(".nav-bg");
-    if (!(highlight instanceof HTMLElement)) return;
-
-    const navStyle = getComputedStyle(navShell);
-    const navFlipDuration = Number.parseFloat(navStyle.getPropertyValue("--nav-flip-duration-ms")) || 400;
-    const navFlipEasing = navStyle.getPropertyValue("--nav-flip-ease").trim() || "cubic-bezier(0.165, 0.84, 0.44, 1)";
-
-    const animateHighlightFrom = (highlightRect: DOMRect) => {
-      const settledRect = highlight.getBoundingClientRect();
-      const inverse = getFlipTransform(highlightRect, settledRect);
-      if (!inverse || reducedMotion.matches) return;
-
-      const keyframes: Keyframe[] = [
-        { transform: inverse },
-        { transform: "none" }
-      ];
-      highlight.animate(
-        keyframes,
-        {
-          duration: navFlipDuration,
-          easing: navFlipEasing
-        }
-      );
-    };
-
-    const resetHighlight = () => {
-      const highlightRect = highlight.getBoundingClientRect();
-      highlight.getAnimations().forEach((animation) => animation.cancel());
-      navShell.prepend(highlight);
-      highlight.removeAttribute("data-active");
-      animateHighlightFrom(highlightRect);
-    };
-
-    const moveHighlight = (target: Element) => {
-      if (!(target instanceof HTMLElement)) {
-        resetHighlight();
-        return;
-      }
-
-      const highlightRect = highlight.getBoundingClientRect();
-      const targetRect = target.getBoundingClientRect();
-      if (targetRect.width === 0 || targetRect.height === 0) {
-        resetHighlight();
-        return;
-      }
-
-      highlight.getAnimations().forEach((animation) => animation.cancel());
-      target.append(highlight);
-      highlight.dataset.active = "true";
-      animateHighlightFrom(highlightRect);
-    };
-
-    const syncHighlight = () => {
-      const activeTarget = finePointer.matches
-        ? navShell.querySelector(".nav-flip:hover")
-        : null;
-      if (activeTarget instanceof HTMLElement) {
-        moveHighlight(activeTarget);
-      } else {
-        resetHighlight();
-      }
-    };
-
-    const resyncHighlight = () => syncHighlight();
-
-    navShell.addEventListener("pointerover", (event) => {
-      if (!finePointer.matches || !(event.target instanceof Element)) return;
-      const target = event.target.closest(".nav-flip");
-      if (target && navShell.contains(target)) {
-        syncHighlight();
-      }
-    });
-    navShell.addEventListener("pointerleave", resyncHighlight);
-    window.addEventListener("resize", resyncHighlight, { passive: true });
-    reducedMotion.addEventListener("change", resyncHighlight);
-  });
-</script>

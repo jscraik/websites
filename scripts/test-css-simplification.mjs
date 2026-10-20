@@ -11,7 +11,6 @@ const desktopRouteRhythm = routeRhythm.match(
   /@media \(min-width: 57\.5626rem\) \{([\s\S]*?)\n\}\n\n@media \(max-width: 57\.5625rem\)/,
 )?.[1] ?? "";
 const layout = readFileSync("src/layouts/BaseLayout.astro", "utf8");
-const flip = readFileSync("src/scripts/flip.ts", "utf8");
 const source = [
   "src/pages/index.astro",
   "src/pages/blog/index.astro",
@@ -142,8 +141,8 @@ for (const className of [
   assert.doesNotMatch(source, selector, `${className} must not be emitted by current Astro source`);
 }
 
-assert.match(source, /about-object about-object--\$\{fact\.visual\}/);
-assert.match(source, /skill-icon skill-icon--\$\{skill\.icon\}/);
+assert.match(source, /class="about-fact-label"/, "About interests retain the shared label treatment without oversized decorative scenes");
+assert.match(source, /class="about-skill-icon"[\s\S]*?<Icon name=/, "About skills use the shared SVG icon component rather than pseudo-element glyphs");
 assert.match(source, /work-thumbnail work-thumbnail--/);
 assert.equal(
   (shell.match(/html body:not\(\.skillsbar-demo\) \.site-header,/g) ?? []).length,
@@ -193,18 +192,9 @@ assert.match(
 assert.match(
   shell,
   /@media \(hover: hover\) and \(pointer: fine\)[\s\S]*?\.site-header :is\(\.nav-link, \.icon-box\.cc-nav\):hover\s*{[^}]*transform:\s*none;/,
-  "navigation controls must stay fixed while the shared highlight moves",
+  "navigation controls must stay fixed on hover",
 );
-assert.match(
-  shell,
-  /\.site-header \.nav-inner\s*{[^}]*--nav-flip-duration-ms:\s*400;[^}]*--nav-flip-ease:\s*cubic-bezier\(0\.165, 0\.84, 0\.44, 1\);/,
-  "the navigation shell must expose Jose's 400ms power4-out-equivalent timing",
-);
-assert.match(
-  shell,
-  /\.site-header \.nav-inner \.nav-bg\s*{[^}]*transition-property:\s*transform;[^}]*transition-duration:\s*calc\(var\(--nav-flip-duration-ms\) \* 1ms\);[^}]*transition-timing-function:\s*var\(--nav-flip-ease\);/,
-  "the navigation highlight must use the shared Jose timing contract",
-);
+assert.match(shell, /\.site-header \.nav-inner \.nav-bg\s*{[^}]*transition:\s*none;/, "navigation background must stay static");
 assert.match(
   shell,
   /@media \(prefers-reduced-transparency: reduce\)[\s\S]*?\.site-header \.nav-inner\s*{[\s\S]*?backdrop-filter:\s*none;/,
@@ -216,21 +206,7 @@ assert.match(
   "the navigation highlight must stay still when reduced motion is requested",
 );
 assert.match(source, /<div class="nav-bg" aria-hidden="true"><\/div>/);
-assert.match(source, /highlight\.dataset\.active = "true"/);
-assert.match(source, /target\.append\(highlight\)/);
-assert.match(source, /navShell\.prepend\(highlight\)/);
-assert.match(source, /animateHighlightFrom\(highlightRect\)/);
-assert.match(source, /highlight\.animate\(\s*keyframes/);
-assert.match(source, /getFlipTransform\(highlightRect, settledRect\)/);
-assert.match(flip, /translate3d\(\$\{from\.left - to\.left\}px/);
-assert.match(flip, /scale\(\$\{from\.width \/ to\.width\}, \$\{from\.height \/ to\.height\}\)/);
-assert.match(source, /duration:\s*navFlipDuration/);
-assert.match(source, /easing:\s*navFlipEasing/);
-assert.match(source, /finePointer\.matches\s*\? navShell\.querySelector\("\.nav-flip:hover"\)/);
-assert.doesNotMatch(source, /querySelector\s*\(\s*["']a:focus-visible["']/);
-assert.doesNotMatch(source, /addEventListener\s*\(\s*["']focus(?:in|out)?["']/);
-assert.match(source, /else\s*\{\s*resetHighlight\(\);\s*\}/);
-assert.match(source, /prefers-reduced-motion: reduce/);
+assert.doesNotMatch(readFileSync("src/components/SiteNav.astro", "utf8"), /<script>|getFlipTransform|highlight\.animate/, "navigation must not reparent or animate its background");
 assert.doesNotMatch(`${source}\n${css}`, /--nav-highlight-(?:x|scale)/);
 assert.doesNotMatch(
   css,

@@ -32,14 +32,9 @@ const workCount = String(workCards.length).padStart(2, "0");
   <header class="header-inner section-shell" aria-labelledby="home-title">
     <div class="home-hero" data-entry>
       <div class="home-hero__intro v-stack cc-lg">
-        <h1 id="home-title" class="h1-name" aria-label="Jamie Scott Craik">
-          <span>Jamie</span>
-          <span>Scott Craik</span>
-        </h1>
+        <p class="home-hero__identity">Jamie Scott Craik</p>
+        <h1 id="home-title" class="home-hero__headline">I build software and developer tools with practical AI.</h1>
         <div>
-          <p class="home-hero__position">
-            Software, developer tools, and practical AI-assisted work.
-          </p>
           <p class="home-hero__body">
             I am moving into professional software development after 22 years of Army
             leadership, instruction, and operational delivery.
@@ -49,8 +44,7 @@ const workCount = String(workCards.length).padStart(2, "0");
               <img src="/jamie-profile-96.webp" alt="Jamie Scott Craik" class="u-img-cover" width="96" height="96" />
             </div>
             <div class="profile-row-meta">
-              <div class="input-label">Independent since Nov 2024</div>
-              <div class="input-label">Former Army logistics leader and instructor</div>
+              <div class="input-label">Army veteran · independent builder</div>
             </div>
           </div>
         </div>
@@ -263,6 +257,9 @@ const workCount = String(workCards.length).padStart(2, "0");
       </div>
     </div>
     <article>
+      <a class="blog-preview__image" href={featuredBlog.data.href} aria-label={`Read ${featuredBlog.data.title}`}>
+        <img src="/editorial/when-evidence-goes-stale-v1.webp" alt="Evidence belongs to Candidate A; an interrupted connection prevents it transferring to the changed Candidate B." width="1672" height="941" loading="lazy" decoding="async" />
+      </a>
       <h3>{featuredBlog.data.title}</h3>
       <p class="article-date">{featuredBlog.data.date}</p>
       <p>{featuredBlog.data.summary}</p>

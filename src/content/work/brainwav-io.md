@@ -1,5 +1,5 @@
 ---
-title: "brAInwav"
+title: "Proof Log"
 shortTitle: "Proof Log"
 subtitle: "A personal site for proof-led AI work"
 date: "Current"

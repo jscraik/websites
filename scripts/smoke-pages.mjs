@@ -15,7 +15,7 @@ const pages = [
   {
     route: "/blog/",
     file: "blog/index.html",
-    includes: ["Writing", "When Evidence Goes Stale", "Capability Is Not Trust", "RSS feed"]
+    includes: ["Blog", "When Evidence Goes Stale", "Capability Is Not Trust", "RSS feed"]
   },
   {
     route: "/proof/",
@@ -25,7 +25,7 @@ const pages = [
   {
     route: "/now/",
     file: "now/index.html",
-    includes: ["About", "22 years in the British Army", "7.5 years at Warrant Officer rank"]
+    includes: ["About", "22 years in the British Army", "Warrant Officer Class 1", "University Campus North Lincolnshire", "June 2027"]
   },
   {
     route: "/contact/",

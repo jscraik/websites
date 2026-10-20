@@ -20,12 +20,18 @@ export function initCarouselControls(root: ParentNode = document): void {
       }
 
       controls.hidden = false;
+      const focusedControl = controls.ownerDocument?.activeElement;
       const ratio = workRow.scrollLeft / maxScroll;
       progress.style.transform = `scaleX(${Math.max(0.18, Math.min(1, ratio || 0.18))})`;
       previousButton.disabled = workRow.scrollLeft <= 4;
       previousButton.setAttribute("aria-disabled", String(previousButton.disabled));
       nextButton.disabled = workRow.scrollLeft >= maxScroll - 4;
       nextButton.setAttribute("aria-disabled", String(nextButton.disabled));
+      if (focusedControl === nextButton && nextButton.disabled && !previousButton.disabled) {
+        previousButton.focus({ preventScroll: true });
+      } else if (focusedControl === previousButton && previousButton.disabled && !nextButton.disabled) {
+        nextButton.focus({ preventScroll: true });
+      }
     };
 
     const scrollCards = (direction: number, keyboardActivated: boolean) => {

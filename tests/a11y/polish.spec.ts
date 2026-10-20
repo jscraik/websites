@@ -21,6 +21,7 @@ async function editorialPalette(page: Page) {
       canvas: color("oklch(0.26777 0.00629 258.359)"),
       surface: color("oklch(0.30779 0.00833 255.562)"),
       muted: color("oklch(0.76794 0.01448 258.352)"),
+      title: color("oklch(0.93088 0.00832 91.486)"),
       blue: color("oklch(0.81015 0.04164 254.072)")
     };
     reference.remove();
@@ -154,6 +155,9 @@ test.describe("UI polish contracts", () => {
     for (const width of [320, 393, 768, 1024, 1440]) {
       await page.setViewportSize({ width, height: 800 });
       await preparePage(page, "/blog/");
+      const portrait = page.locator(".blog-about-card > img");
+      await expect(portrait).toHaveAttribute("src", "/personal/jamie-developer.webp");
+      expect((await portrait.boundingBox())!.width).toBeLessThanOrEqual(180);
       const spacing = await page.evaluate(() => {
         const latest = document.querySelector(".latest-article")!.getBoundingClientRect();
         const title = document.querySelector(".blog-title-block")!.getBoundingClientRect();
@@ -207,8 +211,8 @@ test.describe("UI polish contracts", () => {
     for (const width of [320, 768, 922, 1440]) {
       await page.setViewportSize({ width, height: 1000 });
       await preparePage(page, "/now/");
-      const descriptions = page.locator(".about-fact-card > span");
-      await expect(descriptions).toHaveCount(4);
+      const descriptions = page.locator(".about-photo-card > p, .about-fact-card > span");
+      await expect(descriptions).toHaveCount(7);
       for (const description of await descriptions.all()) {
         await expect(description).toBeVisible();
         const geometry = await description.evaluate((element) => {
@@ -218,7 +222,7 @@ test.describe("UI polish contracts", () => {
           const text = range.getBoundingClientRect();
           return {
             contained: text.left >= card.left && text.right <= card.right && text.bottom <= card.bottom,
-            clearOfNextSection: text.bottom < document.querySelector("#skills")!.getBoundingClientRect().top,
+            clearOfNextSection: text.bottom < element.closest("section")!.nextElementSibling!.getBoundingClientRect().top,
           };
         });
         expect(geometry).toEqual({ contained: true, clearOfNextSection: true });
@@ -227,7 +231,7 @@ test.describe("UI polish contracts", () => {
   });
 
   test("About skills and history retain gutters and separate metadata", async ({ page }) => {
-    for (const width of [320, 360, 768, 1440]) {
+    for (const width of [320, 360, 768, 853, 1440]) {
       await page.setViewportSize({ width, height: 1000 });
       await preparePage(page, "/now/");
       const failures = await page.evaluate(() => {
@@ -250,6 +254,14 @@ test.describe("UI polish contracts", () => {
           const rectangles = [...group.children].map((child) => child.getBoundingClientRect());
           if (!rectangles.every((rect, index) => index === 0 || rect.left >= rectangles[index - 1].right + 4 || rect.top >= rectangles[index - 1].bottom)) issues.push("metadata separation");
         }
+        if (innerWidth >= 768) {
+          for (const entry of document.querySelectorAll(".history-list-item")) {
+            const title = entry.querySelector(".work-history-inner.cc-top h3")!.getBoundingClientRect();
+            const meta = entry.querySelector(".history-flex--meta")!.getBoundingClientRect();
+            const copy = entry.querySelector(".about-history-copy")!.getBoundingClientRect();
+            if (meta.left <= title.right || Math.abs(meta.left - copy.left) > 2) issues.push("history column alignment");
+          }
+        }
         return issues;
       });
       expect(failures, `About at ${width}px`).toEqual([]);
@@ -263,7 +275,7 @@ test.describe("UI polish contracts", () => {
       const geometry = await page.evaluate(() => {
         const copy = document.querySelector(".about-copy-block")!.getBoundingClientRect();
         const range = document.createRange();
-        range.selectNodeContents(document.querySelector(".about-copy p:last-child")!);
+        range.selectNodeContents(document.querySelector(".about-copy p:last-of-type")!);
         const overlaps = (a: DOMRect, b: DOMRect) => Math.min(a.right, b.right) > Math.max(a.left, b.left) && Math.min(a.bottom, b.bottom) > Math.max(a.top, b.top);
         return {
           width: copy.width,
@@ -389,6 +401,7 @@ test.describe("UI polish contracts", () => {
     await next.evaluate((element: HTMLButtonElement) => element.click());
     expect(await row.evaluate((element) => element.scrollLeft)).toBe(end);
     await expect(previous).toBeEnabled();
+    await expect(previous).toBeFocused();
     await previous.focus();
     await page.keyboard.press("Enter");
     await expect.poll(() => row.evaluate((element) => element.scrollLeft)).toBeLessThan(end);
@@ -485,7 +498,7 @@ test.describe("UI polish contracts", () => {
     }));
 
     const palette = await editorialPalette(page);
-    expect(portfolioShell.activeNav).toBe(palette.muted);
+    expect(portfolioShell.activeNav).toBe(palette.title);
     expect(portfolioShell.homeIcon).toBe(palette.blue);
     expect(portfolioShell.footerBackgroundImage).toBe("none");
     expect(portfolioShell.footerBackground).toBe(palette.canvas);
@@ -504,28 +517,8 @@ test.describe("UI polish contracts", () => {
     expect(technicalShell.profileBackground).toBe("rgb(20, 26, 35)");
     expect(technicalShell.socialBackground).toBe("rgb(27, 34, 48)");
 
-    const technicalNav = await page.evaluate(() => {
-      const header = document.querySelector(".site-header")!;
-      const layer = document.querySelector(".site-header .nav-bg")!;
-      const content = document.querySelector(".site-header .nav-flip")!;
-      const layerStyle = getComputedStyle(layer);
-      const contentStyle = getComputedStyle(content);
-      return {
-        headerDisplay: getComputedStyle(header).display,
-        layerPosition: layerStyle.position,
-        layerPointerEvents: layerStyle.pointerEvents,
-        layerZIndex: layerStyle.zIndex,
-        layerTransformOrigin: layerStyle.transformOrigin,
-        contentZIndex: contentStyle.zIndex
-      };
-    });
-
-    expect(technicalNav.headerDisplay).toBe("none");
-    expect(technicalNav.layerPosition).toBe("absolute");
-    expect(technicalNav.layerPointerEvents).toBe("none");
-    expect(technicalNav.layerZIndex).toBe("0");
-    expect(technicalNav.layerTransformOrigin).toBe("0px 0px");
-    expect(technicalNav.contentZIndex).toBe("1");
+    await expect(page.locator(".site-header")).toHaveCount(0);
+    await expect(page.locator(".demo-nav")).toBeVisible();
   });
 
   test("About keeps the charcoal shell and page canvas", async ({ page }) => {
@@ -673,6 +666,11 @@ test.describe("UI polish contracts", () => {
     for (const route of imageRoutes) {
       await preparePage(page, route.path);
 
+      if (route.path.startsWith("/work/") && route.path !== "/work/skillsbar/") {
+        await expect(page.locator(".case-hero-art")).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+        await expect(page.locator(".case-outline")).toHaveCSS("border-radius", "16px");
+      }
+
       const imageStyles = await page.locator("img").evaluateAll((images) => {
         const expectedColor = document.body.classList.contains("skillsbar-demo")
           ? "rgba(255, 255, 255, 0.1)"
@@ -782,15 +780,25 @@ test.describe("UI polish contracts", () => {
       await preparePage(page, route.path);
       const palette = await editorialPalette(page);
       const controls = page.locator(
-        `:is(.site-header, .demo-nav, main, .site-footer) ${interactiveSelector}`
+        ":is(.site-header, .demo-nav, main, .site-footer) :is(a[href], button, input, select, textarea)"
       );
 
       for (let index = 0; index < await controls.count(); index += 1) {
         const control = controls.nth(index);
         if (!(await control.isVisible())) continue;
+        if (await control.isDisabled()) continue;
         if (await control.evaluate((element) => element.getRootNode() instanceof ShadowRoot)) continue;
 
         await control.focus();
+        // A scroll endpoint may disable this control and transfer focus to its sibling.
+        // Let the scroll event and focus transfer settle before sampling the ring.
+        await expect.poll(() => control.evaluate((element) => {
+          if (element.matches(":disabled")) return true;
+          const style = getComputedStyle(element);
+          return element === document.activeElement && style.outlineStyle !== "none" &&
+            Number.parseFloat(style.outlineWidth) >= 2;
+        })).toBe(true);
+        if (await control.isDisabled()) continue;
         const focus = await control.evaluate((element) => {
           const style = getComputedStyle(element);
           const channels = style.outlineColor.match(/[\d.]+/g)?.slice(0, 3).map(Number) ?? [];
@@ -875,6 +883,7 @@ test.describe("UI polish contracts", () => {
         return {
           columns: style.gridTemplateColumns.split(" ").filter(Boolean).length,
           copyX: copyRect.x,
+          copyY: copyRect.y,
           copyWidth: copyRect.width,
           copyBottom: copyRect.bottom,
           sidebarX: sidebarRect.x,
@@ -890,38 +899,19 @@ test.describe("UI polish contracts", () => {
     expect(belowBreakpoint.columns, "767px About remains one track").toBe(1);
     expect(Math.abs(belowBreakpoint.sidebarX - belowBreakpoint.copyX), "767px About sidebar stays below the copy").toBeLessThan(1);
 
-    const atBreakpoint = await measureAbout(768, 964);
-    expect(atBreakpoint.columns, "768px About retains one readable track").toBe(1);
-    expect(atBreakpoint.sidebarY, "768px About sidebar follows the complete copy").toBeGreaterThanOrEqual(atBreakpoint.copyBottom);
-    expect(atBreakpoint.titleFontSize, "768px About title stays within the display scale").toBeLessThanOrEqual(96);
-    expect(atBreakpoint.titleFontFamily, "768px About title uses the editorial serif").toContain("Newsreader");
-    expect(atBreakpoint.spacerDisplay, "768px About spacer stays structural and hidden").toBe("none");
-
-    const intermediate = await measureAbout(857, 964);
-    expect(intermediate.columns, "857px About keeps one readable track").toBe(1);
-    expect(intermediate.sidebarY, "857px About sidebar follows the complete copy").toBeGreaterThanOrEqual(intermediate.copyBottom);
-    expect(intermediate.titleFontSize, "857px About title stays within the display scale").toBeLessThanOrEqual(96);
-    expect(intermediate.titleFontFamily, "857px About title uses the editorial serif").toContain("Newsreader");
-    expect(intermediate.spacerDisplay, "857px About spacer stays structural and hidden").toBe("none");
-
-    const beforeUpperBreakpoint = await measureAbout(921, 964);
-    expect(beforeUpperBreakpoint.columns, "921px About keeps one readable track").toBe(1);
-    expect(beforeUpperBreakpoint.sidebarY, "921px About sidebar follows the complete copy").toBeGreaterThanOrEqual(beforeUpperBreakpoint.copyBottom);
-
-    const afterUpperBreakpoint = await measureAbout(922, 964);
-    expect(afterUpperBreakpoint.columns, "922px About enters the desktop three-track contract").toBe(3);
-    expect(afterUpperBreakpoint.sidebarX, "922px About sidebar stays beside the copy").toBeGreaterThan(
-      afterUpperBreakpoint.copyX + afterUpperBreakpoint.copyWidth - 1
-    );
+    for (const width of [768, 857, 921, 922, 1440]) {
+      const measured = await measureAbout(width, 1000);
+      expect(measured.columns, `${width}px About has copy and sidebar columns`).toBe(2);
+      expect(measured.copyWidth, `${width}px keeps a readable copy column`).toBeGreaterThanOrEqual(320);
+      expect(measured.sidebarX, `${width}px sidebar clears the copy`).toBeGreaterThan(measured.copyX + measured.copyWidth);
+      expect(Math.abs(measured.sidebarY - measured.copyY), `${width}px sidebar and About label share a top edge`).toBeLessThan(2);
+      expect(measured.titleFontSize, `${width}px About is a quiet section label`).toBeLessThanOrEqual(24);
+      expect(measured.spacerDisplay, `${width}px has no empty structural column`).toBe("none");
+    }
 
     const mobile = await measureAbout(390, 844);
     expect(mobile.columns, "390px About remains one track").toBe(1);
     expect(Math.abs(mobile.sidebarX - mobile.copyX), "390px About sidebar returns below the copy").toBeLessThan(1);
-    expect(mobile.titleFontSize, "390px About title stays within the display scale").toBeLessThanOrEqual(96);
-    expect(mobile.titleFontFamily, "390px About title uses the editorial serif").toContain("Newsreader");
-
-    const desktop = await measureAbout(1440, 1000);
-    expect(desktop.titleFontSize, "1440px About title stays within the display scale").toBeLessThanOrEqual(96);
-    expect(desktop.titleFontFamily, "1440px About title uses the editorial serif").toContain("Newsreader");
+    expect(mobile.titleFontSize, "390px About remains a quiet section label").toBeLessThanOrEqual(24);
   });
 });

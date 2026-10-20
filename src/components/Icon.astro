@@ -1,5 +1,5 @@
 ---
-type IconName = "home" | "person" | "document" | "bookmark" | "pencil";
+type IconName = "home" | "person" | "document" | "bookmark" | "pencil" | "code" | "terminal" | "checklist";
 interface Props {
   name: IconName;
   class?: string;
@@ -8,6 +8,9 @@ interface Props {
 const { name, class: className = "sm-icon" } = Astro.props;
 
 const icons: Record<IconName, { viewBox: string; paths: string[] }> = {
+  code: { viewBox: "0 0 16 16", paths: ["M5 4 1 8l4 4M11 4l4 4-4 4M9 2 7 14"] },
+  terminal: { viewBox: "0 0 16 16", paths: ["M2 4l4 4-4 4M9 12h5"] },
+  checklist: { viewBox: "0 0 16 16", paths: ["m1 4 2 2 3-4M8 4h7M2 10h3M8 10h7M2 14h3M8 14h7"] },
   home: {
     viewBox: "0 0 16 16",
     paths: [

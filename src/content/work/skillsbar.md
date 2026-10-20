@@ -73,11 +73,11 @@ caseStudy:
   links:
     - label: "Inspect the merged adaptive delivery"
       href: "https://github.com/jscraik/skillsbar/pull/6"
-      primary: true
+      primary: false
     - label: "Explore the SkillsBar source"
       href: "https://github.com/jscraik/skillsbar"
       primary: false
     - label: "Try the safe-data demo"
       href: "/demos/skillsbar/"
-      primary: false
+      primary: true
 ---
