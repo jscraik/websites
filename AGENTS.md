@@ -24,6 +24,9 @@ schema_version: 2
 - `src/styles/editorial-theme.css` owns the approved charcoal portfolio theme;
   keep product demo interfaces isolated. Map artwork by content identity rather
   than overridable destination URLs, and normalise route keys used by CSS.
+- Portfolio navigation uses native route links and a static background. Keep
+  navigation validation aligned with that behaviour; do not restore the retired
+  moving/reparented highlight when adjusting the shared shell.
 - Optional private development inspectors must not enter the site install or
   CI credential contract. Keep their removal and focused operator tests aligned.
 - package.json is the source of truth for npm scripts. Re-read it before choosing validation commands.
