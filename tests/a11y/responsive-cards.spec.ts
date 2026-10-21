@@ -23,6 +23,8 @@ test("Proof cards share content rows and adapt to a narrow slot", async ({ page 
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto("/proof/");
   await page.evaluate(() => document.fonts.ready);
+  // Keep this container-layout fixture independent of future page-shell widths.
+  await page.locator(".proof-index").evaluate(element => { element.style.inlineSize = "1100px"; });
   const projects = page.getByRole("region", { name: "Published projects" });
   await projects.locator("h2").first().evaluate(element => {
     element.textContent = "A much longer project title that wraps across several lines";
