@@ -489,8 +489,8 @@ async function renderPage({ width, height, scale, outputPath, html }) {
     colorScheme: "light",
     reducedMotion: "reduce"
   });
-  const page = await context.newPage();
   try {
+    const page = await context.newPage();
     await page.setContent(html, { waitUntil: "load" });
     await page.evaluate(() => document.fonts.ready);
     await page.screenshot({ path: outputPath, type: "png", fullPage: false, animations: "disabled" });
