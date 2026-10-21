@@ -6,13 +6,24 @@ import { hasDensityAwareBlogDividers } from "./lib/surface-hairline-contract.mjs
 const validFixture = `
   const links = [{
     href: "/demos/skillsbar/",
+    title: "Try SkillsProof",
     label: "Explore the interactive demo",
     primary: true
   }];
 `;
 
-test("binds the primary flag to the SkillsProof route and label", () => {
+test("binds the primary flag to the SkillsProof route, title, and label", () => {
   assert.equal(hasPrimarySkillsProofLink(validFixture), true);
+});
+
+test("rejects the legacy SkillsBar primary link title", () => {
+  const legacyTitle = validFixture.replace("Try SkillsProof", "Try SkillsBar");
+  assert.equal(hasPrimarySkillsProofLink(legacyTitle), false);
+});
+
+test("requires a primary link title", () => {
+  const missingTitle = validFixture.replace('title: "Try SkillsProof",', "");
+  assert.equal(hasPrimarySkillsProofLink(missingTitle), false);
 });
 
 test("rejects a primary flag detached from the SkillsProof route", () => {
@@ -28,7 +39,7 @@ test("rejects a primary flag detached from the SkillsProof label", () => {
 test("keeps primary metadata bound to one link object", () => {
   const splitAcrossObjects = `
     const links = [
-      { href: "/demos/skillsbar/", label: "Explore the interactive demo" },
+      { href: "/demos/skillsbar/", title: "Try SkillsProof", label: "Explore the interactive demo" },
       { href: "/now/", label: "Read the blog", primary: true }
     ];
   `;

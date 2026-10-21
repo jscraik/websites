@@ -2,14 +2,14 @@ export function extractStartLinkRecords(source) {
   return extractObjectBlocks(stripJavaScriptComments(source))
     .map(parseDirectProperties)
     .filter(({ primary }) => primary === true)
-    .filter(({ href, label }) => typeof href === "string" && typeof label === "string")
-    .map(({ href, label }) => ({ href, label }));
+    .filter(({ href, title, label }) => typeof href === "string" && typeof title === "string" && typeof label === "string")
+    .map(({ href, title, label }) => ({ href, title, label }));
 }
 
-/** Check that one primary link binds the SkillsProof demo route to its supporting label. */
+/** Check that one primary link binds the SkillsProof demo route, title, and supporting label. */
 export function hasPrimarySkillsProofLink(source) {
   return extractStartLinkRecords(source).some(
-    ({ href, label }) => href === "/demos/skillsbar/" && label === "Explore the interactive demo"
+    ({ href, title, label }) => href === "/demos/skillsbar/" && title === "Try SkillsProof" && label === "Explore the interactive demo"
   );
 }
 
@@ -127,7 +127,7 @@ function parseDirectProperties(block) {
     }
     if (depth !== 1) continue;
 
-    const match = block.slice(index).match(/^(href|label|primary)\s*:\s*/);
+    const match = block.slice(index).match(/^(href|title|label|primary)\s*:\s*/);
     if (!match) continue;
     const key = match[1];
     index += match[0].length - 1;
