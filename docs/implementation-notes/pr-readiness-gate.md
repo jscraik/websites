@@ -37,6 +37,9 @@ recognises the supported complete reply layout with the exact bot identity,
 PR comment URL and full current-head no-findings statement. Versioned headers
 and the known read-only comment-fetch trace are decoration; quoted verdicts,
 unknown analysis, appended findings and incomplete replies do not count.
+Only the latest authenticated bot event can supply that artifact. A later
+concern, incomplete response, unknown layout, invalid timestamp or tied latest
+events blocks the local inventory, including when an older comment is edited.
 This inventory does not clear later concerns: the global update receipt remains
 mandatory and independently evaluates the full review history.
 

@@ -24,7 +24,7 @@ test("directory scope patterns include nested files", () => {
 test("CodeRabbit reply artifacts require exact identity, PR, head and complete supported layout", () => {
   const head = "a".repeat(40), prUrl = "https://github.com/jscraik/websites/pull/49";
   const body = `<!-- coderabbit-ai-generated:v1 -->\n\n<!-- This is an auto-generated reply by CodeRabbit -->\n\n> [!TIP]\n> For best results, initiate chat on the files or code changes.\n\n<details>\n<summary>🧩 Analysis chain</summary>\n\n🏁 Script executed:\n\n\`\`\`shell\ngh api repos/jscraik/websites/issues/comments/123\n\`\`\`\n\nLength of output: 5055\n\n---\n\n</details>\n\n\`@jscraik\`\n\nNo findings for ${head}.\n\n_You are interacting with an AI system._`;
-  const entry = { id: 124, user: { id: 456, login: "coderabbitai[bot]", type: "Bot" }, html_url: `${prUrl}#issuecomment-124`, body };
+  const entry = { id: 124, user: { id: 456, login: "coderabbitai[bot]", type: "Bot" }, html_url: `${prUrl}#issuecomment-124`, body, created_at: "2026-10-21T10:00:00Z", updated_at: "2026-10-21T10:00:00Z" };
   assert.equal(currentCodeRabbitCompletion([entry], head, prUrl), entry);
   const invalid = [
     { ...entry, user: { ...entry.user, login: "author" } },
@@ -36,6 +36,17 @@ test("CodeRabbit reply artifacts require exact identity, PR, head and complete s
       body.replace("Length of output: 5055", "A defect remains")].map(value => ({ ...entry, body: value })),
   ];
   for (const candidate of invalid) assert.equal(currentCodeRabbitCompletion([candidate], head, prUrl), null);
+  const later = { ...entry, id: 125, html_url: `${prUrl}#issuecomment-125`, created_at: "2026-10-21T10:01:00Z", updated_at: "2026-10-21T10:01:00Z" };
+  for (const body of ["A source defect remains.", "Review incomplete.", "> No findings for " + head]) {
+    const concern = { ...later, body };
+    assert.equal(currentCodeRabbitCompletion([entry, concern], head, prUrl), null);
+    assert.equal(currentCodeRabbitCompletion([concern, entry], head, prUrl), null);
+    const editedOlder = { ...concern, created_at: "2026-10-20T10:00:00Z" };
+    assert.equal(currentCodeRabbitCompletion([editedOlder, entry], head, prUrl), null);
+  }
+  assert.equal(currentCodeRabbitCompletion([entry, later], head, prUrl), later);
+  assert.equal(currentCodeRabbitCompletion([entry, { ...later, updated_at: entry.updated_at, created_at: entry.created_at }], head, prUrl), null);
+  assert.equal(currentCodeRabbitCompletion([entry, { ...later, updated_at: "invalid" }], head, prUrl), null);
 });
 
 test("solo-maintainer human quorum can be zero without satisfying bot-review lanes", () => {

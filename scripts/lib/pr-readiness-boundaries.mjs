@@ -371,21 +371,25 @@ export function currentCodexCompletion(entries, head, prUrl) {
 /** Locate a supported authenticated CodeRabbit reply artifact; global readiness owns clearance. */
 export function currentCodeRabbitCompletion(entries, head, prUrl) {
   if (!/^[0-9a-f]{40}(?:[0-9a-f]{24})?$/.test(head)) return null;
+  const events = entries.filter(entry => entry?.user?.login === "coderabbitai[bot]");
+  const dated = events.map(entry => ({ entry, time: Math.max(Date.parse(entry.created_at), Date.parse(entry.updated_at)) }));
+  if (dated.some(event => !Number.isFinite(event.time))) return null;
+  dated.sort((left, right) => right.time - left.time);
+  if (!dated.length || (dated[1] && dated[0].time === dated[1].time)) return null;
   const header = "<!-- This is an auto-generated reply by CodeRabbit -->";
   const tip = "> [!TIP]\n> For best results, initiate chat on the files or code changes.";
   const analysis = /<details>\n<summary>🧩 Analysis chain<\/summary>\n\n🏁 Script executed:\n\n```shell\ngh api repos\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+\/issues\/comments\/[1-9][0-9]*\n```\n\nLength of output: [0-9]+\n\n---\n\n<\/details>\n\n/;
   const mention = /^(?:`@[A-Za-z0-9][A-Za-z0-9-]{0,38}`|@[A-Za-z0-9][A-Za-z0-9-]{0,38})\n\n/;
-  return entries.findLast((entry) => {
-    if (entry?.user?.login !== "coderabbitai[bot]" || entry.user?.type !== "Bot" ||
-      !Number.isInteger(entry.user?.id) || entry.user.id <= 0 || !Number.isInteger(entry.id) || entry.id <= 0 ||
-      entry.html_url !== `${prUrl}#issuecomment-${entry.id}` || typeof entry.body !== "string") return false;
-    let body = entry.body.replace(/^<!-- coderabbit-ai-generated:v1 -->\n\n/, "");
-    if (!body.startsWith(`${header}\n\n`)) return false;
-    body = body.slice(header.length + 2);
-    if (body.startsWith(`${tip}\n\n`)) body = body.slice(tip.length + 2);
-    const trace = analysis.exec(body);
-    if (trace?.index === 0) body = body.slice(trace[0].length);
-    body = body.replace(mention, "");
-    return body === `No findings for ${head}.\n\n_You are interacting with an AI system._`;
-  }) ?? null;
+  const entry = dated[0].entry;
+  if (entry.user?.type !== "Bot" ||
+    !Number.isInteger(entry.user?.id) || entry.user.id <= 0 || !Number.isInteger(entry.id) || entry.id <= 0 ||
+    entry.html_url !== `${prUrl}#issuecomment-${entry.id}` || typeof entry.body !== "string") return null;
+  let body = entry.body.replace(/^<!-- coderabbit-ai-generated:v1 -->\n\n/, "");
+  if (!body.startsWith(`${header}\n\n`)) return null;
+  body = body.slice(header.length + 2);
+  if (body.startsWith(`${tip}\n\n`)) body = body.slice(tip.length + 2);
+  const trace = analysis.exec(body);
+  if (trace?.index === 0) body = body.slice(trace[0].length);
+  body = body.replace(mention, "");
+  return body === `No findings for ${head}.\n\n_You are interacting with an AI system._` ? entry : null;
 }

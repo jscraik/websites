@@ -82,6 +82,7 @@ test("homepage leads with the work and navigation stays stable through page chan
     await expect(page.locator("h1")).toHaveText("I build software and developer tools with practical AI.");
     await expect(page.locator(".home-hero__identity")).toHaveText("Jamie Scott Craik");
     await expect(page.locator(".start-links__copy strong")).toHaveText(["View my background", "Try SkillsBar", "Read the latest article"]);
+    await expect(page.getByRole("link", { name: "Read the latest article Lessons from building the tools" })).toHaveAttribute("href", "/articles/when-evidence-goes-stale/");
     const background = page.locator(".site-header .nav-bg");
     const original = await background.boundingBox();
     for (const label of ["Work", "About", "Blog", "Contact"]) {
