@@ -14,6 +14,7 @@ export function hasPrimarySkillsProofLink(source) {
   );
 }
 
+/** Replace comments with whitespace while preserving quoted strings and source offsets. */
 function stripJavaScriptComments(source) {
   let output = "";
   let quote = null;
@@ -66,6 +67,7 @@ function stripJavaScriptComments(source) {
   return output;
 }
 
+/** Collect brace-delimited object blocks without treating quoted braces as structure. */
 function extractObjectBlocks(source) {
   const blocks = [];
   const starts = [];
