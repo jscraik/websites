@@ -88,6 +88,14 @@ function builtRoutes() {
     .sort();
 }
 
+/**
+ * Inspect one built route at a viewport and collect shell, layout and overflow failures.
+ * @param {import("playwright").Page} page Isolated page in the validation context.
+ * @param {string} baseUrl Loopback server for the trusted built artifact.
+ * @param {string} route Built route path to inspect.
+ * @param {{width: number, height: number}} viewport Current viewport dimensions.
+ * @returns {Promise<void>} Resolves after appending any failures to the run ledger.
+ */
 async function validateRoute(page, baseUrl, route, viewport) {
   const label = route + " @ " + viewport.width + "x" + viewport.height;
   await page.goto(baseUrl + route, { waitUntil: "networkidle" });
@@ -118,6 +126,25 @@ async function validateRoute(page, baseUrl, route, viewport) {
       .filter((element) => !element.closest(".work-carousel, .work-row, .proof-row"))
       .filter((element) => {
         const rect = element.getBoundingClientRect();
+        const scroller = element.parentElement?.closest(".about-contributions__scroll");
+        if (scroller instanceof HTMLElement) {
+          const box = scroller.getBoundingClientRect();
+          const overflow = getComputedStyle(scroller).overflowX;
+          const isContained = box.left >= 0 && box.right <= doc.clientWidth && box.width > 0;
+          const isAccessible = scroller.getAttribute("role") === "region"
+            && Boolean(scroller.getAttribute("aria-label")?.trim()) && scroller.tabIndex >= 0;
+          // Positioned descendants can escape overflow clipping through another containing block.
+          let followsScrollFlow = true;
+          for (let ancestor = element; ancestor && ancestor !== scroller; ancestor = ancestor.parentElement) {
+            if (["fixed", "absolute"].includes(getComputedStyle(ancestor).position)) {
+              followsScrollFlow = false;
+              break;
+            }
+          }
+          if (!followsScrollFlow && (rect.left < box.left || rect.right > box.right
+            || rect.top < box.top || rect.bottom > box.bottom)) return true;
+          if (isContained && isAccessible && followsScrollFlow && ["auto", "scroll"].includes(overflow)) return false;
+        }
         return rect.left < -32 || rect.right > doc.clientWidth + 2;
       })
       .slice(0, 10)

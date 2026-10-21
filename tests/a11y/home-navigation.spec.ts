@@ -1,5 +1,26 @@
 import { expect, test } from "../helpers/test";
 
+test("About contribution chart follows Evolve and scrolls without widening the page", async ({ page }) => {
+  for (const width of [320, 390, 853, 1440]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.goto("/now/");
+    const section = page.locator(".about-contributions");
+    expect(await section.evaluate(element => element.previousElementSibling?.classList.contains("about-evolve"))).toBe(true);
+    const chart = section.getByRole("region", { name: "GitHub contribution chart, 2023 to 2026" });
+    await chart.scrollIntoViewIfNeeded();
+    await chart.locator("img").evaluate((image: HTMLImageElement) => image.decode());
+    expect(await chart.locator("img").evaluate((image: HTMLImageElement) => image.naturalWidth)).toBe(2024);
+    await expect(section.getByRole("link", { name: "Open the full graphic" })).toHaveAttribute("href", "/personal/jscraik-github-contributions.png");
+    await expect(section).toContainText("A static snapshot");
+    expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
+    if (width <= 390) {
+      await chart.focus();
+      await page.keyboard.press("ArrowRight");
+      await expect.poll(() => chart.evaluate(element => element.scrollLeft)).toBeGreaterThan(0);
+    }
+  }
+});
+
 test("personal image cards preserve their subjects and adapt to the viewport", async ({ page }) => {
   for (const width of [390, 853, 1440]) {
     await page.setViewportSize({ width, height: 1000 });
