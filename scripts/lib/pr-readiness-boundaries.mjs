@@ -358,7 +358,7 @@ export function currentBotReviews(entries, head, prUrl, login) {
 export function checkGlobalReviewReceipt(result, pr, run, python, gatePath, addBlocker) {
   const execution = run(python, [gatePath, "--phase", "update", "--check-receipt",
     "--expected-repo", result.repo, "--expected-pr", String(pr.number),
-    "--expected-head", pr.headRefOid, "--expected-base", pr.baseRefName]);
+    "--expected-head", pr.headRefName, "--expected-base", pr.baseRefName]);
   let receipt;
   try {
     receipt = JSON.parse(execution.stdout);
@@ -367,7 +367,8 @@ export function checkGlobalReviewReceipt(result, pr, run, python, gatePath, addB
   }
   const valid = execution.ok && receipt?.schema_version === "pr-readiness/v1" &&
     receipt.status === "pass" && receipt.phase === "update" &&
-    receipt.repo?.head_sha === pr.headRefOid && receipt.repo?.root === result.repo_root &&
+    receipt.repo?.head_sha === pr.headRefOid && receipt.repo?.branch === pr.headRefName &&
+    receipt.repo?.base_branch === pr.baseRefName && receipt.repo?.root === result.repo_root &&
     receipt.lanes?.reviews?.status === "pass" && receipt.lanes?.required_checks?.status === "pass";
   result.global_review_clearance = { status: valid ? "pass" : "blocked", head_sha: pr.headRefOid,
     source: "fresh global update receipt with live hosted-state recheck" };

@@ -87,14 +87,16 @@ test("non-zero human quorum and unknown policy fail closed", () => {
 });
 
 test("merge clearance consumes a matching global receipt and cannot rely on artifact counts", () => {
-  const head = "a".repeat(40), pr = { number: 49, headRefOid: head, baseRefName: "main" };
+  const head = "a".repeat(40), pr = { number: 49, headRefOid: head, headRefName: "jscraik/portfolio-polish", baseRefName: "main" };
   const receipt = { schema_version: "pr-readiness/v1", status: "pass", phase: "update",
-    repo: { head_sha: head, root: "/fixture" }, lanes: { reviews: { status: "pass" }, required_checks: { status: "pass" } } };
+    repo: { head_sha: head, branch: pr.headRefName, base_branch: "main", root: "/fixture" }, lanes: { reviews: { status: "pass" }, required_checks: { status: "pass" } } };
   for (const [payload, ok, expected] of [
     [receipt, true, "pass"], [receipt, false, "blocked"],
     [{ ...receipt, status: "fail" }, true, "blocked"],
     [{ ...receipt, phase: "review_inspection" }, true, "blocked"],
     [{ ...receipt, repo: { ...receipt.repo, head_sha: "b".repeat(40) } }, true, "blocked"],
+    [{ ...receipt, repo: { ...receipt.repo, branch: "other" } }, true, "blocked"],
+    [{ ...receipt, repo: { ...receipt.repo, base_branch: "other" } }, true, "blocked"],
     [{ ...receipt, repo: { ...receipt.repo, root: "/other" } }, true, "blocked"],
     [{ ...receipt, lanes: { ...receipt.lanes, reviews: { status: "fail" } } }, true, "blocked"],
     [{ ...receipt, lanes: { ...receipt.lanes, required_checks: { status: "blocked" } } }, true, "blocked"],
@@ -103,7 +105,7 @@ test("merge clearance consumes a matching global receipt and cannot rely on arti
     const result = { repo: "jscraik/websites", repo_root: "/fixture", blockers: [], reviews: { current_codex: 1, current_coderabbit: 1 } };
     const run = (command, args) => {
       assert.equal(command, "python3");
-      assert.deepEqual(args, ["/gate/pr-readiness.py", "--phase", "update", "--check-receipt", "--expected-repo", "jscraik/websites", "--expected-pr", "49", "--expected-head", head, "--expected-base", "main"]);
+      assert.deepEqual(args, ["/gate/pr-readiness.py", "--phase", "update", "--check-receipt", "--expected-repo", "jscraik/websites", "--expected-pr", "49", "--expected-head", pr.headRefName, "--expected-base", "main"]);
       return { ok, stdout: payload === "malformed" ? "not JSON" : JSON.stringify(payload), output: "review recheck result" };
     };
     checkGlobalReviewReceipt(result, pr, run, "python3", "/gate/pr-readiness.py", (target, code) => target.blockers.push(code));

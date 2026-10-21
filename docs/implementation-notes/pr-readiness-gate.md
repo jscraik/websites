@@ -33,6 +33,9 @@ The local `merge` phase now executes the projected global validator with
 base. That consumption rechecks hosted reviews, later concerns, threads and
 CI. Missing, stale, failed or mismatched receipts block local merge readiness;
 a successful artifact inventory cannot replace this clearance lane.
+The consumer's `--expected-head` argument names the PR source branch; the
+receipt's `repo.head_sha` separately binds the immutable commit. The local
+adapter checks both identities, along with the base branch and checkout root.
 The merge phase requires Python 3 and a readable
 `~/.codex/scripts/pr-readiness.py` supplied by the operator's managed Codex
 configuration (the Configs repository's canonical `codex/scripts` projection).
