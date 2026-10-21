@@ -9,6 +9,6 @@ proofLink: "/proof/"
 featured: false
 proof:
   claim: "A proof surface should make its evidence boundary visible."
-  evidence: "Portfolio proof index and SkillsBar candidate-bound evidence interface."
+  evidence: "Portfolio proof index and SkillsProof candidate-bound evidence interface."
   caveat: "Draft only; the structure and examples still require editorial review."
 ---

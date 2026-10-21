@@ -2,7 +2,7 @@ import { expect, test } from "../helpers/test";
 import { preparePage } from "../helpers/visual";
 
 test.describe("portfolio interface contracts", () => {
-  test("SkillsBar artwork and caption fill separate rows without overlap", async ({ page }) => {
+  test("SkillsProof artwork and caption fill separate rows without overlap", async ({ page }) => {
     await preparePage(page, "/");
 
     const panel = page.locator(".feature-block-img--skills");
@@ -76,7 +76,7 @@ test.describe("portfolio interface contracts", () => {
   test("the home page exposes one explicit first-visit route and truthful entry motion", async ({ page }) => {
     await preparePage(page, "/");
 
-    const primaryRoute = page.getByRole("link", { name: "Try SkillsBar Explore the interactive demo" });
+    const primaryRoute = page.getByRole("link", { name: "Try SkillsProof Explore the interactive demo" });
     await expect(primaryRoute).toHaveAttribute("href", "/demos/skillsbar/");
     await expect(primaryRoute).toHaveAttribute("data-primary-start", "true");
     await expect(page.locator('a[data-primary-start][href="/work/skillsbar/"]')).toHaveCount(0);

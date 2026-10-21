@@ -34,7 +34,10 @@ const palette = {
 
 assertContract();
 
-const browser = await chromium.launch({ headless: true });
+const cdpEndpoint = process.env.CHROME_CDP_URL;
+const browser = cdpEndpoint
+  ? await chromium.connectOverCDP(cdpEndpoint, { noDefaults: true })
+  : await chromium.launch({ headless: true });
 
 try {
   for (const [platform, specification] of Object.entries(manifest.platforms)) {
@@ -60,8 +63,11 @@ try {
     console.log(`Typography status: ${manifest.typography.current_rendering_status}.`);
   }
 } finally {
-  await browser.close();
+  // renderPage closes only this run's contexts on a runtime-owned CDP browser.
+  if (!cdpEndpoint) await browser.close();
 }
+
+if (cdpEndpoint) process.exit(0);
 
 function assertContract() {
   const failures = [];

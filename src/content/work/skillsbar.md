@@ -1,13 +1,13 @@
 ---
-title: "SkillsBar"
-shortTitle: "SkillsBar"
-subtitle: "A macOS menu-bar app for inspecting AI skill evidence"
+title: "SkillsProof"
+shortTitle: "SkillsProof"
+subtitle: "Every step. Every fault. One glance."
 date: "Current"
 order: 1
 publicationState: "published"
 isFeatured: true
-overview: "SkillsBar shows which checks belong to the selected skill package, which stages still need proof, and the next command to inspect or copy. A Tessl registry result stays separate from the local package evidence."
-organization: "SkillsBar is a native SwiftUI menu-bar app for macOS 14 and later. It is currently a local prototype with scripts for packaging the app. The current local build discovers installed Codex and Agents skills and versioned plugin skills, alongside a configured agent-skills source checkout. Live Tessl observations additionally require an available, authenticated Tessl CLI."
+overview: "SkillsProof shows which checks belong to the selected skill package, which stages still need proof, and the next command to inspect or copy. A Tessl registry result stays separate from the local package evidence."
+organization: "SkillsProof is a native SwiftUI menu-bar app for macOS 14 and later. It is currently a local prototype with scripts for packaging the app. The current local build discovers installed Codex and Agents skills and versioned plugin skills, alongside a configured agent-skills source checkout. Live Tessl observations additionally require an available, authenticated Tessl CLI."
 work: "I defined the problem: checks from an older skill package could still appear to support a release. I designed the release model and interactions, then used Codex to implement and test the native app and the demo built with mock data."
 role: "Product direction, AI workflow design, and evaluation"
 tags:
@@ -18,13 +18,13 @@ tags:
 tone: "blue"
 capture:
   src: "/products/skillsbar/focus-navigator-20261020.png"
-  alt: "SkillsBar nine-stage focus navigator with Identity and Validation passed and Security selected as the next required stage in a deterministic fixture."
+  alt: "SkillsProof nine-stage focus navigator with Identity and Validation passed and Security selected as the next required stage in a deterministic fixture."
   width: 460
   height: 586
   caption: "App-rendered dark fixture captured on 20 October 2026. Security is the next required stage; the critical and high findings are synthetic examples, not findings about a live skill. Copy command does not run the command. This is a deterministic snapshot, not proof of live menu interaction."
 featured:
   eyebrow: "From the interactive demo"
-  quote: "See which release checks are current, which are missing, and what needs attention next."
+  quote: "Every step. Every fault. One glance."
   cta: "Read case study"
   previewTitle: "Nine-stage evidence inspector"
   previewMeta: "Native app fixture · synthetic security findings · not a live integration"
@@ -43,7 +43,7 @@ caseStudy:
     body: "A changed Skill candidate could still appear safe because validation, evaluation, registry, and runtime observations belonged to an older package. The maintainer needed to know which evidence still counted before acting on a release."
   discovery:
     title: "A score was context, not candidate proof."
-    body: "A registry score describes a registry observation; it does not establish that the local package has passed its checks. SkillsBar keeps those observations separate and checks downstream receipts against the current package digest, the identifier for that exact package. Missing, malformed or mismatched evidence must not become a passed stage."
+    body: "A registry score describes a registry observation; it does not establish that the local package has passed its checks. SkillsProof keeps those observations separate and checks downstream receipts against the current package digest, the identifier for that exact package. Missing, malformed or mismatched evidence must not become a passed stage."
   constraints:
     title: "Each check had to stay tied to the right package."
     items:
@@ -76,7 +76,7 @@ caseStudy:
     - label: "Read the current native app documentation"
       href: "https://github.com/jscraik/skillsbar#readme"
       primary: false
-    - label: "Explore the SkillsBar source"
+    - label: "Explore the SkillsProof source"
       href: "https://github.com/jscraik/skillsbar"
       primary: false
     - label: "Read the native demo and its evidence limits"

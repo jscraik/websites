@@ -12,7 +12,7 @@ Version 1.1.0 of the brAInwav Design System projects the accepted `jamie-brain-b
 - `BRAND_GUIDELINES.md` is the human usage and claims-boundary contract.
 - `scripts/validate-design-system.mjs` rejects drift in positioning, identity, site roles, product covers, provenance, evidence maturity, accessibility, and stress-test acceptance.
 - `jscraik.com` is the accepted single front door. brAInwav is Jamie's identity and shared presentation system, not a second website. Technical depth routes to public ChatGPT Sites, GitBooks, GitHub repositories, READMEs, documentation, diagrams, tests, implementation excerpts, and bounded evidence receipts when each project is ready to make its own public claims.
-- The SkillsBar vertical slice is the first implementation target. The generator, covers, rendered acceptance, deployment, usability, and adoption are not proved by the contract alone.
+- The SkillsProof vertical slice is the first implementation target. The generator, covers, rendered acceptance, deployment, usability, and adoption are not proved by the contract alone.
 
 ## Quick Start
 
@@ -56,7 +56,7 @@ These routes describe the current implementation, not the accepted target archit
 | /                                   | Homepage with Jamie's identity, featured work, proof cards, and blog preview.  |
 | /now/                               | About/current-focus page with background, skills, work history, and web links. |
 | /blog/                              | Article index and current draft prompts.                                       |
-| /articles/when-evidence-goes-stale/ | SkillsBar companion article on candidate-bound release evidence.               |
+| /articles/when-evidence-goes-stale/ | SkillsProof companion article on candidate-bound release evidence.               |
 | /articles/why-ai-native-devrel/     | Historical URL for the broader `Capability Is Not Trust` thesis.               |
 | /blog/rss.xml                       | RSS feed containing published articles only.                                   |
 | /proof/                             | Proof index with claim, evidence, caveat, and next-state fields.               |

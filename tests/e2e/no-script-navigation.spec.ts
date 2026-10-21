@@ -45,7 +45,7 @@ test.describe("navigation without JavaScript", () => {
     await page.goBack({ waitUntil: "commit" });
     await page.locator('main a[href="/work/skillsbar/"]').first().click();
     await expect(page).toHaveURL(/\/work\/skillsbar\/$/);
-    await expect(page.locator("main h1")).toContainText("SkillsBar");
+    await expect(page.locator("main h1")).toContainText("SkillsProof");
 
     await page.locator('main a[href="/demos/skillsbar/"]').first().click();
     await expect(page).toHaveURL(/\/demos\/skillsbar\/$/);

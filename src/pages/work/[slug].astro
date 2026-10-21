@@ -40,7 +40,7 @@ const workCards = proofWorkCards(workEntries, proofEntries);
       </div>
       <h1 id="case-title">{study.title}</h1>
       <p>{study.subtitle}</p>
-      {study.slug === "skillsbar" && <nav class="sdk-project-links" aria-label="SkillsBar project links"><a class="small-button" href="/demos/skillsbar/"><span>Try the interactive demo</span> <span aria-hidden="true">→</span></a></nav>}
+      {study.slug === "skillsbar" && <nav class="sdk-project-links" aria-label="SkillsProof project links"><a class="small-button" href="/demos/skillsbar/"><span>Try the interactive demo</span> <span aria-hidden="true">→</span></a></nav>}
       {isSkillsSdk && study.caseStudy && (
         <nav class="sdk-project-links" aria-label="Skills SDK project links">
           {study.caseStudy.links.map((link: CaseStudyLink) => (
