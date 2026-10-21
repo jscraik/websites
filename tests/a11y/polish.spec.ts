@@ -378,6 +378,7 @@ test.describe("UI polish contracts", () => {
     await expect(next).toBeEnabled();
     await expect(row.locator('[data-active="true"] h3')).toHaveText("CLI Tools");
     await previous.focus();
+    expect(await row.evaluate((element) => element.scrollLeft)).toBeGreaterThan(4);
     for (let index = 0; index < 12 && await row.evaluate((element) => element.scrollLeft) > 4; index += 1) {
       const before = await row.evaluate((element) => element.scrollLeft);
       await page.keyboard.press("Enter");
