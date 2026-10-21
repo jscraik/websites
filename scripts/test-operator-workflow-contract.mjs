@@ -351,6 +351,32 @@ check("CircleCI npm auth does not expose the token in process arguments", () => 
   assert.doesNotMatch(circleciConfig, /npm config set[^\n]*NPM_TOKEN/);
 });
 
+check("CircleCI mise installs preserve scoped GitHub auth without logging it", () => {
+  const wrappers = [...circleciConfig.matchAll(/install_mise_with_github_auth\(\) \{\n([\s\S]*?)\n            \}/g)];
+  assert.equal(wrappers.length, 3, "uv, full environment and security bootstrap must share the auth contract");
+  for (const [, body] of wrappers) {
+    for (const [credentials, expected] of [
+      [{ GITHUB_TOKEN: "fixture-github", GH_TOKEN: "fixture-gh" }, "fixture-github"],
+      [{ GH_TOKEN: "fixture-gh" }, "fixture-gh"],
+      [{ GITHUB_PERSONAL_ACCESS_TOKEN: "fixture-pat" }, "fixture-pat"],
+      [{}, ""],
+    ]) {
+      const output = execFileSync("/bin/bash", ["--noprofile", "--norc", "-euc", `
+        mise() {
+          test "$1" = install && test "$2" = uv
+          test "\u0024{GITHUB_TOKEN:-}" = "$EXPECTED_TOKEN"
+        }
+        install_mise_with_github_auth() { ${body}\n }
+        install_mise_with_github_auth uv
+        test "\u0024{GITHUB_TOKEN:-}" = "$ORIGINAL_TOKEN"
+      `], { encoding: "utf8", env: { PATH: process.env.PATH, ...credentials,
+        EXPECTED_TOKEN: expected, ORIGINAL_TOKEN: credentials.GITHUB_TOKEN ?? "" } });
+      assert.equal(output, "", "bootstrap must not log credentials");
+    }
+  }
+  assert.doesNotMatch(circleciConfig, /install_mise_without_github_tokens|unset GH_TOKEN GITHUB_TOKEN/);
+});
+
 check("aggregate source validation reuses its single Astro build", () => {
   const validateSource = packageJson.scripts["validate:source"];
   const validateRendered = packageJson.scripts["validate:rendered"];

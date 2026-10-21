@@ -68,6 +68,14 @@ the static `dist/` artifact, and uploads it through the pinned Wrangler
 contract. Keep those hosted checks and deployment-context claims separate from
 local build proof and from Cloudflare custom-domain setup.
 
+The uv, environment and security bootstrap calls preserve the job's existing
+GitHub credential in the mise install subprocess. Token precedence is
+`GITHUB_TOKEN`, `GH_TOKEN`, then `GITHUB_PERSONAL_ACCESS_TOKEN`; no credential
+is created or logged, and the parent environment is unchanged. Removing these
+credentials forces public release discovery onto GitHub's shared anonymous
+rate limit. `npm run test:operator-workflow-contract` executes each configured
+wrapper with isolated fake credentials and a stub mise command.
+
 The `pr-template` job reads the hosted PR body and validates it with the
 repository-owned `scripts/validate-pr-template.mjs` contract. Keep that body
 schema, `.github/PULL_REQUEST_TEMPLATE.md`, its focused regression fixtures,
