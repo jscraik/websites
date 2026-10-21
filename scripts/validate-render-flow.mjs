@@ -117,6 +117,15 @@ async function validateRoute(page, baseUrl, route, viewport) {
     const overflowingElements = [...document.querySelectorAll("body *")]
       .filter((element) => !element.closest(".work-carousel, .work-row, .proof-row"))
       .filter((element) => {
+        const scroller = element.parentElement?.closest(".about-contributions__scroll");
+        if (scroller instanceof HTMLElement) {
+          const box = scroller.getBoundingClientRect();
+          const overflow = getComputedStyle(scroller).overflowX;
+          const isContained = box.left >= 0 && box.right <= doc.clientWidth && box.width > 0;
+          const isAccessible = scroller.getAttribute("role") === "region"
+            && Boolean(scroller.getAttribute("aria-label")?.trim()) && scroller.tabIndex >= 0;
+          if (isContained && isAccessible && ["auto", "scroll"].includes(overflow)) return false;
+        }
         const rect = element.getBoundingClientRect();
         return rect.left < -32 || rect.right > doc.clientWidth + 2;
       })
