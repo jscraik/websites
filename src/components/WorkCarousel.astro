@@ -8,7 +8,7 @@ const workCount = String(workCards.length).padStart(2, "0");
 
   <section id="work" class="work-carousel section-shell" aria-labelledby="work-carousel-title" data-entry>
     <h2 id="work-carousel-title">All work <sup>{workCount}</sup></h2>
-    <div class="work-row" aria-label="Curated proof cards" data-work-row>
+    <div class="work-row" role="group" aria-label="Curated proof cards" data-work-row>
       {workCards.map((item: WorkCard, index: number) => (
         <a class="work-mini-card" href={item.href} data-active={index === 0 ? "true" : "false"}>
           <p class="work-card-count">{String(index + 1).padStart(2, "0")} / {workCount}</p>

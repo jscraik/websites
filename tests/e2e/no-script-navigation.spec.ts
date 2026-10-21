@@ -5,6 +5,7 @@ test.describe("navigation without JavaScript", () => {
 
   test("About, browser Back, and the primary project remain reachable", async ({ page }) => {
     await page.goto("/");
+    await expect(page.getByRole("group", { name: "Curated proof cards" })).toBeVisible();
     await expect(page.locator('[data-work-row] .work-mini-card').first()).toHaveAttribute("data-active", "true");
     await expect(page.locator('[data-work-row] .work-mini-card').first().locator(".tag-row")).toHaveCSS("visibility", "visible");
     const start = page.locator('[data-primary-start="true"]');
@@ -33,6 +34,8 @@ test.describe("navigation without JavaScript", () => {
     await expect(page.locator(".stage").nth(2)).toHaveAccessibleName("Gate 3: Security, Review required, next required");
     await expect(page.locator(".stage").nth(2)).toHaveAttribute("data-next", "true");
     await expect(page.locator(".stage").first()).toHaveAttribute("data-status", "Passed");
+    await expect(page.getByRole("group", { name: "Nine evidence gates" })).toBeVisible();
+    await expect(page.locator("#detail-status")).toHaveAttribute("data-next", "true");
     await expect(fallback.locator("dt")).toHaveText([
       "Security review required",
       "Identity missing",
