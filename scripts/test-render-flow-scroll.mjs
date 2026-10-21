@@ -20,10 +20,12 @@ test("render-flow distinguishes contained chart scrolling from escaped content",
     const original = readFileSync(page, "utf8");
     for (const [name, style, expected] of [
       ["contained scroll", "", 0],
-      ["unclipped image", "overflow-x:visible!important", 1],
-      ["escaped container", "transform:translateX(100px)!important", 1],
+      ["unclipped image", ".about-contributions__scroll{overflow-x:visible!important}", 1],
+      ["escaped container", ".about-contributions__scroll{transform:translateX(100px)!important}", 1],
+      ["fixed descendant", ".about-contributions__scroll img{position:fixed!important;left:120vw!important;top:0!important}", 1],
+      ["absolute descendant", ".about-contributions__scroll img{position:absolute!important;left:120vw!important;top:0!important}", 1],
     ]) {
-      writeFileSync(page, original.replace("</head>", `<style>.about-contributions__scroll{${style}}</style></head>`));
+      writeFileSync(page, original.replace("</head>", `<style>${style}</style></head>`));
       const result = spawnSync(process.execPath, [join(repo, "scripts/validate-render-flow.mjs")], {
         cwd: fixture, encoding: "utf8", timeout: 60_000,
       });

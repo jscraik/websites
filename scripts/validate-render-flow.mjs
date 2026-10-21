@@ -124,7 +124,15 @@ async function validateRoute(page, baseUrl, route, viewport) {
           const isContained = box.left >= 0 && box.right <= doc.clientWidth && box.width > 0;
           const isAccessible = scroller.getAttribute("role") === "region"
             && Boolean(scroller.getAttribute("aria-label")?.trim()) && scroller.tabIndex >= 0;
-          if (isContained && isAccessible && ["auto", "scroll"].includes(overflow)) return false;
+          // Positioned descendants can escape overflow clipping through another containing block.
+          let followsScrollFlow = true;
+          for (let ancestor = element; ancestor && ancestor !== scroller; ancestor = ancestor.parentElement) {
+            if (["fixed", "absolute"].includes(getComputedStyle(ancestor).position)) {
+              followsScrollFlow = false;
+              break;
+            }
+          }
+          if (isContained && isAccessible && followsScrollFlow && ["auto", "scroll"].includes(overflow)) return false;
         }
         const rect = element.getBoundingClientRect();
         return rect.left < -32 || rect.right > doc.clientWidth + 2;
