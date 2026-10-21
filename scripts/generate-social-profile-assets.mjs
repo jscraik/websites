@@ -482,6 +482,7 @@ function outputSpecifications() {
   ]);
 }
 
+/** Render one asset in an owned context and close it even when page creation fails. */
 async function renderPage({ width, height, scale, outputPath, html }) {
   const context = await browser.newContext({
     viewport: { width, height },

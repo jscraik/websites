@@ -1,3 +1,4 @@
+/** Extract literal primary-link metadata while ignoring comments and unrelated objects. */
 export function extractStartLinkRecords(source) {
   return extractObjectBlocks(stripJavaScriptComments(source))
     .map(parseDirectProperties)
@@ -99,6 +100,7 @@ function extractObjectBlocks(source) {
   return blocks;
 }
 
+/** Read supported literal properties only at the direct object depth and name boundary. */
 function parseDirectProperties(block) {
   const properties = {};
   let quote = null;
