@@ -69,6 +69,7 @@ try {
 
 if (cdpEndpoint) process.exit(0);
 
+/** Reject a manifest that disagrees with the approved branding and export contract. */
 function assertContract() {
   const failures = [];
   if (manifest.contract !== "jamie-social-profile-assets/v1") failures.push("unexpected social-profile contract");
@@ -88,6 +89,7 @@ function assertContract() {
   if (failures.length > 0) throw new Error(`Social-profile manifest is invalid: ${failures.join("; ")}`);
 }
 
+/** Compare projected social-profile tokens with their source manifest. */
 function socialProfileProjectionMatches() {
   const projection = tokens.social_profile;
   return (
@@ -108,6 +110,7 @@ function socialProfileProjectionMatches() {
   );
 }
 
+/** Export the approved portrait at the platform avatar dimensions. */
 async function renderAvatar(specification) {
   const outputPath = path.join(ROOT, specification.output);
   await mkdir(path.dirname(outputPath), { recursive: true });
@@ -127,6 +130,7 @@ async function renderAvatar(specification) {
   });
 }
 
+/** Render a platform banner at the requested export scale and destination. */
 async function renderBanner(platform, specification, scale, relativeOutputPath) {
   const outputPath = path.join(ROOT, relativeOutputPath);
   await mkdir(path.dirname(outputPath), { recursive: true });
@@ -139,6 +143,7 @@ async function renderBanner(platform, specification, scale, relativeOutputPath) 
   });
 }
 
+/** Compose a labelled profile preview from generated banner and portrait assets. */
 async function renderPreview(platform, specification) {
   const preview = specification.preview_fixture;
   const bannerBuffer = await readFile(path.join(ROOT, specification.banner.output));
@@ -212,6 +217,7 @@ async function renderPreview(platform, specification) {
   });
 }
 
+/** Build the platform banner HTML using approved composition and brand tokens. */
 function bannerDocument(platform, width, height) {
   const split = width * (5 / 12);
   const margin = platform === "x" ? 64 : 52;
@@ -315,6 +321,7 @@ function bannerDocument(platform, width, height) {
   `);
 }
 
+/** Create the technical illustration SVG for the requested canvas geometry. */
 function neuronSvg(width, height, split) {
   const nodeX = split + width * 0.17;
   const nodeY = height * 0.69;
@@ -353,6 +360,7 @@ function neuronSvg(width, height, split) {
   </svg>`;
 }
 
+/** Wrap asset markup in a standalone document with embedded typography and styles. */
 function documentShell(body, componentCss) {
   return `<!doctype html>
   <html lang="en">
@@ -375,6 +383,7 @@ function documentShell(body, componentCss) {
   </html>`;
 }
 
+/** Load available official font files for embedding in generated asset documents. */
 async function loadOfficialFonts() {
   const definitions = [
     { key: "newsreader", family: "Newsreader", weight: "200 800" },
@@ -410,6 +419,7 @@ async function loadOfficialFonts() {
   return { availability, css: rules.join("\n"), sourceDigests };
 }
 
+/** Choose font stacks based on which official fonts were successfully embedded. */
 function resolveFontStacks() {
   const routes = {
     display: "newsreader",
@@ -427,6 +437,7 @@ function resolveFontStacks() {
   );
 }
 
+/** Record source and output hashes that bind generated exports to their inputs. */
 async function writeGenerationReceipt() {
   const sources = sortObject({
     "scripts/generate-social-profile-assets.mjs": sha256(generatorBuffer),
@@ -465,6 +476,7 @@ async function writeGenerationReceipt() {
   await writeFile(receiptPath, `${JSON.stringify(receipt, null, 2)}\n`);
 }
 
+/** Collect manifest-defined outputs and their expected export dimensions. */
 function outputSpecifications() {
   return Object.values(manifest.platforms).flatMap((specification) => [
     { path: specification.avatar.output, width: specification.avatar.width, height: specification.avatar.height },
@@ -500,6 +512,7 @@ async function renderPage({ width, height, scale, outputPath, html }) {
   }
 }
 
+/** Escape text before interpolating it into generated HTML. */
 function escapeHtml(value) {
   return String(value)
     .replaceAll("&", "&amp;")
@@ -509,20 +522,24 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
+/** Round geometry values to two decimal places for compact generated markup. */
 function formatNumber(value) {
   return Number(value.toFixed(2));
 }
 
+/** Convert a six-digit hex colour to an rgba colour with the supplied alpha. */
 function withAlpha(hex, alpha) {
   const channels = hex.match(/[0-9a-f]{2}/gi)?.map((channel) => Number.parseInt(channel, 16));
   if (channels?.length !== 3) throw new Error(`Expected a six-digit hex colour; received ${hex}.`);
   return `rgba(${channels.join(", ")}, ${alpha})`;
 }
 
+/** Return the SHA-256 hexadecimal digest of an input buffer or string. */
 function sha256(value) {
   return createHash("sha256").update(value).digest("hex");
 }
 
+/** Sort the top-level object keys for stable serialisation. */
 function sortObject(value) {
   return Object.fromEntries(Object.entries(value).sort(([left], [right]) => left.localeCompare(right)));
 }

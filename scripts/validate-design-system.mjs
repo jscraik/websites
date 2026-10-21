@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { hasPrimarySkillsProofLink } from "./lib/design-system-contract.mjs";
+import { hasPrimarySkillsBarLink } from "./lib/design-system-contract.mjs";
 import { hasDensityAwareBlogDividers } from "./lib/surface-hairline-contract.mjs";
 
 const repoRoot = process.cwd();
@@ -141,7 +141,7 @@ addCheck(
 addCheck(
   "homepage exposes SkillsProof as the primary starting point",
   /<StartLinks(?:\s[^>]*)?\s*\/>/.test(homepage) &&
-    hasPrimarySkillsProofLink(startLinks),
+    hasPrimarySkillsBarLink(startLinks),
   "expected the homepage start links to make SkillsProof the primary route"
 );
 

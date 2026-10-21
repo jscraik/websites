@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { hasPrimarySkillsProofLink } from "./lib/design-system-contract.mjs";
+import { hasPrimarySkillsBarLink } from "./lib/design-system-contract.mjs";
 import { hasDensityAwareBlogDividers } from "./lib/surface-hairline-contract.mjs";
 
 const validFixture = `
@@ -13,32 +13,32 @@ const validFixture = `
 `;
 
 test("binds the primary flag to the SkillsProof route, title, and label", () => {
-  assert.equal(hasPrimarySkillsProofLink(validFixture), true);
+  assert.equal(hasPrimarySkillsBarLink(validFixture), true);
 });
 
 test("rejects the legacy SkillsBar primary link title", () => {
   const legacyTitle = validFixture.replace("Try SkillsProof", "Try SkillsBar");
-  assert.equal(hasPrimarySkillsProofLink(legacyTitle), false);
+  assert.equal(hasPrimarySkillsBarLink(legacyTitle), false);
 });
 
 test("requires a primary link title", () => {
   const missingTitle = validFixture.replace('title: "Try SkillsProof",', "");
-  assert.equal(hasPrimarySkillsProofLink(missingTitle), false);
+  assert.equal(hasPrimarySkillsBarLink(missingTitle), false);
 });
 
 test("rejects a primary link with subtitle but no title", () => {
   const subtitleOnly = validFixture.replace("title:", "subtitle:");
-  assert.equal(hasPrimarySkillsProofLink(subtitleOnly), false);
+  assert.equal(hasPrimarySkillsBarLink(subtitleOnly), false);
 });
 
 test("rejects a primary flag detached from the SkillsProof route", () => {
   const wrongRoute = validFixture.replace("/demos/skillsbar/", "/now/");
-  assert.equal(hasPrimarySkillsProofLink(wrongRoute), false);
+  assert.equal(hasPrimarySkillsBarLink(wrongRoute), false);
 });
 
 test("rejects a primary flag detached from the SkillsProof label", () => {
   const wrongLabel = validFixture.replace("Explore the interactive demo", "Read the blog");
-  assert.equal(hasPrimarySkillsProofLink(wrongLabel), false);
+  assert.equal(hasPrimarySkillsBarLink(wrongLabel), false);
 });
 
 test("keeps primary metadata bound to one link object", () => {
@@ -48,18 +48,18 @@ test("keeps primary metadata bound to one link object", () => {
       { href: "/now/", label: "Read the blog", primary: true }
     ];
   `;
-  assert.equal(hasPrimarySkillsProofLink(splitAcrossObjects), false);
+  assert.equal(hasPrimarySkillsBarLink(splitAcrossObjects), false);
 });
 
 test("ignores commented primary metadata", () => {
   const commentedPrimary = validFixture
     .replace("primary: true", "// primary: true")
     .replace("  }];", "    primary: false\n  }];");
-  assert.equal(hasPrimarySkillsProofLink(commentedPrimary), false);
+  assert.equal(hasPrimarySkillsBarLink(commentedPrimary), false);
 });
 
 test("rejects a primary expression whose runtime value can be false", () => {
-  assert.equal(hasPrimarySkillsProofLink(validFixture.replace("primary: true", "primary: true && featureEnabled")), false);
+  assert.equal(hasPrimarySkillsBarLink(validFixture.replace("primary: true", "primary: true && featureEnabled")), false);
 });
 
 test("continues parsing after unrelated line and block comments", () => {
@@ -69,7 +69,7 @@ test("continues parsing after unrelated line and block comments", () => {
        multiple lines. */
     ${validFixture}
   `;
-  assert.equal(hasPrimarySkillsProofLink(commentedFixture), true);
+  assert.equal(hasPrimarySkillsBarLink(commentedFixture), true);
 });
 
 const hairlineCss = `

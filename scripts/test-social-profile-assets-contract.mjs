@@ -18,24 +18,31 @@ for (const failureAt of ["newPage", "screenshot", null]) {
     const calls = [];
     const failure = new Error("injected rendering failure");
     const page = {
+      /** Record document setup without opening a browser page. */
       async setContent() { calls.push("content"); },
+      /** Record the font-readiness step of the production render flow. */
       async evaluate() { calls.push("fonts"); },
+      /** Inject screenshot failure at the configured boundary. */
       async screenshot() {
         calls.push("screenshot");
         if (failureAt === "screenshot") throw failure;
       }
     };
     const browser = {
+      /** Return an owned context fixture with an injectable page-creation failure. */
       async newContext() {
         return {
+          /** Return the fixture page or reject before it exists. */
           async newPage() {
             calls.push("page");
             if (failureAt === "newPage") throw failure;
             return page;
           },
+          /** Record release of the generator-owned context. */
           async close() { calls.push("context.close"); }
         };
       },
+      /** Reject attempts to close the externally owned browser. */
       async close() { assert.fail("runtime-owned browser must remain open"); }
     };
     const render = loadRenderPage(browser);

@@ -8,7 +8,7 @@ export function extractStartLinkRecords(source) {
 }
 
 /** Check that one primary link binds the SkillsProof demo route, title, and supporting label. */
-export function hasPrimarySkillsProofLink(source) {
+export function hasPrimarySkillsBarLink(source) {
   return extractStartLinkRecords(source).some(
     ({ href, title, label }) => href === "/demos/skillsbar/" && title === "Try SkillsProof" && label === "Explore the interactive demo"
   );

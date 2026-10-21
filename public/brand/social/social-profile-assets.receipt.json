@@ -2,12 +2,12 @@
   "schema_version": "jamie-social-profile-assets-receipt/v1",
   "contract": "jamie-social-profile-assets/v1",
   "design_system_version": "1.1.0",
-  "source_digest": "d25181dfcd15a5990fe6598783b5f9d7828e82dce6a097a55af5a19662df57ac",
+  "source_digest": "61667023113b4e36393eb5266730a454d72d0f7798f2937019e22e496e3ce850",
   "sources": {
     "public/brand/fonts/geist-mono-variable.woff2": "afaacc4c5fbba89d2ebf7a02dc4070208540874592a5504d57175782fe893101",
     "public/brand/fonts/geist-variable.woff2": "2ffebe993e969069a9789d15164b7715d42491b5835516c5e3b935d5f81b05f1",
     "public/brand/fonts/newsreader-variable.woff2": "1faa3380ac0e87e057b180e03fd94bd708a612afb67d2590677be4508909fae9",
-    "scripts/generate-social-profile-assets.mjs": "ac46ed73587d8f54eb33bb098ba471bd3a66b6ff416b99e37440b007ce5c512b",
+    "scripts/generate-social-profile-assets.mjs": "a5dd1253f2a5822c79d710439c01208a1c0b57b2613a3e99be6391adae7c0993",
     "src/brand/social-profile-assets.json": "28e1ec4f8600ba8f1ac9f2333a182b9eb975635c132400ee594821452bf64376",
     "src/brand/source/jamie-profile.png": "daf30bfa63cab49c77f109da04089ccd74c0f4c574cccea67fd2d27579f250bc",
     "src/styles/brand-tokens.json": "c9deef6245c0119a0f63eedfe2b448071603be6d27f57584ffd794c92d266e1e"
@@ -49,7 +49,7 @@
       "height": 660
     },
     "public/brand/social/previews/jamie-x-profile-preview-1500x780.png": {
-      "sha256": "d24444c047ec4cada65c870ae3208939fd5e20a948c942eb164da656445c3188",
+      "sha256": "384bf7c419c0579a64b12dd27d99b7391b7ea80fe0b825a2df1bf3a419087c6a",
       "width": 1500,
       "height": 780
     }
