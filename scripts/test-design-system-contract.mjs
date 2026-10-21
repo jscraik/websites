@@ -26,6 +26,11 @@ test("requires a primary link title", () => {
   assert.equal(hasPrimarySkillsProofLink(missingTitle), false);
 });
 
+test("rejects a primary link with subtitle but no title", () => {
+  const subtitleOnly = validFixture.replace("title:", "subtitle:");
+  assert.equal(hasPrimarySkillsProofLink(subtitleOnly), false);
+});
+
 test("rejects a primary flag detached from the SkillsProof route", () => {
   const wrongRoute = validFixture.replace("/demos/skillsbar/", "/now/");
   assert.equal(hasPrimarySkillsProofLink(wrongRoute), false);

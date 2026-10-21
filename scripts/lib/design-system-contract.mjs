@@ -127,10 +127,10 @@ function parseDirectProperties(block) {
     }
     if (depth !== 1) continue;
 
-    const match = block.slice(index).match(/^(href|title|label|primary)\s*:\s*/);
+    const match = block.slice(index - 1).match(/^[\s,{](href|title|label|primary)\s*:\s*/);
     if (!match) continue;
     const key = match[1];
-    index += match[0].length - 1;
+    index += match[0].length - 2;
     if (key === "primary") {
       if (/^true\s*(?=[,}])/.test(block.slice(index + 1))) properties.primary = true;
       continue;
