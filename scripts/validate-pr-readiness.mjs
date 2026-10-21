@@ -8,6 +8,7 @@ import {
   checkHumanApprovals,
   currentCodexCompletion,
   currentCodeRabbitCompletion,
+  currentBotReviews,
   checkScope,
   checkTrackedHead,
   loadScope,
@@ -281,12 +282,15 @@ function checkReviews(result, repo, pr, requiredApprovals) {
     latestByReviewer.set(reviewer, review);
   }
   const current = [...latestByReviewer.values()].filter((review) => review.state !== "DISMISSED");
-  const currentCodex = current.filter((review) => /codex|chatgpt/i.test(review.user?.login || ""));
-  const currentCodeRabbit = current.filter((review) => /coderabbit/i.test(review.user?.login || ""));
+  const currentCodex = currentBotReviews(current, pr.headRefOid, pr.url, "chatgpt-codex-connector[bot]");
+  const currentCodeRabbit = currentBotReviews(current, pr.headRefOid, pr.url, "coderabbitai[bot]");
+  const blockersBeforeComments = result.blockers.length;
   const commentPages = currentCodex.length === 0 || currentCodeRabbit.length === 0
     ? commandJson(result, GH, ["api", "--paginate", "--slurp", `repos/${repo}/issues/${pr.number}/comments`], "Bot completion artifacts")
     : [];
-  if (!Array.isArray(commentPages)) addBlocker(result, "review_artifacts_invalid", "Bot comment inventory must be an array");
+  if (!Array.isArray(commentPages) && result.blockers.length === blockersBeforeComments) {
+    addBlocker(result, "review_artifacts_invalid", "Bot comment inventory must be an array");
+  }
   const completion = currentCodexCompletion(Array.isArray(commentPages) ? commentPages.flat() : [], pr.headRefOid, pr.url);
   const rabbitCompletion = currentCodeRabbitCompletion(Array.isArray(commentPages) ? commentPages.flat() : [], pr.headRefOid, pr.url);
   const independentApprovals = current.filter(

@@ -345,6 +345,15 @@ export function checkHumanApprovals(result, approvals, required, head, addBlocke
   }
 }
 
+/** Inventory formal review artifacts only for an exact authenticated provider identity. */
+export function currentBotReviews(entries, head, prUrl, login) {
+  if (!["chatgpt-codex-connector[bot]", "coderabbitai[bot]"].includes(login)) return [];
+  return entries.filter(review => review?.user?.login === login && review.user?.type === "Bot" &&
+    Number.isInteger(review.user?.id) && review.user.id > 0 && Number.isInteger(review.id) && review.id > 0 &&
+    review.commit_id === head && review.html_url === `${prUrl}#pullrequestreview-${review.id}` &&
+    ["APPROVED", "COMMENTED"].includes(review.state));
+}
+
 /** Locate an authenticated current-head Codex completion artifact, not merge clearance. */
 export function currentCodexCompletion(entries, head, prUrl) {
   const candidates = [];

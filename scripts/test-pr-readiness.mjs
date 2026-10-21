@@ -9,6 +9,7 @@ import {
   checkHumanApprovals,
   currentCodexCompletion,
   currentCodeRabbitCompletion,
+  currentBotReviews,
   globMatches,
   loadScope,
   readChangedFiles,
@@ -54,6 +55,23 @@ test("solo-maintainer human quorum can be zero without satisfying bot-review lan
   checkHumanApprovals(result, [], 0, "current", (target, code) => target.blockers.push(code));
   assert.deepEqual(result.blockers, []);
   assert.deepEqual(result.reviews, { current_codex: 0, current_coderabbit: 0 });
+});
+
+test("formal review artifacts reject human impersonation, stale heads and invalid states", () => {
+  const head = "a".repeat(40), prUrl = "https://github.com/jscraik/websites/pull/49";
+  for (const login of ["coderabbitai[bot]", "chatgpt-codex-connector[bot]"]) {
+    const entry = { id: 123, user: { id: 456, type: "Bot", login }, commit_id: head, html_url: `${prUrl}#pullrequestreview-123`, state: "COMMENTED" };
+    assert.deepEqual(currentBotReviews([entry], head, prUrl, login), [entry]);
+    for (const candidate of [
+      { ...entry, user: { ...entry.user, login: "codex-coderabbit-attacker", type: "User" } },
+      { ...entry, user: { ...entry.user, type: "User" } },
+      { ...entry, user: { ...entry.user, id: 0 } },
+      { ...entry, commit_id: "b".repeat(40) },
+      { ...entry, html_url: "https://github.com/other/repo/pull/49#pullrequestreview-123" },
+      ...["CHANGES_REQUESTED", "DISMISSED", "PENDING", ""].map(state => ({ ...entry, state })),
+    ]) assert.deepEqual(currentBotReviews([candidate], head, prUrl, login), []);
+  }
+  assert.deepEqual(currentBotReviews([], head, prUrl, "unknown"), []);
 });
 
 test("non-zero human quorum and unknown policy fail closed", () => {

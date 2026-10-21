@@ -46,6 +46,9 @@ does not replace the global update receipt's verdict, reaction and concern check
 CodeRabbit's authenticated current-head chat reply is also a supported local
 artifact when its complete recognised layout contains an explicit no-findings
 statement. Global update receipts still own clearance and later-concern checks.
+Formal artifacts require exact bot logins/types, positive actor and review IDs,
+the current head, the exact PR review URL and an allowed review state; a human
+account with provider-like words in its name cannot satisfy either bot lane.
 
 CodeRabbit review includes the npm lockfile, authored image assets and committed
 visual snapshots through exact default-ignore overrides in `.coderabbit.yaml`.

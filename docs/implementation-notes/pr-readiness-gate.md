@@ -23,6 +23,12 @@ The gate keeps local and hosted evidence in one machine-readable receipt while r
 
 Passing local checks do not prove hosted review or CI state. Passing hosted checks do not prove that unrelated local dirty files were excluded. The gate reports each lane separately so a closeout can state exactly what remains blocked.
 
+Formal bot artifacts require the exact provider login, Bot account type,
+positive actor/review IDs, current commit, exact PR review URL and an APPROVED
+or COMMENTED state. Human accounts with provider-like names, stale reviews,
+pending/dismissed reviews and requests for changes cannot fill either bot lane.
+Artifact inventory remains separate from the global verdict and concern checks.
+
 Codex can publish a no-findings review as its authenticated PR completion
 summary instead of a formal PR review submission. The local artifact inventory
 accepts only the exact Codex bot, PR URL and current head with a completed code
