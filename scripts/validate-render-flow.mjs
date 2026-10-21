@@ -125,6 +125,7 @@ async function validateRoute(page, baseUrl, route, viewport) {
     const overflowingElements = [...document.querySelectorAll("body *")]
       .filter((element) => !element.closest(".work-carousel, .work-row, .proof-row"))
       .filter((element) => {
+        const rect = element.getBoundingClientRect();
         const scroller = element.parentElement?.closest(".about-contributions__scroll");
         if (scroller instanceof HTMLElement) {
           const box = scroller.getBoundingClientRect();
@@ -140,9 +141,10 @@ async function validateRoute(page, baseUrl, route, viewport) {
               break;
             }
           }
+          if (!followsScrollFlow && (rect.left < box.left || rect.right > box.right
+            || rect.top < box.top || rect.bottom > box.bottom)) return true;
           if (isContained && isAccessible && followsScrollFlow && ["auto", "scroll"].includes(overflow)) return false;
         }
-        const rect = element.getBoundingClientRect();
         return rect.left < -32 || rect.right > doc.clientWidth + 2;
       })
       .slice(0, 10)

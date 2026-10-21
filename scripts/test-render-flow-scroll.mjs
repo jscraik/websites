@@ -24,6 +24,8 @@ test("render-flow distinguishes contained chart scrolling from escaped content",
       ["escaped container", ".about-contributions__scroll{transform:translateX(100px)!important}", 1],
       ["fixed descendant", ".about-contributions__scroll img{position:fixed!important;left:120vw!important;top:0!important}", 1],
       ["absolute descendant", ".about-contributions__scroll img{position:absolute!important;left:120vw!important;top:0!important}", 1],
+      ["fixed descendant inside viewport", ".about-contributions__scroll img{position:fixed!important;left:0!important;top:0!important;inline-size:100px!important;min-inline-size:0!important}", 1],
+      ["absolute descendant inside viewport", ".about-contributions__scroll img{position:absolute!important;left:0!important;top:0!important;inline-size:100px!important;min-inline-size:0!important}", 1],
     ]) {
       writeFileSync(page, original.replace("</head>", `<style>${style}</style></head>`));
       const result = spawnSync(process.execPath, [join(repo, "scripts/validate-render-flow.mjs")], {
