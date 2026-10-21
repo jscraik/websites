@@ -189,6 +189,19 @@ test("required checks fail closed when branch protection lookup is unavailable",
   assert.equal(result.blockers[1].code, "required_checks_unconfigured");
 });
 
+test("repository rulesets are valid but do not impose branch approval policy", () => {
+  const result = { blockers: [] };
+  const checks = requiredChecks(result, "jscraik/portfolio", "main",
+    () => ({ ok: true, stdout: JSON.stringify({ required_status_checks: { contexts: ["lint"] } }), output: "" }),
+    "gh", (_result, _gh, args) => args.at(-1).endsWith("/rulesets") ? [{ id: 1 }] : {
+      target: "repository", enforcement: "active", rules: [{ type: "pull_request", parameters: { required_approving_review_count: 2 } }],
+    }, (output) => ({ value: JSON.parse(output), error: null }),
+    (target, code) => target.blockers.push(code));
+  assert.deepEqual(checks.contexts, ["lint"]);
+  assert.equal(checks.requiredApprovals, 0);
+  assert.deepEqual(result.blockers, []);
+});
+
 test("only an explicit unprotected-branch response permits absent protection", () => {
   for (const output of ["HTTP 404: Not Found", "HTTP 404: Resource not accessible by integration", "HTTP 404: Branch not protected"]) {
     const result = { blockers: [] };

@@ -3,6 +3,7 @@ import { resolve } from "node:path";
 
 const SCOPE_SCHEMA = "portfolio-pr-scope/v1";
 
+/** Read changed paths from the local diff or hosted PR for scope validation. */
 export function readChangedFiles(result, options, pr, run, git, gh) {
   const execution = pr
     ? run(gh, ["pr", "diff", String(pr.number), "--repo", result.repo, "--name-only"])
@@ -22,6 +23,7 @@ export function readChangedFiles(result, options, pr, run, git, gh) {
   return files;
 }
 
+/** Match repository-relative paths against the supported scope glob syntax. */
 export function globMatches(file, pattern) {
   if (pattern.endsWith("/")) return file.startsWith(pattern);
   if (!pattern.includes("*") && !pattern.includes("?")) return file === pattern || file.startsWith(`${pattern}/`);
@@ -43,6 +45,7 @@ export function globMatches(file, pattern) {
   return new RegExp(`${expression}$`).test(file);
 }
 
+/** Load and validate the declared PR scope without admitting malformed paths. */
 export function loadScope(result, options, addBlocker) {
   const scope = {
     allowed_paths: [...options.allowPath],
@@ -55,6 +58,7 @@ export function loadScope(result, options, addBlocker) {
     try {
       const payload = JSON.parse(readFileSync(resolve(options.scopeFile), "utf8"));
       if (payload.schema_version !== SCOPE_SCHEMA) addBlocker(result, "scope_schema_invalid", "Scope manifest has the wrong schema_version");
+      /** Validate a scope pattern list before adding it to the selected path set. */
       const readPatterns = (field, missingCode, target) => {
         const value = payload[field];
         if (!Array.isArray(value)) {
@@ -88,6 +92,7 @@ export function loadScope(result, options, addBlocker) {
   return scope;
 }
 
+/** Reject changed files outside the declared scope or inside excluded paths. */
 export function checkScope(result, scope, changedFiles, addBlocker) {
   const excluded = changedFiles.filter((file) => scope.excluded_paths.some((pattern) => globMatches(file, pattern)));
   const unexpected = changedFiles.filter(
@@ -112,6 +117,7 @@ export function checkScope(result, scope, changedFiles, addBlocker) {
   if (unexpected.length > 0) addBlocker(result, "scope_paths_unexpected", "The PR changes paths outside its declared scope", { paths: unexpected });
 }
 
+/** Collect staged, unstaged and untracked paths from the current checkout. */
 function dirtyFiles(result, run, git, addBlocker) {
   const execution = run(git, ["status", "--porcelain=v1", "-z"]);
   if (!execution.ok) {
@@ -135,6 +141,7 @@ function dirtyFiles(result, run, git, addBlocker) {
   return files;
 }
 
+/** Require every dirty path to have explicit scope ownership. */
 export function checkDirty(result, scope, run, git, addBlocker) {
   const files = dirtyFiles(result, run, git, addBlocker);
   const unexpected = files.filter((file) => !scope.dirty_allowed_paths.some((pattern) => globMatches(file, pattern)));
@@ -142,6 +149,7 @@ export function checkDirty(result, scope, run, git, addBlocker) {
   if (unexpected.length > 0) addBlocker(result, "dirty_worktree_boundary", "The working tree contains unapproved dirty paths", { paths: unexpected });
 }
 
+/** Verify the local branch is based on the expected hosted base and head. */
 export function checkAncestry(result, pr, options, defaultBranch, run, git, addBlocker) {
   const base = pr?.baseRefOid || options.base;
   const head = pr?.headRefOid || options.head;
@@ -200,6 +208,7 @@ export function checkAncestry(result, pr, options, defaultBranch, run, git, addB
   }
 }
 
+/** Require the checked-out commit to match the tracked PR branch. */
 export function checkTrackedHead(result, options, run, git, addBlocker) {
   const upstream = run(git, ["rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{upstream}"]);
   if (!upstream.ok || !upstream.stdout.trim()) {
@@ -241,6 +250,7 @@ export function checkTrackedHead(result, options, run, git, addBlocker) {
   }
 }
 
+/** Match a branch against GitHub ruleset ref patterns and default-branch aliases. */
 function rulesetRefMatches(branch, pattern, defaultBranch = branch) {
   if (pattern === "~ALL") return true;
   if (pattern === "~DEFAULT_BRANCH") return branch === defaultBranch;
@@ -248,6 +258,7 @@ function rulesetRefMatches(branch, pattern, defaultBranch = branch) {
   return globMatches(branch, normalized) || globMatches(`refs/heads/${branch}`, pattern);
 }
 
+/** Apply only active branch rulesets whose include and exclude patterns match. */
 export function rulesetApplies(ruleset, branch, defaultBranch = branch) {
   if (ruleset.enforcement !== "active" || ruleset.target !== "branch") return false;
   const includes = ruleset.conditions?.ref_name?.include || [];
@@ -283,7 +294,7 @@ export function requiredChecks(result, repo, branch, run, gh, commandJson, parse
         continue;
       }
       const detail = commandJson(result, gh, ["api", `repos/${repo}/rulesets/${summary.id}`], `ruleset ${summary.id}`);
-      if (!detail || !["active", "disabled", "evaluate"].includes(detail.enforcement) || !["branch", "tag", "push"].includes(detail.target) || !Array.isArray(detail.rules)) {
+      if (!detail || !["active", "disabled", "evaluate"].includes(detail.enforcement) || !["branch", "tag", "push", "repository"].includes(detail.target) || !Array.isArray(detail.rules)) {
         addBlocker(result, "approval_policy_invalid", `Ruleset ${summary.id} policy is malformed`);
         continue;
       }

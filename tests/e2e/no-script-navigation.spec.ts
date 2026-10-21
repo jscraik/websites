@@ -29,6 +29,10 @@ test.describe("navigation without JavaScript", () => {
     await expect(fallback).toBeVisible();
     await expect(page.locator(".stage-state")).toHaveText(["Passed", "Passed", "Review required", "Held", "Unproven", "Unproven", "Unproven", "Unproven", "Unproven"]);
     await expect(page.locator(".stage-symbol").nth(3)).toHaveText("Ⅱ");
+    await expect(page.locator(".stage").nth(3)).toHaveAccessibleName("Gate 4: Eval prep, Held");
+    await expect(page.locator(".stage").nth(2)).toHaveAccessibleName("Gate 3: Security, Review required, next required");
+    await expect(page.locator(".stage").nth(2)).toHaveAttribute("data-next", "true");
+    await expect(page.locator(".stage").first()).toHaveAttribute("data-status", "Passed");
     await expect(fallback.locator("dt")).toHaveText([
       "Security review required",
       "Identity missing",
