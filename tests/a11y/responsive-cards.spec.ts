@@ -37,6 +37,15 @@ test("Proof cards share content rows and adapt to a narrow slot", async ({ page 
     expect(tops.length).toBe(2);
     expect(Math.max(...tops) - Math.min(...tops)).toBeLessThan(1);
   }
+  await page.locator(".proof-index").evaluate(element => { element.style.inlineSize = "800px"; });
+  const intermediate = await projects.locator(".proof-project").evaluateAll(elements => elements.slice(0, 3).map(element => {
+    const box = element.getBoundingClientRect();
+    return { x: box.x, y: box.y, bottom: box.bottom };
+  }));
+  expect(Math.abs(intermediate[0].y - intermediate[1].y)).toBeLessThan(1);
+  expect(intermediate[1].x).toBeGreaterThan(intermediate[0].x);
+  expect(Math.abs(intermediate[0].x - intermediate[2].x)).toBeLessThan(1);
+  expect(intermediate[2].y).toBeGreaterThanOrEqual(intermediate[0].bottom);
   await page.locator(".proof-index").evaluate(element => { element.style.inlineSize = "340px"; });
   const [first, second] = await projects.locator(".proof-project").evaluateAll(elements => elements.slice(0, 2).map(element => {
     const box = element.getBoundingClientRect();
