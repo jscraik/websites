@@ -5,7 +5,7 @@ const pages = [
   {
     route: "/",
     file: "index.html",
-    includes: ["Jamie Scott Craik", "Career-switching into professional software development", "SkillsBar", "Skills SDK", "/work/skillsbar/", "/work/skills-sdk/"]
+    includes: ["Jamie Scott Craik", "Career-switching into professional software development", "SkillsBar", "Skills SDK", "/work/skillsbar/", "/work/skills-sdk/", "/editorial/when-evidence-goes-stale-v1.webp", "Evidence belongs to Candidate A"]
   },
   {
     route: "/404",
@@ -15,7 +15,7 @@ const pages = [
   {
     route: "/blog/",
     file: "blog/index.html",
-    includes: ["Blog", "When Evidence Goes Stale", "Capability Is Not Trust", "RSS feed"]
+    includes: ["Blog", "When Evidence Goes Stale", "Capability Is Not Trust", "RSS feed", "/editorial/when-evidence-goes-stale-v1.webp", "Evidence belongs to Candidate A"]
   },
   {
     route: "/proof/",

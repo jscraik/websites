@@ -21,6 +21,12 @@ requires an explicitly selected, supported authoring workflow.
 
 ## Validation Boundary
 
+Blog frontmatter owns optional `featureImage` metadata (local source, alt text,
+positive integer dimensions). Both featured consumers read the selected entry's
+metadata and omit artwork when it is absent, so changing the featured article
+cannot inherit another article's illustration. Astro validates this strict
+object during content sync; generated-route smoke checks cover both consumers.
+
 The package override pins Vite to `8.1.6`, the patched `8.1` maintenance release
 for GHSA-698v-4r3x-3vcv. Keep the override and lockfile aligned until the Astro
 dependency chain resolves a patched version without it. The ordinary audit

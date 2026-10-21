@@ -138,9 +138,11 @@ const workCards = proofWorkCards(workEntries, proofEntries);
       </div>
     </div>
     <article>
-      <a class="blog-preview__image" href={featuredBlog.data.href} aria-label={`Read ${featuredBlog.data.title}`}>
-        <img src="/editorial/when-evidence-goes-stale-v1.webp" alt="Evidence belongs to Candidate A; an interrupted connection prevents it transferring to the changed Candidate B." width="1672" height="941" loading="lazy" decoding="async" />
-      </a>
+      {featuredBlog.data.featureImage && (
+        <a class="blog-preview__image" href={featuredBlog.data.href} aria-label={`Read ${featuredBlog.data.title}`}>
+          <img src={featuredBlog.data.featureImage.src} alt={featuredBlog.data.featureImage.alt} width={featuredBlog.data.featureImage.width} height={featuredBlog.data.featureImage.height} loading="lazy" decoding="async" />
+        </a>
+      )}
       <h3>{featuredBlog.data.title}</h3>
       <p class="article-date">{featuredBlog.data.date}</p>
       <p>{featuredBlog.data.summary}</p>
