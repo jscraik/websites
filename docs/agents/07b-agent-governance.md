@@ -93,6 +93,9 @@ bootstrap guidance aligned with the validator entrypoint and its proof scope.
 The CSS simplification fixture follows the same rule: its selector-removal
 assertions and the shared shell gradient contract must remain named in both
 surfaces when the stylesheet or route markup changes.
+The About contribution chart has a focused real-validator regression at
+`scripts/test-render-flow-scroll.mjs`. Contained, named keyboard scrolling may
+pass render-flow; unclipped content and displaced scroll containers must fail.
 The architecture bootstrap is the durable owner for portfolio schema,
 public-route inventory, shared motion, development-only tooling, and diagram
 projection boundaries. When any of those mechanisms change, agents must update
