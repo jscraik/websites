@@ -498,6 +498,8 @@ for (const snippet of [
   "missing design-system source commit",
   "behavior_proven",
   "When evidence goes stale.",
+  "flagship " + tokensJson.positioning.flagship_product,
+  "Every step. Every fault. One glance.",
   "A changed Skill candidate should not inherit proof that no longer belongs to it.",
   "WCAG 2.2 AA",
   "template_defect",
@@ -517,7 +519,7 @@ for (const snippet of [
   );
 }
 
-for (const staleSnippet of ["#d8d9d2", "#2f80ff", "#ff7a1a", "#263129", "#172219", '"Iowan Old Style", "Palatino Linotype"']) {
+for (const staleSnippet of ["SkillsBar", "#d8d9d2", "#2f80ff", "#ff7a1a", "#263129", "#172219", '"Iowan Old Style", "Palatino Linotype"']) {
   addCheck(
     "brand guide removes stale value " + staleSnippet,
     !brandGuide.includes(staleSnippet),
