@@ -88,6 +88,14 @@ function builtRoutes() {
     .sort();
 }
 
+/**
+ * Inspect one built route at a viewport and collect shell, layout and overflow failures.
+ * @param {import("playwright").Page} page Isolated page in the validation context.
+ * @param {string} baseUrl Loopback server for the trusted built artifact.
+ * @param {string} route Built route path to inspect.
+ * @param {{width: number, height: number}} viewport Current viewport dimensions.
+ * @returns {Promise<void>} Resolves after appending any failures to the run ledger.
+ */
 async function validateRoute(page, baseUrl, route, viewport) {
   const label = route + " @ " + viewport.width + "x" + viewport.height;
   await page.goto(baseUrl + route, { waitUntil: "networkidle" });
