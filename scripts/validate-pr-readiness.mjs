@@ -2,6 +2,8 @@
 
 import { existsSync } from "node:fs";
 import { spawnSync } from "node:child_process";
+import { homedir } from "node:os";
+import { join } from "node:path";
 import {
   checkAncestry,
   checkDirty,
@@ -9,6 +11,7 @@ import {
   currentCodexCompletion,
   currentCodeRabbitCompletion,
   currentBotReviews,
+  checkGlobalReviewReceipt,
   checkScope,
   checkTrackedHead,
   loadScope,
@@ -399,6 +402,9 @@ function main() {
     const required = requiredChecks(result, result.repo, metadata.defaultBranch, run, GH, commandJson, parseJson, addBlocker);
     checkReviews(result, result.repo, pr, required.requiredApprovals);
     checkChecks(result, result.repo, pr, metadata.defaultBranch, required);
+    if (options.phase === "merge") {
+      checkGlobalReviewReceipt(result, pr, run, "python3", join(homedir(), ".codex/scripts/pr-readiness.py"), addBlocker);
+    }
   }
   result.status = result.blockers.length > 0 ? "blocked" : "pass";
   if (options.json) console.log(JSON.stringify(result, null, 2));

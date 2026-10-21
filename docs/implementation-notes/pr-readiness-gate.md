@@ -28,6 +28,11 @@ positive actor/review IDs, current commit, exact PR review URL and an APPROVED
 or COMMENTED state. Human accounts with provider-like names, stale reviews,
 pending/dismissed reviews and requests for changes cannot fill either bot lane.
 Artifact inventory remains separate from the global verdict and concern checks.
+The local `merge` phase now executes the projected global validator with
+`--phase update --check-receipt`, bound to the exact repository, PR, head and
+base. That consumption rechecks hosted reviews, later concerns, threads and
+CI. Missing, stale, failed or mismatched receipts block local merge readiness;
+a successful artifact inventory cannot replace this clearance lane.
 
 Codex can publish a no-findings review as its authenticated PR completion
 summary instead of a formal PR review submission. The local artifact inventory

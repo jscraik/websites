@@ -354,6 +354,28 @@ export function currentBotReviews(entries, head, prUrl, login) {
     ["APPROVED", "COMMENTED"].includes(review.state));
 }
 
+/** Revalidate the global receipt so artifact presence alone cannot admit a merge. */
+export function checkGlobalReviewReceipt(result, pr, run, python, gatePath, addBlocker) {
+  const execution = run(python, [gatePath, "--phase", "update", "--check-receipt",
+    "--expected-repo", result.repo, "--expected-pr", String(pr.number),
+    "--expected-head", pr.headRefOid, "--expected-base", pr.baseRefName]);
+  let receipt;
+  try {
+    receipt = JSON.parse(execution.stdout);
+  } catch {
+    receipt = null;
+  }
+  const valid = execution.ok && receipt?.schema_version === "pr-readiness/v1" &&
+    receipt.status === "pass" && receipt.phase === "update" &&
+    receipt.repo?.head_sha === pr.headRefOid && receipt.repo?.root === result.repo_root &&
+    receipt.lanes?.reviews?.status === "pass" && receipt.lanes?.required_checks?.status === "pass";
+  result.global_review_clearance = { status: valid ? "pass" : "blocked", head_sha: pr.headRefOid,
+    source: "fresh global update receipt with live hosted-state recheck" };
+  if (!valid) addBlocker(result, "global_review_clearance_missing",
+    "Merge requires a passing current-head global update receipt and live review/check revalidation",
+    { output: execution.output });
+}
+
 /** Locate an authenticated current-head Codex completion artifact, not merge clearance. */
 export function currentCodexCompletion(entries, head, prUrl) {
   const candidates = [];

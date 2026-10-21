@@ -49,6 +49,8 @@ statement. Global update receipts still own clearance and later-concern checks.
 Formal artifacts require exact bot logins/types, positive actor and review IDs,
 the current head, the exact PR review URL and an allowed review state; a human
 account with provider-like words in its name cannot satisfy either bot lane.
+The local merge gate consumes and live-revalidates the global update receipt.
+Artifact presence alone cannot produce a passing merge-readiness result.
 
 CodeRabbit review includes the npm lockfile, authored image assets and committed
 visual snapshots through exact default-ignore overrides in `.coderabbit.yaml`.
