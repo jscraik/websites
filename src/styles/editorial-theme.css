@@ -9,6 +9,20 @@ html.editorial-theme {
   --editorial-clay: oklch(0.79735 0.04500 48.873);
   --editorial-feature: oklch(.47 .058 48.05);
 
+  --editorial-space-xs: 8px;
+  --editorial-space-sm: 12px;
+  --editorial-space-md: 16px;
+  --editorial-space-card: 20px;
+  --editorial-space-lg: clamp(20px, 2.2vw, 24px);
+  --editorial-space-xl: clamp(24px, 3vw, 32px);
+  --editorial-space-section: clamp(40px, 5vw, 64px);
+  --editorial-type-body: 18px;
+  --editorial-type-small: 16px;
+  --editorial-type-label: 14px;
+  --editorial-type-reading: clamp(18px, 1rem + .3vw, 20px);
+  --editorial-type-card-title: clamp(26px, 2.4vw, 34px);
+  --editorial-type-note-title: clamp(28px, 3vw, 36px);
+
   color-scheme: dark;
   --bds-color-portfolio-bg: var(--editorial-canvas);
   --bds-color-portfolio-surface: var(--editorial-surface);
