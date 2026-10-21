@@ -43,6 +43,9 @@ lanes.
 Codex's authenticated current-head completion summary is a supported review
 artifact even when no formal review submission is created. Artifact presence
 does not replace the global update receipt's verdict, reaction and concern checks.
+CodeRabbit's authenticated current-head chat reply is also a supported local
+artifact when its complete recognised layout contains an explicit no-findings
+statement. Global update receipts still own clearance and later-concern checks.
 
 CodeRabbit review includes the npm lockfile, authored image assets and committed
 visual snapshots through exact default-ignore overrides in `.coderabbit.yaml`.

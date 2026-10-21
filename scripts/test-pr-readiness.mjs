@@ -8,6 +8,7 @@ import {
   checkDirty,
   checkHumanApprovals,
   currentCodexCompletion,
+  currentCodeRabbitCompletion,
   globMatches,
   loadScope,
   readChangedFiles,
@@ -18,6 +19,23 @@ import {
 test("directory scope patterns include nested files", () => {
   assert.equal(globMatches("docs/implementation-notes/pr-readiness-gate.md", "docs/implementation-notes/"), true);
   assert.equal(globMatches("docs/implementation-notes/pr-readiness-gate.md", "docs/implementation-notes"), true);
+});
+
+test("CodeRabbit reply artifacts require exact identity, PR, head and complete supported layout", () => {
+  const head = "a".repeat(40), prUrl = "https://github.com/jscraik/websites/pull/49";
+  const body = `<!-- coderabbit-ai-generated:v1 -->\n\n<!-- This is an auto-generated reply by CodeRabbit -->\n\n> [!TIP]\n> For best results, initiate chat on the files or code changes.\n\n<details>\n<summary>🧩 Analysis chain</summary>\n\n🏁 Script executed:\n\n\`\`\`shell\ngh api repos/jscraik/websites/issues/comments/123\n\`\`\`\n\nLength of output: 5055\n\n---\n\n</details>\n\n\`@jscraik\`\n\nNo findings for ${head}.\n\n_You are interacting with an AI system._`;
+  const entry = { id: 124, user: { id: 456, login: "coderabbitai[bot]", type: "Bot" }, html_url: `${prUrl}#issuecomment-124`, body };
+  assert.equal(currentCodeRabbitCompletion([entry], head, prUrl), entry);
+  const invalid = [
+    { ...entry, user: { ...entry.user, login: "author" } },
+    { ...entry, user: { ...entry.user, type: "User" } },
+    { ...entry, html_url: "https://github.com/other/repo/pull/49#issuecomment-124" },
+    ...[body.replace(head, "b".repeat(40)), body + "\nFinding: unsafe write", body.replace(":v1", ":v2"),
+      body.replace("No findings for", "> No findings for"), body.replace("No findings for", "Inspection incomplete for"),
+      body.replace("gh api repos/jscraik/websites/issues/comments/123", "echo 'Inspection failed'"),
+      body.replace("Length of output: 5055", "A defect remains")].map(value => ({ ...entry, body: value })),
+  ];
+  for (const candidate of invalid) assert.equal(currentCodeRabbitCompletion([candidate], head, prUrl), null);
 });
 
 test("solo-maintainer human quorum can be zero without satisfying bot-review lanes", () => {

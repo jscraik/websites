@@ -7,6 +7,7 @@ import {
   checkDirty,
   checkHumanApprovals,
   currentCodexCompletion,
+  currentCodeRabbitCompletion,
   checkScope,
   checkTrackedHead,
   loadScope,
@@ -282,11 +283,12 @@ function checkReviews(result, repo, pr, requiredApprovals) {
   const current = [...latestByReviewer.values()].filter((review) => review.state !== "DISMISSED");
   const currentCodex = current.filter((review) => /codex|chatgpt/i.test(review.user?.login || ""));
   const currentCodeRabbit = current.filter((review) => /coderabbit/i.test(review.user?.login || ""));
-  const commentPages = currentCodex.length === 0
-    ? commandJson(result, GH, ["api", "--paginate", "--slurp", `repos/${repo}/issues/${pr.number}/comments`], "Codex completion artifacts")
+  const commentPages = currentCodex.length === 0 || currentCodeRabbit.length === 0
+    ? commandJson(result, GH, ["api", "--paginate", "--slurp", `repos/${repo}/issues/${pr.number}/comments`], "Bot completion artifacts")
     : [];
-  if (!Array.isArray(commentPages)) addBlocker(result, "review_artifacts_invalid", "Codex comment inventory must be an array");
+  if (!Array.isArray(commentPages)) addBlocker(result, "review_artifacts_invalid", "Bot comment inventory must be an array");
   const completion = currentCodexCompletion(Array.isArray(commentPages) ? commentPages.flat() : [], pr.headRefOid, pr.url);
+  const rabbitCompletion = currentCodeRabbitCompletion(Array.isArray(commentPages) ? commentPages.flat() : [], pr.headRefOid, pr.url);
   const independentApprovals = current.filter(
     (review) => review.state === "APPROVED" && !isBot(review) && review.user?.login !== pr.author?.login,
   );
@@ -298,11 +300,12 @@ function checkReviews(result, repo, pr, requiredApprovals) {
     required_human_approvals: requiredApprovals,
     current_codex: currentCodex.length || (completion ? 1 : 0),
     codex_completion_artifact: completion?.html_url ?? null,
-    current_coderabbit: currentCodeRabbit.length,
+    current_coderabbit: currentCodeRabbit.length || (rabbitCompletion ? 1 : 0),
+    coderabbit_completion_artifact: rabbitCompletion?.html_url ?? null,
   };
   checkHumanApprovals(result, independentApprovals, requiredApprovals, pr.headRefOid, addBlocker);
   if (currentCodex.length === 0 && !completion) addBlocker(result, "codex_review_missing", "No Codex review artifact is attached to the current PR head", { head_sha: pr.headRefOid });
-  if (currentCodeRabbit.length === 0) {
+  if (currentCodeRabbit.length === 0 && !rabbitCompletion) {
     addBlocker(result, "coderabbit_review_missing", "No CodeRabbit review is attached to the current PR head", { head_sha: pr.headRefOid });
   }
 }

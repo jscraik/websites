@@ -32,6 +32,14 @@ detection, not independent clearance: the global current-head update receipt
 still verifies reviewer verdicts, reaction provenance, later concerns and all
 other merge requirements before merge.
 
+CodeRabbit can also publish its result as a chat reply. The local inventory
+recognises the supported complete reply layout with the exact bot identity,
+PR comment URL and full current-head no-findings statement. Versioned headers
+and the known read-only comment-fetch trace are decoration; quoted verdicts,
+unknown analysis, appended findings and incomplete replies do not count.
+This inventory does not clear later concerns: the global update receipt remains
+mandatory and independently evaluates the full review history.
+
 ## Scope manifest
 
 Use a short-lived, reviewable manifest for each PR boundary. The schema is `portfolio-pr-scope/v1`:

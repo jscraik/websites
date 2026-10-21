@@ -51,6 +51,10 @@ completion summary. Negative fixtures reject stale, incomplete, failed or
 wrong-author summaries. Global update receipts retain final clearance authority.
 Multiple current-head summaries are ambiguous even when one claims no findings;
 artifact detection must not filter away a later findings or failure summary.
+CodeRabbit's exact current-head chat reply is supported alongside formal reviews;
+its strict layout and negative fixtures live in the same readiness boundary.
+The local inventory records presence only, while the global update receipt
+checks all later concerns before permitting merge.
 The SkillsBar demo's initial security states and symbols live in
 `src/lib/skillsbar-demo-fixtures.ts` so server markup and client enhancement use
 the same evidence. Browser contracts check that state with and without JavaScript.
