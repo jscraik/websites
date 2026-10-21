@@ -56,7 +56,10 @@ test("the identity command is copied without an execution request", async ({ pag
   await page.addInitScript(() => Object.defineProperty(navigator, "clipboard", { configurable: true, value: { writeText: (value: string) => (window as unknown as { captureCommand: (text: string) => Promise<void> }).captureCommand(value) } }));
   await page.goto("/demos/skillsbar/");
   await page.getByRole("button", { name: "Identity missing", exact: true }).click();
+  const requests: string[] = [];
+  page.on("request", request => requests.push(request.url()));
   await page.getByRole("button", { name: "Copy command", exact: true }).click();
   await expect.poll(() => copied[0]).toBe("./bin/ask sdk start Skills/agent-ops/improve-agent-native --json --robot");
   await expect(page.locator("#copy-status")).toContainText("Nothing has been run");
+  expect(requests).toEqual([]);
 });
