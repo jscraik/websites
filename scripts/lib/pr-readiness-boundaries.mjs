@@ -407,6 +407,8 @@ export function currentCodeRabbitCompletion(entries, head, prUrl) {
   if (dated.some(event => !Number.isFinite(event.time))) return null;
   dated.sort((left, right) => right.time - left.time);
   if (!dated.length || (dated[1] && dated[0].time === dated[1].time)) return null;
+  const newestCreated = Date.parse(dated[0].entry.created_at);
+  if (dated.slice(1).some(event => Date.parse(event.entry.created_at) >= newestCreated)) return null;
   const header = "<!-- This is an auto-generated reply by CodeRabbit -->";
   const tip = "> [!TIP]\n> For best results, initiate chat on the files or code changes.";
   const analysis = /<details>\n<summary>🧩 Analysis chain<\/summary>\n\n🏁 Script executed:\n\n```shell\ngh api repos\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+\/issues\/comments\/[1-9][0-9]*\n```\n\nLength of output: [0-9]+\n\n---\n\n<\/details>\n\n/;

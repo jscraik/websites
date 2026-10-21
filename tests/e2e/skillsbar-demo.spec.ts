@@ -23,7 +23,15 @@ test("stage inspection leaves evidence unchanged and refresh preserves selection
   await expect(page.locator("#action-title")).toHaveText("Identity");
   await expect(page.locator(".stage").first()).toBeFocused();
   await expect(page.locator("#detail-status")).toHaveAttribute("data-status", "Passed");
-  await expect(page.locator("#detail-status")).toHaveCSS("color", "oklch(0.8 0.15 150)");
+  const passedColor = await page.evaluate(() => {
+    const reference = document.createElement("span");
+    reference.style.color = "oklch(0.8 0.15 150)";
+    document.body.append(reference);
+    const color = getComputedStyle(reference).color;
+    reference.remove();
+    return color;
+  });
+  await expect(page.locator("#detail-status")).toHaveCSS("color", passedColor);
   await page.getByRole("button", { name: "Installed copy found", exact: true }).click();
   await expect(page.locator("#action-title")).toHaveText("Identity");
   await expect(page.locator(".stage-state")).toHaveText(Array(9).fill("Unproven"));

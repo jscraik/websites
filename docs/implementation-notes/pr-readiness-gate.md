@@ -33,6 +33,28 @@ The local `merge` phase now executes the projected global validator with
 base. That consumption rechecks hosted reviews, later concerns, threads and
 CI. Missing, stale, failed or mismatched receipts block local merge readiness;
 a successful artifact inventory cannot replace this clearance lane.
+The merge phase requires Python 3 and a readable
+`~/.codex/scripts/pr-readiness.py` supplied by the operator's managed Codex
+configuration (the Configs repository's canonical `codex/scripts` projection).
+This website repository does not provision that global file. The global script
+must support `--phase update --check-receipt` with the exact repository, PR,
+head and base arguments and emit the validated `pr-readiness/v1` receipt.
+The ordinary PR CI workflow does not run this operator merge phase. Any CI
+environment that runs it must provision the same trusted validator and create
+the matching update receipt first. A missing/invalid script or receipt produces
+`global_review_clearance_missing` and blocks merge; no override skips the check.
+Before the local merge command, produce the global receipt from the clean,
+published candidate. Its scope input is a newline list of exact changed paths,
+separate from this repository's JSON scope manifest:
+
+```sh
+git diff --name-only --output=.playwright-tmp/pr-scope.txt origin/main...HEAD
+python3 ~/.codex/scripts/pr-readiness.py --phase update --scope-file .playwright-tmp/pr-scope.txt --write-receipt
+```
+
+Run the local merge validator with its JSON manifest only after that update
+phase passes. The consumer rechecks the live hosted state rather than trusting
+the recorded receipt alone.
 
 Codex can publish a no-findings review as its authenticated PR completion
 summary instead of a formal PR review submission. The local artifact inventory
@@ -51,6 +73,9 @@ unknown analysis, appended findings and incomplete replies do not count.
 Only the latest authenticated bot event can supply that artifact. A later
 concern, incomplete response, unknown layout, invalid timestamp or tied latest
 events blocks the local inventory, including when an older comment is edited.
+The selected reply must also be newest by creation time. An edit to an older
+clean reply cannot displace a newer substantive response, while edits adding
+concerns to older comments still block the inventory.
 This inventory does not clear later concerns: the global update receipt remains
 mandatory and independently evaluates the full review history.
 

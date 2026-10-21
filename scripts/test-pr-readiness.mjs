@@ -45,6 +45,9 @@ test("CodeRabbit reply artifacts require exact identity, PR, head and complete s
     assert.equal(currentCodeRabbitCompletion([concern, entry], head, prUrl), null);
     const editedOlder = { ...concern, created_at: "2026-10-20T10:00:00Z" };
     assert.equal(currentCodeRabbitCompletion([editedOlder, entry], head, prUrl), null);
+    const editedClean = { ...entry, updated_at: "2026-10-21T10:02:00Z" };
+    assert.equal(currentCodeRabbitCompletion([editedClean, concern], head, prUrl), null);
+    assert.equal(currentCodeRabbitCompletion([concern, editedClean], head, prUrl), null);
   }
   assert.equal(currentCodeRabbitCompletion([entry, later], head, prUrl), later);
   assert.equal(currentCodeRabbitCompletion([entry, { ...later, updated_at: entry.updated_at, created_at: entry.created_at }], head, prUrl), null);
