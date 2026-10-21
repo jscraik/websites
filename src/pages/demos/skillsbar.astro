@@ -13,17 +13,17 @@ const stages = [
   "That version has been installed and its discovery, activation and behaviour verified, with rollback evidence where applicable.",
 ].map((description, index) => [stageNames[index], description]);
 ---
-<BaseLayout title="SkillsBar | Interactive demo" description="Explore SkillsBar’s current nine-stage inspector with labelled example data." bodyClass="skillsbar-demo-page">
-  <header class="demo-nav section-shell"><a href="/work/skillsbar/">← SkillsBar case study</a><span>Interactive example</span></header>
+<BaseLayout title="SkillsProof | Interactive demo" description="Explore SkillsProof’s current nine-stage inspector with labelled example data." bodyClass="skillsbar-demo-page">
+  <header class="demo-nav section-shell"><a href="/work/skillsbar/">← SkillsProof case study</a><span>Interactive example</span></header>
   <section class="demo-intro section-shell" aria-labelledby="demo-title">
-    <p class="demo-kicker">SkillsBar · Interactive demo</p>
-    <h1 id="demo-title">See what needs attention next.</h1>
+    <p class="demo-kicker">SkillsProof · Interactive demo</p>
+    <h1 id="demo-title">Every step. Every fault. One glance.</h1>
     <p>Select a stage to inspect its evidence without changing the next required check.</p>
     <p class="demo-boundary">Example data · No commands are executed</p>
     <details class="fixture-note"><summary>About this example data</summary><p>This browser demo uses fixed example data. It does not read your skills, run SDK commands or contact Tessl. All security findings are synthetic. The nine stages describe the intended lifecycle; several still need implementation or live integration proof.</p></details>
     <noscript><section class="scenario-fallback"><h2>Example states</h2><dl><dt>Security review required</dt><dd>Identity and Validation passed; Security needs review and six stages await proof.</dd><dt>Identity missing</dt><dd>The source package is not identified; later stages await proof.</dd><dt>Installed copy found</dt><dd>Files exist on disk, but checked source and completed lifecycle evidence remain unproven.</dd></dl><p>JavaScript enables stage selection and command copying. Stage definitions remain available below.</p></section></noscript>
   </section>
-  <section class="demo-layout section-shell" aria-label="Interactive SkillsBar inspector">
+  <section class="demo-layout section-shell" aria-label="Interactive SkillsProof inspector">
     <div class="focus-inspector">
       <header class="inspector-header"><img src="/products/skillsbar/icon-112.webp" width="48" height="48" alt="" /><div><p class="app-label">SKILLS SDK</p><strong>improve-agent-native</strong><p><span class="local-tag" id="origin">Local</span> <span class="attention" id="header-status">Needs attention</span></p></div></header>
       <fieldset class="scenario-control"><legend>Demo scenario</legend><button type="button" class="scenario" data-scenario="security" aria-pressed="true">Security review required</button><button type="button" class="scenario" data-scenario="identity" aria-pressed="false">Identity missing</button><button type="button" class="scenario" data-scenario="installed" aria-pressed="false">Installed copy found</button></fieldset>
@@ -33,7 +33,7 @@ const stages = [
       <details class="registry-details"><summary>Tessl Registry <span id="registry-state">Unavailable</span></summary><p id="registry-description">No cached registry evidence in this fixture.</p><p>Registry evidence stays separate from local checks. A registry score cannot pass a local gate.</p></details>
       <button id="refresh-demo" class="refresh-button" type="button">↻ Refresh example</button><p id="scenario-status" class="u-visually-hidden" role="status" aria-live="polite"></p>
     </div>
-    <aside class="demo-reading"><p class="demo-kicker">EXPLORE THE INSPECTOR</p><h2>Keep the next check in view.</h2><dl><div><dt>Select any stage</dt><dd>Amber marks the next required stage. Blue marks another stage you’re inspecting. Selection never advances a gate.</dd></div><div><dt>Use the keyboard</dt><dd>Focus a stage and use the arrow keys. Home and End move to the first and last stages.</dd></div><div><dt>Inspect before copying</dt><dd>Choose Identity missing and expand Show command. Copy command only copies the text.</dd></div><div><dt>Refresh the same example</dt><dd>Your selection stays in place. Changing the scenario returns to its next required stage.</dd></div></dl><p>The native app also offers a skill chooser in its ellipsis menu. This focused demo does not simulate filesystem access.</p><a href="/work/skillsbar/">Read the SkillsBar case study ↗</a></aside>
+    <aside class="demo-reading"><p class="demo-kicker">EXPLORE THE INSPECTOR</p><h2>Keep the next check in view.</h2><dl><div><dt>Select any stage</dt><dd>Amber marks the next required stage. Blue marks another stage you’re inspecting. Selection never advances a gate.</dd></div><div><dt>Use the keyboard</dt><dd>Focus a stage and use the arrow keys. Home and End move to the first and last stages.</dd></div><div><dt>Inspect before copying</dt><dd>Choose Identity missing and expand Show command. Copy command only copies the text.</dd></div><div><dt>Refresh the same example</dt><dd>Your selection stays in place. Changing the scenario returns to its next required stage.</dd></div></dl><p>The native app also offers a skill chooser in its ellipsis menu. This focused demo does not simulate filesystem access.</p><a href="/work/skillsbar/">Read the SkillsProof case study ↗</a></aside>
   </section>
   <section class="lifecycle section-shell" aria-labelledby="lifecycle-title"><h2 id="lifecycle-title">What each gate should prove</h2><p>These are target evidence requirements, not a claim that every route is executable end to end.</p><ol>{stages.map(([name, description]) => <li><h3>{name}</h3><p>{description}</p></li>)}</ol><p>Security remains active throughout, including a final scoped check at Staging. A changed candidate invalidates affected evidence and dependent stages; independently valid upstream evidence can remain. Publication and Runtime require readback and behaviour evidence from the registry and host adapters.</p></section>
   <script>

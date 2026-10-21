@@ -2,54 +2,54 @@
   "schema_version": "jamie-social-profile-assets-receipt/v1",
   "contract": "jamie-social-profile-assets/v1",
   "design_system_version": "1.1.0",
-  "source_digest": "79f5fbb7bcbe17d403ef1c55ec3de3c37222fe84d2995718dbdf5f3417c30826",
+  "source_digest": "61667023113b4e36393eb5266730a454d72d0f7798f2937019e22e496e3ce850",
   "sources": {
     "public/brand/fonts/geist-mono-variable.woff2": "afaacc4c5fbba89d2ebf7a02dc4070208540874592a5504d57175782fe893101",
     "public/brand/fonts/geist-variable.woff2": "2ffebe993e969069a9789d15164b7715d42491b5835516c5e3b935d5f81b05f1",
     "public/brand/fonts/newsreader-variable.woff2": "1faa3380ac0e87e057b180e03fd94bd708a612afb67d2590677be4508909fae9",
-    "scripts/generate-social-profile-assets.mjs": "df7a686298752437b7209b8eb5967b6d664911997558c5ffc0fbf2b3ca574cf1",
+    "scripts/generate-social-profile-assets.mjs": "a5dd1253f2a5822c79d710439c01208a1c0b57b2613a3e99be6391adae7c0993",
     "src/brand/social-profile-assets.json": "28e1ec4f8600ba8f1ac9f2333a182b9eb975635c132400ee594821452bf64376",
     "src/brand/source/jamie-profile.png": "daf30bfa63cab49c77f109da04089ccd74c0f4c574cccea67fd2d27579f250bc",
-    "src/styles/brand-tokens.json": "d1d02b42cb9b924f434d1d014330a89431897bee85f1238eea2463611a1b47ed"
+    "src/styles/brand-tokens.json": "c9deef6245c0119a0f63eedfe2b448071603be6d27f57584ffd794c92d266e1e"
   },
   "outputs": {
     "public/brand/social/jamie-avatar-linkedin-400x400.png": {
-      "sha256": "41fed431266d4bea94269d5daee91026462dcbe53306011399f272913146f93c",
+      "sha256": "ddae55417c224089ef288d6e6624af84c7e8873b5a755fa8313ba1ac90e3f31c",
       "width": 400,
       "height": 400
     },
     "public/brand/social/jamie-avatar-x-400x400.png": {
-      "sha256": "41fed431266d4bea94269d5daee91026462dcbe53306011399f272913146f93c",
+      "sha256": "ddae55417c224089ef288d6e6624af84c7e8873b5a755fa8313ba1ac90e3f31c",
       "width": 400,
       "height": 400
     },
     "public/brand/social/jamie-linkedin-background-1584x396.png": {
-      "sha256": "44de331b809ac1ab4bdfcb9c09493cda13f0b83f3ea3f152a384683cc3709002",
+      "sha256": "62715b1c23cbee9ccc47882b69c55891a225998550e0677b88ddbc99d363e539",
       "width": 1584,
       "height": 396
     },
     "public/brand/social/jamie-x-header-1500x500.png": {
-      "sha256": "79713e34d2708bc2f2590c7fe33b7542357c9802663fc80eb92e383349ad9de7",
+      "sha256": "8361e10cf472e835cd56d63fa0679e28428221a64730e9f2f1aae1e58ae31021",
       "width": 1500,
       "height": 500
     },
     "public/brand/social/masters/jamie-linkedin-background-3168x792.png": {
-      "sha256": "beff475f54976f2ba233d88b2bc37cf328dbb83e608d3cd87b427a57dc3765c1",
+      "sha256": "cfcd0d4bb0669a18716b444f7d140b85de4af912d3cfa1e939d903f6cf29317a",
       "width": 3168,
       "height": 792
     },
     "public/brand/social/masters/jamie-x-header-3000x1000.png": {
-      "sha256": "480fd920b722b82c49588340e215bd920319e06343868f6664a41ed78efe9df7",
+      "sha256": "6abd3fcf9cb8cc1c7922cea5fd3fe5ec4148d301fb8bb91f1a88c3d1136f8b7d",
       "width": 3000,
       "height": 1000
     },
     "public/brand/social/previews/jamie-linkedin-profile-preview-1584x660.png": {
-      "sha256": "23e3c2d1c85e320e9c45a0a4ff43df82624bf5b55242c560b035d28ae061ca42",
+      "sha256": "35649bccb93b925e656d6238303deb976289232f4175c1138d3744e2b7da5833",
       "width": 1584,
       "height": 660
     },
     "public/brand/social/previews/jamie-x-profile-preview-1500x780.png": {
-      "sha256": "2ffda7a4ee89edaa7d4314aafd1327c59e19145f929c5be5bcaf6a4238e197c7",
+      "sha256": "384bf7c419c0579a64b12dd27d99b7391b7ea80fe0b825a2df1bf3a419087c6a",
       "width": 1500,
       "height": 780
     }

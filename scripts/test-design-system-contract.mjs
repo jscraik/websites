@@ -6,21 +6,37 @@ import { hasDensityAwareBlogDividers } from "./lib/surface-hairline-contract.mjs
 const validFixture = `
   const links = [{
     href: "/demos/skillsbar/",
+    title: "Try SkillsProof",
     label: "Explore the interactive demo",
     primary: true
   }];
 `;
 
-test("binds the primary flag to the SkillsBar route and label", () => {
+test("binds the primary flag to the SkillsProof route, title, and label", () => {
   assert.equal(hasPrimarySkillsBarLink(validFixture), true);
 });
 
-test("rejects a primary flag detached from the SkillsBar route", () => {
+test("rejects the legacy SkillsBar primary link title", () => {
+  const legacyTitle = validFixture.replace("Try SkillsProof", "Try SkillsBar");
+  assert.equal(hasPrimarySkillsBarLink(legacyTitle), false);
+});
+
+test("requires a primary link title", () => {
+  const missingTitle = validFixture.replace('title: "Try SkillsProof",', "");
+  assert.equal(hasPrimarySkillsBarLink(missingTitle), false);
+});
+
+test("rejects a primary link with subtitle but no title", () => {
+  const subtitleOnly = validFixture.replace("title:", "subtitle:");
+  assert.equal(hasPrimarySkillsBarLink(subtitleOnly), false);
+});
+
+test("rejects a primary flag detached from the SkillsProof route", () => {
   const wrongRoute = validFixture.replace("/demos/skillsbar/", "/now/");
   assert.equal(hasPrimarySkillsBarLink(wrongRoute), false);
 });
 
-test("rejects a primary flag detached from the SkillsBar label", () => {
+test("rejects a primary flag detached from the SkillsProof label", () => {
   const wrongLabel = validFixture.replace("Explore the interactive demo", "Read the blog");
   assert.equal(hasPrimarySkillsBarLink(wrongLabel), false);
 });
@@ -28,7 +44,7 @@ test("rejects a primary flag detached from the SkillsBar label", () => {
 test("keeps primary metadata bound to one link object", () => {
   const splitAcrossObjects = `
     const links = [
-      { href: "/demos/skillsbar/", label: "Explore the interactive demo" },
+      { href: "/demos/skillsbar/", title: "Try SkillsProof", label: "Explore the interactive demo" },
       { href: "/now/", label: "Read the blog", primary: true }
     ];
   `;

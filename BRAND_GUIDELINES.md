@@ -270,7 +270,7 @@ The nav should feel light, quiet, and stable. Avoid large headers, logo-heavy ba
 
 ### Homepage
 
-The jscraik.com homepage sequence is Jamie's promise and developer benefit, flagship SkillsBar, brAInwav origin, method, then writing and technical notes. brAInwav is not a separate website: use it to make the reason behind Jamie's developments legible. Link to an individual project's public ChatGPT Site, GitBook, or GitHub repository only when that project has a public-safe, current destination.
+The jscraik.com homepage sequence is Jamie's promise and developer benefit, flagship SkillsProof, brAInwav origin, method, then writing and technical notes. brAInwav is not a separate website: use it to make the reason behind Jamie's developments legible. Link to an individual project's public ChatGPT Site, GitBook, or GitHub repository only when that project has a public-safe, current destination.
 
 The homepage is Jamie's public portfolio, led by technical proof and work rather than a conventional CV.
 
@@ -369,7 +369,7 @@ Use first-person `I` for Jamie and neutral direct statements for products. Do no
 
 End every case study with one primary evidence-seeking call to action that helps the reader inspect evidence or provide public technical feedback. Attach public technical feedback to the artifact or evidence surface, and route private hiring or contact through an approved private contact surface. Keep public technical feedback separate from private hiring or contact routes.
 
-For SkillsBar, lead with the Skill maintainer's trust decision, use the hook `When evidence goes stale.`, and make the core sentence visible: `A changed Skill candidate should not inherit proof that no longer belongs to it.` Reserve OpenAI and Tessl relevance for a short closing bridge.
+For SkillsProof, lead with the Skill maintainer's trust decision, use the hook `When evidence goes stale.`, and make the core sentence visible: `A changed Skill candidate should not inherit proof that no longer belongs to it.` Use the product tagline `Every step. Every fault. One glance.` Reserve OpenAI and Tessl relevance for a short closing bridge.
 
 Good phrases:
 
@@ -490,7 +490,7 @@ Keep:
 - AI-native DevRel builder as the accepted role
 - `Making AI-assisted developer work inspectable.` as the first association
 - one portfolio front door at jscraik.com, with brAInwav as Jamie's identity and shared presentation system
-- SkillsBar as the first complete vertical slice
+- SkillsProof as the first complete vertical slice
 - public-inspectable proof and provenance as the credibility mechanism
 - editorial plus technical dual-surface composition as the visual reference
 
@@ -504,4 +504,4 @@ Do not drift into:
 - an unsupported authority narrative
 - private second-brain disclosure
 
-This guide and the token contract encode the accepted direction. They do not prove that the wordmark, neuron assets, cover generator, SkillsBar slice, rendered accessibility, deployment, usability, adoption, or public publication exists.
+This guide and the token contract encode the accepted direction. They do not prove that the wordmark, neuron assets, cover generator, SkillsProof slice, rendered accessibility, deployment, usability, adoption, or public publication exists.

@@ -1,18 +1,20 @@
+/** Extract literal primary-link metadata while ignoring comments and unrelated objects. */
 export function extractStartLinkRecords(source) {
   return extractObjectBlocks(stripJavaScriptComments(source))
     .map(parseDirectProperties)
     .filter(({ primary }) => primary === true)
-    .filter(({ href, label }) => typeof href === "string" && typeof label === "string")
-    .map(({ href, label }) => ({ href, label }));
+    .filter(({ href, title, label }) => typeof href === "string" && typeof title === "string" && typeof label === "string")
+    .map(({ href, title, label }) => ({ href, title, label }));
 }
 
-/** Check that one primary link binds the SkillsBar demo route to its supporting label. */
+/** Check that one primary link binds the SkillsProof demo route, title, and supporting label. */
 export function hasPrimarySkillsBarLink(source) {
   return extractStartLinkRecords(source).some(
-    ({ href, label }) => href === "/demos/skillsbar/" && label === "Explore the interactive demo"
+    ({ href, title, label }) => href === "/demos/skillsbar/" && title === "Try SkillsProof" && label === "Explore the interactive demo"
   );
 }
 
+/** Replace comments with whitespace while preserving quoted strings and source offsets. */
 function stripJavaScriptComments(source) {
   let output = "";
   let quote = null;
@@ -65,6 +67,7 @@ function stripJavaScriptComments(source) {
   return output;
 }
 
+/** Collect brace-delimited object blocks without treating quoted braces as structure. */
 function extractObjectBlocks(source) {
   const blocks = [];
   const starts = [];
@@ -99,6 +102,7 @@ function extractObjectBlocks(source) {
   return blocks;
 }
 
+/** Read supported literal properties only at the direct object depth and name boundary. */
 function parseDirectProperties(block) {
   const properties = {};
   let quote = null;
@@ -127,10 +131,10 @@ function parseDirectProperties(block) {
     }
     if (depth !== 1) continue;
 
-    const match = block.slice(index).match(/^(href|label|primary)\s*:\s*/);
+    const match = block.slice(index - 1).match(/^[\s,{](href|title|label|primary)\s*:\s*/);
     if (!match) continue;
     const key = match[1];
-    index += match[0].length - 1;
+    index += match[0].length - 2;
     if (key === "primary") {
       if (/^true\s*(?=[,}])/.test(block.slice(index + 1))) properties.primary = true;
       continue;

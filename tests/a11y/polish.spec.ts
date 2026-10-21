@@ -443,11 +443,11 @@ test.describe("UI polish contracts", () => {
     }
   });
 
-  test("SkillsBar shows its labeled native fixture without changing other work art", async ({ page }) => {
+  test("SkillsProof shows its labeled native fixture without changing other work art", async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 800 });
     await preparePage(page, "/work/skillsbar/");
     const capture = page.locator(".case-product-capture");
-    const image = capture.getByRole("img", { name: /SkillsBar nine-stage focus navigator/ });
+    const image = capture.getByRole("img", { name: /SkillsProof nine-stage focus navigator/ });
     await image.scrollIntoViewIfNeeded();
     await expect(image).toBeVisible();
     await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.naturalWidth)).toBe(460);

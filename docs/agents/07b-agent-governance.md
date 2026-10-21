@@ -128,11 +128,16 @@ Chrome/CDP route only after the exact candidate artifact is served; the app HTTP
 port and the CDP endpoint are separate evidence lanes.
 
 The homepage and case-study routes use `src/components/WorkCarousel.astro` for
-the same centred work-card interaction. The SkillsBar demo uses the portfolio
+the same centred work-card interaction. The SkillsProof demo uses the portfolio
 shell around an isolated native-style inspector. Its stage selections and
 example refreshes must preserve fixture evidence, and copying a command must
 never execute it. Native captures and browser fixtures retain their explicit
 synthetic-data and integration limitations.
+
+Social-profile generation may attach to the approved disposable `CHROME_CDP_URL`
+browser. It closes only its generated contexts and preserves the runtime owner's
+browser. Brand-token edits require actual asset regeneration and a validated
+source-bound receipt; a manual hash substitution does not prove generation.
 
 CircleCI validation and Cloudflare Pages publication are separate hosted
 evidence lanes. The `pr-pipeline` workflow validates pull requests, including

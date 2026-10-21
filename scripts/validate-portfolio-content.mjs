@@ -146,7 +146,7 @@ const firstPublishedFeatured = workEntries
   .filter((entry) => scalarValue(entry.frontmatter, "isFeatured") === "true")
   .sort((a, b) => Number(scalarValue(a.frontmatter, "order")) - Number(scalarValue(b.frontmatter, "order")))[0];
 if (!firstPublishedFeatured?.file.endsWith("/skillsbar.md")) {
-  failures.push(collectionDirs.work + ": SkillsBar must be the first published featured work entry.");
+  failures.push(collectionDirs.work + ": SkillsProof must be the first published featured work entry.");
 }
 
 const skillsBarEntry = workEntries.find((entry) => entry.file.endsWith("/skillsbar.md"));

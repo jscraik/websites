@@ -123,7 +123,7 @@ addCheck(
   tokensJson.positioning?.personal_role === "AI-native DevRel builder" &&
     tokensJson.positioning?.brand_promise === "Making AI-assisted developer work inspectable." &&
     tokensJson.positioning?.developer_benefit === "Help developers adopt emerging AI tools with confidence." &&
-    tokensJson.positioning?.flagship_product === "SkillsBar",
+    tokensJson.positioning?.flagship_product === "SkillsProof",
   "expected the accepted role, promise, benefit, and flagship product"
 );
 
@@ -139,10 +139,10 @@ addCheck(
 );
 
 addCheck(
-  "homepage exposes SkillsBar as the primary starting point",
+  "homepage exposes SkillsProof as the primary starting point",
   /<StartLinks(?:\s[^>]*)?\s*\/>/.test(homepage) &&
     hasPrimarySkillsBarLink(startLinks),
-  "expected the homepage start links to make SkillsBar the primary route"
+  "expected the homepage start links to make SkillsProof the primary route"
 );
 
 addCheck(
@@ -269,14 +269,14 @@ addCheck(
 );
 
 addCheck(
-  "SkillsBar flagship proof contract is fixed",
+  "SkillsProof flagship proof contract is fixed",
   tokensJson.skillsbar_flagship?.hook === "When evidence goes stale." &&
     tokensJson.skillsbar_flagship?.core_sentence ===
       "A changed Skill candidate should not inherit proof that no longer belongs to it." &&
     tokensJson.skillsbar_flagship?.career_bridge?.includes("short closing bridge") &&
     tokensJson.skillsbar_flagship?.visual_proof_set?.join("|") ===
       "one static fallback|one short walkthrough|one stale-proof diagram|one implementation or test excerpt",
-  "expected the accepted SkillsBar hook, core sentence, career bridge, and four-part proof set"
+  "expected the accepted SkillsProof hook, core sentence, career bridge, and four-part proof set"
 );
 
 addCheck(
@@ -498,6 +498,8 @@ for (const snippet of [
   "missing design-system source commit",
   "behavior_proven",
   "When evidence goes stale.",
+  "flagship " + tokensJson.positioning.flagship_product,
+  "Every step. Every fault. One glance.",
   "A changed Skill candidate should not inherit proof that no longer belongs to it.",
   "WCAG 2.2 AA",
   "template_defect",
@@ -517,7 +519,7 @@ for (const snippet of [
   );
 }
 
-for (const staleSnippet of ["#d8d9d2", "#2f80ff", "#ff7a1a", "#263129", "#172219", '"Iowan Old Style", "Palatino Linotype"']) {
+for (const staleSnippet of ["SkillsBar", "#d8d9d2", "#2f80ff", "#ff7a1a", "#263129", "#172219", '"Iowan Old Style", "Palatino Linotype"']) {
   addCheck(
     "brand guide removes stale value " + staleSnippet,
     !brandGuide.includes(staleSnippet),
@@ -529,7 +531,7 @@ for (const snippet of [
   "single public portfolio front door",
   "Version 1.1.0 of the brAInwav Design System",
   "Making AI-assisted developer work inspectable.",
-  "The SkillsBar vertical slice is the first implementation target",
+  "The SkillsProof vertical slice is the first implementation target",
   "not proved by the contract alone"
 ]) {
   addCheck(

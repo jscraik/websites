@@ -5,7 +5,7 @@ const pages = [
   {
     route: "/",
     file: "index.html",
-    includes: ["Jamie Scott Craik", "Career-switching into professional software development", "SkillsBar", "Skills SDK", "/work/skillsbar/", "/work/skills-sdk/", "/editorial/when-evidence-goes-stale-v1.webp", "Evidence belongs to Candidate A"]
+    includes: ["Jamie Scott Craik", "Career-switching into professional software development", "SkillsProof", "Skills SDK", "/work/skillsbar/", "/work/skills-sdk/", "/editorial/when-evidence-goes-stale-v1.webp", "Evidence belongs to Candidate A"]
   },
   {
     route: "/404",
@@ -20,7 +20,7 @@ const pages = [
   {
     route: "/proof/",
     file: "proof/index.html",
-    includes: ["Proof surface", "All work", "SkillsBar", "Skills SDK", "Writing and proof notes"]
+    includes: ["Proof surface", "All work", "SkillsProof", "Skills SDK", "Writing and proof notes"]
   },
   {
     route: "/now/",
@@ -35,7 +35,7 @@ const pages = [
   {
     route: "/demos/skillsbar/",
     file: "demos/skillsbar/index.html",
-    includes: ["SkillsBar", "See what needs attention next.", "Installed copy found", "Publication", "Runtime"]
+    includes: ["SkillsProof", "Every step. Every fault. One glance.", "Installed copy found", "Publication", "Runtime"]
   },
   {
     route: "/articles/why-ai-native-devrel/",
@@ -60,7 +60,7 @@ const pages = [
   {
     route: "/work/skillsbar/",
     file: "work/skillsbar/index.html",
-    includes: ["SkillsBar", "How the delivery unfolded", "Read the current native app documentation"]
+    includes: ["SkillsProof", "How the delivery unfolded", "Read the current native app documentation"]
   },
   {
     route: "/work/skills-sdk/",

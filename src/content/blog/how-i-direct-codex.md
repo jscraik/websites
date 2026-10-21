@@ -9,6 +9,6 @@ proofLink: "/work/skillsbar/"
 featured: false
 proof:
   claim: "Human direction and model execution are different responsibilities."
-  evidence: "Jamie and Codex role boundary in the SkillsBar case study."
+  evidence: "Jamie and Codex role boundary in the SkillsProof case study."
   caveat: "Draft only; no public article route or publication claim exists."
 ---

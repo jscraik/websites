@@ -85,8 +85,8 @@ test("visitors reach published work and hiring information before secondary cont
   await expect(page.locator("a.proof-project")).toHaveCount(5);
   await expect(page.locator("a.proof-project img")).toHaveCount(5);
   for (let iteration = 0; iteration < 3; iteration++) {
-    await page.getByRole("link", { name: "Explore SkillsBar", exact: true }).click();
-    await expect(page.locator("h1")).toHaveText("SkillsBar");
+    await page.getByRole("link", { name: "Explore SkillsProof", exact: true }).click();
+    await expect(page.locator("h1")).toHaveText("SkillsProof");
     await expect(page.getByRole("link", { name: "Try the interactive demo" })).toHaveAttribute("href", "/demos/skillsbar/");
     await page.getByRole("link", { name: "Home", exact: true }).first().click();
     await expect(page.locator("h1")).toBeVisible();
@@ -102,7 +102,7 @@ test("homepage leads with the work and navigation stays stable through page chan
     await page.evaluate(() => document.fonts.ready);
     await expect(page.locator("h1")).toHaveText("I build software and developer tools with practical AI.");
     await expect(page.locator(".home-hero__identity")).toHaveText("Jamie Scott Craik");
-    await expect(page.locator(".start-links__copy strong")).toHaveText(["View my background", "Try SkillsBar", "Read the latest article"]);
+    await expect(page.locator(".start-links__copy strong")).toHaveText(["View my background", "Try SkillsProof", "Read the latest article"]);
     await expect(page.getByRole("link", { name: "Read the latest article Lessons from building the tools" })).toHaveAttribute("href", "/articles/when-evidence-goes-stale/");
     const background = page.locator(".site-header .nav-bg");
     const original = await background.boundingBox();

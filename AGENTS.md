@@ -33,6 +33,9 @@ schema_version: 2
 - Optional private development inspectors must not enter the site install or
   CI credential contract. Keep their removal and focused operator tests aligned.
 - package.json is the source of truth for npm scripts. Re-read it before choosing validation commands.
+- Social-profile generation supports the approved disposable `CHROME_CDP_URL`
+  route; keep its source-bound receipt current after brand-token changes and
+  preserve the runtime owner's browser by closing only generated contexts.
 - Read `docs/agents/00-architecture-bootstrap.md` when changing schemas, route
   coverage, motion infrastructure, development tooling, dependencies, or tracked
   diagrams. Stored diagrams are historical references; automatic generation is retired.
