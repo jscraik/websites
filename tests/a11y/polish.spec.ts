@@ -367,6 +367,17 @@ test.describe("UI polish contracts", () => {
     }
   });
 
+  test("keyboard focus exposes tags on an inactive carousel card", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await preparePage(page, "/");
+    const card = page.locator('[data-work-row] .work-mini-card[data-active="false"]').nth(1);
+    await page.keyboard.press("Tab");
+    await card.evaluate((element: HTMLElement) => element.focus({ preventScroll: true }));
+    await expect(card).toBeFocused();
+    await expect(card).toHaveAttribute("data-active", "false");
+    await expect(card.locator(".tag-row")).toBeVisible();
+  });
+
   test("carousel boundary state disables unavailable controls and preserves keyboard movement", async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 800 });
     await page.emulateMedia({ reducedMotion: "reduce" });

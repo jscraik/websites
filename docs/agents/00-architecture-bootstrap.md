@@ -63,7 +63,8 @@ The local inventory records presence only, while the global update receipt
 checks all later concerns before permitting merge.
 The local merge phase enforces that separation by consuming the global update
 receipt with an exact repository/PR/head/base binding and hosted-state recheck.
-The SkillsBar demo's initial security states and symbols live in
+The SkillsBar demo's ordered stage definitions, initial security states,
+next-required index, summary and symbols live in
 `src/lib/skillsbar-demo-fixtures.ts` so server markup and client enhancement use
 the same evidence. Browser contracts check that state with and without JavaScript.
 

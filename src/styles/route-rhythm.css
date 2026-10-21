@@ -1025,7 +1025,8 @@ html.editorial-theme #main-content .work-card-body > p,
 html.editorial-theme #main-content .work-card-body > span { display: none; }
 html.editorial-theme #main-content .work-card-body { gap: 16px; padding-block-start: 20px; }
 html.editorial-theme #main-content .work-mini-card .tag-row { visibility: hidden; }
-html.editorial-theme #main-content .work-mini-card[data-active="true"] .tag-row { visibility: visible; }
+html.editorial-theme #main-content .work-mini-card[data-active="true"] .tag-row,
+html.editorial-theme #main-content .work-mini-card:focus-visible .tag-row { visibility: visible; }
 html.editorial-theme #main-content .work-carousel .carousel-controls { width: min(1080px, calc(100% - 48px)); margin-inline: auto; }
 @media (prefers-reduced-motion: reduce) {
   html.editorial-theme #main-content .work-mini-card { transition: none; }

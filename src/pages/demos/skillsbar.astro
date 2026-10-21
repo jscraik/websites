@@ -1,17 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { securityStageStates, stageSymbol } from "../../lib/skillsbar-demo-fixtures";
-const stages = [
-  ["Identity", "The exact source package is known and bound to its package ID, source revision and content digest, with provenance and ownership recorded."],
-  ["Validation", "The plugin and its skills meet the applicable structural, metadata, resource, reference and presentation requirements."],
-  ["Security", "Applicable security and permission checks have acceptable evidence, with no unresolved risk blocking evaluation or release."],
-  ["Eval prep", "Scenarios, assertions, scoring criteria and scorer calibration are ready; comparison settings and budgets are frozen."],
-  ["Local eval", "Baseline and candidate have been compared under matched local conditions, and any accepted winner is selected and frozen."],
-  ["Cloud eval", "Cloud refinement has been compared against the accepted local winner under matched cloud conditions, with a recorded selection decision."],
-  ["Staging", "The selected release archive, required resources, presentation, recovery plan and registry preparation are verified, including the final scoped security check."],
-  ["Publication", "The authorised, exact checked version has been published to the selected registry and verified by readback."],
-  ["Runtime", "That version has been installed and its discovery, activation and behaviour verified, with rollback evidence where applicable."],
-];
+import { stages, securityNextStage, securitySummary, securityStageStates, stageSymbol } from "../../lib/skillsbar-demo-fixtures";
+
 ---
 <BaseLayout title="SkillsBar | Interactive demo" description="Explore SkillsBar’s current nine-stage inspector with labelled example data." bodyClass="skillsbar-demo-page">
   <header class="demo-nav section-shell"><a href="/work/skillsbar/">← SkillsBar case study</a><span>Interactive example</span></header>
@@ -27,8 +17,8 @@ const stages = [
     <div class="focus-inspector">
       <header class="inspector-header"><img src="/products/skillsbar/icon-112.webp" width="48" height="48" alt="" /><div><p class="app-label">SKILLS SDK</p><strong>improve-agent-native</strong><p><span class="local-tag" id="origin">Local</span> <span class="attention" id="header-status">Needs attention</span></p></div></header>
       <fieldset class="scenario-control"><legend>Demo scenario</legend><button type="button" class="scenario" data-scenario="security" aria-pressed="true">Security review required</button><button type="button" class="scenario" data-scenario="identity" aria-pressed="false">Identity missing</button><button type="button" class="scenario" data-scenario="installed" aria-pressed="false">Installed copy found</button></fieldset>
-      <div class="stage-grid" role="group" aria-label="Nine evidence gates">{stages.map(([name], index) => <button type="button" class="stage" aria-pressed={index === 2 ? "true" : "false"} data-status={securityStageStates[index]} data-next={String(index === 2)} aria-label={`Gate ${index + 1}: ${name}, ${securityStageStates[index]}${index === 2 ? ", next required" : ""}`}><span>{String(index + 1).padStart(2, "0")}</span><span class="stage-symbol" aria-hidden="true">{stageSymbol(securityStageStates[index])}</span><strong>{name}</strong><small class="stage-state">{securityStageStates[index]}</small></button>)}</div>
-      <p id="pipeline-summary" class="stage-summary">2 passed · 1 needs review · 6 awaiting proof</p>
+      <div class="stage-grid" role="group" aria-label="Nine evidence gates">{stages.map(([name], index) => <button type="button" class="stage" aria-pressed={index === securityNextStage ? "true" : "false"} data-status={securityStageStates[index]} data-next={String(index === securityNextStage)} aria-label={`Gate ${index + 1}: ${name}, ${securityStageStates[index]}${index === securityNextStage ? ", next required" : ""}`}><span>{String(index + 1).padStart(2, "0")}</span><span class="stage-symbol" aria-hidden="true">{stageSymbol(securityStageStates[index])}</span><strong>{name}</strong><small class="stage-state">{securityStageStates[index]}</small></button>)}</div>
+      <p id="pipeline-summary" class="stage-summary">{securitySummary}</p>
       <section class="stage-detail" aria-labelledby="action-title"><div class="gate-context"><span id="gate-index">Gate 03 / 09</span><span id="next-required">Next required</span></div><h2 id="action-title">Security</h2><p id="detail-status" data-status="Review required" data-next="true">Review required · 1 critical · 2 high (synthetic)</p><p id="action-detail">Full security receipt missing or malformed. Inspect findings before continuing.</p><div id="command-actions" hidden><details id="command-disclosure"><summary>Show command</summary><pre><code id="command-text">./bin/ask sdk start Skills/agent-ops/improve-agent-native --json --robot</code></pre></details><button id="copy-command" type="button">Copy command</button></div><p id="command-unavailable">Visual reference · no executable command</p><p id="copy-status" role="status" aria-live="polite"></p></section>
       <details class="registry-details"><summary>Tessl Registry <span id="registry-state">Unavailable</span></summary><p id="registry-description">No cached registry evidence in this fixture.</p><p>Registry evidence stays separate from local checks. A registry score cannot pass a local gate.</p></details>
       <button id="refresh-demo" class="refresh-button" type="button">↻ Refresh example</button><p id="scenario-status" class="u-visually-hidden" role="status" aria-live="polite"></p>
@@ -37,11 +27,10 @@ const stages = [
   </section>
   <section class="lifecycle section-shell" aria-labelledby="lifecycle-title"><h2 id="lifecycle-title">What each gate should prove</h2><p>These are target evidence requirements, not a claim that every route is executable end to end.</p><ol>{stages.map(([name, description]) => <li><h3>{name}</h3><p>{description}</p></li>)}</ol><p>Security remains active throughout, including a final scoped check at Staging. A changed candidate invalidates affected evidence and dependent stages; independently valid upstream evidence can remain. Publication and Runtime require readback and behaviour evidence from the registry and host adapters.</p></section>
   <script>
-    import { securityStageStates, stageSymbol } from "../../lib/skillsbar-demo-fixtures";
-    const names = ["Identity", "Validation", "Security", "Eval prep", "Local eval", "Cloud eval", "Staging", "Publication", "Runtime"];
+    import { stageNames as names, securityNextStage, securitySummary, securityStageStates, stageSymbol } from "../../lib/skillsbar-demo-fixtures";
     const command = "./bin/ask sdk start Skills/agent-ops/improve-agent-native --json --robot";
     const scenarios = {
-      security: { next: 2, summary: "2 passed · 1 needs review · 6 awaiting proof", states: securityStageStates },
+      security: { next: securityNextStage, summary: securitySummary, states: securityStageStates },
       identity: { next: 0, summary: "1 needs review · 8 awaiting proof", states: ["Review required", "Held", "Held", "Held", "Unproven", "Unproven", "Unproven", "Unproven", "Unproven"] },
       installed: { next: 0, summary: "Installed copy found · 9 stages unproven", states: Array<string>(9).fill("Unproven") },
     };
