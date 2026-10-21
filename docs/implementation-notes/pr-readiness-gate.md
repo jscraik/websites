@@ -17,11 +17,70 @@ The gate keeps local and hosted evidence in one machine-readable receipt while r
 - `pre-pr` verifies the current remote base and tracked-branch head ancestry, changed-file scope, and dirty-worktree boundary before a PR is created.
 - `merge` verifies the hosted PR is open and non-draft, its base and head are available, its merge state is current, and its base is an ancestor of the current head.
 - `merge` also resolves an active required-status-check configuration from repository rulesets or branch protection for the protected integration branch, then compares every required context with the current reported check result.
-- `merge` requires current-head evidence for an independent human approval, a Codex review, and a CodeRabbit review. Reviews attached to an older head do not satisfy the gate.
+- `merge` reads the required human approval count from active GitHub rulesets and branch protection, taking the strongest applicable count. Zero permits the solo-maintainer workflow; a configured non-zero count still requires that many independent current-head human approvals. Missing or malformed policy evidence blocks readiness. Codex and CodeRabbit review evidence remain separate requirements. Reviews attached to an older head do not satisfy the gate.
 - A PR whose base is another feature branch is treated as stacked. Its parent PR must be discoverable by base branch and be merged before the child is ready.
 - Both phases require an explicit scope manifest (or equivalent `--allow-path` patterns) and reject unapproved dirty paths.
 
 Passing local checks do not prove hosted review or CI state. Passing hosted checks do not prove that unrelated local dirty files were excluded. The gate reports each lane separately so a closeout can state exactly what remains blocked.
+
+Formal bot artifacts require the exact provider login, Bot account type,
+positive actor/review IDs, current commit, exact PR review URL and an APPROVED
+or COMMENTED state. Human accounts with provider-like names, stale reviews,
+pending/dismissed reviews and requests for changes cannot fill either bot lane.
+Artifact inventory remains separate from the global verdict and concern checks.
+The local `merge` phase now executes the projected global validator with
+`--phase update --check-receipt`, bound to the exact repository, PR, head and
+base. That consumption rechecks hosted reviews, later concerns, threads and
+CI. Missing, stale, failed or mismatched receipts block local merge readiness;
+a successful artifact inventory cannot replace this clearance lane.
+The consumer's `--expected-head` argument names the PR source branch; the
+receipt's `repo.head_sha` separately binds the immutable commit. The local
+adapter checks both identities, along with the base branch and checkout root.
+The merge phase requires Python 3 and a readable
+`~/.codex/scripts/pr-readiness.py` supplied by the operator's managed Codex
+configuration (the Configs repository's canonical `codex/scripts` projection).
+This website repository does not provision that global file. The global script
+must support `--phase update --check-receipt` with the exact repository, PR,
+head and base arguments and emit the validated `pr-readiness/v1` receipt.
+The ordinary PR CI workflow does not run this operator merge phase. Any CI
+environment that runs it must provision the same trusted validator and create
+the matching update receipt first. A missing/invalid script or receipt produces
+`global_review_clearance_missing` and blocks merge; no override skips the check.
+Before the local merge command, produce the global receipt from the clean,
+published candidate. Its scope input is a newline list of exact changed paths,
+separate from this repository's JSON scope manifest:
+
+```sh
+git diff --name-only --output=.playwright-tmp/pr-scope.txt origin/main...HEAD
+python3 ~/.codex/scripts/pr-readiness.py --phase update --scope-file .playwright-tmp/pr-scope.txt --write-receipt
+```
+
+Run the local merge validator with its JSON manifest only after that update
+phase passes. The consumer rechecks the live hosted state rather than trusting
+the recorded receipt alone.
+
+Codex can publish a no-findings review as its authenticated PR completion
+summary instead of a formal PR review submission. The local artifact inventory
+accepts only the exact Codex bot, PR URL and current head with a completed code
+review and explicit false finding flags. A security-only, stale, failed,
+incomplete, malformed or ambiguous summary does not count. This is artifact
+detection, not independent clearance: the global current-head update receipt
+still verifies reviewer verdicts, reaction provenance, later concerns and all
+other merge requirements before merge.
+
+CodeRabbit can also publish its result as a chat reply. The local inventory
+recognises the supported complete reply layout with the exact bot identity,
+PR comment URL and full current-head no-findings statement. Versioned headers
+and the known read-only comment-fetch trace are decoration; quoted verdicts,
+unknown analysis, appended findings and incomplete replies do not count.
+Only the latest authenticated bot event can supply that artifact. A later
+concern, incomplete response, unknown layout, invalid timestamp or tied latest
+events blocks the local inventory, including when an older comment is edited.
+The selected reply must also be newest by creation time. An edit to an older
+clean reply cannot displace a newer substantive response, while edits adding
+concerns to older comments still block the inventory.
+This inventory does not clear later concerns: the global update receipt remains
+mandatory and independently evaluates the full review history.
 
 ## Scope manifest
 

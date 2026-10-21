@@ -1,10 +1,11 @@
 ---
+import { publicProfile } from "../lib/public-profile";
 
 const navItems = [
   { href: "/proof/", label: "Work" },
   { href: "/now/", label: "About" },
   { href: "/blog/", label: "Blog" },
-  { href: "/contact/", label: "Contact" }
+  { href: publicProfile.links.email, label: "Contact" }
 ];
 
 const normalizePath = (path: string) => (path === "/" ? path : path.replace(/\/$/, ""));

@@ -2,6 +2,9 @@ import { expect, test } from "../helpers/test";
 import { coreRoutes, preparePage } from "../helpers/visual";
 
 test.describe("core page visual snapshots", () => {
+  // Capture the settled layout without screenshot animation fast-forwarding
+  // changing the carousel's active-card measurements during capture.
+  test.use({ reducedMotion: "reduce" });
   for (const route of coreRoutes) {
     test(route.name, async ({ page }, testInfo) => {
       await preparePage(page, route.path, { stabilize: false });

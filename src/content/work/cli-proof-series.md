@@ -1,5 +1,5 @@
 ---
-title: "CLI proof series"
+title: "CLI Tools"
 shortTitle: "CLI Tools"
 subtitle: "Turning small tools into developer-facing artifacts"
 date: "Current"

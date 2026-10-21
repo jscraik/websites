@@ -24,6 +24,9 @@ schema_version: 2
 - `src/styles/editorial-theme.css` owns the approved charcoal portfolio theme;
   keep product demo interfaces isolated. Map artwork by content identity rather
   than overridable destination URLs, and normalise route keys used by CSS.
+  `src/components/WorkCarousel.astro` owns the shared homepage and case-study
+  carousel. The SkillsBar browser demo uses the portfolio shell while its
+  inspector keeps native-style typography and explicitly labelled fixture data.
 - Portfolio navigation uses native route links and a static background. Keep
   navigation validation aligned with that behaviour; do not restore the retired
   moving/reparented highlight when adjusting the shared shell.

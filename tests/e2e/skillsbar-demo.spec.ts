@@ -1,118 +1,65 @@
-import { expect, test } from "@playwright/test";
-import { preparePage } from "../helpers/visual";
+import { expect, test } from "../helpers/test";
 
-const gateNames = [
-  "Candidate identity", "Mechanical validation", "Security review",
-  "Eval preparation", "Local evaluation", "Cloud evaluation", "Tessl staging",
-  "Runtime proof", "Registry publication",
-];
-
-// These are demo fixtures, not commands to execute or current SDK support claims.
-const scenarios = [
-  {
-    button: "Candidate held", title: "Needs candidate identity", score: "11",
-    summary: "1 receipt current · downstream proof held", action: "Candidate identity", index: "01",
-    detail: "Build the canonical non-mutating package receipt.", event: "Local candidate selected",
-    states: ["Required", "Held", "Held", "Held", "Held", "Held", "Held", "Held", "Held"],
-    command: "./bin/ask sdk package build Skills/agent-ops/improve-agent-native/SKILL.md --json --robot",
-  },
-  {
-    button: "Security flagged", title: "Security review is flagged", score: "24",
-    summary: "2 receipts current · delivery evidence held", action: "Security review", index: "03",
-    detail: "Resolve the candidate-bound risk-mode finding.", event: "Critical-negative fixture detected",
-    states: ["Current", "Current", "Flagged", "Held", "Held", "Held", "Held", "Held", "Held"],
-    command: "./bin/ask sdk security risk-modes Skills/agent-ops/improve-agent-native/SKILL.md --preview --json --robot",
-  },
-  {
-    button: "Evidence current", title: "Evidence chain is current", score: "100",
-    summary: "9 receipts current · release evidence available", action: "Registry publication", index: "09",
-    detail: "Inspect the bound publication receipt before promotion.", event: "All nine candidate-bound receipts reconciled",
-    states: ["Current", "Current", "Current", "Current", "Current", "Current", "Current", "Current", "Current"],
-    command: "./bin/ask sdk release inspect Skills/agent-ops/improve-agent-native/SKILL.md --json --robot",
-  },
-];
-
-test("demo scenarios expose complete state for pointer, Enter, and Space", async ({ page }, testInfo) => {
-  await page.setViewportSize({ width: testInfo.project.name === "chromium-mobile" ? 320 : 1440, height: 1000 });
-  const copied: string[] = [];
-  await page.exposeFunction("captureFixtureCommand", (command: string) => { copied.push(command); });
-  await page.addInitScript(() => {
-    Object.defineProperty(navigator, "clipboard", { configurable: true, value: {
-      writeText: (command: string) => (window as unknown as { captureFixtureCommand: (text: string) => Promise<void> }).captureFixtureCommand(command),
-    } });
+test("stage inspection leaves evidence unchanged and refresh preserves selection", async ({ page }) => {
+  await page.goto("/demos/skillsbar/");
+  await expect(page.getByRole("group", { name: "Nine evidence gates" })).toBeVisible();
+  await expect(page.locator("#detail-status")).toHaveCSS("color", "rgb(255, 207, 116)");
+  await expect(page.locator(".stage strong")).toHaveText(["Identity", "Validation", "Security", "Eval prep", "Local eval", "Cloud eval", "Staging", "Publication", "Runtime"]);
+  const states = await page.locator(".stage-state").allTextContents();
+  expect(states).toEqual(["Passed", "Passed", "Review required", "Held", "Unproven", "Unproven", "Unproven", "Unproven", "Unproven"]);
+  await page.locator(".stage").nth(8).click();
+  await expect(page.locator("#action-title")).toHaveText("Runtime");
+  await expect(page.locator("#detail-status")).toHaveCSS("color", "rgb(210, 211, 215)");
+  await expect(page.locator("#next-required")).toHaveText("Next required: Security");
+  await page.getByRole("button", { name: "Refresh example" }).click();
+  await expect(page.locator('.stage[aria-pressed="true"]')).toHaveAttribute("aria-label", /Gate 9/);
+  await expect(page.locator(".stage-state")).toHaveText(states);
+  await page.locator(".stage").first().focus();
+  await page.keyboard.press("ArrowDown");
+  await expect(page.locator("#action-title")).toHaveText("Eval prep");
+  await page.keyboard.press("End");
+  await expect(page.locator("#action-title")).toHaveText("Runtime");
+  await page.keyboard.press("Home");
+  await expect(page.locator("#action-title")).toHaveText("Identity");
+  await expect(page.locator(".stage").first()).toBeFocused();
+  await expect(page.locator("#detail-status")).toHaveAttribute("data-status", "Passed");
+  const passedColor = await page.evaluate(() => {
+    const reference = document.createElement("span");
+    reference.style.color = "oklch(0.8 0.15 150)";
+    document.body.append(reference);
+    const color = getComputedStyle(reference).color;
+    reference.remove();
+    return color;
   });
-  await preparePage(page, "/demos/skillsbar/");
-  for (const activation of ["pointer", "Enter", "Space"]) {
-    for (const scenario of scenarios) {
-      const button = page.getByRole("button", { name: scenario.button, exact: true });
-      if (activation === "pointer") await button.click();
-      else { await button.focus(); await page.keyboard.press(activation); }
-      await expect(button).toHaveAttribute("aria-pressed", "true");
-      await expect(page.locator('.scenario[aria-pressed="true"]')).toHaveCount(1);
-      await expect(page.locator("#pipeline-title")).toHaveText(scenario.title);
-      await expect(page.locator("#pipeline-summary")).toHaveText(scenario.summary);
-      await expect(page.locator("#readiness-score")).toHaveText(scenario.score);
-      await expect(page.locator(".readiness")).toHaveAttribute("aria-label", `${scenario.score} out of 100 pipeline readiness`);
-      await expect(page.locator("#action-title")).toHaveText(scenario.action);
-      await expect(page.locator("#action-index")).toHaveText(scenario.index);
-      await expect(page.locator("#action-detail")).toHaveText(scenario.detail);
-      await expect(page.locator("#event-entry")).toHaveText(scenario.event);
-      await expect(page.locator(".event-log")).not.toHaveAttribute("aria-live");
-      await expect(page.locator("#scenario-status")).toHaveText(
-        `${scenario.title}. ${scenario.score} out of 100 pipeline readiness. ${scenario.detail}`,
-      );
-      await expect(page.locator(".gate-copy strong")).toHaveText(gateNames);
-      await expect(page.locator(".gate-state")).toHaveText(scenario.states);
-      for (const row of await page.locator(".gate").all()) {
-        await expect(row).toHaveCSS("display", "grid");
-        await expect(row.locator(".gate-copy strong")).toHaveCSS("display", "block");
-        await expect(row.locator(".gate-copy > span")).toHaveCSS("display", "block");
-      }
-      await page.getByRole("button", { name: "Copy command", exact: true }).click();
-      await expect.poll(() => copied.at(-1)).toBe(scenario.command);
-      await expect(page.locator("#toast")).toHaveText("Command copied");
-      await expect(page.locator("#toast")).toHaveClass(/is-visible/);
-      await expect(page.locator(".registry-score .score-ring strong")).toHaveText("66");
-      await expect(page.locator(".proof-warning")).toContainText("not bound to the current local digest");
-    }
-  }
-  expect(copied).toHaveLength(9);
+  await expect(page.locator("#detail-status")).toHaveCSS("color", passedColor);
+  await page.getByRole("button", { name: "Installed copy found", exact: true }).click();
+  await expect(page.locator("#action-title")).toHaveText("Identity");
+  await expect(page.locator(".stage-state")).toHaveText(Array(9).fill("Unproven"));
+  await expect(page.locator("#registry-state")).toHaveText("Not Linked");
+  await expect(page.locator("#copy-command")).toBeHidden();
 });
 
-test("demo reports clipboard failure without changing the selected scenario", async ({ page }, testInfo) => {
-  await page.setViewportSize({ width: testInfo.project.name === "chromium-mobile" ? 320 : 1440, height: 1000 });
-  await page.addInitScript(() => {
-    Object.defineProperty(navigator, "clipboard", { configurable: true, value: {
-      writeText: async () => { throw new DOMException("Fixture clipboard denial", "NotAllowedError"); },
-    } });
-  });
-  await preparePage(page, "/demos/skillsbar/");
-  await page.getByRole("button", { name: "Security flagged", exact: true }).click();
+test("command copying handles denial without advancing evidence", async ({ page }) => {
+  await page.addInitScript(() => Object.defineProperty(navigator, "clipboard", { configurable: true, value: { writeText: async () => { throw new Error("Clipboard denied"); } } }));
+  await page.goto("/demos/skillsbar/");
+  await page.getByRole("button", { name: "Identity missing", exact: true }).click();
   await page.getByRole("button", { name: "Copy command", exact: true }).click();
-  await expect(page.locator("#toast")).toHaveText("Clipboard unavailable");
-  await expect(page.locator("#toast")).toHaveClass(/is-visible/);
-  await expect(page.locator("#pipeline-title")).toHaveText("Security review is flagged");
-  await expect(page.locator(".gate-state")).toHaveText(scenarios[1].states);
+  await expect(page.locator("#copy-status")).toContainText("Clipboard unavailable");
+  await expect(page.locator("#command-disclosure")).toHaveAttribute("open", "");
+  await expect(page.locator("#next-required")).toHaveText("Next required");
+  await expect(page.locator(".stage-state").first()).toHaveText("Review required");
 });
 
-test("demo removes movement when reduced motion is requested", async ({ page }) => {
-  const transitionDurations = async () => page.locator("#readiness-fill").evaluate((element) =>
-    getComputedStyle(element).transitionDuration
-      .split(",")
-      .map((duration) => Number.parseFloat(duration) * (duration.trim().endsWith("ms") ? 1 : 1000)),
-  );
-
-  await page.emulateMedia({ reducedMotion: "no-preference" });
-  await preparePage(page, "/demos/skillsbar/", { stabilize: false });
-  expect(Math.max(...await transitionDurations())).toBe(350);
-
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  expect(Math.max(...await transitionDurations())).toBeLessThanOrEqual(0.01);
-
-  await page.getByRole("button", { name: "Security flagged", exact: true }).click();
-  await expect(page.locator("#readiness-score")).toHaveText("24");
-  const movementDurations = await page.locator("#readiness-fill").evaluate((element) =>
-    element.getAnimations().map((animation) => Number(animation.effect?.getTiming().duration ?? 0)),
-  );
-  expect(movementDurations.every((duration) => duration <= 0.01)).toBe(true);
+test("the identity command is copied without an execution request", async ({ page }) => {
+  const copied: string[] = [];
+  await page.exposeFunction("captureCommand", (value: string) => copied.push(value));
+  await page.addInitScript(() => Object.defineProperty(navigator, "clipboard", { configurable: true, value: { writeText: (value: string) => (window as unknown as { captureCommand: (text: string) => Promise<void> }).captureCommand(value) } }));
+  await page.goto("/demos/skillsbar/");
+  await page.getByRole("button", { name: "Identity missing", exact: true }).click();
+  const requests: string[] = [];
+  page.on("request", request => requests.push(request.url()));
+  await page.getByRole("button", { name: "Copy command", exact: true }).click();
+  await expect.poll(() => copied[0]).toBe("./bin/ask sdk start Skills/agent-ops/improve-agent-native --json --robot");
+  await expect(page.locator("#copy-status")).toContainText("Nothing has been run");
+  expect(requests).toEqual([]);
 });

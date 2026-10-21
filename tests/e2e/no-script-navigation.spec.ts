@@ -1,10 +1,13 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "../helpers/test";
 
 test.describe("navigation without JavaScript", () => {
   test.use({ javaScriptEnabled: false });
 
   test("About, browser Back, and the primary project remain reachable", async ({ page }) => {
     await page.goto("/");
+    await expect(page.getByRole("group", { name: "Curated proof cards" })).toBeVisible();
+    await expect(page.locator('[data-work-row] .work-mini-card').first()).toHaveAttribute("data-active", "true");
+    await expect(page.locator('[data-work-row] .work-mini-card').first().locator(".tag-row")).toHaveCSS("visibility", "visible");
     const start = page.locator('[data-primary-start="true"]');
     await expect(start).toHaveAttribute("href", "/demos/skillsbar/");
 
@@ -25,10 +28,18 @@ test.describe("navigation without JavaScript", () => {
     await expect(page.locator("main h1")).toBeVisible();
     const fallback = page.locator(".scenario-fallback");
     await expect(fallback).toBeVisible();
+    await expect(page.locator(".stage-state")).toHaveText(["Passed", "Passed", "Review required", "Held", "Unproven", "Unproven", "Unproven", "Unproven", "Unproven"]);
+    await expect(page.locator(".stage-symbol").nth(3)).toHaveText("Ⅱ");
+    await expect(page.locator(".stage").nth(3)).toHaveAccessibleName("Gate 4: Eval prep, Held");
+    await expect(page.locator(".stage").nth(2)).toHaveAccessibleName("Gate 3: Security, Review required, next required");
+    await expect(page.locator(".stage").nth(2)).toHaveAttribute("data-next", "true");
+    await expect(page.locator(".stage").first()).toHaveAttribute("data-status", "Passed");
+    await expect(page.getByRole("group", { name: "Nine evidence gates" })).toBeVisible();
+    await expect(page.locator("#detail-status")).toHaveAttribute("data-next", "true");
     await expect(fallback.locator("dt")).toHaveText([
-      "Candidate held · 11/100",
-      "Security flagged · 24/100",
-      "Evidence current · 100/100",
+      "Security review required",
+      "Identity missing",
+      "Installed copy found",
     ]);
 
     await page.goBack({ waitUntil: "commit" });

@@ -34,10 +34,32 @@ the `jscraik/` branch prefix without an issue key when its body records a
 concrete Linear `n/a` reason; issue-linked delivery still uses the generated
 `jscraik/<linear-key>-<short-description>` branch.
 
-For a solo-maintainer waiver, record an explicit policy exception. It does not
-become an independent approval. Keep current local validation, hosted checks,
+For the solo-maintainer workflow, use the hosted human approval quorum. When
+that quorum is zero, no independent current-head human approval is required.
+A non-zero quorum requires that many independent current-head human approvals.
+A waiver of any other requirement needs an explicit policy exception and does
+not become an independent approval. Keep current local validation, hosted checks,
 review artifacts, Linear linkage, and merge readiness as distinct evidence
 lanes.
+
+Codex's authenticated current-head completion summary is a supported review
+artifact even when no formal review submission is created. Artifact presence
+does not replace the global update receipt's verdict, reaction and concern checks.
+CodeRabbit's authenticated current-head chat reply is also a supported local
+artifact when its complete recognised layout contains an explicit no-findings
+statement. Global update receipts still own clearance and later-concern checks.
+Formal artifacts require exact bot logins/types, positive actor and review IDs,
+the current head, the exact PR review URL and an allowed review state; a human
+account with provider-like words in its name cannot satisfy either bot lane.
+The local merge gate consumes and live-revalidates the global update receipt.
+Artifact presence alone cannot produce a passing merge-readiness result.
+
+CodeRabbit review includes the npm lockfile, authored image assets and committed
+visual snapshots through exact default-ignore overrides in `.coderabbit.yaml`.
+Keep those overrides distinct from ordinary include patterns: a broad include
+does not override the provider defaults. Build output, dependency directories
+and scratch artifacts remain excluded. Review eligibility does not prove the
+provider inspected a binary; verify its published coverage and limitations.
 
 ## Evidence format
 
@@ -90,12 +112,24 @@ the design authority. Current-live comparisons remain advisory evidence, and
 agents must not silently refresh the bundle, weaken mismatch budgets, or turn
 identity-specific copy and imagery into the structural comparison oracle.
 
+Dependency remediation must preserve the existing audit thresholds. Vite's
+`8.1.6` override addresses GHSA-698v-4r3x-3vcv without a framework upgrade;
+remove that compatibility pin only when the dependency chain resolves a
+patched version and the normal production audit passes.
+
 The shared portfolio shell is a route-independent governance boundary:
 `src/styles/shell.css` owns the header, navigation background, and footer
 surfaces, while route-local styles keep each page canvas on the neutral paper
 token. Rendered proof may attach through the approved disposable external
 Chrome/CDP route only after the exact candidate artifact is served; the app HTTP
 port and the CDP endpoint are separate evidence lanes.
+
+The homepage and case-study routes use `src/components/WorkCarousel.astro` for
+the same centred work-card interaction. The SkillsBar demo uses the portfolio
+shell around an isolated native-style inspector. Its stage selections and
+example refreshes must preserve fixture evidence, and copying a command must
+never execute it. Native captures and browser fixtures retain their explicit
+synthetic-data and integration limitations.
 
 CircleCI validation and Cloudflare Pages publication are separate hosted
 evidence lanes. The `pr-pipeline` workflow validates pull requests, including

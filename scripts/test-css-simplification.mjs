@@ -17,6 +17,7 @@ const source = [
   "src/pages/now.astro",
   "src/pages/work/[slug].astro",
   "src/components/SiteNav.astro",
+  "src/components/WorkCarousel.astro",
   "src/components/SiteFooter.astro"
 ].map((path) => readFileSync(path, "utf8")).join("\n");
 const combinedSource = css + "\n" + source;

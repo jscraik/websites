@@ -11,6 +11,8 @@ class FakeElement {
   scrollWidth = 0;
   clientWidth = 0;
   scrollLeft = 0;
+  offsetLeft = 0;
+  getBoundingClientRect() { return { left: this.offsetLeft - (this.parent?.scrollLeft ?? 0), width: this.clientWidth }; }
   scrollBy = vi.fn();
   parent: FakeElement | null = null;
   children = new Map<string, FakeElement>();
@@ -49,6 +51,28 @@ function makeCarousel(scrollWidth = 1000) {
 afterEach(() => vi.unstubAllGlobals());
 
 describe("initCarouselControls", () => {
+  it("centres selection and advances one project rather than a viewport page", () => {
+    vi.stubGlobal("window", { matchMedia: () => ({ matches: true }), addEventListener: vi.fn() });
+    const carousel = makeCarousel();
+    const cards = [100, 350, 600].map((offset) => {
+      const card = new FakeElement();
+      card.offsetLeft = offset;
+      card.clientWidth = 200;
+      card.parent = carousel.row;
+      return card;
+    });
+    carousel.row.collections.set(".work-mini-card", cards);
+    const root = new FakeElement();
+    root.collections.set("[data-work-carousel]", [carousel.controls]);
+    initCarouselControls(root as unknown as ParentNode);
+    expect(carousel.row.scrollLeft).toBe(250);
+    expect(cards.map(card => card.dataset.active)).toEqual(["false", "true", "false"]);
+    carousel.next.fire("click", 0);
+    expect(carousel.row.scrollBy).toHaveBeenCalledWith({ left: 250, behavior: "auto" });
+    carousel.row.scrollLeft = 500;
+    carousel.row.fire("scroll");
+    expect(cards.map(card => card.dataset.active)).toEqual(["false", "false", "true"]);
+  });
   it("keeps focus on an available control when an endpoint disables the current one", () => {
     vi.stubGlobal("window", { matchMedia: () => ({ matches: true }), addEventListener: vi.fn() });
     const carousel = makeCarousel();

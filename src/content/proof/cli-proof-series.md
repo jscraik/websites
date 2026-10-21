@@ -1,5 +1,5 @@
 ---
-title: "CLI proof series"
+title: "CLI Tools"
 status: "Planned"
 order: 3
 publicationState: "draft"

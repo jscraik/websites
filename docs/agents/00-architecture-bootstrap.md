@@ -21,6 +21,22 @@ requires an explicitly selected, supported authoring workflow.
 
 ## Validation Boundary
 
+Blog frontmatter owns optional `featureImage` metadata (local source, alt text,
+positive integer dimensions). Both featured consumers read the selected entry's
+metadata and omit artwork when it is absent, so changing the featured article
+cannot inherit another article's illustration. Astro validates this strict
+object during content sync; generated-route smoke checks cover both consumers.
+
+The package override pins Vite to `8.1.6`, the patched `8.1` maintenance release
+for GHSA-698v-4r3x-3vcv. Keep the override and lockfile aligned until the Astro
+dependency chain resolves a patched version without it. The ordinary audit
+job rejects production advisories at low severity or higher; `audit:strict` is the separate
+high-severity dependency-scan lane. Neither threshold is waived by this pin.
+
+`src/components/WorkCarousel.astro` owns the All work card markup, pointer
+feedback and controls used by both the homepage and case studies. Both callers
+pass the complete ordered project list; keep their rendered treatment shared.
+
 Use the narrowest deterministic test first. For operator-contract changes, run the relevant `test:*` script, `npm run validate:operator-contract`, and the hook path that the change affects. Local results establish only local behavior; hosted checks, reviews, and merge readiness remain separate lanes.
 
 The retained manifest's byte and line metadata can be checked without the
@@ -32,12 +48,40 @@ For dependency and lockfile changes, update affected architecture documentation,
 run source validation and report production and development-tool audits separately.
 Generated runtime receipts remain evidence rather than canonical source.
 
+The PR-readiness boundary reads the human approval quorum from active hosted
+rulesets and branch protection instead of assuming a second maintainer exists.
+Its strongest applicable count and fail-closed policy lookup are covered by
+`npm run test:pr-readiness`; independent bot-review and CI lanes remain separate.
+The local Codex artifact inventory also recognises an authenticated current-head
+completion summary. Negative fixtures reject stale, incomplete, failed or
+wrong-author summaries. Global update receipts retain final clearance authority.
+Multiple current-head summaries are ambiguous even when one claims no findings;
+artifact detection must not filter away a later findings or failure summary.
+CodeRabbit's exact current-head chat reply is supported alongside formal reviews;
+its strict layout and negative fixtures live in the same readiness boundary.
+The local inventory records presence only, while the global update receipt
+checks all later concerns before permitting merge.
+The local merge phase enforces that separation by consuming the global update
+receipt with an exact repository/PR/head/base binding and hosted-state recheck.
+The SkillsBar demo's ordered stage names, initial security states,
+next-required index, summary and symbols live in
+`src/lib/skillsbar-demo-fixtures.ts` so server markup and client enhancement use
+the same evidence. Browser contracts check that state with and without JavaScript.
+
 CircleCI owns the repository's pull-request validation workflows, while the
 `pages-production` workflow is the only production publication path. It runs
 on `main` with the restricted `cloudflare-pages-production` context, validates
 the static `dist/` artifact, and uploads it through the pinned Wrangler
 contract. Keep those hosted checks and deployment-context claims separate from
 local build proof and from Cloudflare custom-domain setup.
+
+The uv, environment and security bootstrap calls preserve the job's existing
+GitHub credential in the mise install subprocess. Token precedence is
+`GITHUB_TOKEN`, `GH_TOKEN`, then `GITHUB_PERSONAL_ACCESS_TOKEN`; no credential
+is created or logged, and the parent environment is unchanged. Removing these
+credentials forces public release discovery onto GitHub's shared anonymous
+rate limit. `npm run test:operator-workflow-contract` executes each configured
+wrapper with isolated fake credentials and a stub mise command.
 
 The `pr-template` job reads the hosted PR body and validates it with the
 repository-owned `scripts/validate-pr-template.mjs` contract. Keep that body
@@ -112,7 +156,10 @@ Accessibility and visual suites share `tests/helpers/test.ts`. Without
 managed-browser recovery path connects to the runtime owner's disposable Chrome
 profile with `noDefaults: true`, then uses isolated contexts for each test.
 CDP runs use one worker so keyboard-focus checks do not compete for the browser.
-The render-flow validator uses the same CDP connection option. Never supply an
+The test fixture tears down its contexts and lets worker exit disconnect CDP;
+it must not call `browser.close()` on the runtime owner's external Chrome.
+The render-flow validator uses the same CDP connection option, creates its own
+context, and closes only that context before disconnecting. Never supply an
 authenticated browser profile. Visual baselines must be regenerated and checked
 again after intentional theme changes; source validation alone cannot prove them.
 

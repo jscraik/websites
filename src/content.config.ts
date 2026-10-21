@@ -92,6 +92,12 @@ const blogEntrySchema = z.object({
     href: z.string().startsWith("/").optional(),
     proofLink: z.string().startsWith("/"),
     featured: z.boolean(),
+    featureImage: z.object({
+      src: z.string().startsWith("/"),
+      alt: z.string().min(1),
+      width: z.number().int().positive(),
+      height: z.number().int().positive()
+    }).strict().optional(),
     proof: z.object({
       claim: z.string(),
       evidence: z.string(),

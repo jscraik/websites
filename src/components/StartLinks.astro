@@ -1,24 +1,26 @@
 ---
 import Icon from "./Icon.astro";
+interface Props { latestArticleHref: string; }
+const { latestArticleHref } = Astro.props;
 
 const links = [
   {
     href: "/now/",
-    title: "Hiring",
+    title: "View my background",
     label: "Career story and experience",
     icon: "document"
   },
   {
     href: "/demos/skillsbar/",
-    title: "Trying the tools",
-    label: "Start with SkillsBar",
+    title: "Try SkillsBar",
+    label: "Explore the interactive demo",
     icon: "bookmark",
     primary: true
   },
   {
-    href: "/blog/",
-    title: "Reading",
-    label: "Articles and public notes",
+    href: latestArticleHref,
+    title: "Read the latest article",
+    label: "Lessons from building the tools",
     icon: "pencil"
   }
 ] as const;

@@ -5,7 +5,7 @@ const pages = [
   {
     route: "/",
     file: "index.html",
-    includes: ["Jamie Scott Craik", "Career-switching into professional software development", "SkillsBar", "Skills SDK", "/work/skillsbar/", "/work/skills-sdk/"]
+    includes: ["Jamie Scott Craik", "Career-switching into professional software development", "SkillsBar", "Skills SDK", "/work/skillsbar/", "/work/skills-sdk/", "/editorial/when-evidence-goes-stale-v1.webp", "Evidence belongs to Candidate A"]
   },
   {
     route: "/404",
@@ -15,7 +15,7 @@ const pages = [
   {
     route: "/blog/",
     file: "blog/index.html",
-    includes: ["Blog", "When Evidence Goes Stale", "Capability Is Not Trust", "RSS feed"]
+    includes: ["Blog", "When Evidence Goes Stale", "Capability Is Not Trust", "RSS feed", "/editorial/when-evidence-goes-stale-v1.webp", "Evidence belongs to Candidate A"]
   },
   {
     route: "/proof/",
@@ -35,7 +35,7 @@ const pages = [
   {
     route: "/demos/skillsbar/",
     file: "demos/skillsbar/index.html",
-    includes: ["SkillsBar", "When evidence goes stale.", "Candidate held"]
+    includes: ["SkillsBar", "See what needs attention next.", "Installed copy found", "Publication", "Runtime"]
   },
   {
     route: "/articles/why-ai-native-devrel/",
@@ -60,7 +60,7 @@ const pages = [
   {
     route: "/work/skillsbar/",
     file: "work/skillsbar/index.html",
-    includes: ["SkillsBar", "How the delivery unfolded", "Inspect the merged adaptive delivery"]
+    includes: ["SkillsBar", "How the delivery unfolded", "Read the current native app documentation"]
   },
   {
     route: "/work/skills-sdk/",
@@ -70,7 +70,7 @@ const pages = [
   {
     route: "/work/cli-proof-series/",
     file: "work/cli-proof-series/index.html",
-    includes: ["CLI proof series", "wSearch queries Wikidata", "wiki.entity.get.v1", "arxiv.download.dryrun.v1", "planning-output evidence"]
+    includes: ["CLI Tools", "wSearch queries Wikidata", "wiki.entity.get.v1", "arxiv.download.dryrun.v1", "planning-output evidence"]
   }
 ];
 

@@ -159,12 +159,11 @@ test.describe("UI polish contracts", () => {
       await expect(portrait).toHaveAttribute("src", "/personal/jamie-developer.webp");
       expect((await portrait.boundingBox())!.width).toBeLessThanOrEqual(180);
       const spacing = await page.evaluate(() => {
-        const latest = document.querySelector(".latest-article")!.getBoundingClientRect();
-        const title = document.querySelector(".blog-title-block")!.getBoundingClientRect();
+        const index = document.querySelector(".blog-index")!.getBoundingClientRect();
         const list = document.querySelector(".article-list")!.getBoundingClientRect();
         const about = document.querySelector(".blog-about-card")!.getBoundingClientRect();
         const lastArticle = document.querySelector(".blog-list-item:last-child")!.getBoundingClientRect();
-        return { beforeList: list.top - Math.max(latest.bottom, title.bottom), beforeAbout: about.top - lastArticle.bottom };
+        return { beforeList: list.top - index.bottom, beforeAbout: about.top - lastArticle.bottom };
       });
       for (const [section, gap] of Object.entries(spacing)) {
         expect(gap, `${section} at ${width}px`).toBeGreaterThanOrEqual(32);
@@ -337,7 +336,9 @@ test.describe("UI polish contracts", () => {
       expect(label!.y + label!.height).toBeLessThan(firstCard!.y);
       const artwork = page.locator(".skillsbar-artwork");
       expect(await artwork.evaluate((element) => getComputedStyle(element, "::before").content)).toBe("none");
-      expect(await artwork.locator(".skillsbar-preview__header span").evaluate((element) => getComputedStyle(element).position)).toBe("static");
+      const capture = artwork.locator("img.featured-native-capture");
+      await expect(capture).toBeVisible();
+      await expect.poll(() => capture.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth > 0)).toBe(true);
       if (width <= 360) {
         for (const right of geometry.lines) expect(right).toBeLessThanOrEqual(width - geometry.left);
       }
@@ -366,6 +367,17 @@ test.describe("UI polish contracts", () => {
     }
   });
 
+  test("keyboard focus exposes tags on an inactive carousel card", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await preparePage(page, "/");
+    const card = page.locator('[data-work-row] .work-mini-card[data-active="false"]').nth(1);
+    await page.keyboard.press("Tab");
+    await card.evaluate((element: HTMLElement) => element.focus({ preventScroll: true }));
+    await expect(card).toBeFocused();
+    await expect(card).toHaveAttribute("data-active", "false");
+    await expect(card.locator(".tag-row")).toBeVisible();
+  });
+
   test("carousel boundary state disables unavailable controls and preserves keyboard movement", async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 800 });
     await page.emulateMedia({ reducedMotion: "reduce" });
@@ -373,6 +385,16 @@ test.describe("UI polish contracts", () => {
     const previous = page.locator("[data-work-prev]");
     const next = page.locator("[data-work-next]");
     const row = page.locator("[data-work-row]");
+    await expect(previous).toBeEnabled();
+    await expect(next).toBeEnabled();
+    await expect(row.locator('[data-active="true"] h3')).toHaveText("CLI Tools");
+    await previous.focus();
+    expect(await row.evaluate((element) => element.scrollLeft)).toBeGreaterThan(4);
+    for (let index = 0; index < 12 && await row.evaluate((element) => element.scrollLeft) > 4; index += 1) {
+      const before = await row.evaluate((element) => element.scrollLeft);
+      await page.keyboard.press("Enter");
+      await expect.poll(() => row.evaluate((element) => element.scrollLeft)).toBeLessThan(before);
+    }
     await expect(previous).toHaveAttribute("aria-disabled", "true");
     await expect(previous).toBeDisabled();
     await previous.evaluate((element: HTMLButtonElement) => element.click());
@@ -425,13 +447,13 @@ test.describe("UI polish contracts", () => {
     await page.setViewportSize({ width: 320, height: 800 });
     await preparePage(page, "/work/skillsbar/");
     const capture = page.locator(".case-product-capture");
-    const image = capture.getByRole("img", { name: /Historical native demo fixture/ });
+    const image = capture.getByRole("img", { name: /SkillsBar nine-stage focus navigator/ });
     await image.scrollIntoViewIfNeeded();
     await expect(image).toBeVisible();
-    await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.naturalWidth)).toBe(404);
-    await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.naturalHeight)).toBe(560);
-    await expect(image).toHaveAttribute("height", "560");
-    await expect(capture.locator("figcaption")).toContainText("not proof for this candidate");
+    await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.naturalWidth)).toBe(460);
+    await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.naturalHeight)).toBe(586);
+    await expect(image).toHaveAttribute("height", "586");
+    await expect(capture.locator("figcaption")).toContainText("deterministic snapshot");
     const bounds = await image.boundingBox();
     expect(bounds!.width).toBeLessThanOrEqual(320);
     await expect(page.locator(".case-hero-art")).toHaveCount(0);
@@ -470,9 +492,9 @@ test.describe("UI polish contracts", () => {
   test("dark surfaces retain their own heading color", async ({ page }) => {
     await preparePage(page, "/demos/skillsbar/");
 
-    const colors = await page.locator("#demo-title").evaluate((heading) => {
+    const colors = await page.locator(".stage-detail h2").evaluate((heading) => {
       const reference = document.createElement("span");
-      reference.style.color = "var(--skillsbar-ink)";
+      reference.style.color = "#f5f5f7";
       document.body.append(reference);
 
       const actual = getComputedStyle(heading).color;
@@ -513,11 +535,11 @@ test.describe("UI polish contracts", () => {
       socialBackground: getComputedStyle(document.querySelector(".site-footer .footer-social-links a")!).backgroundColor
     }));
 
-    expect(technicalShell.footerBackground).toBe("rgb(11, 15, 23)");
-    expect(technicalShell.profileBackground).toBe("rgb(20, 26, 35)");
-    expect(technicalShell.socialBackground).toBe("rgb(27, 34, 48)");
+    expect(technicalShell.footerBackground).toBe(palette.canvas);
+    expect(technicalShell.profileBackground).toBe(palette.surface);
+    expect(technicalShell.socialBackground).toBe(palette.surface);
 
-    await expect(page.locator(".site-header")).toHaveCount(0);
+    await expect(page.locator(".site-header")).toBeVisible();
     await expect(page.locator(".demo-nav")).toBeVisible();
   });
 
@@ -637,24 +659,13 @@ test.describe("UI polish contracts", () => {
     }
   });
 
-  test("contact portrait preserves its square source ratio", async ({ page }) => {
+  test("legacy contact route offers email and the canonical biography", async ({ page }) => {
     await page.setViewportSize({ width: 1151, height: 964 });
     await preparePage(page, "/contact/");
 
-    const image = await page.locator(".contact-photo").evaluate((element) => {
-      const style = getComputedStyle(element);
-      const rect = element.getBoundingClientRect();
-      return {
-        width: rect.width,
-        height: rect.height,
-        objectFit: style.objectFit,
-        aspectRatio: style.aspectRatio
-      };
-    });
-
-    expect(Math.abs(image.width - image.height)).toBeLessThanOrEqual(1);
-    expect(image.objectFit).toBe("cover");
-    expect(image.aspectRatio).toBe("1 / 1");
+    await expect(page.locator(".contact-photo")).toHaveCount(0);
+    await expect(page.locator('.contact-page a[href="/now/"]')).toHaveText("About page");
+    await expect(page.locator('.contact-page a[href^="mailto:"]')).toHaveAttribute("href", "mailto:jscraik@brainwav.io");
   });
 
   test("portfolio images carry the surface outline treatment", async ({ page }) => {

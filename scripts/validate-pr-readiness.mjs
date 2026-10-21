@@ -2,9 +2,16 @@
 
 import { existsSync } from "node:fs";
 import { spawnSync } from "node:child_process";
+import { homedir } from "node:os";
+import { join } from "node:path";
 import {
   checkAncestry,
   checkDirty,
+  checkHumanApprovals,
+  currentCodexCompletion,
+  currentCodeRabbitCompletion,
+  currentBotReviews,
+  checkGlobalReviewReceipt,
   checkScope,
   checkTrackedHead,
   loadScope,
@@ -265,7 +272,8 @@ function isBot(review) {
   return review.user?.type === "Bot" || login.endsWith("[bot]") || /coderabbit|codex|chatgpt/i.test(login);
 }
 
-function checkReviews(result, repo, pr) {
+/** Evaluate current-head review artifacts and the separately configured human quorum. */
+function checkReviews(result, repo, pr, requiredApprovals) {
   const reviews = getReviews(result, repo, pr.number);
   const latestByReviewer = new Map();
   for (const review of reviews) {
@@ -277,8 +285,17 @@ function checkReviews(result, repo, pr) {
     latestByReviewer.set(reviewer, review);
   }
   const current = [...latestByReviewer.values()].filter((review) => review.state !== "DISMISSED");
-  const currentCodex = current.filter((review) => /codex|chatgpt/i.test(review.user?.login || ""));
-  const currentCodeRabbit = current.filter((review) => /coderabbit/i.test(review.user?.login || ""));
+  const currentCodex = currentBotReviews(current, pr.headRefOid, pr.url, "chatgpt-codex-connector[bot]");
+  const currentCodeRabbit = currentBotReviews(current, pr.headRefOid, pr.url, "coderabbitai[bot]");
+  const blockersBeforeComments = result.blockers.length;
+  const commentPages = currentCodex.length === 0 || currentCodeRabbit.length === 0
+    ? commandJson(result, GH, ["api", "--paginate", "--slurp", `repos/${repo}/issues/${pr.number}/comments`], "Bot completion artifacts")
+    : [];
+  if (!Array.isArray(commentPages) && result.blockers.length === blockersBeforeComments) {
+    addBlocker(result, "review_artifacts_invalid", "Bot comment inventory must be an array");
+  }
+  const completion = currentCodexCompletion(Array.isArray(commentPages) ? commentPages.flat() : [], pr.headRefOid, pr.url);
+  const rabbitCompletion = currentCodeRabbitCompletion(Array.isArray(commentPages) ? commentPages.flat() : [], pr.headRefOid, pr.url);
   const independentApprovals = current.filter(
     (review) => review.state === "APPROVED" && !isBot(review) && review.user?.login !== pr.author?.login,
   );
@@ -287,26 +304,24 @@ function checkReviews(result, repo, pr) {
     total: reviews.length,
     current_head: current.map((review) => ({ login: review.user?.login, state: review.state, commit_id: review.commit_id })),
     independent_approvals: independentApprovals.map((review) => review.user?.login),
-    current_codex: currentCodex.length,
-    current_coderabbit: currentCodeRabbit.length,
+    required_human_approvals: requiredApprovals,
+    current_codex: currentCodex.length || (completion ? 1 : 0),
+    codex_completion_artifact: completion?.html_url ?? null,
+    current_coderabbit: currentCodeRabbit.length || (rabbitCompletion ? 1 : 0),
+    coderabbit_completion_artifact: rabbitCompletion?.html_url ?? null,
   };
-  if (independentApprovals.length === 0) {
-    addBlocker(result, "independent_approval_missing", "No current-head approval exists from an independent human reviewer", {
-      head_sha: pr.headRefOid,
-      review_count: reviews.length,
-    });
-  }
-  if (currentCodex.length === 0) addBlocker(result, "codex_review_missing", "No Codex review is attached to the current PR head", { head_sha: pr.headRefOid });
-  if (currentCodeRabbit.length === 0) {
+  checkHumanApprovals(result, independentApprovals, requiredApprovals, pr.headRefOid, addBlocker);
+  if (currentCodex.length === 0 && !completion) addBlocker(result, "codex_review_missing", "No Codex review artifact is attached to the current PR head", { head_sha: pr.headRefOid });
+  if (currentCodeRabbit.length === 0 && !rabbitCompletion) {
     addBlocker(result, "coderabbit_review_missing", "No CodeRabbit review is attached to the current PR head", { head_sha: pr.headRefOid });
   }
 }
 
-function checkChecks(result, repo, pr, protectedBranch) {
+/** Compare current reported checks with the already verified hosted policy. */
+function checkChecks(result, repo, pr, protectedBranch, required) {
   const execution = run(GH, ["pr", "checks", String(pr.number), "--repo", repo, "--json", "name,bucket,state,link,workflow"]);
   const parsed = parseJson(execution.stdout, `PR #${pr.number} checks`);
   const checks = Array.isArray(parsed.value) ? parsed.value : [];
-  const required = requiredChecks(result, repo, protectedBranch, run, GH, commandJson, parseJson, addBlocker);
   result.checks = {
     source: "gh pr checks --json plus active branch protection/ruleset configuration",
     required_branch: protectedBranch,
@@ -347,6 +362,7 @@ function humanSummary(result) {
   for (const blocker of result.blockers) console.log(`- ${blocker.code}: ${blocker.message}`);
 }
 
+/** Collect local and hosted proof lanes and return a non-zero status for any blocker. */
 function main() {
   let options;
   try {
@@ -383,8 +399,12 @@ function main() {
   checkDirty(result, scope, run, GIT, addBlocker);
   if (pr && result.repo) {
     checkStackParent(result, result.repo, pr, metadata.defaultBranch);
-    checkReviews(result, result.repo, pr);
-    checkChecks(result, result.repo, pr, metadata.defaultBranch);
+    const required = requiredChecks(result, result.repo, metadata.defaultBranch, run, GH, commandJson, parseJson, addBlocker);
+    checkReviews(result, result.repo, pr, required.requiredApprovals);
+    checkChecks(result, result.repo, pr, metadata.defaultBranch, required);
+    if (options.phase === "merge") {
+      checkGlobalReviewReceipt(result, pr, run, "python3", join(homedir(), ".codex/scripts/pr-readiness.py"), addBlocker);
+    }
   }
   result.status = result.blockers.length > 0 ? "blocked" : "pass";
   if (options.json) console.log(JSON.stringify(result, null, 2));

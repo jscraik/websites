@@ -1,14 +1,14 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import StartLinks from "../components/StartLinks.astro";
-import CarouselControls from "../components/CarouselControls.astro";
+import WorkCarousel from "../components/WorkCarousel.astro";
 import BrandWord from "../components/BrandWord.astro";
 import Icon from "../components/Icon.astro";
 import AnimatedButton from "../components/AnimatedButton.astro";
 import { getCollection } from "astro:content";
 import { byOrder, featuredWorkCards, proofWorkCards } from "../lib/portfolio";
 import type { CollectionEntry } from "astro:content";
-import type { ProofEntry, WorkCard, WorkEntry } from "../lib/portfolio";
+import type { ProofEntry, WorkEntry } from "../lib/portfolio";
 import { publicProfile } from "../lib/public-profile";
 
 type BlogEntry = CollectionEntry<"blog">;
@@ -25,7 +25,6 @@ if (!featuredBlog) {
 const featuredCards = featuredWorkCards(workEntries);
 const workCards = proofWorkCards(workEntries, proofEntries);
 
-const workCount = String(workCards.length).padStart(2, "0");
 ---
 
 <BaseLayout title="Jamie Scott Craik | Software developer in transition" description={publicProfile.summary}>
@@ -49,7 +48,7 @@ const workCount = String(workCards.length).padStart(2, "0");
           </div>
         </div>
       </div>
-      <StartLinks />
+      <StartLinks latestArticleHref={featuredBlog.data.href ?? "/blog/"} />
     </div>
   </header>
 
@@ -79,23 +78,7 @@ const workCount = String(workCards.length).padStart(2, "0");
                 <div class={card.visual === "skills" ? "skillsbar-artwork" : "work-preview__image work-preview__image--" + card.visual} aria-hidden="true">
                   {card.visual === "skills" ? (
                     <div class="skillsbar-preview">
-                      <div class="skillsbar-preview__header">
-                        <img src="/products/skillsbar/icon-112.webp" alt="" width="56" height="56" loading="lazy" decoding="async" />
-                        <div>
-                          <span>SkillsBar</span>
-                          <small>Interactive evidence demo</small>
-                        </div>
-                      </div>
-                      <div class="skillsbar-preview__status">
-                        <p>Current local candidate</p>
-                        <strong>Needs candidate identity</strong>
-                        <span>1 receipt current · downstream proof held</span>
-                      </div>
-                      <div class="skillsbar-preview__track"><span></span></div>
-                      <div class="skillsbar-preview__next">
-                        <span>01</span>
-                        <div><small>Next required</small><strong>Candidate identity</strong></div>
-                      </div>
+                      <img class="featured-native-capture" src="/products/skillsbar/focus-navigator-20261020.png" alt="" width="460" height="586" loading="lazy" decoding="async" />
                     </div>
                   ) : card.visual === "terminal" ? (
                     <img class="project-outline" src={`/editorial/${card.illustration}-outline.svg`} alt="" width="1000" height="800" loading="lazy" decoding="async" />
@@ -132,109 +115,7 @@ const workCount = String(workCards.length).padStart(2, "0");
     </div>
   </section>
 
-  <section id="work" class="work-carousel section-shell" aria-labelledby="work-carousel-title" data-entry>
-    <h2 id="work-carousel-title">All work <sup>{workCount}</sup></h2>
-    <div class="work-row" aria-label="Curated proof cards" data-work-row>
-      {workCards.map((item: WorkCard, index: number) => (
-        <a class="work-mini-card" href={item.href}>
-          <p class="work-card-count">{String(index + 1).padStart(2, "0")} / {workCount}</p>
-          <div class={"work-thumbnail work-thumbnail--" + item.tone} aria-hidden="true">
-            <img class="work-card-illustration" src={`/editorial/${item.illustration}-card.svg`} alt="" width="800" height="1000" loading="lazy" decoding="async" />
-            <div class="work-thumbnail__cursor" data-work-card-cursor>
-              <div class="work-thumbnail__arrow">
-                <svg viewBox="0 0 16 16" aria-hidden="true">
-                  <path d="M0 8h14M14 8l-5-5M14 8l-5 5"></path>
-                </svg>
-              </div>
-            </div>
-          </div>
-          <div class="work-card-body">
-            <p>{item.eyebrow}</p>
-            <h3>{item.title}</h3>
-            <span>{item.summary}</span>
-            <div class="tag-row">
-              {item.tags.map((tag: string) => <span>{tag}</span>)}
-            </div>
-          </div>
-        </a>
-      ))}
-    </div>
-    <CarouselControls />
-  </section>
-
-  <script>
-    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-    document.querySelectorAll<HTMLElement>(".work-thumbnail").forEach((thumbnail) => {
-      const cursor = thumbnail.querySelector<HTMLElement>("[data-work-card-cursor]");
-      if (!cursor) return;
-
-      let frame = 0;
-      let currentX = 0;
-      let currentY = 0;
-      let targetX = 0;
-      let targetY = 0;
-
-      const render = () => {
-        frame = 0;
-
-        if (reducedMotion.matches) {
-          currentX = 0;
-          currentY = 0;
-          targetX = 0;
-          targetY = 0;
-        } else {
-          currentX += (targetX - currentX) * 0.22;
-          currentY += (targetY - currentY) * 0.22;
-        }
-
-        cursor.style.setProperty("--work-cursor-x", `${currentX.toFixed(3)}px`);
-        cursor.style.setProperty("--work-cursor-y", `${currentY.toFixed(3)}px`);
-
-        if (Math.abs(targetX - currentX) > 0.08 || Math.abs(targetY - currentY) > 0.08) {
-          frame = requestAnimationFrame(render);
-        }
-      };
-
-      const requestRender = () => {
-        if (!frame) frame = requestAnimationFrame(render);
-      };
-
-      const updateTarget = (event: PointerEvent) => {
-        if (!finePointer.matches || reducedMotion.matches) return;
-
-        const bounds = thumbnail.getBoundingClientRect();
-        const normalizedX = (event.clientX - bounds.left) / bounds.width - 0.5;
-        const normalizedY = (event.clientY - bounds.top) / bounds.height - 0.5;
-
-        targetX = normalizedX * 32;
-        targetY = normalizedY * 32;
-        requestRender();
-      };
-
-      thumbnail.addEventListener("pointerenter", (event) => {
-        if (!finePointer.matches) return;
-        thumbnail.dataset.pointerActive = "true";
-        updateTarget(event);
-      });
-
-      thumbnail.addEventListener("pointermove", updateTarget);
-
-      const resetPointer = () => {
-        delete thumbnail.dataset.pointerActive;
-        targetX = 0;
-        targetY = 0;
-        requestRender();
-      };
-
-      thumbnail.addEventListener("pointerleave", resetPointer);
-      thumbnail.addEventListener("pointercancel", resetPointer);
-      reducedMotion.addEventListener("change", () => {
-        if (reducedMotion.matches) resetPointer();
-      });
-    });
-  </script>
+  <WorkCarousel cards={workCards} />
 
   <section class="blog-preview section-shell" aria-labelledby="blog-preview-title" data-entry>
     <div class="blog-title-block">
@@ -251,15 +132,17 @@ const workCount = String(workCards.length).padStart(2, "0");
             href={draft.data.proofLink}
             aria-label={`Inspect evidence related to draft: ${draft.data.title}`}
           >
-            {draft.data.title}
+            <Icon name="pencil" /><span>{draft.data.title}</span>
           </a>
         ))}
       </div>
     </div>
     <article>
-      <a class="blog-preview__image" href={featuredBlog.data.href} aria-label={`Read ${featuredBlog.data.title}`}>
-        <img src="/editorial/when-evidence-goes-stale-v1.webp" alt="Evidence belongs to Candidate A; an interrupted connection prevents it transferring to the changed Candidate B." width="1672" height="941" loading="lazy" decoding="async" />
-      </a>
+      {featuredBlog.data.featureImage && (
+        <a class="blog-preview__image" href={featuredBlog.data.href} aria-label={`Read ${featuredBlog.data.title}`}>
+          <img src={featuredBlog.data.featureImage.src} alt={featuredBlog.data.featureImage.alt} width={featuredBlog.data.featureImage.width} height={featuredBlog.data.featureImage.height} loading="lazy" decoding="async" />
+        </a>
+      )}
       <h3>{featuredBlog.data.title}</h3>
       <p class="article-date">{featuredBlog.data.date}</p>
       <p>{featuredBlog.data.summary}</p>

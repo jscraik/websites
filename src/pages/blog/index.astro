@@ -44,6 +44,11 @@ const otherArticles = articles.filter((article) => article.id !== latestArticle.
           <p class="article-date">{latestArticle.data.date}</p>
         </div>
         <div>
+          {latestArticle.data.featureImage && (
+            <a class="blog-feature-art" href={latestArticle.data.href} aria-label={`Read ${latestArticle.data.title}`}>
+              <img src={latestArticle.data.featureImage.src} alt={latestArticle.data.featureImage.alt} width={latestArticle.data.featureImage.width} height={latestArticle.data.featureImage.height} decoding="async" />
+            </a>
+          )}
           <p>{latestArticle.data.summary}</p>
         </div>
         <div>

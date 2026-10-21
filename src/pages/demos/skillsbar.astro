@@ -1,614 +1,164 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-
-const gates = [
-  ["Candidate identity", "Canonical package digest"],
-  ["Mechanical validation", "Package verify and strict audit"],
-  ["Security review", "Candidate-bound risk modes"],
-  ["Eval preparation", "Scenarios and scorer calibration"],
-  ["Local evaluation", "Governed local eval receipt"],
-  ["Cloud evaluation", "Remote eval receipt"],
-  ["Tessl staging", "Candidate-bound staging receipt"],
-  ["Runtime proof", "Installed digest and observed behavior"],
-  ["Registry publication", "Published version and visibility"],
-];
+import { stageNames, securityNextStage, securitySummary, securityStageStates, stageSymbol } from "../../lib/skillsbar-demo-fixtures";
+const stages = [
+  "The exact source package is known and bound to its package ID, source revision and content digest, with provenance and ownership recorded.",
+  "The plugin and its skills meet the applicable structural, metadata, resource, reference and presentation requirements.",
+  "Applicable security and permission checks have acceptable evidence, with no unresolved risk blocking evaluation or release.",
+  "Scenarios, assertions, scoring criteria and scorer calibration are ready; comparison settings and budgets are frozen.",
+  "Baseline and candidate have been compared under matched local conditions, and any accepted winner is selected and frozen.",
+  "Cloud refinement has been compared against the accepted local winner under matched cloud conditions, with a recorded selection decision.",
+  "The selected release archive, required resources, presentation, recovery plan and registry preparation are verified, including the final scoped security check.",
+  "The authorised, exact checked version has been published to the selected registry and verified by readback.",
+  "That version has been installed and its discovery, activation and behaviour verified, with rollback evidence where applicable.",
+].map((description, index) => [stageNames[index], description]);
 ---
-
-<BaseLayout
-  title="SkillsBar | Interactive evidence demo"
-  description="An interactive SkillsBar demo showing how candidate-bound evidence keeps AI skills honest before release."
-  bodyClass="skillsbar-demo"
->
-    <header class="demo-nav">
-      <a class="demo-brand" href="#demo" aria-label="SkillsBar demo home">
-        <img src="/products/skillsbar/icon-112.webp" alt="" width="32" height="32" />
-        <span>SkillsBar</span>
-      </a>
-      <p><span aria-hidden="true"></span> OpenAI Hackathon · Interactive prototype</p>
-    </header>
-
-    <div id="demo">
-      <section class="demo-intro" aria-labelledby="demo-title">
-        <p class="demo-kicker">SKILLSBAR · BY br<span>AI</span>nwav</p>
-        <h1 id="demo-title">When evidence goes stale.</h1>
-        <p class="demo-lede">
-          A changed Skill candidate should not inherit proof that no longer belongs to it. SkillsBar
-          shows what a maintainer can safely conclude, and the exact evidence to inspect next.
-        </p>
-        <div class="scenario-control" aria-label="Choose a release scenario">
-          <button class="scenario is-active" type="button" data-scenario="candidate" aria-pressed="true">
-            Candidate held
-          </button>
-          <button class="scenario" type="button" data-scenario="security" aria-pressed="false">
-            Security flagged
-          </button>
-          <button class="scenario" type="button" data-scenario="ready" aria-pressed="false">
-            Evidence current
-          </button>
-        </div>
-        <p id="scenario-status" class="u-visually-hidden" role="status" aria-live="polite"></p>
-        <noscript>
-          <section class="scenario-fallback" aria-labelledby="scenario-fallback-title">
-            <h2 id="scenario-fallback-title">All release scenarios</h2>
-            <p>Interactive switching needs JavaScript. The complete decision summary remains available below.</p>
-            <dl>
-              <div>
-                <dt>Candidate held · 11/100</dt>
-                <dd>Build the canonical non-mutating package receipt before downstream proof can proceed.</dd>
-              </div>
-              <div>
-                <dt>Security flagged · 24/100</dt>
-                <dd>Resolve the candidate-bound risk-mode finding before delivery evidence can proceed.</dd>
-              </div>
-              <div>
-                <dt>Evidence current · 100/100</dt>
-                <dd>Inspect the bound publication receipt before any promotion decision.</dd>
-              </div>
-            </dl>
-          </section>
-        </noscript>
-      </section>
-
-      <section class="product-shell" aria-label="Interactive SkillsBar cockpit">
-        <aside class="context-rail">
-          <div>
-            <p class="rail-label">SELECTED SKILL</p>
-            <div class="skill-identity">
-              <img src="/products/skillsbar/icon-112.webp" alt="" width="44" height="44" />
-              <div>
-                <strong>improve-agent-native</strong>
-                <span>Skills/agent-ops</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="identity-block">
-            <p class="rail-label">CANDIDATE IDENTITY</p>
-            <dl>
-              <div><dt>Version</dt><dd>0.4.2</dd></div>
-              <div><dt>Digest</dt><dd class="mono">8e97…af31</dd></div>
-              <div><dt>Source</dt><dd>Local</dd></div>
-            </dl>
-          </div>
-
-          <div class="boundary-note">
-            <span aria-hidden="true">i</span>
-            <p>Registry visibility never promotes a local gate. Every proof lane stays independent.</p>
-          </div>
-        </aside>
-
-        <section class="pipeline-panel" aria-labelledby="pipeline-title">
-          <div class="panel-heading">
-            <div>
-              <p class="demo-kicker">CURRENT LOCAL CANDIDATE</p>
-              <h2 id="pipeline-title">Needs candidate identity</h2>
-              <p id="pipeline-summary">1 receipt current · downstream proof held</p>
-            </div>
-            <div class="readiness" aria-label="11 out of 100 pipeline readiness">
-              <strong id="readiness-score">11</strong><span>/100</span>
-              <small>pipeline readiness</small>
-            </div>
-          </div>
-
-          <div class="readiness-track" aria-hidden="true"><span id="readiness-fill"></span></div>
-
-          <article class="next-action" id="next-action">
-            <div class="action-index" id="action-index">01</div>
-            <div class="action-copy">
-              <p>NEXT REQUIRED</p>
-              <h3 id="action-title">Candidate identity</h3>
-              <span id="action-detail">Build the canonical non-mutating package receipt.</span>
-            </div>
-            <button id="copy-command" class="command-button" type="button">Copy command</button>
-          </article>
-
-          <ol class="gate-list" id="gate-list" aria-label="Nine evidence gates">
-            {gates.map(([name, detail], index) => (
-              <li class:list={["gate", index === 0 ? "active" : "pending"]}>
-                <span class="gate-marker">{String(index + 1).padStart(2, "0")}</span>
-                <span class="gate-copy"><strong>{name}</strong><span>{detail}</span></span>
-                <span class="gate-state">{index === 0 ? "Required" : "Held"}</span>
-              </li>
-            ))}
-          </ol>
-        </section>
-
-        <aside class="evidence-panel">
-          <div class="evidence-heading">
-            <div>
-              <p class="demo-kicker">EXTERNAL EVIDENCE</p>
-              <h2>Tessl registry</h2>
-            </div>
-            <span class="status-pill">Observed</span>
-          </div>
-
-          <div class="registry-score">
-            <div class="score-ring"><strong>66</strong><span>/100</span></div>
-            <div><strong>Registry score</strong><span>Historical external baseline</span></div>
-          </div>
-
-          <dl class="metrics">
-            <div><dt>Quality</dt><dd>72</dd></div>
-            <div><dt>Impact</dt><dd>68</dd></div>
-            <div><dt>Security</dt><dd class="good">Passed</dd></div>
-            <div><dt>Visibility</dt><dd>Private</dd></div>
-          </dl>
-
-          <div class="proof-warning">
-            <strong>Observation, not proof</strong>
-            <p>This registry result is not bound to the current local digest.</p>
-          </div>
-
-          <div class="event-log">
-            <p class="rail-label">EVIDENCE LOG</p>
-            <div><time id="event-time">10:42:16</time><span id="event-entry">Local candidate selected</span></div>
-          </div>
-        </aside>
-      </section>
-
-      <section class="judge-story" aria-labelledby="codex-story-title">
-        <div class="judge-heading">
-          <p class="demo-kicker">WHY CODEX MATTERS</p>
-          <h2 id="codex-story-title">From repository evidence to a release decision.</h2>
-        </div>
-        <ol>
-          <li><span>01</span><strong>Collect</strong><p>Codex runs the Skills SDK’s read-only checks and preserves structured receipts.</p></li>
-          <li><span>02</span><strong>Bind</strong><p>Every downstream result must match one canonical package digest and scenario set.</p></li>
-          <li><span>03</span><strong>Challenge</strong><p>Security, eval, and runtime evidence remain independent instead of becoming one vague green tick.</p></li>
-          <li><span>04</span><strong>Act</strong><p>SkillsBar exposes the next exact command, so an operator can fix the weakest gate first.</p></li>
-        </ol>
-      </section>
-
-      <section class="role-boundary" aria-labelledby="role-boundary-title">
-        <div>
-          <p class="demo-kicker">HUMAN-OWNED DELIVERY</p>
-          <h2 id="role-boundary-title">Built with Codex. Directed and verified by Jamie.</h2>
-        </div>
-        <dl>
-          <div>
-            <dt>Jamie</dt>
-            <dd>Framed the stale-evidence problem, set the product direction, made taste decisions, and owns every public claim.</dd>
-          </div>
-          <div>
-            <dt>Codex</dt>
-            <dd>Implemented bounded changes, ran repository checks, preserved structured evidence, and supported inspection.</dd>
-          </div>
-        </dl>
-      </section>
-
-      <section class="closing-statement">
-        <p>THE IDEA</p>
-        <h2>Release confidence should be inspectable, not inferred.</h2>
-        <span>Safe mock data · No credentials · No production endpoints</span>
-      </section>
+<BaseLayout title="SkillsBar | Interactive demo" description="Explore SkillsBar’s current nine-stage inspector with labelled example data." bodyClass="skillsbar-demo-page">
+  <header class="demo-nav section-shell"><a href="/work/skillsbar/">← SkillsBar case study</a><span>Interactive example</span></header>
+  <section class="demo-intro section-shell" aria-labelledby="demo-title">
+    <p class="demo-kicker">SkillsBar · Interactive demo</p>
+    <h1 id="demo-title">See what needs attention next.</h1>
+    <p>Select a stage to inspect its evidence without changing the next required check.</p>
+    <p class="demo-boundary">Example data · No commands are executed</p>
+    <details class="fixture-note"><summary>About this example data</summary><p>This browser demo uses fixed example data. It does not read your skills, run SDK commands or contact Tessl. All security findings are synthetic. The nine stages describe the intended lifecycle; several still need implementation or live integration proof.</p></details>
+    <noscript><section class="scenario-fallback"><h2>Example states</h2><dl><dt>Security review required</dt><dd>Identity and Validation passed; Security needs review and six stages await proof.</dd><dt>Identity missing</dt><dd>The source package is not identified; later stages await proof.</dd><dt>Installed copy found</dt><dd>Files exist on disk, but checked source and completed lifecycle evidence remain unproven.</dd></dl><p>JavaScript enables stage selection and command copying. Stage definitions remain available below.</p></section></noscript>
+  </section>
+  <section class="demo-layout section-shell" aria-label="Interactive SkillsBar inspector">
+    <div class="focus-inspector">
+      <header class="inspector-header"><img src="/products/skillsbar/icon-112.webp" width="48" height="48" alt="" /><div><p class="app-label">SKILLS SDK</p><strong>improve-agent-native</strong><p><span class="local-tag" id="origin">Local</span> <span class="attention" id="header-status">Needs attention</span></p></div></header>
+      <fieldset class="scenario-control"><legend>Demo scenario</legend><button type="button" class="scenario" data-scenario="security" aria-pressed="true">Security review required</button><button type="button" class="scenario" data-scenario="identity" aria-pressed="false">Identity missing</button><button type="button" class="scenario" data-scenario="installed" aria-pressed="false">Installed copy found</button></fieldset>
+      <div class="stage-grid" role="group" aria-label="Nine evidence gates">{stages.map(([name], index) => <button type="button" class="stage" aria-pressed={index === securityNextStage ? "true" : "false"} data-status={securityStageStates[index]} data-next={String(index === securityNextStage)} aria-label={`Gate ${index + 1}: ${name}, ${securityStageStates[index]}${index === securityNextStage ? ", next required" : ""}`}><span>{String(index + 1).padStart(2, "0")}</span><span class="stage-symbol" aria-hidden="true">{stageSymbol(securityStageStates[index])}</span><strong>{name}</strong><small class="stage-state">{securityStageStates[index]}</small></button>)}</div>
+      <p id="pipeline-summary" class="stage-summary">{securitySummary}</p>
+      <section class="stage-detail" aria-labelledby="action-title"><div class="gate-context"><span id="gate-index">Gate {String(securityNextStage + 1).padStart(2, "0")} / 09</span><span id="next-required">Next required</span></div><h2 id="action-title">{stageNames[securityNextStage]}</h2><p id="detail-status" data-status="Review required" data-next="true">Review required · 1 critical · 2 high (synthetic)</p><p id="action-detail">Full security receipt missing or malformed. Inspect findings before continuing.</p><div id="command-actions" hidden><details id="command-disclosure"><summary>Show command</summary><pre><code id="command-text">./bin/ask sdk start Skills/agent-ops/improve-agent-native --json --robot</code></pre></details><button id="copy-command" type="button">Copy command</button></div><p id="command-unavailable">Visual reference · no executable command</p><p id="copy-status" role="status" aria-live="polite"></p></section>
+      <details class="registry-details"><summary>Tessl Registry <span id="registry-state">Unavailable</span></summary><p id="registry-description">No cached registry evidence in this fixture.</p><p>Registry evidence stays separate from local checks. A registry score cannot pass a local gate.</p></details>
+      <button id="refresh-demo" class="refresh-button" type="button">↻ Refresh example</button><p id="scenario-status" class="u-visually-hidden" role="status" aria-live="polite"></p>
     </div>
-
-    <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-    <script>
-      const gates = [
-        ["Candidate identity", "Canonical package digest"],
-        ["Mechanical validation", "Package verify and strict audit"],
-        ["Security review", "Candidate-bound risk modes"],
-        ["Eval preparation", "Scenarios and scorer calibration"],
-        ["Local evaluation", "Governed local eval receipt"],
-        ["Cloud evaluation", "Remote eval receipt"],
-        ["Tessl staging", "Candidate-bound staging receipt"],
-        ["Runtime proof", "Installed digest and observed behavior"],
-        ["Registry publication", "Published version and visibility"],
-      ];
-
-      const scenarios = {
-        candidate: {
-          title: "Needs candidate identity",
-          summary: "1 receipt current · downstream proof held",
-          score: 11,
-          action: 0,
-          detail: "Build the canonical non-mutating package receipt.",
-          command: "./bin/ask sdk package build Skills/agent-ops/improve-agent-native/SKILL.md --json --robot",
-          event: "Local candidate selected",
-          states: ["active", "pending", "pending", "pending", "pending", "pending", "pending", "pending", "pending"],
-        },
-        security: {
-          title: "Security review is flagged",
-          summary: "2 receipts current · delivery evidence held",
-          score: 24,
-          action: 2,
-          detail: "Resolve the candidate-bound risk-mode finding.",
-          command: "./bin/ask sdk security risk-modes Skills/agent-ops/improve-agent-native/SKILL.md --preview --json --robot",
-          event: "Critical-negative fixture detected",
-          states: ["passed", "passed", "flagged", "pending", "pending", "pending", "pending", "pending", "pending"],
-        },
-        ready: {
-          title: "Evidence chain is current",
-          summary: "9 receipts current · release evidence available",
-          score: 100,
-          action: 8,
-          detail: "Inspect the bound publication receipt before promotion.",
-          command: "./bin/ask sdk release inspect Skills/agent-ops/improve-agent-native/SKILL.md --json --robot",
-          event: "All nine candidate-bound receipts reconciled",
-          states: ["passed", "passed", "passed", "passed", "passed", "passed", "passed", "passed", "passed"],
-        },
-      };
-
-      const gateList = document.querySelector("#gate-list");
-      const pipelineTitle = document.querySelector("#pipeline-title");
-      const pipelineSummary = document.querySelector("#pipeline-summary");
-      const readiness = document.querySelector(".readiness");
-      const score = document.querySelector("#readiness-score");
-      const fill = document.querySelector("#readiness-fill");
-      const actionIndex = document.querySelector("#action-index");
-      const actionTitle = document.querySelector("#action-title");
-      const actionDetail = document.querySelector("#action-detail");
-      const nextAction = document.querySelector("#next-action");
-      const eventEntry = document.querySelector("#event-entry");
-      const eventTime = document.querySelector("#event-time");
-      const copyButton = document.querySelector("#copy-command");
-      const toast = document.querySelector("#toast");
-      const scenarioStatus = document.querySelector("#scenario-status");
-      let activeScenario = scenarios.candidate;
-      let toastTimer: number | undefined;
-
-      const renderGates = (states: string[]) => {
-        if (!(gateList instanceof HTMLOListElement)) return;
-        gateList.querySelectorAll(".gate").forEach((row, index) => {
-          const state = states[index];
-          row.className = `gate ${state}`;
-          const marker = row.querySelector(".gate-marker");
-          const status = row.querySelector(".gate-state");
-          if (marker) marker.textContent = state === "passed" ? "✓" : String(index + 1).padStart(2, "0");
-          if (status) status.textContent = state === "active" ? "Required" : state === "flagged" ? "Flagged" : state === "passed" ? "Current" : "Held";
-        });
-      };
-
-      const selectScenario = (key: keyof typeof scenarios) => {
-        activeScenario = scenarios[key];
-        document.querySelectorAll(".scenario").forEach((button) => {
-          if (!(button instanceof HTMLButtonElement)) return;
-          const selected = button.dataset.scenario === key;
-          button.classList.toggle("is-active", selected);
-          button.setAttribute("aria-pressed", String(selected));
-        });
-        if (pipelineTitle) pipelineTitle.textContent = activeScenario.title;
-        if (pipelineSummary) pipelineSummary.textContent = activeScenario.summary;
-        if (score) score.textContent = String(activeScenario.score);
-        if (readiness) readiness.setAttribute("aria-label", `${activeScenario.score} out of 100 pipeline readiness`);
-        if (fill instanceof HTMLElement) {
-          fill.style.scale = `${activeScenario.score / 100} 1`;
-          fill.dataset.tone = key;
-        }
-        if (actionIndex) actionIndex.textContent = String(activeScenario.action + 1).padStart(2, "0");
-        if (actionTitle) actionTitle.textContent = gates[activeScenario.action][0];
-        if (actionDetail) actionDetail.textContent = activeScenario.detail;
-        if (nextAction instanceof HTMLElement) nextAction.dataset.tone = key;
-        if (eventEntry) eventEntry.textContent = activeScenario.event;
-        if (eventTime) eventTime.textContent = new Date().toLocaleTimeString([], { hour12: false });
-        renderGates(activeScenario.states);
-        if (scenarioStatus) scenarioStatus.textContent = `${activeScenario.title}. ${activeScenario.score} out of 100 pipeline readiness. ${activeScenario.detail}`;
-      };
-
-      document.querySelectorAll(".scenario").forEach((button) => {
-        button.addEventListener("click", () => {
-          if (button instanceof HTMLButtonElement && button.dataset.scenario) {
-            selectScenario(button.dataset.scenario as keyof typeof scenarios);
-          }
-        });
+    <aside class="demo-reading"><p class="demo-kicker">EXPLORE THE INSPECTOR</p><h2>Keep the next check in view.</h2><dl><div><dt>Select any stage</dt><dd>Amber marks the next required stage. Blue marks another stage you’re inspecting. Selection never advances a gate.</dd></div><div><dt>Use the keyboard</dt><dd>Focus a stage and use the arrow keys. Home and End move to the first and last stages.</dd></div><div><dt>Inspect before copying</dt><dd>Choose Identity missing and expand Show command. Copy command only copies the text.</dd></div><div><dt>Refresh the same example</dt><dd>Your selection stays in place. Changing the scenario returns to its next required stage.</dd></div></dl><p>The native app also offers a skill chooser in its ellipsis menu. This focused demo does not simulate filesystem access.</p><a href="/work/skillsbar/">Read the SkillsBar case study ↗</a></aside>
+  </section>
+  <section class="lifecycle section-shell" aria-labelledby="lifecycle-title"><h2 id="lifecycle-title">What each gate should prove</h2><p>These are target evidence requirements, not a claim that every route is executable end to end.</p><ol>{stages.map(([name, description]) => <li><h3>{name}</h3><p>{description}</p></li>)}</ol><p>Security remains active throughout, including a final scoped check at Staging. A changed candidate invalidates affected evidence and dependent stages; independently valid upstream evidence can remain. Publication and Runtime require readback and behaviour evidence from the registry and host adapters.</p></section>
+  <script>
+    import { stageNames, securityNextStage, securitySummary, securityStageStates, stageSymbol } from "../../lib/skillsbar-demo-fixtures";
+    const command = "./bin/ask sdk start Skills/agent-ops/improve-agent-native --json --robot";
+    const scenarios = {
+      security: { next: securityNextStage, summary: securitySummary, states: securityStageStates },
+      identity: { next: 0, summary: "1 needs review · 8 awaiting proof", states: ["Review required", "Held", "Held", "Held", "Unproven", "Unproven", "Unproven", "Unproven", "Unproven"] },
+      installed: { next: 0, summary: "Installed copy found · 9 stages unproven", states: Array<string>(9).fill("Unproven") },
+    };
+    let scenario: keyof typeof scenarios = "security";
+    let selected = securityNextStage;
+    const buttons = [...document.querySelectorAll<HTMLButtonElement>(".stage")];
+    const text = (id: string, value: string) => { const element = document.getElementById(id); if (element) element.textContent = value; };
+    const render = () => {
+      const data = scenarios[scenario];
+      buttons.forEach((button, index) => {
+        const state = data.states[index];
+        button.setAttribute("aria-pressed", String(index === selected));
+        button.setAttribute("aria-label", `Gate ${index + 1}: ${stageNames[index]}, ${state}${index === data.next ? ", next required" : ""}`);
+        button.dataset.next = String(index === data.next);
+        button.dataset.status = state;
+        const symbol = button.querySelector(".stage-symbol"); const label = button.querySelector(".stage-state");
+        if (symbol) symbol.textContent = stageSymbol(state);
+        if (label) label.textContent = state;
       });
-
-      const scheduleToastHide = () => {
-        window.clearTimeout(toastTimer);
-        if (toast?.classList.contains("is-visible") && !document.hidden) {
-          toastTimer = window.setTimeout(() => toast.classList.remove("is-visible"), 4000);
-        }
-      };
-
-      document.addEventListener("visibilitychange", scheduleToastHide);
-      window.addEventListener("pagehide", () => window.clearTimeout(toastTimer));
-
-      copyButton?.addEventListener("click", async () => {
-        try {
-          await navigator.clipboard.writeText(activeScenario.command);
-          if (toast) toast.textContent = "Command copied";
-        } catch {
-          if (toast) toast.textContent = "Clipboard unavailable";
-        }
-        toast?.classList.add("is-visible");
-        scheduleToastHide();
+      document.querySelectorAll<HTMLButtonElement>(".scenario").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.scenario === scenario)));
+      text("origin", scenario === "installed" ? "Installed" : "Local");
+      text("header-status", scenario === "installed" ? "Unproven" : "Needs attention");
+      text("pipeline-summary", data.summary); text("gate-index", `Gate ${String(selected + 1).padStart(2, "0")} / 09`);
+      text("next-required", selected === data.next ? "Next required" : `Next required: ${stageNames[data.next]}`); text("action-title", stageNames[selected]);
+      text("detail-status", scenario === "security" && selected === securityNextStage ? "Review required · 1 critical · 2 high (synthetic)" : data.states[selected]);
+      text("action-detail", scenario === "installed" ? "Finding files does not establish checked source, registry version or completed lifecycle evidence. This installed copy has no checked-source link." : scenario === "identity" ? "The canonical package digest is missing. Later evidence cannot count until the source package is identified." : selected < securityNextStage ? "The example receipt matches the current package digest." : selected === securityNextStage ? "Full security receipt missing or malformed. Inspect findings before continuing." : "This stage awaits its own current package evidence. Security remains the next required check.");
+      const detail = document.getElementById("detail-status");
+      if (detail) { detail.dataset.status = data.states[selected]; detail.dataset.next = String(selected === data.next); }
+      const canCopy = scenario === "identity" && selected === 0;
+      const actions = document.getElementById("command-actions"); const unavailable = document.getElementById("command-unavailable");
+      if (actions) actions.hidden = !canCopy; if (unavailable) unavailable.hidden = canCopy;
+      text("command-unavailable", scenario === "security" ? "Visual reference · no executable command" : "No command available for this stage");
+      text("registry-state", scenario === "identity" ? "Example baseline" : scenario === "installed" ? "Not Linked" : "Unavailable");
+      text("registry-description", scenario === "identity" ? "Synthetic historical example: score 66, 1.28× lift. Observation time unavailable. This is not a live registry result." : scenario === "installed" ? "No registry identity is assumed for an installed copy." : "No cached registry evidence in this fixture.");
+      text("scenario-status", `${data.summary}. Inspecting ${stageNames[selected]}. Next required: ${stageNames[data.next]}.`);
+    };
+    const select = (index: number) => { selected = index; const disclosure = document.getElementById("command-disclosure"); if (disclosure instanceof HTMLDetailsElement) disclosure.open = false; text("copy-status", ""); render(); };
+    buttons.forEach((button, index) => {
+      button.addEventListener("click", () => select(index));
+      button.addEventListener("keydown", event => {
+        const offsets: Record<string, number> = { ArrowRight: 1, ArrowLeft: -1, ArrowDown: 3, ArrowUp: -3 }; const offset = offsets[event.key];
+        if (event.key !== "Home" && event.key !== "End" && offset === undefined) return;
+        event.preventDefault(); const next = event.key === "Home" ? 0 : event.key === "End" ? 8 : Math.max(0, Math.min(8, index + offset)); select(next); buttons[next].focus();
       });
-    </script>
+    });
+    document.querySelectorAll<HTMLButtonElement>(".scenario").forEach(button => button.addEventListener("click", () => { const key = button.dataset.scenario; if (key !== "security" && key !== "identity" && key !== "installed") return; scenario = key; select(scenarios[scenario].next); }));
+    document.getElementById("copy-command")?.addEventListener("click", async () => { try { await navigator.clipboard.writeText(command); text("copy-status", "Command copied. Nothing has been run."); } catch { const disclosure = document.getElementById("command-disclosure"); if (disclosure instanceof HTMLDetailsElement) disclosure.open = true; text("copy-status", "Clipboard unavailable. Select the command text and copy it manually."); } });
+    document.getElementById("refresh-demo")?.addEventListener("click", () => { render(); text("copy-status", "Example refreshed. Selection and evidence are unchanged."); });
+    render();
+  </script>
 </BaseLayout>
 
 <style>
-  :global(:root) {
-    --skillsbar-canvas: var(--bds-color-brainwav-bg);
-    --skillsbar-surface: var(--bds-color-brainwav-surface);
-    --skillsbar-surface-2: var(--bds-color-brainwav-surface-elevated);
-    --skillsbar-line: rgba(248, 248, 246, .14);
-    --skillsbar-ink: var(--bds-color-brainwav-text);
-    --skillsbar-muted: var(--bds-color-brainwav-text-secondary);
-    --skillsbar-quiet: var(--bds-color-brainwav-muted);
-    --skillsbar-blue: var(--bds-color-blue);
-    --skillsbar-orange: var(--bds-color-orange);
-    --skillsbar-green: var(--bds-color-success);
-    --skillsbar-amber: var(--bds-color-warning);
-    --skillsbar-red: var(--bds-color-error);
-  }
-
-  :global(html) { background: var(--skillsbar-canvas); }
-  :global(body.skillsbar-demo .site-header) { display: none; }
-  :global(body.skillsbar-demo) {
-    margin: 0;
-    min-width: 320px;
-    background: var(--skillsbar-canvas);
-    color: var(--skillsbar-ink);
-    font-family: var(--body-sans);
-    letter-spacing: 0;
-  }
-  :global(body.skillsbar-demo .site-footer) {
-    border-top: 1px solid var(--skillsbar-line);
-    background: var(--skillsbar-canvas);
-    color: var(--skillsbar-muted);
-  }
-  :global(body.skillsbar-demo .site-footer .footer-profile-card) {
-    border: 0;
-    background: var(--skillsbar-surface);
-    color: var(--skillsbar-ink);
-    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.09);
-  }
-  :global(body.skillsbar-demo .site-footer .footer-profile-card .input-label),
-  :global(body.skillsbar-demo .site-footer .footer-links a),
-  :global(body.skillsbar-demo .site-footer .footer-social-links a) {
-    color: var(--skillsbar-muted);
-  }
-  :global(body.skillsbar-demo .site-footer .footer-social-links a) {
-    border-color: var(--skillsbar-line);
-    background: var(--skillsbar-surface-2);
-  }
-  :global(.skillsbar-demo *) { box-sizing: border-box; }
-  :global(.skillsbar-demo button) { color: inherit; font: inherit; }
-
-  .scenario-fallback {
-    width: min(100%, 760px);
-    margin: var(--space-6) auto 0;
-    padding: var(--space-5);
-    border: 1px solid var(--skillsbar-line);
-    border-radius: var(--bds-radius-card);
-    background: var(--skillsbar-surface);
-  }
-
-  .scenario-fallback h2,
-  .scenario-fallback p,
-  .scenario-fallback dl,
-  .scenario-fallback dd {
-    margin: 0;
-  }
-
-  .scenario-fallback h2 {
-    font-size: var(--bds-type-heading-sm-size);
-  }
-
-  .scenario-fallback p,
-  .scenario-fallback dd {
-    color: var(--skillsbar-muted);
-  }
-
-  .scenario-fallback p {
-    margin-top: var(--space-2);
-  }
-
-  .scenario-fallback dl {
-    display: grid;
-    gap: var(--space-4);
-    margin-top: var(--space-5);
-  }
-
-  .scenario-fallback div {
-    display: grid;
-    gap: var(--space-1);
-  }
-
-  .scenario-fallback dt {
-    font-weight: 700;
-  }
-
-  .demo-nav {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 64px;
-    padding: 0 clamp(1.25rem, 4vw, 4rem);
-    border-bottom: 1px solid var(--skillsbar-line);
-    background: rgba(16, 18, 17, 0.94);
-    backdrop-filter: blur(16px);
-  }
-  .demo-brand { display: flex; align-items: center; min-height: 2.75rem; gap: .625rem; color: var(--skillsbar-ink); text-decoration: none; font-weight: 650; }
-  .demo-brand img { border-radius: .4375rem; }
-  .demo-nav p { display: flex; align-items: center; gap: .5rem; margin: 0; color: var(--skillsbar-muted); font-size: .75rem; }
-  .demo-nav p span { width: .4375rem; height: .4375rem; border-radius: 50%; background: var(--skillsbar-blue); box-shadow: 0 0 0 .25rem rgba(45, 168, 255, .18); }
-
-  :global(main) { width: min(90rem, 100%); margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 4rem) 4rem; }
-  .demo-intro { max-width: 59rem; padding: clamp(3rem, 7vw, 5.25rem) 0 2.25rem; }
-  .demo-kicker, .rail-label { margin: 0 0 .625rem; color: var(--skillsbar-muted); font-family: var(--body-mono); font-size: .6875rem; font-weight: 700; line-height: 1.4; }
-  .demo-kicker span { color: var(--skillsbar-orange); }
-  h1 { max-width: 52rem; margin: 0; color: var(--skillsbar-ink); font-family: var(--body-serif); font-size: clamp(2.75rem, 6.2vw, 5.5rem); font-weight: 300; line-height: .95; }
-  .demo-lede { max-width: 49rem; margin: 1.5rem 0 1.75rem; color: #c5c7c2; font-size: clamp(1rem, 2vw, 1.25rem); line-height: 1.55; }
-  .scenario-control { display: inline-flex; padding: .1875rem; border: 1px solid var(--skillsbar-line); border-radius: .4375rem; background: #0c0e0d; }
-  .scenario { min-height: 2.75rem; padding: 0 .875rem; border: 0; border-radius: .3125rem; background: transparent; color: var(--skillsbar-muted); cursor: pointer; }
-  @media (hover: hover) and (pointer: fine) {
-    .scenario:hover { color: var(--skillsbar-ink); }
-  }
-  .scenario:focus-visible { color: var(--skillsbar-ink); outline: 2px solid var(--focus-ring-inverse); outline-offset: 2px; }
-  .scenario.is-active { color: var(--skillsbar-ink); background: var(--skillsbar-surface-2); box-shadow: inset 0 0 0 1px #3a403a; }
-
-  .product-shell {
-    display: grid;
-    grid-template-columns: minmax(11.875rem, .7fr) minmax(30rem, 1.8fr) minmax(15rem, .85fr);
-    min-height: 40.625rem;
-    overflow: hidden;
-    border: 1px solid var(--skillsbar-line);
-    border-radius: .5rem;
-    background: var(--skillsbar-surface);
-    box-shadow: 0 1.875rem 5rem rgba(0, 0, 0, .28);
-  }
-  .context-rail, .evidence-panel { padding: 1.5rem; background: #131614; }
-  .context-rail { display: flex; flex-direction: column; gap: 1.875rem; border-right: 1px solid var(--skillsbar-line); }
-  .evidence-panel { border-left: 1px solid var(--skillsbar-line); }
-  .skill-identity { display: flex; align-items: center; gap: .75rem; }
-  .skill-identity img { border-radius: .5rem; }
-  .skill-identity strong, .skill-identity span { display: block; }
-  .skill-identity strong { overflow-wrap: anywhere; font-size: .8125rem; }
-  .skill-identity span { margin-top: .25rem; color: var(--skillsbar-muted); font-size: .6875rem; }
-  .identity-block { padding-top: 1.375rem; border-top: 1px solid var(--skillsbar-line); }
-  dl { margin: 0; }
-  .identity-block dl { display: grid; gap: .75rem; }
-  .identity-block dl div, .metrics div { display: flex; justify-content: space-between; gap: .75rem; }
-  dt { color: var(--skillsbar-muted); font-size: .6875rem; }
-  dd { margin: 0; color: var(--skillsbar-ink); font-size: .6875rem; }
-  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
-  .boundary-note { display: flex; gap: .625rem; margin-top: auto; padding-top: 1.25rem; border-top: 1px solid var(--skillsbar-line); color: var(--skillsbar-muted); }
-  .boundary-note > span { display: grid; flex: 0 0 1.25rem; place-items: center; width: 1.25rem; height: 1.25rem; border: 1px solid var(--skillsbar-quiet); border-radius: 50%; font-size: .6875rem; }
-  .boundary-note p { margin: .0625rem 0 0; font-size: .6875rem; line-height: 1.5; }
-
-  .pipeline-panel { padding: 1.75rem 1.875rem; background: var(--skillsbar-surface); }
-  .panel-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 1.5rem; }
-  .panel-heading h2, .evidence-heading h2 { margin: 0; color: var(--skillsbar-ink); font-size: 1.5rem; font-weight: 600; line-height: 1.2; }
-  .panel-heading > div > p:last-child { margin: .4375rem 0 0; color: var(--skillsbar-muted); font-size: .75rem; }
-  .readiness { display: grid; grid-template-columns: auto auto; align-items: baseline; text-align: right; }
-  .readiness strong { color: var(--skillsbar-orange); font-size: 1.875rem; font-weight: 620; font-variant-numeric: tabular-nums; }
-  .readiness > span { color: var(--skillsbar-muted); font-size: .75rem; }
-  .readiness small { grid-column: 1 / -1; color: var(--skillsbar-muted); font-size: .625rem; }
-  .readiness-track { height: .3125rem; margin: 1.375rem 0 1.5rem; overflow: hidden; border-radius: .1875rem; background: #292d29; }
-  .readiness-track span { display: block; width: 100%; height: 100%; scale: .11 1; transform-origin: left; background: var(--skillsbar-orange); transition: scale 350ms var(--bds-ease-out), background-color 200ms ease; }
-  .readiness-track span[data-tone="security"] { background: var(--skillsbar-red); }
-  .readiness-track span[data-tone="ready"] { background: var(--skillsbar-green); }
-  .next-action { display: grid; grid-template-columns: 2.5rem 1fr auto; align-items: center; gap: .75rem; padding: .8125rem; border: 1px solid var(--skillsbar-orange); border-radius: .5rem; background: rgba(255, 122, 0, .04); }
-  .next-action[data-tone="security"] { border-color: var(--skillsbar-red); }
-  .next-action[data-tone="ready"] { border-color: var(--skillsbar-green); }
-  .action-index { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border: 1px solid currentColor; border-radius: 50%; color: var(--skillsbar-orange); font: 650 .6875rem var(--body-mono); }
-  .next-action[data-tone="security"] .action-index { color: var(--skillsbar-red); }
-  .next-action[data-tone="ready"] .action-index { color: var(--skillsbar-green); }
-  .action-copy p { margin: 0 0 .1875rem; color: var(--skillsbar-muted); font-size: .5625rem; }
-  .action-copy h3 { margin: 0 0 .25rem; color: var(--skillsbar-ink); font-size: .8125rem; }
-  .action-copy span { color: var(--skillsbar-muted); font-size: .6875rem; }
-  .command-button { min-height: 2.75rem; padding: 0 .6875rem; border: 1px solid var(--skillsbar-line); border-radius: .3125rem; background: var(--skillsbar-surface-2); font-size: .625rem; text-transform: uppercase; cursor: pointer; }
-  @media (hover: hover) and (pointer: fine) {
-    .command-button:hover { border-color: var(--skillsbar-blue); }
-  }
-  .command-button:focus-visible { border-color: var(--skillsbar-blue); outline: 2px solid var(--focus-ring-inverse); outline-offset: 2px; }
-  .gate-list { margin: 0; padding: 1rem 0 0; list-style: none; }
-  .gate { position: relative; display: grid; grid-template-columns: 2.5rem 1fr auto; align-items: center; gap: .75rem; min-height: 3rem; border-bottom: 1px solid #292d29; }
-  .gate:last-child { border-bottom: 0; }
-  .gate-marker { z-index: 1; display: grid; place-items: center; width: 1.375rem; height: 1.375rem; margin-left: .5rem; border: 1px solid var(--skillsbar-quiet); border-radius: 50%; background: var(--skillsbar-surface); color: var(--skillsbar-quiet); font-size: .625rem; }
-  .gate:not(:last-child)::before { position: absolute; top: 2.1875rem; left: 1.1875rem; width: 1px; height: 1.75rem; background: #3b403b; content: ""; }
-  .gate-copy strong, .gate-copy span { display: block; }
-  .gate-copy strong { color: var(--skillsbar-ink); font-size: .75rem; font-weight: 560; }
-  .gate-copy span { margin-top: .1875rem; color: var(--skillsbar-muted); font-size: .625rem; }
-  .gate-state { color: var(--skillsbar-quiet); font-size: .5625rem; font-weight: 700; text-transform: uppercase; }
-  .gate.passed .gate-marker { border-color: var(--skillsbar-green); background: var(--skillsbar-green); color: #0c120d; }
-  .gate.passed .gate-state { color: var(--skillsbar-green); }
-  .gate.flagged .gate-marker, .gate.flagged .gate-state { border-color: var(--skillsbar-red); color: var(--skillsbar-red); }
-  .gate.active .gate-marker, .gate.active .gate-state { border-color: var(--skillsbar-orange); color: var(--skillsbar-orange); }
-
-  .evidence-heading { display: flex; justify-content: space-between; gap: .75rem; }
-  .evidence-heading h2 { font-size: 1.1875rem; }
-  .status-pill { height: fit-content; padding: .3125rem .4375rem; border: 1px solid rgba(45, 168, 255, .45); border-radius: .3125rem; color: var(--skillsbar-blue); font-size: .5625rem; text-transform: uppercase; }
-  .registry-score { display: flex; align-items: center; gap: .875rem; padding: 1.625rem 0; border-bottom: 1px solid var(--skillsbar-line); }
-  .score-ring { display: flex; flex: 0 0 4.125rem; align-items: baseline; justify-content: center; width: 4.125rem; height: 4.125rem; padding-top: 1.125rem; border: .3125rem solid #263245; border-top-color: var(--skillsbar-blue); border-radius: 50%; }
-  .score-ring strong { font-size: 1.125rem; }
-  .score-ring span { color: var(--skillsbar-muted); font-size: .5625rem; }
-  .registry-score > div:last-child strong, .registry-score > div:last-child span { display: block; }
-  .registry-score > div:last-child strong { font-size: .75rem; }
-  .registry-score > div:last-child span { margin-top: .3125rem; color: var(--skillsbar-muted); font-size: .625rem; line-height: 1.4; }
-  .metrics { display: grid; gap: .8125rem; padding: 1.375rem 0; border-bottom: 1px solid var(--skillsbar-line); }
-  .good { color: var(--skillsbar-green); }
-  .proof-warning { margin-top: 1.25rem; padding: .8125rem; border-left: 2px solid var(--skillsbar-blue); background: rgba(45, 168, 255, .06); }
-  .proof-warning strong { color: var(--skillsbar-blue); font-size: .6875rem; }
-  .proof-warning p { margin: .375rem 0 0; color: var(--skillsbar-muted); font-size: .625rem; line-height: 1.45; }
-  .event-log { margin-top: 1.625rem; }
-  .event-log > div { display: flex; align-items: flex-start; gap: .5625rem; color: var(--skillsbar-muted); font-size: .625rem; line-height: 1.4; }
-  .event-log time { color: var(--skillsbar-quiet); font-family: ui-monospace, monospace; }
-
-  .judge-story { display: grid; grid-template-columns: minmax(15rem, .7fr) 1.8fr; gap: 2rem; padding: clamp(3rem, 7vw, 5rem) 0; border-bottom: 1px solid var(--skillsbar-line); }
-  .judge-heading h2 { max-width: 28rem; margin: 0; color: var(--skillsbar-ink); font-family: var(--body-serif); font-size: clamp(2rem, 4vw, 3.75rem); font-weight: 300; line-height: 1.08; }
-  .judge-story ol { display: grid; grid-template-columns: 1fr 1fr; margin: 0; padding: 0; list-style: none; }
-  .judge-story li { display: grid; grid-template-columns: 2rem 1fr; grid-template-rows: auto 1fr; min-height: 10rem; padding: 1.5rem; border-top: 1px solid var(--skillsbar-line); }
-  .judge-story li:nth-child(odd) { border-right: 1px solid var(--skillsbar-line); }
-  .judge-story li span { grid-row: 1 / 3; color: var(--skillsbar-blue); font: 600 .6875rem var(--body-mono); }
-  .judge-story li strong { color: var(--skillsbar-ink); font-size: .875rem; }
-  .judge-story li p { margin: .5rem 0 0; color: var(--skillsbar-muted); font-size: .75rem; line-height: 1.55; }
-  .role-boundary { display: grid; grid-template-columns: minmax(15rem, .7fr) 1.8fr; gap: 2rem; padding: clamp(3rem, 7vw, 5rem) 0; border-bottom: 1px solid var(--skillsbar-line); }
-  .role-boundary h2 { max-width: 29rem; margin: 0; color: var(--skillsbar-ink); font-family: var(--body-serif); font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 300; line-height: 1.08; }
-  .role-boundary dl { display: grid; gap: 1.5rem; }
-  .role-boundary dl div { display: grid; grid-template-columns: 7rem 1fr; gap: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--skillsbar-line); }
-  .role-boundary dt { color: var(--skillsbar-blue); font-family: var(--body-mono); font-size: .75rem; font-weight: 700; text-transform: uppercase; }
-  .role-boundary dd { color: var(--skillsbar-muted); font-size: .875rem; line-height: 1.55; }
-  .closing-statement { padding: clamp(3rem, 8vw, 6rem) 0 2rem; text-align: center; }
-  .closing-statement p { color: var(--skillsbar-blue); font-family: var(--body-mono); font-size: .6875rem; font-weight: 700; }
-  .closing-statement h2 { max-width: 52rem; margin: 1rem auto; color: var(--skillsbar-ink); font-family: var(--body-serif); font-size: clamp(2.25rem, 5vw, 4.5rem); font-weight: 300; line-height: 1.05; }
-  .closing-statement span { color: var(--skillsbar-muted); font-size: .75rem; }
-  .toast { position: fixed; bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px)); left: 50%; z-index: 20; padding: .625rem .875rem; border-radius: .3125rem; background: var(--skillsbar-ink); color: #111; font-size: .75rem; opacity: 0; pointer-events: none; transform: translate(-50%, 1.25rem); transition: opacity 200ms ease, transform 200ms ease; }
-  .toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
-
-  @media (max-width: 65.625rem) {
-    .product-shell { grid-template-columns: 11.875rem 1fr; }
-    .evidence-panel { display: grid; grid-column: 1 / -1; grid-template-columns: 1fr 1fr; gap: 0 1.75rem; border-top: 1px solid var(--skillsbar-line); border-left: 0; }
-    .evidence-heading, .registry-score { grid-column: 1; }
-    .metrics, .proof-warning, .event-log { grid-column: 2; }
-    .metrics { grid-row: 1 / 3; padding-top: 0; }
-  }
-
-  @media (max-width: 45rem) {
-    .demo-nav { padding: 0 1rem; }
-    .demo-nav p { font-size: 0; }
-    :global(main) { padding-inline: .875rem; }
-    .demo-intro { padding-top: 2.375rem; }
-    .scenario-control { display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; }
-    .scenario { padding: 0 .375rem; font-size: .6875rem; }
-    .product-shell { grid-template-columns: 1fr; }
-    .context-rail { display: grid; grid-template-columns: 1fr 1fr; border-right: 0; border-bottom: 1px solid var(--skillsbar-line); }
-    .identity-block { padding-top: 0; border-top: 0; }
-    .boundary-note { grid-column: 1 / -1; margin-top: 0; }
-    .pipeline-panel { padding: 1.375rem 1rem; }
-    .panel-heading h2 { font-size: 1.25rem; }
-    .next-action { grid-template-columns: 2.25rem 1fr; }
-    .command-button { grid-column: 1 / -1; width: 100%; }
-    .evidence-panel { grid-template-columns: 1fr; }
-    .evidence-heading, .registry-score, .metrics, .proof-warning, .event-log { grid-row: auto; grid-column: 1; }
-    .metrics { padding-top: 1.375rem; }
-    .judge-story, .role-boundary { grid-template-columns: 1fr; }
-    .judge-story ol { grid-template-columns: 1fr; }
-    .judge-story li:nth-child(odd) { border-right: 0; }
-    .role-boundary dl div { grid-template-columns: 1fr; gap: .5rem; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    :global(body.skillsbar-demo) .readiness-track span,
-    :global(body.skillsbar-demo) .toast {
-      transition-duration: .01ms;
-      transition-delay: 0ms;
-    }
-  }
+  .demo-nav { display: flex; justify-content: space-between; gap: 1rem; padding-block: 0 1rem; font-size: .875rem; }
+  .demo-nav span { color: var(--text-muted); }
+  .demo-nav a, .demo-reading a { text-decoration: underline; text-underline-offset: .25em; text-decoration-thickness: from-font; }
+  .demo-intro { padding-block: clamp(1.5rem, 3vw, 3rem) 2rem; text-align: center; }
+  .demo-kicker { color: var(--text-muted); font: 600 .8125rem var(--body-mono); letter-spacing: .06em; text-transform: uppercase; }
+  #demo-title { max-width: 52rem; margin: 1rem auto; color: var(--editorial-title); font-family: var(--body-serif); font-size: clamp(3rem, 6vw, 6rem); font-weight: 300; line-height: 1.05; text-wrap: balance; }
+  .demo-intro > p { max-width: 42rem; margin-inline: auto; line-height: 1.6; text-wrap: pretty; }
+  .fixture-note { max-width: 42rem; margin: 1rem auto 0; font-size: .875rem; color: var(--text-muted); }
+  .fixture-note p { font-size: .875rem; line-height: 1.6; text-align: start; }
+  .demo-intro .demo-boundary { font-size: .8125rem; color: var(--text-muted); margin-block: 1rem 0; }
+  .demo-layout { display: grid; grid-template-columns: minmax(0, 28.75rem) minmax(0, 25rem); justify-content: center; align-items: start; gap: clamp(2rem, 6vw, 6rem); padding-bottom: 4rem; }
+  .focus-inspector { min-width: 0; padding: 1rem; border: 1px solid var(--border-subtle); border-radius: 1rem; background: oklch(.235 .004 220); color: #f5f5f7; font: 400 1rem/1.4 -apple-system, BlinkMacSystemFont, sans-serif; }
+  .inspector-header { display: flex; gap: .75rem; align-items: center; }
+  .inspector-header img { flex-shrink: 0; border-radius: .75rem; }
+  .inspector-header > div { min-width: 0; }
+  .inspector-header strong { overflow-wrap: anywhere; font-size: 1.125rem; }
+  .inspector-header p { margin: .25rem 0; color: #d2d3d7; font-size: .8125rem; }
+  .app-label { font-weight: 600; }
+  .local-tag { color: #69d9ee; border: 1px solid #69d9ee; border-radius: .5rem; padding: .0625rem .25rem; }
+  .attention { color: #ffcf74; }
+  .scenario-control { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0; padding: .75rem 0; border: 0; border-block: 1px solid #ffffff26; }
+  .scenario-control legend { font-size: .8125rem; }
+  .scenario { min-height: 2.75rem; padding: .375rem .625rem; border: 1px solid #777; border-radius: .5rem; color: #f5f5f7; background: transparent; font-size: .8125rem; cursor: pointer; }
+  .scenario[aria-pressed="true"] { border-color: #69d9ee; background: #69d9ee18; }
+  .stage-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .375rem; }
+  .stage { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: .25rem; padding: .5rem .375rem; min-height: 4.25rem; border: 1px solid var(--border-subtle); border-radius: .625rem; color: #f5f5f7; background: #ffffff05; font: inherit; cursor: pointer; }
+  .stage > span:first-child { justify-self: start; font-variant-numeric: tabular-nums; }
+  .stage strong, .stage-state { grid-column: 1 / -1; }
+  .stage strong { font-size: .875rem; font-weight: 600; white-space: nowrap; }
+  .stage-state { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .stage-symbol { justify-self: center; font-weight: 700; }
+  .stage[data-status="Passed"] .stage-symbol { color: oklch(.8 .15 150); }
+  .stage[data-next="true"] { border-color: #ffbf47; }
+  .stage[aria-pressed="true"] { border-color: #69b5ff; background: #69b5ff18; }
+  .stage[aria-pressed="true"][data-next="true"] { border-color: #ffbf47; background: #ffbf4718; }
+  .focus-inspector button:focus-visible, .focus-inspector summary:focus-visible { outline: 2px solid white; outline-offset: 3px; }
+  .stage-summary { margin: .75rem 0; color: #d2d3d7; font-size: .875rem; }
+  .stage-detail { border-block: 1px solid #ffffff26; padding: 1rem 0; min-height: 13rem; }
+  .gate-context { display: flex; justify-content: space-between; gap: .5rem; color: #d2d3d7; font-size: .8125rem; font-variant-numeric: tabular-nums; }
+  #action-title { margin: .5rem 0; color: #f5f5f7; font: 650 1.5rem/1.2 -apple-system, BlinkMacSystemFont, sans-serif; }
+  .stage-detail p { font-size: .9375rem; margin: .75rem 0; }
+  #detail-status { color: #d2d3d7; font-weight: 600; }
+  #detail-status[data-next="true"] { color: #ffcf74; }
+  #detail-status[data-status="Passed"] { color: oklch(.8 .15 150); }
+  #command-actions[hidden], #command-unavailable[hidden] { display: none; }
+  summary { cursor: pointer; min-height: 2.75rem; padding-block: .625rem; }
+  pre { white-space: pre-wrap; overflow-wrap: anywhere; padding: .75rem; background: #191b1e; border-radius: .5rem; font-size: .8125rem; }
+  #copy-command { width: 100%; min-height: 2.75rem; border: 0; border-radius: .625rem; background: #0867db; color: white; font: 600 1rem -apple-system, BlinkMacSystemFont, sans-serif; cursor: pointer; }
+  #copy-status { color: #d2d3d7; font-size: .8125rem; }
+  .registry-details { border-bottom: 1px solid #ffffff26; padding-block: .5rem; }
+  .registry-details summary { font-weight: 600; }
+  .registry-details summary span { color: #69d9ee; font-size: .8125rem; margin-left: .5rem; }
+  .registry-details p { color: #d2d3d7; font-size: .875rem; }
+  .refresh-button { width: 100%; padding: .75rem 0 0; min-height: 2.75rem; border: 0; background: transparent; color: #d2d3d7; text-align: left; font: inherit; cursor: pointer; }
+  .demo-reading h2, .lifecycle > h2 { margin-top: 1rem; color: var(--editorial-title); font-family: var(--body-serif); font-size: clamp(2.25rem, 4vw, 3.5rem); font-weight: 300; line-height: 1.08; text-wrap: balance; }
+  .demo-reading > h2, #lifecycle-title { color: var(--editorial-title); font-weight: 300; }
+  .demo-reading dl { margin-block: 2rem; }
+  .demo-reading dl div { padding-block: 1rem; border-top: 1px solid var(--border-subtle); }
+  .demo-reading dt { font-weight: 600; }
+  .demo-reading dd { margin: .5rem 0 0; font-size: 1rem; line-height: 1.6; color: var(--text-muted); }
+  .demo-reading > p { font-size: 1rem; }
+  .demo-nav > a, .demo-reading > a { display: inline-flex; align-items: center; min-height: 44px; }
+  .lifecycle { padding-block: 3rem 5rem; border-top: 1px solid var(--border-subtle); }
+  .lifecycle ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; padding-left: 1.5rem; }
+  .lifecycle h3 { margin-block: .5rem; font-size: 1.5rem; }
+  .lifecycle li p { font-size: 1rem; line-height: 1.6; color: var(--text-muted); }
+  @media (max-width: 47rem) { .demo-layout { grid-template-columns: minmax(0, 28.75rem); } .focus-inspector { padding: .75rem; } .stage strong { font-size: .8125rem; } .gate-context { font-size: .75rem; } .lifecycle ol { grid-template-columns: 1fr; } }
 </style>

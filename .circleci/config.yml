@@ -145,15 +145,16 @@ jobs:
                 attempt=$(( attempt + 1 ))
               done
             }
-            install_mise_without_github_tokens() {
+            install_mise_with_github_auth() {
               (
-                unset GH_TOKEN GITHUB_TOKEN GITHUB_PERSONAL_ACCESS_TOKEN
+                # Reuse the job credential only inside the install subprocess.
+                export GITHUB_TOKEN="${GITHUB_TOKEN:-${GH_TOKEN:-${GITHUB_PERSONAL_ACCESS_TOKEN:-}}}"
                 mise install "$@"
               )
             }
             export PATH="$HOME/.local/bin:$PATH"
             echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$BASH_ENV"
-            retry_cmd 3 install_mise_without_github_tokens uv
+            retry_cmd 3 install_mise_with_github_auth uv
             uv_path="$(mise which uv)"
             if [[ -z "$uv_path" ]]; then
               echo "Error: mise which uv returned nothing" >&2
@@ -341,9 +342,10 @@ workflows:
                 attempt=$(( attempt + 1 ))
               done
             }
-            install_mise_without_github_tokens() {
+            install_mise_with_github_auth() {
               (
-                unset GH_TOKEN GITHUB_TOKEN GITHUB_PERSONAL_ACCESS_TOKEN
+                # Reuse the job credential only inside the install subprocess.
+                export GITHUB_TOKEN="${GITHUB_TOKEN:-${GH_TOKEN:-${GITHUB_PERSONAL_ACCESS_TOKEN:-}}}"
                 mise install "$@"
               )
             }
@@ -361,7 +363,7 @@ workflows:
             mkdir -p "$HOME/.local/bin" "$HOME/.local/share"
             export PATH="$HOME/.local/bin:$PATH"
             echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$BASH_ENV"
-            retry_cmd 3 install_mise_without_github_tokens rust@stable
+            retry_cmd 3 install_mise_with_github_auth rust@stable
             if [[ -f "$HOME/.cargo/env" ]]; then
               # rustup does not update the current shell PATH for non-interactive jobs.
               . "$HOME/.cargo/env"
@@ -380,7 +382,7 @@ workflows:
             # python-build-standalone artifact instead.
             export MISE_PYTHON_COMPILE=0
             export MISE_PYTHON_PRECOMPILED_ARCH=x86_64
-            retry_cmd 3 install_mise_without_github_tokens \
+            retry_cmd 3 install_mise_with_github_auth \
               node pnpm python uv cargo:prek \
               npm:@argos-ci/cli cosign cloudflared npm:vitest \
               ruff npm:eslint npm:agent-browser npm:agentation npm:agentation-mcp \
@@ -462,16 +464,17 @@ workflows:
                 attempt=$(( attempt + 1 ))
               done
             }
-            install_mise_without_github_tokens() {
+            install_mise_with_github_auth() {
               (
-                unset GH_TOKEN GITHUB_TOKEN GITHUB_PERSONAL_ACCESS_TOKEN
+                # Reuse the job credential only inside the install subprocess.
+                export GITHUB_TOKEN="${GITHUB_TOKEN:-${GH_TOKEN:-${GITHUB_PERSONAL_ACCESS_TOKEN:-}}}"
                 mise install "$@"
               )
             }
             mkdir -p "$HOME/.local/bin"
             export PATH="$HOME/.local/bin:$PATH"
             echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$BASH_ENV"
-            retry_cmd 3 install_mise_without_github_tokens gitleaks trivy
+            retry_cmd 3 install_mise_with_github_auth gitleaks trivy
             for tool in gitleaks trivy; do
               tool_path="$(mise which "$tool")"
               test -x "$tool_path"
