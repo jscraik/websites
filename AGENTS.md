@@ -79,6 +79,9 @@ schema_version: 2
 - The Blog hairline contract runs through `npm run test:design-system-contract`
   and `npm run validate:design-system`: it checks the shared density-aware
   border token and its use by Blog dividers.
+- After building, use `CHROME_CDP_URL=<approved-endpoint> node --test scripts/test-render-flow-scroll.mjs`
+  for the About contribution chart's contained-scroll contract. The render-flow
+  validator must still reject unclipped content and containers outside the viewport.
 - Run `ASTRO_TELEMETRY_DISABLED=1 npm run build` when output generation matters,
   and `npm run check` when Astro or TypeScript diagnostics are relevant.
 - For Jose-reference or parity-claim work, run:
