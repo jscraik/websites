@@ -867,6 +867,14 @@ html.editorial-theme #main-content .about-page.about-hero-shell .about-copy { di
 html.editorial-theme #main-content .about-page.about-hero-shell .about-copy p { margin: 0; }
 html.editorial-theme #main-content .about-evolve { display: grid; gap: 24px; margin-block: 16px; padding-block: 24px; border-block: 1px solid var(--border-subtle); }
 html.editorial-theme #main-content .about-evolve #evolve-title { margin: 0; color: var(--editorial-title); font: 300 clamp(44px, 7.5vw, 88px)/1.05 var(--body-sans); letter-spacing: .14em; text-transform: uppercase; }
+html.editorial-theme #main-content .about-contributions { display: grid; gap: 16px; min-inline-size: 0; padding-block-end: 24px; border-block-end: 1px solid var(--border-subtle); }
+html.editorial-theme #main-content .about-contributions h2 { margin: 0; color: var(--editorial-title); font: 300 clamp(30px, 3.5vw, 40px)/1.15 var(--body-serif); letter-spacing: -.02em; }
+html.editorial-theme #main-content .about-contributions figure { display: grid; gap: 12px; min-inline-size: 0; margin: 0; }
+html.editorial-theme #main-content .about-contributions__scroll { min-inline-size: 0; overflow-x: auto; border: 1px solid var(--border-subtle); border-radius: 16px; }
+html.editorial-theme #main-content .about-contributions img { display: block; inline-size: 100%; min-inline-size: 640px; max-inline-size: none; block-size: auto; aspect-ratio: 2024 / 1200; object-fit: cover; object-position: center bottom; border: 0; border-radius: 0; }
+html.editorial-theme #main-content .about-contributions figcaption { color: var(--editorial-muted); font: 400 14px/1.5 var(--body-sans); }
+html.editorial-theme #main-content .about-contributions__links { display: flex; flex-wrap: wrap; gap: 0 24px; }
+html.editorial-theme #main-content .about-contributions__links a { display: inline-flex; align-items: center; gap: 8px; min-block-size: 44px; color: var(--editorial-blue); font: 400 16px/1.5 var(--body-sans); }
 html.editorial-theme #main-content .about-page.about-hero-shell .about-sidebar { grid-column: 2; display: flex; flex-direction: column; justify-content: flex-start; align-items: stretch; width: 100%; min-height: 0; gap: 48px; margin: 0; padding: 0; }
 html.editorial-theme #main-content .about-page.about-hero-shell .about-jump { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; margin: 0; padding: 0; }
 html.editorial-theme #main-content .about-page.about-hero-shell .about-jump > .eyebrow { margin: 0; font: 600 17px/1.4 var(--body-sans); text-transform: none; letter-spacing: 0; }
