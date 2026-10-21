@@ -44,6 +44,13 @@ Codex's authenticated current-head completion summary is a supported review
 artifact even when no formal review submission is created. Artifact presence
 does not replace the global update receipt's verdict, reaction and concern checks.
 
+CodeRabbit review includes the npm lockfile, authored image assets and committed
+visual snapshots through exact default-ignore overrides in `.coderabbit.yaml`.
+Keep those overrides distinct from ordinary include patterns: a broad include
+does not override the provider defaults. Build output, dependency directories
+and scratch artifacts remain excluded. Review eligibility does not prove the
+provider inspected a binary; verify its published coverage and limitations.
+
 ## Evidence format
 
 Report command evidence with its scope and result:

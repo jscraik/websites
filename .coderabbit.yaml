@@ -45,10 +45,15 @@ reviews:
     - "!node_modules/**"
     - "!pnpm-lock.yaml"
     - "!**/*.min.js"
-    - "!**/*.png"
-    - "!**/*.jpg"
-    - "!**/*.jpeg"
-    - "!**/*.gif"
+    # Exact default overrides keep authored assets, snapshots and the npm lockfile
+    # in review without restricting source review to an include-only allowlist.
+    - "**/package-lock.json"
+    - "**/*.png"
+    - "**/*.svg"
+    - "**/*.jpg"
+    - "**/*.jpeg"
+    - "**/*.gif"
+    - "**/*.ico"
   path_instructions:
     - path: "**"
       instructions: |
