@@ -15,6 +15,7 @@ test("Blog author layout follows its slot rather than the desktop viewport", asy
       expect(Math.abs(imageBox.y - copyBox.y)).toBeLessThan(1);
       expect(copyBox.x).toBeGreaterThan(imageBox.x + imageBox.width);
     }
+    expect(await slot.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   }
 });
@@ -34,12 +35,15 @@ test("Proof cards share content rows and adapt to a narrow slot", async ({ page 
     expect(Math.max(...tops) - Math.min(...tops)).toBeLessThan(1);
   }
   const notes = page.getByRole("region", { name: "Featured proof" });
+  const proof = page.locator(".proof-index");
+  expect(await proof.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
   for (const label of ["Evidence", "Caveat", "Next state"]) {
     const tops = await notes.locator("dt").filter({ hasText: label }).evaluateAll(elements => elements.map(element => element.getBoundingClientRect().top));
     expect(tops.length).toBe(2);
     expect(Math.max(...tops) - Math.min(...tops)).toBeLessThan(1);
   }
   await page.locator(".proof-index").evaluate(element => { element.style.inlineSize = "800px"; });
+  expect(await proof.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
   const intermediate = await projects.locator(".proof-project").evaluateAll(elements => elements.slice(0, 3).map(element => {
     const box = element.getBoundingClientRect();
     return { x: box.x, y: box.y, bottom: box.bottom };
@@ -49,6 +53,7 @@ test("Proof cards share content rows and adapt to a narrow slot", async ({ page 
   expect(Math.abs(intermediate[0].x - intermediate[2].x)).toBeLessThan(1);
   expect(intermediate[2].y).toBeGreaterThanOrEqual(intermediate[0].bottom);
   await page.locator(".proof-index").evaluate(element => { element.style.inlineSize = "340px"; });
+  expect(await proof.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
   const [first, second] = await projects.locator(".proof-project").evaluateAll(elements => elements.slice(0, 2).map(element => {
     const box = element.getBoundingClientRect();
     return { x: box.x, y: box.y, bottom: box.bottom };
