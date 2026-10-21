@@ -171,8 +171,9 @@ again after intentional theme changes; source validation alone cannot prove them
 Social-profile generation also accepts `CHROME_CDP_URL` for the approved disposable
 browser, started by its runtime owner with `--force-color-profile=srgb` so exported
 pixels retain the exact canvas tokens. `npm run generate:social-assets` creates and closes only its own contexts
-in that mode, leaves external Chrome running, and records the actual renderer and
-source hashes in its generation receipt. Regenerate the receipt when brand-token
+in that mode, leaves external Chrome running, and records source and output hashes
+in its generation receipt. The receipt does not record the browser build or renderer
+mode. Regenerate the receipt when brand-token
 sources change; do not manually substitute hashes for a completed generation.
 
 Route-specific editorial rhythm belongs in `src/styles/route-rhythm.css` rather
