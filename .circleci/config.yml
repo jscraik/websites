@@ -20,6 +20,32 @@ commands:
             npm view "@brainwav/coding-harness@${harness_version}" version --json
 
 jobs:
+  typecheck-complete:
+    docker:
+      - image: cimg/node:26.3.0
+    resource_class: small
+    steps:
+      - run:
+          name: Confirm successful Astro check
+          command: echo "The shared Astro check completed successfully in typecheck."
+
+  validate-memory:
+    docker:
+      - image: cimg/node:26.3.0
+    resource_class: small
+    steps:
+      - checkout
+      - run:
+          name: Ensure jq available
+          command: |
+            if ! command -v jq >/dev/null 2>&1; then
+              sudo apt-get update
+              sudo apt-get install -y jq
+            fi
+      - run:
+          name: memory
+          command: test -f memory.json && jq -e '.meta.version == "1.0" and (.preamble.bootstrap | type == "boolean") and (.preamble.search | type == "boolean") and (.entries | type == "array")' memory.json >/dev/null
+
   run-governance-check:
     docker:
       # Pinned to specific minor for reproducibility (JSC-115)
@@ -431,17 +457,17 @@ workflows:
           filters:
             tags:
               ignore: /.*/
-      - run-governance-check:
+      # typecheck already executes npm run check. Keep the required label
+      # with a success-only dependency instead of repeating setup and Astro.
+      - typecheck-complete:
           name: check
-          check_name: check
-          command: npm run check
+          requires:
+            - typecheck
           filters:
             tags:
               ignore: /.*/
-      - run-governance-check:
+      - validate-memory:
           name: memory
-          check_name: memory
-          command: test -f memory.json && jq -e '.meta.version == "1.0" and (.preamble.bootstrap | type == "boolean") and (.preamble.search | type == "boolean") and (.entries | type == "array")' memory.json >/dev/null
           filters:
             tags:
               ignore: /.*/

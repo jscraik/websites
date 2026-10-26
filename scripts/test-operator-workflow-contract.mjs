@@ -1,9 +1,10 @@
 import assert from "node:assert/strict";
-import { execFileSync } from "node:child_process";
-import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { execFileSync, spawnSync } from "node:child_process";
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { parse } from "yaml";
 
 import { collectPrBodyContractErrors, collectPrTemplateContractErrors } from "./lib/pr-template-contract.mjs";
 
@@ -431,6 +432,67 @@ check("required agent governance surfaces describe portfolio operations", () => 
   assert.match(read(requiredDocs[0]), /@brainwav\/coding-harness/);
   assert.match(read(requiredDocs[1]), /Linear/);
   assert.match(read(requiredDocs[2]), /PR readiness/i);
+});
+
+check("CircleCI retains check labels and success-only Astro dependency", () => {
+  const config = parse(circleciConfig);
+  const jobs = config.workflows["pr-pipeline"].jobs;
+  const byName = Object.fromEntries(jobs.map((entry) => {
+    const [job, options] = Object.entries(entry)[0];
+    return [options.name ?? job, { job, ...options }];
+  }));
+  assert.deepEqual(Object.keys(byName).sort(), [
+    "pr-template", "linear-gate", "risk-policy-gate", "dependency-scan",
+    "orb-pinning", "docs-gate", "lint", "typecheck", "test", "audit",
+    "check", "memory", "security-scan", "snyk-dependency-scan", "publish-pages",
+  ].sort());
+  assert.equal(jobs.length, Object.keys(byName).length);
+  assert.equal(packageJson.scripts.typecheck, "ASTRO_TELEMETRY_DISABLED=1 npm run check");
+  assert.equal(packageJson.scripts.check, "astro check");
+  assert.equal(byName.typecheck.command, "npm run typecheck");
+  const verifyDependency = (candidate) => assert.deepEqual(candidate.requires, ["typecheck"]);
+  verifyDependency(byName.check);
+  for (const requires of [[], ["lint"], [{ typecheck: ["success", "failed"] }]]) {
+    assert.throws(() => verifyDependency({ ...byName.check, requires }));
+  }
+  assert.equal(byName.check.job, "typecheck-complete");
+  assert.equal(config.jobs["typecheck-complete"].steps.length, 1);
+  assert.deepEqual(byName.check.filters, byName.typecheck.filters);
+  assert.equal(jobs.filter((entry) => entry["run-governance-check"]?.command === "npm run check").length, 0);
+  assert.equal(byName.audit.command, "npm run audit");
+  assert.equal(byName["dependency-scan"].command, "npm run audit:strict");
+  for (const scanner of ["gitleaks detect", "trivy fs", "bash scripts/check-semgrep-full.sh"]) {
+    assert.ok(byName["security-scan"].command.includes(scanner));
+  }
+  assert.deepEqual(byName["publish-pages"].requires, [
+    "dependency-scan", "orb-pinning", "docs-gate", "lint", "typecheck",
+    "test", "audit", "check", "memory", "security-scan",
+  ]);
+  assert.deepEqual(byName["publish-pages"].filters, { branches: { only: "main" }, tags: { ignore: "/.*/" } });
+  assert.equal(byName["publish-pages"].context, "cloudflare-pages-production");
+});
+
+check("CircleCI memory predicate fails closed without full governance setup", () => {
+  const config = parse(circleciConfig);
+  const steps = config.jobs["validate-memory"].steps;
+  assert.equal(steps[0], "checkout");
+  assert.equal(steps.length, 3);
+  const predicate = steps[2].run.command;
+  const temporary = mkdtempSync(path.join(tmpdir(), "websites-ci-memory-"));
+  try {
+    const evaluate = (contents) => {
+      const file = path.join(temporary, "memory.json");
+      if (contents === null) rmSync(file, { force: true });
+      else writeFileSync(file, contents);
+      return spawnSync("bash", ["-c", predicate], { cwd: temporary, encoding: "utf8" }).status;
+    };
+    assert.equal(evaluate(JSON.stringify({ meta: { version: "1.0" }, preamble: { bootstrap: false, search: true }, entries: [] })), 0);
+    for (const invalid of [null, "{", "{}", JSON.stringify({ meta: { version: "1.0" }, preamble: { bootstrap: "true", search: true }, entries: [] })]) {
+      assert.notEqual(evaluate(invalid), 0);
+    }
+  } finally {
+    rmSync(temporary, { recursive: true, force: true });
+  }
 });
 
 if (failures.length > 0) {

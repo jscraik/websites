@@ -6,6 +6,7 @@
 - [Rules](#rules)
 
 This index records the current execution-input artifacts Codex may use to route work.
+Repository-relative plan key: `.harness/plan/portfolio-stabilization-and-cloud-release.md`.
 
 ## Active
 

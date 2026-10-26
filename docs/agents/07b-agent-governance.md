@@ -119,6 +119,8 @@ Dependency remediation must preserve the existing audit thresholds. Vite's
 `8.1.6` override addresses GHSA-698v-4r3x-3vcv without a framework upgrade;
 remove that compatibility pin only when the dependency chain resolves a
 patched version and the normal production audit passes.
+The architecture bootstrap records the scoped FTP override and Puppeteer pin;
+preserve their adapter compatibility proof when updating those dependencies.
 
 The shared portfolio shell is a route-independent governance boundary:
 `src/styles/shell.css` owns the header, navigation background, and footer
