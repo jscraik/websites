@@ -100,6 +100,7 @@ schema_version: 2
   baseline, and never use a baseline update to conceal debt introduced by the
   current delivery.
 - For dependency or lockfile changes, run the package audit and update affected
+  dependency compatibility notes in `docs/agents/00-architecture-bootstrap.md` and
   architecture and governance documentation before push. The removed diagram
   dependency is not a release requirement; stored projections are historical.
 
