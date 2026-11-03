@@ -472,6 +472,22 @@ check("CircleCI retains check labels and success-only Astro dependency", () => {
   assert.equal(byName["publish-pages"].context, "cloudflare-pages-production");
 });
 
+check("CircleCI uses a full checkout only for the security scan", () => {
+  const config = parse(circleciConfig);
+  const sharedJob = config.jobs["run-governance-check"];
+  const checkout = sharedJob.steps.find((step) => typeof step === "object" && step.checkout);
+  assert.equal(sharedJob.parameters.checkout_method.default, "blobless");
+  assert.equal(checkout?.checkout.method, "<< parameters.checkout_method >>");
+  const governanceJobs = config.workflows["pr-pipeline"].jobs
+    .map((entry) => entry["run-governance-check"])
+    .filter(Boolean);
+  for (const job of governanceJobs) {
+    const method = job.checkout_method ?? sharedJob.parameters.checkout_method.default;
+    assert.equal(method, job.name === "security-scan" ? "full" : "blobless", job.name);
+  }
+  assert.equal(governanceJobs.filter((job) => job.name === "security-scan").length, 1);
+});
+
 check("CircleCI security scan identifies stages and stops on scanner failure", () => {
   const config = parse(circleciConfig);
   const job = config.workflows["pr-pipeline"].jobs

@@ -56,8 +56,13 @@ jobs:
         type: string
       command:
         type: string
+      checkout_method:
+        type: enum
+        enum: [blobless, full]
+        default: blobless
     steps:
-      - checkout
+      - checkout:
+          method: << parameters.checkout_method >>
       - run:
           name: Fetch comparison base
           command: |
@@ -474,6 +479,7 @@ workflows:
       - run-governance-check:
           name: security-scan
           check_name: security-scan
+          checkout_method: full
           command: |
             retry_cmd() {
               local max_attempts="${1:-3}"
