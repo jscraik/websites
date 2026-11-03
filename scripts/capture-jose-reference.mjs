@@ -1,3 +1,4 @@
+import { launchPatchedChrome } from "./lib/patched-chrome.mjs";
 import { mkdir, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
@@ -310,7 +311,7 @@ async function captureRenderedArtifacts() {
 
   const { chromium } = await import("@playwright/test");
   const browser = await withTimeout(
-    chromium.launch({ headless: true }),
+    launchPatchedChrome(chromium),
     "chromium launch",
     renderStepTimeoutMs
   );

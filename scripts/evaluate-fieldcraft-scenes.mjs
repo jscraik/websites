@@ -1,3 +1,4 @@
+import { launchPatchedChrome } from "./lib/patched-chrome.mjs";
 import { createHash } from "node:crypto";
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import {
@@ -155,7 +156,7 @@ const writeBlockedReport = async ({ stage, code, browserStatus }) => {
 let browser;
 try {
   const { chromium } = await import("playwright");
-  browser = await chromium.launch({ headless: true });
+  browser = await launchPatchedChrome(chromium);
   renderingEnvironment.browserVersion = browser.version();
 } catch {
   await writeBlockedReport({ stage: "browser-launch", code: "browser_unavailable", browserStatus: "unavailable" });
