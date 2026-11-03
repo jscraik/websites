@@ -1,4 +1,4 @@
-import type { Page } from "@playwright/test";
+import type { Page } from "../helpers/test";
 import { expect, test } from "../helpers/test";
 import AxeBuilder from "@axe-core/playwright";
 import { coreRoutes, preparePage } from "../helpers/visual";
