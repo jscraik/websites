@@ -1,3 +1,4 @@
+import { connectPatchedChrome } from "./lib/patched-chrome.mjs";
 import { chromium } from "@playwright/test";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -89,10 +90,11 @@ if (!referenceBaseURL) {
 
 let browser;
 let page;
+let context;
 
 try {
   browser = await connectToChrome();
-  const context = browser.contexts()[0] ?? await browser.newContext();
+  context = await browser.newContext();
   page = await context.newPage();
   const rows = [];
 
@@ -171,14 +173,15 @@ try {
   if (page) {
     await page.close().catch(() => {});
   }
-  if (browser) {
-    await browser.close().catch(() => {});
+  if (context) {
+    await context.close().catch(() => {});
   }
 }
 
 async function connectToChrome() {
   try {
-    return await chromium.connectOverCDP(cdpEndpoint);
+    // connectOverCDP uses noDefaults through the shared security boundary.
+    return await connectPatchedChrome(chromium, cdpEndpoint);
   } catch (error) {
     throw new Error(
       [
@@ -748,3 +751,6 @@ function throwIfFailures(prefix, failures) {
     throw new Error([prefix, ...failures].join("\n"));
   }
 }
+
+// Worker-style disconnect: do not close the runtime-owned browser connection.
+process.exit(process.exitCode ?? 0);
