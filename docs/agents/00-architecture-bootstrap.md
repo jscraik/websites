@@ -159,7 +159,7 @@ entry identity with a fallback for new entries, independently of link overrides.
 slashless and trailing-slash article requests select the same artwork.
 
 Accessibility and visual suites share `tests/helpers/test.ts`. Without
-`CHROME_CDP_URL` they retain Playwright's normal browser fixture; the approved
+`CHROME_CDP_URL` they launch installed stable Chrome with `chromiumSandbox: true`; the approved
 managed-browser recovery path connects to the runtime owner's disposable Chrome
 profile with `noDefaults: true`, then uses isolated contexts for each test.
 CDP runs use one worker so keyboard-focus checks do not compete for the browser.
@@ -186,3 +186,17 @@ sources change; do not manually substitute hashes for a completed generation.
 Route-specific editorial rhythm belongs in `src/styles/route-rhythm.css` rather
 than the shared shell. Keep its selectors limited to the owning route and run
 rendered validation when that stylesheet changes.
+
+The shared `scripts/lib/patched-chrome.mjs` boundary selects the installed `chrome`
+channel without a bundled-Chromium fallback and rejects unknown builds or builds
+older than 156.0.8078.73 before page/context creation. That floor covers the four
+27 October Chromium CVEs; it does not promise the latest release. Missing Chrome,
+sandbox denial and old versions block rendered checks; never disable the sandbox
+or install a browser as a fallback. CDP endpoints must be explicit loopback HTTP
+addresses and remain subject to owner-approved disposable-profile and immutable
+artifact requirements. The version check does not prove external launch flags or
+profile isolation. CDP parity integration and full source-routing coverage are
+pending the completion slice; the current parity script still uses the previous
+connection/context lifecycle and must not be run from this intermediate slice.
+Run `node --test scripts/test-patched-chrome.mjs` for the currently implemented
+offline launch/version/connection rejection and headed-mode contracts.

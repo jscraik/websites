@@ -1,3 +1,4 @@
+import { launchPatchedChrome, connectPatchedChrome } from "./lib/patched-chrome.mjs";
 import { chromium } from "@playwright/test";
 import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
@@ -36,8 +37,8 @@ assertContract();
 
 const cdpEndpoint = process.env.CHROME_CDP_URL;
 const browser = cdpEndpoint
-  ? await chromium.connectOverCDP(cdpEndpoint, { noDefaults: true })
-  : await chromium.launch({ headless: true });
+  ? await connectPatchedChrome(chromium, cdpEndpoint)
+  : await launchPatchedChrome(chromium);
 
 try {
   for (const [platform, specification] of Object.entries(manifest.platforms)) {
