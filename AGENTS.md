@@ -33,6 +33,10 @@ schema_version: 2
 - Optional private development inspectors must not enter the site install or
   CI credential contract. Keep their removal and focused operator tests aligned.
 - package.json is the source of truth for npm scripts. Re-read it before choosing validation commands.
+- Browser security remediation uses `scripts/lib/patched-chrome.mjs` for installed
+  Chrome selection, sandboxed local launches and the security-version floor. Run
+  `npm run test:social-profile-assets-contract` for its synthetic rejection checks;
+  the runtime owner must still verify any external CDP executable and fresh profile.
 - Social-profile generation supports the approved disposable `CHROME_CDP_URL`
   route; keep its source-bound receipt current after brand-token changes and
   preserve the runtime owner's browser by closing only generated contexts.

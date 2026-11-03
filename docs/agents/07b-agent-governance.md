@@ -136,6 +136,12 @@ example refreshes must preserve fixture evidence, and copying a command must
 never execute it. Native captures and browser fixtures retain their explicit
 synthetic-data and integration limitations.
 
+The browser-security helper `scripts/lib/patched-chrome.mjs` guards installed
+Chrome launches and the numeric security-version floor. It does not attest an
+external executable, profile or sandbox flags: the approved CDP runtime owner
+retains those checks. Staged browser-remediation PRs are intermediate changes,
+not completion or adoption evidence until the full integration is validated.
+
 Social-profile generation may attach to the approved disposable `CHROME_CDP_URL`
 browser. It closes only its generated contexts and preserves the runtime owner's
 browser. Brand-token edits require actual asset regeneration and a validated
