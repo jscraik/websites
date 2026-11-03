@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFileSync, spawnSync } from "node:child_process";
-import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -470,6 +470,106 @@ check("CircleCI retains check labels and success-only Astro dependency", () => {
   ]);
   assert.deepEqual(byName["publish-pages"].filters, { branches: { only: "main" }, tags: { ignore: "/.*/" } });
   assert.equal(byName["publish-pages"].context, "cloudflare-pages-production");
+});
+
+check("CircleCI uses a full checkout only for the security scan", () => {
+  const config = parse(circleciConfig);
+  const sharedJob = config.jobs["run-governance-check"];
+  const checkout = sharedJob.steps.find((step) => typeof step === "object" && step.checkout);
+  assert.equal(sharedJob.parameters.checkout_method.default, "blobless");
+  assert.equal(checkout?.checkout.method, "<< parameters.checkout_method >>");
+  const governanceJobs = config.workflows["pr-pipeline"].jobs
+    .map((entry) => entry["run-governance-check"])
+    .filter(Boolean);
+  for (const job of governanceJobs) {
+    const method = job.checkout_method ?? sharedJob.parameters.checkout_method.default;
+    assert.equal(method, job.name === "security-scan" ? "full" : "blobless", job.name);
+  }
+  assert.equal(governanceJobs.filter((job) => job.name === "security-scan").length, 1);
+});
+
+check("CircleCI security scan identifies stages and stops on scanner failure", () => {
+  const config = parse(circleciConfig);
+  const job = config.workflows["pr-pipeline"].jobs
+    .map((entry) => entry["run-governance-check"])
+    .find((entry) => entry?.name === "security-scan");
+  const temporary = mkdtempSync(path.join(tmpdir(), "websites-security-scan-"));
+  const bin = path.join(temporary, "bin");
+  const home = path.join(temporary, "home");
+  const trace = path.join(temporary, "trace");
+  const bashEnv = path.join(temporary, "bash-env");
+  const fixture = (file, lines) => writeFileSync(file, `${lines.join("\n")}\n`, { mode: 0o755 });
+  try {
+    mkdirSync(bin);
+    mkdirSync(home);
+    mkdirSync(path.join(temporary, "scripts"));
+    writeFileSync(path.join(temporary, ".gitleaks.toml"), "fixture");
+    fixture(path.join(bin, "mise"), [
+      "#!/bin/bash",
+      'case "$1" in',
+      '  install) printf "install:%s %s\\n" "$2" "$3" >> "$TRACE_FILE" ;;',
+      '  which) printf "which:%s\\n" "$2" >> "$TRACE_FILE"; [[ "${FAIL_STAGE:-}" != "resolve-$2" ]] || exit 1; printf "%s/%s\\n" "$STUB_BIN" "$2" ;;',
+      "  *) exit 1 ;;",
+      "esac",
+    ]);
+    for (const scanner of ["gitleaks", "trivy"]) {
+      fixture(path.join(bin, scanner), [
+        "#!/bin/bash",
+        `printf '%s:%s\\n' '${scanner}' "$*" >> "$TRACE_FILE"`,
+        `[[ "\u0024{FAIL_STAGE:-}" != '${scanner}' ]]`,
+      ]);
+    }
+    fixture(path.join(temporary, "scripts/check-semgrep-full.sh"), [
+      "#!/bin/bash",
+      'printf "semgrep\\n" >> "$TRACE_FILE"',
+      '[[ "${FAIL_STAGE:-}" != semgrep ]]',
+    ]);
+    const run = (failStage = "") => {
+      rmSync(path.join(home, ".local"), { force: true, recursive: true });
+      writeFileSync(trace, "");
+      writeFileSync(bashEnv, "");
+      const result = spawnSync("/bin/bash", ["--noprofile", "--norc", "-eo", "pipefail", "-c", job.command], {
+        cwd: temporary,
+        encoding: "utf8",
+        env: { HOME: home, PATH: `${bin}:/usr/bin:/bin`, BASH_ENV: bashEnv, TRACE_FILE: trace, STUB_BIN: bin, FAIL_STAGE: failStage },
+      });
+      return { ...result, trace: readFileSync(trace, "utf8").trim().split("\n").filter(Boolean) };
+    };
+    const success = run();
+    assert.equal(success.status, 0, success.stderr);
+    assert.deepEqual(success.trace, [
+      "install:gitleaks trivy", "which:gitleaks", "which:trivy",
+      "gitleaks:detect --source . --config .gitleaks.toml --redact --no-banner",
+      "trivy:fs --scanners vuln --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 .",
+      "semgrep",
+    ]);
+    const stages = [
+      "Installing tools", "Tool installation complete", "Resolving gitleaks", "Resolved gitleaks",
+      "Resolving trivy", "Resolved trivy", "Starting Gitleaks", "Gitleaks complete",
+      "Starting Trivy", "Trivy complete", "Starting Semgrep", "Semgrep complete",
+    ];
+    let previous = -1;
+    for (const stage of stages) {
+      const position = success.stdout.indexOf(`[security-scan] ${stage}`);
+      assert.ok(position > previous, `missing or out-of-order stage: ${stage}`);
+      previous = position;
+    }
+    for (const [failure, started, completed, next, forbiddenTrace] of [
+      ["resolve-gitleaks", "Resolving gitleaks", "Resolved gitleaks", "Resolving trivy", "which:trivy"],
+      ["gitleaks", "Starting Gitleaks", "Gitleaks complete", "Starting Trivy", "trivy:"],
+      ["trivy", "Starting Trivy", "Trivy complete", "Starting Semgrep", "semgrep"],
+      ["semgrep", "Starting Semgrep", "Semgrep complete", null, null],
+    ]) {
+      const failed = run(failure);
+      assert.notEqual(failed.status, 0, `${failure} must fail the job`);
+      assert.ok(failed.stdout.includes(`[security-scan] ${started}`));
+      assert.ok(!failed.stdout.includes(`[security-scan] ${completed}`));
+      if (next) assert.ok(!failed.stdout.includes(`[security-scan] ${next}`));
+      if (forbiddenTrace) assert.ok(!failed.trace.some((line) => line.startsWith(forbiddenTrace)));
+    }
+  } finally {
+    rmSync(temporary, { force: true, recursive: true });
+  }
 });
 
 check("CircleCI memory predicate fails closed without full governance setup", () => {
