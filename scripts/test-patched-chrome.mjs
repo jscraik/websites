@@ -1,6 +1,5 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { readFileSync, readdirSync } from "node:fs";
 import { assertPatchedChrome, launchPatchedChrome, connectPatchedChrome } from "./lib/patched-chrome.mjs";
 
 for (const version of ["156.0.8078.73", "156.0.8078.74", "156.0.8079.0", "157.0.0.0"]) {
