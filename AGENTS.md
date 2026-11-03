@@ -40,6 +40,10 @@ schema_version: 2
 - Social-profile generation supports the approved disposable `CHROME_CDP_URL`
   route; keep its source-bound receipt current after brand-token changes and
   preserve the runtime owner's browser by closing only generated contexts.
+- Renderer-preparation changes retain the source-bound social asset receipt and
+  update the architecture bootstrap. Complete CDP context ownership and renderer
+  routing regression coverage in the subsequent slice before claiming the
+  combined browser repair is complete; intermediate slices do not prove that.
 - Read `docs/agents/00-architecture-bootstrap.md` when changing schemas, route
   coverage, motion infrastructure, development tooling, dependencies, or tracked
   diagrams. Stored diagrams are historical references; automatic generation is retired.
