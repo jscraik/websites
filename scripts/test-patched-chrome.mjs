@@ -27,6 +27,18 @@ test("closes an old locally owned browser before returning it to a caller", asyn
   assert.equal(closed, 1);
 });
 
+test("preserves headed mode without allowing channel or sandbox overrides", async () => {
+  const browser = { version: () => "156.0.8078.74" };
+  assert.equal(await launchPatchedChrome({ launch: async (options) => {
+    assert.deepEqual(options, { channel: "chrome", headless: false, chromiumSandbox: true });
+    return browser;
+  } }, { headless: false, channel: "chromium", chromiumSandbox: false }), browser);
+});
+
+test("rejects invalid headless settings before launching", async () => {
+  await assert.rejects(launchPatchedChrome({ launch: () => assert.fail("must not launch") }, { headless: "false" }), /must be a boolean/);
+});
+
 test("missing Chrome or sandbox failure propagates without retry or fallback", async () => {
   let calls = 0;
   await assert.rejects(launchPatchedChrome({ launch: async () => {
@@ -71,7 +83,8 @@ test("all local script launch sites and the test fixture use the guarded boundar
     assert.doesNotMatch(source, /chromium\.launch\s*\(/, name);
   }
   const fixture = readFileSync(new URL("../tests/helpers/test.ts", import.meta.url), "utf8");
-  assert.match(fixture, /launchPatchedChrome\(chromium\)/);
+  assert.match(fixture, /async \(\{ headless \}, use\)/);
+  assert.match(fixture, /launchPatchedChrome\(chromium, \{ headless \}\)/);
   assert.match(fixture, /connectPatchedChrome\(chromium, endpoint\)/);
   assert.match(fixture, /if \(!endpoint\) await browser.close\(\)/);
   const parity = readFileSync(new URL("./jose-parity-cdp.mjs", import.meta.url), "utf8");

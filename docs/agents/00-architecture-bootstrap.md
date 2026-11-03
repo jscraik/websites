@@ -195,6 +195,9 @@ sandbox denial and old versions block rendered checks; never disable the sandbox
 or install a browser as a fallback. CDP endpoints must be explicit loopback HTTP
 addresses and remain subject to owner-approved disposable-profile and immutable
 artifact requirements. The version check does not prove external launch flags or
-profile isolation. CDP parity now creates and closes its own context and leaves
-the external browser running. Run `node --test scripts/test-patched-chrome.mjs`
-for offline launch/version/connection rejection and source-routing coverage.
+profile isolation. CDP parity creates and closes its own context and leaves the
+external browser running. Run `node --test scripts/test-patched-chrome.mjs` for
+offline launch/version/connection rejection, headed-mode and routing contracts.
+`npm run test:jose-parity-measurements` executes the production diagnostic
+formatter: version rejections advise updating Chrome, while generic launch
+failures retain their existing recovery guidance. Neither test launches Chrome.

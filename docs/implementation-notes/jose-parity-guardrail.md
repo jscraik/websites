@@ -147,7 +147,12 @@ CANDIDATE_BASE_URL=http://127.0.0.1:4323 \
 npm run test:jose-parity:cdp
 ```
 
-The CDP attach lane first checks the candidate's shared shell and neutral route canvas across the portfolio routes at desktop and mobile, then writes rendered artifacts under `artifacts/screenshots-cdp/`, including `compare.html`, per-capture screenshots, diffs, metrics, and `run-summary.json`. That route-surface check proves only candidate-internal shell consistency; it does not waive the Jose pixel budgets. `scripts/jose-parity-cdp.mjs` closes only its own context in `finally`; process exit disconnects CDP without closing the external Chrome application. It never enumerates or reuses the default context. The shared browser boundary rejects versions older than 156.0.8078.73; the runtime owner must still verify disposable-profile isolation and sandbox flags. It proves rendered browser parity only when the command exits with status 0 for the current candidate URL. A missing CDP endpoint is a browser-bridge blocker, not visual parity evidence. Browser-extension or MCP connectivity remains separate from CLI authentication and provider-credential proof.
+The CDP attach lane checks the candidate's shared shell and neutral route canvas and writes rendered artifacts under `artifacts/screenshots-cdp/`. That check proves only candidate-internal shell consistency; it does not waive Jose pixel budgets. `scripts/jose-parity-cdp.mjs` uses the guarded connection, creates its own context and closes only that context. Process exit disconnects CDP without closing the external browser or enumerating its existing contexts. Unknown builds and versions below the shared security floor are rejected before context creation. The runtime owner must still verify disposable-profile isolation and sandbox flags. Only a successful current-candidate run can prove rendered parity. Browser-extension or MCP connectivity remains separate from CLI authentication and provider-credential proof.
+
+When the local parity runner rejects Chrome's version, update Chrome to the
+minimum printed by the shared security boundary. That rejection is distinct
+from a launch-environment failure; CDP attachment does not bypass the version
+check. Offline diagnostic regression coverage preserves the original error.
 
 If browser-rendered capture is blocked, the strongest supported claim is pipeline readiness or partial reference validation, not visual match.
 
