@@ -91,7 +91,8 @@ const requiredBoundaryStatements = [
   "mktemp -d",
   "--user-data-dir=\"$profile_dir\"",
   "rm -rf -- \"$profile_dir\"",
-  "scripts/jose-parity-cdp.mjs` closes only its own context",
+  "creates its own context and closes only that context",
+  "Process exit disconnects CDP without closing the external browser",
   "workspace-net and filesystem grants can provide network access, local binding, cache access, and profile-directory writes",
   "Command: cd /Users/jamiecraik/dev/brainwav.io && REFERENCE_BASE_URL=https://www.joseocando.com npm run test:jose-parity -> blocked"
 ];
