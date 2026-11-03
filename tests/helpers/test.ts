@@ -4,10 +4,10 @@ import { launchPatchedChrome, connectPatchedChrome } from "../../scripts/lib/pat
 // Only the runtime owner may supply a disposable Chrome profile; never attach an authenticated one.
 const endpoint = process.env.CHROME_CDP_URL;
 export const test = base.extend({
-  browser: [async ({}, use) => {
+  browser: [async ({ headless }, use) => {
     const browser = endpoint
       ? await connectPatchedChrome(chromium, endpoint)
-      : await launchPatchedChrome(chromium);
+      : await launchPatchedChrome(chromium, { headless });
     try {
       await use(browser);
     } finally {
