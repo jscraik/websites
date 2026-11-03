@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "../helpers/test";
 import { preparePage } from "../helpers/visual";
 
 test.describe("animated CTA contract", () => {

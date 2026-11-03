@@ -1,15 +1,21 @@
 import { test as base, expect, chromium } from "@playwright/test";
+import { launchPatchedChrome, connectPatchedChrome } from "../../scripts/lib/patched-chrome.mjs";
 
-// The runtime owner supplies a disposable Chrome profile for managed environments.
-// Never connect this fixture to an authenticated browser profile.
+// Only the runtime owner may supply a disposable Chrome profile; never attach an authenticated one.
 const endpoint = process.env.CHROME_CDP_URL;
-export const test = endpoint ? base.extend({
-  browser: [async ({}, use) => {
-    const browser = await chromium.connectOverCDP(endpoint, { noDefaults: true });
-    // Playwright owns each test context; the external runtime owner owns Chrome.
-    // Worker exit disconnects CDP without issuing Browser.close to that process.
-    await use(browser);
+export const test = base.extend({
+  browser: [async ({ headless }, use) => {
+    const browser = endpoint
+      ? await connectPatchedChrome(chromium, endpoint)
+      : await launchPatchedChrome(chromium, { headless });
+    try {
+      await use(browser);
+    } finally {
+      // Test contexts are owned by Playwright; worker exit disconnects external CDP.
+      if (!endpoint) await browser.close();
+    }
   }, { scope: "worker" }]
-}) : base;
+});
 
 export { expect };
+export type { Page, Locator } from "@playwright/test";
