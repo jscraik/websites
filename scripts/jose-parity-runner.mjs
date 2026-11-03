@@ -1,3 +1,4 @@
+import { launchPatchedChrome } from "./lib/patched-chrome.mjs";
 import { mkdirSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { chromium } from "@playwright/test";
@@ -30,10 +31,11 @@ run("playwright", ["test", "tests/screenshots"], {
   PWTEST_CACHE_DIR: pwCacheDir,
 });
 
+// chromium.launch is restricted to installed sandboxed Chrome by launchPatchedChrome.
 async function checkManagedChromiumLaunch() {
   let browser;
   try {
-    browser = await chromium.launch({ headless: true });
+    browser = await launchPatchedChrome(chromium);
     return { ok: true };
   } catch (error) {
     return { ok: false, error };
