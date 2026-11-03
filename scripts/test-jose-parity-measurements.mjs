@@ -86,9 +86,13 @@ for (const scriptPath of ["tests/screenshots/jose-jamie.spec.ts", "scripts/jose-
     );
     assert.match(
       source,
-      /if \(browser\) \{\s+await browser\.close\(\)\.catch\(\(\) => \{\}\);\s+\}/,
-      "CDP parity must close its external browser connection so the command terminates",
+      /if \(context\) \{\s+await context\.close\(\)\.catch\(\(\) => \{\}\);\s+\}/,
+      "CDP parity must release only its own isolated context",
     );
+    assert.doesNotMatch(source, /browser\.close\(|browser\.contexts\(/,
+      "CDP parity must not close the owner browser or enumerate existing contexts");
+    assert.match(source, /process\.exit\(process\.exitCode \?\? 0\)/,
+      "CDP parity must terminate without manipulating the external browser");
   }
 }
 
