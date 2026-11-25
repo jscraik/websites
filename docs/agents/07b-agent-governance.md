@@ -121,6 +121,10 @@ remove that compatibility pin only when the dependency chain resolves a
 patched version and the normal production audit passes.
 The architecture bootstrap records the scoped FTP override and Puppeteer pin;
 preserve their adapter compatibility proof when updating those dependencies.
+Keep dependency version baselines in the architecture bootstrap aligned with
+`package.json` and the lockfile. Changes to agent-governance guidance must update
+root `AGENTS.md` and this file in the same changeset to satisfy the
+`agent-governance-docs` contract.
 
 The shared portfolio shell is a route-independent governance boundary:
 `src/styles/shell.css` owns the header, navigation background, and footer
