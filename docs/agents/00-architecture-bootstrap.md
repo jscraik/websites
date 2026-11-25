@@ -33,9 +33,10 @@ dependency chain resolves a patched version without it. The ordinary audit
 job rejects production advisories at low severity or higher; `audit:strict` is the separate
 high-severity dependency-scan lane. Neither threshold is waived by this pin.
 
-The October security refresh keeps Astro on the patched `7.3` maintenance
-line and updates the locked Undici, Zod and Vitest dependencies. Puppeteer
-is pinned to `25.16.0` so its BiDi dependency uses patched Zod. The scoped
+The October security refresh updated the locked Undici, Zod and Vitest
+dependencies. Astro now uses the `7.4.7` release listed in `package.json` and
+locked in `package-lock.json`. Puppeteer is pinned to `25.16.0` so its BiDi
+dependency uses patched Zod. The scoped
 `get-uri` override selects `basic-ftp` `6.2.3` for both proxy stacks; remove
 it only when those upstream ranges admit a patched parser. Source/build
 validation and FTP adapter compatibility proof accompany these overrides.
