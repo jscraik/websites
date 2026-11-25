@@ -147,7 +147,12 @@ CANDIDATE_BASE_URL=http://127.0.0.1:4323 \
 npm run test:jose-parity:cdp
 ```
 
-The CDP attach lane checks the candidate's shared shell and neutral route canvas and writes rendered artifacts under `artifacts/screenshots-cdp/`. That check proves only candidate-internal shell consistency; it does not waive Jose pixel budgets. **At this intermediate preparation slice, CDP safety integration is pending.** The current `scripts/jose-parity-cdp.mjs` still enumerates an existing context, closes the external browser and connects without the shared version check. Do not run the CDP command above from this slice. The completion slice must first add guarded connection and owned-context cleanup, with regression proof. The runtime owner must still verify disposable-profile isolation and sandbox flags. Only a successful current-candidate run after that integration can prove rendered parity. Browser-extension or MCP connectivity remains separate from CLI authentication and provider-credential proof.
+The CDP attach lane checks the candidate's shared shell and neutral route canvas and writes rendered artifacts under `artifacts/screenshots-cdp/`. That check proves only candidate-internal shell consistency; it does not waive Jose pixel budgets. `scripts/jose-parity-cdp.mjs` uses the guarded connection, creates its own context and closes only that context. Process exit disconnects CDP without closing the external browser or enumerating its existing contexts. Unknown builds and versions below the shared security floor are rejected before context creation. The runtime owner must still verify disposable-profile isolation and sandbox flags. Only a successful current-candidate run can prove rendered parity. Browser-extension or MCP connectivity remains separate from CLI authentication and provider-credential proof.
+
+When the local parity runner rejects Chrome's version, update Chrome to the
+minimum printed by the shared security boundary. That rejection is distinct
+from a launch-environment failure; CDP attachment does not bypass the version
+check. Offline diagnostic regression coverage preserves the original error.
 
 If browser-rendered capture is blocked, the strongest supported claim is pipeline readiness or partial reference validation, not visual match.
 

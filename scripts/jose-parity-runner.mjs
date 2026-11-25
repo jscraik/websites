@@ -1,4 +1,4 @@
-import { launchPatchedChrome } from "./lib/patched-chrome.mjs";
+import { launchPatchedChrome, MINIMUM_CHROME_VERSION } from "./lib/patched-chrome.mjs";
 import { mkdirSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { chromium } from "@playwright/test";
@@ -46,8 +46,19 @@ async function checkManagedChromiumLaunch() {
   }
 }
 
+/** Explain version rejections before offering launch-environment recovery guidance. */
 function renderManagedChromiumBlocker(error) {
   const message = error?.stack ?? String(error);
+  if (message.includes("Chrome security check blocked")) {
+    return [
+      "Jose parity cannot use the installed Chrome because it failed the security version check.",
+      "",
+      `Update Google Chrome to ${MINIMUM_CHROME_VERSION} or newer, then run this command again.`,
+      "",
+      "Original browser security error:",
+      message,
+    ].join("\n");
+  }
   const failureClass = message.includes("MachPortRendezvousServer") || message.includes("bootstrap_check_in")
     ? "managed macOS sandbox / Chromium Mach bootstrap blocker"
     : "managed Chromium launch blocker";

@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readFileSync, readdirSync } from "node:fs";
 import { assertPatchedChrome, launchPatchedChrome, connectPatchedChrome } from "./lib/patched-chrome.mjs";
 
 for (const version of ["156.0.8078.73", "156.0.8078.74", "156.0.8079.0", "157.0.0.0"]) {
@@ -74,3 +75,29 @@ for (const endpoint of ["not-a-url-secret", "http://example.com:9223", "http://1
     });
   });
 }
+
+test("all local script launch sites and the test fixture use the guarded boundary", () => {
+  for (const name of ["capture-jose-reference", "validate-render-flow", "jose-parity-runner", "evaluate-fieldcraft-scenes", "generate-social-profile-assets"]) {
+    const source = readFileSync(new URL(`./${name}.mjs`, import.meta.url), "utf8");
+    assert.match(source, /launchPatchedChrome\(chromium\)/, name);
+    assert.doesNotMatch(source, /chromium\.launch\s*\(/, name);
+  }
+  const fixture = readFileSync(new URL("../tests/helpers/test.ts", import.meta.url), "utf8");
+  assert.match(fixture, /async \(\{ headless \}, use\)/);
+  assert.match(fixture, /launchPatchedChrome\(chromium, \{ headless \}\)/);
+  assert.match(fixture, /connectPatchedChrome\(chromium, endpoint\)/);
+  assert.match(fixture, /if \(!endpoint\) await browser.close\(\)/);
+  const parity = readFileSync(new URL("./jose-parity-cdp.mjs", import.meta.url), "utf8");
+  assert.match(parity, /context = await browser.newContext\(\)/);
+  assert.match(parity, /await context.close\(\)/);
+  assert.doesNotMatch(parity, /browser\.contexts\(|browser\.close\(/);
+});
+
+test("every executable Playwright test imports the guarded fixture", () => {
+  const root = new URL("../tests/", import.meta.url);
+  for (const file of readdirSync(root, { recursive: true }).filter((name) => name.endsWith(".spec.ts"))) {
+    const source = readFileSync(new URL(file, root), "utf8");
+    assert.match(source, /from "\.\.\/helpers\/test"/, file);
+    assert.doesNotMatch(source, /import\s*\{[^}]*\btest\b[^}]*\}\s*from "@playwright\/test"/, file);
+  }
+});

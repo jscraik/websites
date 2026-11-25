@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { runInNewContext } from "node:vm";
+import { assertPatchedChrome, MINIMUM_CHROME_VERSION } from "./lib/patched-chrome.mjs";
 
 import {
   maskPixelRegions,
@@ -86,10 +88,41 @@ for (const scriptPath of ["tests/screenshots/jose-jamie.spec.ts", "scripts/jose-
     );
     assert.match(
       source,
-      /if \(browser\) \{\s+await browser\.close\(\)\.catch\(\(\) => \{\}\);\s+\}/,
-      "CDP parity must close its external browser connection so the command terminates",
+      /if \(context\) \{\s+await context\.close\(\)\.catch\(\(\) => \{\}\);\s+\}/,
+      "CDP parity must release only its own isolated context",
     );
+    assert.doesNotMatch(source, /browser\.close\(|browser\.contexts\(/,
+      "CDP parity must not close the owner browser or enumerate existing contexts");
+    assert.match(source, /process\.exit\(process\.exitCode \?\? 0\)/,
+      "CDP parity must terminate without manipulating the external browser");
   }
 }
 
-console.log("Jose parity measurement contract passed.");
+// Execute the real formatter without starting the runner's browser/subprocess entrypoint.
+const runnerSource = readFileSync("scripts/jose-parity-runner.mjs", "utf8");
+const formatterStart = runnerSource.indexOf("function renderManagedChromiumBlocker(error) {");
+const formatterEnd = runnerSource.indexOf("\nfunction run(", formatterStart);
+assert.ok(formatterStart >= 0 && formatterEnd > formatterStart);
+const renderBlocker = runInNewContext(
+  `(${runnerSource.slice(formatterStart, formatterEnd).trim()})`,
+  { MINIMUM_CHROME_VERSION },
+);
+for (const version of ["156.0.8078.72", "unknown"]) {
+  let rejection;
+  assert.throws(() => {
+    try { assertPatchedChrome(version); } catch (error) { rejection = error; throw error; }
+  }, /Chrome security check blocked/);
+  const output = renderBlocker(rejection);
+  assert.ok(output.includes(`Update Google Chrome to ${MINIMUM_CHROME_VERSION} or newer`));
+  assert.ok(output.includes(rejection.stack), "preserve the exact original security error");
+  assert.doesNotMatch(output, /Mach bootstrap|entitlement|CDP attach/);
+}
+for (const detail of ["MachPortRendezvousServer failed", "bootstrap_check_in failed", "Chrome executable missing"]) {
+  const failure = new Error(detail);
+  const output = renderBlocker(failure);
+  assert.match(output, /Use the approved Portfolio CDP attach lane instead/);
+  assert.ok(output.includes(failure.stack));
+  assert.doesNotMatch(output, /Update Google Chrome/);
+}
+
+console.log("Jose parity measurement and browser diagnostic contracts passed.");
