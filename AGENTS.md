@@ -105,8 +105,10 @@ schema_version: 2
   current delivery.
 - For dependency or lockfile changes, run the package audit and update affected
   dependency compatibility notes in `docs/agents/00-architecture-bootstrap.md` and
-  architecture and governance documentation before push. The removed diagram
-  dependency is not a release requirement; stored projections are historical.
+  governance documentation, including `docs/agents/07b-agent-governance.md`,
+  before push. Keep those version notes aligned with `package.json` and the
+  lockfile. The removed diagram dependency is not a release requirement; stored
+  projections are historical.
 
 ## Visual Reference Work
 - Preserve Jamie's site identity while using Jose Ocando as a structural reference. Do not replace source content or brand direction with copied benchmark content.
