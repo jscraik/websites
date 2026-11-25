@@ -1,3 +1,4 @@
+import { launchPatchedChrome, connectPatchedChrome } from "./lib/patched-chrome.mjs";
 import fs from "node:fs";
 import http from "node:http";
 import path from "node:path";
@@ -18,6 +19,7 @@ if (!fs.existsSync(distRoot)) {
   process.exit(1);
 }
 
+// connectOverCDP remains owner-approved and uses no default context.
 let chromium;
 try {
   ({ chromium } = await import("playwright"));
@@ -33,10 +35,10 @@ let browser;
 let context;
 try {
   if (cdpEndpoint) {
-    browser = await chromium.connectOverCDP(cdpEndpoint, { noDefaults: true });
+    browser = await connectPatchedChrome(chromium, cdpEndpoint);
     context = await browser.newContext();
   } else {
-    browser = await chromium.launch();
+    browser = await launchPatchedChrome(chromium);
     context = await browser.newContext();
   }
 } catch (error) {

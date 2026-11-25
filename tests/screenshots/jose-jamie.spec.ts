@@ -1,4 +1,4 @@
-import { test, type Page } from "@playwright/test";
+import { test, type Page } from "../helpers/test";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import pixelmatch from "pixelmatch";
