@@ -19,8 +19,9 @@ export function assertPatchedChrome(version) {
 }
 
 /** Launch installed stable Chrome with its sandbox; never fall back to bundled Chromium. */
-export async function launchPatchedChrome(chromium) {
-  const browser = await chromium.launch(chromeLaunchOptions);
+export async function launchPatchedChrome(chromium, { headless = true } = {}) {
+  if (typeof headless !== "boolean") throw new TypeError("Chrome headless setting must be a boolean.");
+  const browser = await chromium.launch({ ...chromeLaunchOptions, headless });
   try {
     assertPatchedChrome(browser.version());
     return browser;

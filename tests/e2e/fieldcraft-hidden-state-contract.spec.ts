@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "../helpers/test";
 
 test("distinguishes display-none and opacity-only hidden controls", async ({ page }) => {
   await page.setContent(`

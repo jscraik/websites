@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "../helpers/test";
 import { coreRoutes, preparePage } from "../helpers/visual";
 
 test.describe("page smoke", () => {

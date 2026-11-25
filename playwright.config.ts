@@ -16,6 +16,8 @@ export default defineConfig({
   ],
   use: {
     baseURL,
+    channel: "chrome",
+    launchOptions: { chromiumSandbox: true },
     trace: "on-first-retry",
     screenshot: "only-on-failure"
   },

@@ -1,4 +1,4 @@
-import { expect, test, type Locator } from "@playwright/test";
+import { expect, test, type Locator } from "../helpers/test";
 import { preparePage } from "../helpers/visual";
 
 async function waitForTransformToSettle(locator: Locator) {
