@@ -1,5 +1,36 @@
 # portfolio
 
+Jamie Scott Craik's Astro portfolio: projects, articles and inspectable evidence of AI-assisted developer work.
+
+[Homepage preview](tests/visual/core-pages.spec.ts-snapshots/home-chromium-desktop-chromium-desktop-darwin.png) · [Site map](#site-map) · [Contributing](CONTRIBUTING.md)
+
+## Quick Start
+
+Use **Node.js 26.3.0 or newer** and npm. The repository pins Node 26.3.0 in [`.mise.toml`](.mise.toml); [`package.json`](package.json) declares the minimum supported version.
+
+```sh
+git clone https://github.com/jscraik/websites.git && cd websites
+npm ci
+ASTRO_TELEMETRY_DISABLED=1 npm run dev -- --host 127.0.0.1
+```
+
+Open <http://127.0.0.1:4321/>. You should see the portfolio homepage with Jamie's introduction and featured projects. If that port is occupied, use the local URL printed by Astro. Stop the server with `Ctrl+C`.
+
+The site installs without the private Lapse development inspector or an
+`@aiforui` registry credential. The Emil design skills are independent of this
+optional inspector.
+
+<details>
+<summary>View the stored homepage screenshot</summary>
+
+![Portfolio homepage with Jamie's introduction, SkillsProof and Skills SDK project cards, a work carousel and an article preview](tests/visual/core-pages.spec.ts-snapshots/home-chromium-desktop-chromium-desktop-darwin.png)
+
+This is the committed Chromium desktop visual-test baseline. It illustrates the site; it is not a fresh capture or evidence of a live deployment.
+
+</details>
+
+## About the site
+
 This repository contains the source configured with [jscraik.com](https://jscraik.com) as Jamie Scott Craik's intended canonical single public portfolio front door. brAInwav is the identity behind the work: it connects Jamie's human perspective, AI tools, and technical exploration as they become public products, writing, and proof. The site is intentionally small: it makes AI-assisted developer work inspectable, shows current proof artifacts, keeps caveats visible, and gives future agents a repeatable way to validate design and claim boundaries.
 
 Jamie’s working career direction is customer-facing AI workflow delivery and developer experience. The promise is `Making AI-assisted developer work inspectable.` Role labels remain provisional, and the site is not permitted to claim employment, affiliation, external adoption, production readiness, or outcome evidence that source repositories do not establish. The existing AI-native DevRel article remains a historical position piece rather than a fixed job-title claim.
@@ -14,16 +45,7 @@ Version 1.1.0 of the brAInwav Design System projects the accepted `jamie-brain-b
 - `jscraik.com` is the accepted single front door. brAInwav is Jamie's identity and shared presentation system, not a second website. Technical depth routes to public ChatGPT Sites, GitBooks, GitHub repositories, READMEs, documentation, diagrams, tests, implementation excerpts, and bounded evidence receipts when each project is ready to make its own public claims.
 - The SkillsProof vertical slice is the first implementation target. The generator, covers, rendered acceptance, deployment, usability, and adoption are not proved by the contract alone.
 
-## Quick Start
-
-Use npm from the repository root.
-
-    npm ci
-    ASTRO_TELEMETRY_DISABLED=1 npm run dev -- --host 127.0.0.1
-
-The site installs without the private Lapse development inspector or an
-`@aiforui` registry credential. The Emil design skills are independent of this
-optional inspector.
+## Local validation and contribution
 
 Useful local checks:
 
