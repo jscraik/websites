@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFileSync, spawnSync } from "node:child_process";
-import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -444,7 +444,7 @@ check("CircleCI retains check labels and success-only Astro dependency", () => {
   assert.deepEqual(Object.keys(byName).sort(), [
     "pr-template", "linear-gate", "risk-policy-gate", "dependency-scan",
     "orb-pinning", "docs-gate", "lint", "typecheck", "test", "audit",
-    "check", "memory", "security-scan", "snyk-dependency-scan", "publish-pages",
+    "check", "memory", "security-scan", "snyk-dependency-scan", "publish-pages", "release-portfolio",
   ].sort());
   assert.equal(jobs.length, Object.keys(byName).length);
   assert.equal(packageJson.scripts.typecheck, "ASTRO_TELEMETRY_DISABLED=1 npm run check");
@@ -470,6 +470,104 @@ check("CircleCI retains check labels and success-only Astro dependency", () => {
   ]);
   assert.deepEqual(byName["publish-pages"].filters, { branches: { only: "main" }, tags: { ignore: "/.*/" } });
   assert.equal(byName["publish-pages"].context, "cloudflare-pages-production");
+  assert.deepEqual(byName["release-portfolio"].requires, ["publish-pages"]);
+  assert.deepEqual(byName["release-portfolio"].filters, byName["publish-pages"].filters);
+  const release = config.jobs["release-portfolio"];
+  assert.equal(release.type, "release");
+  assert.equal(release.plan_name, "portfolio-production");
+  assert.equal(release.validation.enabled, true);
+  assert.equal(release.validation.auto_rollback_on_failure, false);
+  assert.equal(release.validation.evaluation_time, "15m");
+  assert.deepEqual(release.validation.webhooks, [{
+    name: "website_uptime",
+    provider: "custom",
+    data_points: {
+      component_name: "request.component_name",
+      env: "request.env",
+      project_id: "request.project_id",
+      signal_name: "request.signal_name",
+      criteria: "request.status",
+    },
+    fail_when: 'criteria == "firing"',
+    max_failures: 1,
+  }]);
+});
+
+check("CircleCI publication reports upload and health failures", () => {
+  const config = parse(circleciConfig);
+  const publish = config.jobs["publish-pages"].steps.find(
+    (step) => step.run?.name === "Publish main artifact to Cloudflare Pages",
+  ).run.command;
+  const temporary = mkdtempSync(path.join(tmpdir(), "portfolio-release-contract-"));
+  const bin = path.join(temporary, "bin");
+  const trace = path.join(temporary, "trace");
+  const commit = "0123456789abcdef0123456789abcdef01234567";
+  mkdirSync(bin);
+  mkdirSync(path.join(temporary, "dist"));
+  const fake = (name, content) => writeFileSync(path.join(bin, name), "#!/bin/sh\n" + content, { mode: 0o755 });
+  fake("git", 'test "$*" = "rev-parse HEAD" || exit 99\nprintf "%s\\n" "' + commit + '"\n');
+  fake("circleci", 'printf "%s\\n" "$*" >> "$CI_TEST_TRACE"\n'
+    + '[ "${CI_TEST_FAILURE:-}" != plan ] || [ "$1 $2 $3" != "run release plan" ] || exit 44\n'
+    + '[ "${CI_TEST_FAILURE:-}" != running ] || [ "$1 $2 $3 $4 $5" != "run release update portfolio-production --status=running" ] || exit 45\n'
+    + '[ "${CI_TEST_FAILURE:-}" != upload-report ] || [ "$1 $2 $3 $4 $5" != "run release update portfolio-production --status=FAILED" ] || exit 77\n');
+  fake("npx", 'printf "%s\\n" "upload $*" >> "$CI_TEST_TRACE"\n'
+    + 'case "${CI_TEST_FAILURE:-}" in upload|upload-report) exit 42 ;; esac\n');
+  fake("curl", 'printf "%s\\n" "probe $*" >> "$CI_TEST_TRACE"\n'
+    + '[ "${CI_TEST_FAILURE:-}" != probe ] || exit 43\n'
+    + 'if [ "${CI_TEST_FAILURE:-}" = redirect ]; then printf 302; else printf 200; fi\n');
+  const run = (failure, credentials = true) => {
+    writeFileSync(trace, "");
+    const env = {
+      PATH: bin + ":/usr/bin:/bin",
+      CI_TEST_TRACE: trace,
+      CI_TEST_FAILURE: failure,
+      CLOUDFLARE_ACCOUNT_ID: "test-account",
+      CLOUDFLARE_PAGES_PROJECT: "portfolio",
+    };
+    if (credentials) env.CLOUDFLARE_API_TOKEN = "test-token";
+    const result = spawnSync("bash", ["-c", publish], { cwd: temporary, env, encoding: "utf8" });
+    return { result, events: readFileSync(trace, "utf8").trim().split("\n").filter(Boolean) };
+  };
+  try {
+    const success = run("");
+    assert.equal(success.result.status, 0, success.result.stderr);
+    assert.match(success.events[0], new RegExp("^run release plan portfolio-production .*--target-version=" + commit + "$"));
+    assert.match(success.events[1], /^upload .*wrangler@4\.69\.0 pages deploy dist /);
+    assert.equal(success.events[2], "run release update portfolio-production --status=running");
+    assert.match(success.events[3], /^probe .*https:\/\/jscraik\.com\//);
+    assert.equal(success.events.length, 4);
+    assert.doesNotMatch(success.result.stdout + success.result.stderr, /test-token/);
+
+    const uploadFailure = run("upload");
+    assert.equal(uploadFailure.result.status, 42);
+    assert.equal(uploadFailure.events.at(-1), "run release update portfolio-production --status=FAILED");
+    assert.equal(uploadFailure.events.some((event) => event.startsWith("probe ")), false);
+
+    const runningFailure = run("running");
+    assert.equal(runningFailure.result.status, 45);
+    assert.equal(runningFailure.events.at(-1), "run release update portfolio-production --status=FAILED --keep-target-version-live");
+    assert.equal(runningFailure.events.some((event) => event.startsWith("probe ")), false);
+
+    const probeFailure = run("probe");
+    assert.equal(probeFailure.result.status, 43);
+    assert.equal(probeFailure.events.at(-1), "run release update portfolio-production --status=FAILED --keep-target-version-live");
+
+    const redirect = run("redirect");
+    assert.notEqual(redirect.result.status, 0);
+    assert.equal(redirect.events.at(-1), "run release update portfolio-production --status=FAILED --keep-target-version-live");
+
+    const reportingFailure = run("upload-report");
+    assert.equal(reportingFailure.result.status, 42);
+
+    const planFailure = run("plan");
+    assert.equal(planFailure.result.status, 44);
+    assert.equal(planFailure.events.length, 1);
+    const missingToken = run("", false);
+    assert.notEqual(missingToken.result.status, 0);
+    assert.deepEqual(missingToken.events, []);
+  } finally {
+    rmSync(temporary, { recursive: true, force: true });
+  }
 });
 
 check("CircleCI memory predicate fails closed without full governance setup", () => {
