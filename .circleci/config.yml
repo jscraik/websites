@@ -56,8 +56,13 @@ jobs:
         type: string
       command:
         type: string
+      checkout_method:
+        type: enum
+        enum: [blobless, full]
+        default: blobless
     steps:
-      - checkout
+      - checkout:
+          method: << parameters.checkout_method >>
       - run:
           name: Fetch comparison base
           command: |
@@ -474,6 +479,7 @@ workflows:
       - run-governance-check:
           name: security-scan
           check_name: security-scan
+          checkout_method: full
           command: |
             retry_cmd() {
               local max_attempts="${1:-3}"
@@ -500,15 +506,25 @@ workflows:
             mkdir -p "$HOME/.local/bin"
             export PATH="$HOME/.local/bin:$PATH"
             echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$BASH_ENV"
+            echo "[security-scan] Installing tools"
             retry_cmd 3 install_mise_with_github_auth gitleaks trivy
+            echo "[security-scan] Tool installation complete"
             for tool in gitleaks trivy; do
+              echo "[security-scan] Resolving $tool"
               tool_path="$(mise which "$tool")"
               test -x "$tool_path"
               ln -sf "$tool_path" "$HOME/.local/bin/$tool"
+              echo "[security-scan] Resolved $tool"
             done
+            echo "[security-scan] Starting Gitleaks"
             if [ -f .gitleaks.toml ]; then gitleaks detect --source . --config .gitleaks.toml --redact --no-banner; else gitleaks detect --source . --redact --no-banner; fi
+            echo "[security-scan] Gitleaks complete"
+            echo "[security-scan] Starting Trivy"
             trivy fs --scanners vuln --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 .
+            echo "[security-scan] Trivy complete"
+            echo "[security-scan] Starting Semgrep"
             bash scripts/check-semgrep-full.sh
+            echo "[security-scan] Semgrep complete"
           filters:
             tags:
               ignore: /.*/
